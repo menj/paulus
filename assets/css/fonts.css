@@ -1,0 +1,124 @@
+/*
+ * Paulus bundled fonts.
+ *
+ * Dubidam      display: headings, site title, buttons. Letters only; digits
+ *              and punctuation in the free edition carry a watermark, so the
+ *              unicode-range sends them to EB Garamond.
+ * Sabon Next   body text.
+ * EB Garamond  footnotes, quotations, and fallback for ʿ ʾ and dotted
+ *              transliteration letters that Sabon Next lacks.
+ * Special Elite labels: chapter numbers, breadcrumbs, data labels.
+ * Cinzel       Roman inscriptional capitals: site title, front-page headline,
+ *              section titles, count numerals. Variable weight, OFL.
+ * Arslan Wessam Arabic script, wherever it appears. Scaled up 125% to
+ *              sit level with the Latin text around it.
+ */
+
+/* Display */
+@font-face {
+	font-family: "Dubidam";
+	src: url("../fonts/dubidam-regular.woff2") format("woff2");
+	font-weight: 400 500;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0041-005A, U+0061-007A, U+00AA, U+00B5, U+00BA, U+00C0-00D6, U+00D8-00F6, U+00F8-0107, U+010A-0113, U+0116-011B, U+011E-0123, U+0126-012B, U+012E-0133, U+0136-0137, U+0139-013E, U+0141-0148, U+014C-014D, U+0150-015B, U+015E-0165, U+0168-016B, U+016E-017E, U+0218-021B, U+0237;
+}
+@font-face {
+	font-family: "Dubidam";
+	src: url("../fonts/dubidam-bold.woff2") format("woff2");
+	font-weight: 600 800;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0041-005A, U+0061-007A, U+00AA, U+00B5, U+00BA, U+00C0-00D6, U+00D8-00F6, U+00F8-0107, U+010A-0113, U+0116-011B, U+011E-0123, U+0126-012B, U+012E-0133, U+0136-0137, U+0139-013E, U+0141-0148, U+014C-014D, U+0150-015B, U+015E-0165, U+0168-016B, U+016E-017E, U+0218-021B, U+0237;
+}
+
+/* Body */
+@font-face {
+	font-family: "Sabon Next LT";
+	src: url("../fonts/sabon-next-lt-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Sabon Next LT";
+	src: url("../fonts/sabon-next-lt-italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Sabon Next LT";
+	src: url("../fonts/sabon-next-lt-bold.woff2") format("woff2");
+	font-weight: 600 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Sabon Next LT";
+	src: url("../fonts/sabon-next-lt-bold-italic.woff2") format("woff2");
+	font-weight: 600 700;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* Footnotes, quotations, transliteration fallback */
+@font-face {
+	font-family: "EB Garamond";
+	src: url("../fonts/eb-garamond-regular.woff2") format("woff2");
+	font-weight: 400 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "EB Garamond";
+	src: url("../fonts/eb-garamond-italic.woff2") format("woff2");
+	font-weight: 400 500;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: "EB Garamond";
+	src: url("../fonts/eb-garamond-semibold.woff2") format("woff2");
+	font-weight: 600 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Labels */
+@font-face {
+	font-family: "Special Elite";
+	src: url("../fonts/special-elite-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Arabic script */
+@font-face {
+	font-family: "Arslan Wessam";
+	src: url("../fonts/arslan-wessam-a.woff2") format("woff2");
+	font-weight: 400 500;
+	font-style: normal;
+	font-display: swap;
+	size-adjust: 125%;
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+	font-family: "Arslan Wessam";
+	src: url("../fonts/arslan-wessam-b.woff2") format("woff2");
+	font-weight: 600 800;
+	font-style: normal;
+	font-display: swap;
+	size-adjust: 125%;
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+/* Roman capitals */
+@font-face {
+	font-family: "Cinzel";
+	src: url("../fonts/cinzel.woff2") format("woff2");
+	font-weight: 400 900;
+	font-style: normal;
+	font-display: swap;
+}

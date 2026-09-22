@@ -1,0 +1,65 @@
+The story of Paul's repentance exists in several versions, all drawn from a single main narrative, the Acts of the Apostles in the New Testament.
+
+Here is the first version of what Paul experienced, as Acts tells it:
+
+{{kjv:Acts 9:3-9}}
+
+{{fig:straight-street|The Street called Straight, Damascus, in a photochrom of about 1900. Acts sends Ananias to the house of Judas in this street, where Saul lay three days without sight (Acts 9:9–11).}}
+
+Here is the second version of the same event. Like the first, it is recorded in Acts, but with somewhat different details:
+
+{{kjv:Acts 22:6-11}}
+
+And here is the third, Paul's retelling of his experience before King Agrippa, longer than the other two and different from both:
+
+{{kjv:Acts 26:12-18}}
+
+Which of these is the true account of the event?
+
+## The three versions compared
+
+<table class="paulus-table"><thead><tr><th>Detail</th><th>Version 1 (Acts 9:3–9)</th><th>Version 2 (Acts 22:6–11)</th><th>Version 3 (Acts 26:12–18)</th></tr></thead><tbody>
+<tr><td>Time of day</td><td>Not stated ("as he journeyed")</td><td>About noon</td><td>At midday</td></tr>
+<tr><td>Source of light</td><td>A light from heaven</td><td>A great light from heaven</td><td>A light from heaven, above the brightness of the sun</td></tr>
+<tr><td>Who fell to the ground</td><td>Paul; the men with him "stood speechless"</td><td>Paul; the companions are not mentioned</td><td>All of them</td></tr>
+<tr><td>What the companions perceived</td><td>Heard a voice but saw no man</td><td>Saw the light but heard not the voice</td><td>Not stated</td></tr>
+<tr><td>Language of the voice</td><td>Not stated</td><td>Not stated</td><td>Hebrew</td></tr>
+<tr><td>Identity of the voice</td><td>"I am Jesus"</td><td>"I am Jesus of Nazareth"</td><td>"I am Jesus," with a mandate of apostleship added</td></tr>
+<tr><td>Further dialogue</td><td>Only told to go into the city</td><td>Paul asks, "What shall I do, Lord?"</td><td>Long and complete, including the apostolic mission</td></tr>
+<tr><td>The commission</td><td>To be told in the city</td><td>To be told in the city</td><td>Given on the spot: to preach to the Gentiles</td></tr>
+<tr><td>Paul's sight afterward</td><td>Blind for three days</td><td>Could not see for the glory of the light</td><td>No blindness mentioned</td></tr>
+</tbody></table>
+
+The three versions give different pictures of what is supposed to be one event: how many fell, whether the voice was heard, the detail of the dialogue. The differences raise questions about the reliability of the telling, and about the possibility of addition or reworking by Paul, above all in the third version delivered before King Agrippa. They have long been debated by historians of Christianity and scholars of the biblical text.
+
+Some Christians defend the contradiction by arguing that the Greek <em>histēmi</em> (ἵστημι), translated "stood," need not mean standing physically and could mean "fixed" or "in place," so that there is no conflict with the statement that all fell to the ground.[[fn:Acts 9:7.]] An explanation of that kind is too technical to persuade, because it does not arise from a natural reading of the text. The claim that Paul's companions had time to get up again before the dialogue is a supposition supported by no detail in the narrative.[[fn:Acts 26:14.]]
+
+The same defence is offered for the voice. In the first account the men hear the voice, and in the second they do not, so the Greek φωνή (<em>phōnē</em>) is made to mean a voice in one verse and a mere sound in the other. Luke gives no warrant for the switch. Three verses before, in the first account, the same noun names the voice that spoke to Saul, and in the second Paul specifies what his companions did not hear: "the voice of him that spake to me."[[fn:Acts 9:4, 9:7; 22:9.]]
+
+Interpretations that try to harmonize the contradiction are <em>ad hoc</em>: they depend on possible meanings of a word or on the timing of events, and that dependence exposes the weakness of the narrative. If the story had happened and been transmitted consistently, it would need no elaborate reinterpretation to explain basic conflicts over who fell and who heard the voice.[[fn:Acts 22:9.]]
+
+## Possibility cancels proof
+
+Paul plainly reshaped his story to convince King Agrippa, and in that he succeeded. In the science of logic (<em>manṭiq</em>), any proof that carries an element of possibility or doubt is unfit to serve as valid evidence, on the principle <em>al-iḥtimāl yusqiṭ al-istidlāl</em> (الاحتمال يسقط الاستدلال, "possibility cancels the proof"). When a piece of evidence admits another meaning, and is not the only certain explanation, the argument falls as a valid basis for a conclusion.
+
+The three conflicting versions of the Damascus story cannot be reconciled naturally without forced interpretation. A narrative this vague and changeable raises deep logical doubt, and on the principle above it should be rejected. The inference from a private vision to a public office is, <em>ex hypothesi</em>, unsecured: the premise admits three versions and the conclusion admits none. It is unfit to ground Paul's "apostleship", still less to become doctrine in a religion. A confused and contradictory story ought to produce suspicion, not certainty.
+
+## A borrowed narrative form
+
+
+
+{{fig:caravaggio-conversion|Caravaggio, <em>Conversion of Saint Paul</em>, 1600–1601, Cerasi Chapel, Santa Maria del Popolo, Rome. The church's most famous image of the Damascus road shows Saul fallen alone beneath his horse, eyes closed, arms raised to a light that has no source in the picture; the companions of Acts, who fell, stood, heard or did not hear, are reduced to one groom.}}
+
+The narrative style attached to Paul's experience, above all the Damascus episode, shows features that resemble the accounts of commissioning or mystical experience common in Graeco-Roman tales and epics. The light from the sky, the disembodied voice and the dramatic apostolic appointment echo the structure of the hero's quest or the chosen figure in classical literature such as Virgil's Aeneid. These features raise the question whether the experience was authentic revelation or a deliberate construction imitating a religious narrative form familiar to the Mediterranean world. They strengthen the case that Paul built his apostolic image through literary adaptation.[[fn:Several modern scholars pursue this approach under the name "mimesis criticism," the study of how writers imitate or adapt literary elements from earlier works for rhetorical or ideological ends. Prominent among them is Dennis R. MacDonald, <em>The Homeric Epics and the Gospel of Mark</em> (New Haven: Yale University Press, 2000) and <em>Does the New Testament Imitate Homer? Four Cases from the Acts of the Apostles</em> (New Haven: Yale University Press, 2003), who argues that New Testament narratives may have been shaped by classical Graeco-Roman epic as much as by historical experience.]]
+
+## A Yale scholar's verdict
+
+Some modern Christian scholars have criticized the Damascus event that is claimed as the basis of Paul's "apostleship". Dale B. Martin, a New Testament scholar at Yale, questioned the historical reliability of the Acts narrative when set against Paul's own letters:
+
+<blockquote><p>Acts portrays Paul's visionary experience more as a conversion to "the Way" than a call to apostleship. But that is not how Paul saw it. In the one place we hear Paul's own description of his experience, Paul speaks of it not as a "conversion"… Rather, he uses images and language like the descriptions of the calling of a prophet in the Old Testament.[[fn:Dale B. Martin, <em>New Testament History and Literature</em> (New Haven: Yale University Press, 2012), p. 204. The author was able to correspond personally with the late Dr. Martin in a series of closed discussions between October 2022 and March 2023 on Paul and his writings, before his sudden death in November 2023. Video recordings of those discussions remain in the author's keeping.]]</p></blockquote>
+
+He adds:
+
+<blockquote><p>A firsthand account written a few years after the event must be historically preferable to one written decades later by someone not present.[[fn:ibid., p. 75.]]</p></blockquote>
+
+That finding agrees with a further observation: the whole narrative of a bright light from heaven and a voice from nowhere is found only in Acts. It appears in none of the letters attributed directly to Paul. The absence raises a serious question about the authenticity of the experience. Did it happen at all, or is it a rhetorical composition that serves to justify the apostleship of a man who had begun as the enemy of the teaching of ʿĪsā ibn Maryam (ʿalayhi al-salām, peace be upon him)?

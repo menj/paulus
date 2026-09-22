@@ -1,0 +1,51 @@
+/*
+ * Paulus print stylesheet. Loaded with media="print". The same rules, under
+ * .paulus-printsheet, style the sheet html2pdf.js renders on screen.
+ */
+@page { size: A4; margin: 18mm 16mm 20mm; }
+
+.paulus-header, .paulus-footer, .paulus-author, .paulus-rail, .paulus-share, .paulus-hero-panel__series, .paulus-hero-panel__image,
+.paulus-readnav, .paulus-related, .paulus-teaser, .wp-block-navigation, .paulus-alpha,
+.paulus-hero__figure, .paulus-hero__actions, .paulus-setup, .paulus-faq__chevron, #wpadminbar { display: none !important; }
+
+html, body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+body::before, body::after, .paulus-header::after, .paulus-footer::before { display: none !important; }
+.paulus-single, .paulus-page, .paulus-front { padding: 0 !important; max-width: none !important; }
+.paulus-hero-panel { display: block !important; background: none !important; border: 0 !important; padding: 0 0 6pt !important; margin: 0 0 12pt !important; box-shadow: none !important; border-bottom: 1pt solid #000 !important; min-height: 0 !important; }
+.paulus-hero-panel.has-image .paulus-hero-panel__body { min-height: 0 !important; padding: 0 !important; }
+.paulus-hero-panel__meta, .paulus-hero-panel__meta ol { color: #444 !important; font-size: 8.5pt !important; margin-bottom: 8pt !important; }
+.paulus-hero-panel__meta a { color: #444 !important; text-decoration: none !important; }
+.paulus-hero-panel__title { font-size: 22pt !important; color: #000 !important; margin: 0 0 6pt !important; }
+.paulus-hero-panel__standfirst { font-size: 11.5pt !important; color: #222 !important; }
+.paulus-hero-panel__rule { background: #000 !important; }
+.paulus-hero-panel__byline { color: #444 !important; font-size: 9pt !important; }
+.paulus-hero-panel__author { color: #000 !important; font-size: 12pt !important; }
+
+.paulus-prose { max-width: none !important; font-size: 11pt !important; line-height: 1.45 !important; color: #000 !important; text-align: left !important; hyphens: manual !important; }
+.paulus-prose p, .paulus-prose li { color: #000 !important; orphans: 3; widows: 3; }
+.paulus-prose h2 { font-size: 14pt !important; color: #000 !important; margin: 14pt 0 5pt !important; page-break-after: avoid; break-after: avoid; }
+.paulus-prose a { color: #000 !important; text-decoration: none !important; }
+.paulus-prose a[href^="http"]:not([href*="apostleofdoom"])::after { content: " (" attr(href) ")"; font-size: 8pt; color: #444; word-break: break-all; }
+.paulus-single .paulus-prose > p:first-child:not(.paulus-note)::first-letter { background: none !important; color: #000 !important; border: 0 !important; padding: 0 !important; font-size: 1em !important; float: none !important; margin: 0 !important; transform: none !important; box-shadow: none !important; }
+.paulus-prose blockquote { border-left: 1.5pt solid #000 !important; background: none !important; margin: 8pt 0 10pt 0 !important; padding: 2pt 0 2pt 10pt !important; page-break-inside: avoid; break-inside: avoid; color: #000 !important; }
+.paulus-prose blockquote p { color: #000 !important; font-size: 10.5pt !important; }
+.paulus-prose blockquote.scripture .greek { border-bottom: 0.5pt solid #888 !important; color: #000 !important; }
+.paulus-prose .v { color: #444 !important; }
+.paulus-prose blockquote [lang="ar"], .paulus-prose blockquote [lang="he"] { font-size: 13pt !important; }
+.paulus-prose .paulus-table-wrap { overflow: visible !important; }
+.paulus-prose .paulus-table { font-size: 9pt !important; }
+.paulus-prose .paulus-table th, .paulus-prose .paulus-table td { border-color: #000 !important; background: none !important; color: #000 !important; }
+.paulus-prose .footnotes { column-count: 1 !important; font-size: 8.5pt !important; line-height: 1.35 !important; color: #000 !important; border-top: 0.5pt solid #000; padding-top: 6pt; margin-top: 14pt; }
+.paulus-prose .footnotes::before { content: "References"; display: block; font-family: var(--t-display); font-weight: 700; font-size: 11pt; margin-bottom: 4pt; }
+.paulus-prose .footnotes li { break-inside: avoid; }
+.paulus-prose .footnotes a { color: #000 !important; }
+.paulus-prose .footnotes a[aria-label="Back to text"] { display: none !important; }
+.paulus-prose sup a { color: #000 !important; text-decoration: none !important; }
+.paulus-prose img { max-width: 60% !important; }
+.paulus-glossary dt { break-after: avoid; }
+.paulus-timeline li { break-inside: avoid; }
+
+
+.paulus-figure { page-break-inside: avoid; break-inside: avoid; max-width: 60% !important; margin: 8pt auto !important; }
+.paulus-figure img { box-shadow: none !important; border: 0.5pt solid #000 !important; max-width: 100% !important; }
+.paulus-figure figcaption { font-size: 8.5pt !important; color: #000 !important; }

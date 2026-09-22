@@ -1,0 +1,14 @@
+/*
+ * Lightbox2 (Lokesh Dhakar, MIT, v2.12.0) in the theme's colours. The library's
+ * own stylesheet loads first from assets/vendor/lightbox2/.
+ */
+.lightboxOverlay { background-color: #1f1a14; opacity: 0.97 !important; }
+.lightbox .lb-outerContainer { background-color: #cdb586; border-radius: 0; box-shadow: 0 0 0 1px #8f7146, 0 0 0 7px #cdb586, 0 0 0 8px #8f7146; }
+.lightbox .lb-image { border: 0; border-radius: 0; }
+.lb-dataContainer { padding-top: 12px; }
+.lb-data .lb-details { width: 80%; }
+.lb-data .lb-caption { font-family: var(--t-garamond, Georgia, serif); font-size: 1rem; font-weight: 400; line-height: 1.45; color: #f4e7cf; }
+.lb-data .lb-number { font-family: var(--t-label, monospace); font-size: 0.8rem; color: #e0c89a; padding-top: 0.4rem; padding-bottom: 0; }
+.lb-data .lb-close { filter: invert(88%) sepia(20%) saturate(400%) hue-rotate(345deg); opacity: 0.85; }
+.lb-nav a.lb-prev, .lb-nav a.lb-next { filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6)); }
+@media print { .lightboxOverlay, .lightbox { display: none !important; } }

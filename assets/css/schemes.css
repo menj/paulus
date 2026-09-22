@@ -1,0 +1,107 @@
+/*
+ * Paulus color schemes.
+ * Each scheme remaps the theme.json preset variables, so every block
+ * and every custom component follows the active scheme.
+ *
+ * base      page ground          surface   header, footer, panels
+ * contrast  text                 muted     secondary text
+ * accent    headings, buttons    on-accent text on accent
+ * gold      rules and diamonds   rule      hairlines
+ * panel     article title panel  on-panel  text on the panel
+ */
+body.paulus-scheme-vellum {
+	--wp--preset--color--base: #fbf7eb;
+	--wp--preset--color--surface: #ffffff;
+	--wp--preset--color--contrast: #232629;
+	--wp--preset--color--muted: #647076;
+	--wp--preset--color--accent: #a1430b;
+	--wp--preset--color--on-accent: #ffffff;
+	--wp--preset--color--gold: #f09a1f;
+	--wp--preset--color--rule: #d9d3c3;
+	--wp--preset--color--panel: #2b1b12;
+	--wp--preset--color--on-panel: #ffffff;
+}
+body.paulus-scheme-ochre {
+	--wp--preset--color--accent-deep: #5c1f10;
+	--wp--preset--color--base: #b8955f;
+	--wp--preset--color--surface: #b8955f;
+	--wp--preset--color--contrast: #1f1a14;
+	--wp--preset--color--muted: #3a2f22;
+	--wp--preset--color--accent: #7a2e1a;
+	--wp--preset--color--on-accent: #f4e7cf;
+	--wp--preset--color--gold: #7a2e1a;
+	--wp--preset--color--rule: #1f1a14;
+	--wp--preset--color--panel: #b8955f;
+	--wp--preset--color--on-panel: #1f1a14;
+}
+body.paulus-scheme-oxblood {
+	--wp--preset--color--base: #4a1a10;
+	--wp--preset--color--surface: #3b140c;
+	--wp--preset--color--contrast: #f1e2c4;
+	--wp--preset--color--muted: #d2bb93;
+	--wp--preset--color--accent: #e8c48a;
+	--wp--preset--color--on-accent: #2b0e08;
+	--wp--preset--color--gold: #f09a1f;
+	--wp--preset--color--rule: #6e3423;
+	--wp--preset--color--panel: #2b0e08;
+	--wp--preset--color--on-panel: #f1e2c4;
+}
+body.paulus-scheme-ink {
+	--wp--preset--color--base: #1b1714;
+	--wp--preset--color--surface: #14110f;
+	--wp--preset--color--contrast: #ede3d1;
+	--wp--preset--color--muted: #b3a58d;
+	--wp--preset--color--accent: #d9a55a;
+	--wp--preset--color--on-accent: #1b1714;
+	--wp--preset--color--gold: #f09a1f;
+	--wp--preset--color--rule: #3a322b;
+	--wp--preset--color--panel: #0f0d0b;
+	--wp--preset--color--on-panel: #ede3d1;
+}
+body.paulus-scheme-paper {
+	--wp--preset--color--base: #f3eee4;
+	--wp--preset--color--surface: #ffffff;
+	--wp--preset--color--contrast: #1f1a14;
+	--wp--preset--color--muted: #5b4f40;
+	--wp--preset--color--accent: #8a2b17;
+	--wp--preset--color--on-accent: #fbf6ec;
+	--wp--preset--color--gold: #c98a2b;
+	--wp--preset--color--rule: #d8cfbf;
+	--wp--preset--color--panel: #2a211a;
+	--wp--preset--color--on-panel: #fbf6ec;
+}
+body.paulus-scheme-graphite {
+	--wp--preset--color--base: #2e3033;
+	--wp--preset--color--surface: #25272a;
+	--wp--preset--color--contrast: #ecebe6;
+	--wp--preset--color--muted: #b5b3ab;
+	--wp--preset--color--accent: #d0a867;
+	--wp--preset--color--on-accent: #1f2022;
+	--wp--preset--color--gold: #f09a1f;
+	--wp--preset--color--rule: #45484c;
+	--wp--preset--color--panel: #1c1d1f;
+	--wp--preset--color--on-panel: #ecebe6;
+}
+
+/*
+ * Twenty Twenty-Five compatibility. The parent's templates, patterns and
+ * style variations reference accent-1 to accent-6. These aliases keep them
+ * in step with whichever Paulus scheme is active.
+ *
+ * :where() drops this selector's specificity to that of a bare `body`, so
+ * it never outranks a scheme's own declaration above (each is a plain
+ * class selector, which is more specific than :where() contributes). A
+ * self-referencing var() here previously made this declaration cyclic —
+ * and, being equal-specificity and later in the file, it silently beat
+ * every scheme's own accent-deep, including ochre's. This fallback now
+ * only ever supplies accent-deep for schemes that don't declare their own.
+ */
+body:where([class*="paulus-scheme-"]) {
+	--wp--preset--color--accent-deep: var(--wp--preset--color--accent);
+	--wp--preset--color--accent-1: var(--wp--preset--color--accent);
+	--wp--preset--color--accent-2: var(--wp--preset--color--surface);
+	--wp--preset--color--accent-3: var(--wp--preset--color--accent);
+	--wp--preset--color--accent-4: var(--wp--preset--color--muted);
+	--wp--preset--color--accent-5: var(--wp--preset--color--surface);
+	--wp--preset--color--accent-6: color-mix(in srgb, currentColor 20%, transparent);
+}

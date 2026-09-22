@@ -1,0 +1,96 @@
+/*
+ * Paulus ornament: first-century Roman Judaea.
+ * Parchment and limestone textures, Herodian meander and wave borders,
+ * ossuary rosettes, prutah coin roundels for the counts, an inscribed
+ * tablet for article titles, an oil-lamp flame on the FAQ, and a tabula
+ * ansata for the footer credit. Everything is drawn in code; no images.
+ * Loaded only when the Ornament switch in Theme options is on.
+ */
+body { --oxb: #7a2e1a; --ink: #1f1a14; --och: #b8955f; }
+
+/* Parchment grain on the ground, limestone on header and footer */
+body { background-color: var(--och); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .12 0 0 0 0 .08 0 0 0 0 .02 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.paulus-header, .paulus-footer, .paulus-readnav { background-color: #cdb586; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .06' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .14 0 0 0 0 .05 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23s)'/%3E%3C/svg%3E"); }
+
+/* Meander (Greek key) bands replace the plain rules */
+.paulus-header { border-bottom: 0; }
+.paulus-header::after, .paulus-footer::before, .paulus-readnav::before, .paulus-hero { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11V1h18v8h-6V5h-4v2h2' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3Cpath d='M18 9h6' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3C/svg%3E"); }
+.paulus-header::after, .paulus-footer::before, .paulus-readnav::before { content: ""; display: block; height: 12px; background: var(--m) repeat-x center / 24px 12px; max-width: 1180px; margin: 0.9rem auto 0; }
+.paulus-readnav::before { margin: 0 auto 1.5rem; max-width: 720px; }
+.paulus-footer { border-top: 0; }
+.paulus-footer::before { margin: 0 auto 2rem; }
+.paulus-hero { border-bottom: 0; padding-bottom: 12px; background: var(--m) repeat-x bottom / 24px 12px; }
+
+/* Six-petal ossuary rosette under section titles, and as the drop-cap frame */
+.paulus-part__title::after { width: 44px; height: 44px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='47' fill='none' stroke='%237a2e1a' stroke-width='3'/%3E%3Cg fill='none' stroke='%237a2e1a' stroke-width='2.5'%3E%3Cpath d='M50 50m0-40a40 40 0 0 1 0 80a40 40 0 0 1 0-80' transform='rotate(0 50 50) scale(.42 1) translate(69 0)'/%3E%3Cpath d='M50 50m0-40a40 40 0 0 1 0 80a40 40 0 0 1 0-80' transform='rotate(60 50 50) scale(.42 1) translate(69 0)'/%3E%3Cpath d='M50 50m0-40a40 40 0 0 1 0 80a40 40 0 0 1 0-80' transform='rotate(120 50 50) scale(.42 1) translate(69 0)'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; margin-top: 0.8rem; }
+.paulus-single .paulus-prose > p:first-child::first-letter { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%237a2e1a' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%237a2e1a' stroke-width='1.5' stroke-dasharray='3 4'/%3E%3C/svg%3E"); padding: 0.32em 0.4em; }
+
+/* Counts as bronze prutah roundels */
+.paulus-parts--counts .paulus-chapter { border-top: 0; padding-top: 0.25rem; position: relative; }
+.paulus-parts--counts .paulus-chapter::before { content: ""; display: block; width: 100%; height: 8px; background: var(--m2) repeat-x center / 16px 8px; margin-bottom: 1rem; --m2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8'%3E%3Cpath d='M0 7C4 7 4 1 8 1s4 6 8 6' fill='none' stroke='%237a2e1a' stroke-width='1.6'/%3E%3C/svg%3E"); }
+.paulus-parts--counts .paulus-chapter__label { display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 0.75rem; font-size: 0.72rem; line-height: 1; letter-spacing: 0.06em; color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 2px #f4e7cf40, inset 0 0 0 4px #5a2011, 0 2px 4px rgba(0,0,0,.35); text-align: center; flex-direction: column; gap: 0.15rem; }
+.paulus-parts--counts .paulus-label__word { font-size: 0.5rem; letter-spacing: 0.12em; opacity: .85; }
+.paulus-parts--counts .paulus-label__sep { display: none; }
+.paulus-parts--counts .paulus-label__num { font-size: 1.15rem; font-weight: 700; }
+
+/* Article title as an inscribed tablet */
+.paulus-hero-panel { background: #c7ad7e; box-shadow: inset 0 0 0 1px #8f7146, inset 0 0 0 10px #b8955f, inset 0 0 0 11px #8f7146; }
+.paulus-hero-panel__meta ol { letter-spacing: 0.14em; }
+.paulus-hero-panel__meta li + li::before { content: "·"; font-size: 1em; color: var(--oxb); }
+.paulus-hero-panel__rule { height: 12px; width: 120px; background: var(--m) repeat-x center / 24px 12px; }
+
+/* FAQ: oil-lamp flame marker */
+.paulus-faq__question::after { border: 0; width: 14px; height: 18px; transform: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'%3E%3Cpath d='M7 1c3 4 5 6 5 10a5 5 0 0 1-10 0c0-3 1-4 2-6 0 2 1 3 2 3 0-3 0-5 1-7z' fill='%237a2e1a'/%3E%3C/svg%3E") center / contain no-repeat; opacity: .55; }
+.paulus-faq__item[open] > .paulus-faq__question::after { opacity: 1; transform: none; }
+
+/* Footer credit in a tabula ansata */
+.paulus-colophon { position: relative; padding: 0.9rem 2.2rem; border: 2px solid var(--ink); max-width: 56ch; }
+.paulus-colophon::before, .paulus-colophon::after { content: ""; position: absolute; top: 50%; width: 18px; height: 36px; margin-top: -18px; border: 2px solid var(--ink); }
+.paulus-colophon::before { left: -20px; border-right: 0; clip-path: polygon(100% 0, 0 30%, 0 70%, 100% 100%); }
+.paulus-colophon::after { right: -20px; border-left: 0; clip-path: polygon(0 0, 100% 30%, 100% 70%, 0 100%); }
+
+/* Colonnade: hairlines part the columns of the text-style listings, the answers
+ * teaser and the footer, the way rules part a papyrus roll into columns. */
+@media (min-width: 861px) {
+	.paulus-parts--text .paulus-chapters > li + li,
+	.paulus-parts--cards .paulus-chapters > li + li { border-left: 1px solid var(--t-rule); padding-left: var(--t-gap); margin-left: calc(var(--t-gap) * -1); }
+	.paulus-parts--text .paulus-chapters,
+	.paulus-parts--cards .paulus-chapters { column-gap: calc(var(--t-gap) * 2); }
+	/* The footer columns are flex items with their own gap, so the rule sits
+	 * in the gap via a half-gap offset rather than the negative margin the
+	 * old grid layout needed. */
+	.paulus-footer-nav__col + .paulus-footer-nav__col { border-left: 1px solid var(--t-rule); padding-left: calc(var(--t-gap) / 2); margin-left: calc(var(--t-gap) / -2); }
+	.paulus-readnav__links { position: relative; }
+	.paulus-readnav__links::before { content: ""; position: absolute; left: 50%; top: 0.25rem; bottom: 0.25rem; border-left: 1px solid var(--t-rule); }
+}
+
+/* One arch per page: the title-panel image is set under a Roman arch, with a
+ * thin stone surround, on wide screens where the image stands beside the text. */
+@media (min-width: 861px) {
+	.paulus-hero-panel.has-image { padding: 1.25rem 0 1.25rem 1.25rem; }
+	.paulus-hero-panel__image { position: relative; border-radius: 999px 999px 0 0 / 40% 40% 0 0; overflow: hidden; box-shadow: 0 0 0 1px #8f7146, 0 0 0 6px var(--och), 0 0 0 7px #8f7146; }
+	.paulus-hero-panel__image img { border-radius: inherit; }
+}
+
+/* Search in the Roman manner: the panel as an inscribed tablet, the field on
+ * parchment, each result numbered on a bronze prutah, the rules as meander. */
+.paulus-hsearch > summary { background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); border-color: #5a2011; color: #f4e7cf; box-shadow: inset 0 0 0 1px #f4e7cf40, 0 2px 4px rgba(0,0,0,.35); }
+.paulus-hsearch > summary:hover, .paulus-hsearch[open] > summary { background: radial-gradient(circle at 35% 30%, #c06c3a, #8f3a20 60%, #5a2011); }
+.paulus-hsearch__panel { background: #c7ad7e; box-shadow: inset 0 0 0 1px #8f7146, inset 0 0 0 8px #b8955f, inset 0 0 0 9px #8f7146, 0 10px 24px rgba(31,26,20,.2); border-bottom: 0; }
+.paulus-hsearch__panel::after { content: ""; display: block; height: 12px; max-width: 720px; margin: 0.9rem auto 0; background: var(--m) repeat-x center / 24px 12px; }
+.paulus-searchform input[type="search"] { background: #e8d7ae; box-shadow: inset 0 1px 3px rgba(31,26,20,.18); }
+.paulus-results__count { border-bottom: 12px solid transparent; border-image: var(--m) 0 0 12 repeat; padding-bottom: 0.9rem; }
+.paulus-result { border-top: 1px solid #8f7146; }
+.paulus-result__n { border: 0; color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 1px #f4e7cf40, inset 0 0 0 3px #5a2011, 0 2px 4px rgba(0,0,0,.35); }
+.paulus-results__pages a, .paulus-results__pages span { background: #c7ad7e; box-shadow: inset 0 0 0 1px #8f7146; border: 0; }
+.paulus-results__pages .current { background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); color: #f4e7cf; }
+
+/* About the author: a meander band above an inscribed tablet, the monogram
+ * struck on a bronze prutah like the counts. */
+.paulus-author::before { content: ""; display: block; height: 12px; max-width: 760px; margin: 0 auto 1.75rem; background: var(--m) repeat-x center / 24px 12px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11V1h18v8h-6V5h-4v2h2' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3Cpath d='M18 9h6' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3C/svg%3E"); }
+/* Tablet frame drawn from the scheme's own surface and rule colours, so the
+ * card's text keeps its contrast in the dark schemes too. */
+.paulus-author__inner { border: 0; border-top: 4px solid var(--oxb); border-radius: 0; box-shadow: inset 0 0 0 1px var(--t-rule), inset 0 0 0 10px var(--t-surface), inset 0 0 0 11px var(--t-rule), 0 18px 40px -28px rgb(0 0 0 / 0.5); }
+.paulus-author__seal { color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 2px #f4e7cf40, inset 0 0 0 5px #5a2011, inset 0 0 0 6px #f4e7cf30, 0 2px 4px rgba(0, 0, 0, 0.35); font-family: var(--t-label); letter-spacing: 0.14em; }
+
+.paulus-author__seal--photo { padding: 6px; }

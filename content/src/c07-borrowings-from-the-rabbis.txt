@@ -1,0 +1,110 @@
+The Talmud (תַּלְמוּד) is the Jewish religious text that contains interpretation, commentary and exposition of the Torah, compiled by the rabbis and scholars. It has two main parts: the Mishnah (מִשְׁנָה), the codified collection of Jewish oral law, and the Gemara (גְּמָרָא), the detailed discussion and explanation of the Mishnah. Its content falls under two heads: Halakhah (הֲלָכָה), the laws and rules of the Jewish religion, and Aggadah (אַגָּדָה), the stories, legends and religious history of the Jews.
+
+{{fig:munich-talmud|The Munich Talmud (Bayerische Staatsbibliothek, Cod. Hebr. 95), copied in 1342, the only near-complete manuscript of the Babylonian Talmud: a page of tractate Kiddushin.}}
+
+Although the Bible uses some of the Jewish books in its Old Testament collection, the Talmud is excluded and is not recognized by Christian authority as a valid source for Christian doctrine. Yet if we study the text of the Talmud, held by adherents of Judaism today to be the Oral Torah, we find many stories that Paul took and altered to strengthen his teaching. Stories in the Talmud with no basis in the Old Testament were turned by Paul into false proofs and are now part of the New Testament.
+
+Paul often presents his doctrine as coming directly from "the revelation of Jesus" or "revelation," while many of his arguments and terms are adaptations and paraphrases from the store of Jewish oral tradition. He states:
+
+{{kjv:Galatians 1:12}}
+
+The statement plainly contradicts the literary trail, which shows that the sources of his writing came from the existing teaching of the rabbis and never from heaven. Here are examples from the Talmud that Paul copied.
+
+## Jannes and Jambres
+
+The second letter to Timothy, written in Paul's name and received by the church as his, names the two sorcerers who opposed Mūsā (ʿalayhi al-salām, peace be upon him) as Jannes and Jambres, and compares them to his enemies:
+
+{{kjv:2 Timothy 3:8-9}}
+
+Neither name appears anywhere in the text of the Old Testament. The Midrash Rabbah, the rabbinic commentary on Exodus, names the two sorcerers "Yochani" and "Mamre":
+
+<blockquote><p><em>Amrū Yōḥānī ūMamrē lə-Mōshe: "teven atah makhnīs lə-ʿOfrayīm?" Amar lāhem: "Lə-mātā yarqā, yarqā shəqōl."</em>[[fn:English–Hebrew translation, Shemot Rabbah (Midrash Rabbah on Exodus), 7:12.]]</p><p>Yochani and Mamre asked Moses: "Are you bringing straw to Ephraim?" He answered them: "Consider carefully, weigh it, then decide."</p></blockquote>
+
+The names of the two Egyptian sorcerers also appear in the Midrash Tanchuma,[[fn:Parshat Ki Tisa 19:19.]] in its commentary on Exodus 32:
+
+<blockquote><p>Forty thousand people gathered to leave Egypt together with the Children of Israel, and among them were two Egyptians named Jannes and Jambres, who had worked sorcery for Pharaoh.[[fn:Samuel A. Berman (trans.), <em>Midrash Tanhuma-Yelammedenu</em>, commentary on Exodus 32 (KTAV Publishing, 1996), p. 598. Rendered here from the Malay edition of the book.]]</p></blockquote>
+
+So the names of the two sorcerers plainly come from interpretation in the Talmud, which indirectly led Paul to place them in his letter.
+
+## Because of the angels
+
+When Paul says in 1 Corinthians that a woman must wear a "sign of authority" on her head (cover her head) because of the angels:
+
+{{kjv:1 Corinthians 11:10}}
+
+he is plainly influenced by the tradition of <em>shaḥavat</em> (שכבת) as interpreted in the Talmud, since it refers to the rabbinic interpretation of Genesis 6:2:
+
+<blockquote><p><em>Bənêi ʾElohim. Bənêi ha-sārîm və-ha-shōftîm. Dāvār ʾāḥēr: bənêi ha-ʾElohim, hēm ha-sārîm ha-hōlkhîm bishlīḥūtō shel Māqōm, ʾaf hēm hāyū mitʿārvîm bāhem; kol ʾelohîm sheba-miqrā ləshōn mārūt, və-zeh yōkhîaḥ: və-atah tihyeh lō ʾelohîm; rəʾēh, nətattîkhā ʾelohîm.</em>[[fn:See Rashi's commentary on Bereshit (Genesis), on 6:2.]]</p><p>THE SONS OF GOD. The sons of the princes and the judges. Another interpretation of "the sons of God": they were the angels who came into the world as messengers of God, and they mingled with the women of humankind. Wherever the word "elohim" appears in the text, it denotes authority, as in the verses: "and thou shalt be to him instead of elohim" [Exodus 4:16] and "see, I have made thee elohim" [Exodus 7:1].</p></blockquote>
+
+Paul plainly believed the rabbinic interpretation that the angels mingled with the women of humankind, to the point of plagiarizing the text of this Targum into his letter. As set down in the book of Judith, it plainly describes the fall of the angels through their lust for the women of the earth.[[fn:2 Peter 2:4; Judith 6.]]
+
+## Ishmael and Isaac
+
+In Galatians the verse reads:
+
+{{kjv:Galatians 4:29}}
+
+The statement relates to the Haggadic tradition in which Ismāʿīl is said to have mocked, and beyond that humiliated, shamed and abused Isḥāq when they were small. We find it in Sanhedrin 89b:
+
+<blockquote><p><em>Rabbi Levi amar: aḥar dəvārāv shel Yishmāʿēl lə-Yitsḥāq. Amar lō Yishmāʿēl lə-Yitsḥāq: "Anī gādōl mimmə-khā bə-mitsvōt, she-atah maltā ben shəmōnat yāmîm, va-anī ben shəlōsh ʿesreh shānāh." Amar lō: "U-və-ēver eḥād atah məgāreh bī? Im ōmer lī ha-Qādōsh, bārūkh Hū, zəvaḥ atsməkhā ləfānay, anī zōvēaḥ." Miyād: və-hā-Elohim nissāh et Avrāhām.</em>[[fn:See the Babylonian Talmud, Sanhedrin 89b.]]</p><p>Rabbi Levi said: These are the words of Ishmael to Isaac. Ishmael said to Isaac: "I am greater than you in the commandments, for you were circumcised at eight days old, and I was circumcised at thirteen years." He [Isaac] said to him: "Do you taunt me over one limb? If the Holy One, blessed be He, were to say to me, 'Sacrifice yourself before Me,' I would sacrifice myself." At once: "And God did tempt Abraham."</p></blockquote>
+
+{{fig:guercino-hagar|Guercino, Abraham casting out Hagar and Ishmael, 1657, Pinacoteca di Brera, Milan. Paul made the scene an allegory of two covenants, with Hagar as the covenant of the law.}}
+
+
+## Suffering that atones
+
+The idea that suffering can bring forgiveness of sins is stated in the Babylonian Talmud, Berakhot 5a:
+
+<blockquote><p lang="he" dir="rtl">אמר רבי שמעון בן יוחאי: שלש מתנות טובות נתן הקדוש ברוך הוא לישראל, וכולן לא נתנן אלא על ידי יסורין</p><p><em>Amar Rabbi Shimʿon ben Yoḥai: Shalosh matanot tovot natan ha-Qadosh Barukh Hu le-Yisraʾel, ve-khullan lo natan ella al yedei yisurin.</em></p><p>Rabbi Simeon ben Yohai said: Three good gifts the Holy One gave to Israel, and none of them was given except through suffering.</p></blockquote>
+
+The concept was then developed by Paul into the theology of the cross, the suffering of Jesus as the means of redemption from sin. It cannot be denied that the idea had long been rooted in the rabbis' interpretation of the wisdom behind suffering.
+
+In Sanhedrin 98b an important idea appears:
+
+<blockquote><p lang="he" dir="rtl">אם ראית דור שצרות רבות באות עליו כנהר, חכה לו, שנאמר: כי בא מים צרה</p><p><em>Im raʾita dor she-tzarot rabot baʾot alav ka-nahar, ḥakeh lo, she-neʾemar: ki va mayim tzarah.</em></p><p>If you see a generation on which many troubles come like a river, wait for him (al-Masīḥ), as it is said: "for distress comes like flooding water."</p></blockquote>
+
+Here collective suffering is tied to the coming of a savior, an idea Paul took and widened when he attributed the suffering of Jesus as savior to all humanity. That is a reinterpretation of an old idea in a form shaped by Greek culture and made universal.
+
+So too in Avot de-Rabbi Natan 34:
+
+<blockquote><p lang="he" dir="rtl">מיתת צדיקים מכפרת על הדור</p><p><em>Mitat tzaddikim mekhaperet ʿal ha-dor.</em></p><p>The death of the righteous atones for the generation.</p></blockquote>
+
+The phrase gives moral justification for death as collective atonement. Paul adapted the idea and arranged it into the doctrine of "Christ crucified" as a sacrifice for the sins of the people, as in 1 Corinthians: "Christ our passover is sacrificed for us."[[fn:1 Corinthians 5:7.]] The concept derives from the sacrificial ritual of the rabbinic tradition, as set out in Pesachim 65a–70a, which describes the preparation of the Passover lamb in memory of the Exodus.
+
+{{kjv:1 Corinthians 5:7}}
+
+In the teaching of the rabbis this sacrifice is symbolic and a matter of ritual law only. Paul took it and turned it into the basis of a theology of redemption through blood, and so departed from the true teaching of ʿĪsā ibn Maryam (ʿalayhi al-salām), who never taught that he was a saving sacrifice.
+
+The chief element of Paul's doctrine of redemption is therefore nothing original. It already existed in the religious frame of the rabbis before he appeared. Paul's adaptations from rabbinic tradition go beyond stories of individuals and legal interpretation. There are deeper theological and mystical elements which, on examination, show that the frame of Paul's "revelation" experience itself is rooted in speculation among the rabbis, and not in the genuine revelation he claimed.
+
+## The third heaven
+
+One of the most striking examples is Paul's confession in 2 Corinthians that he was "caught up to the third heaven" and heard "unspeakable words."[[fn:cf. 2 Corinthians 12:2–4.]]
+
+{{kjv:2 Corinthians 12:2-4}}
+
+The experience parallels descriptions in Jewish mystical literature such as the Hekhalot Rabbati and the teaching of the rabbis on the structure of the heavens. In the Babylonian Talmud, Ḥagigah 12b, seven heavens are described:
+
+<blockquote><p lang="he" dir="rtl">שבעה רקיעים הן… וערבות שבו צדיקים וקדושים… ומזיקים גהינם</p><p><em>Shivʿah reqiʿim hen … ve-ʿAravot she-bo tzaddikim ve-qedoshim … u-mazziqin Gehinnam.</em></p><p>There are seven heavens … and Aravot, in which are the righteous and the holy … and also the torments of Gehinnom.</p></blockquote>
+
+Paul's use of the phrase "the third heaven" reflects direct influence from the cosmology of rabbinic tradition, and none from prophetic teaching. If the experience was revelation, why do its form and frame resemble the picture in esoteric teaching?
+
+## Eye hath not seen
+
+A second example is in 1 Corinthians, where Paul writes:
+
+{{kjv:1 Corinthians 2:9}}
+
+The verse exists in neither the Torah nor any book of the prophets. Its <em>ipsissima verba</em> are rabbinic, an expression in Midrash Tehillim (on Psalm 31):
+
+<blockquote><p lang="he" dir="rtl">עין לא ראתה אלהים זולתך</p><p><em>ʿAyin lo raʾatah Elohim zulatekha.</em></p><p>Eye has not seen a God besides You.</p></blockquote>
+
+The expression is a spiritual poem in the rabbinic tradition. Paul raised it and adapted it as part of his doctrine of salvation. It proves that Paul's ability to turn the poetry and reflection of Jewish tradition into "scripture" in his own version of the gospel is creative adaptation, and no revelation.
+
+## Revelation, or plagiarism?
+
+From the examples given, it is plain that Paul drew much of his inspiration from the Talmud and the writings of the Jewish rabbis. How can we accept that Paul was a messenger from ʿĪsā ibn Maryam when he only plagiarized ideas that had existed long before he appeared? The act blackens the purity of the divine message, and it raises serious questions about the honesty and personal background of the individual who claimed to have received that revelation.
+
+Paul's teaching plainly holds many elements that are nothing original. That challenges his claim to apostleship, and it raises serious questions about the integrity and real source of his teaching. If the claim of revelation can be refuted and the content of the teaching turns out to be adaptation, then Paul was a re-arranger of religious narrative for personal and ideological ends.
+
+The question worth raising is this: did Paul receive revelation from heaven, or did he plagiarize an oral tradition and dress it as the word of God?

@@ -1,0 +1,69 @@
+Luke composed his gospel from a written source known as "Old Mark" or Ur-Markus, and from what scholars call "Source Q."[[fn:"Q" stands for the German <em>Quelle</em>, "source." See Raymond E. Brown, op. cit.]] The author of the Gospel of Mark itself cannot be identified by historians. Matthew wrote his gospel on the basis of Ur-Markus (the theory of Marcan priority) and also drew on Source Q.
+
+{{fig:codex-alexandrinus|Codex Alexandrinus, fifth century, British Library, London: a page of Luke. The great codices of the fourth and fifth centuries bound Paul's letters into one volume with the gospels.}}
+
+"Old Mark" is a hypothetical early version of the Gospel of Mark believed to have been used by Matthew and Luke. Source Q is a hypothetical written collection of the sayings of Jesus used by both Matthew and Luke alongside Mark. It is thought to have consisted mainly of sayings or teachings of Jesus, a written collection of his sayings circulating in the early Christian community. Its existence is inferred from the marked similarity of content and wording between passages in Matthew and Luke that are absent from Mark, the "double tradition."
+
+That is why the gospels of Matthew, Mark and Luke share so many identical sentences and words, along with their contradictions. The three are known as the Synoptic Gospels.
+
+## A Hebrew Matthew
+
+Although the canonical gospels show mutual influence and overlapping sources, a text survives outside the Graeco-Roman mainstream that reflects continuity with the original Semitic teaching. A Hebrew version preserved in medieval Jewish manuscripts shows traces of an early Semitic tradition independent of the Greek text. It uses the name form Yeshu (ישו) and lacks the theological exaltations of the Greek version.[[fn:See George Howard, <em>The Gospel of Matthew According to a Primitive Hebrew Text</em> (Macon, Georgia: Mercer University Press, 1987), pp. vii, xviii–xix, xxiii.]]
+
+The high Christological phrases common in the canonical gospels are absent or dropped in this version, as if reflecting a view closer to the linguistic and doctrinal context of ʿĪsā ibn Maryam (ʿalayhi al-salām, peace be upon him).[[fn:ibid.]] Though written in Hebrew, and in none of the Aramaic he spoke, its content and manner plainly reflect continuity with an early Semitic tradition free of Hellenistic theology.
+
+## The Gospel of John
+
+What of the Gospel of John? Consider the following:[[fn:H. Djarnawi Hadikusuma, <em>Sekitar Perjanjian Lama dan Perjanjian Baru</em> (Yogyakarta: Pimpinan Pusat Muhammadiyah, 1986), pp. 69ff.]]
+
+1. The Gospel of John stands outside the Synoptic collection because its content and history differ so greatly. In Christian belief it was written by John, the beloved disciple of Jesus Christ,[[fn:John 13:23, 21:20.]] identified as John the son of Zebedee, brother of James the son of Zebedee and one of the twelve.
+
+2. Herod Agrippa I executed James the son of Zebedee in 44 CE, and an early tradition has his brother John killed by the Jews as well, whereas the Gospel of John was written only around 100 CE. The gospel was therefore very probably written by John the Presbyter, a church elder in Anatolia who lived in the first century, and who wrote it to oppose the teaching of Cerinthus.
+
+## The Gospel of Matthew
+
+Return to the question of the authorship of Matthew. He is said to have written his gospel around 60 CE, some 30 years after the departure of ʿĪsā ibn Maryam. Thirty years is a long time to recall events, let alone to write down someone's exact words.
+
+How did he know the story of the wise men who came from the east to Islamicjerusalem and were said to have seen a star in the sky marking the birth of ʿĪsā ibn Maryam?[[fn:Matthew 2:1–2.]] Was Matthew present? How did he know the dialogue between Joseph, the husband of Maryam, and the angel?[[fn:Matthew 1:20–21.]] Did it not come, in the first place, by word of mouth?
+
+That is why world history records that there were once nearly 70 kinds of gospel besides the four accepted by most Christians today (Matthew, Mark, Luke and John, together with Paul's letters). Because of the church council held in Rome in the fourth century, in 382 CE,[[fn:The Gelasian Decree (<em>Decretum Gelasianum</em>), promulgated by Pope Gelasius I (492–496), lists the books the Catholic Church regarded as canonical and apocryphal.]] every gospel that opposed the gospels agreeing with Paul was banned, and the remainder were labeled "secret readings," the apocryphal literature. The canon was assembled <em>a priori</em>: the gospels that agreed with Paul were kept and the rest banned, and his influence, so entrenched in the text, became the basis of a new theology that began to dominate Christian teaching.
+
+## The new covenant
+
+Paul introduced the concept of a "new covenant," rooted in Jewish covenant ideas but reshaped to stress redemption through Jesus. He writes:
+
+{{kjv:2 Corinthians 3:6}}
+
+Paul stresses a transition from the old covenant based on written law (the Torah) to a new covenant based on the Spirit, a fundamental change in religious practice toward inner spirituality and away from outward legalism. In the Jewish context the old covenant meant strict obedience to the law revealed through Mūsā (ʿalayhi al-salām). Paul introduced the idea that religious life should center on the life-giving Holy Spirit.
+
+Paul held that the written law can lead to death, because it can become a rigid system hard to obey and ending in condemnation, whereas the Spirit gives life by letting the believer internalize God's will and live by it through a personal relationship with God. He presents himself and the other apostles as ministers of the new covenant, whose mission is to spread a message of Jesus Christ centered on grace and faith in place of strict observance of the law. The shift also widened Christian acceptance to Gentiles and made the faith less tied to Jewish custom and law.
+
+## Justification by faith
+
+Paul introduced many doctrines that became the foundation of Christian teaching. One of the most important is justification by faith. In his letter to the Galatians he writes:
+
+{{kjv:Galatians 2:16}}
+
+Beyond the doctrine of salvation through faith, Paul often uses language that stresses his personal experience of Christ:
+
+{{kjv:Galatians 2:20}}
+
+On the surface the verse looks like an expression of self-surrender. Closer analysis suggests Paul may have used it to reinforce his standing as an individual with a special relationship to Christ. Tying himself directly to the life of Christ raises the question whether the aim was to support his own authority over the other disciples. <em>Vis-à-vis</em> the disciples, who received their mandate directly from ʿĪsā ibn Maryam, Paul lacked the same legitimacy. With statements of this kind he may have been trying to establish himself as the chief channel of Christ's teaching, with the potential to displace the original tradition of ʿĪsā ibn Maryam.
+
+Statements of this kind also raise theological concern, above all from the Islamic perspective, because they blur the boundary between creature and Creator. The Qurʾān plainly stresses <em>tawḥīd</em> (توحيد, "the oneness of God") and the standing of the prophets as His servants without any attribute of divinity. ʿĪsā ibn Maryam says: "I am the servant of God."[[fn:See Sūrah Maryam 19:30. See also New Testament passages such as John 5:30, where ʿĪsā ibn Maryam says, "I can of mine own self do nothing: as I hear, I judge: and my judgment is just; because I seek not mine own will, but the will of the Father which hath sent me." Other verses that stress his obedience to God include Matthew 26:39, John 14:28, Mark 10:45 and Luke 22:42.]] Nothing in the tradition of the prophets resembles what Paul expresses here, which stresses himself over his apostolic mission.
+
+Such language also leaves room for misinterpretation among his followers. By stressing "Christ liveth in me," Paul shifts the focus from the worship of God to himself and his personal spiritual experience. That invites a cult of personality and reinforces doctrines such as redemption through faith alone, contrary to the teaching of ʿĪsā ibn Maryam, which stressed righteous deeds and obedience to the law.
+
+Paul also taught that Christians are free of the law of the Torah. In his letter to the Romans he writes:
+
+{{kjv:Romans 10:4}}
+
+The teaching gave Gentiles freedom to embrace Christianity without keeping all the laws of the Torah. Paul also declared that "there is nothing unclean of itself,"[[fn:Romans 14:14.]] in direct contradiction of the dietary practice held by ʿĪsā ibn Maryam and the disciples. By simplifying the teaching to attract Gentiles, Paul introduced elements better suited to Graeco-Roman culture than to the <em>tawḥīd</em> founded by ʿĪsā ibn Maryam.
+
+## Philo's Logos
+
+In spreading his teaching to Gentiles, Paul adapted concepts from Greek philosophy into his theology. A key figure in the Graeco-Jewish philosophical tradition was Philo of Alexandria, known for combining the Torah with Platonic philosophy.[[fn:Philo of Alexandria, <em>De Opificio Mundi</em>, in <em>The Works of Philo</em>, https://bit.ly/3IEE9gM.]] Among Philo's main concepts was the Logos (Λόγος), introduced as an intermediary between God (ὁ Θεός, <em>ho Theos</em>) and creation.[[fn:Philo of Alexandria, <em>On the Confusion of Tongues</em> §146 and <em>On Dreams</em> I, §§215–217, trans. C. D. Yonge, Early Christian Writings, https://bit.ly/4muE8LL and https://bit.ly/3Fs1HUK.]] In his works the Logos is described as God's "firstborn" (πρωτόγονος, <em>prōtogonos</em>), the "image of God" (εἰκὼν Θεοῦ, <em>eikōn Theou</em>) and the "eternal High Priest" (ἀρχιερεὺς αἰώνιος, <em>archiereus aiōnios</em>), the agent of creation and the mediator between God and the world.[[fn:M. Todorovska, "The Concepts of the Logos in Philo of Alexandria," <em>Antiquitas Viva</em> 65, nos. 1–2 (2015), pp. 37–56.]]
+
+Paul's letters use terms that reflect this concept of the Logos: Christ is "the image of God" and the "one Lord" "by whom are all things."[[fn:2 Corinthians 4:4; 1 Corinthians 8:6.]] The letters written in his name go further, with "the firstborn of every creature … the image of the invisible God" and the "mediator between God and men,"[[fn:Colossians 1:15; 1 Timothy 2:5.]] and the letter to the Hebrews, long credited to him, has Christ "sat down on the right hand of the Majesty on high."[[fn:Hebrews 1:3.]] References such as "the bread of life" and "living water"[[fn:John 6:35; 4:14.]] come from the Gospel of John, itself shaped by the Logos concept.[[fn:See John 1:1.]]
+
+The use of these terms shows how Greek philosophy seeped into Christian theology, whether through Paul or other writers. Direct proof that Paul read Philo is lacking. The similarity of concept and vocabulary makes it very likely that both were shaped by the same Hellenistic intellectual climate.[[fn:Socrates, "Philo's breakthrough with Logos – from Greek abstraction to living being," <em>Socrates Journey</em>, 11 April 2021, https://bit.ly/4muEkut.]]
