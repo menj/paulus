@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.37.2
+Stable tag: 2.45.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,78 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.45.7 =
+* Line spacing restored to the values before 2.45.6.
+
+= 2.45.6 =
+* Running text is set at 1.5 line spacing, on screen, in print and in the saved PDF.
+
+= 2.45.5 =
+* All running text is justified, on screen, in print and in the saved PDF.
+
+= 2.45.4 =
+* How Paul came to own the New Testament: Luke, traditionally identified as the author of Luke and Acts, restored as Paul's physician.
+
+= 2.45.3 =
+* How Paul came to own the New Testament: the owner's account of the set-aside gospels restored, with its note corrected.
+
+= 2.45.2 =
+* How Paul came to own the New Testament: the section on the gospels the church set aside is corrected.
+
+= 2.45.1 =
+* Michael Goulder's Two Missions reading of the early church, cited in four articles.
+
+= 2.45.0 =
+* Reading aids: progress bar, arrow keys, resume prompt, copy link, back to top (Theme Options, Reading). Dashboard status widget. The letters of a man moves to Count IV; Count III becomes "The message remade".
+
+= 2.44.1 =
+* Reading flow: eight hand-offs rewritten to match the site's order; the witnesses reordered.
+
+= 2.44.0 =
+* Dale B. Martin's notes on "Luke" and Paul, preserved as he left them, with a continuation answering his final question; his findings added to six articles and the Answers page.
+
+= 2.43.1 =
+* Seven doctrines: Matthew 5:19 set beside Paul on the law; a matching study question.
+
+= 2.43.0 =
+* Answers: a thirteenth question, on 2 Timothy 3:16. Seven doctrines: the ransom saying Luke leaves out. Matching study questions.
+
+= 2.42.1 =
+* Answers: the 2 Peter answer draws more fully on the Catholic bishops' introduction to the letter, which now also supports the gospels answer.
+
+= 2.42.0 =
+* Answers: an index of the questions, a link mark on each, a way back after each answer, and each question's address in its structured data.
+
+= 2.41.0 =
+* The verdict: a section on the demographers' projections, with four charts drawn from the Pew Research Center's figures.
+
+= 2.40.1 =
+* The verdict: Pew's figures on where Christians live, and its 2017 projections to 2060.
+
+= 2.40.0 =
+* Every web address in the footnotes is a live link; one Pew citation corrected.
+
+= 2.39.3 =
+* The verdict: the Pew Research Center's 2010–2050 projections, with figures, before the closing declaration.
+
+= 2.39.2 =
+* From Ibn Ḥazm to al Faruqi: the al-Attas section heading gives his full name.
+
+= 2.39.1 =
+* Footer: a small book card completes the brand column; every link column is ruled off alike.
+
+= 2.39.0 =
+* The portrait is redrawn as an engraving with a Roman gladius; its variants, the hero cutout and the fallback site icon follow, and featured images refresh in place.
+
+= 2.38.0 =
+* Section pages carry featured images: three new limestone variants of the illustrations.
+
+= 2.37.4 =
+* Section pages: the title panel is a centred, shorter title block.
+
+= 2.37.3 =
+* Title panels: one breadcrumb style on every page, ending with the current page; the Greek line aligned to it.
 
 = 2.37.2 =
 * The Save as PDF mark is drawn in one colour, matching the rest of the share row.

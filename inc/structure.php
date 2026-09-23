@@ -476,7 +476,13 @@ function paulus_sc_footer_nav() {
 	$parent    = get_page_by_path( 'reference' );
 	if ( $parent && 'publish' === $parent->post_status ) {
 		foreach ( get_pages( array( 'parent' => $parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
-			$label       = 'chronology' === $child->post_name ? __( 'Timeline', 'paulus' ) : get_the_title( $child );
+			// Short labels where a page's full title would crowd the column.
+			$short       = array(
+				'chronology'                           => __( 'Timeline', 'paulus' ),
+				'dale-b-martin-luke-versus-paul'       => __( 'Dale B. Martin on Acts', 'paulus' ),
+				'why-luke-does-not-know-pauls-letters' => __( 'Why Acts ignores the letters', 'paulus' ),
+			);
+			$label       = $short[ $child->post_name ] ?? get_the_title( $child );
 			$reference[] = array( $label, get_permalink( $child ) );
 		}
 	}
@@ -701,6 +707,18 @@ function paulus_sc_footer_brand() {
 		/* translators: %s: publisher name. */
 		$out .= '<p class="paulus-footer-brand__publisher">' . sprintf( esc_html__( 'Published by %s.', 'paulus' ), $name ) . '</p>';
 	}
+	// The book the site is drawn from: a small card, cover beside title,
+	// leading to the book page.
+	$book_page = get_page_by_path( 'the-book' );
+	if ( $book_page && paulus_option( 'book_title' ) ) {
+		$out .= '<a class="paulus-footer-book" href="' . esc_url( get_permalink( $book_page ) ) . '">'
+			. '<img src="' . esc_url( PAULUS_URI . '/assets/images/book-cover-160.webp' ) . '" alt="" width="160" height="215" loading="lazy" decoding="async">'
+			. '<span class="paulus-footer-book__text">'
+			. '<span class="paulus-footer-book__label">' . esc_html__( 'The book', 'paulus' ) . '</span>'
+			. '<span class="paulus-footer-book__title" lang="ms">' . esc_html( paulus_option( 'book_title' ) ) . '</span>'
+			. '<span class="paulus-footer-book__more">' . esc_html__( 'About the book', 'paulus' ) . ' <span aria-hidden="true">→</span></span>'
+			. '</span></a>';
+	}
 	$out .= paulus_sc_footer_social();
 	return $out . '</div>';
 }
@@ -764,8 +782,17 @@ function paulus_sc_page_hero() {
 	} elseif ( is_category() ) {
 		$term       = get_queried_object();
 		$title      = $term->name;
+		// The section's featured image: a bundled illustration named in the
+		// manifest, with its alt text from the illustration list.
+		foreach ( (array) ( paulus_manifest()['parts'] ?? array() ) as $p ) {
+			if ( ( $p['slug'] ?? '' ) === $term->slug && ! empty( $p['image'] ) && array_key_exists( $p['image'], paulus_images() ) ) {
+				$alts  = paulus_image_alts();
+				$image = '<img src="' . esc_url( paulus_image_url( $p['image'] ) ) . '" alt="' . esc_attr( $alts[ $p['image'] ] ?? '' ) . '" width="1024" height="1024" fetchpriority="high">';
+				break;
+			}
+		}
 		$standfirst = wp_strip_all_tags( term_description( $term ) );
-		$crumbs[]   = array( __( 'Section', 'paulus' ), '' );
+		$crumbs[]   = array( $term->name, '' );
 	} elseif ( is_singular() ) {
 		$post       = get_post();
 		$title      = get_the_title( $post );
@@ -791,8 +818,13 @@ function paulus_sc_page_hero() {
 				$crumbs[] = array( sprintf( __( 'Part %1$s of %2$s', 'paulus' ), number_format_i18n( (int) get_post_meta( $post->ID, '_paulus_part_no', true ) ), number_format_i18n( $parts ) ), '' );
 			}
 			$byline = paulus_option( 'book_author' );
-		} elseif ( $post->post_parent ) {
-			$crumbs[] = array( get_the_title( $post->post_parent ), get_permalink( $post->post_parent ) );
+		} else {
+			if ( $post->post_parent ) {
+				$crumbs[] = array( get_the_title( $post->post_parent ), get_permalink( $post->post_parent ) );
+			}
+			// A page names itself as the last crumb, so the trail always
+			// ends where the reader is.
+			$crumbs[] = array( get_the_title( $post ), '' );
 		}
 		if ( has_post_thumbnail( $post ) ) {
 			$image = get_the_post_thumbnail( $post, 'large', array( 'alt' => '', 'fetchpriority' => 'high' ) );
@@ -1265,6 +1297,10 @@ function paulus_share_links( $id ) {
 	$pdf_icon   = paulus_icon( 'pdf' ) ?: '<span class="paulus-share__text">PDF</span>';
 	$out .= '<button type="button" class="paulus-share__link paulus-share__link--print" aria-label="' . esc_attr__( 'Print this article', 'paulus' ) . '" title="' . esc_attr__( 'Print', 'paulus' ) . '" data-paulus-print>' . $print_icon . '</button>';
 	$out .= '<button type="button" class="paulus-share__link paulus-share__link--pdf" aria-label="' . esc_attr__( 'Save this article as a PDF', 'paulus' ) . '" title="' . esc_attr__( 'Save as PDF', 'paulus' ) . '" data-paulus-pdf data-filename="' . esc_attr( get_post_field( 'post_name', $id ) . '.pdf' ) . '" data-src="' . esc_url( PAULUS_URI . '/assets/js/vendor/html2pdf.bundle.min.js?ver=' . PAULUS_VERSION ) . '">' . $pdf_icon . '</button>';
+	if ( paulus_option( 'read_copy' ) ) {
+		$link_icon = paulus_icon( 'link' ) ?: '<span class="paulus-share__text">' . esc_html__( 'Link', 'paulus' ) . '</span>';
+		$out      .= '<button type="button" class="paulus-share__link paulus-share__link--copy" aria-label="' . esc_attr__( 'Copy the link to this page', 'paulus' ) . '" title="' . esc_attr__( 'Copy link', 'paulus' ) . '" data-paulus-copy data-url="' . esc_url( get_permalink( $id ) ) . '">' . $link_icon . '<span class="paulus-share__live screen-reader-text" aria-live="polite"></span></button>';
+	}
 	foreach ( $links as $key => $l ) {
 		$icon = paulus_icon( $key );
 		if ( ! $icon ) {
@@ -1384,3 +1420,44 @@ function paulus_section_ids( $content ) {
 	);
 }
 add_filter( 'the_content', 'paulus_section_ids', 7 );
+
+/**
+ * The Answers page: an index of its questions under the introduction, a
+ * link mark on each question heading for readers to share, and a way back
+ * to the index after each answer. Built from the headings as the page
+ * renders, so an edited copy of the page gets them too.
+ *
+ * @param string $content Rendered content.
+ * @return string
+ */
+function paulus_answers_navigation( $content ) {
+	if ( ! is_page( 'answers' ) || ! in_the_loop() || ! is_main_query() ) {
+		return $content;
+	}
+	if ( ! preg_match_all( '#<h2 id="([^"]+)"[^>]*>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) || count( $m ) < 2 ) {
+		return $content;
+	}
+	$items = '';
+	foreach ( $m as $h ) {
+		$items .= '<li><a href="#' . esc_attr( $h[1] ) . '">' . wp_kses( $h[2], array( 'em' => array() ) ) . '</a></li>';
+	}
+	/* translators: %s: number of questions. */
+	$index = '<nav class="paulus-faq-index" id="questions" aria-labelledby="paulus-faq-index-label"><p class="paulus-faq-index__label" id="paulus-faq-index-label">' . esc_html( sprintf( _n( '%s question', '%s questions', count( $m ), 'paulus' ), number_format_i18n( count( $m ) ) ) ) . '</p><ol>' . $items . '</ol></nav>';
+	$back  = '<p class="paulus-faq-back"><a href="#questions">' . esc_html__( 'All questions', 'paulus' ) . ' <span aria-hidden="true">↑</span></a></p>';
+	$first = true;
+	$content = preg_replace_callback(
+		'#<h2 id="([^"]+)"([^>]*)>(.*?)</h2>#s',
+		static function ( $h ) use ( &$first, $back ) {
+			$mark  = '<a class="paulus-anchor" href="#' . esc_attr( $h[1] ) . '" aria-label="' . esc_attr__( 'Link to this question', 'paulus' ) . '">#</a>';
+			$lead  = $first ? '' : $back;
+			$first = false;
+			return $lead . '<h2 id="' . $h[1] . '"' . $h[2] . '>' . $h[3] . ' ' . $mark . '</h2>';
+		},
+		$content
+	);
+	// The last answer's way back sits before the references.
+	$content = preg_match( '#<ol class="footnotes"#', $content ) ? preg_replace( '#<ol class="footnotes"#', $back . '<ol class="footnotes"', $content, 1 ) : $content . $back;
+	// The index follows the introduction, which is the first paragraph.
+	return preg_replace( '#</p>#', '</p>' . $index, $content, 1 );
+}
+add_filter( 'the_content', 'paulus_answers_navigation', 20 );

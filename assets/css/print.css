@@ -21,7 +21,7 @@ body::before, body::after, .paulus-header::after, .paulus-footer::before { displ
 .paulus-hero-panel__byline { color: #444 !important; font-size: 9pt !important; }
 .paulus-hero-panel__author { color: #000 !important; font-size: 12pt !important; }
 
-.paulus-prose { max-width: none !important; font-size: 11pt !important; line-height: 1.45 !important; color: #000 !important; text-align: left !important; hyphens: manual !important; }
+.paulus-prose { max-width: none !important; font-size: 11pt !important; line-height: 1.45 !important; color: #000 !important; text-align: justify !important; hyphens: auto !important; -webkit-hyphens: auto !important; }
 .paulus-prose p, .paulus-prose li { color: #000 !important; orphans: 3; widows: 3; }
 .paulus-prose h2 { font-size: 14pt !important; color: #000 !important; margin: 14pt 0 5pt !important; page-break-after: avoid; break-after: avoid; }
 .paulus-prose a { color: #000 !important; text-decoration: none !important; }

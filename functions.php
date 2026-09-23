@@ -7,7 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PAULUS_VERSION', '2.37.2' );
+// The theme version is kept in one place, the style.css header.
+define( 'PAULUS_VERSION', (string) wp_get_theme( basename( __DIR__ ) )->get( 'Version' ) );
 define( 'PAULUS_DIR', get_stylesheet_directory() );
 define( 'PAULUS_URI', get_stylesheet_directory_uri() );
 
@@ -466,6 +467,8 @@ require_once PAULUS_DIR . '/inc/structure.php';
 require_once PAULUS_DIR . '/inc/importer.php';
 require_once PAULUS_DIR . '/inc/seo.php';
 require_once PAULUS_DIR . '/inc/figures.php';
+require_once PAULUS_DIR . '/inc/charts.php';
+require_once PAULUS_DIR . '/inc/dashboard.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**
@@ -537,8 +540,24 @@ function paulus_enqueue_assets() {
 		wp_enqueue_script( 'paulus-lightbox', PAULUS_URI . '/assets/js/lightbox-init.js', array( 'lightbox2' ), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
 		wp_add_inline_script( 'lightbox2', "lightbox.option({ albumLabel: 'Figure %1 of %2', wrapAround: true, fadeDuration: 250, imageFadeDuration: 250, resizeDuration: 300, positionFromTop: 40, disableScrolling: true, sanitizeTitle: true });" );
 	}
-	if ( is_single() ) {
+	if ( is_singular() ) {
 		wp_enqueue_script( 'paulus-reader', PAULUS_URI . '/assets/js/reader.js', array(), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
+		// The reading aids of Theme Options, Reading, with their labels.
+		$paulus_reader = array(
+			'progress' => (bool) paulus_option( 'read_progress' ),
+			'keys'     => (bool) paulus_option( 'read_keys' ),
+			'memory'   => (bool) paulus_option( 'read_memory' ),
+			'copy'     => (bool) paulus_option( 'read_copy' ),
+			'top'      => (bool) paulus_option( 'read_top' ),
+			'resume'   => __( 'Resume reading where you left off', 'paulus' ),
+			'resumeAt' => __( 'Resume reading at', 'paulus' ),
+			'dismiss'  => __( 'Dismiss', 'paulus' ),
+			'copied'   => __( 'Link copied', 'paulus' ),
+			'toTop'    => __( 'Back to top', 'paulus' ),
+		);
+		wp_add_inline_script( 'paulus-reader', 'window.paulusReader = ' . wp_json_encode( $paulus_reader ) . ';', 'before' );
+	}
+	if ( is_single() ) {
 		wp_enqueue_script( 'paulus-print', PAULUS_URI . '/assets/js/print.js', array(), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
 	}
 }

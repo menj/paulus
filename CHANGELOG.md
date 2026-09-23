@@ -2,6 +2,188 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.45.7] - 2026-09-23
+
+### Reverted
+
+- The 1.5 line spacing of 2.45.6 is withdrawn at the owner's direction, and every value returns to what it was in 2.45.5: article text 1.75, the base in theme.json 1.65, and the site's other running text at its own earlier values (footnotes 1.55, captions 1.45, the front-page introduction 1.65); print and the saved PDF 1.45 for text and 1.35 for notes. The justification of 2.45.5 stays.
+
+## [2.45.6] - 2026-09-23
+
+### Changed
+
+- Line spacing is 1.5 for all running text. Article text had been 1.75, the site's base (theme.json) 1.65, the front-page introduction 1.65, footnotes 1.55, captions 1.45, and print and the saved PDF 1.45 for text and 1.35 for notes; every one is now 1.5. The rule covers the same blocks of running text as the justification rule of 2.45.5, and the base in theme.json follows. Headings keep their tighter leading (the article title measures 1.06). Measured on the live site by injecting the rules: every kind of running text reads 1.50.
+
+## [2.45.5] - 2026-09-23
+
+### Changed
+
+- All running text is justified, with hyphenation to keep the word spacing even. Article text was already justified; the rule now covers every block of running text on the site: footnotes, figure captions, scripture and other quotations, table cells, the catalogue record, chart sources and the Answers index; the front-page introduction (set ragged-left in 2.27.3), card excerpts and section descriptions; title-panel standfirsts; the author's bio and the book panels; search snippets; the footer description, publisher line and colophon; and the 404 page. On phones the first paragraph of an article, which had been kept ragged beside the drop cap, is justified too. Blocks centred by design (article cards, section headings, the centred section panel, the stacked teaser and author card on phones) keep their centred look: their lines are justified and the last line centred. Print and the Save as PDF sheet are justified with hyphenation, where they had been ragged-left. Headings, buttons, menus, labels, chart bars and right-to-left Arabic keep their own alignment. Checked on the live site by injecting the rules and reading the computed alignment of each kind of text.
+
+## [2.45.4] - 2026-09-23
+
+### Changed
+
+- *How Paul came to own the New Testament*, "The gospels that were set aside": at the owner's direction, the identification of Luke as Paul's personal physician is restored, stated as the tradition ("Luke, traditionally identified as the author of the Gospel of Luke and of Acts, was Paul's personal physician"), with the owner's account that he brought Paul's teachings into his gospel and exalted Paul in Acts. Dale B. Martin's judgment that the traditional ascription is almost certainly mistaken moves from the body to the note, with the link to his notes, so the article stays consistent with the archive. Content version 2.45.4.
+
+## [2.45.3] - 2026-09-23
+
+### Changed
+
+- *How Paul came to own the New Testament*, "The gospels that were set aside": at the owner's direction, the account that the gospels set aside come from the records of the followers of ʿĪsā ibn Maryam, the twelve apostles foremost, and are the gospels closest to the original Injīl, never yet infiltrated by the teachings of Paul, is restored. The description of those texts added in 2.45.2 (Coptic translations of the second and third centuries, mostly Gnostic, standing no nearer to him than the four) is withdrawn with it, so the section does not contradict itself. The restored note, which said "most" of the gospels named were found at Nag Hammadi, now names those that were (Thomas, Philip, Truth) and where the Gospels of Mary and Judas survive, from Scholer. The corrections of 2.45.2 on Luke and on the four Gospels stand, as does the paragraph on the lost gospels of the Jewish followers who kept the law. Content version 2.45.3.
+
+## [2.45.2] - 2026-09-23
+
+### Fixed
+
+- *How Paul came to own the New Testament*, "The gospels that were set aside": the section said that the gospels found at Nag Hammadi came from the records of the twelve apostles and were "the gospels closest to the original Injīl"; that the four canonical Gospels "teach the false doctrines"; and that the author of Luke and Acts was Paul's personal physician. The first is contrary to the evidence, since those texts are Coptic translations of Greek writings of the second and third centuries, most of them Gnostic; the second sat at odds with the rest of the site, which quotes the Gospels as a record of ʿĪsā ibn Maryam's words; the third contradicted Dale B. Martin's notes, now published on the site. The section now gives the Nag Hammadi find and the Berlin and Tchacos codices as they are (David M. Scholer, *Christian History* 96, 2007); the lost gospels of the Jewish followers who kept the law, known only from quotations by their opponents (Goulder, p. 108); the Qurʾān's statement that ʿĪsā ibn Maryam was given the Injīl, which none of these books is (5:46); and the anonymity of Luke and Acts, with the traditional ascription to Paul's companion and Martin's judgment against it. The point of the section stands: the churches that followed Paul chose which gospels to keep. Content version 2.45.2.
+
+## [2.45.1] - 2026-09-23
+
+### Added
+
+- Michael Goulder, *St. Paul versus St. Peter: A Tale of Two Missions* (Westminster John Knox, 1995), cited from the owner's copy with page numbers checked against the text, and introduced at each first use as Goulder presents it, his own reading and a revival of Ferdinand Baur's proposal of 1831 (p. 194). *The Jerusalem Council*, "Open conflict with Peter": by Paul's own account the Jewish believers and Barnabas followed Peter at Antioch, and Goulder concludes that "the Peter party, the Petrines, had won the round" (p. 3); the first recorded dispute between Paul and the disciples ended in his defeat. *How Paul came to own the New Testament*: the New Testament "was selected by the winning mission, that is the Paulines" (p. x). *The early church*, "The Ebionites": the Ebionites traced their descent to the Jerusalem church, and "there never was such a person as Ebion" (p. 70); the Aramaic churches were driven out as "heretical sects" when the Paulines won in the second century (p. 108); their doctrine held ʿĪsā ibn Maryam "a straightforwardly human being" and gave the cross no significant part in the good news, the teaching Paul opposed (pp. 109–10); the page's notes are renumbered, nine in all. *Why Luke does not seem to know Paul's letters*: Goulder reaches the site's answer by another road, "it was Luke who invented the united virginal church theory, and Acts is his steady and skilful attempt to paper over all the cracks" (pp. x–xi). Goulder's view that Paul went "to the synagogue first" (p. 6), which follows Acts and which Martin's notes reject, is not used. Content version 2.45.1.
+
+## [2.45.0] - 2026-09-23
+
+### Added
+
+- Reading aids, adapted from the owner's Book WP theme and switched in a new Theme Options tab, Reading (all on by default): a progress bar across the top of articles, measured over the article text; the left and right arrow keys for the previous and next article in the reading order, ignored in form fields, with modifier keys and while the image viewer is open, and announced on the links with `aria-keyshortcuts`; a resume prompt on long articles and pages (over two and a half screens) that offers to return to the section where the reader stopped, naming it, and never moves the page by itself and withdraws once the reader is at the saved place by any route (a browser that restores the position on reload or Back shows no prompt), with the position kept only in the reader's browser for sixty days and cleared on reaching the end; a copy-link button in the share row, with a matching single-colour link icon, a confirmation announced to screen readers and a fallback for browsers without the clipboard interface; and a back-to-top button after a screen and a half, which returns focus to the main content. The reader script now loads on pages as well as articles. All aids respect reduced motion, sit clear of the admin bar and the phone's safe areas, and are left out of print.
+- Dashboard widget, also adapted from Book WP: the theme version, whether the content is up to date or a structure sync is pending, the number of shipped articles and pages, and each shipped article or page edited by hand (with an edit link), judged by the same test the sync uses to leave a page alone.
+- README: "Where each fact lives", a file-of-record table after Book WP's single-source-of-truth document.
+
+### Changed
+
+- The theme version is kept in one place: `PAULUS_VERSION` now reads the `style.css` header, where it had been written again by hand in `functions.php`.
+- The counts no longer follow the book's chapter order. *The letters of a man*, which tests Paul's claim to revelation against the ordinary content of his letters, moves from Count III to open Count IV, "Revelation or borrowing?", now in three parts (the letters, the witnesses and angels, the rabbinic borrowings); its close now hands on to the witnesses. Count III keeps *Adapting the message to the pagans* and *Seven doctrines* and is retitled "The message remade", since only one of its articles dealt with the law. Three links that named *The letters of a man* as Count·III now read Count·IV, and the study guide's Count 3 heading follows the new title. Content version 2.45.0.
+
+## [2.44.1] - 2026-09-23
+
+### Changed
+
+- Reading flow. The articles were written in the book's order, and eight openings and closings still pointed to it. Each now follows the site's reading order: *A self-appointed apostle* hands on to the third count by name, where it had promised "the next articles"; *The persecutor and his guilt* opens from the articles before it (Tarsus, the claim of apostleship, the purse), where it had claimed that Paul's doctrine was already examined; *The letters of a man* ends by introducing the seven doctrines, where it ended on a dangling "These doctrines"; *Twisting the scriptures* hands on to Count VI, where it had promised that "the next articles" would examine the sources of Paul's teaching, which Count IV had already done; *How Paul came to own the New Testament* opens from Count IV's question about those sources, where it had answered Count III; *No prophet between* opens from the witnesses before it, where it had recalled the psychological portrait of another section; *At the crossroads* (Count I) refers to the Paul of the first section, where it had introduced him afresh; the epistle notes that on the site it closes the witnesses before the verdict.
+- The witnesses are reordered to follow their own logic: *James* first (it opens "The first witness against Paul"), then *The early church*, which ends by handing on to the Islamic verdict; the Islamic tradition in its three parts; *Malaysia and Southeast Asia*; *The Qurʾān as witness*, whose close ("Every other witness on this site can be argued with") now ends the argued witnesses; and the epistle as the coda before the verdict.
+- *The Damascus road*, "A Yale scholar's verdict": a sentence leads from Martin's published book to his notes on this site.
+
+Content version 2.44.1.
+
+## [2.44.0] - 2026-09-23
+
+### Added
+
+- Reference, "“Luke” versus Paul: the notes of Dale B. Martin": the notes the late Dale B. Martin of Yale sent to the site's author in early 2023, setting out why the Paul of Acts and the Paul of the letters cannot be reconciled, published with his permission. They are reproduced exactly as he left them, recovered from the PDF by layout (paragraph indents, headings in bold, footnotes by their line spacing, italic and bold runs, superscript markers), with words run together at page joins separated again and nothing else changed; his spelling and reference slips stand. The page opens with provenance and the owner's covering note of 19 February 2024, kept apart from Martin's text; three editor's notes after his footnotes give the correct verses for three references. His headings carry fixed anchors for citation, and the original PDF is offered for download (`[paulus_download]`, new).
+- Reference, "Why Luke does not seem to know Paul's letters": the continuation, answering the question on which the notes end. From the Greek of Acts: *epistolē* occurs five times and never for a letter of Paul's; *apostolos* occurs in 29 verses and includes Paul only twice, jointly with Barnabas at Lystra (14:4, 14), against the test of Acts 1:21–22; the Antioch quarrel is replaced by a parting over John Mark; the collection shrinks to "alms to my nation" (24:17). The three scholarly answers, each verified: Vielhauer on the gap between the portraits; Pervo on an author who knew and mined the letters, writing about 115; Tyson on Luke-Acts as an answer to Marcion, 120–125. The site's answer: Acts departs from the letters by pattern, falling silent where they press Paul's claims and adding where they would forbid its portrait, which is the course of a writer who knew them.
+- Martin's findings in six articles, each citing the archive by section: *A self-appointed apostle* (Galatians 1:22, "unknown by face", against Acts 8:3); *The Jerusalem Council* (the apostle to the Gentiles against the synagogue-first mission, with Thessalonica as the test case, 1 Thessalonians 1:9 against Acts 17:1–4); *The Roman* (the orator of Acts against "his speech contemptible", 2 Corinthians 10:10, 11:6); *No prophet between* (Paul's call in the words of Jeremiah 1:5 and Isaiah 49:1, Galatians 1:15–16); *The church that followed Paul* (the marks of a new religion in Acts 11:26, 14:23, 20:7, 24:5, 14); *How Paul came to own the New Testament* (the anonymity and date of Acts, 80 to 150 CE).
+- Answers, a fourteenth question, "Doesn't the Book of Acts confirm Paul's story?", leading to the continuation; the page's description reads "Fourteen claims…". Study questions: one on Galatians 1:22 against Acts (Count 2).
+
+Content version 2.44.0; the two pages are created, and the eight changed pages refresh, on the next structure sync.
+
+## [2.43.1] - 2026-09-23
+
+### Added
+
+- *Seven doctrines*, "The law abolished and cursed": after Paul's statements that Christ is the end of the law (Romans 7:6, 10:4; Galatians 3:24–25), Matthew 5:19 is set in Greek and English, the saying that whoever breaks the least of the commandments and teaches men so shall be called least in the kingdom of heaven, with a sentence drawing the contrast: Paul told his congregations in writing that they were delivered from the law, and the letters became scripture. The site had cited Matthew 5:17 and 5:18 but never 5:19.
+- Study questions, Count 3: one on Matthew 5:19 and the teacher who told his congregations they were delivered from the law.
+
+Content version 2.43.1.
+
+## [2.43.0] - 2026-09-23
+
+### Added
+
+- Answers, a thirteenth question: "Doesn't the Bible say that all scripture is inspired by God?" The proof text, 2 Timothy 3:16, is read with the verse before it, which names the scripture meant as the holy scriptures Timothy had known "from a child", the Jewish scriptures, since no Gospel existed in his childhood; and 2 Timothy is one of the Pastoral letters most scholars assign to Paul's school (Dale B. Martin, Lecture 19, the source the site already cites for the Two Pauls method). Its "Full evidence" link opens *How Paul came to own the New Testament* at "Two Pauls: the man and the canon". Notes 24 to 26; the index, the link marks and the FAQPage data take the question up automatically. The Answers page's search description reads "Thirteen claims…"; the old wording is recorded so an untouched description updates on sync.
+- *Seven doctrines*, "Crucifixion and resurrection as the price of sin": a paragraph setting Mark 10:45, where the Son of man gives his life "a ransom for many", beside Luke 22:24–27, where Luke, writing with Mark before him, tells the same quarrel over greatness and ends the saying at service, "I am among you as he that serveth". One Gospel writer kept the saying on service and set the ransom aside.
+- *How Paul came to own the New Testament*, "Two Pauls": the verse most often cited for the inspiration of the whole Bible stands in 2 Timothy, one of the letters written in Paul's name, and the verse before it names the Jewish scriptures.
+- Study questions: one on the ransom saying (Count 3) and one on 2 Timothy 3:15–16 (Count 5).
+
+Both points were drawn from a public debate, which is not cited; each rests on the biblical text, checked against the KJV and the SBL Greek New Testament. Content version 2.43.0.
+
+## [2.42.1] - 2026-09-23
+
+### Changed
+
+- Answers, "Did Peter endorse Paul's letters?": the answer cited the United States Conference of Catholic Bishops' introduction to 2 Peter (*New American Bible, Revised Edition*), whose page refuses automated requests; checked against a saved copy, both claims drawn from it stand. The answer now also gives what the introduction says further: that many date the letter to the first or even the second quarter of the second century; that it counts the very passage on Paul (2 Peter 3:14–16) among the reasons, since the passage presupposes a known collection of Paul's letters already in dispute; and that some local churches still excluded the letter from the canon in the fifth century.
+- Answers, "Were the other gospels left out…?": the sentence on 2 Peter, doubted for centuries and placed by many scholars last of the New Testament writings, had no note; it now cites the same introduction (note 22), and the notes after it are renumbered, 23 in all. Content version 2.42.1.
+
+## [2.42.0] - 2026-09-23
+
+### Added
+
+- Answers page navigation. Each question already had an anchor (its heading id, for example `/answers/#was-paul-an-apostle`), but nothing exposed it. Under the introduction a numbered index now lists the twelve questions, in two columns on wide screens, each linking to its answer; each question heading carries a link mark (#), shown on hover or keyboard focus and faintly on touch screens, for readers to copy; and each answer ends with "All questions ↑" back to the index. All three are built from the headings as the page renders (`paulus_answers_navigation()`), so an edited copy of the page gets them too, and all are left out of print.
+- FAQPage structured data: the Answers page already published all twelve questions with their accepted answers; each Question now also carries its own `url`, the page address with the question's anchor, so a search result can open at the answer.
+
+## [2.41.0] - 2026-09-23
+
+### Added
+
+- Data charts. `inc/charts.php` draws charts as plain HTML bars in the active scheme's accent, each value written on its bar (so the numbers reach screen readers and print), with the source linked beneath; no script and no images. Three kinds: paired bars for two years, diverging bars for gains and losses, and single bars on a scale with a zero line and a marker line. Rows the text discusses are drawn at full strength and the rest muted. On narrow screens each label sits above its bars. `build.py` places a chart with `{{chart:id}}`.
+- *The verdict*: the Pew material moves from the closing section on colonial legitimation into a section of its own, "What the demographers project", with a chart after each paragraph, redrawn from the figures in Pew's own charts and printed to the decimals Pew prints: share of the world's population in 2010 and 2050 (Christians 31.4 and 31.4 per cent, Muslims 23.2 and 29.7, the unaffiliated 16.4 and 13.2, Hindus 15.0 and 14.9, Buddhists 7.1 and 5.2); net change through religious switching, 2010–2050 (the unaffiliated +61.49 million, Muslims +3.22, Christians −66.05, and the smaller groups); where the world's Christians live in 2010 and 2050 (sub-Saharan Africa 23.9 and 38.1 per cent, Europe 25.5 and 15.6, the Middle East and North Africa 0.6 and 0.6, and the other regions); and change in population size, 2015–2060 (Muslims +70 per cent, Christians +34, against world growth of 32, marked by a dashed line). Content version 2.41.0.
+
+## [2.40.1] - 2026-09-23
+
+### Added
+
+- *The verdict*: a second paragraph of figures from two further Pew sources, each checked against the live page. From the report's chapter on Christians (2 April 2015): in 2010 a quarter of the world's Christians lived in Europe and less than 1 per cent in the Middle East and North Africa, where Christianity began; by 2050 Europe's share falls to about 16 per cent and sub-Saharan Africa's rises from 24 to 38 per cent. From Michael Lipka and Conrad Hackett's update of 6 April 2017: between 2015 and 2060 the world's population grows by 32 per cent and the number of Muslims by 70 per cent, from 1.8 billion to nearly 3 billion (24.1 to 31.1 per cent); Muslim women average 2.9 children against 2.6 among Christians; the median Muslim age in 2015 was 24 against 32 for non-Muslims; and switching costs Christianity some 72 million adherents over the period, with no net loss to Islam. The second note points to Pew's analysis of 10 June 2025 for its latest figures. Content version 2.40.1.
+
+## [2.40.0] - 2026-09-23
+
+### Fixed
+
+- Web addresses in footnotes were plain text: 35 addresses on 15 pages, among them the bit.ly and pewrsr.ch short links, the Yale lecture page, the USCCB Bible page and the Pew reports. The build script now links every bare address in the finished page (`linkify()`), leaving addresses already in a tag or link alone and keeping trailing punctuation outside the link; external links open in a new tab with `rel="noopener"`. Every article was rebuilt and the two hand-kept pages with addresses, Answers and Sources, were passed through the same step; a comparison against the previous build confirms that links are the only change. Long addresses may now break anywhere, so a footnote never runs off a phone screen. Content version 2.40.0.
+- Every address was resolved. The short links all lead where their footnotes say, with one exception: `https://pewrsr.ch/4mTed0z`, cited in *The verdict* as the report's "United States" chapter, led to the report's overview; Pew has no such chapter, and its United States figures sit in the North America chapter. The footnote now cites "Projected Religious Population Changes in North America," 2 April 2015, at its full address.
+
+### Known
+
+- `https://bit.ly/4kw6wv8`, in *The religion of Paul today*, leads to a Charisma article on red heifers that has been removed (404) and is not held by the Wayback Machine. The link is kept, since the footnote records what was cited; a replacement source is needed. Pages at academia.edu, bible.usccb.org and theendtimenews.com refuse automated requests (403) but open in a browser.
+
+## [2.39.3] - 2026-09-23
+
+### Added
+
+- *The verdict*: a paragraph before the closing declaration gives the figures behind it, from the Pew Research Center's "The Future of World Religions: Population Growth Projections, 2010–2050" (2 April 2015; Conrad Hackett, lead researcher): Christianity at 2.2 billion (31 per cent) and Islam at 1.6 billion (23 per cent) in 2010; near parity by 2050, Muslims at 2.8 billion and Christians at 2.9 billion; equal shares of about 32 per cent around 2070; about 40 million switching into Christianity by 2050 against 106 million leaving, the largest net loss of any group; and Europe's Christians falling from 553 million to 454 million, from three-quarters of the population to less than two-thirds. Every figure was checked against the live report. The first footnote records Pew's 2025 note that the 2010 baseline has since been revised and that no projections beyond 2020 have yet been published. Content version 2.39.3.
+
+## [2.39.2] - 2026-09-23
+
+### Changed
+
+- *From Ibn Ḥazm to al Faruqi*: the section heading "Al-Attas" reads "Syed Muhammad Naquib al-Attas", in the article and in its contents rail. The section's anchor becomes `#s-syed-muhammad-naquib-al-attas`; nothing on the site linked to the old one. Content version 2.39.2.
+
+## [2.39.1] - 2026-09-23
+
+### Changed
+
+- Footer brand column: it held the wordmark, the description and the publisher line and then stopped, well short of the link columns beside it, leaving a dead block. Below a hairline it now carries a small card for the book the site is drawn from: the cover (a 160px thumbnail, 8.6 KB) beside "The book", the Malay title in italic and "About the book →", the whole card linking to the book page. On hover the cover lifts slightly and the link underlines; the lift is off for readers who ask for reduced motion. On the live footer the column now ends level with the Reference column.
+- The first link column (The case) is ruled off from the brand column by the same hairline that already parted Reference from The case, so every footer column is divided alike.
+
+## [2.39.0] - 2026-09-23
+
+### Changed
+
+- The cover portrait is redrawn, from the owner's 8K engraving (`paul-gladius-historical-engraved-8k.png`, chosen from six versions for its engraved line and historical sword). Paul now holds a gladius, the Roman short sword of the first century, with its round pommel, in place of the medieval sword with a crossguard. The composition matches the old portrait, so every variant keeps its framing, measured by template matching against the old files: the face crop (223, 38 to 843, 658), the hands band (the lower 614 rows), the mirror, and the ink, oxblood and limestone duotones (each fitted to its old pair to within 2 to 4 levels per channel), with the mirrored limestone of 2.38.0. The front-page hero cutout is rebuilt at 962 by 1024 with the paper removed and the cross kept, including the pocket of paper enclosed by the cross arm, the sword and the robe; the 480 and 720 sizes follow. The bundled fallback site icon (512 and 96 pixels) is recropped from the new head. Alt text describes the engraving and the gladius.
+
+### Added
+
+- Featured images refresh in place when an illustration is redrawn. Imports now record the MD5 of each bundled file; when it changes, the structure sync copies the new file into the uploads folder under a fresh name (so no cache serves the old one), points the existing attachment at it and regenerates its sizes. Imports made before hashes were kept are refreshed once if the illustration is one redrawn since (`paulus_replaced_images()`, holding the old files' MD5s), and otherwise simply recorded. Content version 2.39.0 so the sync runs.
+
+## [2.38.0] - 2026-09-23
+
+### Added
+
+- Section pages carry featured images in their title panels, which now take the two-column layout of every other page. All 42 existing illustrations were already in use, so three new variants are made in the collection's limestone duotone (fitted to the existing pair, portrait and portrait-stone, to within about 2 levels per channel), each following the readings the illustrations carry: The man takes the portrait, mirrored (the man himself); The charges takes the cap lettered BASTARD (illegitimacy, the self-appointed apostle); The witnesses takes the horned figure (deception, which the witnesses expose). The images are named in the manifest's section entries (`image`), registered in the illustration picker with alt text, and bundled as `paul-portrait-mirror-stone.jpg`, `paul-bastard-stone.jpg` and `paul-horned-stone.jpg`. The centred layout added in 2.37.4 remains for any panel without an image.
+
+## [2.37.4] - 2026-09-23
+
+### Fixed
+
+- Section pages (The man, The charges, The witnesses): their title panel has no image, so its text sat in a narrow left-aligned column right of centre inside a full-width box, leaving empty space on three sides. The panel is now a centred title block (breadcrumb, Greek line, title and description centred, the description held to 58 characters a line) with tighter vertical padding, matching the centred section headings on the front page and the centred cards below. Measured on the live section page, the panel is 80px shorter. Panels with an image are unchanged.
+
+## [2.37.3] - 2026-09-23
+
+### Fixed
+
+- Title-panel breadcrumbs were inconsistent. The last item switched from the typewriter face to Cinzel capitals, on a different baseline from the items before it; section pages ended the trail with the word "Section"; and pages such as Answers and The verdict had no item for themselves, so "Home" took the current-page style. The trail now uses the typewriter face throughout, aligned on one baseline, and always ends with the current place in the ink colour: "Home · The man" on a section page, "Home · Answers to missionary claims" on a page, "Home · Reference · Glossary" under a parent, and the section, label and part on an article as before.
+- The Greek line in the title panel takes the breadcrumb's size and sits the same distance above the title on every page.
+
 ## [2.37.2] - 2026-09-23
 
 ### Changed

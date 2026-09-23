@@ -56,6 +56,26 @@ def greek(ref):
         t=re.sub(r'[⸀⸁⸂⸃⸄⸅⸆⸇]','',t).strip()
         out.append((v,t))
     return out
+URL_RE = re.compile(r'https?://[^\s<>"\']+')
+
+def linkify(html):
+    """Wrap every bare web address in a link. Addresses already inside a tag
+    (an href or src) or inside a link's text are left alone; trailing
+    sentence punctuation stays outside the link."""
+    out, pos = [], 0
+    for m in re.finditer(r'<a\b[^>]*>.*?</a>|<[^>]+>', html, flags=re.S):
+        out.append(_link_text(html[pos:m.start()])); out.append(m.group(0)); pos = m.end()
+    out.append(_link_text(html[pos:]))
+    return ''.join(out)
+
+def _link_text(text):
+    def rep(m):
+        url = m.group(0); tail = ''
+        while url and url[-1] in '.,;:)]':
+            tail = url[-1] + tail; url = url[:-1]
+        return f'<a href="{url}" rel="noopener" target="_blank">{url}</a>{tail}'
+    return URL_RE.sub(rep, text)
+
 def build(src,dst,prefix):
     t=open(src).read()
     notes=[]
@@ -81,6 +101,7 @@ def build(src,dst,prefix):
         if m.group(1) is not None:
             return kj(m.group(1))
         return fn(m.group(2))
+    t=re.sub(r'\{\{chart:([a-z0-9-]+)\}\}',lambda m: '\n\n<!--fig-->[paulus_chart id="'+m.group(1)+'"]\n\n',t)
     t=re.sub(r'\{\{fig:([a-z0-9-]+)(\|wide)?\|(.*?)\}\}',lambda m: '\n\n<!--fig-->[paulus_figure name="'+m.group(1)+'"'+(' wide="1"' if m.group(2) else '')+']'+m.group(3)+'[/paulus_figure]\n\n',t,flags=re.S)
     t=re.sub(r'\{\{kjv:([^}]+)\}\}|\[\[fn:(.*?)\]\]',marker,t,flags=re.S)
     out=[]
@@ -101,7 +122,7 @@ def build(src,dst,prefix):
             for chunk in split_para(' '.join(b.split('\n'))): out.append('<p>'+chunk+'</p>')
     if notes:
         out.append('<ol class="footnotes">'+''.join(f'<li id="fn{prefix}-{i+1}">{n} <a href="#ref{prefix}-{i+1}" aria-label="Back to text">↩</a></li>' for i,n in enumerate(notes))+'</ol>')
-    open(dst,'w').write('\n\n'.join(out)+'\n')
+    open(dst,'w').write(linkify('\n\n'.join(out))+'\n')
     return len(notes)
 if __name__=='__main__':
     import glob

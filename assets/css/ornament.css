@@ -61,6 +61,9 @@ body { background-color: var(--och); background-image: url("data:image/svg+xml,%
 	 * in the gap via a half-gap offset rather than the negative margin the
 	 * old grid layout needed. */
 	.paulus-footer-nav__col + .paulus-footer-nav__col { border-left: 1px solid var(--t-rule); padding-left: calc(var(--t-gap) / 2); margin-left: calc(var(--t-gap) / -2); }
+	/* The first link column is ruled off from the brand column too, so every
+	 * column in the footer is parted the same way. */
+	.paulus-footer-nav__col:first-child { border-left: 1px solid var(--t-rule); padding-left: calc(var(--t-gap) / 2); }
 	.paulus-readnav__links { position: relative; }
 	.paulus-readnav__links::before { content: ""; position: absolute; left: 50%; top: 0.25rem; bottom: 0.25rem; border-left: 1px solid var(--t-rule); }
 }

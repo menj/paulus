@@ -859,21 +859,28 @@ function paulus_faq_schema() {
 	}
 	$html = preg_replace( '#<sup[^>]*>.*?</sup>|<ol class="footnotes">.*?</ol>#s', '', (string) $post->post_content );
 	$html = strip_shortcodes( $html );
-	if ( ! preg_match_all( '#<h2[^>]*>(.*?)</h2>(.*?)(?=<h2|\z)#s', $html, $m, PREG_SET_ORDER ) ) {
+	if ( ! preg_match_all( '#<h2([^>]*)>(.*?)</h2>(.*?)(?=<h2|\z)#s', $html, $m, PREG_SET_ORDER ) ) {
 		return array();
 	}
 	$qs = array();
 	foreach ( $m as $row ) {
+		$id   = preg_match( '#\sid="([^"]+)"#', $row[1], $idm ) ? $idm[1] : '';
+		$row  = array( $row[0], $row[2], $row[3] );
 		$body = preg_replace( '#<p class="paulus-readmore">.*?</p>#s', '', $row[2] );
 		$text = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $body ) ) );
 		if ( '' === $text ) {
 			continue;
 		}
-		$qs[] = array(
+		$q = array(
 			'@type'          => 'Question',
 			'name'           => wp_strip_all_tags( $row[1] ),
 			'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $text ),
 		);
+		if ( $id ) {
+			// Each question's own address, so a result can open at its answer.
+			$q['url'] = get_permalink( $post ) . '#' . $id;
+		}
+		$qs[] = $q;
 	}
 	if ( ! $qs ) {
 		return array();

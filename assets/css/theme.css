@@ -113,7 +113,7 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-hero__subheading::after { content: ""; display: block; width: 64px; height: 3px; background: var(--t-gold); margin-top: 1.25rem; }
 .paulus-hero__author { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5em; row-gap: 0.25rem; margin: 0 0 1.25rem; }
 .paulus-hero__name { font-family: var(--t-roman); font-weight: 700; font-size: clamp(1.35rem, 2.3vw, 1.8rem); letter-spacing: 0.06em; line-height: 1.15; color: var(--t-accent-deep); }
-.paulus-hero__lede { font-size: 1.15rem; line-height: 1.65; max-width: 46ch; margin: 0 0 1.75rem; text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+.paulus-hero__lede { font-size: 1.15rem; line-height: 1.65; max-width: 46ch; margin: 0 0 1.75rem; }
 .paulus-hero__actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin: 0 0 clamp(2rem, 5vw, 4rem); }
 .paulus-hero__figure { margin: 1rem 0 0; align-self: end; justify-self: end; width: 100%; max-width: 640px; }
 .paulus-hero__figure img { display: block; width: 100%; height: auto; }
@@ -136,7 +136,6 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 
 /* Count labels: Roman capitals, words parted by the interpunct */
 .paulus-parts--counts .paulus-chapter__label { font-family: var(--t-roman); font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.1em; }
-.paulus-hero-panel__meta li:last-child[aria-current] { font-family: var(--t-roman); font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.1em; }
 /* The charges: numbered, each count in a white card */
 .paulus-parts--counts .paulus-chapter { background: var(--t-surface); padding: 1.75rem 1.5rem; border-top: 3px solid var(--t-gold); }
 .paulus-parts--counts .paulus-chapter__label { font-size: 0.85rem; }
@@ -210,11 +209,16 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-hero-panel.has-image .paulus-hero-panel__body { min-height: 560px; padding-block: 2.5rem; box-sizing: border-box; }
 .paulus-hero-panel__body { padding: clamp(2.5rem, 7vw, 6rem) clamp(1.5rem, 6vw, 5rem); display: flex; flex-direction: column; justify-content: center; max-width: 760px; }
 .paulus-hero-panel:not(.has-image) .paulus-hero-panel__body { margin-inline: auto; width: 100%; box-sizing: border-box; }
-.paulus-hero-panel__meta ol { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; padding: 0; font-size: 0.8rem; font-weight: 700; }
+/* A panel with no image (the section pages) is a centred title block, like
+ * the section headings on the front page and the cards beneath it. */
+.paulus-hero-panel:not(.has-image) .paulus-hero-panel__body { align-items: center; text-align: center; padding-block: clamp(2rem, 4.5vw, 3.5rem); }
+.paulus-hero-panel:not(.has-image) .paulus-hero-panel__meta ol { justify-content: center; }
+.paulus-hero-panel:not(.has-image) .paulus-hero-panel__standfirst { max-width: 58ch; margin-inline: auto; }
+.paulus-hero-panel__meta ol { list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; margin: 0 0 1.1rem; padding: 0; font-size: 0.8rem; font-weight: 700; }
 .paulus-hero-panel__meta li + li::before { content: var(--t-diamond); color: var(--t-gold); font-size: 0.7em; margin-right: 0.6rem; vertical-align: 0.1em; }
 .paulus-hero-panel__meta a { color: var(--t-accent-deep); text-decoration: none; }
 .paulus-hero-panel__meta a:hover { color: var(--t-gold); }
-.paulus-hero-panel__meta [aria-current] { opacity: 0.8; }
+.paulus-hero-panel__meta [aria-current] { color: var(--t-ink); }
 .paulus-hero-panel__title { font-family: var(--t-display); font-weight: 700; font-size: clamp(2.3rem, 4.4vw, 3.4rem); line-height: 1.06; color: var(--t-on-panel); margin: 0; text-wrap: balance; }
 .paulus-hero-panel__standfirst { font-size: clamp(1.1rem, 1.7vw, 1.25rem); line-height: 1.5; color: var(--t-muted); margin: 1rem 0 0; }
 .paulus-hero-panel__rule { display: block; width: 80px; height: 3px; background: var(--t-gold); margin: 1.25rem 0 1rem; }
@@ -256,6 +260,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .footnotes::before { content: "References"; display: block; column-span: all; font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2rem); color: var(--t-accent); margin: 0 0 1.25rem -1.4em; }
 .paulus-prose .footnotes li { margin-bottom: 0.5rem; break-inside: avoid; }
 .paulus-prose .footnotes a { color: var(--t-accent-deep); }
+.paulus-prose .footnotes a[href^="http"], .paulus-prose a[href^="http"] { overflow-wrap: anywhere; }
 /* Timeline. The spine is drawn per entry (li::after) so the part of it up to
  * the entry under the pointer can light up: every earlier entry's segment
  * and marker turn oxblood, and the hovered entry's segment turns oxblood down
@@ -291,7 +296,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 
 /* Scripture and source quotations inside articles */
 .paulus-prose blockquote.scripture { text-align: left; font-style: normal; font-family: var(--t-garamond); font-size: 1.15rem; line-height: 1.6; max-width: none; margin: 1.5rem 0 1.75rem 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid var(--t-accent); }
-.paulus-prose blockquote.scripture p { text-align: left; }
+.paulus-prose blockquote.scripture p { text-align: justify; }
 .paulus-prose blockquote.scripture .greek { font-family: var(--t-garamond); font-size: 1.1rem; line-height: 1.6; color: var(--t-ink); padding-bottom: 0.7rem; margin-bottom: 0.7rem; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 45%, transparent); }
 .paulus-prose .v { font-family: var(--t-label); font-size: 0.7em; color: var(--t-accent); vertical-align: super; margin: 0 0.2em 0 0.35em; }
 .paulus-prose .v:first-child { margin-left: 0; }
@@ -376,7 +381,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-printsheet .paulus-hero-panel__rule { display: block; width: 60pt; height: 2pt; background: #000; margin: 8pt 0; }
 .paulus-printsheet .paulus-hero-panel__byline { font-family: var(--t-label, monospace); font-size: 9pt; color: #444; margin: 0; }
 .paulus-printsheet .paulus-hero-panel__author { font-size: 12pt; color: #000; }
-.paulus-printsheet .paulus-prose { max-width: none; text-align: left; hyphens: manual; }
+.paulus-printsheet .paulus-prose { max-width: none; text-align: justify; hyphens: auto; }
 .paulus-printsheet .paulus-prose p { margin: 0 0 8pt; color: #000; }
 .paulus-printsheet .paulus-prose > p:first-child::first-letter { all: unset; }
 .paulus-printsheet h2 { font-family: var(--t-display, serif); font-size: 14pt; margin: 14pt 0 5pt; color: #000; page-break-after: avoid; }
@@ -447,6 +452,10 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-searchform__mark[lang="grc"] { font-family: var(--t-garamond); font-weight: 600; letter-spacing: 0.14em; }
 .paulus-greek { font-family: var(--t-garamond); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.18em; color: var(--t-accent-deep); cursor: help; }
 .paulus-greek-line { margin: 0 0 0.55rem; line-height: 1.2; }
+/* In the title panel the Greek line takes the breadcrumb's size and sits the
+ * same distance above the title on every page. */
+.paulus-hero-panel .paulus-greek-line { margin: -0.35rem 0 0.6rem; }
+.paulus-hero-panel .paulus-greek { font-size: 0.8rem; }
 .paulus-part__head .paulus-greek-line { margin-bottom: 0.4rem; }
 .paulus-greek--panel { color: var(--t-accent); }
 .paulus-404__kicker .paulus-greek { font-size: 0.85rem; }
@@ -548,6 +557,16 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 /* Brand and each link column take equal thirds of the width, so spare
  * space is shared out between them rather than pooling beside the brand. */
 .paulus-footer-brand { flex: 1 1 18rem; min-width: 0; }
+/* The book card under the brand text: cover beside label, title and link. */
+.paulus-footer-book { display: flex; align-items: center; gap: 1rem; max-width: 46ch; margin-top: 1.35rem; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); color: var(--t-ink); text-decoration: none; }
+.paulus-footer-book img { flex: none; width: 4rem; height: auto; box-shadow: 0 3px 8px rgba(31, 26, 20, 0.3); transition: transform 0.2s ease; }
+.paulus-footer-book__text { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.paulus-footer-book__label { font-family: var(--t-label); font-size: 0.72rem; color: var(--t-accent-deep); }
+.paulus-footer-book__title { font-family: var(--t-garamond); font-style: italic; font-size: 1.02rem; line-height: 1.3; }
+.paulus-footer-book__more { font-family: var(--t-garamond); font-weight: 600; font-size: 0.92rem; color: var(--t-accent-deep); }
+.paulus-footer-book:hover img, .paulus-footer-book:focus-visible img { transform: translateY(-3px); }
+.paulus-footer-book:hover .paulus-footer-book__more, .paulus-footer-book:focus-visible .paulus-footer-book__more { text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+@media (prefers-reduced-motion: reduce) { .paulus-footer-book img { transition: none; } }
 .paulus-footer-brand__blurb a { color: inherit; text-decoration: underline; text-decoration-color: var(--t-accent); text-underline-offset: 0.2em; }
 .paulus-footer-brand__blurb a:hover { color: var(--t-accent-deep); }
 .paulus-footer-brand__mark { font-family: var(--t-roman); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; font-size: 1.15rem; line-height: 1.2; margin: 0 0 0.9rem; }
@@ -600,7 +619,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-catalogue { margin: 1.25rem 0 2rem; border-top: 1px solid var(--t-rule); }
 .paulus-catalogue div { display: grid; grid-template-columns: 11rem 1fr; gap: 1.25rem; padding: 0.6rem 0; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); }
 .paulus-catalogue dt { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent-deep); padding-top: 0.2rem; }
-.paulus-catalogue dd, .paulus-prose .paulus-catalogue dd { margin: 0; font-size: 1rem; line-height: 1.55; text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+.paulus-catalogue dd, .paulus-prose .paulus-catalogue dd { margin: 0; font-size: 1rem; line-height: 1.55; }
 @media (max-width: 560px) { .paulus-catalogue div { grid-template-columns: 1fr; gap: 0.15rem; } }
 
 
@@ -662,7 +681,6 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 	.paulus-readnav__links { grid-template-columns: 1fr; }
 	.paulus-readnav__next { grid-column: auto; text-align: left; }
 	.paulus-hero__lede { font-size: 1.08rem; }
-	.paulus-single .paulus-prose > p:first-child { text-align: left !important; hyphens: manual !important; }
 	.paulus-single .paulus-prose > p:first-child:not(.paulus-note)::first-letter { font-size: 2.6em; padding: 0.4em 0.4em 0.28em; margin-right: 0.4em; }
 	.paulus-prose { font-size: 1.0625rem; }
 	.paulus-teaser { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
@@ -724,3 +742,167 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 /* From 1240px the side rail lists the chapter's parts under "In this chapter";
    the same list in the title panel would repeat it a screen apart, so it gives way. */
 @media (min-width: 1240px) { body.single .paulus-hero-panel__series { display: none; } }
+
+/* Data charts ([paulus_chart]): labelled bars with their values written out,
+ * in the scheme's accent. Rows the text discusses (.is-key) are drawn at full
+ * strength, the rest muted; in paired charts the earlier year is lighter. */
+.paulus-chart { margin: 2.5rem 0; padding: 1.1rem 0 0.9rem; border-top: 2px solid var(--t-accent); border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); font-family: var(--t-garamond); }
+.paulus-chart__head { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 1rem; }
+.paulus-chart__title { font-family: var(--t-display); font-weight: 700; font-size: 1.15rem; line-height: 1.25; color: var(--t-ink); }
+.paulus-chart__note { font-family: var(--t-label); font-size: 0.74rem; color: var(--t-muted); }
+.paulus-chart__legend { display: flex; gap: 1.1rem; margin: -0.4rem 0 0.8rem; font-family: var(--t-label); font-size: 0.74rem; color: var(--t-muted); }
+.paulus-chart__key { display: inline-flex; align-items: center; gap: 0.4rem; }
+.paulus-chart__key::before { content: ""; width: 0.85rem; height: 0.55rem; border-radius: 1px; }
+.paulus-chart__key--1::before { background: color-mix(in srgb, var(--t-accent) 35%, transparent); }
+.paulus-chart__key--2::before { background: var(--t-accent); }
+.paulus-chart__row { display: grid; grid-template-columns: 12rem 1fr; gap: 1rem; align-items: center; padding: 0.3rem 0; }
+.paulus-chart__label { font-size: 0.95rem; line-height: 1.25; color: var(--t-muted); }
+.paulus-chart__row.is-key .paulus-chart__label { color: var(--t-ink); font-weight: 600; }
+.paulus-chart__track { position: relative; min-width: 0; }
+.paulus-chart__bar { position: relative; display: block; height: 0.62rem; width: var(--w); min-width: 2px; border-radius: 0 2px 2px 0; background: color-mix(in srgb, var(--t-accent) 45%, transparent); }
+.paulus-chart__row.is-key .paulus-chart__bar { background: var(--t-accent); }
+.paulus-chart__val { font-family: var(--t-label); font-size: 0.72rem; line-height: 1; color: var(--t-ink); white-space: nowrap; }
+/* Paired: two bars per row, the value just past each bar's end. */
+.paulus-chart--paired .paulus-chart__track { display: flex; flex-direction: column; gap: 3px; padding-right: 3.2rem; }
+.paulus-chart--paired .paulus-chart__val { position: absolute; left: calc(100% + 0.4rem); top: 50%; transform: translateY(-50%); }
+.paulus-chart--paired .paulus-chart__bar--1, .paulus-chart--paired .paulus-chart__row.is-key .paulus-chart__bar--1 { background: color-mix(in srgb, var(--t-accent) 30%, transparent); }
+.paulus-chart--paired .paulus-chart__row:not(.is-key) .paulus-chart__bar--2 { background: color-mix(in srgb, var(--t-accent) 60%, transparent); }
+/* Diverging: losses grow left from the centre line, gains right. */
+.paulus-chart--diverging .paulus-chart__track { display: grid; grid-template-columns: 1fr 1fr; }
+.paulus-chart__half { display: flex; align-items: center; gap: 0.4rem; min-height: 1.1rem; }
+.paulus-chart__half--neg { justify-content: flex-end; }
+.paulus-chart__half--neg .paulus-chart__bar { order: 2; border-radius: 2px 0 0 2px; }
+.paulus-chart__half--neg .paulus-chart__val { order: 1; }
+.paulus-chart__half--pos { border-left: 1px solid var(--t-ink); }
+/* Single bars on a scale with a zero line and a marker line. */
+.paulus-chart--bars .paulus-chart__track { height: 1.2rem; margin-right: 3rem; }
+.paulus-chart--bars .paulus-chart__bar { position: absolute; top: 50%; left: var(--x); transform: translateY(-50%); border-radius: 1px; }
+.paulus-chart--bars .paulus-chart__val { position: absolute; top: 50%; left: calc(var(--x) + 0.4rem); transform: translateY(-50%); }
+.paulus-chart--bars .paulus-chart__val.is-neg { transform: translate(calc(-100% - 0.8rem), -50%); }
+.paulus-chart__zero, .paulus-chart__mark { position: absolute; top: -0.3rem; bottom: -0.3rem; left: var(--x); width: 0; }
+.paulus-chart__zero { border-left: 1px solid var(--t-ink); }
+.paulus-chart__mark { border-left: 1px dashed var(--t-muted); }
+.paulus-chart__source { margin: 0.9rem 0 0; font-size: 0.82rem; line-height: 1.45; color: var(--t-muted); }
+.paulus-chart__source a { color: inherit; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+@media (max-width: 600px) {
+	.paulus-chart__row { grid-template-columns: 1fr; gap: 0.25rem; }
+	.paulus-chart--diverging .paulus-chart__row { grid-template-columns: 1fr; }
+}
+@media print { .paulus-chart__bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+
+/* Answers page: the question index, the link mark on each question, and the
+ * way back to the index. */
+.paulus-faq-index { margin: 1.75rem 0 2.75rem; padding: 1.1rem 0 0.4rem; border-top: 2px solid var(--t-accent); border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); }
+.paulus-faq-index__label { margin: 0 0 0.7rem !important; font-family: var(--t-label); font-size: 0.76rem; color: var(--t-accent-deep); text-align: left !important; }
+.paulus-faq-index ol { margin: 0; padding: 0; list-style: none; counter-reset: q; columns: 2 20rem; column-gap: var(--t-gap); }
+.paulus-faq-index li { counter-increment: q; display: grid; grid-template-columns: 2rem 1fr; align-items: baseline; margin: 0 0 0.65rem; break-inside: avoid; text-align: left; hyphens: manual; }
+.paulus-faq-index li::before { content: counter(q, decimal-leading-zero); font-family: var(--t-label); font-size: 0.74rem; color: var(--t-accent); }
+.paulus-faq-index a { color: var(--t-ink); text-decoration: none; font-size: 1rem; line-height: 1.35; }
+.paulus-faq-index a:hover, .paulus-faq-index a:focus-visible { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+.paulus-prose h2[id] { scroll-margin-top: 1.5rem; }
+#questions { scroll-margin-top: 1.5rem; }
+.paulus-anchor { margin-left: 0.3em; font-family: var(--t-label); font-size: 0.6em; font-weight: 400; color: var(--t-accent); text-decoration: none; opacity: 0; transition: opacity 0.15s ease; vertical-align: 0.15em; }
+h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focus-visible { opacity: 1; }
+@media (hover: none) { .paulus-anchor { opacity: 0.55; } }
+.paulus-faq-back { margin: 0.2rem 0 0 !important; text-align: right !important; }
+.paulus-faq-back a { font-family: var(--t-label); font-size: 0.74rem; color: var(--t-muted); text-decoration: none; }
+.paulus-faq-back a:hover, .paulus-faq-back a:focus-visible { color: var(--t-accent-deep); text-decoration: underline; }
+@media print { .paulus-faq-index, .paulus-anchor, .paulus-faq-back { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .paulus-anchor { transition: none; } }
+
+/* Archive: Dale B. Martin's notes, reproduced as he left them. The text is
+ * set apart by a rule down its left edge; his headings keep their own rank
+ * below the page's headings; his footnotes and the editor's notes are listed
+ * separately so no correction ever enters his text. */
+.paulus-archive, .paulus-prose .paulus-archive { margin: 1.5rem 0 2.5rem; padding: 0.1rem 0 0.1rem clamp(1rem, 3vw, 1.75rem); border-left: 2px solid var(--t-accent); }
+.paulus-archive > :first-child, .paulus-prose .paulus-archive > :first-child { margin-top: 0; padding-top: 0; }
+.paulus-archive h3 { font-family: var(--t-display); font-size: clamp(1.25rem, 2.2vw, 1.5rem); color: var(--t-ink); margin: 2.25rem 0 0.9rem; scroll-margin-top: 1.5rem; }
+.paulus-archive p[id] { scroll-margin-top: 1.5rem; }
+.paulus-archive__list { margin: 0 0 1.4rem; padding-left: 1.3rem; }
+.paulus-archive__list li { margin-bottom: 0.6rem; }
+.paulus-archive__notes { margin: 2.25rem 0 0; padding: 1rem 0 0 1.3rem; border-top: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); }
+.paulus-archive__notes li { margin-bottom: 0.5rem; }
+.paulus-archive__notes a, .paulus-archive sup a { color: var(--t-accent-deep); }
+.paulus-archive__editor { font-size: 0.98rem; color: var(--t-muted); }
+.paulus-archive__download a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.1rem; border: 1px solid var(--t-accent); border-radius: 999px; color: var(--t-accent-deep); font-weight: 600; text-decoration: none; }
+.paulus-archive__download a::before { content: "↓"; font-family: var(--t-label); }
+.paulus-archive__download a:hover, .paulus-archive__download a:focus-visible { background: var(--t-accent); color: var(--t-on-accent); }
+@media print { .paulus-archive { border-left-width: 1px; } .paulus-archive__download { display: none; } }
+
+/* Reading aids (Theme Options, Reading). */
+.screen-reader-text { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.paulus-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 3px; pointer-events: none; background: color-mix(in srgb, var(--t-accent) 15%, transparent); }
+.paulus-progress span { display: block; height: 100%; background: var(--t-accent); transform: scaleX(0); transform-origin: 0 50%; }
+.admin-bar .paulus-progress { top: 32px; }
+@media (max-width: 782px) { .admin-bar .paulus-progress { top: 46px; } }
+.paulus-top { position: fixed; right: max(1.25rem, env(safe-area-inset-right, 0px)); bottom: max(1.25rem, env(safe-area-inset-bottom, 0px)); z-index: 90; display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--t-accent); color: var(--t-on-accent); box-shadow: 0 4px 12px rgba(31, 26, 20, 0.28); cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
+.paulus-top.is-shown { opacity: 1; visibility: visible; transform: none; }
+.paulus-top:hover, .paulus-top:focus-visible { background: var(--t-accent-deep); }
+.paulus-top:focus-visible { outline: 2px solid var(--t-ink); outline-offset: 3px; }
+.paulus-resume { position: fixed; left: 50%; bottom: max(1.25rem, env(safe-area-inset-bottom, 0px)); z-index: 95; display: flex; align-items: stretch; max-width: min(34rem, calc(100vw - 6.5rem)); border-radius: 999px; background: var(--t-accent-deep); color: var(--t-on-accent); box-shadow: 0 6px 18px rgba(31, 26, 20, 0.3); font-family: var(--t-garamond); opacity: 0; transform: translate(-50%, 10px); transition: opacity 0.25s ease, transform 0.25s ease; }
+.paulus-resume.is-shown { opacity: 1; transform: translate(-50%, 0); }
+.paulus-resume button { border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.paulus-resume__go { flex: 1; min-width: 0; padding: 0.7rem 0.4rem 0.7rem 1.2rem; font-weight: 600; font-size: 0.98rem; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.paulus-resume__close { padding: 0 1rem; font-size: 1.2rem; line-height: 1; border-left: 1px solid color-mix(in srgb, var(--t-on-accent) 30%, transparent) !important; }
+.paulus-resume button:focus-visible { outline: 2px solid var(--t-on-accent); outline-offset: -4px; border-radius: 999px; }
+.paulus-share__link--copy.is-copied { background: var(--t-accent); color: var(--t-on-accent); border-color: var(--t-accent); }
+@media (prefers-reduced-motion: reduce) { .paulus-top, .paulus-resume { transition: none; } }
+@media print { .paulus-progress, .paulus-top, .paulus-resume { display: none !important; } }
+
+/* Justified text, site-wide. Every block of running text is set justified
+ * with hyphenation, which keeps the word spacing even: article text, notes,
+ * captions, quotations, tables, the front-page introduction, card excerpts,
+ * section descriptions, title-panel standfirsts, the author's bio, the book
+ * panels, search snippets, the footer text, the colophon, the catalogue
+ * record and chart sources. Where a block is centred by design (article
+ * cards, section headings, the centred section panel, the note, the stacked
+ * teaser and author card on phones), its lines are justified and its last
+ * line centred. Headings, buttons, menus, labels, chart bars and right-to-left
+ * Arabic keep their own alignment. */
+.paulus-prose p:not(.arabic):not(.paulus-readmore):not(.paulus-faq-index__label):not(.paulus-archive__download):not(.paulus-faq-back),
+.paulus-prose li,
+.paulus-prose dd,
+.paulus-prose blockquote p,
+.paulus-prose figcaption,
+.paulus-prose .paulus-figure figcaption,
+.paulus-prose .paulus-table td,
+.paulus-prose .paulus-catalogue dd,
+.paulus-prose .paulus-chart__source,
+.paulus-prose .paulus-faq-index li,
+.paulus-hero__lede,
+.paulus-hero-panel__standfirst,
+.paulus-chapter__excerpt,
+.paulus-part__description,
+.paulus-author__bio,
+.paulus-author__bio p,
+.paulus-book__blurb,
+.paulus-book__body p,
+.paulus-teaser__text,
+.paulus-result__snippet,
+.paulus-footer-brand__blurb,
+.paulus-footer-brand__publisher,
+.paulus-colophon,
+.paulus-404__plain,
+.paulus-children p,
+.paulus-setup p:not(.paulus-setup__label) {
+	text-align: justify;
+	hyphens: auto;
+	-webkit-hyphens: auto;
+}
+.paulus-chapter .paulus-chapter__excerpt,
+.paulus-part__head .paulus-part__description,
+.paulus-hero-panel:not(.has-image) .paulus-hero-panel__standfirst,
+.paulus-prose .paulus-note {
+	text-align: justify;
+	text-align-last: center;
+}
+@media (max-width: 700px) {
+	.paulus-teaser .paulus-teaser__text { text-align: justify; text-align-last: center; }
+}
+@media (max-width: 600px) {
+	.paulus-author__inner .paulus-author__bio,
+	.paulus-author__inner .paulus-author__bio p { text-align: justify; text-align-last: center; }
+}
+/* The list view of article cards is left-aligned by design: its excerpts
+ * justify with an ordinary last line. */
+.paulus-parts--list .paulus-chapter .paulus-chapter__excerpt { text-align-last: auto; }

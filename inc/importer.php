@@ -38,6 +38,68 @@ function paulus_content_file( $file ) {
 }
 
 /**
+ * Bundled illustrations redrawn since first release, with the MD5 of the
+ * file they replaced. A site that imported one before hashes were recorded
+ * holds exactly that file, so it is refreshed once.
+ *
+ * @return array<string, string>
+ */
+function paulus_replaced_images() {
+	return array(
+		'paul-portrait' => '18c58266558bf775d5133e0254a4253d',
+		'paul-portrait-face' => '7068d8fc2a60569264031fd6ee67894f',
+		'paul-portrait-hands' => '1a06657d1e82175be5c0368fae9709a2',
+		'paul-portrait-ink' => '3210a694eb41e6a5240e035988cb93a8',
+		'paul-portrait-oxblood' => '09b951ac4dab2657aeb37e860634fd7c',
+		'paul-portrait-mirror' => '445fa79e1e1eaf06062364f470fb9dff',
+		'paul-portrait-stone' => '2d0c08087a461e0fc6b109bd7b10a8a8',
+		'paul-portrait-mirror-stone' => '6a98582f41ff290ebcbe6f2da53f905a',
+	);
+}
+
+/**
+ * Replace an imported illustration's file when the bundled one has changed.
+ *
+ * Each import records the MD5 of the bundled file it copied. When the
+ * bundled file no longer matches (or, for an import made before hashes were
+ * kept, when the illustration is one redrawn since), the new file is copied
+ * to the uploads folder under a fresh name, so no cache serves the old one,
+ * and the attachment is pointed at it with its sizes regenerated. The
+ * attachment ID, and every featured-image link to it, stay the same.
+ *
+ * @param string $slug Image slug.
+ * @param int    $id   Attachment ID.
+ */
+function paulus_refresh_attachment( $slug, $id ) {
+	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.jpg';
+	if ( ! file_exists( $source ) ) {
+		return;
+	}
+	$hashes  = get_option( 'paulus_attachment_hashes', array() );
+	$current = md5_file( $source );
+	$stored  = $hashes[ $slug ] ?? '';
+	if ( $stored === $current ) {
+		return;
+	}
+	if ( '' === $stored && ! isset( paulus_replaced_images()[ $slug ] ) ) {
+		// Imported before hashes were kept, and never redrawn: record it.
+		$hashes[ $slug ] = $current;
+		update_option( 'paulus_attachment_hashes', $hashes, false );
+		return;
+	}
+	$upload = wp_upload_bits( $slug . '-' . substr( $current, 0, 8 ) . '.jpg', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( ! empty( $upload['error'] ) ) {
+		return;
+	}
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	update_attached_file( $id, $upload['file'] );
+	wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+	update_post_meta( $id, '_wp_attachment_image_alt', paulus_image_alts()[ $slug ] ?? __( 'Illustration of Paul of Tarsus', 'paulus' ) );
+	$hashes[ $slug ] = $current;
+	update_option( 'paulus_attachment_hashes', $hashes, false );
+}
+
+/**
  * Import a bundled image once and return its attachment ID.
  *
  * @param string $slug Image slug.
@@ -46,6 +108,7 @@ function paulus_content_file( $file ) {
 function paulus_attach_image( $slug ) {
 	$map = get_option( 'paulus_attachments', array() );
 	if ( ! empty( $map[ $slug ] ) && get_post( $map[ $slug ] ) ) {
+		paulus_refresh_attachment( $slug, (int) $map[ $slug ] );
 		return (int) $map[ $slug ];
 	}
 	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.jpg';
@@ -72,6 +135,9 @@ function paulus_attach_image( $slug ) {
 	update_post_meta( $id, '_wp_attachment_image_alt', paulus_image_alts()[ $slug ] ?? __( 'Illustration of Paul of Tarsus', 'paulus' ) );
 	$map[ $slug ] = $id;
 	update_option( 'paulus_attachments', $map, false );
+	$hashes          = get_option( 'paulus_attachment_hashes', array() );
+	$hashes[ $slug ] = md5_file( $source );
+	update_option( 'paulus_attachment_hashes', $hashes, false );
 	return (int) $id;
 }
 

@@ -200,6 +200,24 @@ function paulus_sc_colophon() {
 add_shortcode( 'paulus_colophon', 'paulus_sc_colophon' );
 
 /**
+ * [paulus_download file="…"]Label[/paulus_download] A link to a document
+ * bundled in assets/docs/. Only a plain file name is accepted.
+ *
+ * @param array  $atts    Shortcode attributes.
+ * @param string $content Link text.
+ * @return string
+ */
+function paulus_sc_download( $atts, $content = '' ) {
+	$atts = shortcode_atts( array( 'file' => '' ), $atts, 'paulus_download' );
+	$file = (string) $atts['file'];
+	if ( ! preg_match( '/^[a-z0-9._-]+$/i', $file ) || ! file_exists( PAULUS_DIR . '/assets/docs/' . $file ) ) {
+		return '';
+	}
+	return '<a href="' . esc_url( PAULUS_URI . '/assets/docs/' . $file ) . '" download>' . esc_html( $content ?: $file ) . '</a>';
+}
+add_shortcode( 'paulus_download', 'paulus_sc_download' );
+
+/**
  * [paulus_catalogue] The book's library catalogue record, for the book page:
  * label beside value, from Theme Options (Catalogue record, with edition,
  * imprint and OCLC number from the Book tab). The contents are left out,

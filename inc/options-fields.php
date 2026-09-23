@@ -77,6 +77,16 @@ function paulus_fields() {
 				'ornament' => array( __( 'First-century ornament (textures, meander borders, rosettes, coin numerals)', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'reading'    => array(
+			'label'  => __( 'Reading', 'paulus' ),
+			'fields' => array(
+				'read_progress' => array( __( 'Reading progress bar across the top of articles', 'paulus' ), 'checkbox' ),
+				'read_keys'     => array( __( 'Arrow keys move to the previous and next article in the reading order', 'paulus' ), 'checkbox' ),
+				'read_memory'   => array( __( 'Offer to resume a long article or page where the reader left off (kept in the reader\'s browser only)', 'paulus' ), 'checkbox' ),
+				'read_copy'     => array( __( 'Copy-link button in the share row', 'paulus' ), 'checkbox' ),
+				'read_top'      => array( __( 'Back-to-top button on long pages', 'paulus' ), 'checkbox' ),
+			),
+		),
 		'front'      => array(
 			'label'  => __( 'Front page', 'paulus' ),
 			'fields' => array(

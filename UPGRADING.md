@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.39.0
+
+The portrait and its variants are redrawn. On the first page load as an administrator after updating, the structure sync copies the eight new portrait files into the media library and points the existing attachments at them; featured images change in place. Clear the page cache and any CDN afterwards. A site icon set under Site Identity is not touched; the bundled fallback icon is redrawn.
+
 ### 2.33.5 and 2.33.6
 
 Open any admin page once as an administrator after updating. A one-time repair restores the footer description, the footer badges, the front-page search title and the hero kicker where they are empty. Check the Front page tab of Theme Options afterwards: other fields a site had never saved may also have been emptied between 2.30.0 and 2.33.4, and those are left for you to refill, since an empty field may be deliberate.
