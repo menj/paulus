@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function paulus_search_form( $id = 'paulus-s' ) {
 	return '<form role="search" method="get" class="paulus-searchform" action="' . esc_url( home_url( '/' ) ) . '">'
-		. '<span class="paulus-searchform__mark" aria-hidden="true">' . esc_html_x( 'Quaere', 'Latin for "seek", the label on the search field', 'paulus' ) . '</span>'
+		. '<span class="paulus-searchform__mark" lang="grc" aria-hidden="true" title="' . esc_attr__( 'Seek (Matthew 7:7)', 'paulus' ) . '">' . esc_html_x( 'ΖΗΤΕΙΤΕ', 'Koine Greek for "seek" (Matthew 7:7), in uncials; the label on the search field', 'paulus' ) . '</span>'
 		. '<label class="screen-reader-text" for="' . esc_attr( $id ) . '">' . esc_html__( 'Search the site', 'paulus' ) . '</label>'
 		. '<input type="search" id="' . esc_attr( $id ) . '" name="s" value="' . esc_attr( get_search_query() ) . '" placeholder="' . esc_attr__( 'Search the case: Damascus, Barnabas, al-Qummī…', 'paulus' ) . '" autocomplete="off">'
 		. '<button type="submit" class="paulus-button">' . esc_html__( 'Search', 'paulus' ) . '</button>'

@@ -2,6 +2,146 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.37.2] - 2026-09-23
+
+### Changed
+
+- The Save as PDF button used a full-colour PDF file icon (red page, white fill, grey lettering), the only mark in the share row not drawn in the text colour; it looked pasted in at rest and turned into a red block on the filled hover state. It is redrawn on the 24-point grid of the print and email marks as a single-colour line drawing, a page with a folded corner and a download arrow, so it takes the text colour at rest and the cream on hover like every other mark.
+
+## [2.37.1] - 2026-09-23
+
+### Changed
+
+- The "Study questions for this article" link in the reading-order band was a plain underlined line. It is now a pill with a 1px accent outline: an oxblood roundel carrying a question mark (in the manner of the prutah on the search button), the label, and after a hairline the number of questions in the set ("6 questions"), counted from the Study guide page. On hover or keyboard focus the pill fills with the accent colour and the roundel inverts; transitions are off for readers who ask for reduced motion. The pill is at least 44px tall, so it leaves the small-links tap-area rule.
+
+## [2.37.0] - 2026-09-23
+
+### Added
+
+- Koine Greek inscriptions, each a New Testament word or phrase set small in uncials above an English heading that stays, with a tooltip giving meaning and verse: ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ ("Saul, who is also Paul", Acts 13:9) above The man; ΚΑΤΗΓΟΡΙΑ ("accusation", John 18:29) above The charges; ΟΙ ΜΑΡΤΥΡΕΣ ("the witnesses", Acts 7:58, the witnesses who laid their clothes at Saul's feet) above The witnesses; ΑΠΟΛΟΓΙΑ ("defence", Acts 22:1) above Answers; ΚΡΙΣΙΣ ("judgment", John 5:22) above The verdict; and ΑΠΟΛΩΛΩΣ ("lost", Luke 15:24) beside "Error 404" on the not-found page. The section words appear on the front page and on the section pages, the Answers word on the front page's answers block and the Answers page. All checked against the SBL Greek New Testament and set in EB Garamond, since Cinzel has no Greek. The words live in `paulus_greek_marks()`; the search label added in 2.36.4 shares the style.
+
+## [2.36.4] - 2026-09-23
+
+### Changed
+
+- The search field's label is Koine Greek in place of Latin: ΖΗΤΕΙΤΕ, "seek", from Matthew 7:7 (ζητεῖτε, καὶ εὑρήσετε, "seek, and ye shall find"), set in uncials without accents as the manuscripts wrote it, and marked `lang="grc"`. Cinzel has no Greek, so the label is set in EB Garamond. A tooltip gives the English and the verse. It had read "Quaere".
+
+## [2.36.3] - 2026-09-23
+
+### Fixed
+
+- Front-page hero: with the kicker and the author's name added, the hero grew taller than a laptop screen, and its bottom meander border fell below the fold (70px below at 1366×768, 117px at 1280×720). On screens 1025px and wider the heading, subheading, name and introduction now scale with the screen's height as well as its width, the vertical spacing is tightened, and the portrait is held to the screen height less the header. Measured on the live front page, the border now sits inside the first screen at 1280×720, 1366×768, 1440×900, 1536×864 and 1727×978.
+
+## [2.36.2] - 2026-09-23
+
+### Changed
+
+- The publisher's address and telephone return to the structured data (the Organization's PostalAddress and international telephone number), with the two helpers that build them. The book page still does not show them. The Theme Options labels say "structured data only".
+
+## [2.36.1] - 2026-09-23
+
+### Changed
+
+- Book page: the publisher's address and telephone number are no longer shown; the name, registration number, email and website remain. The structured data stops publishing them as well (the Organization's PostalAddress and telephone), and the two helpers that built them are removed. Both fields stay in Theme Options, Publisher, marked as kept on record.
+- The order button reads "Order the book" on the book page, as it does in the book panel under every article. It had read "Order from Langgam Fikir", and "Order from the publisher" where only an email was set.
+
+## [2.36.0] - 2026-09-23
+
+### Added
+
+- Book page: a "Catalogue record" section after the contents, giving the second printing's library record as a list of label and value: title and statement of responsibility, edition, author, publication, physical description, language, notes, the seven subject headings, both ISBNs, the Bib ID and the OCLC number. The contents are left out, since the page already lists them in Malay. Values are set ragged-left in every width; below 560px the label sits above its value. Content version 2.36.0: an unedited copy of the book page gains the section on the next structure sync.
+- `[paulus_catalogue]`, and a Theme Options tab, Catalogue record, holding the fields the Book tab does not (title statement, physical description, language, notes, subjects, ISBNs, Bib ID), each defaulting to the library record.
+
+## [2.35.3] - 2026-09-23
+
+### Changed
+
+- Footer credit: the tablet opens "The English text of this site is drawn from the Malay original:" before the book's details, so the site reads as an English work taken from the Malay book, and the book as its source.
+
+## [2.35.2] - 2026-09-23
+
+### Changed
+
+- Footer credit: the catalogue card is withdrawn and the tabula ansata restored. Its text is shortened to run three or four lines: "Mohd Elfie Nieshaem Juferi, *Paulus: Perosak Risalah Al-Masih*. Cetakan kedua. Seri Kembangan, Selangor : Langgam Fikir, 2025. ISBN 978-629-96135-0-3. OCLC 1531949453." The edition and imprint follow the library record of the second printing; the ISBN and OCLC number each stay on one line.
+- Theme Options: the Catalogue card tab is removed. Its two fields still in use, Edition and Imprint, move to the Book tab. The 2.35.1 one-time upgrade for the card's fields is removed with them.
+
+## [2.35.1] - 2026-09-23
+
+### Changed
+
+- Catalogue card: the entry follows the library record of the second printing. The heading is "Mohd Elfie Nieshaem Juferi."; the title paragraph adds the edition, "Cetakan kedua", before the imprint "Seri Kembangan, Selangor : Langgam Fikir, 2025"; the physical description is "xxvi, 193 pages : illustrations ; 21 cm"; two notes follow ("In Malay, with quotations from the Qur'an, hadith, etc., in Arabic." and "Includes bibliographical references."), then the contents, both ISBNs as catalogued ("9786299613503 (paperback)" and "6299613505 (paperback)"), seven subject tracings with the title tracing, and "Bib ID 300162873" beside the OCLC number at the foot. The record's "Islam -- Apologetic works", listed twice, is traced once.
+- The card's design is pared back: plain cream stock, a hairline edge and a softer shadow, with the punched hole kept. The blue ruling and the red margin line are removed.
+
+### Added
+
+- Catalogue card tab: Edition, Contents, ISBNs as catalogued (one per line) and Bib ID; Notes now takes one note per line. A one-time upgrade moves fields still holding the 2.35.0 defaults to the new record.
+
+## [2.35.0] - 2026-09-23
+
+### Changed
+
+- Footer credit: the colophon in a tabula ansata becomes a library catalogue card. The entry follows the book's national-library record: the author heading "Mohd. Elfie Nieshaem Juferi."; the title and statement of responsibility with the imprint "Seri Kembangan, Selangor : Langgam Fikir Enterprise, 2025"; "xxvi, 193 pages, 2 unnumbered pages ; 21 cm"; the ISBN; "Text in Malay"; the tracings "1. Paul, the Apostle, Saint. 2. Christianity -- Origin. 3. Apostasy -- Islam. I. Title."; and "OCLC 1531949453" at the foot. It is typed in Special Elite in catalogue indention on cream card stock with pale blue ruling and a red margin line, and a punched hole near the foot is cut with a CSS mask so the footer texture shows through it, with the drop shadow following the hole. The card keeps its cream stock and ink in every scheme. The tabula ansata rules are removed from ornament.css.
+
+### Added
+
+- Theme Options, Catalogue card tab: the author heading, title and statement of responsibility, publication, physical description, note and subject headings (one per line), each defaulting to the national-library record.
+
+## [2.34.4] - 2026-09-23
+
+### Changed
+
+- Footer wordmark: the site icon sat inside the home link, so the link's focus ring and hover state wrapped icon and name together. The icon now sits outside the link, and only the wordmark "Apostle of Doom" is linked.
+
+## [2.34.3] - 2026-09-23
+
+### Added
+
+- *The verdict*: a portrait of Isma'il R. al Faruqi (1921–1986), placed after the passage of his that the page quotes, in the section "The other side has had its say". Supplied by the site owner as public domain; bundled in grey at 1,400 and 720 pixels. *The verdict* now carries two figures.
+
+### Changed
+
+- Figures from outside Wikimedia Commons: a registry entry with an empty `source` gets a credit line of author and licence alone ("Image: Unknown photographer, Public domain."), and its ImageObject omits the Commons credit and `acquireLicensePage`. Content version 2.34.3.
+
+## [2.34.2] - 2026-09-23
+
+### Changed
+
+- Writing-style pass (anti-AI style) over every page's own prose, the manifest's titles, descriptions and excerpts, the Theme Options defaults, the 404 excuses, the image alt text and the documentation, with quotations, scripture and titles left as written. Site text: one "in order to" cut from a caption; three contrastive constructions rewritten (the Eastern reading of redemption in *The church that followed Paul*, the milk in the Syriac martyrdom in *The failed prophet*, the council's ruling in *James*); padded sets cut in *By their fruits* ("hypocrisy, deviation, falsehood and lies" to "hypocrisy and falsehood", and "lazy, misguided and hypocritical" to "hypocrites", the charge Galatians 2:13 supports), *The letters of a man*, *How Paul came to own the New Testament*, *Twisting the scriptures* and *From Ibn Ḥazm to al Faruqi*. No anaphoric runs or clause tricolons were found. Nine articles rebuilt; content version 2.34.2.
+- Documentation: the "rather than" and "instead of" reframes, em dashes, contractions, "actually" and "highlight" rewritten throughout README.md, readme.txt and this changelog, earlier entries included.
+
+## [2.34.1] - 2026-09-23
+
+### Changed
+
+- Timeline, c. 5–10 CE: "a Jew of the tribe of Benjamin (allegedly), with Roman citizenship." The tribe rests on Paul's own word alone, as *Saul the persecutor* notes. Content version 2.34.1.
+
+## [2.34.0] - 2026-09-23
+
+### Added
+
+- Timeline interaction. On hover or keyboard focus an entry takes a faint oxblood wash, its diamond marker grows and glows in the accent colour, and its date darkens. The spine, now drawn entry by entry, lights up in oxblood from the first entry down to the marker of the one under the pointer, with every earlier marker lit, so a reader sees how far into Paul's life the moment falls. At rest the spine is drawn at 35 per cent of the rule colour, so the lit stretch shows in every scheme, including Ochre, where the rule colour and the accent are the same oxblood. Transitions are switched off for readers who ask their device to reduce motion. Pure CSS; the spine fill uses `:has()`, and browsers without it keep the lit entry.
+- Fourteen of the seventeen dates now link to the articles that treat them, each link labelled with the article's title and an arrow that moves on hover: Tarsus and Gamaliel to the profile, the persecution and the vision to *Saul the persecutor* and *The Damascus road*, Arabia to *A self-appointed apostle*, the first Jerusalem visit to *James*, Antioch to *The church that followed Paul*, Cyprus to *The Roman*, the council to *The Jerusalem Council*, Greece to *Adapting the message*, Ephesus to *By their fruits*, the collection year to *The purse*, the Temple vow to its section in *The Jerusalem Council*, the appeal to Caesar to its section in *The Roman*, and the death to *The failed prophet*. The links stay visible at all times, so they work by touch. Print drops them and greys the spine. Content version 2.34.0.
+
+## [2.33.9] - 2026-09-23
+
+### Fixed
+
+- Timeline: all 17 dates read "c. 5–10" and so on, relying on the introduction's note that dates are in the Common Era. Each now carries CE ("c. 5–10 CE"), as does the range for Paul's death in the introduction. Content version 2.33.9; an unedited copy of the page refreshes on the next structure sync.
+
+## [2.33.8] - 2026-09-23
+
+### Fixed
+
+- Footer base row: the colophon tablet sat at the far left and the badges at the far right, with nothing between them on wide screens. The two now sit together as one centred group with a 3rem gap, and stack centred on narrow screens. The row is centred both in `parts/footer.html` and in the stylesheet, so a footer customised in the Site Editor follows too.
+- The tabula ansata handles on the colophon were drawn as borders clipped to a dovetail shape, and the clip left only two thin vertical strokes, seen as stray "|" marks either side of the tablet. They are now solid dovetails in the ink colour, narrow where they meet the tablet and wide at the outer edge.
+
+## [2.33.7] - 2026-09-23
+
+### Changed
+
+- Front-page hero: the author's name stands alone under the subtitle, as on a book cover. The "By" label and the "Author of *Paulus: Perosak Risalah Al-Masih*" line are removed; the book is already named across the page.
+- Article byline: "By" removed; the name in Cinzel capitals stands on its own beside the reading time.
+
 ## [2.33.6] - 2026-09-23
 
 ### Fixed
@@ -192,7 +332,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Added
 
-- The footer wordmark carries the site icon beside the name, in a round frame with the oxblood ring of the author portrait. It uses the icon set under Site Identity, and the bundled icon (a 96px copy of 3 KB, instead of the 512px original) when none is set. The icon is decorative and sits inside the home link, so the name stays the link text. The header masthead remains a wordmark alone.
+- The footer wordmark carries the site icon beside the name, in a round frame with the oxblood ring of the author portrait. It uses the icon set under Site Identity, and the bundled icon (a 96px copy of 3 KB, in place of the 512px original of 240 KB) when none is set. The icon is decorative and sits inside the home link, so the name stays the link text. The header masthead remains a wordmark alone.
 
 ## [2.27.3] - 2026-09-23
 
@@ -301,13 +441,13 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Changed
 
-- The sitemap page moves from `/site-map/` to `/sitemap/`. On the next structure sync the installer renames the existing page in place rather than creating a second one, so its content, edits and ID carry over; this is driven by a new `was_slug` key in the manifest, usable for any future page move. The old address answers with a 301 redirect to the new one, since WordPress redirects the old slugs of posts but not of pages. Rank Math's and WordPress's own XML sitemaps (`*.xml`) are unaffected. `content_version` moves to 2.25.4.
+- The sitemap page moves from `/site-map/` to `/sitemap/`. On the next structure sync the installer renames the existing page in place, so its content, edits and ID carry over; this is driven by a new `was_slug` key in the manifest, usable for any future page move. The old address answers with a 301 redirect to the new one, since WordPress redirects the old slugs of posts but not of pages. Rank Math's and WordPress's own XML sitemaps (`*.xml`) are unaffected. `content_version` moves to 2.25.4.
 
 ## [2.25.3] - 2026-09-23
 
 ### Changed
 
-- The HTML sitemap page is titled "Sitemap" rather than "Site map", and so is its link in the footer, on the 404 page and in breadcrumbs, which all read the page title. `content_version` moves to 2.25.3 so existing sites pick up the new title on their next structure sync; a title already changed by hand in WordPress is left as it is. The address stays `/site-map/`, so existing links and search listings keep working.
+- The HTML sitemap page is titled "Sitemap" (formerly "Site map"), and so is its link in the footer, on the 404 page and in breadcrumbs, which all read the page title. `content_version` moves to 2.25.3 so existing sites pick up the new title on their next structure sync; a title already changed by hand in WordPress is left as it is. The address stays `/site-map/`, so existing links and search listings keep working.
 
 ## [2.25.2] - 2026-09-23
 
@@ -319,20 +459,20 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Changed
 
-- The author card moves up to follow the text directly on articles and pages — after the references, before the series list, reading-order band, related links and book panel — where readers look for who wrote what they have just read, and where authorship sits beside the content it vouches for. It had been attached to the footer, which put five other blocks between the end of an article and its author. Pages without body text of their own (front page, section listings, search, 404) keep it above the footer. It is attached to the post-content block as that renders, so Site Editor templates get it too; it appears once per page, and post content rendered for other posts inside a query loop is left alone.
+- The author card moves up to follow the text directly on articles and pages, after the references and before the series list, reading-order band, related links and book panel, where readers look for who wrote what they have just read, and where authorship sits beside the content it vouches for. It had been attached to the footer, which put five other blocks between the end of an article and its author. Pages without body text of their own (front page, section listings, search, 404) keep it above the footer. It is attached to the post-content block as that renders, so Site Editor templates get it too; it appears once per page, and post content rendered for other posts inside a query loop is left alone.
 
 ## [2.25.0] - 2026-09-23
 
 ### Added
 
-- The author card's medallion shows the author's portrait instead of his initials: `assets/images/author-portrait.webp`, cropped head and shoulders from the supplied photograph to 240×240 (8.6 KB), its transparent background letting the scheme's accent colour — or the bronze prutah, with the ornament on — show behind it. The medallion grows to 7.5rem (6.5rem on phones) so the face reads at a glance, and the photograph is inset so its rings still show. The monogram remains as a fallback if the file is removed.
+- The author card's medallion shows the author's portrait, where it had shown his initials: `assets/images/author-portrait.webp`, cropped head and shoulders from the supplied photograph to 240×240 (8.6 KB), its transparent background letting the scheme's accent colour (or the bronze prutah, with the ornament on) show behind it. The medallion grows to 7.5rem (6.5rem on phones) so the face reads at a glance, and the photograph is inset so its rings still show. The monogram remains as a fallback if the file is removed.
 - Person structured data carries the portrait as `image`.
 
 ## [2.24.1] - 2026-09-23
 
 ### Fixed
 
-- The author card's links belong inside the bio text, but on a site whose bio was saved as plain text by an earlier version they appeared instead as a separate row of bare addresses under it. That row is removed. A plain-text bio now gets its links added in place — the author's name, Bismika Allahuma (a bare "bismikaallahuma.org" is shown by that name), The Muslim Apologist and the publisher, each linking to the address set in Theme options — so the saved bio needs no retyping. A bio that already contains links is used as written.
+- The author card's links belong inside the bio text, but on a site whose bio was saved as plain text by an earlier version they appeared instead as a separate row of bare addresses under it. That row is removed. A plain-text bio now gets its links added in place: the author's name, Bismika Allahuma (a bare "bismikaallahuma.org" is shown by that name), The Muslim Apologist and the publisher, each linking to the address set in Theme options, so the saved bio needs no retyping. A bio that already contains links is used as written.
 
 ## [2.24.0] - 2026-09-23
 
@@ -342,8 +482,8 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - "Who was Paul" no longer presents Paul's Benjamite lineage and Pharisee affiliation as established fact, matching the new note; the note on those claims now also cites Acts 26:5 and Romans 11:1 and records that these self-descriptions have no independent, contemporaneous corroboration.
 - The footer credit line now carries the book's OCLC control number after the ISBN, and the Book structured data carries it as an `identifier` with `propertyID` OCLC. Both are omitted when the field is empty.
 - Social profiles: a Theme options field (Book tab), one URL per line, the platform detected from the address. They appear as a row of marks in the footer brand block and are added to the author's `sameAs`. The full Minimalist Social Icons pack is bundled in `assets/icons/social/` (45 platforms; its readme is in `licenses/`), and a platform it does not cover is linked by name. `paulus_icon()` now reaches that subfolder, refuses `.` and `..` path segments, and converts the pack's hard-coded black fills to the text colour so every mark follows the scheme.
-- The footer gains a brand block: the site wordmark, a description of the site, and the publisher credit. The description is a new Theme options field (Front page tab) rather than the WordPress tagline, which sites often leave at the default.
-- The author bio is now a single card — monogram medallion, name, bio, links to the author's site, YouTube channel and publisher, and a collapsible list of his other books — rendered above the footer on every page rather than only under articles.
+- The footer gains a brand block: the site wordmark, a description of the site, and the publisher credit. The description is a new Theme options field (Front page tab), since sites often leave the WordPress tagline at its default.
+- The author bio is now a single card (monogram medallion, name, bio, links to the author's site, YouTube channel and publisher, and a collapsible list of his other books), rendered above the footer on every page as well as under articles.
 - The author card links out: the name to menj.blog, and, in the bio, Bismika Allahuma, The Muslim Apologist and Langgam Fikir to their own sites. The bio field now accepts links and light emphasis (`a`, `em`, `strong`, `cite`), filtered through `wp_kses`; the separate links row is shown only when the bio has no links of its own.
 - Three new Theme options fields on the Book tab: the author's website (which the card's name links to), the author's YouTube channel, and "Other books by the author", one per line as Title (Publisher, Year).
 - `content_version` moves to 2.24.0, so sites pick these up on the next structure sync; only text still unedited since the last sync is refreshed.
@@ -351,50 +491,50 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ### Changed
 
 - The footer link columns were capped at `max-width: 560px` inside an 1180px footer, so they crowded into the left half and left the right half empty. The cap is gone and the footer is now a brand block beside the link columns, filling the width. The wordmark moves out of the bottom row into that block.
-- Footer columns use flex rather than `grid-template-columns: repeat(auto-fit, …)`, which renders inconsistently; the ornament layer's hairline between columns was rewritten to match (it relied on a negative margin sized for the old grid).
-- Rank Math now takes precedence over the theme's structured data, type by type rather than all-or-nothing. The theme hooks `rank_math/json_ld` and adds only the types absent from Rank Math's own graph for that request, so anything Rank Math manages is left untouched (subtypes count: BlogPosting or NewsArticle means it owns the article), while what it doesn't emit — Book above all, since its schema module has no Book type — still gets published. Entities added this way inline their own author and publisher instead of referencing Rank Math's `@id` values, and are keyed `paulus_*`, which Rank Math's own entity-linking pass leaves untouched (it only rewrites `schema-*` and `richSnippet` keys). The filter runs at priority 100, after that pass, so it sees the final graph. Checked against Rank Math 1.0.279: on an article with Rank Math's defaults the theme adds nothing at all. If Rank Math is active but publishing no graph at all (its schema module switched off), the theme prints its own.
+- Footer columns use flex, since `grid-template-columns: repeat(auto-fit, …)` renders inconsistently; the ornament layer's hairline between columns was rewritten to match (it relied on a negative margin sized for the old grid).
+- Rank Math now takes precedence over the theme's structured data, type by type. The theme hooks `rank_math/json_ld` and adds only the types absent from Rank Math's own graph for that request, so anything Rank Math manages is left untouched (subtypes count: BlogPosting or NewsArticle means it owns the article), while what it does not emit (the Book above all, since its schema module has no Book type) still gets published. Entities added this way inline their own author and publisher, with no reference to Rank Math's `@id` values, and are keyed `paulus_*`, which Rank Math's own entity-linking pass leaves untouched (it only rewrites `schema-*` and `richSnippet` keys). The filter runs at priority 100, after that pass, so it sees the final graph. Checked against Rank Math 1.0.279: on an article with Rank Math's defaults the theme adds nothing at all. If Rank Math is active but publishing no graph at all (its schema module switched off), the theme prints its own.
 - The other detected SEO plugins (Yoast, AIOSEO, SEOPress, The SEO Framework) can't be inspected the same way, so there the theme still adds only the Book, which none of them emits.
-- The bio pasted into the book page content is removed; the card renders it from Theme options instead, so it can't drift out of step between pages. A book page that has been hand-edited keeps the old pasted copy and will show the bio twice — delete its "About the author" and "Other books" sections.
+- The bio pasted into the book page content is removed; the card renders it from Theme options instead, so it can't drift out of step between pages. A book page that has been hand-edited keeps the old pasted copy and will show the bio twice; delete its "About the author" and "Other books" sections.
 - Person structured data now lists the author's site, apologetics site and YouTube channel under `sameAs`, uses the author website as `url`, and strips the bio's markup out of `description`.
 - `[paulus_about_author]` now renders nothing, kept registered only so a customised template neither duplicates the card nor prints the raw shortcode.
 
 ### Fixed
 
 - `wordCount` in Article schema counted with `str_word_count()`, which is not UTF-8 aware and miscounted the Greek, Arabic and transliterated words throughout these articles, and counted shortcode syntax as words. It now strips shortcodes first and counts with a Unicode-aware pattern.
-- Article illustrations now declare an image licence, since they are public domain: `license` points at the Public Domain Mark by default and no `copyrightNotice` is asserted over them, while credit is still given. Two new Theme options fields (Book tab) make both the licence URL and an optional licence-acquisition page configurable; clearing the licence URL restores the previous `copyrightNotice` behaviour. The book cover and publisher logo are deliberately excluded — neither is public domain.
+- Article illustrations now declare an image licence, since they are public domain: `license` points at the Public Domain Mark by default and no `copyrightNotice` is asserted over them, while credit is still given. Two new Theme options fields (Book tab) make both the licence URL and an optional licence-acquisition page configurable; clearing the licence URL restores the previous `copyrightNotice` behaviour. The book cover and publisher logo are deliberately excluded, since neither is public domain.
 - Organization structured data used the book cover as the publisher's `logo`. Langgam Fikir's own logo now ships as `assets/images/publisher-logo.png` (500×500, transparent, quantised to 64 colours: 470 KB down to 78 KB with no visible change) and is used instead, with its dimensions declared. The cover remains the Book entity's `image`, which is what it should be.
 - `inLanguage` on Article and WebSite was hard-coded to `en`; both now follow the site's own locale.
 - The Save as PDF icon was drawn so that its "PDF" lettering filled in the same direction as the page shape, cancelling into a solid block. It is replaced with a full-colour PDF file mark (red page, folded corner, "PDF" lettering), the one exception to the share row's text-coloured marks. `paulus_icon()` now strips any width and height an icon file declares on its root before setting its own 16px: this file ships at 75mm, and since a browser keeps the first of two duplicate attributes, the button would otherwise have rendered at that size.
-- The Print and Save as PDF buttons rendered as an empty circle whenever their icon file couldn't be read (the social links already skip themselves in that case); they now show a short text label instead.
-- Documentation brought up to date with this release: the Theme options table, the file tree (`options-fields`/`options-render`, `licenses/`, the publisher logo), the shortcode table (including the figure, search and footer-badge shortcodes, which were never listed), a new section on the author card and footer, the structured-data and Rank Math behaviour, the field-by-field edit protection, and the portable build. The duplicate "Search" heading is fixed — the first of the two is about search engines. `readme.txt` gets its article count corrected (26 to 33) and changelog entries for 2.22.2 and 2.23.0.
+- The Print and Save as PDF buttons rendered as an empty circle whenever their icon file could not be read (the social links already skip themselves in that case); they now show a short text label instead.
+- Documentation brought up to date with this release: the Theme options table, the file tree (`options-fields`/`options-render`, `licenses/`, the publisher logo), the shortcode table (including the figure, search and footer-badge shortcodes, which were never listed), a new section on the author card and footer, the structured-data and Rank Math behaviour, the field-by-field edit protection, and the portable build. The duplicate "Search" heading is fixed: the first of the two is about search engines. `readme.txt` gets its article count corrected (26 to 33) and changelog entries for 2.22.2 and 2.23.0.
 - Theme options, Book tab: the image licence fields moved to the end of the tab, where they no longer split the bibliographic fields.
 
 ## [2.23.0] - 2026-09-22
 
 ### Fixed
 
-- Importer: manual edits to an article's body could be silently discarded the second time a release changed the shipped text for that article, even though the edit correctly survived the first such change. Title and excerpt are now protected independently of the body, rather than being overwritten as a side effect of a body refresh.
+- Importer: manual edits to an article's body could be silently discarded the second time a release changed the shipped text for that article, even though the edit correctly survived the first such change. Title and excerpt are now protected independently of the body, so a body refresh no longer overwrites them.
 - Importer: a legacy upgrade (2.0.0) could write an empty article body if its bundled source file were ever renamed or removed; all `paulus_content_file()` results used in one-time upgrades are now checked for an empty return before writing.
 - Importer: a manual recategorisation of an article was reset on every reinstall; category assignment is now tracked against a recorded baseline, so a manual change is recognised and left alone. On a site upgrading through this fix (no baseline yet), a category is only reassigned when the article is plainly untouched (no category, the default one, or already the target).
-- Importer: `menu_order` and `page_template` were never brought in line with the manifest for a page that already existed; they're now reconciled the same way, protected by the same baseline tracking so a manual reorder or template change isn't undone; with no baseline yet, a differing value is left alone rather than assumed to be stale.
+- Importer: `menu_order` and `page_template` were never brought in line with the manifest for a page that already existed; they are now reconciled the same way, protected by the same baseline tracking so a manual reorder or template change is not undone; with no baseline yet, a differing value is left alone and treated as a deliberate edit.
 - Importer: a failed or partial site-structure sync could still be marked complete, so it was never retried; the sync is now marked complete only when nothing failed, and a simple lock prevents two overlapping sync attempts.
 - Every one-time upgrade function (`paulus_upgrade_*`) is now gated behind a single `current_user_can( 'edit_theme_options' )` check, run once; previously none of them checked who was asking, and all ran on `admin_init`, which fires for any logged-in user on any wp-admin screen.
 - Installer: article publish dates were computed in UTC but written to `post_date`, which WordPress treats as the site's local time; the site's local-time conversion and the true UTC value are now set correctly and separately.
-- Search: highlighting search terms could corrupt the markup it had just inserted — searching "Paul mark" would match the literal word "mark" inside the `<mark>` tag the first replacement added. Term matching is now done in a single pass over the original text instead of one pass per term.
+- Search: marking search terms could corrupt the markup it had just inserted. Searching "Paul mark" would match the literal word "mark" inside the `<mark>` tag the first replacement added. Term matching is now done in a single pass over the original text.
 - The Answers page's front-page teaser ignored password protection and would still show its questions and answers if the page were password-protected; it now checks `post_password_required()`.
 - Category archives were built from a separate query (inside `[paulus_parts part="current"]`) that implicitly excluded any post without a recorded reading order, silently dropping ordinary posts from the section; it now includes them, matching the already-correct logic in the `pre_get_posts` filter that this query bypassed. The query's own hard 100-item cap and disabled pagination are also removed.
-- A heading with a manually added HTML anchor (`id="…"`) got a side-rail link pointing to a different, computed id that was never actually applied to the page, since the id is preserved but the rail's link wasn't computed from it. The rail now reuses an existing id when a heading already has one.
+- A heading with a manually added HTML anchor (`id="…"`) got a side-rail link pointing to a different, computed id that was never applied to the page, since the id is preserved but the rail's link was not computed from it. The rail now reuses an existing id when a heading already has one.
 - The block editor never reflected the site's active colour scheme: `schemes.css` is scoped entirely to `body.paulus-scheme-*`, and nothing ever added that class inside the editor's iframe. The active scheme's own declaration is now also passed to the editor through its settings' styles, which load inside the editor canvas.
 - The search field's background was a fixed colour regardless of scheme; on the three darker schemes (oxblood, ink, graphite) this put near-white text on a near-white background (contrast ratios of 1.00–1.08, against a 4.5:1 requirement). It now uses the scheme's own surface colour, which is designed to contrast with its text colour in every scheme.
 - A CSS custom property (`--wp--preset--color--accent-deep`) referenced itself in its own fallback value, which is an invalid, cyclic declaration; because that declaration also came later in the file at equal selector specificity, it silently overrode every scheme's own accent-deep colour, including the one explicitly set colour (ochre's). Fixed with `:where()` so each scheme's own value, where it declares one, always wins.
-- Rapid or repeated clicks on the PDF export button could start more than one concurrent export, since `aria-busy` was set for accessibility but never actually checked. It's now the real guard: the button disables itself for the duration of an export and ignores further clicks until it finishes or fails.
-- Four of the site's `-720.webp` responsive image variants (the portrait-oriented figures, resized to a fixed height rather than width) were declared as `720w` in their `srcset` when they weren't actually 720 pixels wide. The descriptor is now read from the image's own dimensions.
-- Structured data for the book page had several fields hard-coded regardless of the corresponding Theme options field: page count, first-publication date, language and format all now come from their admin fields (`book_pages`, `book_first_pub`, `book_language`, `book_format`). Page count and date are omitted when the field has no parseable value rather than guessed; language is mapped to a language code (falling back to `ms`).
+- Rapid or repeated clicks on the PDF export button could start more than one concurrent export, since `aria-busy` was set for accessibility and never checked. It is now the real guard: the button disables itself for the duration of an export and ignores further clicks until it finishes or fails.
+- Four of the site's `-720.webp` responsive image variants (the portrait-oriented figures, resized to a fixed height) were declared as `720w` in their `srcset` although they were narrower than 720 pixels. The descriptor is now read from the image's own dimensions.
+- Structured data for the book page had several fields hard-coded regardless of the corresponding Theme options field: page count, first-publication date, language and format all now come from their admin fields (`book_pages`, `book_first_pub`, `book_language`, `book_format`). Page count and date are omitted when the field has no parseable value; language is mapped to a language code (falling back to `ms`).
 - Activating an SEO plugin (Rank Math and others) previously dropped the book's structured data entirely, since no mainstream SEO plugin has an equivalent Book schema type; a self-contained version of it is now still output on the book page even when a plugin is handling everything else.
 - No `<link rel="canonical">` was ever output for category archives or search results; WordPress core's own canonical output only covers singular content. A canonical link is now added for both, when no SEO plugin is active.
 - `build.py`: `{{kjv:}}` scripture references and `[[fn:]]` plain footnotes were numbered in two separate passes, so an article that interleaves both got footnote numbers out of reading order (confirmed on 23 of the 33 bundled articles). Both are now substituted together in one left-to-right pass. The bundled `content/articles/*.html` files have not been regenerated in this release, so the 23 affected articles still ship with their existing numbering until `build.py` is rerun with network access (or a populated `kjv-cache.json`) and the output compared against the current files.
 - `build.py`: several paths were hard-coded to one specific checkout location and failed silently (exiting successfully with no output) when run from anywhere else. Paths are now resolved relative to the script's own location, and a missing source directory now raises a clear error instead.
-- Search snippets, search highlighting, the meta-description save and the glossary index called `mb_stripos()`, `mb_strpos()`, `mb_strrpos()` and `mb_strtoupper()` directly; WordPress core polyfills only `mb_strlen()` and `mb_substr()`, so on hosting without the mbstring extension those were fatal errors. They now go through theme helpers that use mbstring when present and a UTF-8-aware fallback otherwise (checked against Arabic and accented text with mbstring absent).
+- Search snippets, search-term marking, the meta-description save and the glossary index called `mb_stripos()`, `mb_strpos()`, `mb_strrpos()` and `mb_strtoupper()` directly; WordPress core polyfills only `mb_strlen()` and `mb_substr()`, so on hosting without the mbstring extension those were fatal errors. They now go through theme helpers that use mbstring when present and a UTF-8-aware fallback otherwise (checked against Arabic and accented text with mbstring absent).
 - README: corrected the article count (33, not 34) and the caching guidance, which described asset URLs as carrying the version in the file name; they carry it as a `?ver=` query string instead, which most but not all caches key on.
 
 ## [2.22.2] - 2026-09-22
@@ -588,7 +728,7 @@ Fixes for the findings in the PageSpeed Insights report of 19 September 2026 (mo
 
 - Fonts subset to the character ranges the site uses (Latin, Latin Extended, combining marks, transliteration letters, punctuation, Greek where the face has it). EB Garamond regular 147 → 103 KB, semibold 165 → 113 KB; Sabon Next LT regular 100 → 60 KB, bold 102 → 62 KB; Dubidam 40 → 25 KB each. The Arabic fonts are unchanged. Coverage of ʿ ʾ ḥ ṣ ṭ ā ī ū and Greek verified after subsetting.
 - Sabon Next LT regular, Dubidam bold and Cinzel are preloaded, so the fonts painted above the fold no longer wait behind the stylesheets; this shortens the critical chain the report measured at 5.6 s and reduces the layout shift from late fonts.
-- The hero portrait is recompressed (247 → 168 KB) and served with `srcset` at 480, 720 and 962 pixels, so a phone downloads about 52 KB instead of 247.
+- The hero portrait is recompressed (247 → 168 KB) and served with `srcset` at 480, 720 and 962 pixels, so a phone downloads about 52 KB, down from 247.
 - Contrast: small accent text (labels, breadcrumbs, links, footer headings, rail labels) uses a deeper oxblood, #5c1f10, at 4.5:1 on the Ochre ground where the accent gave 3.4:1; muted text deepens from #4a3d2c (3.8:1) to #3a2f22 (4.7:1); the footer credit and text use ink. Headings keep the lighter oxblood, which meets the 3:1 threshold for large text.
 - Touch targets: the footer heading links gain the 44-pixel tap area and footer and series links stand further apart on touch screens.
 
@@ -691,7 +831,7 @@ Enhancements taken from the design review, within the theme as it stands: no cha
 
 ### Changed
 
-- Featured images reassigned so that each matches the topic of its page rather than only varying the set. The seven illustrations carry seven readings: the portrait is the man himself; the decayed saint with its cracked halo is false sanctity; the horned figure is deception; the dunce is folly; the "bastard" cap is illegitimacy; the horned figure in the cap is disguise; the grinning horned figure is the deceiver triumphant. Each page takes the reading that fits it, and a variant (face, hands, ink, oxblood, mirror) keeps every image distinct. The Islamic tradition runs in oxblood throughout.
+- Featured images reassigned so that each matches the topic of its page. The seven illustrations carry seven readings: the portrait is the man himself; the decayed saint with its cracked halo is false sanctity; the horned figure is deception; the dunce is folly; the "bastard" cap is illegitimacy; the horned figure in the cap is disguise; the grinning horned figure is the deceiver triumphant. Each page takes the reading that fits it, and a variant (face, hands, ink, oxblood, mirror) keeps every image distinct. The Islamic tradition runs in oxblood throughout.
 
 | Page | Image | Reading |
 | --- | --- | --- |
@@ -825,7 +965,7 @@ Applies the on-page practices in Google's Search Engine Optimization Starter Gui
 
 ### Fixed
 
-- The count roundels showed "COUNT" with no numeral. The numeral was read from the stored label by a byte-level string function, which failed on the middle dot and on sites whose labels still read "Count 3". Labels are now split in PHP into word and numeral, with Arabic digits converted to Roman, and the numeral is real text on the coin rather than a CSS attribute.
+- The count roundels showed "COUNT" with no numeral. The numeral was read from the stored label by a byte-level string function, which failed on the middle dot and on sites whose labels still read "Count 3". Labels are now split in PHP into word and numeral, with Arabic digits converted to Roman, and the numeral is real text on the coin, where it had been a CSS attribute.
 
 ## [2.5.0] - 2026-09-19
 
@@ -1051,7 +1191,7 @@ A redesign modeled on the conventions of a scholarly journal site.
 
 ### Fixed
 
-- The ʿayn in ʿĪsā and other transliterated names now renders from EB Garamond, which has the glyph, instead of an unrelated system font.
+- The ʿayn in ʿĪsā and other transliterated names now renders from EB Garamond, which has the glyph; it had fallen back to an unrelated system font.
 
 ## [1.2.4] - 2026-09-18
 

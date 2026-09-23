@@ -44,6 +44,8 @@ body::before, body::after, .paulus-header::after, .paulus-footer::before { displ
 .paulus-prose img { max-width: 60% !important; }
 .paulus-glossary dt { break-after: avoid; }
 .paulus-timeline li { break-inside: avoid; }
+.paulus-timeline li::after { background: #999 !important; }
+.paulus-timeline__links { display: none !important; }
 
 
 .paulus-figure { page-break-inside: avoid; break-inside: avoid; max-width: 60% !important; margin: 8pt auto !important; }

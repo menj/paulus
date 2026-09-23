@@ -251,7 +251,8 @@ function paulus_sc_parts( $atts ) {
 			$out .= '</ol></section>';
 			continue;
 		}
-		$out .= '<header class="paulus-part__head"><h2 class="paulus-part__title"><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></h2>';
+		$greek = paulus_greek_mark( $part->slug );
+		$out  .= '<header class="paulus-part__head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h2 class="paulus-part__title"><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></h2>';
 		if ( $part->description ) {
 			$out .= '<p class="paulus-part__description">' . esc_html( $part->description ) . '</p>';
 		}
@@ -332,7 +333,8 @@ function paulus_sc_answers_teaser( $atts ) {
 		return '';
 	}
 	$url = get_permalink( $page );
-	$out = '<section class="paulus-answers" aria-labelledby="paulus-answers-heading"><header class="paulus-part__head"><h2 class="paulus-part__title" id="paulus-answers-heading"><a href="' . esc_url( $url ) . '">' . esc_html( get_the_title( $page ) ) . '</a></h2>';
+	$greek = paulus_greek_mark( 'answers' );
+	$out   = '<section class="paulus-answers" aria-labelledby="paulus-answers-heading"><header class="paulus-part__head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h2 class="paulus-part__title" id="paulus-answers-heading"><a href="' . esc_url( $url ) . '">' . esc_html( get_the_title( $page ) ) . '</a></h2>';
 	if ( $page->post_excerpt ) {
 		$out .= '<p class="paulus-part__description">' . esc_html( $page->post_excerpt ) . '</p>';
 	}
@@ -424,7 +426,17 @@ function paulus_sc_article_nav() {
 		}
 	}
 	if ( $qs && $anchor ) {
-		$out .= '<p class="paulus-readnav__questions"><a href="' . esc_url( get_permalink( $qs ) . '#' . $anchor ) . '">' . esc_html__( 'Study questions for this article', 'paulus' ) . '</a></p>';
+		// How many questions the set holds: the list under its heading.
+		$count = 0;
+		if ( preg_match( '#<h2 id="' . preg_quote( $anchor, '#' ) . '"[^>]*>.*?</h2>\s*<ol[^>]*>(.*?)</ol>#s', (string) $qs->post_content, $set ) ) {
+			$count = substr_count( $set[1], '<li' );
+		}
+		$out .= '<p class="paulus-readnav__questions"><a href="' . esc_url( get_permalink( $qs ) . '#' . $anchor ) . '">'
+			. '<span class="paulus-readnav__q-mark" aria-hidden="true">?</span>'
+			. '<span class="paulus-readnav__q-label">' . esc_html__( 'Study questions for this article', 'paulus' ) . '</span>'
+			/* translators: %s: number of questions. */
+			. ( $count ? '<span class="paulus-readnav__q-count">' . esc_html( sprintf( _n( '%s question', '%s questions', $count, 'paulus' ), number_format_i18n( $count ) ) ) . '</span>' : '' )
+			. '</a></p>';
 	}
 	$out .= '<div class="paulus-readnav__links">';
 	if ( $pos > 0 ) {
@@ -661,9 +673,10 @@ add_action( 'template_redirect', 'paulus_redirect_old_page_slugs', 1 );
 function paulus_sc_footer_brand() {
 	$out  = '<div class="paulus-footer-brand">';
 	// The site icon beside the name: the one set in the Customizer, else
-	// the bundled icon. Decorative, since the name beside it is the link text.
+	// the bundled icon. Decorative, and outside the link: only the wordmark
+	// is linked.
 	$icon  = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.webp';
-	$out .= '<p class="paulus-footer-brand__mark"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home"><img class="paulus-footer-brand__icon" src="' . esc_url( $icon ) . '" alt="" width="48" height="48" loading="lazy" decoding="async">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
+	$out .= '<p class="paulus-footer-brand__mark"><img class="paulus-footer-brand__icon" src="' . esc_url( $icon ) . '" alt="" width="48" height="48" loading="lazy" decoding="async"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
 	// The site description: the Theme Options footer description, or, when
 	// that is empty, the tagline from Settings, General. The publisher
 	// credit follows as its own sentence.
@@ -702,6 +715,41 @@ add_shortcode( 'paulus_footer_brand', 'paulus_sc_footer_brand' );
  *
  * @return string
  */
+/**
+ * Koine Greek inscriptions: one New Testament word or phrase above the
+ * English heading of each section, the Answers and Verdict pages and the
+ * 404 page. Ornament only: the English heading stays, the Greek is set in
+ * uncials without accents, and a tooltip gives the meaning and the verse.
+ *
+ * @return array<string, array{0:string,1:string}> Key => Greek, gloss.
+ */
+function paulus_greek_marks() {
+	return array(
+		'the-man'       => array( 'ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ', __( 'Saul, who is also Paul (Acts 13:9)', 'paulus' ) ),
+		'the-charges'   => array( 'ΚΑΤΗΓΟΡΙΑ', __( 'Accusation (John 18:29)', 'paulus' ) ),
+		'the-witnesses' => array( 'ΟΙ ΜΑΡΤΥΡΕΣ', __( 'The witnesses (Acts 7:58)', 'paulus' ) ),
+		'answers'       => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
+		'the-verdict'   => array( 'ΚΡΙΣΙΣ', __( 'Judgment (John 5:22)', 'paulus' ) ),
+		'404'           => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
+	);
+}
+
+/**
+ * The inscription for a key, as markup, or an empty string.
+ *
+ * @param string $key   Section or page slug, or "404".
+ * @param string $class Extra class.
+ * @return string
+ */
+function paulus_greek_mark( $key, $class = '' ) {
+	$marks = paulus_greek_marks();
+	if ( ! isset( $marks[ $key ] ) ) {
+		return '';
+	}
+	list( $greek, $gloss ) = $marks[ $key ];
+	return '<span class="paulus-greek' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" lang="grc" title="' . esc_attr( $gloss ) . '">' . esc_html( $greek ) . '</span>';
+}
+
 function paulus_sc_page_hero() {
 	$crumbs   = array( array( __( 'Home', 'paulus' ), home_url( '/' ) ) );
 	$title    = '';
@@ -767,13 +815,15 @@ function paulus_sc_page_hero() {
 		$out .= '<figure class="paulus-hero-panel__image">' . $image . '</figure>';
 	}
 	$out .= '<div class="paulus-hero-panel__body">' . $meta;
-	$out .= '<h1 class="paulus-hero-panel__title">' . esc_html( $title ) . '</h1>';
+	$greek_key = is_category() ? get_queried_object()->slug : ( is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '' );
+	$greek     = $greek_key ? paulus_greek_mark( $greek_key, 'paulus-greek--panel' ) : '';
+	$out      .= ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h1 class="paulus-hero-panel__title">' . esc_html( $title ) . '</h1>';
 	if ( $standfirst ) {
 		$out .= '<p class="paulus-hero-panel__standfirst">' . esc_html( $standfirst ) . '</p>';
 	}
 	$out .= '<span class="paulus-hero-panel__rule" aria-hidden="true"></span>';
 	if ( $byline ) {
-		$out .= '<p class="paulus-hero-panel__byline"><span class="paulus-hero-panel__by">' . esc_html__( 'By', 'paulus' ) . '</span> <span class="paulus-hero-panel__author">' . esc_html( $byline ) . '</span>';
+		$out .= '<p class="paulus-hero-panel__byline"><span class="paulus-hero-panel__author">' . esc_html( $byline ) . '</span>';
 		if ( is_single() ) {
 			$out .= ' <span class="paulus-hero-panel__time"><span class="paulus-hero-panel__sep">·</span> ' . esc_html( paulus_reading_time( get_the_ID() ) ) . '</span>';
 		}

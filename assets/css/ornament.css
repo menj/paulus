@@ -45,9 +45,10 @@ body { background-color: var(--och); background-image: url("data:image/svg+xml,%
 
 /* Footer credit in a tabula ansata */
 .paulus-colophon { position: relative; padding: 0.9rem 2.2rem; border: 2px solid var(--ink); max-width: 56ch; }
-.paulus-colophon::before, .paulus-colophon::after { content: ""; position: absolute; top: 50%; width: 18px; height: 36px; margin-top: -18px; border: 2px solid var(--ink); }
-.paulus-colophon::before { left: -20px; border-right: 0; clip-path: polygon(100% 0, 0 30%, 0 70%, 100% 100%); }
-.paulus-colophon::after { right: -20px; border-left: 0; clip-path: polygon(0 0, 100% 30%, 100% 70%, 0 100%); }
+.paulus-colophon::before, .paulus-colophon::after { content: ""; position: absolute; top: 50%; width: 16px; height: 34px; margin-top: -17px; background: var(--ink); }
+/* Dovetail handles: narrow where they meet the tablet, wide at the outer edge. */
+.paulus-colophon::before { left: -17px; clip-path: polygon(100% 38%, 0 0, 0 100%, 100% 62%); }
+.paulus-colophon::after { right: -17px; clip-path: polygon(0 38%, 100% 0, 100% 100%, 0 62%); }
 
 /* Colonnade: hairlines part the columns of the text-style listings, the answers
  * teaser and the footer, the way rules part a papyrus roll into columns. */

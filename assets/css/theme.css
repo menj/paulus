@@ -112,9 +112,7 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-hero__subheading { font-family: var(--t-display); font-weight: 700; font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.2; color: var(--t-ink); max-width: 28ch; margin: 0 0 1.25rem; text-wrap: balance; }
 .paulus-hero__subheading::after { content: ""; display: block; width: 64px; height: 3px; background: var(--t-gold); margin-top: 1.25rem; }
 .paulus-hero__author { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5em; row-gap: 0.25rem; margin: 0 0 1.25rem; }
-.paulus-hero__by { font-family: var(--t-label); font-size: 0.85rem; color: var(--t-accent-deep); }
 .paulus-hero__name { font-family: var(--t-roman); font-weight: 700; font-size: clamp(1.35rem, 2.3vw, 1.8rem); letter-spacing: 0.06em; line-height: 1.15; color: var(--t-accent-deep); }
-.paulus-hero__work { flex-basis: 100%; font-family: var(--t-garamond); font-size: 1rem; color: var(--t-muted); }
 .paulus-hero__lede { font-size: 1.15rem; line-height: 1.65; max-width: 46ch; margin: 0 0 1.75rem; text-align: left; hyphens: manual; -webkit-hyphens: manual; }
 .paulus-hero__actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin: 0 0 clamp(2rem, 5vw, 4rem); }
 .paulus-hero__figure { margin: 1rem 0 0; align-self: end; justify-self: end; width: 100%; max-width: 640px; }
@@ -222,7 +220,7 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-hero-panel__rule { display: block; width: 80px; height: 3px; background: var(--t-gold); margin: 1.25rem 0 1rem; }
 .paulus-hero-panel__byline { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.45em; row-gap: 0.2rem; font-size: 0.8rem; font-weight: 700; margin: 0; }
 .paulus-hero-panel__author { font-family: var(--t-roman); font-weight: 700; font-size: clamp(1.05rem, 1.6vw, 1.25rem); letter-spacing: 0.06em; line-height: 1.25; color: var(--t-ink); }
-.paulus-hero-panel__by { color: var(--t-accent-deep); }
+
 
 body.paulus-scheme-ochre .paulus-hero-panel { background-image: none; border-bottom: 2px solid var(--t-rule); }
 body.paulus-scheme-ochre .paulus-hero-panel__title { color: var(--t-ink); }
@@ -258,10 +256,31 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .footnotes::before { content: "References"; display: block; column-span: all; font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2rem); color: var(--t-accent); margin: 0 0 1.25rem -1.4em; }
 .paulus-prose .footnotes li { margin-bottom: 0.5rem; break-inside: avoid; }
 .paulus-prose .footnotes a { color: var(--t-accent-deep); }
-.paulus-timeline { list-style: none; padding: 0; margin: 2rem 0; border-left: 2px solid var(--t-gold); }
-.paulus-timeline li { position: relative; padding: 0 0 1.1rem 1.4rem; }
-.paulus-timeline li::before { content: ""; position: absolute; left: -7px; top: 0.55em; width: 10px; height: 10px; background: var(--t-gold); transform: rotate(45deg); }
-.paulus-timeline strong { font-family: var(--t-label); font-weight: 400; display: block; color: var(--t-accent); }
+/* Timeline. The spine is drawn per entry (li::after) so the part of it up to
+ * the entry under the pointer can light up: every earlier entry's segment
+ * and marker turn oxblood, and the hovered entry's segment turns oxblood down
+ * to its own marker. The entry itself takes a faint oxblood wash. */
+.paulus-timeline { list-style: none; padding: 0; margin: 2rem 0; }
+.paulus-timeline li { position: relative; padding: 0.55rem 1rem 0.95rem 1.6rem; border-radius: 0 10px 10px 0; transition: background-color 0.25s ease; }
+.paulus-timeline { --tl-dim: color-mix(in srgb, var(--t-gold) 35%, transparent); }
+.paulus-timeline li::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--tl-dim); transition: background 0.25s ease; }
+.paulus-timeline li::before { content: ""; position: absolute; z-index: 1; left: -4px; top: calc(0.55rem + 0.45em); width: 10px; height: 10px; background: var(--t-gold); transform: rotate(45deg); transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease; }
+.paulus-timeline strong { font-family: var(--t-label); font-weight: 400; display: block; color: var(--t-accent); transition: color 0.25s ease; }
+.paulus-timeline li:hover, .paulus-timeline li:focus-within { background: color-mix(in srgb, var(--t-accent) 9%, transparent); }
+.paulus-timeline li:hover::before, .paulus-timeline li:focus-within::before { background: var(--t-accent); transform: rotate(45deg) scale(1.35); box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-accent) 18%, transparent), 0 0 14px color-mix(in srgb, var(--t-accent) 45%, transparent); }
+.paulus-timeline li:hover strong, .paulus-timeline li:focus-within strong { color: var(--t-accent-deep); }
+.paulus-timeline li:hover::after, .paulus-timeline li:focus-within::after { background: linear-gradient(to bottom, var(--t-accent) 0, var(--t-accent) calc(0.55rem + 0.45em + 5px), var(--tl-dim) calc(0.55rem + 0.45em + 5px)); }
+.paulus-timeline li:has(~ li:hover)::after, .paulus-timeline li:has(~ li:focus-within)::after,
+.paulus-timeline li:has(~ li:hover)::before, .paulus-timeline li:has(~ li:focus-within)::before { background: var(--t-accent); }
+.paulus-timeline__links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.4rem; margin-top: 0.35rem; font-family: var(--t-label); font-size: 0.78rem; line-height: 1.5; }
+.paulus-timeline__links a { color: var(--t-accent-deep); text-decoration: none; }
+.paulus-timeline__links a::after { content: " →"; display: inline-block; margin-left: 0.2em; transition: transform 0.25s ease; }
+.paulus-timeline__links a:hover, .paulus-timeline__links a:focus-visible { text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.25em; }
+.paulus-timeline li:hover .paulus-timeline__links a::after, .paulus-timeline__links a:focus-visible::after { transform: translateX(3px); }
+.paulus-timeline__sep { color: var(--t-muted); }
+@media (prefers-reduced-motion: reduce) {
+	.paulus-timeline li, .paulus-timeline li::before, .paulus-timeline li::after, .paulus-timeline strong, .paulus-timeline__links a::after { transition: none; }
+}
 .paulus-readmore { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5em; font-size: 0.8rem; line-height: 1.4; color: var(--t-muted); margin: 0.75rem 0 0; }
 .paulus-readmore a { font-family: var(--t-display); font-weight: 700; font-size: 1rem; text-transform: none; letter-spacing: 0; }
 .paulus-prose .paulus-glossary dt { font-family: var(--t-display); font-weight: 700; font-size: 1.15rem; color: var(--t-accent); margin-top: 1.25rem; }
@@ -423,6 +442,14 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-result { position: relative; padding: 1.25rem 0 1.25rem 3.25rem; border-top: 1px solid var(--t-rule); }
 .paulus-result__n { position: absolute; left: 0; top: 1.3rem; display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; font-family: var(--t-roman); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--t-accent-deep); border: 1px solid var(--t-rule); border-radius: 50%; }
 .paulus-searchform__mark { display: inline-flex; align-items: center; font-family: var(--t-roman); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t-accent-deep); padding-right: 0.2rem; }
+/* Koine Greek in uncials (the search label and the inscriptions above
+ * section and page headings). Cinzel has no Greek, so EB Garamond sets it. */
+.paulus-searchform__mark[lang="grc"] { font-family: var(--t-garamond); font-weight: 600; letter-spacing: 0.14em; }
+.paulus-greek { font-family: var(--t-garamond); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.18em; color: var(--t-accent-deep); cursor: help; }
+.paulus-greek-line { margin: 0 0 0.55rem; line-height: 1.2; }
+.paulus-part__head .paulus-greek-line { margin-bottom: 0.4rem; }
+.paulus-greek--panel { color: var(--t-accent); }
+.paulus-404__kicker .paulus-greek { font-size: 0.85rem; }
 @media (max-width: 600px) { .paulus-result { padding-left: 0; padding-top: 3.4rem; } .paulus-result__n { top: 1rem; } }
 .paulus-result__where { font-family: var(--t-label); font-size: 0.75rem; color: var(--t-accent-deep); margin: 0 0 0.35rem; }
 .paulus-result__title { font-family: var(--t-display); font-weight: 700; font-size: 1.35rem; line-height: 1.2; margin: 0 0 0.4rem; }
@@ -482,8 +509,16 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 /* Reading order */
 .paulus-readnav { position: relative; left: 50%; width: 100vw; max-width: 100vw; transform: translateX(-50%); margin-block: 3rem 0; padding: 1.75rem clamp(1rem, 4vw, 2.5rem) 2.25rem; background: var(--t-surface); border-top: 1px solid var(--t-rule); border-bottom: 1px solid var(--t-rule); box-sizing: border-box; }
 .paulus-readnav__inner { max-width: var(--wp--style--global--content-size, 720px); margin: 0 auto; }
-.paulus-readnav__questions { margin: 0 0 1.25rem; text-align: center; }
-.paulus-readnav__questions a { color: var(--t-accent-deep); font-weight: 600; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+.paulus-readnav__questions { margin: 0 0 1.4rem; text-align: center; }
+/* A pill: a question-mark roundel, the label, and the size of the set. */
+.paulus-readnav__questions a { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; box-sizing: border-box; padding: 0.35rem 1.1rem 0.35rem 0.35rem; border: 1px solid var(--t-accent); border-radius: 999px; color: var(--t-accent-deep); text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease; }
+.paulus-readnav__q-mark { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--t-accent); color: var(--t-on-accent); font-family: var(--t-roman); font-weight: 700; font-size: 1rem; line-height: 1; transition: background-color 0.2s ease, color 0.2s ease; }
+.paulus-readnav__q-label { font-family: var(--t-garamond); font-weight: 600; font-size: 1.02rem; }
+.paulus-readnav__q-count { font-family: var(--t-label); font-size: 0.74rem; color: var(--t-muted); padding-left: 0.7rem; border-left: 1px solid color-mix(in srgb, currentColor 40%, transparent); transition: color 0.2s ease; }
+.paulus-readnav__questions a:hover, .paulus-readnav__questions a:focus-visible { background: var(--t-accent); color: var(--t-on-accent); }
+.paulus-readnav__questions a:hover .paulus-readnav__q-mark, .paulus-readnav__questions a:focus-visible .paulus-readnav__q-mark { background: var(--t-on-accent); color: var(--t-accent); }
+.paulus-readnav__questions a:hover .paulus-readnav__q-count, .paulus-readnav__questions a:focus-visible .paulus-readnav__q-count { color: var(--t-on-accent); }
+@media (prefers-reduced-motion: reduce) { .paulus-readnav__questions a, .paulus-readnav__q-mark, .paulus-readnav__q-count { transition: none; } }
 .paulus-readnav__links { display: grid; grid-template-columns: 1fr 1fr; gap: var(--t-gap); }
 .paulus-readnav__links a { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--t-display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; color: var(--t-ink); text-decoration: none; }
 .paulus-readnav__links a:hover { color: var(--t-accent); }
@@ -540,7 +575,35 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-footer-nav li a { font-family: var(--t-display); font-weight: 700; font-size: 1.1rem; color: var(--t-ink); text-decoration: none; }
 .paulus-footer-nav li a:hover { color: var(--t-accent); }
 .paulus-footer__base { padding-top: 1.25rem; border-top: 1px solid var(--t-rule); align-items: center; }
+.paulus-footer .paulus-footer__base { justify-content: center; column-gap: 3rem; row-gap: 1rem; }
+.paulus-footer .paulus-footer__base .paulus-badges { margin-top: 0; }
 .paulus-colophon { margin: 0; max-width: 62ch; font-family: var(--t-label); font-size: 0.85rem; color: var(--t-ink); }
+.paulus-colophon__id { white-space: nowrap; }
+
+/* Front-page hero, two columns: the type, spacing and portrait scale with
+ * the screen's height as well as its width, so the hero, with its meander
+ * border, fits the first screen on laptops as well as desktops. */
+@media (min-width: 1025px) {
+	.paulus-hero__text { padding-block: clamp(0.5rem, 2vh, 1.25rem) clamp(0.5rem, 2vh, 1.5rem); }
+	.paulus-hero__kicker { margin-bottom: 0.6rem; }
+	.paulus-hero__heading { font-size: clamp(2.2rem, min(5.2vw, 7.2vh), 4.2rem); margin-bottom: 0.7rem; }
+	.paulus-hero__subheading { font-size: clamp(1.25rem, min(2.4vw, 3.3vh), 1.9rem); margin-bottom: 0.9rem; }
+	.paulus-hero__subheading::after { margin-top: 0.9rem; }
+	.paulus-hero__author { margin-bottom: 0.9rem; }
+	.paulus-hero__name { font-size: clamp(1.2rem, min(2.3vw, 3vh), 1.8rem); }
+	.paulus-hero__lede { font-size: clamp(1rem, 2.1vh, 1.15rem); margin-bottom: clamp(1rem, 2.4vh, 1.75rem); }
+	.paulus-hero__actions { margin-bottom: clamp(1.25rem, 3vh, 2.5rem); }
+	.paulus-hero__figure img { width: auto; max-width: 100%; max-height: calc(100svh - 11rem); margin-left: auto; }
+}
+
+/* Book page: the library catalogue record, label beside value. */
+.paulus-catalogue { margin: 1.25rem 0 2rem; border-top: 1px solid var(--t-rule); }
+.paulus-catalogue div { display: grid; grid-template-columns: 11rem 1fr; gap: 1.25rem; padding: 0.6rem 0; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); }
+.paulus-catalogue dt { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent-deep); padding-top: 0.2rem; }
+.paulus-catalogue dd, .paulus-prose .paulus-catalogue dd { margin: 0; font-size: 1rem; line-height: 1.55; text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+@media (max-width: 560px) { .paulus-catalogue div { grid-template-columns: 1fr; gap: 0.15rem; } }
+
+
 
 /* 404 */
 .paulus-404__kicker { font-family: var(--t-label); font-size: 0.8rem; color: var(--t-accent-deep); margin: 0 0 0.75rem; }
@@ -616,7 +679,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 
 /* Touch screens: small inline links get a 44px tap area without moving the layout */
 @media (pointer: coarse), (max-width: 860px) {
-	.paulus-link, .paulus-faq__answer .paulus-readmore a, .paulus-hero-panel__meta a, .paulus-hero-panel__series a, .paulus-footer-nav__heading a, .paulus-footer-nav li a, .paulus-readnav__questions a, .paulus-readmore a, .paulus-footer-brand__mark a, .paulus-answers__more a, .paulus-related li a {
+	.paulus-link, .paulus-faq__answer .paulus-readmore a, .paulus-hero-panel__meta a, .paulus-hero-panel__series a, .paulus-footer-nav__heading a, .paulus-footer-nav li a, .paulus-readmore a, .paulus-footer-brand__mark a, .paulus-answers__more a, .paulus-related li a {
 		display: inline-block;
 		padding-block: 12px;
 		margin-block: -12px;

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.33.6
+Stable tag: 2.37.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,66 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.37.2 =
+* The Save as PDF mark is drawn in one colour, matching the rest of the share row.
+
+= 2.37.1 =
+* The study-questions link under each article becomes a pill with a question-mark roundel and the number of questions.
+
+= 2.37.0 =
+* Koine Greek inscriptions above the section, Answers and Verdict headings and on the 404 page.
+
+= 2.36.4 =
+* Search field label in Koine Greek: ΖΗΤΕΙΤΕ, "seek" (Matthew 7:7).
+
+= 2.36.3 =
+* Front page: the hero and its meander border fit the first screen on laptops and desktops.
+
+= 2.36.2 =
+* The publisher's address and telephone return to the structured data; the page still does not show them.
+
+= 2.36.1 =
+* Book page: the publisher's address and telephone removed; the order button reads "Order the book".
+
+= 2.36.0 =
+* The book page carries the book's library catalogue record, edited under a new Theme Options tab.
+
+= 2.35.3 =
+* Footer credit: states that the site's English text is drawn from the Malay book.
+
+= 2.35.2 =
+* The footer credit returns to the tablet, shortened to three or four lines.
+
+= 2.35.1 =
+* The catalogue card follows the library record of the second printing, in a plainer design.
+
+= 2.35.0 =
+* The footer credit becomes a library catalogue card, typed from the book's national-library record, with its own Theme Options tab.
+
+= 2.34.4 =
+* Footer: only the wordmark is linked; the icon beside it is not.
+
+= 2.34.3 =
+* A portrait of Isma'il R. al Faruqi on The verdict, beside his words.
+
+= 2.34.2 =
+* Writing-style pass over the site text and the documentation.
+
+= 2.34.1 =
+* Timeline: Paul's tribe of Benjamin marked as his own claim.
+
+= 2.34.0 =
+* Timeline: entries light up on hover, the spine fills up to the entry, and fourteen dates link to their articles.
+
+= 2.33.9 =
+* Timeline: every date carries CE.
+
+= 2.33.8 =
+* Footer base row: the colophon tablet and the badges centred together; the tablet's handles drawn properly.
+
+= 2.33.7 =
+* The author's name stands alone in the hero and the article byline.
 
 = 2.33.6 =
 * The repair also restores the hero kicker.
@@ -122,7 +182,7 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * The author card appears only on articles and the book page.
 
 = 2.25.1 =
-* The author card follows the article text directly, instead of sitting above the footer under the related links and book panel.
+* The author card follows the article text directly, ahead of the related links and book panel.
 
 = 2.25.0 =
 * The author card shows the author's portrait in its medallion, and the portrait is added to the author's structured data.
@@ -139,8 +199,8 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * Save as PDF uses a full-colour PDF file icon; the share buttons never render as empty circles.
 
 = 2.23.0 =
-* Content installer: hand edits to body, title, excerpt, category, menu order and page template are each protected against their own baseline; a failed sync is retried rather than marked complete; one-time upgrades now require the theme-options capability.
-* Search highlighting no longer corrupts its own markup; search field contrast fixed in the dark schemes; the Answers teaser respects password protection; search works without the mbstring extension.
+* Content installer: hand edits to body, title, excerpt, category, menu order and page template are each protected against their own baseline; a failed sync is retried on the next page load; one-time upgrades now require the theme-options capability.
+* Search-term marking no longer corrupts its own markup; search field contrast fixed in the dark schemes; the Answers teaser respects password protection; search works without the mbstring extension.
 * Canonical links on archives and search; Book schema read from Theme options.
 * Save as PDF runs one export at a time.
 * Builds run from any checkout path, with footnotes numbered in reading order.
@@ -197,7 +257,7 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * Four new articles: The Roman, The purse, James the brother, and the Qurʾān as witness. Six pieces in each section.
 
 = 2.14.1 =
-* The character chapter rebuilt to add to the record rather than repeat it; a doctrinal error corrected.
+* The character chapter rebuilt with material the other chapters do not cover; a doctrinal error corrected.
 
 = 2.14.0 =
 * New two-part chapter on the character of Paul.

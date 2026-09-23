@@ -77,6 +77,7 @@ function paulus_figures() {
 		'penang-st-george' => array( 'alt' => __( 'White neoclassical church with a columned portico and a spire, beside a small domed pavilion', 'paulus' ), 'author' => 'Gryffindor', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:St._George%27s_Church_Penang_Dec_2006_001.jpg' ),
 		'sinaiticus' => array( 'alt' => __( 'Page of an ancient Greek manuscript written in four narrow columns of capital letters', 'paulus' ), 'author' => 'Unknown scribe, 4th century', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:Codex_Sinaiticus_Matthew_6,4-32.JPG' ),
 		'judaea-diploma' => array( 'alt' => __( 'Bronze tablet engraved in Latin capitals, with a small hole at the top corner', 'paulus' ), 'author' => 'אור פ', 'license' => 'CC BY-SA 3.0', 'license_url' => 'https://creativecommons.org/licenses/by-sa/3.0', 'source' => 'https://commons.wikimedia.org/wiki/File:Roman_military_diploma-_90_-_judaea.jpg' ),
+		'al-faruqi-portrait' => array( 'alt' => __( 'Black-and-white portrait photograph of Isma\'il R. al Faruqi in a pinstriped suit and houndstooth tie', 'paulus' ), 'author' => 'Unknown photographer', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
 	);
 }
 
@@ -106,12 +107,20 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 	$set = $mid_size ? PAULUS_URI . '/assets/images/church/' . $atts['name'] . '-720.webp ' . (int) $mid_size[0] . 'w, ' . $full . ' ' . (int) $size[0] . 'w' : '';
 	$tall = $size[1] > $size[0];
 	$lic  = $f['license_url'] ? '<a href="' . esc_url( $f['license_url'] ) . '" rel="license noopener" target="_blank">' . esc_html( $f['license'] ) . '</a>' : esc_html( $f['license'] );
-	$cred = sprintf(
+	// Figures from Wikimedia Commons credit and link their file page; a
+	// figure supplied from elsewhere (an empty source) gives author and
+	// licence only.
+	$cred = $f['source'] ? sprintf(
 		/* translators: 1: author, 2: licence, 3: source link. */
 		__( 'Image: %1$s, %2$s, via %3$s.', 'paulus' ),
 		esc_html( $f['author'] ),
 		$lic,
 		'<a href="' . esc_url( $f['source'] ) . '" rel="noopener" target="_blank">Wikimedia Commons</a>'
+	) : sprintf(
+		/* translators: 1: author, 2: licence. */
+		__( 'Image: %1$s, %2$s.', 'paulus' ),
+		esc_html( $f['author'] ),
+		$lic
 	);
 	return '<figure class="paulus-figure' . ( $tall ? ' paulus-figure--tall' : '' ) . ( '1' === $atts['wide'] ? ' paulus-figure--wide' : '' ) . '">'
 		. '<a class="paulus-figure__zoom" href="' . esc_url( $full ) . '" data-lightbox="paulus-figures" data-title="' . esc_attr( wp_strip_all_tags( $caption ) . ' ' . wp_strip_all_tags( $cred ) ) . '" aria-label="' . esc_attr__( 'Open the full-size image', 'paulus' ) . '">'

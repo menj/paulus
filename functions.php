@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PAULUS_VERSION', '2.33.6' );
+define( 'PAULUS_VERSION', '2.37.2' );
 define( 'PAULUS_DIR', get_stylesheet_directory() );
 define( 'PAULUS_URI', get_stylesheet_directory_uri() );
 

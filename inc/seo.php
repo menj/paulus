@@ -916,9 +916,11 @@ function paulus_figure_images_schema() {
 			'url'                => $url,
 			'caption'            => trim( wp_strip_all_tags( $row[2] ) ),
 			'description'        => $f['alt'],
-			'creditText'         => $f['author'] . ', ' . $f['license'] . ', via Wikimedia Commons',
-			'acquireLicensePage' => $f['source'],
+			'creditText'         => $f['author'] . ', ' . $f['license'] . ( $f['source'] ? ', via Wikimedia Commons' : '' ),
 		);
+		if ( $f['source'] ) {
+			$img['acquireLicensePage'] = $f['source'];
+		}
 		// Unknown painters and scribes get no creator; museums and firms are
 		// organisations, everyone else a person.
 		if ( ! preg_match( '/^Unknown/i', $f['author'] ) ) {
@@ -1123,7 +1125,7 @@ function paulus_sc_404_quip() {
 	$quips = paulus_404_quips();
 	list( $title, $line, $source ) = $quips[ random_int( 0, count( $quips ) - 1 ) ];
 	$again = esc_url( add_query_arg( array() ) );
-	return '<p class="paulus-404__kicker">' . esc_html__( 'Error 404 · Page not found', 'paulus' ) . '</p>'
+	return '<p class="paulus-404__kicker">' . paulus_greek_mark( '404' ) . ' <span aria-hidden="true">·</span> ' . esc_html__( 'Error 404 · Page not found', 'paulus' ) . '</p>'
 		. '<h1 class="paulus-page__title paulus-404__title">' . esc_html( $title ) . '</h1>'
 		. '<p class="paulus-404__quip">' . esc_html( $line ) . '</p>'
 		. '<p class="paulus-404__source"><span>' . esc_html( $source ) . '</span> <a href="' . $again . '" rel="nofollow">' . esc_html__( 'Hear another excuse', 'paulus' ) . '</a></p>';

@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version'     => 4,
-	'content_version' => '2.32.2',
+	'content_version' => '2.36.0',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -233,6 +233,20 @@ return array(
 		'c15-the-quran-as-witness.html#18' => '9c0703efc1ad5a50ee5ab42acd7d4043',
 		'c08-ego-epilepsy-and-narcissism.html#19' => '966c8df68a3073baed181e0669b32b5a',
 		'c14-the-roman.html#19' => '33c8e09b3d537ac6169213e8663cf18d',
+		'chronology.html#22' => '465908a92b69d0673ed06c6f90f76fda',
+		'chronology.html#21' => '9ab7ea1cca3e80596f5346a34c3aecf6',
+		'chronology.html#20' => '415d5dd2a48bcfba5b82b910521f346e',
+		'c04-by-their-fruits.html#23' => '7b72eb43e0026f6fef8643bc431f7efc',
+		'c05-the-letters-of-a-man.html#23' => 'b190a1a5941b254b26b00ba39593a9de',
+		'c06-owning-the-new-testament.html#23' => '8c71a79f33d9f636d79a5aa6085ef15b',
+		'c06-twisting-the-scriptures.html#23' => 'cc1fc30f971835ba94055c93f2370c5b',
+		'c09-the-church-that-followed-paul.html#23' => '1055fca22d45bcb4df9bf5ad75d70499',
+		'c09-the-failed-prophet.html#23' => '9f861dc426cc1ac0106919f9ef4afe27',
+		'c10-from-ibn-hazm-to-al-faruqi.html#23' => 'cce92b62dc9ae5028616e03c3e40e479',
+		'c13-the-flesh.html#23' => 'b4a56a927b06f778835f5ce7f944e685',
+		'c15-james-the-brother.html#23' => '4e85c2a7fda880993ad71e1d76003da7',
+		'c11-the-verdict.html#24' => '0e7ad2aa5d894308649ecee71672f4a6',
+		'the-book.html#25' => '6692d5b750c468ca389dc77e3c86deee',
 		'study-questions.html#14' => 'c3288122275334ae35467f624f0e5246',
 		'answers.html#14' => 'da99a9ec564cbee77d4f4b16a78305b2',
 		'c03-the-damascus-road.html#14' => '400f89b0e99d4f0375d2f35162a1a0a8',

@@ -47,7 +47,7 @@ function paulus_sc_hero() {
 				<p class="paulus-hero__subheading"><?php echo esc_html( paulus_option( 'hero_subheading' ) ); ?></p>
 			<?php endif; ?>
 			<?php if ( paulus_option( 'book_author' ) ) : ?>
-				<p class="paulus-hero__author"><span class="paulus-hero__by"><?php esc_html_e( 'By', 'paulus' ); ?></span> <span class="paulus-hero__name"><?php echo esc_html( paulus_option( 'book_author' ) ); ?></span><?php if ( paulus_option( 'book_title' ) ) : ?> <span class="paulus-hero__work"><?php /* translators: %s: book title. */ echo wp_kses( sprintf( __( 'Author of %s', 'paulus' ), '<em>' . esc_html( paulus_option( 'book_title' ) ) . '</em>' ), array( 'em' => array() ) ); ?></span><?php endif; ?></p>
+				<p class="paulus-hero__author"><span class="paulus-hero__name"><?php echo esc_html( paulus_option( 'book_author' ) ); ?></span></p>
 			<?php endif; ?>
 			<p class="paulus-hero__lede"><?php echo esc_html( paulus_option( 'hero_lede' ) ); ?></p>
 			<p class="paulus-hero__actions">
@@ -104,11 +104,11 @@ function paulus_book_details() {
 function paulus_order_link() {
 	$url = paulus_option( 'book_buy_url' );
 	if ( $url ) {
-		return '<a class="paulus-button" href="' . esc_url( $url ) . '">' . esc_html( sprintf( /* translators: %s: publisher name. */ __( 'Order from %s', 'paulus' ), paulus_option( 'pub_name' ) ) ) . '</a>';
+		return '<a class="paulus-button" href="' . esc_url( $url ) . '">' . esc_html__( 'Order the book', 'paulus' ) . '</a>';
 	}
 	$email = paulus_option( 'pub_email' );
 	if ( $email ) {
-		return '<a class="paulus-button" href="' . esc_url( 'mailto:' . antispambot( $email ) . '?subject=' . rawurlencode( paulus_option( 'book_title' ) ) ) . '">' . esc_html__( 'Order from the publisher', 'paulus' ) . '</a>';
+		return '<a class="paulus-button" href="' . esc_url( 'mailto:' . antispambot( $email ) . '?subject=' . rawurlencode( paulus_option( 'book_title' ) ) ) . '">' . esc_html__( 'Order the book', 'paulus' ) . '</a>';
 	}
 	return '';
 }
@@ -140,10 +140,6 @@ function paulus_sc_book( $atts ) {
 					<strong><?php echo esc_html( paulus_option( 'pub_name' ) ); ?></strong>
 					<?php if ( paulus_option( 'pub_reg' ) ) : ?>
 						<span><?php echo esc_html( sprintf( /* translators: %s: registration number. */ __( 'Registration no. %s', 'paulus' ), paulus_option( 'pub_reg' ) ) ); ?></span>
-					<?php endif; ?>
-					<span><?php echo nl2br( esc_html( paulus_option( 'pub_address' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
-					<?php if ( paulus_option( 'pub_phone' ) ) : ?>
-						<span><?php echo esc_html( paulus_option( 'pub_phone' ) ); ?></span>
 					<?php endif; ?>
 					<?php if ( paulus_option( 'pub_email' ) ) : ?>
 						<a href="<?php echo esc_url( 'mailto:' . antispambot( paulus_option( 'pub_email' ) ) ); ?>"><?php echo esc_html( antispambot( paulus_option( 'pub_email' ) ) ); ?></a>
@@ -177,23 +173,69 @@ add_shortcode( 'paulus_gallery', 'paulus_sc_gallery' );
  * @return string
  */
 function paulus_sc_colophon() {
-	$out = sprintf(
-		'<p class="paulus-colophon">%1$s <span lang="ms">%2$s</span>. %3$s, %4$s. ISBN %5$s.',
-		esc_html__( 'Drawn from', 'paulus' ),
-		esc_html( paulus_option( 'book_title' ) ),
-		esc_html( paulus_option( 'pub_name' ) ),
-		esc_html( paulus_option( 'book_first_pub' ) ),
-		esc_html( paulus_option( 'book_isbn' ) )
-	);
-	// OCLC only when one is recorded: the field is optional, and a stray
-	// "OCLC ." at the end of the credit line would look like an error.
+	// The footer credit, in the tablet: that the site's English text is drawn
+	// from the Malay book, then its author, title, edition, imprint,
+	// ISBN and OCLC number, set to run three or four lines. Edition and
+	// imprint follow the library record (Theme Options, Book).
+	$parts = array();
+	if ( paulus_option( 'book_author' ) ) {
+		$parts[] = esc_html__( 'The English text of this site is drawn from the Malay original:', 'paulus' ) . ' ' . esc_html( rtrim( paulus_option( 'book_author' ), ' .' ) ) . ', <span lang="ms">' . esc_html( rtrim( (string) paulus_option( 'book_title' ), ' .' ) ) . '</span>.';
+	}
+	if ( paulus_option( 'cat_edition' ) ) {
+		$parts[] = '<span lang="ms">' . esc_html( rtrim( paulus_option( 'cat_edition' ), ' .' ) ) . '</span>.';
+	}
+	if ( paulus_option( 'cat_imprint' ) ) {
+		$parts[] = esc_html( rtrim( paulus_option( 'cat_imprint' ), ' .' ) ) . '.';
+	}
+	if ( paulus_option( 'book_isbn' ) ) {
+		$parts[] = '<span class="paulus-colophon__id">ISBN ' . esc_html( paulus_option( 'book_isbn' ) ) . '.</span>';
+	}
+	// OCLC only when one is recorded: the field is optional.
 	if ( paulus_option( 'book_oclc' ) ) {
 		/* translators: %s: OCLC control number. */
-		$out .= ' ' . sprintf( esc_html__( 'OCLC %s.', 'paulus' ), esc_html( paulus_option( 'book_oclc' ) ) );
+		$parts[] = '<span class="paulus-colophon__id">' . sprintf( esc_html__( 'OCLC %s.', 'paulus' ), esc_html( paulus_option( 'book_oclc' ) ) ) . '</span>';
 	}
-	return $out . '</p>';
+	return '<p class="paulus-colophon">' . implode( ' ', $parts ) . '</p>';
 }
 add_shortcode( 'paulus_colophon', 'paulus_sc_colophon' );
+
+/**
+ * [paulus_catalogue] The book's library catalogue record, for the book page:
+ * label beside value, from Theme Options (Catalogue record, with edition,
+ * imprint and OCLC number from the Book tab). The contents are left out,
+ * since the page lists them in full.
+ *
+ * @return string
+ */
+function paulus_sc_catalogue() {
+	$lines = static function ( $key ) {
+		return array_values( array_filter( array_map( 'trim', explode( "\n", (string) paulus_option( $key ) ) ) ) );
+	};
+	$rows = array(
+		__( 'Title', 'paulus' )                => array( paulus_option( 'cat_title' ), 'ms' ),
+		__( 'Edition', 'paulus' )              => array( paulus_option( 'cat_edition' ), 'ms' ),
+		__( 'Author', 'paulus' )               => array( paulus_option( 'book_author' ), '' ),
+		__( 'Publication', 'paulus' )          => array( paulus_option( 'cat_imprint' ), '' ),
+		__( 'Physical description', 'paulus' ) => array( paulus_option( 'cat_extent' ), '' ),
+		__( 'Language', 'paulus' )             => array( paulus_option( 'cat_language' ), '' ),
+		__( 'Notes', 'paulus' )                => array( $lines( 'cat_note' ), '' ),
+		__( 'Subjects', 'paulus' )             => array( $lines( 'cat_subjects' ), '' ),
+		__( 'ISBN', 'paulus' )                 => array( $lines( 'cat_isbn' ), '' ),
+		__( 'Bib ID', 'paulus' )               => array( paulus_option( 'cat_bib' ), '' ),
+		__( 'OCLC', 'paulus' )                 => array( paulus_option( 'book_oclc' ), '' ),
+	);
+	$out = '';
+	foreach ( $rows as $label => list( $value, $lang ) ) {
+		$values = array_filter( array_map( 'trim', (array) $value ) );
+		if ( ! $values ) {
+			continue;
+		}
+		$attr = $lang ? ' lang="' . esc_attr( $lang ) . '"' : '';
+		$out .= '<div><dt>' . esc_html( $label ) . '</dt><dd' . $attr . '>' . implode( '<br>', array_map( 'esc_html', $values ) ) . '</dd></div>';
+	}
+	return $out ? '<dl class="paulus-catalogue">' . $out . '</dl>' : '';
+}
+add_shortcode( 'paulus_catalogue', 'paulus_sc_catalogue' );
 
 /**
  * Footer badges, from Theme Options, Front page: links and images only.
