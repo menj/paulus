@@ -357,7 +357,8 @@ function paulus_print_schema_graph() {
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$graph[] = $img;
 	}
-	paulus_print_json_ld( $graph );
+	// Deepen every node and add the components the page holds.
+	paulus_print_json_ld( array_values( paulus_schema_deepen( $graph ) ) );
 }
 
 /**
@@ -979,7 +980,9 @@ function paulus_rank_math_json_ld( $data ) {
 	foreach ( paulus_schema_additions( is_array( $data ) ? $data : array() ) as $i => $entity ) {
 		$data[ 'paulus_' . $i ] = $entity;
 	}
-	return $data;
+	// Deepen Rank Math's own nodes and the theme's, and add the components
+	// the page holds; keys are kept for Rank Math's entity linking.
+	return paulus_schema_deepen( $data );
 }
 // Priority 100: Rank Math's own entity-linking pass runs at 99, so this
 // sees the final graph rather than racing it on registration order.
@@ -1096,6 +1099,98 @@ function paulus_sc_page_list() {
 	return $out . '</ul>';
 }
 add_shortcode( 'paulus_page_list', 'paulus_sc_page_list' );
+
+/**
+ * [paulus_sitemap] The whole site as a table of contents. The case first:
+ * each section with its name and description beside a numbered list of its
+ * articles, each marked with its label (Count·II and so on), the parts of a
+ * series set beneath its first. Then one band: the pages that close the
+ * case, Reference, Appendices and the Journal's latest entries. Titles
+ * only, so the whole site can be taken in at a glance.
+ *
+ * @return string
+ */
+function paulus_sc_sitemap() {
+	$link = static function ( $post, $text = '' ) {
+		$label = esc_html( $text ? $text : get_the_title( $post ) );
+		$key   = 'page' === $post->post_type ? $post->post_name : '';
+		$title = $key ? paulus_greek_title( $key ) : '';
+		return '<a href="' . esc_url( get_permalink( $post ) ) . '"' . ( $title ? ' title="' . esc_attr( $title ) . '"' : '' ) . '>' . ( $title ? paulus_greek_label( $key, $label ) : $label ) . '</a>';
+	};
+	$out = '<div class="paulus-sitemap"><section class="paulus-sitemap__case" aria-labelledby="paulus-sm-case"><h2 class="paulus-sitemap__heading" id="paulus-sm-case">' . esc_html__( 'The case', 'paulus' ) . '</h2>';
+	foreach ( paulus_parts() as $part ) {
+		$chapters = paulus_chapters( $part->term_id );
+		if ( ! $chapters ) {
+			continue;
+		}
+		$greek  = paulus_greek_mark( $part->slug );
+		$out   .= '<div class="paulus-sitemap__part"><div class="paulus-sitemap__part-head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h3><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></h3>'
+			. ( $part->description ? '<p>' . esc_html( $part->description ) . '</p>' : '' ) . '</div><ol class="paulus-sitemap__list">';
+		$open   = '';
+		foreach ( $chapters as $post ) {
+			$series = (string) get_post_meta( $post->ID, '_paulus_series', true );
+			$no     = (int) get_post_meta( $post->ID, '_paulus_part_no', true );
+			if ( $series && $series === $open && $no > 1 ) {
+				/* translators: %d: part number. */
+				$out .= '<li><span class="paulus-sitemap__no">' . esc_html( sprintf( __( 'Part %d', 'paulus' ), $no ) ) . '</span> ' . $link( $post ) . '</li>';
+				continue;
+			}
+			if ( $open ) {
+				$out .= '</ol></li>';
+				$open = '';
+			}
+			$label = (string) get_post_meta( $post->ID, '_paulus_label', true );
+			$out  .= '<li class="paulus-sitemap__item">' . ( $label ? '<span class="paulus-sitemap__label">' . esc_html( $label ) . '</span>' : '' ) . $link( $post );
+			if ( $series && 1 === $no ) {
+				$out .= '<ol class="paulus-sitemap__parts">';
+				$open = $series;
+			} else {
+				$out .= '</li>';
+			}
+		}
+		if ( $open ) {
+			$out .= '</ol></li>';
+		}
+		$out .= '</ol></div>';
+	}
+	$out .= '</section><div class="paulus-sitemap__more">';
+	// The pages that close the case.
+	$pages = array();
+	foreach ( array( 'the-verdict', 'answers', 'the-book' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			$pages[] = '<li>' . $link( $page ) . '</li>';
+		}
+	}
+	if ( $pages ) {
+		$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading">' . esc_html__( 'The Verdict and the book', 'paulus' ) . '</h2><ul>' . implode( '', $pages ) . '</ul></section>';
+	}
+	// Reference and Appendices, each with its pages.
+	foreach ( array( 'reference', 'appendices' ) as $slug ) {
+		$parent = get_page_by_path( $slug );
+		if ( ! $parent || 'publish' !== $parent->post_status ) {
+			continue;
+		}
+		$items = '';
+		foreach ( get_pages( array( 'parent' => $parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
+			$items .= '<li>' . $link( $child ) . '</li>';
+		}
+		$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading"><a href="' . esc_url( get_permalink( $parent ) ) . '">' . esc_html( get_the_title( $parent ) ) . '</a></h2><ul>' . $items . '</ul></section>';
+	}
+	// The Journal's latest entries.
+	if ( post_type_exists( 'paulus_journal' ) ) {
+		$entries = get_posts( array( 'post_type' => 'paulus_journal', 'post_status' => 'publish', 'numberposts' => 5 ) );
+		if ( $entries ) {
+			$items = '';
+			foreach ( $entries as $e ) {
+				$items .= '<li><time class="paulus-sitemap__date" datetime="' . esc_attr( get_the_date( 'c', $e ) ) . '">' . esc_html( get_the_date( 'j M Y', $e ) ) . '</time> ' . $link( $e ) . '</li>';
+			}
+			$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading"><a href="' . esc_url( paulus_journal_url() ) . '" title="' . esc_attr( paulus_greek_title( 'journal' ) ) . '">' . paulus_greek_label( 'journal', esc_html( paulus_option( 'journal_title' ) ) ) . '</a></h2><ul>' . $items . '</ul></section>';
+		}
+	}
+	return $out . '</div></div>';
+}
+add_shortcode( 'paulus_sitemap', 'paulus_sc_sitemap' );
 
 /**
  * Sections and pages as plain links, for the 404 page.

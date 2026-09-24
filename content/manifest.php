@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
-	'nav_version' => 6,
-	'content_version' => '2.48.0',
+	'nav_version' => 7,
+	'content_version' => '2.49.0',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -302,6 +302,8 @@ return array(
 		'c06-owning-the-new-testament.html#38' => '04d194e499f463191ea6bfa6580b2bf0',
 		'c06-owning-the-new-testament.html#39' => '8804cefe22c7b02fc4b7d970190dbf7f',
 		'c06-owning-the-new-testament.html#40' => '72dcc37d35f2abb24f45d4e2ccc5d87a',
+		'site-map.html#41' => '865aa14af09bfac232badd6123cf9f19',
+		'c12-malaysia-and-southeast-asia.html#42' => '6e5bd90d624027b6d4e0da580ed6d095',
 		'study-questions.html#14' => 'c3288122275334ae35467f624f0e5246',
 		'answers.html#14' => 'da99a9ec564cbee77d4f4b16a78305b2',
 		'c03-the-damascus-road.html#14' => '400f89b0e99d4f0375d2f35162a1a0a8',
@@ -313,6 +315,7 @@ return array(
 	// that still matches one of these was never edited by hand and is
 	// refreshed from the current manifest.
 	'prior_meta' => array(
+		'The verdict on Paul',
 		'Thirteen claims missionaries make about Paul, each met with a short answer and a link to the full evidence. Ready when asked.',
 		'Twelve claims missionaries make about Paul, each met with a short answer and a link to the full evidence. Ready when asked.',
 		'A Pharisee of Tarsus who persecuted the first followers of ʿĪsā ibn Maryam, then claimed to be their apostle. Read his profile.',
@@ -905,8 +908,8 @@ return array(
 		array(
 			'slug'    => 'the-verdict',
 			'meta'      => 'A faith without deeds became a faith that could bless empire. Why rejecting Paul is a moral duty, argued to its conclusion.',
-			'title'   => 'The verdict',
-			'seo_title' => 'The verdict on Paul',
+			'title'   => 'The Verdict',
+			'seo_title' => 'The Verdict on Paul',
 			'image'   => 'paul-horned-bastard-ink',
 			'excerpt' => 'Why rejecting Paul is a moral question as well as a theological one.',
 			'file'    => 'c11-the-verdict.html',
@@ -1026,6 +1029,46 @@ return array(
 			'file'    => 'site-map.html',
 			'image'   => 'paul-decayed-ink',
 			'order'   => 5,
+		),
+		array(
+			'slug'      => 'privacy-policy',
+			'status'    => 'draft',
+			'meta'      => 'What Apostle of Doom collects when you read it: visitor statistics, server records and nothing else. Read the privacy policy.',
+			'title'     => 'Privacy Policy',
+			'seo_title' => 'Privacy Policy',
+			'excerpt'   => 'What the site collects from its readers, and how it is used.',
+			'file'      => 'legal-privacy-policy.html',
+			'order'     => 90,
+		),
+		array(
+			'slug'      => 'terms-of-use',
+			'status'    => 'draft',
+			'meta'      => 'The terms for reading and quoting Apostle of Doom: copyright, permitted quotation, links and the governing law. Read the terms.',
+			'title'     => 'Terms of Use',
+			'seo_title' => 'Terms of Use',
+			'excerpt'   => 'The terms for reading and quoting the site.',
+			'file'      => 'legal-terms-of-use.html',
+			'order'     => 91,
+		),
+		array(
+			'slug'      => 'dmca',
+			'status'    => 'draft',
+			'meta'      => 'How to report material on Apostle of Doom that you believe infringes your copyright, and how to answer a notice. Send a notice.',
+			'title'     => 'DMCA',
+			'seo_title' => 'DMCA and copyright notices',
+			'excerpt'   => 'How to send a copyright notice or a counter-notice.',
+			'file'      => 'legal-dmca.html',
+			'order'     => 92,
+		),
+		array(
+			'slug'      => 'contact',
+			'status'    => 'draft',
+			'meta'      => 'Write to the publisher of Apostle of Doom with corrections, questions on the sources or replies to its arguments. Get in touch.',
+			'title'     => 'Contact',
+			'seo_title' => 'Contact',
+			'excerpt'   => 'How to write to the publisher.',
+			'file'      => 'legal-contact.html',
+			'order'     => 93,
 		),
 		array(
 			'slug'     => 'the-book',

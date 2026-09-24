@@ -40,6 +40,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 The portrait and its variants are redrawn. On the first page load as an administrator after updating, the structure sync copies the eight new portrait files into the media library and points the existing attachments at them; featured images change in place. Clear the page cache and any CDN afterwards. A site icon set under Site Identity is not touched; the bundled fallback icon is redrawn.
 
+### 2.49.0
+
+The footer gains a secondary bar, and the theme drafts four pages for it: Privacy Policy, Terms of Use, DMCA and Contact. They arrive as drafts, listed on the dashboard under "To review". Open each, read the note at the top of the text (visible in the code editor, hidden from readers), confirm or correct what it lists, and publish; its link then appears in the bar. The Privacy Policy mentions the Google tag found on the site; if you use another analytics service, or plugins that load outside services, add them before publishing. If WordPress's own draft Privacy Policy was still untouched, the theme's text replaces it; a privacy page you had written is kept. If you have customised the footer in the Site Editor, reset that part or add a Shortcode block with `[paulus_footer_legal]`.
+
 ### 2.48.0
 
 The Journal leaves the header menu and takes its own block in the header, beside THE BOOK. The header part (`parts/header.html`) carries it; if you have customised the header in the Site Editor, reset that part to the theme's version, or add a Shortcode block with `[paulus_journal_canton]` between the Navigation block and the search. The menu is rebuilt once to drop the Journal link that 2.46 added, and only if the menu still holds the theme's own links.

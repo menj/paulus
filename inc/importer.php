@@ -302,15 +302,24 @@ function paulus_install_navigation( $parts ) {
 				$labels[] = (string) ( $b['attrs']['label'] ?? '' );
 			}
 		}
-		$ours   = array_merge( wp_list_pluck( paulus_manifest()['parts'], 'name' ), array( 'Answers', 'The book' ) );
-		$with   = array_merge( $ours, array( (string) paulus_option( 'journal_title' ) ) );
-		$labels = array_map( 'strtolower', $labels );
-		$ours   = array_map( 'strtolower', $ours );
-		$with   = array_map( 'strtolower', $with );
-		sort( $labels );
-		sort( $ours );
-		sort( $with );
-		if ( $labels !== $ours && $labels !== $with ) {
+		// Every set of links the theme has placed there: the current one (the
+		// sections, The Verdict, The book), and the earlier ones with Answers
+		// in place of The Verdict, each with or without the Journal link 2.46
+		// added. Compared without regard to capitals.
+		$names  = wp_list_pluck( paulus_manifest()['parts'], 'name' );
+		$sets   = array();
+		foreach ( array( 'The Verdict', 'Answers' ) as $fourth ) {
+			$base   = array_merge( $names, array( $fourth, 'The book' ) );
+			$sets[] = $base;
+			$sets[] = array_merge( $base, array( (string) paulus_option( 'journal_title' ) ) );
+		}
+		$norm   = static function ( $list ) {
+			$list = array_map( 'strtolower', $list );
+			sort( $list );
+			return $list;
+		};
+		$labels = $norm( $labels );
+		if ( ! in_array( $labels, array_map( $norm, $sets ), true ) ) {
 			update_option( 'paulus_nav_version', $version );
 			update_option( 'paulus_nav_kept', 1, false );
 			return;
@@ -336,8 +345,9 @@ function paulus_install_navigation( $parts ) {
 			$blocks .= $link( $part['name'], 'category', $parts[ $part['slug'] ], get_term_link( $parts[ $part['slug'] ] ), 'taxonomy' );
 		}
 	}
-	// The verdict and the Reference pages live in the footer menu.
-	$blocks .= $page_link( 'answers', 'Answers' );
+	// After the sections, The Verdict closes the case; the Reference pages
+	// live in the footer menu.
+	$blocks .= $page_link( 'the-verdict', 'The Verdict' );
 	$blocks .= $page_link( 'the-book', 'The book', 'paulus-nav-cta' );
 
 	if ( $current ) {
@@ -535,6 +545,23 @@ function paulus_run_install() {
 			}
 		}
 		if ( $page ) {
+			// WordPress makes a draft Privacy Policy at install, at the same
+			// address, holding its own "Suggested text" template. While it is
+			// still an untouched draft, the theme's text takes its place (the
+			// page stays a draft for the owner to review); a privacy page the
+			// owner has written or published is never touched.
+			if ( 'privacy-policy' === $item['slug'] && 'draft' === $page->post_status
+				&& false !== strpos( $page->post_content, 'privacy-policy-tutorial' ) ) {
+				wp_update_post(
+					array(
+						'ID'           => $page->ID,
+						'post_title'   => $item['title'],
+						'post_excerpt' => $item['excerpt'],
+						'post_content' => paulus_content_file( $item['file'] ),
+					)
+				);
+				$page = get_post( $page->ID );
+			}
 			if ( '' === $page->post_excerpt ) {
 				wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
 			}
@@ -577,7 +604,8 @@ function paulus_run_install() {
 		$id = wp_insert_post(
 			array(
 				'post_type'     => 'page',
-				'post_status'   => 'publish',
+				// Pages the owner must review first (the legal pages) ship as drafts.
+				'post_status'   => $item['status'] ?? 'publish',
 				'post_name'     => $item['slug'],
 				'post_title'    => $item['title'],
 				'post_excerpt'  => $item['excerpt'],
@@ -592,6 +620,10 @@ function paulus_run_install() {
 			update_post_meta( $id, '_paulus_menu_order', $item['order'] );
 			update_post_meta( $id, '_paulus_page_template', (string) ( $item['template'] ?? '' ) );
 			paulus_refresh_unedited( get_post( $id ), $item );
+			// WordPress's own privacy setting points to the theme's page if unset.
+			if ( 'privacy-policy' === $item['slug'] && ! (int) get_option( 'wp_page_for_privacy_policy' ) ) {
+				update_option( 'wp_page_for_privacy_policy', $id );
+			}
 			++$created;
 		} else {
 			$failed = true;

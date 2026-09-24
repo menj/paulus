@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.48.0
+Stable tag: 2.51.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,48 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.51.5 =
+* Theme screenshot: the portrait drawn larger, standing on the border, level with the headline.
+
+= 2.51.4 =
+* Theme screenshot: the hero text starts close under the header, as on the site.
+
+= 2.51.3 =
+* Theme screenshot: the first screen only, header and hero.
+
+= 2.51.2 =
+* Theme screenshot updated to the current design.
+
+= 2.51.1 =
+* Koine Greek from one register everywhere a section or page is named.
+
+= 2.51.0 =
+* Main menu: on hover each term is replaced by its Koine Greek, as in the footer bar.
+
+= 2.50.3 =
+* Footer bar: on hover each English term is replaced by its Koine Greek.
+
+= 2.50.2 =
+* Footer bar: smaller Roman capitals, interpuncts, and an inscribed double-rule hover.
+
+= 2.50.1 =
+* Front page: FAQPage markup for the questions in its answers section.
+
+= 2.50.0 =
+* Structured data in depth: every page and component described with its most specific schema.org type, on the theme's own graph and Rank Math's alike.
+
+= 2.49.0 =
+* A secondary bar at the foot of the footer: Privacy Policy, Terms of Use, DMCA, Contact and Sitemap; the four new pages drafted for the owner's review.
+
+= 2.48.3 =
+* "The Verdict" spelt the same way everywhere.
+
+= 2.48.2 =
+* Header menu: The Verdict in place of Answers.
+
+= 2.48.1 =
+* The Sitemap page becomes a table of contents.
 
 = 2.48.0 =
 * The Journal takes its own block in the header, beside The book, in place of a menu link.
@@ -101,16 +143,16 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * Answers: an index of the questions, a link mark on each, a way back after each answer, and each question's address in its structured data.
 
 = 2.41.0 =
-* The verdict: a section on the demographers' projections, with four charts drawn from the Pew Research Center's figures.
+* The Verdict: a section on the demographers' projections, with four charts drawn from the Pew Research Center's figures.
 
 = 2.40.1 =
-* The verdict: Pew's figures on where Christians live, and its 2017 projections to 2060.
+* The Verdict: Pew's figures on where Christians live, and its 2017 projections to 2060.
 
 = 2.40.0 =
 * Every web address in the footnotes is a live link; one Pew citation corrected.
 
 = 2.39.3 =
-* The verdict: the Pew Research Center's 2010–2050 projections, with figures, before the closing declaration.
+* The Verdict: the Pew Research Center's 2010–2050 projections, with figures, before the closing declaration.
 
 = 2.39.2 =
 * From Ibn Ḥazm to al Faruqi: the al-Attas section heading gives his full name.
@@ -170,7 +212,7 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * Footer: only the wordmark is linked; the icon beside it is not.
 
 = 2.34.3 =
-* A portrait of Isma'il R. al Faruqi on The verdict, beside his words.
+* A portrait of Isma'il R. al Faruqi on The Verdict, beside his words.
 
 = 2.34.2 =
 * Writing-style pass over the site text and the documentation.
@@ -482,7 +524,7 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 * "The book" is a call-to-action button in the header menu. Rounded buttons. Justified body text.
 
 = 1.8.0 =
-* Header menu cut to five items. The verdict and the Reference pages move to a new footer menu.
+* Header menu cut to five items. The Verdict and the Reference pages move to a new footer menu.
 
 = 1.7.2 =
 * Prompts administrators to install the site content when it is missing.

@@ -232,7 +232,7 @@ function paulus_upgrade_160() {
 }
 
 /**
- * One-time upgrade to 1.8.0: the header menu drops The verdict and Reference,
+ * One-time upgrade to 1.8.0: the header menu drops The Verdict and Reference,
  * which move to the footer.
  */
 function paulus_upgrade_180() {
@@ -470,6 +470,7 @@ require_once PAULUS_DIR . '/inc/figures.php';
 require_once PAULUS_DIR . '/inc/charts.php';
 require_once PAULUS_DIR . '/inc/dashboard.php';
 require_once PAULUS_DIR . '/inc/journal.php';
+require_once PAULUS_DIR . '/inc/schema-deep.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**

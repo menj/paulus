@@ -93,6 +93,23 @@ function paulus_dashboard_render() {
 				?>
 				<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=paulus_journal' ) ); ?>"><?php esc_html_e( 'Write an entry', 'paulus' ); ?></a>
 			</td></tr>
+			<?php
+			$drafts = array();
+			foreach ( (array) ( $manifest['pages'] ?? array() ) as $item ) {
+				if ( 'draft' === ( $item['status'] ?? '' ) ) {
+					$page = get_page_by_path( $item['slug'] );
+					if ( $page && 'draft' === $page->post_status ) {
+						$drafts[] = '<a href="' . esc_url( get_edit_post_link( $page->ID ) ) . '">' . esc_html( get_the_title( $page ) ) . '</a>';
+					}
+				}
+			}
+			if ( $drafts ) :
+				?>
+			<tr><th scope="row"><?php esc_html_e( 'To review', 'paulus' ); ?></th><td>
+				<?php echo wp_kses_post( implode( ', ', $drafts ) ); ?><br>
+				<?php esc_html_e( 'Drafted by the theme. Each appears in the footer bar once you review and publish it.', 'paulus' ); ?>
+			</td></tr>
+			<?php endif; ?>
 			<tr><th scope="row"><?php esc_html_e( 'Articles and pages', 'paulus' ); ?></th><td>
 				<?php
 				/* translators: 1: number of articles, 2: number of pages. */

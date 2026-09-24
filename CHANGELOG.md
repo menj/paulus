@@ -2,6 +2,105 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.51.5] - 2026-09-24
+
+### Changed
+
+- `screenshot.png`: with the hero text starting close under the header, the portrait had stood low, with over 150 pixels of empty space above it. It is now drawn larger for the capture (640 pixels wide in place of 569), still standing on the lower border as in the design, so that Paul's head comes level with the headline and the cross rises behind him from the subtitle; the sword stays clear of the text. Centring the portrait instead was tried and rejected, since it left the cut edge of the illustration floating above the border. The site itself is unchanged.
+
+## [2.51.4] - 2026-09-24
+
+### Changed
+
+- `screenshot.png`: the hero text now starts close under the header's border, 26 pixels below it against the design's 30, where the previous capture had centred it in the enlarged hero and left over 100 pixels of space above the kicker. The portrait still stands on the lower border. The site itself is unchanged; the space was only in the capture.
+
+## [2.51.3] - 2026-09-24
+
+### Changed
+
+- `screenshot.png` shows the first screen only: the header and the hero, ending on the hero's meander border, with nothing of the section below. WordPress frames theme screenshots at 4:3 (1200 by 900), and the header and hero at desktop widths are wider than that (1.39 to 1.61 to 1 above the 1025-pixel breakpoint; below it the Journal canton takes its round form), so for the capture the hero is given the frame's height beneath the header, its text column centred and the portrait standing on the lower border as in the design. Nothing is scaled, cropped or distorted. Captured at double resolution from WordPress 7.1.2 running this release with the site's content.
+
+## [2.51.2] - 2026-09-24
+
+### Changed
+
+- `screenshot.png`, the image WordPress shows in Appearance, Themes, is replaced with the front page as it now stands, captured at 1200 by 900 pixels (rendered at double resolution and scaled down) from WordPress 7.1.2 running this release with the site's content: the header menu with The Man, The Charges, The Witnesses and The Verdict, the book button, the Journal canton and search; the hero with the engraved gladius portrait, the author's name and the justified introduction; and the opening of The Charges beneath its inscription ΚΑΤΗΓΟΡΙΑ. The previous screenshot showed the menu of the book's order (with Answers), no Journal and no search, and the portrait before the gladius redrawing.
+
+## [2.51.1] - 2026-09-24
+
+### Changed
+
+- Koine Greek is used consistently for every section and page, from one register (`paulus_greek_marks()`), where the menu, the footer bar and the pages had held separate lists that disagreed. Each section or page now has a single form: The Man ΣΑΥΛΟΣ (its page inscription had read ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ, the menu ΣΑΥΛΟΣ; same verse, Acts 13:9), the Journal ΓΡΑΦΩ (the page had read ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ; same verse, 1 John 2:1); the others as before. The shorter forms are the ones a menu can carry without widening. Pages that were named in Greek in the menus but carried no inscription now carry it in their title panel: the book (ΒΙΒΛΙΟΝ, in its book panel), Privacy Policy, Terms of Use, DMCA, Contact and Sitemap. The Greek swap now also runs on the footer's The case column, the breadcrumbs and the Sitemap's page links, and the Sitemap's section rows carry their inscriptions. The footer bar's separate swap is folded into the shared one.
+- Checked on WordPress 7.1.2 by crawling fifteen pages: twelve sections and pages named in Greek, each with exactly one form wherever it is named, and each the same as its own page's inscription.
+
+### Fixed
+
+- Before release, the check of every page's heading caught a fault introduced in this change: the breadcrumb tooltip reused the variable holding the page's heading, which emptied the section pages' headings and would have put Greek in the articles'. Fixed; every kind of page shows its own heading.
+
+## [2.51.0] - 2026-09-24
+
+### Added
+
+- Main menu: on hover or keyboard focus each term is replaced at once, in the same place, by Koine Greek from the New Testament, as in the footer bar: The Man, ΣΑΥΛΟΣ ("Saul", Acts 13:9); The Charges, ΚΑΤΗΓΟΡΙΑ ("accusation", John 18:29); The Witnesses, ΟΙ ΜΑΡΤΥΡΕΣ ("the witnesses", Acts 7:58); The Verdict, ΚΡΙΣΙΣ ("judgment", John 5:22); The book, ΒΙΒΛΙΟΝ ("the book", Luke 4:17); and the Journal canton, ΓΡΑΦΩ ("I write", 1 John 2:1). The sections and the verdict take the Greek inscribed on their own pages; each word is checked against the SBL Greek New Testament. The Greek is chosen by the section or page a link points to (`paulus_nav_greek()`), so a renamed label keeps it. The English and the Greek share one cell (`paulus_greekswap()`), so the menu never shifts: measured at 819 pixels at rest and on every hover. Text links draw the double hairline beneath; the book button and the Journal canton keep their fills. The tooltip gives the meaning and verse, and screen readers hear the English only.
+
+## [2.50.3] - 2026-09-24
+
+### Added
+
+- Footer bar: on hover or keyboard focus each English term is replaced at once, in the same place, by a Koine Greek word from the New Testament whose sense fits the page, each checked against the SBL Greek New Testament: Privacy Policy, ΚΑΤʼ ΙΔΙΑΝ ("privately", Mark 4:34); Terms of Use, ΟΡΟΘΕΣΙΑΙ ("the bounds set", Acts 17:26); DMCA, ΑΠΟΔΟΤΕ ("render", Matthew 22:21, "render unto Caesar the things which are Caesar's"); Contact, ΕΠΙΣΤΟΛΗ ("a letter", Acts 15:30); Sitemap, ΟΔΗΓΟΣ ("a guide", Romans 2:19). The English and the Greek share one cell, so the line never shifts width; the Greek is set in EB Garamond capitals (Cinzel has no Greek) and takes the accent colour, with the double-hairline ruling beneath. The swap is immediate, without fade or slide. The tooltip gives the meaning and verse, and screen readers hear the English only.
+
+## [2.50.2] - 2026-09-24
+
+### Changed
+
+- Footer bar: set like a line of a Roman inscription. Small Roman capitals (Cinzel, 0.7rem where the label face had been 0.78rem, letter-spaced 0.14em) divided by raised interpuncts in the accent colour. On hover or keyboard focus a double hairline, the ruling of an inscribed tablet, draws out from the centre of the word and the word takes the accent; the current page keeps its ruling. Reduced motion shows the ruling without the drawing.
+
+## [2.50.1] - 2026-09-24
+
+### Added
+
+- Front page: an `FAQPage` (`#faq`) for the questions in its answers section, at the owner's direction. The section records the questions and answers it shows (`$GLOBALS['paulus_front_faq']`; a block theme renders the body before `wp_head`), and the markup is built from that record, so it follows any change in the number shown. Each answer is the text the reader sees, without the "Full evidence" line and in WordPress's display typography (curly apostrophes and quotes); each question and answer links to the full, referenced answer on the Answers page, which keeps its own `FAQPage` under its own identifier. Tested on WordPress 7.1.2 with Rank Math active and without: six questions shown, six in the markup, every question and answer identical to the page; the whole site still validates against the schema.org vocabulary with no unknown term and no reference left unresolved.
+
+## [2.50.0] - 2026-09-24
+
+### Added
+
+- Structured data in depth (`inc/schema-deep.php`, `paulus_schema_deepen()`). Every page and component is described with the most specific schema.org type true of it, and the page's main nodes are deepened, whether the theme or Rank Math builds them; with Rank Math the theme keeps its keys and uses its identifiers for the author and publisher. See the README's table. In short: header, footer and navigation on every page; articles as scholarly articles with their subject, source book, section, series, reading time, every footnote as a citation and every scripture block as a quotation; the Verdict's charts as Pew datasets; Martin's notes as a manuscript with its PDF; the timeline as events, the glossary as a defined-term set, the study guide as a quiz of 121 questions, the sources as a bibliography; the index pages as collections; the gallery as an image gallery; photographed works of art, manuscripts and maps as what they are; the Journal as a blog; the contact page and the publisher's contact point and policies; image metadata crediting the author on the site's own illustrations. Linked entities carry Wikipedia and Wikidata identifiers, each verified.
+- Only what a page contains is declared: types that would misdescribe the content (products, events for sale, recipes and the like) are not used, since that breaks Google's structured-data policy and states something false.
+
+Tested on WordPress 7.1.2 with the site's content, with Rank Math 1.0.279 active (as live) and without it: 22 kinds of page, 1,450 and 1,428 nodes; every type and property checked against the current schema.org vocabulary (1,017 types, 1,696 properties), no unknown term, no reference to a node absent from the page, and no duplicated page or article node. The one flag, `query-input` on the site's SearchAction, is schema.org's standard annotation for an action's input.
+
+## [2.49.0] - 2026-09-24
+
+### Added
+
+- A secondary bar at the foot of the footer (`[paulus_footer_legal]`), under a hairline: Privacy Policy · Terms of Use · DMCA · Contact · Sitemap, in one line of the label face with oxblood separators, centred and wrapping on phones. Each link appears once its page is published. The Sitemap moves there from the Reference column, which now holds four links, so the three columns stand at four, four and three.
+- Four pages, shipped as drafts for the owner's review (`'status' => 'draft'`, a new manifest field): Privacy Policy, Terms of Use, DMCA and Contact, 80 to 359 words each, written from what the site does (the Google tag found on the live site, server records, the reading position kept in the reader's browser, share buttons that send nothing until used, fonts served from the site), under Malaysian law and the Personal Data Protection Act 2010, with the DMCA notice and counter-notice procedure also serving for the Copyright Act 1987. Each opens with a note, hidden from readers, listing what to confirm before publishing. Checked against the house rules. Search descriptions of 125 to 127 characters.
+- `[paulus_email]`: the publisher's address from Theme Options as a mail link, obscured from harvesters, so every page that gives it follows a change of address.
+- The Privacy Policy becomes WordPress's privacy page if none is set. WordPress's own draft privacy page, created at install at the same address, is replaced by the theme's text only while it is an untouched draft holding WordPress's "Suggested text" template; a privacy page the owner has written or published is left alone.
+- The dashboard widget lists the drafted pages awaiting review, with edit links.
+
+Tested on WordPress 7.1.2 with the site's content: the sync creates the four drafts and registers the privacy page; while they are drafts the bar shows Sitemap alone; once published it shows all five, each page renders its title and mail link with the note hidden and no errors; an untouched WordPress privacy draft takes the theme's text, and an owner's own privacy text is kept. Content version 2.49.0.
+
+## [2.48.3] - 2026-09-24
+
+### Changed
+
+- "The Verdict" is spelt the same way wherever the page is named, in the sections' title case: the page title (so its heading, breadcrumb, cards and every link that takes the page's title), its search title "The Verdict on Paul", the header menu and the footer's The case column, the Sitemap's group "The Verdict and the book", the link to it in *The religion of Paul in Malaysia and Southeast Asia*, code comments, the README and the release notes. The sync retitles the page and replaces the search title only while each still holds what the theme shipped ("The verdict on Paul" is recorded among the earlier shipped values); a title typed by hand is kept. Ordinary uses of the word stay as they are ("the man, the charges, the witnesses and the verdict" in the site description; "The verdict of the region…" beginning a sentence), as does the changelog entry that records the site's first four sections under their names of the time. Tested on WordPress 7.1.2 from a page titled "The verdict": after the sync the heading, breadcrumb, browser title, header menu, footer and Sitemap all read "The Verdict". Content version 2.48.3.
+
+## [2.48.2] - 2026-09-24
+
+### Changed
+
+- Header menu: The Verdict takes the place of Answers, after the three sections, so the menu follows the case in order (The Man, The Charges, The Witnesses, The Verdict, then The book). Answers is linked from the front page's answers block and nowhere in the menus. The footer's The case column names the verdict "The Verdict", matching the menu and the sections' title case; the page's own title is unchanged.
+- The menu is rebuilt once (`nav_version` 7), and only while it holds a set of links the theme placed there: the check now recognises the current set and the earlier ones with Answers, each with or without the Journal link of 2.46, compared without regard to capitals. A menu edited in the Site Editor is kept. Tested on WordPress 7.1.2 with the site's content: from the previous menu (The Man, The Charges, The Witnesses, Answers, The book) the sync builds The Man, The Charges, The Witnesses, The Verdict, The book; a menu with a hand-added link is left as it is. The test also caught a fault before release, a variable in the check that overwrote the list of sections and emptied the rebuilt menu of them, fixed before packaging. Content version 2.48.2.
+
+## [2.48.1] - 2026-09-24
+
+### Changed
+
+- The Sitemap page is rebuilt as a table of contents (`[paulus_sitemap]`, new). It had repeated the front page's article cards, with excerpts, Greek lines and part counters, and then run every other page into one flat list with descriptions, Reference, Appendices, their pages and the book together. It now sets out the case first, each section as a row with its name and description beside a numbered list of its articles in reading order, each under its label (Profile, Count·II and so on), the parts of a series indented beneath the first on a hairline; then, two by two, the pages that close the case (the verdict, the Answers, the book), Reference, Appendices and the Journal's five latest entries with their dates. Titles only. The section descriptions stay justified, with hyphenation. Checked by installing the theme with its content on WordPress 7.1.2 and rendering the page: 18 articles, 15 series parts and four groups. Content version 2.48.1.
+
 ## [2.48.0] - 2026-09-24
 
 ### Changed
@@ -202,20 +301,20 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 ### Added
 
 - Data charts. `inc/charts.php` draws charts as plain HTML bars in the active scheme's accent, each value written on its bar (so the numbers reach screen readers and print), with the source linked beneath; no script and no images. Three kinds: paired bars for two years, diverging bars for gains and losses, and single bars on a scale with a zero line and a marker line. Rows the text discusses are drawn at full strength and the rest muted. On narrow screens each label sits above its bars. `build.py` places a chart with `{{chart:id}}`.
-- *The verdict*: the Pew material moves from the closing section on colonial legitimation into a section of its own, "What the demographers project", with a chart after each paragraph, redrawn from the figures in Pew's own charts and printed to the decimals Pew prints: share of the world's population in 2010 and 2050 (Christians 31.4 and 31.4 per cent, Muslims 23.2 and 29.7, the unaffiliated 16.4 and 13.2, Hindus 15.0 and 14.9, Buddhists 7.1 and 5.2); net change through religious switching, 2010–2050 (the unaffiliated +61.49 million, Muslims +3.22, Christians −66.05, and the smaller groups); where the world's Christians live in 2010 and 2050 (sub-Saharan Africa 23.9 and 38.1 per cent, Europe 25.5 and 15.6, the Middle East and North Africa 0.6 and 0.6, and the other regions); and change in population size, 2015–2060 (Muslims +70 per cent, Christians +34, against world growth of 32, marked by a dashed line). Content version 2.41.0.
+- *The Verdict*: the Pew material moves from the closing section on colonial legitimation into a section of its own, "What the demographers project", with a chart after each paragraph, redrawn from the figures in Pew's own charts and printed to the decimals Pew prints: share of the world's population in 2010 and 2050 (Christians 31.4 and 31.4 per cent, Muslims 23.2 and 29.7, the unaffiliated 16.4 and 13.2, Hindus 15.0 and 14.9, Buddhists 7.1 and 5.2); net change through religious switching, 2010–2050 (the unaffiliated +61.49 million, Muslims +3.22, Christians −66.05, and the smaller groups); where the world's Christians live in 2010 and 2050 (sub-Saharan Africa 23.9 and 38.1 per cent, Europe 25.5 and 15.6, the Middle East and North Africa 0.6 and 0.6, and the other regions); and change in population size, 2015–2060 (Muslims +70 per cent, Christians +34, against world growth of 32, marked by a dashed line). Content version 2.41.0.
 
 ## [2.40.1] - 2026-09-23
 
 ### Added
 
-- *The verdict*: a second paragraph of figures from two further Pew sources, each checked against the live page. From the report's chapter on Christians (2 April 2015): in 2010 a quarter of the world's Christians lived in Europe and less than 1 per cent in the Middle East and North Africa, where Christianity began; by 2050 Europe's share falls to about 16 per cent and sub-Saharan Africa's rises from 24 to 38 per cent. From Michael Lipka and Conrad Hackett's update of 6 April 2017: between 2015 and 2060 the world's population grows by 32 per cent and the number of Muslims by 70 per cent, from 1.8 billion to nearly 3 billion (24.1 to 31.1 per cent); Muslim women average 2.9 children against 2.6 among Christians; the median Muslim age in 2015 was 24 against 32 for non-Muslims; and switching costs Christianity some 72 million adherents over the period, with no net loss to Islam. The second note points to Pew's analysis of 10 June 2025 for its latest figures. Content version 2.40.1.
+- *The Verdict*: a second paragraph of figures from two further Pew sources, each checked against the live page. From the report's chapter on Christians (2 April 2015): in 2010 a quarter of the world's Christians lived in Europe and less than 1 per cent in the Middle East and North Africa, where Christianity began; by 2050 Europe's share falls to about 16 per cent and sub-Saharan Africa's rises from 24 to 38 per cent. From Michael Lipka and Conrad Hackett's update of 6 April 2017: between 2015 and 2060 the world's population grows by 32 per cent and the number of Muslims by 70 per cent, from 1.8 billion to nearly 3 billion (24.1 to 31.1 per cent); Muslim women average 2.9 children against 2.6 among Christians; the median Muslim age in 2015 was 24 against 32 for non-Muslims; and switching costs Christianity some 72 million adherents over the period, with no net loss to Islam. The second note points to Pew's analysis of 10 June 2025 for its latest figures. Content version 2.40.1.
 
 ## [2.40.0] - 2026-09-23
 
 ### Fixed
 
 - Web addresses in footnotes were plain text: 35 addresses on 15 pages, among them the bit.ly and pewrsr.ch short links, the Yale lecture page, the USCCB Bible page and the Pew reports. The build script now links every bare address in the finished page (`linkify()`), leaving addresses already in a tag or link alone and keeping trailing punctuation outside the link; external links open in a new tab with `rel="noopener"`. Every article was rebuilt and the two hand-kept pages with addresses, Answers and Sources, were passed through the same step; a comparison against the previous build confirms that links are the only change. Long addresses may now break anywhere, so a footnote never runs off a phone screen. Content version 2.40.0.
-- Every address was resolved. The short links all lead where their footnotes say, with one exception: `https://pewrsr.ch/4mTed0z`, cited in *The verdict* as the report's "United States" chapter, led to the report's overview; Pew has no such chapter, and its United States figures sit in the North America chapter. The footnote now cites "Projected Religious Population Changes in North America," 2 April 2015, at its full address.
+- Every address was resolved. The short links all lead where their footnotes say, with one exception: `https://pewrsr.ch/4mTed0z`, cited in *The Verdict* as the report's "United States" chapter, led to the report's overview; Pew has no such chapter, and its United States figures sit in the North America chapter. The footnote now cites "Projected Religious Population Changes in North America," 2 April 2015, at its full address.
 
 ### Known
 
@@ -225,7 +324,7 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 
 ### Added
 
-- *The verdict*: a paragraph before the closing declaration gives the figures behind it, from the Pew Research Center's "The Future of World Religions: Population Growth Projections, 2010–2050" (2 April 2015; Conrad Hackett, lead researcher): Christianity at 2.2 billion (31 per cent) and Islam at 1.6 billion (23 per cent) in 2010; near parity by 2050, Muslims at 2.8 billion and Christians at 2.9 billion; equal shares of about 32 per cent around 2070; about 40 million switching into Christianity by 2050 against 106 million leaving, the largest net loss of any group; and Europe's Christians falling from 553 million to 454 million, from three-quarters of the population to less than two-thirds. Every figure was checked against the live report. The first footnote records Pew's 2025 note that the 2010 baseline has since been revised and that no projections beyond 2020 have yet been published. Content version 2.39.3.
+- *The Verdict*: a paragraph before the closing declaration gives the figures behind it, from the Pew Research Center's "The Future of World Religions: Population Growth Projections, 2010–2050" (2 April 2015; Conrad Hackett, lead researcher): Christianity at 2.2 billion (31 per cent) and Islam at 1.6 billion (23 per cent) in 2010; near parity by 2050, Muslims at 2.8 billion and Christians at 2.9 billion; equal shares of about 32 per cent around 2070; about 40 million switching into Christianity by 2050 against 106 million leaving, the largest net loss of any group; and Europe's Christians falling from 553 million to 454 million, from three-quarters of the population to less than two-thirds. Every figure was checked against the live report. The first footnote records Pew's 2025 note that the 2010 baseline has since been revised and that no projections beyond 2020 have yet been published. Content version 2.39.3.
 
 ## [2.39.2] - 2026-09-23
 
@@ -266,7 +365,7 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 
 ### Fixed
 
-- Title-panel breadcrumbs were inconsistent. The last item switched from the typewriter face to Cinzel capitals, on a different baseline from the items before it; section pages ended the trail with the word "Section"; and pages such as Answers and The verdict had no item for themselves, so "Home" took the current-page style. The trail now uses the typewriter face throughout, aligned on one baseline, and always ends with the current place in the ink colour: "Home · The man" on a section page, "Home · Answers to missionary claims" on a page, "Home · Reference · Glossary" under a parent, and the section, label and part on an article as before.
+- Title-panel breadcrumbs were inconsistent. The last item switched from the typewriter face to Cinzel capitals, on a different baseline from the items before it; section pages ended the trail with the word "Section"; and pages such as Answers and The Verdict had no item for themselves, so "Home" took the current-page style. The trail now uses the typewriter face throughout, aligned on one baseline, and always ends with the current place in the ink colour: "Home · The man" on a section page, "Home · Answers to missionary claims" on a page, "Home · Reference · Glossary" under a parent, and the section, label and part on an article as before.
 - The Greek line in the title panel takes the breadcrumb's size and sits the same distance above the title on every page.
 
 ## [2.37.2] - 2026-09-23
@@ -285,7 +384,7 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 
 ### Added
 
-- Koine Greek inscriptions, each a New Testament word or phrase set small in uncials above an English heading that stays, with a tooltip giving meaning and verse: ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ ("Saul, who is also Paul", Acts 13:9) above The man; ΚΑΤΗΓΟΡΙΑ ("accusation", John 18:29) above The charges; ΟΙ ΜΑΡΤΥΡΕΣ ("the witnesses", Acts 7:58, the witnesses who laid their clothes at Saul's feet) above The witnesses; ΑΠΟΛΟΓΙΑ ("defence", Acts 22:1) above Answers; ΚΡΙΣΙΣ ("judgment", John 5:22) above The verdict; and ΑΠΟΛΩΛΩΣ ("lost", Luke 15:24) beside "Error 404" on the not-found page. The section words appear on the front page and on the section pages, the Answers word on the front page's answers block and the Answers page. All checked against the SBL Greek New Testament and set in EB Garamond, since Cinzel has no Greek. The words live in `paulus_greek_marks()`; the search label added in 2.36.4 shares the style.
+- Koine Greek inscriptions, each a New Testament word or phrase set small in uncials above an English heading that stays, with a tooltip giving meaning and verse: ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ ("Saul, who is also Paul", Acts 13:9) above The man; ΚΑΤΗΓΟΡΙΑ ("accusation", John 18:29) above The charges; ΟΙ ΜΑΡΤΥΡΕΣ ("the witnesses", Acts 7:58, the witnesses who laid their clothes at Saul's feet) above The witnesses; ΑΠΟΛΟΓΙΑ ("defence", Acts 22:1) above Answers; ΚΡΙΣΙΣ ("judgment", John 5:22) above The Verdict; and ΑΠΟΛΩΛΩΣ ("lost", Luke 15:24) beside "Error 404" on the not-found page. The section words appear on the front page and on the section pages, the Answers word on the front page's answers block and the Answers page. All checked against the SBL Greek New Testament and set in EB Garamond, since Cinzel has no Greek. The words live in `paulus_greek_marks()`; the search label added in 2.36.4 shares the style.
 
 ## [2.36.4] - 2026-09-23
 
@@ -363,7 +462,7 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 
 ### Added
 
-- *The verdict*: a portrait of Isma'il R. al Faruqi (1921–1986), placed after the passage of his that the page quotes, in the section "The other side has had its say". Supplied by the site owner as public domain; bundled in grey at 1,400 and 720 pixels. *The verdict* now carries two figures.
+- *The Verdict*: a portrait of Isma'il R. al Faruqi (1921–1986), placed after the passage of his that the page quotes, in the section "The other side has had its say". Supplied by the site owner as public domain; bundled in grey at 1,400 and 720 pixels. *The Verdict* now carries two figures.
 
 ### Changed
 
@@ -507,7 +606,7 @@ Both points were drawn from a public debate, which is not cited; each rests on t
 - *Seven doctrines*: a reply to the reading of Paul "within Judaism," which holds that he closed the law to Gentiles only. His own words to those "that know the law" (Romans 7:1, 6), "not being myself under the law" (1 Corinthians 9:20, in the Greek of the critical text), the rebuke of Peter at Antioch (Galatians 2:14) and "but dung" (Philippians 3:5–8).
 - *Twisting the scriptures* and the law answer: Hebrews 8:13, "ready to vanish away," set against the verse of Jeremiah it quotes, which writes the law on the heart.
 - *Adapting the message to the pagans*: the Hellenistic background of divine fathers and mortal mothers and of gods renamed across peoples, after Martin's lecture on the Greco-Roman world.
-- Thirteen figures for The charges and The witnesses, each licence checked on its Commons page: El Greco's Peter and Paul; the Areopagus; Rembrandt's Moses with the tablets; La Hyre's Paul on Malta; Guercino's Hagar and Ishmael; the Etchmiadzin relief of Paul and Thecla; Bloemaert's Moses striking the rock; the Habib-i Neccar Mosque at Antakya; the Great Mosque of Kufa in 1915; the Tughrul Tower at Rayy; the grave of Isma'il R. and Lois Lamya al Faruqi; St George's Church, Penang; and a page of Codex Sinaiticus, the first figure on *The verdict*.
+- Thirteen figures for The charges and The witnesses, each licence checked on its Commons page: El Greco's Peter and Paul; the Areopagus; Rembrandt's Moses with the tablets; La Hyre's Paul on Malta; Guercino's Hagar and Ishmael; the Etchmiadzin relief of Paul and Thecla; Bloemaert's Moses striking the rock; the Habib-i Neccar Mosque at Antakya; the Great Mosque of Kufa in 1915; the Tughrul Tower at Rayy; the grave of Isma'il R. and Lois Lamya al Faruqi; St George's Church, Penang; and a page of Codex Sinaiticus, the first figure on *The Verdict*.
 
 ### Fixed
 
@@ -1211,7 +1310,7 @@ Applies the on-page practices in Google's Search Engine Optimization Starter Gui
 
 ### Changed
 
-- Editorial pass over every English article and page against the house writing style. Sentences that negated one framing before asserting another were rewritten as plain statements, in the profile of Paul, the article on the new religion, The verdict, Answers and the glossary.
+- Editorial pass over every English article and page against the house writing style. Sentences that negated one framing before asserting another were rewritten as plain statements, in the profile of Paul, the article on the new religion, The Verdict, Answers and the glossary.
 - The theme now records the text of each article as installed. On later updates, an article whose text still matches what the theme shipped is refreshed from the new file; an article edited by hand is left alone. The hashes of every file shipped in 2.5.3 are included, so this works on sites installed earlier.
 
 ## [2.5.3] - 2026-09-19
@@ -1334,11 +1433,11 @@ A redesign modeled on the conventions of a scholarly journal site.
 
 ### Added
 
-- Footer menu in two columns: "The case" (The man, The charges, The witnesses, The verdict) and "Reference" (Timeline, Glossary, Study guide, Sources). It is generated from the site structure by the new `[paulus_footer_nav]` shortcode, so it needs no menu editing.
+- Footer menu in two columns: "The case" (The man, The charges, The witnesses, The Verdict) and "Reference" (Timeline, Glossary, Study guide, Sources). It is generated from the site structure by the new `[paulus_footer_nav]` shortcode, so it needs no menu editing.
 
 ### Changed
 
-- The header menu has five items: The man, The charges, The witnesses, Answers, The book. The verdict and the Reference dropdown move to the footer.
+- The header menu has five items: The man, The charges, The witnesses, Answers, The book. The Verdict and the Reference dropdown move to the footer.
 - With five items the full header menu fits down to 681 pixels, so tablets in portrait show it again. The menu button now takes over from 680 pixels down.
 - Existing sites get the new header menu on the next admin page load.
 
@@ -1367,7 +1466,7 @@ A redesign modeled on the conventions of a scholarly journal site.
 
 ### Added
 
-- Page template (`templates/page.html`) for Answers, The verdict and the reference pages, using the same title, image and prose styles as articles. These pages previously fell back to Twenty Twenty-Five's smaller body text.
+- Page template (`templates/page.html`) for Answers, The Verdict and the reference pages, using the same title, image and prose styles as articles. These pages previously fell back to Twenty Twenty-Five's smaller body text.
 - Documented breakpoints: 1024, 860, 700 and 560 pixels.
 
 ### Changed

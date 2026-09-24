@@ -128,6 +128,9 @@ function paulus_sc_book( $atts ) {
 			<img src="<?php echo esc_url( paulus_image_url( 'book-cover' ) ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: book title. */ __( 'Front cover of %s', 'paulus' ), paulus_option( 'book_title' ) ) ); ?>" width="960" height="1291" loading="lazy">
 		</figure>
 		<div class="paulus-book__body">
+			<?php if ( '1' === $atts['full'] && paulus_greek_mark( 'the-book' ) ) : ?>
+				<p class="paulus-greek-line"><?php echo paulus_greek_mark( 'the-book', 'paulus-greek--panel' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php endif; ?>
 			<p class="paulus-book__kicker"><?php esc_html_e( 'The book', 'paulus' ); ?></p>
 			<?php $h = '1' === $atts['full'] ? 'h1' : 'h2'; ?>
 			<<?php echo $h; // phpcs:ignore WordPress.Security.EscapeOutput ?> class="paulus-book__title" lang="ms"><?php echo esc_html( paulus_option( 'book_title' ) ); ?></<?php echo $h; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
@@ -315,3 +318,15 @@ function paulus_sc_book_teaser() {
 	return paulus_compact( ob_get_clean() );
 }
 add_shortcode( 'paulus_book_teaser', 'paulus_sc_book_teaser' );
+
+/**
+ * [paulus_email] The publisher's address (Theme Options, Book) as a mail
+ * link, so every page that gives it follows a change of address.
+ *
+ * @return string
+ */
+function paulus_sc_email() {
+	$email = sanitize_email( (string) paulus_option( 'pub_email' ) );
+	return $email ? '<a href="' . esc_url( 'mailto:' . antispambot( $email ) ) . '">' . esc_html( antispambot( $email ) ) . '</a>' : '';
+}
+add_shortcode( 'paulus_email', 'paulus_sc_email' );

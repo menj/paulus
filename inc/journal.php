@@ -241,11 +241,11 @@ function paulus_sc_journal_canton() {
 	$fresh   = ( time() - (int) get_post_time( 'U', true, $latest[0] ) ) < 14 * DAY_IN_SECONDS;
 	$current = is_post_type_archive( 'paulus_journal' ) || is_singular( 'paulus_journal' );
 	/* translators: %s: date of the latest entry. */
-	$title = sprintf( __( 'Latest entry: %s', 'paulus' ), get_the_date( 'j F Y', $latest[0] ) );
+	$title = sprintf( __( 'Latest entry: %s', 'paulus' ), get_the_date( 'j F Y', $latest[0] ) ) . ' · ' . implode( ': ', paulus_nav_greek_words()['journal'] );
 	$label = $fresh ? sprintf( /* translators: %s: Journal title. */ __( '%s, new entry', 'paulus' ), $name ) : $name;
 	return '<a class="paulus-journal-canton' . ( $current ? ' is-current' : '' ) . '" href="' . esc_url( paulus_journal_url() ) . '" title="' . esc_attr( $title ) . '" aria-label="' . esc_attr( $label ) . '"' . ( $current ? ' aria-current="page"' : '' ) . '>'
 		. paulus_icon( 'quill' )
-		. '<span class="paulus-journal-canton__label">' . esc_html( $name ) . '</span>'
+		. '<span class="paulus-journal-canton__label">' . paulus_greekswap( esc_html( $name ), paulus_nav_greek_words()['journal'][0] ) . '</span>'
 		. ( $fresh ? '<span class="paulus-journal-canton__new" aria-hidden="true"></span>' : '' )
 		. '</a>';
 }

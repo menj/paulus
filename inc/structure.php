@@ -375,6 +375,10 @@ function paulus_sc_answers_teaser( $atts ) {
 		return '';
 	}
 	$url = get_permalink( $page );
+	// Recorded for the front page's FAQPage (paulus_schema_front_faq): in a
+	// block theme the page body renders before wp_head, so the markup is
+	// built from exactly the questions and answers shown here.
+	$GLOBALS['paulus_front_faq'] = array( 'url' => $url, 'items' => $items );
 	$greek = paulus_greek_mark( 'answers' );
 	$out   = '<section class="paulus-answers" aria-labelledby="paulus-answers-heading"><header class="paulus-part__head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h2 class="paulus-part__title" id="paulus-answers-heading"><a href="' . esc_url( $url ) . '">' . esc_html( get_the_title( $page ) ) . '</a></h2>';
 	if ( $page->post_excerpt ) {
@@ -507,11 +511,12 @@ add_shortcode( 'paulus_article_nav', 'paulus_sc_article_nav' );
 function paulus_sc_footer_nav() {
 	$case = array();
 	foreach ( paulus_parts() as $part ) {
-		$case[] = array( $part->name, get_term_link( $part ) );
+		$case[] = array( $part->name, get_term_link( $part ), $part->slug );
 	}
 	$verdict = get_page_by_path( 'the-verdict' );
 	if ( $verdict && 'publish' === $verdict->post_status ) {
-		$case[] = array( get_the_title( $verdict ), get_permalink( $verdict ) );
+		// Named as in the header menu, in the sections' title case.
+		$case[] = array( __( 'The Verdict', 'paulus' ), get_permalink( $verdict ), 'the-verdict' );
 	}
 
 	// Short labels where a page's full title would crowd its column.
@@ -538,10 +543,6 @@ function paulus_sc_footer_nav() {
 			$appendices[] = array( $label, get_permalink( $child ) );
 		}
 	}
-	$map = paulus_sitemap_page();
-	if ( $map && 'publish' === $map->post_status ) {
-		$reference[] = array( get_the_title( $map ), get_permalink( $map ) );
-	}
 	$columns = array(
 		array( __( 'The case', 'paulus' ), '', $case ),
 		array( __( 'Reference', 'paulus' ), $parent ? get_permalink( $parent ) : '', $reference ),
@@ -554,11 +555,14 @@ function paulus_sc_footer_nav() {
 		}
 		$title = $url ? '<a href="' . esc_url( $url ) . '">' . esc_html( $heading ) . '</a>' : esc_html( $heading );
 		$out  .= '<div class="paulus-footer-nav__col"><p class="paulus-footer-nav__heading">' . $title . '</p><ul>';
-		foreach ( $links as list( $label, $href ) ) {
+		foreach ( $links as $link ) {
+			list( $label, $href ) = $link;
 			if ( is_wp_error( $href ) ) {
 				continue;
 			}
-			$out .= '<li><a href="' . esc_url( $href ) . '">' . esc_html( $label ) . '</a></li>';
+			$key   = $link[2] ?? '';
+			$title = $key ? paulus_greek_title( $key ) : '';
+			$out  .= '<li><a href="' . esc_url( $href ) . '"' . ( $title ? ' title="' . esc_attr( $title ) . '"' : '' ) . '>' . ( $key ? paulus_greek_label( $key, esc_html( $label ) ) : esc_html( $label ) ) . '</a></li>';
 		}
 		$out .= '</ul></div>';
 	}
@@ -796,14 +800,25 @@ add_shortcode( 'paulus_footer_brand', 'paulus_sc_footer_brand' );
  * @return array<string, array{0:string,1:string}> Key => Greek, gloss.
  */
 function paulus_greek_marks() {
+	// The one register of the site's Koine Greek. Each section or page has one
+	// form, used wherever it is named: its title-panel inscription, the front
+	// page, the header menu, the footer (The case column and the bar), the
+	// breadcrumbs and the Sitemap. Each word is checked against the SBL Greek
+	// New Testament.
 	return array(
-		'the-man'       => array( 'ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ', __( 'Saul, who is also Paul (Acts 13:9)', 'paulus' ) ),
-		'the-charges'   => array( 'ΚΑΤΗΓΟΡΙΑ', __( 'Accusation (John 18:29)', 'paulus' ) ),
-		'the-witnesses' => array( 'ΟΙ ΜΑΡΤΥΡΕΣ', __( 'The witnesses (Acts 7:58)', 'paulus' ) ),
-		'answers'       => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
-		'the-verdict'   => array( 'ΚΡΙΣΙΣ', __( 'Judgment (John 5:22)', 'paulus' ) ),
-		'404'           => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
-		'journal'       => array( 'ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ', __( 'These things write I unto you (1 John 2:1)', 'paulus' ) ),
+		'the-man'        => array( 'ΣΑΥΛΟΣ', __( 'Saul (Acts 13:9)', 'paulus' ) ),
+		'the-charges'    => array( 'ΚΑΤΗΓΟΡΙΑ', __( 'Accusation (John 18:29)', 'paulus' ) ),
+		'the-witnesses'  => array( 'ΟΙ ΜΑΡΤΥΡΕΣ', __( 'The witnesses (Acts 7:58)', 'paulus' ) ),
+		'the-verdict'    => array( 'ΚΡΙΣΙΣ', __( 'Judgment (John 5:22)', 'paulus' ) ),
+		'answers'        => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
+		'the-book'       => array( 'ΒΙΒΛΙΟΝ', __( 'The book (Luke 4:17)', 'paulus' ) ),
+		'journal'        => array( 'ΓΡΑΦΩ', __( 'I write (1 John 2:1)', 'paulus' ) ),
+		'privacy-policy' => array( 'ΚΑΤʼ ΙΔΙΑΝ', __( 'Privately (Mark 4:34)', 'paulus' ) ),
+		'terms-of-use'   => array( 'ΟΡΟΘΕΣΙΑΙ', __( 'The bounds set (Acts 17:26)', 'paulus' ) ),
+		'dmca'           => array( 'ΑΠΟΔΟΤΕ', __( 'Render to each his own (Matthew 22:21)', 'paulus' ) ),
+		'contact'        => array( 'ΕΠΙΣΤΟΛΗ', __( 'A letter (Acts 15:30)', 'paulus' ) ),
+		'sitemap'        => array( 'ΟΔΗΓΟΣ', __( 'A guide (Romans 2:19)', 'paulus' ) ),
+		'404'            => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
 	);
 }
 
@@ -916,10 +931,18 @@ function paulus_sc_page_hero() {
 	}
 
 	$meta = '<nav class="paulus-hero-panel__meta" aria-label="' . esc_attr__( 'Breadcrumb', 'paulus' ) . '"><ol>';
+	$keyed = paulus_greek_urls();
 	foreach ( $crumbs as $i => list( $label, $url ) ) {
 		$last  = ( count( $crumbs ) - 1 === $i );
 		$text  = esc_html( $label );
-		$meta .= '<li' . ( $last ? ' aria-current="page"' : '' ) . '>' . ( $url && ! is_wp_error( $url ) ? '<a href="' . esc_url( $url ) . '">' . $text . '</a>' : $text ) . '</li>';
+		$link  = $url && ! is_wp_error( $url ) ? (string) $url : '';
+		$key   = $link ? ( $keyed[ untrailingslashit( $link ) ] ?? '' ) : '';
+		if ( $link ) {
+			// $tip, never $title: $title holds the page's own heading.
+			$tip  = $key ? paulus_greek_title( $key ) : '';
+			$text = '<a href="' . esc_url( $link ) . '"' . ( $tip ? ' title="' . esc_attr( $tip ) . '"' : '' ) . '>' . ( $key ? paulus_greek_label( $key, $text ) : $text ) . '</a>';
+		}
+		$meta .= '<li' . ( $last ? ' aria-current="page"' : '' ) . '>' . $text . '</li>';
 	}
 	$meta .= '</ol></nav>';
 
@@ -1545,3 +1568,147 @@ function paulus_answers_navigation( $content ) {
 	return preg_replace( '#</p>#', '</p>' . $index, $content, 1 );
 }
 add_filter( 'the_content', 'paulus_answers_navigation', 20 );
+
+/**
+ * [paulus_footer_legal] The footer's secondary bar, at its foot: Privacy
+ * Policy, Terms of Use, DMCA, Contact and Sitemap. Each link appears once
+ * its page is published, so a page still in draft is never linked.
+ *
+ * @return string
+ */
+function paulus_sc_footer_legal() {
+	// Each term is replaced on hover by its Koine Greek from the register.
+	$items = array();
+	foreach ( array( 'privacy-policy', 'terms-of-use', 'dmca', 'contact', 'sitemap' ) as $slug ) {
+		if ( 'privacy-policy' === $slug && (int) get_option( 'wp_page_for_privacy_policy' ) ) {
+			$page = get_post( (int) get_option( 'wp_page_for_privacy_policy' ) );
+		} elseif ( 'sitemap' === $slug ) {
+			$page = paulus_sitemap_page();
+		} else {
+			$page = get_page_by_path( $slug );
+		}
+		if ( $page && 'publish' === $page->post_status ) {
+			$current = is_page( $page->ID ) ? ' aria-current="page"' : '';
+			$title   = paulus_greek_title( $slug );
+			$items[] = '<li><a href="' . esc_url( get_permalink( $page ) ) . '"' . $current . ( $title ? ' title="' . esc_attr( $title ) . '"' : '' ) . '>'
+				. paulus_greek_label( $slug, esc_html( get_the_title( $page ) ) ) . '</a></li>';
+		}
+	}
+	if ( ! $items ) {
+		return '';
+	}
+	return '<nav class="paulus-footer-legal" aria-label="' . esc_attr__( 'Site information', 'paulus' ) . '"><ul>' . implode( '', $items ) . '</ul></nav>';
+}
+add_shortcode( 'paulus_footer_legal', 'paulus_sc_footer_legal' );
+
+/**
+ * The Koine Greek that replaces each main-menu term on hover, by the section
+ * or page the link points to (so a renamed label keeps its Greek). The
+ * sections and the verdict take the Greek inscribed on their own pages;
+ * each word is checked against the SBL Greek New Testament.
+ *
+ * @return array<string, array{0:string,1:string}>
+ */
+function paulus_nav_greek_words() {
+	return paulus_greek_marks();
+}
+
+/**
+ * A label and its Greek in one cell: the English shows, and on hover or
+ * focus the Greek replaces it in the same place. Screen readers hear the
+ * English only.
+ *
+ * @param string $label Label markup.
+ * @param string $greek Greek.
+ * @return string
+ */
+function paulus_greek_label( $key, $label ) {
+	$marks = paulus_greek_marks();
+	return isset( $marks[ $key ] ) ? paulus_greekswap( $label, $marks[ $key ][0] ) : $label;
+}
+
+/**
+ * The tooltip for a key: the Greek, its sense and verse.
+ *
+ * @param string $key Register key.
+ * @return string
+ */
+function paulus_greek_title( $key ) {
+	$marks = paulus_greek_marks();
+	return isset( $marks[ $key ] ) ? $marks[ $key ][0] . ': ' . $marks[ $key ][1] : '';
+}
+
+/**
+ * A label and its Greek in one cell (see paulus_greek_label()).
+ *
+ * @param string $label Label markup.
+ * @param string $greek Greek.
+ * @return string
+ */
+function paulus_greekswap( $label, $greek ) {
+	return '<span class="paulus-greekswap"><span class="paulus-greekswap__en">' . $label . '</span><span class="paulus-greekswap__gr" lang="grc" aria-hidden="true">' . esc_html( $greek ) . '</span></span>';
+}
+
+/**
+ * Main-menu links: the Koine Greek replaces the term on hover.
+ *
+ * @param string $html  Rendered link.
+ * @param array  $block Block.
+ * @return string
+ */
+function paulus_nav_greek( $html, $block ) {
+	$a    = $block['attrs'] ?? array();
+	$id   = (int) ( $a['id'] ?? 0 );
+	$slug = '';
+	if ( $id && 'taxonomy' === ( $a['kind'] ?? '' ) ) {
+		$term = get_term( $id, ! empty( $a['type'] ) && 'tag' !== $a['type'] ? $a['type'] : 'post_tag' );
+		$slug = $term && ! is_wp_error( $term ) ? $term->slug : '';
+	} elseif ( $id && 'post-type' === ( $a['kind'] ?? '' ) ) {
+		$slug = (string) get_post_field( 'post_name', $id );
+	}
+	$words = paulus_nav_greek_words();
+	if ( '' === $slug || empty( $words[ $slug ] ) || false !== strpos( $html, 'paulus-greekswap' ) ) {
+		return $html;
+	}
+	list( $greek, $sense ) = $words[ $slug ];
+	$html = preg_replace_callback(
+		'#(<span class="wp-block-navigation-item__label">)(.*?)(</span>)#s',
+		static function ( $m ) use ( $greek ) {
+			return $m[1] . paulus_greekswap( $m[2], $greek ) . $m[3];
+		},
+		$html,
+		1
+	);
+	return preg_replace( '#<a (?![^>]*\btitle=)#', '<a title="' . esc_attr( $greek . ': ' . $sense ) . '" ', $html, 1 );
+}
+add_filter( 'render_block_core/navigation-link', 'paulus_nav_greek', 10, 2 );
+
+/**
+ * The addresses of the sections and pages in the Greek register, so a link
+ * to one (a breadcrumb, say) can carry its Greek.
+ *
+ * @return array<string, string> Address without trailing slash => key.
+ */
+function paulus_greek_urls() {
+	static $map = null;
+	if ( null !== $map ) {
+		return $map;
+	}
+	$map = array();
+	foreach ( paulus_parts() as $part ) {
+		$link = get_term_link( $part );
+		if ( ! is_wp_error( $link ) ) {
+			$map[ untrailingslashit( $link ) ] = $part->slug;
+		}
+	}
+	foreach ( array( 'the-verdict', 'answers', 'the-book', 'privacy-policy', 'terms-of-use', 'dmca', 'contact', 'sitemap' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			$map[ untrailingslashit( get_permalink( $page ) ) ] = $slug;
+		}
+	}
+	if ( function_exists( 'paulus_journal_url' ) && post_type_exists( 'paulus_journal' ) ) {
+		$map[ untrailingslashit( paulus_journal_url() ) ] = 'journal';
+	}
+	return $map;
+}

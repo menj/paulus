@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.48.0.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.51.5.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -29,7 +29,7 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /site-map/                         Every article and page in one list
 ```
 
-The installer creates the header menu (The man, The charges, The witnesses, Answers, The book) and rebuilds it when a new version of the theme changes the structure. The footer menu is built from the site structure by `[paulus_footer_nav]`: "The case" (the three sections and The verdict) and "Reference" (Timeline, Glossary, Study guide, Sources). Every article opens on a title panel with its illustration, a breadcrumb to its section and part, the standfirst, the byline and, for parts of a series, the other parts. Below the text come the author note, the previous and next article in reading order ("Previous part" and "Next part" inside a series) with a link to the article's questions in the study guide, "More from" the section, and the book teaser. The parts of a series are listed in the title panel below 1240px and in the side rail above it, so no list of parts repeats after the text. Every article reaches a set of study questions, its own or its series'. On screens 1240px and wider a side rail beside the text lists the parts in Roman numerals and jump links to the references, the reading order and the section.
+The installer creates the header menu (The Man, The Charges, The Witnesses, The Verdict, The book) and rebuilds it when a new version of the theme changes the structure. The footer menu is built from the site structure by `[paulus_footer_nav]`: "The case" (the three sections and The Verdict) and "Reference" (Timeline, Glossary, Study guide, Sources). Every article opens on a title panel with its illustration, a breadcrumb to its section and part, the standfirst, the byline and, for parts of a series, the other parts. Below the text come the author note, the previous and next article in reading order ("Previous part" and "Next part" inside a series) with a link to the article's questions in the study guide, "More from" the section, and the book teaser. The parts of a series are listed in the title panel below 1240px and in the side rail above it, so no list of parts repeats after the text. Every article reaches a set of study questions, its own or its series'. On screens 1240px and wider a side rail beside the text lists the parts in Roman numerals and jump links to the references, the reading order and the section.
 
 The structure keeps itself current. The manifest carries a `content_version`; whenever an administrator loads any page and that version differs from the one recorded on the site, the installer runs and adds new articles, labels, descriptions, images and menu entries. Text is refreshed only where a post still matches a version the theme shipped (`prior_hashes` in the manifest, and the hashes recorded at install); anything edited by hand is left alone.
 
@@ -91,7 +91,8 @@ Color schemes are pure CSS: the active scheme is written as a body class, and `s
 | `[paulus_catalogue]` | The book's library catalogue record as a list of label and value (title, edition, author, publication, physical description, language, notes, subjects, ISBN, Bib ID, OCLC), on the book page under "Catalogue record"; the contents are left out, since the page lists them |
 | Answers page navigation | Not a shortcode: a `the_content` filter (`paulus_answers_navigation()`) builds, from the question headings as the page renders, a numbered index of the questions (thirteen) under the introduction (`#questions`), a link mark (#) on each question shown on hover or focus, and "All questions ↑" after each answer. The question anchors are the heading ids in the page, for example `/answers/#was-paul-an-apostle` |
 | `[paulus_download file="…"]Label[/paulus_download]` | A download link to a document bundled in `assets/docs/` (plain file names only). The archive of Dale B. Martin's notes uses it for the original PDF |
-| `[paulus_chart id="…"]` | A data chart from `inc/charts.php`, drawn as labelled HTML bars in the scheme's accent, values written out, with its source linked beneath. Three kinds: paired bars (two years per row), diverging bars (losses left of a centre line, gains right) and single bars on a scale with zero and marker lines. Rows the text discusses are drawn at full strength. In chapter sources, `{{chart:id}}` places one. Four charts from the Pew Research Center, on *The verdict*: share of the world's population 2010 and 2050, net switching 2010–2050, where the world's Christians live 2010 and 2050, and change in population size 2015–2060 |
+| `[paulus_sitemap]` | The Sitemap page as a table of contents: the case first, each section's name and description beside a numbered list of its articles in reading order, each marked with its label (Count·II and so on) and a series' parts indented beneath its first; then, two by two, the verdict and the book, Reference, Appendices and the Journal's latest entries. Titles only |
+| `[paulus_chart id="…"]` | A data chart from `inc/charts.php`, drawn as labelled HTML bars in the scheme's accent, values written out, with its source linked beneath. Three kinds: paired bars (two years per row), diverging bars (losses left of a centre line, gains right) and single bars on a scale with zero and marker lines. Rows the text discusses are drawn at full strength. In chapter sources, `{{chart:id}}` places one. Four charts from the Pew Research Center, on *The Verdict*: share of the world's population 2010 and 2050, net switching 2010–2050, where the world's Christians live 2010 and 2050, and change in population size 2015–2060 |
 | `[paulus_children]` | Child pages with summaries (Reference) |
 | `[paulus_page_list]` | Every page with its summary (Sitemap page) |
 | `[paulus_404_quip]` | The 404 page's heading: one of eight excuses for the missing page in Paul's own manner, chosen at random, with its source and a "Hear another excuse" link |
@@ -200,6 +201,30 @@ The front-page hero uses a cutout of the portrait with its background removed (`
 
 Sixty-one photographs and reproductions (churches, paintings, manuscripts, inscriptions, sites, and a portrait of Isma'il R. al Faruqi), sixty of them from Wikimedia Commons, are bundled in `assets/images/church/` at up to 1,400 pixels with 720-pixel versions for `srcset`, with the Commons metadata in `commons-meta.json`. Fetch Commons files through the standard thumbnail widths (for example `1280px-`); Wikimedia refuses bulk requests for originals. `inc/figures.php` registers each with its alt text, author, licence and source page, and `[paulus_figure name="…"]Caption[/paulus_figure]` renders it as a captioned figure with a credit line linking the licence and the Commons page. In the chapter sources the syntax is `{{fig:name|Caption}}`. They appear in every article and on the timeline and the reference page "Paul in the churches"; the woodcut illustrations stay as the featured images. Figures fill the text column; images taller than they are wide are held to 80 per cent of the screen height, and the frame and caption shrink to the image, so no frame ever shows empty space, and each opens in a Lightbox2 viewer (bundled in `assets/vendor/lightbox2/`, 2.12.0, MIT; licence in `licenses/`), styled in `assets/css/lightbox.css`: the caption and credit beneath, "Figure 3 of 8", arrow and keyboard navigation between the figures of a page. Lightbox2 and jQuery load only on pages that contain a figure or an image linked to its file; images added in the editor (Image blocks linked to the media file) get the same frame-fits-image styling and open in the same viewer, with their caption. Without JavaScript the link opens the full-size file. Only public-domain, CC0 and Creative Commons attribution (including share-alike) licences are used, and every figure carries its credit. A figure supplied from outside Commons takes an empty `source`: its credit line then gives author and licence only, and its structured data omits `acquireLicensePage`. To add one: bundle the WebP files, add the entry to `paulus_figures()` and `commons-meta.json`, and place it with `{{fig:name|Caption}}` in the chapter source.
 
+## Koine Greek, one register
+
+`paulus_greek_marks()` in `inc/structure.php` is the one register of the site's Koine Greek: each section or page has a single form, with its sense and verse, each checked against the SBL Greek New Testament.
+
+| Section or page | Greek | Sense | Verse |
+|---|---|---|---|
+| The Man | ΣΑΥΛΟΣ | Saul | Acts 13:9 |
+| The Charges | ΚΑΤΗΓΟΡΙΑ | Accusation | John 18:29 |
+| The Witnesses | ΟΙ ΜΑΡΤΥΡΕΣ | The witnesses | Acts 7:58 |
+| The Verdict | ΚΡΙΣΙΣ | Judgment | John 5:22 |
+| Answers | ΑΠΟΛΟΓΙΑ | Defence | Acts 22:1 |
+| The book | ΒΙΒΛΙΟΝ | The book | Luke 4:17 |
+| Journal | ΓΡΑΦΩ | I write | 1 John 2:1 |
+| Privacy Policy | ΚΑΤʼ ΙΔΙΑΝ | Privately | Mark 4:34 |
+| Terms of Use | ΟΡΟΘΕΣΙΑΙ | The bounds set | Acts 17:26 |
+| DMCA | ΑΠΟΔΟΤΕ | Render to each his own | Matthew 22:21 |
+| Contact | ΕΠΙΣΤΟΛΗ | A letter | Acts 15:30 |
+| Sitemap | ΟΔΗΓΟΣ | A guide | Romans 2:19 |
+| 404 | ΑΠΟΛΩΛΩΣ | Lost | Luke 15:24 |
+
+Every place that names one of them draws on the register: the title-panel inscription on the page itself (the book page's in its book panel), the front-page section headings and answers block, and, as a swap that replaces the English at once on hover or focus, the header menu and the Journal canton, the footer's The case column and bar, the breadcrumbs, and the Sitemap (whose section rows also carry their inscriptions). The swap is one mechanism, `paulus_greek_label()` and `paulus_greekswap()`: the English and the Greek share one cell, so nothing shifts; the tooltip gives the Greek, sense and verse (`paulus_greek_title()`); screen readers hear the English. A link is keyed to the section or page it points to (`paulus_greek_urls()` for the breadcrumbs, the link's target in the menu), so a renamed label keeps its Greek. Change a form in the register and it changes everywhere.
+
+The search field's label, ΖΗΤΕΙΤΕ ("seek", Matthew 7:7), stands outside the register, since it names no section.
+
 ## The Journal
 
 Dated entries (replies to missionary claims, notes on new sources, news of the book) live in their own content type, `paulus_journal` (`inc/journal.php`), kept apart from the case articles so they never enter the reading order, the counts or the sections. Write them under Journal in the admin menu; each takes a title, text, an optional excerpt and an optional featured image.
@@ -211,6 +236,37 @@ The Journal page (`archive-paulus_journal.html`) lists entries ten to a page wit
 The theme can ship entries: those listed under `journal` in `content/manifest.php` (text in `content/articles/`, a featured image from the illustrations, a date, a search title and description) are created once, on the first sync after they appear, and their slugs recorded in `paulus_journal_shipped`, so an entry the owner edits keeps the edits and one the owner deletes is not made again. The first, "Dale B. Martin's notes on Luke and Paul, published", is dated 24 September 2026 and carries `paul-gladius-painted.jpg`.
 
 The Journal has its own block in the header, set apart from the menu (`[paulus_journal_canton]` in `parts/header.html`, between the menu and the search): an outlined companion to the book button, the same shape, height and lettering, with a quill mark and the word Journal, and a dot while the latest entry is under a fortnight old. Below 1200 pixels it takes a round form matching the search button, and it stays in view on phones when the menu collapses. It appears once the Journal has a published entry, and it is marked as current on Journal pages. A header part customised in the Site Editor keeps its own layout; add the shortcode there to show the canton. The header menu is rebuilt for it only while it still holds exactly the links the theme placed there; a menu edited in the Site Editor is kept, and the dashboard widget then asks for the link to be added by hand.
+
+## The footer bar and the site's legal pages
+
+At the foot of the footer, under a hairline, a secondary bar (`[paulus_footer_legal]` in `parts/footer.html`) links Privacy Policy, Terms of Use, DMCA, Contact and Sitemap in one line cut like a Roman inscription: small Roman capitals (Cinzel, 0.7rem, widely spaced) divided by raised interpuncts; on hover or focus each English term is replaced at once, in the same place, by a Koine Greek word from the New Testament whose sense fits the page (Privacy Policy ΚΑΤʼ ΙΔΙΑΝ, "privately", Mark 4:34; Terms of Use ΟΡΟΘΕΣΙΑΙ, "the bounds set", Acts 17:26; DMCA ΑΠΟΔΟΤΕ, "render", Matthew 22:21; Contact ΕΠΙΣΤΟΛΗ, "a letter", Acts 15:30; Sitemap ΟΔΗΓΟΣ, "a guide", Romans 2:19; each checked against the SBL Greek New Testament), set in EB Garamond capitals, while a double hairline draws out beneath it in the accent colour. The tooltip gives the meaning and verse; screen readers hear the English. The current page keeps its ruling. Each link appears only once its page is published. The Sitemap moved there from the Reference column.
+
+The theme ships the four new pages as drafts (`'status' => 'draft'` in the manifest), with text written from what the site does: the Google tag found on the live site, server records, the reading position kept in the reader's browser, share buttons that send nothing until used, fonts served from the site; Malaysian law and the Personal Data Protection Act 2010; notice and counter-notice under the DMCA procedure, serving also for the Copyright Act 1987. Each opens with an HTML comment, unseen by readers, listing what the owner should confirm before publishing. The address they give comes from `[paulus_email]` (Theme Options, Book, publisher's email), shown as a mail link and obscured from harvesters. The Privacy Policy is registered as WordPress's privacy page if none is set; where WordPress's own draft privacy page still holds its untouched "Suggested text" template, the theme's text takes its place and the page stays a draft; a privacy page the owner has written or published is left alone. The dashboard widget lists the drafts awaiting review.
+
+## Structured data in depth
+
+`inc/schema-deep.php` describes every page and component with the most specific schema.org type true of it, and deepens the page's main nodes whichever builds them: `paulus_schema_deepen()` runs over the theme's own graph and over Rank Math's (its `rank_math/json_ld` filter), keeping Rank Math's keys and taking its identifiers for the author and publisher, so the graph never holds two unconnected copies. Nothing is declared that a page does not contain: a type that misdescribes content breaks Google's structured-data policy and states something false.
+
+| Where | What is described |
+|---|---|
+| Every page | `WPHeader`, `WPFooter` and a `SiteNavigationElement` for each menu and footer-bar link; the page's `about` (Paul of Tarsus); the publisher's `ContactPoint`, `email`, `publishingPrinciples` (Terms of Use) and `correctionsPolicy` (Contact); the author's profiles and `knowsAbout`; the site's `about`, `isBasedOn` (the book) and `copyrightHolder` |
+| Articles | `Article` + `ScholarlyArticle` (an SEO plugin's default BlogPosting gives way); `about`, `mentions` (ʿĪsā ibn Maryam), `isBasedOn` (the book), `articleSection` (section and label), the series as `CreativeWorkSeries` with `position`, `wordCount`, `timeRequired`, `citation` (every footnote), `hasPart` (each scripture block as a `Quotation` based on the King James Version), `speakable`, `copyrightHolder`, `copyrightYear`, `isAccessibleForFree` |
+| The Verdict | an article node, and each of the four charts as a `Dataset` created by the Pew Research Center, with its figures, years and source |
+| Why Luke does not seem to know Paul's letters | `ScholarlyArticle`, about Paul and the Acts of the Apostles, based on Martin's manuscript |
+| “Luke” versus Paul (Martin's notes) | a `Manuscript` by Dale B. Martin (2019), with its PDF as a `MediaObject` |
+| Timeline | an `ItemList` of 17 `Event`s in Paul's life |
+| Glossary | a `DefinedTermSet` of its `DefinedTerm`s |
+| Study guide | a `Quiz` of 121 open-ended `Question`s, grouped by article |
+| Sources | an `ItemList` bibliography of every entry, by heading |
+| Reference, Appendices, Sitemap | `CollectionPage` with an `ItemList` of their pages |
+| Paul in the churches | `ImageGallery` |
+| Figures in the text | works of art as `VisualArtwork` with `artform` (painting, mosaic, fresco, sculpture, engraving, enamel, icon, drawing, woodcut, graffito), manuscripts as `Manuscript`, maps as `Map`, each photograph pointing to its work; photographs of places stay `ImageObject` |
+| The site's own illustrations | image metadata: `creator`, `creditText`, `copyrightNotice`, `copyrightHolder`, the Terms of Use as `license`, the Contact page as `acquireLicensePage` |
+| Journal | a `Blog` with its `BlogPosting`s; each entry `BlogPosting`, part of the blog |
+| Contact | `ContactPage`, its main entity the publisher |
+| Front page | its `mainEntity`, an `ItemList` of the three sections; and an `FAQPage` (`#faq`) of exactly the questions its answers section shows, built from what the section rendered (in a block theme the body renders before `wp_head`), each answer in WordPress's display typography and linked to the full answer on the Answers page, which keeps its own `FAQPage` |
+
+Linked entities carry Wikipedia and Wikidata identifiers, each verified against Wikipedia's API: Paul the Apostle (Q9200), Jesus (Q302) and Jesus in Islam (Q51664), the Acts of the Apostles (Q40309), the King James Version (Q623398), the Pew Research Center (Q1635722), Dale Martin (Q26923442) and Tarsus (Q134287).
 
 ## Dashboard widget
 
@@ -244,7 +300,7 @@ Articles cite the archive by section. In the footer's Appendices column the two 
 
 ## Appendices
 
-Material set beside the case sits under its own page, Appendices (`/appendices/`, an index of its children like Reference): *Paul in the churches*, the archive of Dale B. Martin's notes and the continuation that answers his question. These three moved from Reference in 2.47.0; the manifest records `was_parent`, the sync moves each existing page in place (content, edits and ID kept), and the old `/reference/…` addresses redirect permanently (301). The footer has three link columns, The case, Reference (with the sitemap) and Appendices, each headed and ruled alike, sized to their content and set as one group against the right margin, while the brand block takes the free width, so the gap from the brand to the first rule and between any two columns is the same; the Journal is linked from the header menu.
+Material set beside the case sits under its own page, Appendices (`/appendices/`, an index of its children like Reference): *Paul in the churches*, the archive of Dale B. Martin's notes and the continuation that answers his question. These three moved from Reference in 2.47.0; the manifest records `was_parent`, the sync moves each existing page in place (content, edits and ID kept), and the old `/reference/…` addresses redirect permanently (301). The footer has three link columns, The case, Reference  and Appendices, each headed and ruled alike, sized to their content and set as one group against the right margin, while the brand block takes the free width, so the gap from the brand to the first rule and between any two columns is the same; the Journal is linked from the header menu.
 
 ## Koine Greek
 
@@ -257,7 +313,7 @@ A few New Testament words are set as small inscriptions in uncials, without acce
 | The charges | ΚΑΤΗΓΟΡΙΑ | "Accusation", John 18:29 |
 | The witnesses | ΟΙ ΜΑΡΤΥΡΕΣ | "The witnesses", Acts 7:58 |
 | Answers (front page and page) | ΑΠΟΛΟΓΙΑ | "Defence", Acts 22:1 |
-| The verdict | ΚΡΙΣΙΣ | "Judgment", John 5:22 |
+| The Verdict | ΚΡΙΣΙΣ | "Judgment", John 5:22 |
 | 404 page, beside "Error 404" | ΑΠΟΛΩΛΩΣ | "Lost", Luke 15:24 |
 
 Each word was checked against the SBL Greek New Testament.
