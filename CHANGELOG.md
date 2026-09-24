@@ -2,6 +2,91 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.48.0] - 2026-09-24
+
+### Changed
+
+- The Journal leaves the header menu and takes a block of its own in the header, set apart from the menu as the owner asked (`[paulus_journal_canton]`, placed in `parts/header.html` between the menu and the search). It is the book button's companion: the same shape, lettering and height (line height matched to it, measured at 39 against 40 pixels), outlined in the accent colour where the book is filled, with a quill mark drawn on the icons' 24-point grid, and a dot while the latest entry is under a fortnight old; the title gives the date of the latest entry, and the accessible name says "new entry" while the dot shows. It fills with the accent colour on hover, focus and Journal pages. Below 1200 pixels it takes a round form the size of the search button, so the menu stays on one line at 1024 pixels, and on phones it stays in view beside the search when the menu collapses. It appears once the Journal has a published entry. Checked on the live header at 1440, 1280, 1024, 700 and 390 pixels.
+- The menu builder no longer adds a Journal link, and the menu is rebuilt once (`nav_version` 6), only while it holds the theme's own links, to drop the link 2.46 added. The dashboard's note about adding the link by hand is withdrawn. Content version 2.48.0.
+
+## [2.47.6] - 2026-09-24
+
+### Fixed
+
+- The section names are title case again, The Man, The Charges and The Witnesses, as set at the owner's request in 2.22.2 and lost in a later release. The manifest holds the title-case names; on the next sync an existing section whose name differs from the manifest's only in capitals is renamed, and a name the owner has changed in any other way is kept. Because the names are the sections themselves, the header and footer menus, the front-page section headings, the section title panels and the breadcrumbs all follow.
+- Header menu: a section link whose stored label is the section's name in other capitals now shows the section's current name as the page renders, so a menu built before the rename reads The Man at once; a label written differently by hand is kept. The check that decides whether the theme may rebuild the menu (to add the Journal) now compares labels without regard to capitals, so the capital change alone does not count as a hand edit. Content version 2.47.6.
+
+## [2.47.5] - 2026-09-24
+
+### Fixed
+
+- Footer on phones and small tablets: the link columns kept the right alignment meant for wide screens after wrapping below the brand, so they began about a third of the way across. Below 900 pixels they now take the full width and start at the left margin, level with the description (measured at 390 and 820 pixels wide on the live front page). Wide screens are unchanged.
+
+## [2.47.4] - 2026-09-24
+
+### Changed
+
+- Footer: the site description and the publisher credit are one paragraph, as the owner set it: "A case file against Paul of Tarsus: the man, the charges, the witnesses and the verdict, drawn from the book by Mohd Elfie Nieshaem Juferi. Published by Langgam Fikir (Seri Kembangan, Selangor: 2025)." The place comes from the imprint on the Book tab and the year from "First published", so the line follows the book's details; Langgam Fikir links to the publisher's site. The separate publisher line and its styles are removed.
+
+## [2.47.3] - 2026-09-24
+
+### Removed
+
+- The book card in the footer's brand column (added in 2.39.1): a cover thumbnail with "The book", the Malay title and "About the book". It repeated the header's The book button and the book banner under every article. Its markup, its styles and its thumbnail (`book-cover-160.webp`, used nowhere else) are removed; the brand column now holds the wordmark, the description and the publisher line.
+
+## [2.47.2] - 2026-09-24
+
+### Fixed
+
+- Footer: with the link columns sized to their content, the free width fell between the brand block and the first column, a gap of 64 pixels against 20 between the columns. The brand block now takes the free width (its description and publisher line no longer capped at 46 characters, the book card at 30rem), and the row's horizontal gap is the columns' own half-gap. Measured on the live front page, every gap from text to the next rule is now the same: 20 pixels at 1440 wide and 15 at 1024; at 820 the link columns wrap below the brand as before.
+
+## [2.47.1] - 2026-09-24
+
+### Fixed
+
+- Footer: with the three link columns at equal widths, the short labels of Reference left a wide empty stretch before the Appendices rule. The columns now take their own width and sit as one group against the right margin, so every gap is the same and each rule falls midway between the text either side (measured on the live front page: 20 and 21 pixels at 1440 wide, 15 and 16 at 1024). "Why Acts ignores the letters" now fits on one line at desktop width.
+
+## [2.47.0] - 2026-09-24
+
+### Added
+
+- Appendices, a section of its own for material set beside the case: a new page, `/appendices/`, indexing its children as Reference does, with its own title, description (126 characters) and illustration. *Paul in the churches*, *“Luke” versus Paul: the notes of Dale B. Martin* and *Why Luke does not seem to know Paul's letters* move there from Reference, so their trails read Home · Appendices · … and their addresses move to `/appendices/…`.
+- Moving a page between parents (`was_parent` in the manifest): the sync moves the existing page in place, keeping its content, edits and ID, and `paulus_redirect_old_page_slugs()` sends the old address to the new one with a permanent redirect.
+
+### Changed
+
+- Footer: a third link column, Appendices, headed and ruled like the others and linked to its page, so Reference holds the timeline, glossary, study guide, sources and sitemap. The three columns take equal widths, and the link area takes three parts of the row to the brand column's one, so the columns stand level with each other at desktop and tablet widths (checked at 1440 and 1024 pixels on the live front page). The short footer labels are shared by all columns. The Journal link leaves the footer, where it had lengthened Reference to six links, and remains in the header menu. Content version 2.47.0.
+
+## [2.46.2] - 2026-09-24
+
+### Fixed
+
+- Journal page: an entry's title in the list took the justification of article text, spreading its words across the line, and the top margin of article headings, leaving a gap under its date. List titles are now set flush left, directly under the date.
+- Journal entry: the date and reading time wrapped as two separate pieces under the author's name, leaving a separator dot at the start of a line. They now form one line of their own beneath the name, "24 September 2026 · About 3 minutes". Both found by rendering the two pages on the live site's layout with the new stylesheets.
+
+## [2.46.1] - 2026-09-24
+
+### Added
+
+- The Journal's first entry, "Dale B. Martin's notes on Luke and Paul, published", dated 24 September 2026, at `/journal/2026/09/dale-b-martin-notes-published/`. It records how the notes came to the author in early 2023 and their publication with Martin's permission; states their argument, with two quotations checked against the archive ("cannot responsibly be harmonized", "It is fiction."); gives the site's answer to the question on which they end; points to the six places where his findings now stand, the Answers question included; and states plainly that Martin did not share the site's conclusions and is cited only for what he argued. 522 words, checked against the house rules. Search title "Dale B. Martin's notes published"; search description of 127 characters.
+- Its featured image, `paul-gladius-painted.jpg`: the painted rendering of the gladius portrait from the owner's set, distinct from the engraved version used as the site's portrait since 2.39.0, registered with alt text and offered in the illustration picker.
+- Shipped Journal entries (`journal` in the manifest), created once by the sync with their image, date and search fields, and never recreated or overwritten afterwards (`paulus_install_journal()`, `paulus_journal_shipped`). Content version 2.46.1.
+
+## [2.46.0] - 2026-09-24
+
+### Added
+
+- The Journal, for dated entries (replies to missionary claims, notes on new sources, news of the book), as its own content type, `paulus_journal`, so entries never enter the reading order, the counts or the sections. Addresses carry the date: entries at `/journal/2026/09/slug/`, the Journal at `/journal/`, years at `/journal/2026/`, months at `/journal/2026/09/`, with pagination and a feed. The year and month views filter the Journal by the theme's own query variables, so WordPress does not treat them as date archives and Rank Math, which sends date archives to the front page, leaves them working; WordPress's own date archives are unaffected. The address rules refresh themselves once after each theme update. Tested: every kind of Journal address routes to its view, entry addresses take the entry's date, and articles, pages, sections and `/2026/09/` are untouched.
+- The Journal page lists entries ten to a page (date, title, excerpt, link), then an archive of the months that have entries with their counts, then the feed; its title panel carries ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ ("these things write I unto you", 1 John 2:1, checked against the SBL Greek New Testament). Year and month pages are titled "Journal: 2026" and "Journal: September 2026", with trails and search descriptions of their own, each within 120 to 130 characters.
+- An entry shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, a band with the older and newer entries (followed by the arrow keys) and the way back, and the book teaser.
+- Theme Options, Journal: title, introduction and search description. Journal entries appear in site search, labelled with the Journal and their date. The footer's Reference column links the Journal; the header menu gains it between Answers and The book, rebuilt only while the menu still holds exactly the theme's links, so a menu edited in the Site Editor is kept (the dashboard widget then asks for the link to be added by hand). The dashboard widget counts published entries and links to a new one.
+
+## [2.45.8] - 2026-09-23
+
+### Fixed
+
+- The header menu linked the three sections as /category/the-man/, /category/the-charges/ and /category/the-witnesses/ after Rank Math had been set to strip the category base. The installer writes each menu link's full address into the navigation when it builds the menu, and those three were recorded before the category base was removed; every address built as a page renders (footer, cards, breadcrumbs, structured data) already followed Rank Math. On the live site these three were the only such addresses; the old form redirected (301) to the clean one. Menu links that name their section or page by ID now take that item's current address as the page renders (`paulus_nav_link_live_url()`), so the menu follows Rank Math or any later permalink change; custom links are left as they are. The stored menu itself is not rebuilt, so changes made to it in the Site Editor are kept.
+
 ## [2.45.7] - 2026-09-23
 
 ### Reverted

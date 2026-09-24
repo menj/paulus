@@ -151,6 +151,11 @@ function paulus_title_part() {
 		$short = get_term_meta( $term->term_id, 'paulus_seo_title', true );
 		return $short ? $short : $term->name;
 	}
+	if ( is_post_type_archive( 'paulus_journal' ) ) {
+		$period = paulus_journal_period();
+		/* translators: 1: Journal title, 2: month and year, or year. */
+		return $period ? sprintf( __( '%1$s: %2$s', 'paulus' ), paulus_option( 'journal_title' ), $period ) : (string) paulus_option( 'journal_title' );
+	}
 	if ( is_search() ) {
 		/* translators: %s: search terms. */
 		return sprintf( __( 'Search: %s', 'paulus' ), get_search_query( false ) );
@@ -199,6 +204,15 @@ function paulus_meta_description() {
 		if ( ! $meta && has_excerpt( get_queried_object_id() ) ) {
 			$meta = wp_strip_all_tags( get_the_excerpt( get_queried_object_id() ) );
 		}
+	} elseif ( is_post_type_archive( 'paulus_journal' ) ) {
+		$period = paulus_journal_period();
+		/* translators: %s: month and year, or year. */
+		if ( $period && ! get_query_var( 'journal_monthnum' ) ) {
+			/* translators: %s: year. */
+			$period = sprintf( __( 'the year %s', 'paulus' ), $period );
+		}
+		/* translators: %s: month and year, or "the year" and a year. */
+		$meta = $period ? sprintf( __( 'Journal entries from %s: replies to missionary claims, notes on new sources and news of the case. Read them in order.', 'paulus' ), $period ) : paulus_option( 'journal_meta' );
 	} elseif ( is_category() ) {
 		$term = get_queried_object();
 		$meta = get_term_meta( $term->term_id, 'paulus_meta', true );

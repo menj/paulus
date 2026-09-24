@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.45.7
+Stable tag: 2.48.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,42 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.48.0 =
+* The Journal takes its own block in the header, beside The book, in place of a menu link.
+
+= 2.47.6 =
+* The sections are named The Man, The Charges and The Witnesses again, in the menus, headings and trails.
+
+= 2.47.5 =
+* Footer: on narrow screens the link columns start at the left margin.
+
+= 2.47.4 =
+* Footer: the description and the publisher credit form one paragraph, with the place of publication.
+
+= 2.47.3 =
+* Footer: the book card is removed; the header button and the article banner already lead to the book.
+
+= 2.47.2 =
+* Footer: the gap between the brand and the link columns matches the gaps between the columns.
+
+= 2.47.1 =
+* Footer: even spacing between the three link columns.
+
+= 2.47.0 =
+* A new Appendices section and footer column; three pages move there from Reference, with their old addresses redirected.
+
+= 2.46.2 =
+* Journal: list titles set flush left, and the date of an entry on its own line under the author.
+
+= 2.46.1 =
+* The Journal's first entry, on the publication of Dale B. Martin's notes, with a featured image.
+
+= 2.46.0 =
+* The Journal: dated entries with date-based addresses (/journal/2026/09/slug/, /journal/2026/, /journal/2026/09/), kept apart from the case articles.
+
+= 2.45.8 =
+* Header menu: section links follow the site's current addresses (no /category/ once Rank Math strips it).
 
 = 2.45.7 =
 * Line spacing restored to the values before 2.45.6.

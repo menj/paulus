@@ -40,6 +40,18 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 The portrait and its variants are redrawn. On the first page load as an administrator after updating, the structure sync copies the eight new portrait files into the media library and points the existing attachments at them; featured images change in place. Clear the page cache and any CDN afterwards. A site icon set under Site Identity is not touched; the bundled fallback icon is redrawn.
 
+### 2.48.0
+
+The Journal leaves the header menu and takes its own block in the header, beside THE BOOK. The header part (`parts/header.html`) carries it; if you have customised the header in the Site Editor, reset that part to the theme's version, or add a Shortcode block with `[paulus_journal_canton]` between the Navigation block and the search. The menu is rebuilt once to drop the Journal link that 2.46 added, and only if the menu still holds the theme's own links.
+
+### 2.47.0
+
+Three pages move from Reference to the new Appendices section: *Paul in the churches*, *“Luke” versus Paul: the notes of Dale B. Martin* and *Why Luke does not seem to know Paul's letters*. On the next admin page load the sync creates the Appendices page and moves the three pages under it in place, keeping their content and any edits. Their old addresses under `/reference/` redirect permanently to the new ones under `/appendices/`. Clear the page cache afterwards. If an SEO plugin keeps its own redirects, nothing needs adding there.
+
+### 2.46.0
+
+The Journal arrives. Its addresses work at once: the theme refreshes the address rules itself after the update, with no visit to Settings, Permalinks. The header menu gains a Journal link on the next admin page load, unless the menu has been edited in the Site Editor, in which case it is kept and the dashboard widget says so. In Rank Math, under Sitemap Settings, switch on the Journal post type so its entries are listed.
+
 ### 2.33.5 and 2.33.6
 
 Open any admin page once as an administrator after updating. A one-time repair restores the footer description, the footer badges, the front-page search title and the hero kicker where they are empty. Check the Front page tab of Theme Options afterwards: other fields a site had never saved may also have been emptied between 2.30.0 and 2.33.4, and those are left for you to refill, since an empty field may be deliberate.

@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
-	'nav_version'     => 4,
-	'content_version' => '2.45.4',
+	'nav_version' => 6,
+	'content_version' => '2.48.0',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -363,7 +363,7 @@ return array(
 	'parts' => array(
 		array(
 			'slug'        => 'the-man',
-			'name'        => 'The man',
+			'name'        => 'The Man',
 			'description' => 'Saul of Tarsus, from persecutor of the first believers to self-appointed apostle, and the mind behind the change, and the character his own letters record.',
 			'seo_title'   => 'The man: Paul of Tarsus',
 			'meta'        => 'Who Paul was before and after Damascus: the persecutor, the Roman, the self-named apostle and the mind behind them, all on record.',
@@ -371,7 +371,7 @@ return array(
 		),
 		array(
 			'slug'        => 'the-charges',
-			'name'        => 'The charges',
+			'name'        => 'The Charges',
 			'description' => 'Six counts against Paul, each argued from his own letters and from the record of the community that knew ʿĪsā ibn Maryam.',
 			'seo_title'   => 'The charges against Paul',
 			'meta'        => 'Six counts against Paul, each argued from his own letters and the community that knew ʿĪsā ibn Maryam. The case file is open.',
@@ -379,7 +379,7 @@ return array(
 		),
 		array(
 			'slug'        => 'the-witnesses',
-			'name'        => 'The witnesses',
+			'name'        => 'The Witnesses',
 			'description' => 'The brother who led the disciples, the Jewish followers who refused Paul, the Muslim scholars who named him, the revelation they read, a letter from one who once defended him, and the case in Southeast Asia today.',
 			'seo_title'   => 'The witnesses against Paul',
 			'meta'        => 'The brother of ʿĪsā ibn Maryam, the first law-keeping believers, Muslim scholars and the Qurʾān all testify. Their words are here.',
@@ -875,6 +875,22 @@ return array(
 			'questions' => true,
 		),
 	),
+	// Journal entries shipped with the theme. Each is created once, on the
+	// sync after it first appears here; an entry the owner edits or deletes
+	// is never touched again (paulus_install_journal()).
+	'journal' => array(
+		array(
+			'slug'      => 'dale-b-martin-notes-published',
+			'title'     => 'Dale B. Martin\'s notes on Luke and Paul, published',
+			'seo_title' => 'Dale B. Martin\'s notes published',
+			'meta'      => 'The late Dale B. Martin\'s notes on the Paul of Acts and the Paul of the letters, published with his permission. Read the entry.',
+			'excerpt'   => 'Notes the late Dale B. Martin of Yale sent me in 2023, now published as he left them, with an answer to the question they end on.',
+			'file'      => 'journal-dale-b-martin-notes.html',
+			'image'     => 'paul-gladius-painted',
+			'date'      => '2026-09-24 09:00:00',
+		),
+	),
+
 	'pages' => array(
 		array(
 			'slug'    => 'answers',
@@ -906,6 +922,16 @@ return array(
 			'file'    => 'reference.html',
 			'image'   => 'paul-portrait-face',
 			'order'   => 3,
+		),
+		array(
+			'slug'    => 'appendices',
+			'meta'      => 'The church\'s portrait of Paul, the notes of Dale B. Martin and the question he left, set beside the case. Read the appendices.',
+			'title'   => 'Appendices',
+			'seo_title' => 'Appendices',
+			'excerpt' => 'Material set beside the case: the church\'s portrait of Paul, and the notes of Dale B. Martin with the answer to his question.',
+			'file'    => 'appendices.html',
+			'image'   => 'paul-horned-stone',
+			'order'   => 4,
 		),
 		array(
 			'slug'    => 'chronology',
@@ -956,11 +982,12 @@ return array(
 			'meta'      => 'How the church has painted and carved Paul, from the catacombs to Saint Peter\'s, in photographs of the originals in place.',
 			'title'   => 'Paul in the churches',
 			'seo_title' => 'Paul in the churches',
-			'parent'  => 'reference',
+			'parent'  => 'appendices',
+			'was_parent' => 'reference',
 			'excerpt' => 'The church\'s portrait of Paul, from the catacombs to the Vatican, in photographs: the image the illustrations on this site turn against him.',
 			'file'    => 'churches.html',
 			'image'   => 'paul-horned-grin-stone',
-			'order'   => 5,
+			'order'   => 1,
 		),
 
 		array(
@@ -968,11 +995,12 @@ return array(
 			'meta'      => 'Dale B. Martin\'s notes on why the Paul of Acts and the Paul of the letters cannot both be true. Read them as he left them.',
 			'title'   => '“Luke” versus Paul: the notes of Dale B. Martin',
 			'seo_title' => 'Dale B. Martin on Luke and Paul',
-			'parent'  => 'reference',
+			'parent'  => 'appendices',
+			'was_parent' => 'reference',
 			'excerpt' => 'The notes the late Dale B. Martin of Yale left on the Paul of Acts and the Paul of the letters, published as he wrote them.',
 			'file'    => 'dale-b-martin-luke-versus-paul.html',
 			'image'   => 'paul-portrait-ink',
-			'order'   => 6,
+			'order'   => 2,
 		),
 
 		array(
@@ -980,11 +1008,12 @@ return array(
 			'meta'      => 'Acts never names Paul\'s letters and seldom calls him an apostle. Martin asked why; here is the answer. Read the continuation.',
 			'title'   => 'Why Luke does not seem to know Paul\'s letters',
 			'seo_title' => 'Why Acts ignores Paul\'s letters',
-			'parent'  => 'reference',
+			'parent'  => 'appendices',
+			'was_parent' => 'reference',
 			'excerpt' => 'The question Dale B. Martin left unanswered, taken up from the Greek of Acts, the scholars and his own evidence.',
 			'file'    => 'why-luke-does-not-know-pauls-letters.html',
 			'image'   => 'paul-decayed-stone',
-			'order'   => 7,
+			'order'   => 3,
 		),
 
 		array(

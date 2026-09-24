@@ -133,6 +133,48 @@ function paulus_nav_ref( $block ) {
 add_filter( 'render_block_data', 'paulus_nav_ref' );
 
 /**
+ * Menu links take their address from what they link to as the page renders.
+ * A navigation link stores the full address it had when the menu was built;
+ * when the site's addresses later change (Rank Math's option to strip the
+ * category base, a new permalink structure), the stored address goes stale
+ * and the menu shows, say, /category/the-charges/ where the site now uses
+ * /the-charges/. A link that names its section or page by ID is given that
+ * item's current address, which every SEO plugin's filters have shaped.
+ *
+ * @param array $block Parsed block.
+ * @return array
+ */
+function paulus_nav_link_live_url( $block ) {
+	if ( 'core/navigation-link' !== ( $block['blockName'] ?? '' ) ) {
+		return $block;
+	}
+	$a  = $block['attrs'] ?? array();
+	$id = isset( $a['id'] ) ? (int) $a['id'] : 0;
+	if ( ! $id || empty( $a['kind'] ) ) {
+		return $block;
+	}
+	$url = '';
+	if ( 'taxonomy' === $a['kind'] ) {
+		$tax  = ! empty( $a['type'] ) && 'tag' !== $a['type'] ? $a['type'] : 'post_tag';
+		$link = get_term_link( $id, $tax );
+		$url  = is_wp_error( $link ) ? '' : $link;
+		// The label follows the section's current name where it is that name
+		// in other capitals; a label written differently by hand is kept.
+		$term = get_term( $id, $tax );
+		if ( $term && ! is_wp_error( $term ) && isset( $a['label'] ) && $a['label'] !== $term->name && 0 === strcasecmp( wp_strip_all_tags( $a['label'] ), $term->name ) ) {
+			$block['attrs']['label'] = $term->name;
+		}
+	} elseif ( 'post-type' === $a['kind'] ) {
+		$url = (string) get_permalink( $id );
+	}
+	if ( $url ) {
+		$block['attrs']['url'] = $url;
+	}
+	return $block;
+}
+add_filter( 'render_block_data', 'paulus_nav_link_live_url' );
+
+/**
  * A label split into its word and its numeral, so the ornament layer can
  * set the numeral on the coin roundel. "Count·III", "Count III" and the
  * pre-2.4 "Count 3" all give the word "Count" and the numeral "III".
@@ -472,21 +514,30 @@ function paulus_sc_footer_nav() {
 		$case[] = array( get_the_title( $verdict ), get_permalink( $verdict ) );
 	}
 
+	// Short labels where a page's full title would crowd its column.
+	$short = array(
+		'chronology'                           => __( 'Timeline', 'paulus' ),
+		'dale-b-martin-luke-versus-paul'       => __( 'Dale B. Martin on Acts', 'paulus' ),
+		'why-luke-does-not-know-pauls-letters' => __( 'Why Acts ignores the letters', 'paulus' ),
+	);
 	$reference = array();
 	$parent    = get_page_by_path( 'reference' );
 	if ( $parent && 'publish' === $parent->post_status ) {
 		foreach ( get_pages( array( 'parent' => $parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
-			// Short labels where a page's full title would crowd the column.
-			$short       = array(
-				'chronology'                           => __( 'Timeline', 'paulus' ),
-				'dale-b-martin-luke-versus-paul'       => __( 'Dale B. Martin on Acts', 'paulus' ),
-				'why-luke-does-not-know-pauls-letters' => __( 'Why Acts ignores the letters', 'paulus' ),
-			);
 			$label       = $short[ $child->post_name ] ?? get_the_title( $child );
 			$reference[] = array( $label, get_permalink( $child ) );
 		}
 	}
 
+	// The appendices: pages set beside the case, under their own heading.
+	$appendices = array();
+	$app_parent = get_page_by_path( 'appendices' );
+	if ( $app_parent && 'publish' === $app_parent->post_status ) {
+		foreach ( get_pages( array( 'parent' => $app_parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
+			$label        = $short[ $child->post_name ] ?? get_the_title( $child );
+			$appendices[] = array( $label, get_permalink( $child ) );
+		}
+	}
 	$map = paulus_sitemap_page();
 	if ( $map && 'publish' === $map->post_status ) {
 		$reference[] = array( get_the_title( $map ), get_permalink( $map ) );
@@ -494,6 +545,7 @@ function paulus_sc_footer_nav() {
 	$columns = array(
 		array( __( 'The case', 'paulus' ), '', $case ),
 		array( __( 'Reference', 'paulus' ), $parent ? get_permalink( $parent ) : '', $reference ),
+		array( __( 'Appendices', 'paulus' ), $app_parent ? get_permalink( $app_parent ) : '', $appendices ),
 	);
 	$out = '<nav class="paulus-footer-nav" aria-label="' . esc_attr__( 'Footer', 'paulus' ) . '">';
 	foreach ( $columns as list( $heading, $url, $links ) ) {
@@ -651,6 +703,14 @@ function paulus_redirect_old_page_slugs() {
 		$request = substr( $request, strlen( $base ) + 1 );
 	}
 	foreach ( paulus_manifest()['pages'] as $item ) {
+		// A page moved to a new parent: its old address under the old parent.
+		if ( ! empty( $item['was_parent'] ) && $request === $item['was_parent'] . '/' . $item['slug'] ) {
+			$page = get_page_by_path( ( $item['parent'] ?? '' ) . '/' . $item['slug'] );
+			if ( $page && 'publish' === $page->post_status ) {
+				wp_safe_redirect( get_permalink( $page ), 301 );
+				exit;
+			}
+		}
 		if ( empty( $item['was_slug'] ) ) {
 			continue;
 		}
@@ -685,7 +745,9 @@ function paulus_sc_footer_brand() {
 	$out .= '<p class="paulus-footer-brand__mark"><img class="paulus-footer-brand__icon" src="' . esc_url( $icon ) . '" alt="" width="48" height="48" loading="lazy" decoding="async"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
 	// The site description: the Theme Options footer description, or, when
 	// that is empty, the tagline from Settings, General. The publisher
-	// credit follows as its own sentence.
+	// credit follows in the same paragraph: "Published by Langgam Fikir
+	// (Seri Kembangan, Selangor: 2025).", the place taken from the imprint
+	// (Book tab) and the year from "First published".
 	$blurb = trim( (string) paulus_option( 'footer_blurb' ) );
 	if ( '' === $blurb ) {
 		$blurb = trim( (string) get_bloginfo( 'description' ) );
@@ -694,30 +756,22 @@ function paulus_sc_footer_brand() {
 	$name = '';
 	if ( $pub ) {
 		$name = paulus_option( 'pub_url' ) ? '<a href="' . esc_url( paulus_option( 'pub_url' ) ) . '" rel="noopener">' . esc_html( $pub ) . '</a>' : esc_html( $pub );
-		// The year of publication, taken from "First published" ("August 2025").
-		if ( preg_match( '/\b(1[5-9]|20)\d{2}\b/', (string) paulus_option( 'book_first_pub' ), $year ) ) {
-			$name .= ' (' . esc_html( $year[0] ) . ')';
+		// Place from the imprint ("Seri Kembangan, Selangor : Langgam Fikir,
+		// 2025"), year from "First published" ("August 2025").
+		$place = trim( (string) strtok( (string) paulus_option( 'cat_imprint' ), ':' ) );
+		$year  = preg_match( '/\b(1[5-9]|20)\d{2}\b/', (string) paulus_option( 'book_first_pub' ), $y ) ? $y[0] : '';
+		$where = implode( ': ', array_filter( array( $place, $year ) ) );
+		if ( $where ) {
+			$name .= ' (' . esc_html( $where ) . ')';
 		}
 	}
-	if ( '' !== $blurb ) {
-		// A tagline usually has no closing full stop; the description gets one.
-		$out .= '<p class="paulus-footer-brand__blurb">' . esc_html( rtrim( $blurb, " .\t\n" ) . '.' ) . '</p>';
-	}
+	$text = '' !== $blurb ? esc_html( rtrim( $blurb, " .\t\n" ) . '.' ) : '';
 	if ( $name ) {
-		/* translators: %s: publisher name. */
-		$out .= '<p class="paulus-footer-brand__publisher">' . sprintf( esc_html__( 'Published by %s.', 'paulus' ), $name ) . '</p>';
+		/* translators: %s: publisher name, with place and year. */
+		$text .= ( $text ? ' ' : '' ) . sprintf( esc_html__( 'Published by %s.', 'paulus' ), $name );
 	}
-	// The book the site is drawn from: a small card, cover beside title,
-	// leading to the book page.
-	$book_page = get_page_by_path( 'the-book' );
-	if ( $book_page && paulus_option( 'book_title' ) ) {
-		$out .= '<a class="paulus-footer-book" href="' . esc_url( get_permalink( $book_page ) ) . '">'
-			. '<img src="' . esc_url( PAULUS_URI . '/assets/images/book-cover-160.webp' ) . '" alt="" width="160" height="215" loading="lazy" decoding="async">'
-			. '<span class="paulus-footer-book__text">'
-			. '<span class="paulus-footer-book__label">' . esc_html__( 'The book', 'paulus' ) . '</span>'
-			. '<span class="paulus-footer-book__title" lang="ms">' . esc_html( paulus_option( 'book_title' ) ) . '</span>'
-			. '<span class="paulus-footer-book__more">' . esc_html__( 'About the book', 'paulus' ) . ' <span aria-hidden="true">→</span></span>'
-			. '</span></a>';
+	if ( $text ) {
+		$out .= '<p class="paulus-footer-brand__blurb">' . $text . '</p>';
 	}
 	$out .= paulus_sc_footer_social();
 	return $out . '</div>';
@@ -749,6 +803,7 @@ function paulus_greek_marks() {
 		'answers'       => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
 		'the-verdict'   => array( 'ΚΡΙΣΙΣ', __( 'Judgment (John 5:22)', 'paulus' ) ),
 		'404'           => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
+		'journal'       => array( 'ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ', __( 'These things write I unto you (1 John 2:1)', 'paulus' ) ),
 	);
 }
 
@@ -779,6 +834,26 @@ function paulus_sc_page_hero() {
 		$title      = __( 'Search the case', 'paulus' );
 		$standfirst = __( 'Every article, reference page and answer on the site, searched in full, footnotes included.', 'paulus' );
 		$crumbs[]   = array( __( 'Search', 'paulus' ), '' );
+	} elseif ( is_post_type_archive( 'paulus_journal' ) ) {
+		$period = paulus_journal_period();
+		$name   = (string) paulus_option( 'journal_title' );
+		if ( $period ) {
+			/* translators: 1: Journal title, 2: month and year, or year. */
+			$title      = sprintf( __( '%1$s: %2$s', 'paulus' ), $name, $period );
+			$crumbs[]   = array( $name, paulus_journal_url() );
+			$month      = (int) get_query_var( 'journal_monthnum' );
+			if ( $month ) {
+				$year     = (int) get_query_var( 'journal_year' );
+				$crumbs[] = array( (string) $year, paulus_journal_url( $year ) );
+				$crumbs[] = array( date_i18n( 'F', mktime( 0, 0, 0, $month, 1, $year ) ), '' );
+			} else {
+				$crumbs[] = array( $period, '' );
+			}
+		} else {
+			$title      = $name;
+			$standfirst = (string) paulus_option( 'journal_intro' );
+			$crumbs[]   = array( $name, '' );
+		}
 	} elseif ( is_category() ) {
 		$term       = get_queried_object();
 		$title      = $term->name;
@@ -803,7 +878,13 @@ function paulus_sc_page_hero() {
 				$standfirst = $series_title . '. ' . $standfirst;
 			}
 		}
-		if ( is_single() ) {
+		if ( is_singular( 'paulus_journal' ) ) {
+			$year     = (int) get_the_date( 'Y', $post );
+			$month    = (int) get_the_date( 'n', $post );
+			$crumbs[] = array( (string) paulus_option( 'journal_title' ), paulus_journal_url() );
+			$crumbs[] = array( get_the_date( 'F Y', $post ), paulus_journal_url( $year, $month ) );
+			$byline   = paulus_option( 'book_author' );
+		} elseif ( is_single() ) {
 			$part  = paulus_part_of( $post->ID );
 			$label = get_post_meta( $post->ID, '_paulus_label', true );
 			if ( $part ) {
@@ -847,7 +928,7 @@ function paulus_sc_page_hero() {
 		$out .= '<figure class="paulus-hero-panel__image">' . $image . '</figure>';
 	}
 	$out .= '<div class="paulus-hero-panel__body">' . $meta;
-	$greek_key = is_category() ? get_queried_object()->slug : ( is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '' );
+	$greek_key = is_category() ? get_queried_object()->slug : ( is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : ( is_post_type_archive( 'paulus_journal' ) && ! paulus_journal_period() ? 'journal' : '' ) );
 	$greek     = $greek_key ? paulus_greek_mark( $greek_key, 'paulus-greek--panel' ) : '';
 	$out      .= ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h1 class="paulus-hero-panel__title">' . esc_html( $title ) . '</h1>';
 	if ( $standfirst ) {
@@ -856,7 +937,10 @@ function paulus_sc_page_hero() {
 	$out .= '<span class="paulus-hero-panel__rule" aria-hidden="true"></span>';
 	if ( $byline ) {
 		$out .= '<p class="paulus-hero-panel__byline"><span class="paulus-hero-panel__author">' . esc_html( $byline ) . '</span>';
-		if ( is_single() ) {
+		if ( is_singular( 'paulus_journal' ) ) {
+			// An entry's date, with its reading time, on a line of its own under the name.
+			$out .= ' <span class="paulus-hero-panel__time paulus-hero-panel__when"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date( 'j F Y' ) ) . '</time> <span class="paulus-hero-panel__sep">·</span> ' . esc_html( paulus_reading_time( get_the_ID() ) ) . '</span>';
+		} elseif ( is_single() ) {
 			$out .= ' <span class="paulus-hero-panel__time"><span class="paulus-hero-panel__sep">·</span> ' . esc_html( paulus_reading_time( get_the_ID() ) ) . '</span>';
 		}
 		$out .= '</p>';

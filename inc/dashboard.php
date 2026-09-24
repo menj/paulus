@@ -85,6 +85,14 @@ function paulus_dashboard_render() {
 				}
 				?>
 			</td></tr>
+			<tr><th scope="row"><?php esc_html_e( 'Journal', 'paulus' ); ?></th><td>
+				<?php
+				$entries = (int) ( wp_count_posts( 'paulus_journal' )->publish ?? 0 );
+				/* translators: %d: number of published entries. */
+				echo esc_html( sprintf( _n( '%d published entry.', '%d published entries.', $entries, 'paulus' ), $entries ) );
+				?>
+				<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=paulus_journal' ) ); ?>"><?php esc_html_e( 'Write an entry', 'paulus' ); ?></a>
+			</td></tr>
 			<tr><th scope="row"><?php esc_html_e( 'Articles and pages', 'paulus' ); ?></th><td>
 				<?php
 				/* translators: 1: number of articles, 2: number of pages. */

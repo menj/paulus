@@ -469,6 +469,7 @@ require_once PAULUS_DIR . '/inc/seo.php';
 require_once PAULUS_DIR . '/inc/figures.php';
 require_once PAULUS_DIR . '/inc/charts.php';
 require_once PAULUS_DIR . '/inc/dashboard.php';
+require_once PAULUS_DIR . '/inc/journal.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**

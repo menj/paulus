@@ -242,6 +242,12 @@ function paulus_install_parts() {
 			if ( in_array( $term->description, $stale, true ) && $term->description !== $part['description'] ) {
 				wp_update_term( $term_id, 'category', array( 'description' => $part['description'] ) );
 			}
+			// A section whose name differs from the manifest's only in
+			// capitals takes the manifest's wording ("The man" becomes "The
+			// Man"); a name the owner has changed in any other way is kept.
+			if ( $term->name !== $part['name'] && 0 === strcasecmp( $term->name, $part['name'] ) ) {
+				wp_update_term( $term_id, 'category', array( 'name' => $part['name'] ) );
+			}
 		}
 		update_term_meta( $term_id, 'paulus_order', $i + 1 );
 		foreach ( array( 'meta' => 'paulus_meta', 'seo_title' => 'paulus_seo_title' ) as $key => $meta_key ) {
@@ -284,6 +290,33 @@ function paulus_install_navigation( $parts ) {
 	if ( $current && (int) get_option( 'paulus_nav_version', 1 ) >= $version ) {
 		return;
 	}
+	// A menu edited in the Site Editor is never overwritten. The stored menu
+	// is rebuilt only while it still holds exactly the links the theme put
+	// there (the sections, Answers, The book, and the Journal link of 2.46,
+	// which the rebuild now drops: the Journal has its own block in the
+	// header); otherwise it is kept as it is.
+	if ( $current ) {
+		$labels = array();
+		foreach ( parse_blocks( (string) get_post_field( 'post_content', $existing ) ) as $b ) {
+			if ( 'core/navigation-link' === ( $b['blockName'] ?? '' ) ) {
+				$labels[] = (string) ( $b['attrs']['label'] ?? '' );
+			}
+		}
+		$ours   = array_merge( wp_list_pluck( paulus_manifest()['parts'], 'name' ), array( 'Answers', 'The book' ) );
+		$with   = array_merge( $ours, array( (string) paulus_option( 'journal_title' ) ) );
+		$labels = array_map( 'strtolower', $labels );
+		$ours   = array_map( 'strtolower', $ours );
+		$with   = array_map( 'strtolower', $with );
+		sort( $labels );
+		sort( $ours );
+		sort( $with );
+		if ( $labels !== $ours && $labels !== $with ) {
+			update_option( 'paulus_nav_version', $version );
+			update_option( 'paulus_nav_kept', 1, false );
+			return;
+		}
+	}
+	delete_option( 'paulus_nav_kept' );
 
 	$link = static function ( $label, $type, $id, $url, $kind, $class = '' ) {
 		$attrs = compact( 'label', 'type', 'id', 'url', 'kind' );
@@ -482,6 +515,17 @@ function paulus_run_install() {
 			}
 		}
 
+		// A page moved to a new parent in a later release ('was_parent'):
+		// move the existing page in place, content, edits and ID intact;
+		// paulus_redirect_old_page_slugs() sends the old address to it.
+		if ( ! $page && $parent_id && ! empty( $item['was_parent'] ) ) {
+			$moved = get_page_by_path( $item['was_parent'] . '/' . $item['slug'] );
+			if ( $moved ) {
+				wp_update_post( array( 'ID' => $moved->ID, 'post_parent' => $parent_id ) );
+				$page = get_post( $moved->ID );
+			}
+		}
+
 		// Move a page installed by an earlier version at the top level.
 		if ( ! $page && $parent_id ) {
 			$legacy = get_page_by_path( $item['slug'] );
@@ -560,6 +604,7 @@ function paulus_run_install() {
 		flush_rewrite_rules();
 	}
 
+	paulus_install_journal();
 	paulus_install_navigation( $parts );
 	paulus_sync_images();
 	paulus_sync_front_meta();
@@ -845,4 +890,62 @@ function paulus_refresh_unedited( $post, $item ) {
 		'excerpt' => $item['excerpt'] ?? null,
 	);
 	update_option( 'paulus_content_hashes', $known, false );
+}
+
+/**
+ * Create the Journal entries the theme ships, each once. An entry is made
+ * on the first sync after it appears in the manifest, dated as the manifest
+ * gives, with its featured image, search title and description. Its slug is
+ * then recorded, so an entry the owner edits keeps the edits and one the
+ * owner deletes is not made again.
+ */
+function paulus_install_journal() {
+	if ( ! post_type_exists( 'paulus_journal' ) ) {
+		return;
+	}
+	$done = (array) get_option( 'paulus_journal_shipped', array() );
+	foreach ( (array) ( paulus_manifest()['journal'] ?? array() ) as $e ) {
+		if ( empty( $e['slug'] ) || in_array( $e['slug'], $done, true ) ) {
+			continue;
+		}
+		$existing = get_posts( array( 'post_type' => 'paulus_journal', 'name' => $e['slug'], 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids' ) );
+		if ( ! $existing ) {
+			$content = paulus_content_file( $e['file'] );
+			if ( '' === $content ) {
+				continue;
+			}
+			$date = $e['date'] ?? current_time( 'mysql' );
+			$id   = wp_insert_post(
+				array(
+					'post_type'     => 'paulus_journal',
+					'post_status'   => 'publish',
+					'post_name'     => $e['slug'],
+					'post_title'    => $e['title'],
+					'post_excerpt'  => $e['excerpt'] ?? '',
+					'post_content'  => $content,
+					'post_date'     => $date,
+					'post_date_gmt' => get_gmt_from_date( $date ),
+					'post_author'   => get_current_user_id(),
+				),
+				true
+			);
+			if ( is_wp_error( $id ) || ! $id ) {
+				continue;
+			}
+			if ( ! empty( $e['image'] ) ) {
+				$thumb = paulus_attach_image( $e['image'] );
+				if ( $thumb ) {
+					set_post_thumbnail( $id, $thumb );
+				}
+			}
+			if ( ! empty( $e['meta'] ) ) {
+				update_post_meta( $id, '_paulus_meta', $e['meta'] );
+			}
+			if ( ! empty( $e['seo_title'] ) ) {
+				update_post_meta( $id, '_paulus_seo_title', $e['seo_title'] );
+			}
+		}
+		$done[] = $e['slug'];
+		update_option( 'paulus_journal_shipped', $done, false );
+	}
 }

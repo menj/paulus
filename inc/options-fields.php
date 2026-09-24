@@ -87,6 +87,14 @@ function paulus_fields() {
 				'read_top'      => array( __( 'Back-to-top button on long pages', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'journal'    => array(
+			'label'  => __( 'Journal', 'paulus' ),
+			'fields' => array(
+				'journal_title' => array( __( 'Title of the Journal', 'paulus' ), 'text' ),
+				'journal_intro' => array( __( 'Introduction, under the title on the Journal page', 'paulus' ), 'textarea' ),
+				'journal_meta'  => array( __( 'Search description of the Journal page (120 to 130 characters)', 'paulus' ), 'textarea' ),
+			),
+		),
 		'front'      => array(
 			'label'  => __( 'Front page', 'paulus' ),
 			'fields' => array(

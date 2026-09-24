@@ -118,7 +118,8 @@ function paulus_sc_search_results() {
 		$post  = get_post();
 		$label = get_post_meta( $post->ID, '_paulus_label', true );
 		$part  = 'post' === $post->post_type ? paulus_part_of( $post->ID ) : null;
-		$where = array_filter( array( $part ? $part->name : ( 'page' === $post->post_type ? __( 'Page', 'paulus' ) : '' ), $label ) );
+		$kind  = 'page' === $post->post_type ? __( 'Page', 'paulus' ) : ( 'paulus_journal' === $post->post_type ? paulus_option( 'journal_title' ) . ', ' . get_the_date( 'j F Y', $post ) : '' );
+		$where = array_filter( array( $part ? $part->name : $kind, $label ) );
 		$out  .= '<li class="paulus-result">'
 			. '<span class="paulus-result__n" aria-hidden="true">' . esc_html( paulus_roman( $i ) ) . '</span>'
 			. ( $where ? '<p class="paulus-result__where">' . esc_html( implode( ' · ', $where ) ) . '</p>' : '' )
@@ -143,7 +144,7 @@ add_shortcode( 'paulus_search_results', 'paulus_sc_search_results' );
  */
 function paulus_search_scope( $q ) {
 	if ( ! is_admin() && $q->is_main_query() && $q->is_search() ) {
-		$q->set( 'post_type', array( 'post', 'page' ) );
+		$q->set( 'post_type', array( 'post', 'page', 'paulus_journal' ) );
 		$q->set( 'posts_per_page', 20 );
 	}
 }
