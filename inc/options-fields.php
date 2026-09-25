@@ -87,6 +87,15 @@ function paulus_fields() {
 				'read_top'      => array( __( 'Back-to-top button on long pages', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'login'      => array(
+			'label'  => __( 'Login', 'paulus' ),
+			'fields' => array(
+				'login_image'    => array( __( 'Portrait in the medallion above the login form', 'paulus' ), 'image' ),
+				'login_logo_url' => array( __( 'Logo image address, in place of the medallion (leave empty for the medallion; a file named login-logo.png in wp-content is used when this is empty)', 'paulus' ), 'url' ),
+				'login_tagline'  => array( __( 'Line under the site name', 'paulus' ), 'text' ),
+				'login_greek'    => array( __( 'Greek inscription above the form: ΕΙΣΕΛΘΑΤΕ, "enter", Matthew 7:13', 'paulus' ), 'checkbox' ),
+			),
+		),
 		'journal'    => array(
 			'label'  => __( 'Journal', 'paulus' ),
 			'fields' => array(

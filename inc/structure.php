@@ -452,6 +452,16 @@ add_shortcode( 'paulus_article_meta', 'paulus_sc_article_meta' );
 function paulus_sc_article_nav() {
 	$id       = get_the_ID();
 	$chapters = paulus_chapters();
+	// An unlisted article, opened by its address, still offers its
+	// neighbours: the reading order is taken whole, with this article in it
+	// and any other unlisted one still left out.
+	if ( function_exists( 'paulus_is_unlisted' ) && paulus_is_unlisted( $id ) ) {
+		remove_action( 'pre_get_posts', 'paulus_unlist_query' );
+		$chapters = array_values( array_filter( paulus_chapters(), static function ( $p ) use ( $id ) {
+			return (int) $p->ID === (int) $id || ! paulus_is_unlisted( $p->ID );
+		} ) );
+		add_action( 'pre_get_posts', 'paulus_unlist_query' );
+	}
 	$ids      = wp_list_pluck( $chapters, 'ID' );
 	$pos      = array_search( $id, $ids, true );
 	if ( false === $pos ) {
@@ -530,7 +540,7 @@ function paulus_sc_footer_nav() {
 	if ( $parent && 'publish' === $parent->post_status ) {
 		foreach ( get_pages( array( 'parent' => $parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
 			$label       = $short[ $child->post_name ] ?? get_the_title( $child );
-			$reference[] = array( $label, get_permalink( $child ) );
+			$reference[] = array( $label, get_permalink( $child ), $child->post_name );
 		}
 	}
 
@@ -813,12 +823,23 @@ function paulus_greek_marks() {
 		'answers'        => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
 		'the-book'       => array( 'ΒΙΒΛΙΟΝ', __( 'The book (Luke 4:17)', 'paulus' ) ),
 		'journal'        => array( 'ΓΡΑΦΩ', __( 'I write (1 John 2:1)', 'paulus' ) ),
+		'chronology'     => array( 'ΧΡΟΝΟΙ', __( 'Times (Acts 1:7)', 'paulus' ) ),
+		'glossary'       => array( 'ΟΝΟΜΑΤΑ', __( 'Names (Acts 18:15)', 'paulus' ) ),
+		'study-questions' => array( 'ΖΗΤΗΜΑΤΑ', __( 'Questions (Acts 25:19)', 'paulus' ) ),
+		'sources'        => array( 'ΠΗΓΑΙ', __( 'Springs, sources (Revelation 8:10)', 'paulus' ) ),
 		'privacy-policy' => array( 'ΚΑΤʼ ΙΔΙΑΝ', __( 'Privately (Mark 4:34)', 'paulus' ) ),
 		'terms-of-use'   => array( 'ΟΡΟΘΕΣΙΑΙ', __( 'The bounds set (Acts 17:26)', 'paulus' ) ),
 		'dmca'           => array( 'ΑΠΟΔΟΤΕ', __( 'Render to each his own (Matthew 22:21)', 'paulus' ) ),
 		'contact'        => array( 'ΕΠΙΣΤΟΛΗ', __( 'A letter (Acts 15:30)', 'paulus' ) ),
 		'sitemap'        => array( 'ΟΔΗΓΟΣ', __( 'A guide (Romans 2:19)', 'paulus' ) ),
 		'404'            => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
+		// The header wordmark: Paul's sneer at the Jerusalem apostles, turned back on him.
+		'site'           => array( 'ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ', __( 'Super-apostle (2 Corinthians 12:11)', 'paulus' ) ),
+		// Actions: the search button and field, and ordering the book.
+		'search'         => array( 'ΖΗΤΕΙΤΕ', __( 'Seek (Matthew 7:7)', 'paulus' ) ),
+		'order'          => array( 'ΑΓΟΡΑΣΑΤΕ', __( 'Buy (Matthew 25:9)', 'paulus' ) ),
+		// The login page: "Enter by the narrow gate".
+		'login'          => array( 'ΕΙΣΕΛΘΑΤΕ', __( 'Enter (Matthew 7:13)', 'paulus' ) ),
 	);
 }
 
@@ -1701,10 +1722,12 @@ function paulus_greek_urls() {
 			$map[ untrailingslashit( $link ) ] = $part->slug;
 		}
 	}
-	foreach ( array( 'the-verdict', 'answers', 'the-book', 'privacy-policy', 'terms-of-use', 'dmca', 'contact', 'sitemap' ) as $slug ) {
-		$page = get_page_by_path( $slug );
-		if ( $page && 'publish' === $page->post_status ) {
-			$map[ untrailingslashit( get_permalink( $page ) ) ] = $slug;
+	// Every published page named in the register, wherever it sits (the
+	// Reference pages sit under /reference/).
+	$marks = paulus_greek_marks();
+	foreach ( get_pages( array( 'post_status' => 'publish' ) ) as $page ) {
+		if ( isset( $marks[ $page->post_name ] ) ) {
+			$map[ untrailingslashit( get_permalink( $page ) ) ] = $page->post_name;
 		}
 	}
 	if ( function_exists( 'paulus_journal_url' ) && post_type_exists( 'paulus_journal' ) ) {
@@ -1712,3 +1735,28 @@ function paulus_greek_urls() {
 	}
 	return $map;
 }
+
+/**
+ * The header wordmark (the Site Title block marked paulus-site-title): on
+ * hover or focus the name is replaced by its Koine Greek from the register.
+ * The footer's wordmark is built separately and is left as it is.
+ *
+ * @param string $html  Rendered block.
+ * @param array  $block Block.
+ * @return string
+ */
+function paulus_site_title_greek( $html, $block ) {
+	if ( false === strpos( (string) ( $block['attrs']['className'] ?? '' ), 'paulus-site-title' ) || false !== strpos( $html, 'paulus-greekswap' ) ) {
+		return $html;
+	}
+	$html = preg_replace_callback(
+		'#(<a [^>]*>)(.*?)(</a>)#s',
+		static function ( $m ) {
+			return $m[1] . paulus_greek_label( 'site', $m[2] ) . $m[3];
+		},
+		$html,
+		1
+	);
+	return preg_replace( '#<a (?![^>]*\btitle=)#', '<a title="' . esc_attr( paulus_greek_title( 'site' ) ) . '" ', $html, 1 );
+}
+add_filter( 'render_block_core/site-title', 'paulus_site_title_greek', 10, 2 );

@@ -80,6 +80,10 @@ function paulus_defaults() {
 		// Appearance.
 		'scheme'           => 'ochre',
 		'ornament'         => 1,
+		'login_image'      => 'paul-portrait-face',
+		'login_logo_url'   => '',
+		'login_tagline'    => 'Authors and editors only.',
+		'login_greek'      => 1,
 		'journal_title'    => 'Journal',
 		'journal_intro'    => 'Replies to missionary claims, notes on new sources and news of the book, dated as they are written.',
 		'journal_meta'     => 'Dated replies to missionary claims, notes on new sources and news on the case against Paul of Tarsus. Read the latest entry.',

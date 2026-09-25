@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.51.5.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.55.1.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -214,16 +214,24 @@ Sixty-one photographs and reproductions (churches, paintings, manuscripts, inscr
 | Answers | ΑΠΟΛΟΓΙΑ | Defence | Acts 22:1 |
 | The book | ΒΙΒΛΙΟΝ | The book | Luke 4:17 |
 | Journal | ΓΡΑΦΩ | I write | 1 John 2:1 |
+| Timeline | ΧΡΟΝΟΙ | Times | Acts 1:7 |
+| Glossary | ΟΝΟΜΑΤΑ | Names | Acts 18:15 |
+| Study guide | ΖΗΤΗΜΑΤΑ | Questions | Acts 25:19 |
+| Sources | ΠΗΓΑΙ | Springs, sources | Revelation 8:10 |
 | Privacy Policy | ΚΑΤʼ ΙΔΙΑΝ | Privately | Mark 4:34 |
 | Terms of Use | ΟΡΟΘΕΣΙΑΙ | The bounds set | Acts 17:26 |
 | DMCA | ΑΠΟΔΟΤΕ | Render to each his own | Matthew 22:21 |
 | Contact | ΕΠΙΣΤΟΛΗ | A letter | Acts 15:30 |
 | Sitemap | ΟΔΗΓΟΣ | A guide | Romans 2:19 |
 | 404 | ΑΠΟΛΩΛΩΣ | Lost | Luke 15:24 |
+| Login page | ΕΙΣΕΛΘΑΤΕ | Enter | Matthew 7:13, "Enter by the narrow gate" |
+| Search (button and field label) | ΖΗΤΕΙΤΕ | Seek | Matthew 7:7 |
+| Order the book (button) | ΑΓΟΡΑΣΑΤΕ | Buy | Matthew 25:9 |
+| Header wordmark | ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ | Super-apostle | 2 Corinthians 12:11 (and 11:5), Paul's sneer at the Jerusalem apostles, turned back on him |
 
-Every place that names one of them draws on the register: the title-panel inscription on the page itself (the book page's in its book panel), the front-page section headings and answers block, and, as a swap that replaces the English at once on hover or focus, the header menu and the Journal canton, the footer's The case column and bar, the breadcrumbs, and the Sitemap (whose section rows also carry their inscriptions). The swap is one mechanism, `paulus_greek_label()` and `paulus_greekswap()`: the English and the Greek share one cell, so nothing shifts; the tooltip gives the Greek, sense and verse (`paulus_greek_title()`); screen readers hear the English. A link is keyed to the section or page it points to (`paulus_greek_urls()` for the breadcrumbs, the link's target in the menu), so a renamed label keeps its Greek. Change a form in the register and it changes everywhere.
+Every place that names one of them draws on the register: the title-panel inscription on the page itself (the book page's in its book panel), the front-page section headings and answers block, and, as a swap that replaces the English at once on hover or focus, the header wordmark (the Site Title block marked `paulus-site-title`, through `paulus_site_title_greek()`; the footer's wordmark is left in English), the header menu and the Journal canton, the footer's The case and Reference columns and bar, the breadcrumbs, and the Sitemap (whose section rows also carry their inscriptions). The swap is one mechanism, `paulus_greek_label()` and `paulus_greekswap()`: the English and the Greek share one cell, so nothing shifts; the tooltip gives the Greek, sense and verse (`paulus_greek_title()`); screen readers hear the English. A link is keyed to the section or page it points to (`paulus_greek_urls()` for the breadcrumbs, the link's target in the menu), so a renamed label keeps its Greek. Change a form in the register and it changes everywhere.
 
-The search field's label, ΖΗΤΕΙΤΕ ("seek", Matthew 7:7), stands outside the register, since it names no section.
+The buttons carry the swap too: Read the charges ΚΑΤΗΓΟΡΙΑ and About the book ΒΙΒΛΙΟΝ (the words of the section and page they open), Order the book ΑΓΟΡΑΣΑΤΕ, and the search button ΖΗΤΕΙΤΕ, which is also the search field's label.
 
 ## The Journal
 
@@ -231,7 +239,7 @@ Dated entries (replies to missionary claims, notes on new sources, news of the b
 
 Addresses carry the date: an entry at `/journal/2026/09/slug/` (year and month of publication), the Journal at `/journal/`, a year at `/journal/2026/`, a month at `/journal/2026/09/`, each with `/page/2/` and so on, and the feed at `/journal/feed/`. The year and month views are Journal archives filtered by the theme's own query variables (`journal_year`, `journal_monthnum`), so WordPress does not treat them as date archives and an SEO plugin that switches date archives off leaves them working; WordPress's own date archives (`/2026/09/`) are unaffected. The address rules refresh themselves once after each theme update.
 
-The Journal page (`archive-paulus_journal.html`) lists entries ten to a page with date, title and excerpt, then an archive of the months that have entries, then the feed; its title panel carries the Greek inscription ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ ("these things write I unto you", 1 John 2:1). An entry (`single-paulus_journal.html`) shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, and a band with the older and newer entries (which the arrow keys follow) and the way back to the Journal. Entries appear in site search. Theme Options, Journal, holds the title, the introduction and the search description; year and month pages have their own descriptions within 120 to 130 characters.
+The Journal page (`archive-paulus_journal.html`) lists entries ten to a page with date, title and excerpt, then an archive of the months that have entries, then the feed; its title panel carries the Greek inscription ΓΡΑΦΩ ("I write", 1 John 2:1). An entry (`single-paulus_journal.html`) shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, and a band with the older and newer entries (which the arrow keys follow) and the way back to the Journal. Entries appear in site search. Theme Options, Journal, holds the title, the introduction and the search description; year and month pages have their own descriptions within 120 to 130 characters.
 
 The theme can ship entries: those listed under `journal` in `content/manifest.php` (text in `content/articles/`, a featured image from the illustrations, a date, a search title and description) are created once, on the first sync after they appear, and their slugs recorded in `paulus_journal_shipped`, so an entry the owner edits keeps the edits and one the owner deletes is not made again. The first, "Dale B. Martin's notes on Luke and Paul, published", is dated 24 September 2026 and carries `paul-gladius-painted.jpg`.
 
@@ -267,6 +275,30 @@ The theme ships the four new pages as drafts (`'status' => 'draft'` in the manif
 | Front page | its `mainEntity`, an `ItemList` of the three sections; and an `FAQPage` (`#faq`) of exactly the questions its answers section shows, built from what the section rendered (in a block theme the body renders before `wp_head`), each answer in WordPress's display typography and linked to the full answer on the Answers page, which keeps its own `FAQPage` |
 
 Linked entities carry Wikipedia and Wikidata identifiers, each verified against Wikipedia's API: Paul the Apostle (Q9200), Jesus (Q302) and Jesus in Islam (Q51664), the Acts of the Apostles (Q40309), the King James Version (Q623398), the Pew Research Center (Q1635722), Dale Martin (Q26923442) and Tarsus (Q134287).
+
+## Built in: unlisting, search addresses, a private login address
+
+Three plugins are built into the theme as native modules, each a rewrite that keeps the plugin's own settings, so a site that used them carries on unchanged. Each module waits while its plugin is still active (a dashboard notice names the plugins still running); deactivate the plugins and the theme takes over. Credits and licences are in `licenses/built-in-plugins.txt`.
+
+| Module | From | What it does | Settings |
+|---|---|---|---|
+| `inc/unlist.php` | Unlist Posts & Pages (Nikschavan) | An unlisted post or page opens by its address and is left out of everything else: archives, the front page, search, feeds, the theme's own lists (section cards, reading order, rail, Sitemap page, footer columns, Journal), previous and next links, page lists, and WordPress's and Rank Math's XML sitemaps; its page is marked noindex. Editors see everything. An unlisted article keeps its own reading navigation. | An "Unlist" box in the editor's sidebar; an "Unlisted" label and view in the lists of posts and pages; the dashboard widget lists what is unlisted. Option `unlist_posts`. |
+| `inc/search-permalinks.php` | Pretty Search Permalinks (Angel Costa) | Searches use clean addresses, `/search/paul/`; a search from the form is sent there with a permanent redirect. | Settings, Permalinks, "Search base". Option `wpseosearch_base`. |
+| `inc/hide-login.php` | WPS Hide Login (WPServeur, Nicolas Kulka, wpformation) | The login screen moves to a private address; wp-login.php shows the site's page not found and the admin sends visitors who are not logged in away. Every login, logout, lost-password and registration link WordPress builds uses the private address. Password-protected posts, cron, AJAX and the command line are untouched. | Settings, Permalinks, "Login address" and "Blocked requests go to"; the dashboard widget shows the login address. Options `whl_page` and `whl_redirect_admin`. Nothing changes until a login address is saved. |
+
+A theme loads later than a plugin: WPS Hide Login's first step runs on `plugins_loaded`, before any theme exists. That step only recognises the request and adjusts `$pagenow` and the request address, which WordPress does not read again until later, so the theme runs it on `after_setup_theme`; the rest runs on `wp_loaded`, as in the plugin.
+
+If the login address is ever lost, add `define( 'PAULUS_HIDE_LOGIN', false );` to `wp-config.php`: the module switches off and wp-login.php works again. Remove the line, or set it to `true`, to switch the private address back on. Switching to another theme also restores wp-login.php, and unlisted items reappear in lists; keep that in mind before changing themes.
+
+## The login page
+
+`inc/login.php` and `assets/css/login.css` dress the login page (wp-login.php, or the private login address) in the site's own look, in whichever colour scheme the site uses: the scheme's ground, with the parchment grain when the ornament is on, between two meander bands; a portrait medallion above the wordmark, linking home; the tagline; the Greek ΕΙΣΕΛΘΑΤΕ ("enter", Matthew 7:13, "Enter by the narrow gate") over a card with the accent on its upper edge and the limestone grain; labels in the typewriter face, fields and a full-width button lettered like the header's book button, whose LOG IN is replaced on hover or focus by ΕΙΣΕΛΘΑΤΕ (`assets/js/login.js` exchanges WordPress's `<input>` for an equivalent `<button>` with the same id, name, value and classes, so it can carry the swap; without JavaScript WordPress's own button stays); messages and errors in the same card; the links beneath in the label face. The login page does not load the site's global styles, so the module prints the theme.json colour presets and adds the scheme's body class itself. Every screen is covered: log in, lost password, reset password, messages, errors, and the small login a session-expiry dialogue shows in the admin. The card and field colours are drawn from the scheme, blended with the colour it sets on its accent, so text stays readable in all six schemes (contrast measured at 4.7 to 17 against the 4.5 guideline).
+
+Theme Options, Login: the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off. With no address set, a file named `login-logo.png` in the wp-content folder is shown in the medallion's place, as with the Login Logo plugin (credited in `licenses/built-in-plugins.txt`); while that plugin is active, its own logo stands.
+
+## Screen sizes
+
+The theme is checked at eleven widths from 320 to 1920 pixels (320, 360, 390, 414, 600, 768, 820, 1024, 1280, 1440, 1920) on eighteen kinds of page, 198 combinations, for sideways scrolling, elements running off the screen, text under 11 pixels on phones, and tap targets under 24 pixels on touch screens outside running text. The header keeps one row at every width (96 to 103 pixels tall): WordPress collapses the navigation behind its button only below 600 pixels, and the theme extends that to 1023 pixels, so tablets use the menu button too; at 360 pixels and under the wordmark and header tools are set smaller. On touch screens small links (the header wordmark, answer link marks, breadcrumbs, the Journal's year, month, entry and feed links, the Sitemap's group headings, the author card's book toggle) are given a tap area of at least 44 pixels without changing how they look. The share row wraps when it runs out of room. The opened menu is set flush left.
 
 ## Dashboard widget
 
@@ -304,19 +336,7 @@ Material set beside the case sits under its own page, Appendices (`/appendices/`
 
 ## Koine Greek
 
-A few New Testament words are set as small inscriptions in uncials, without accents, in EB Garamond (Cinzel has no Greek). They are ornament: each sits above an English heading that stays, is marked `lang="grc"`, and carries a tooltip with its meaning and verse. None appears in navigation, buttons or the footer. The words, in `paulus_greek_marks()`:
-
-| Where | Greek | Meaning |
-| --- | --- | --- |
-| Search field label | ΖΗΤΕΙΤΕ | "Seek", Matthew 7:7 |
-| The man (front page and section page) | ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ | "Saul, who is also Paul", Acts 13:9 |
-| The charges | ΚΑΤΗΓΟΡΙΑ | "Accusation", John 18:29 |
-| The witnesses | ΟΙ ΜΑΡΤΥΡΕΣ | "The witnesses", Acts 7:58 |
-| Answers (front page and page) | ΑΠΟΛΟΓΙΑ | "Defence", Acts 22:1 |
-| The Verdict | ΚΡΙΣΙΣ | "Judgment", John 5:22 |
-| 404 page, beside "Error 404" | ΑΠΟΛΩΛΩΣ | "Lost", Luke 15:24 |
-
-Each word was checked against the SBL Greek New Testament.
+The site's Koine Greek, in inscriptions and in the swaps that replace English on hover, is described under "Koine Greek, one register" above: every form comes from `paulus_greek_marks()`, one per section, page or action, each checked against the SBL Greek New Testament and set in EB Garamond capitals (Cinzel has no Greek).
 
 ## Ornament
 

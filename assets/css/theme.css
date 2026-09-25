@@ -362,7 +362,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 
 /* Share links and reading time in the title panel */
 .paulus-hero-panel__sep { color: var(--t-accent); margin: 0 0.15rem; }
-.paulus-share { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; }
+.paulus-share { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.9rem; }
 .paulus-share__label { font-family: var(--t-label); font-size: 0.75rem; color: var(--t-accent-deep); margin-right: 0.2rem; }
 .paulus-share__link { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 1px solid var(--t-rule); border-radius: 50%; color: var(--t-accent-deep); text-decoration: none; }
 .paulus-share__link svg { width: 15px; height: 15px; display: block; }
@@ -1016,3 +1016,53 @@ a:hover .paulus-greekswap__gr, a:focus-visible .paulus-greekswap__gr { visibilit
 .paulus-nav .wp-block-navigation-item:not(.paulus-nav-cta) > .wp-block-navigation-item__content:hover::after,
 .paulus-nav .wp-block-navigation-item:not(.paulus-nav-cta) > .wp-block-navigation-item__content:focus-visible::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) { .paulus-nav .wp-block-navigation-item__content::after { transition: none; } }
+/* Footer link columns are set flush left: the swap cell aligns its English
+ * and Greek to the start there, where the menu and the bar centre them. */
+.paulus-footer-nav .paulus-greekswap { justify-items: start; }
+
+/* The header wordmark's Greek: flush left like the name, in EB Garamond
+ * capitals (Cinzel has no Greek), taking the accent on hover. On phones,
+ * where nothing hovers and the header is full, the Greek is left out and
+ * reserves no width. */
+.paulus-site-title .paulus-greekswap { justify-items: start; }
+.paulus-site-title .paulus-greekswap__gr { font-family: var(--t-garamond); font-weight: 600; font-size: 0.92em; letter-spacing: 0.1em; color: var(--t-accent-deep); }
+@media (max-width: 781px) { .paulus-site-title .paulus-greekswap__gr { display: none; } }
+
+/* Buttons carry the swap too (the search button is a <button>): the Greek
+ * in the buttons' bold weight, a touch larger to match their capitals. */
+button:hover .paulus-greekswap__en, button:focus-visible .paulus-greekswap__en { visibility: hidden; }
+button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr { visibility: visible; }
+.paulus-button .paulus-greekswap__gr { font-weight: 700; font-size: 1.16em; letter-spacing: 0.08em; }
+
+/* Every screen size. */
+
+/* Tablets (600 to 1023 pixels): the menu collapses behind its button, as on
+ * phones, so the header stays on one row. WordPress collapses the
+ * navigation only below 600 pixels; these rules extend its own behaviour.
+ * The open overlay is unchanged. */
+@media (min-width: 600px) and (max-width: 1023px) {
+	.paulus-nav .wp-block-navigation__responsive-container-open:not(.always-shown) { display: flex; }
+	.paulus-nav .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) { display: none; }
+}
+
+/* Narrow phones (360 pixels and under): a smaller wordmark and closer
+ * header tools, so the header fits without scrolling sideways. */
+@media (max-width: 360px) {
+	.paulus-site-title { font-size: 0.86rem; letter-spacing: 0.05em; }
+	.paulus-header__tools { gap: 0.4rem; }
+	.paulus-journal-canton, .paulus-hsearch > summary { width: 2rem; height: 2rem; }
+}
+
+/* Touch screens: small links get a tap area of at least 44 pixels without
+ * changing how they look. */
+@media (hover: none) and (pointer: coarse) {
+	.paulus-site-title a { display: inline-block; padding: 0.65rem 0; margin: -0.65rem 0; }
+	.paulus-anchor { display: inline-block; padding: 0.55rem 0.5rem; margin: -0.55rem -0.3rem; }
+	.paulus-journal__year { display: inline-block; padding: 0.55rem 0; margin: -0.55rem 0.5rem -0.55rem 0; }
+	.paulus-hero-panel__meta a { display: inline-block; padding: 0.4rem 0; margin: -0.4rem 0; }
+	.paulus-author__books summary { padding: 0.6rem 0; }
+	.paulus-journal__more a, .paulus-journal__archive a, .paulus-journal__feed a, .paulus-sitemap__heading a { display: inline-block; padding: 0.55rem 0; margin: -0.55rem 0; }
+}
+/* The opened menu is a list set flush left: its labels align to the start
+ * of the swap cell, where the header row centres them. */
+.wp-block-navigation__responsive-container.is-menu-open .paulus-greekswap { justify-items: start; }

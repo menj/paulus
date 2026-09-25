@@ -110,6 +110,22 @@ function paulus_dashboard_render() {
 				<?php esc_html_e( 'Drafted by the theme. Each appears in the footer bar once you review and publish it.', 'paulus' ); ?>
 			</td></tr>
 			<?php endif; ?>
+			<?php if ( function_exists( 'paulus_login_slug' ) && '' !== paulus_login_slug() ) : ?>
+			<tr><th scope="row"><?php esc_html_e( 'Login address', 'paulus' ); ?></th><td><code><?php echo esc_html( paulus_login_url() ); ?></code></td></tr>
+			<?php endif; ?>
+			<?php if ( function_exists( 'paulus_unlisted_ids' ) && paulus_unlisted_ids() ) : ?>
+			<tr><th scope="row"><?php esc_html_e( 'Unlisted', 'paulus' ); ?></th><td>
+				<?php
+				$links = array();
+				foreach ( paulus_unlisted_ids() as $uid ) {
+					if ( get_post( $uid ) ) {
+						$links[] = '<a href="' . esc_url( get_edit_post_link( $uid ) ) . '">' . esc_html( get_the_title( $uid ) ) . '</a>';
+					}
+				}
+				echo wp_kses_post( implode( ', ', $links ) );
+				?>
+			</td></tr>
+			<?php endif; ?>
 			<tr><th scope="row"><?php esc_html_e( 'Articles and pages', 'paulus' ); ?></th><td>
 				<?php
 				/* translators: 1: number of articles, 2: number of pages. */
@@ -135,3 +151,31 @@ function paulus_dashboard_render() {
 	</p>
 	<?php
 }
+
+/**
+ * While one of the three plugins now built into the theme is still active,
+ * say so: the theme's version stands by, with the same settings, until the
+ * plugin is deactivated.
+ */
+add_action( 'admin_notices', static function () {
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+	$active = array();
+	if ( class_exists( 'Unlist_Posts' ) ) {
+		$active[] = 'Unlist Posts &amp; Pages';
+	}
+	if ( function_exists( 'wpseosearch_base' ) ) {
+		$active[] = 'Pretty Search Permalinks';
+	}
+	if ( defined( 'WPS_HIDE_LOGIN_BASENAME' ) ) {
+		$active[] = 'WPS Hide Login';
+	}
+	if ( $active ) {
+		echo '<div class="notice notice-info"><p><strong>Paulus:</strong> ' . wp_kses_post( sprintf(
+			/* translators: %s: plugin names. */
+			__( 'these plugins are now built into the theme and use the same settings: %s. The theme\'s version waits until each plugin is deactivated. You can then deactivate and delete them.', 'paulus' ),
+			implode( ', ', $active )
+		) ) . ' <a href="' . esc_url( admin_url( 'plugins.php' ) ) . '">' . esc_html__( 'Plugins', 'paulus' ) . '</a></p></div>';
+	}
+} );

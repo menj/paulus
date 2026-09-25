@@ -1,0 +1,36 @@
+Paulus builds in the work of four plugins, rewritten as theme modules.
+All three are licensed under the GNU General Public License, version 2 or
+later, as is this theme. Their authors are credited here with thanks.
+
+1. inc/unlist.php
+   From: Unlist Posts & Pages, version 1.2.1
+   Author: Nikschavan (Nikhil Chavan)
+   https://wordpress.org/plugins/unlist-posts/
+   License: GPL v2 or later
+   Uses the plugin's option, unlist_posts, and its filter, unlist_posts_enabled.
+
+2. inc/search-permalinks.php
+   From: Pretty Search Permalinks (wp-seo-search), version 1.3
+   Author: Angel Costa, https://netmundo.com.br/
+   https://wordpress.org/plugins/wp-seo-search/
+   License: GPL v2 or later
+   Uses the plugin's option, wpseosearch_base.
+
+3. inc/hide-login.php
+   From: WPS Hide Login, version 1.9.18
+   Authors: WPServeur, Nicolas Kulka, wpformation
+   https://wordpress.org/plugins/wps-hide-login/
+   License: GPL v2 or later
+   Uses the plugin's options, whl_page and whl_redirect_admin, and its
+   filter, wps_hide_login_signup_enable.
+
+4. inc/login.php (the logo above the login form)
+   From: Login Logo, version 0.10.3
+   Author: Mark Jaquith, https://coveredweb.com/
+   https://txfx.net/wordpress-plugins/login-logo/
+   License: GPL v2 or later
+   Keeps its behaviour: a file named login-logo.png in the wp-content
+   folder is shown above the login form.
+
+The full text of the GNU General Public License, version 2, is at
+https://www.gnu.org/licenses/gpl-2.0.html

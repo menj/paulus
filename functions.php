@@ -471,6 +471,12 @@ require_once PAULUS_DIR . '/inc/charts.php';
 require_once PAULUS_DIR . '/inc/dashboard.php';
 require_once PAULUS_DIR . '/inc/journal.php';
 require_once PAULUS_DIR . '/inc/schema-deep.php';
+// Built in from three GPL plugins (see licenses/ and the README): each uses
+// the plugin's own settings and stands down while the plugin is active.
+require_once PAULUS_DIR . '/inc/unlist.php';
+require_once PAULUS_DIR . '/inc/search-permalinks.php';
+require_once PAULUS_DIR . '/inc/hide-login.php';
+require_once PAULUS_DIR . '/inc/login.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**

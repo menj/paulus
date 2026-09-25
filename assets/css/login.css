@@ -1,0 +1,207 @@
+/*
+ * Paulus: the login page (wp-login.php, and the private login address).
+ * The site's own dress: the ground of the active colour scheme, with the
+ * parchment grain when the ornament is on, between two meander bands; a
+ * portrait medallion above the wordmark; a Greek inscription over a card
+ * with the accent on its upper edge; the site's faces, fields and button.
+ * Colours come from the scheme (schemes.css and the theme.json presets,
+ * printed inline by inc/login.php), so every scheme is followed.
+ */
+
+body.paulus-login {
+	--t-radius: 6px;
+	--t-base: var(--wp--preset--color--base, #b8955f);
+	--t-surface: var(--wp--preset--color--surface, #b8955f);
+	--t-ink: var(--wp--preset--color--contrast, #1f1a14);
+	--t-muted: var(--wp--preset--color--muted, #3a2f22);
+	--t-accent: var(--wp--preset--color--accent, #7a2e1a);
+	--t-accent-deep: var(--wp--preset--color--accent-deep, var(--wp--preset--color--accent, #5c1f10));
+	--t-on-accent: var(--wp--preset--color--on-accent, #f4e7cf);
+	--t-gold: var(--wp--preset--color--gold, #7a2e1a);
+	--t-rule: var(--wp--preset--color--rule, #1f1a14);
+	--t-display: var(--wp--preset--font-family--display, Georgia, serif);
+	--t-ui: var(--wp--preset--font-family--ui, Georgia, serif);
+	--t-roman: var(--wp--preset--font-family--roman, Georgia, serif);
+	--t-label: var(--wp--preset--font-family--label, "Courier New", monospace);
+	--t-garamond: var(--wp--preset--font-family--garamond, Georgia, serif);
+	--paulus-card: color-mix(in srgb, var(--t-surface) 80%, var(--t-on-accent) 20%);
+	--paulus-field: color-mix(in srgb, var(--t-base) 58%, var(--t-on-accent) 42%);
+	--paulus-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11V1h18v8h-6V5h-4v2h2' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3Cpath d='M18 9h6' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3C/svg%3E");
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: var(--t-base);
+	color: var(--t-ink);
+	font-family: var(--t-ui);
+	font-size: 16px;
+}
+body.paulus-login.paulus-ornament { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .12 0 0 0 0 .08 0 0 0 0 .02 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* The meander bands, above and below. */
+body.paulus-login::before, body.paulus-login::after {
+	content: "";
+	display: block;
+	height: 12px;
+	width: min(1180px, calc(100% - 3rem));
+	margin: 1.4rem auto 0;
+	background: var(--paulus-meander) repeat-x center / 24px 12px;
+}
+body.paulus-login::after { margin: auto auto 1.4rem; }
+
+.paulus-login #login { width: min(400px, calc(100% - 2.5rem)); padding: 4vh 0 2rem; margin: 0 auto; }
+
+/* The heading: a portrait medallion above the wordmark, linking home. */
+.paulus-login #login h1 { margin-bottom: 0.4rem; }
+.paulus-login #login h1 a {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.9rem;
+	width: auto;
+	height: auto;
+	margin: 0 auto;
+	background: none;
+	text-indent: 0;
+	overflow: visible;
+	font-family: var(--t-roman);
+	font-size: 1.45rem;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	line-height: 1.2;
+	text-transform: uppercase;
+	color: var(--t-ink);
+	text-decoration: none;
+	outline-offset: 6px;
+}
+.paulus-login #login h1 a::before {
+	content: "";
+	display: block;
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	background: var(--paulus-login-logo) center / cover no-repeat, var(--t-surface);
+	border: 3px solid var(--t-accent);
+	box-shadow: 0 0 0 5px color-mix(in srgb, var(--t-base) 70%, transparent), 0 0 0 6px color-mix(in srgb, var(--t-accent) 45%, transparent), 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+.paulus-login #login h1 a:hover, .paulus-login #login h1 a:focus-visible { color: var(--t-accent-deep); }
+/* A logo image (Theme Options, Login, or wp-content/login-logo.png) is
+ * shown as it is, without the medallion's circle. */
+.paulus-login.paulus-login--logo #login h1 a::before { width: min(312px, 100%); height: 110px; border-radius: 0; border: 0; box-shadow: none; background: var(--paulus-login-logo) center / contain no-repeat; }
+/* With the Login Logo plugin active, its own logo stands. */
+.paulus-login.paulus-login--plugin-logo #login h1 a::before { display: none; }
+
+/* The tagline and the Greek inscription over the card. */
+.paulus-login__tagline { margin: 0.2rem 0 0; text-align: center; font-family: var(--t-garamond); font-style: italic; font-size: 1.05rem; color: var(--t-muted); }
+.paulus-login__greek { margin: 1.4rem 0 0.55rem; text-align: center; font-family: var(--t-garamond); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.3em; color: var(--t-accent-deep); }
+.paulus-login__greek span { cursor: help; }
+
+/* The card. */
+.paulus-login #loginform, .paulus-login #lostpasswordform, .paulus-login #resetpassform, .paulus-login #registerform, .paulus-login .login-action-confirm_admin_email #login form {
+	margin-top: 0;
+	padding: 1.9rem 1.8rem 1.6rem;
+	background: var(--paulus-card);
+	border: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent);
+	border-top: 4px solid var(--t-accent);
+	border-radius: var(--t-radius);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+	color: var(--t-ink);
+}
+body.paulus-login.paulus-ornament #loginform, body.paulus-login.paulus-ornament #lostpasswordform, body.paulus-login.paulus-ornament #resetpassform, body.paulus-login.paulus-ornament #registerform { background-color: var(--paulus-card); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .06' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .14 0 0 0 0 .05 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23s)'/%3E%3C/svg%3E"); }
+
+/* Labels in the typewriter face of the site's case files; fields in parchment. */
+.paulus-login form label, .paulus-login .user-pass1-wrap label { font-family: var(--t-label); font-size: 0.86rem; color: var(--t-ink); }
+.paulus-login form .input, .paulus-login input[type="text"], .paulus-login input[type="password"], .paulus-login input[type="email"] {
+	margin: 0.35rem 0 1.1rem;
+	padding: 0.55rem 0.75rem;
+	min-height: 44px;
+	font-family: var(--t-garamond);
+	font-size: 1.1rem;
+	color: var(--t-ink);
+	background: var(--paulus-field);
+	border: 1px solid color-mix(in srgb, var(--t-rule) 45%, transparent);
+	border-radius: var(--t-radius);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.paulus-login form .input:focus, .paulus-login input[type="text"]:focus, .paulus-login input[type="password"]:focus, .paulus-login input[type="email"]:focus {
+	border-color: var(--t-accent);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--t-accent) 28%, transparent);
+	outline: none;
+}
+.paulus-login .wp-pwd .button.wp-hide-pw { color: var(--t-muted); min-height: 44px; }
+.paulus-login .wp-pwd .button.wp-hide-pw:focus { border-color: var(--t-accent); box-shadow: 0 0 0 2px var(--t-accent); }
+.paulus-login input[type="checkbox"] { accent-color: var(--t-accent); border-color: color-mix(in srgb, var(--t-rule) 50%, transparent); }
+.paulus-login input[type="checkbox"]:checked::before { filter: hue-rotate(160deg) saturate(1.4); }
+.paulus-login .forgetmenot label { font-family: var(--t-ui); font-size: 0.95rem; }
+
+/* The button: the accent, lettered like THE BOOK in the header. */
+.paulus-login .submit { clear: both; padding-top: 1rem; }
+.paulus-login .button-primary, .paulus-login #wp-submit {
+	float: none;
+	width: 100%;
+	min-height: 48px;
+	padding: 0.7rem 1rem;
+	background: var(--t-accent);
+	border: 0;
+	border-radius: var(--t-radius);
+	box-shadow: none;
+	text-shadow: none;
+	color: var(--t-on-accent);
+	font-family: var(--t-display);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	transition: background-color 0.15s ease;
+}
+.paulus-login .button-primary:hover, .paulus-login #wp-submit:hover { background: var(--t-ink); color: var(--t-base); }
+.paulus-login .button-primary:focus, .paulus-login #wp-submit:focus { box-shadow: 0 0 0 3px var(--t-base), 0 0 0 5px var(--t-accent); outline: none; }
+.paulus-login .button:not(.button-primary):not(.wp-hide-pw) { color: var(--t-accent-deep); border-color: var(--t-accent); background: transparent; }
+
+/* Messages and errors. */
+.paulus-login .message, .paulus-login .notice, .paulus-login #login_error, .paulus-login .success {
+	margin: 0 0 1rem;
+	padding: 0.85rem 1rem;
+	background: var(--paulus-card);
+	border: 1px solid color-mix(in srgb, var(--t-rule) 25%, transparent);
+	border-left: 4px solid var(--t-gold);
+	border-radius: var(--t-radius);
+	box-shadow: none;
+	color: var(--t-ink);
+	font-size: 0.98rem;
+}
+.paulus-login #login_error, .paulus-login .notice-error { border-left-color: var(--t-accent); }
+.paulus-login .message a, .paulus-login #login_error a { color: var(--t-accent-deep); }
+
+/* The links under the card. */
+.paulus-login #nav, .paulus-login #backtoblog, .paulus-login .privacy-policy-page-link { margin: 1.1rem 0 0; padding: 0; text-align: center; font-family: var(--t-label); font-size: 0.84rem; }
+.paulus-login #backtoblog { margin-top: 0.5rem; }
+.paulus-login #nav a, .paulus-login #backtoblog a, .paulus-login .privacy-policy-page-link a {
+	display: inline-block;
+	padding: 0.35rem 0.2rem;
+	color: var(--t-muted);
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, var(--t-gold) 70%, transparent);
+	text-underline-offset: 0.25em;
+}
+.paulus-login #nav a:hover, .paulus-login #backtoblog a:hover, .paulus-login .privacy-policy-page-link a:hover, .paulus-login #nav a:focus-visible, .paulus-login #backtoblog a:focus-visible { color: var(--t-accent-deep); }
+.paulus-login .privacy-policy-page-link { margin-top: 1.4rem; }
+
+/* The small login a session-expiry dialogue shows inside the admin. */
+.paulus-login.interim-login::before, .paulus-login.interim-login::after, .paulus-login.interim-login .paulus-login__tagline { display: none; }
+.paulus-login.interim-login #login { padding-top: 1rem; }
+.paulus-login.interim-login #login h1 a::before { width: 64px; height: 64px; }
+
+@media (max-width: 360px) {
+	.paulus-login #login h1 a { font-size: 1.15rem; letter-spacing: 0.1em; }
+	.paulus-login #loginform, .paulus-login #lostpasswordform, .paulus-login #resetpassform { padding: 1.4rem 1.1rem 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) { .paulus-login #wp-submit { transition: none; } }
+
+/* The LOG IN button's Greek (assets/js/login.js): the English and its Koine
+ * Greek share one cell; on hover or focus the Greek replaces the English in
+ * place, set in EB Garamond capitals (the button's face has no Greek). */
+.paulus-login .paulus-greekswap { display: inline-grid; justify-items: center; align-items: center; }
+.paulus-login .paulus-greekswap__en, .paulus-login .paulus-greekswap__gr { grid-area: 1 / 1; }
+.paulus-login .paulus-greekswap__gr { visibility: hidden; font-family: var(--t-garamond); font-weight: 700; font-size: 1.16em; letter-spacing: 0.1em; white-space: nowrap; }
+.paulus-login button:hover .paulus-greekswap__en, .paulus-login button:focus-visible .paulus-greekswap__en { visibility: hidden; }
+.paulus-login button:hover .paulus-greekswap__gr, .paulus-login button:focus-visible .paulus-greekswap__gr { visibility: visible; }

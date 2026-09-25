@@ -52,9 +52,9 @@ function paulus_sc_hero() {
 			<p class="paulus-hero__lede"><?php echo esc_html( paulus_option( 'hero_lede' ) ); ?></p>
 			<p class="paulus-hero__actions">
 				<?php $charges = get_term_by( 'slug', 'the-charges', 'category' ); ?>
-				<a class="paulus-button" href="<?php echo esc_url( $charges ? get_term_link( $charges ) : '#the-charges' ); ?>"><?php esc_html_e( 'Read the charges', 'paulus' ); ?></a>
+				<a class="paulus-button" href="<?php echo esc_url( $charges ? get_term_link( $charges ) : '#the-charges' ); ?>" title="<?php echo esc_attr( paulus_greek_title( 'the-charges' ) ); ?>"><?php echo paulus_greek_label( 'the-charges', esc_html__( 'Read the charges', 'paulus' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 				<?php if ( $book_url ) : ?>
-					<a class="paulus-button paulus-button--outline" href="<?php echo esc_url( $book_url ); ?>"><?php esc_html_e( 'About the book', 'paulus' ); ?></a>
+					<a class="paulus-button paulus-button--outline" href="<?php echo esc_url( $book_url ); ?>" title="<?php echo esc_attr( paulus_greek_title( 'the-book' ) ); ?>"><?php echo paulus_greek_label( 'the-book', esc_html__( 'About the book', 'paulus' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 				<?php endif; ?>
 			</p>
 		</div>
@@ -104,11 +104,11 @@ function paulus_book_details() {
 function paulus_order_link() {
 	$url = paulus_option( 'book_buy_url' );
 	if ( $url ) {
-		return '<a class="paulus-button" href="' . esc_url( $url ) . '">' . esc_html__( 'Order the book', 'paulus' ) . '</a>';
+		return '<a class="paulus-button" href="' . esc_url( $url ) . '" title="' . esc_attr( paulus_greek_title( 'order' ) ) . '">' . paulus_greek_label( 'order', esc_html__( 'Order the book', 'paulus' ) ) . '</a>';
 	}
 	$email = paulus_option( 'pub_email' );
 	if ( $email ) {
-		return '<a class="paulus-button" href="' . esc_url( 'mailto:' . antispambot( $email ) . '?subject=' . rawurlencode( paulus_option( 'book_title' ) ) ) . '">' . esc_html__( 'Order the book', 'paulus' ) . '</a>';
+		return '<a class="paulus-button" href="' . esc_url( 'mailto:' . antispambot( $email ) . '?subject=' . rawurlencode( paulus_option( 'book_title' ) ) ) . '" title="' . esc_attr( paulus_greek_title( 'order' ) ) . '">' . paulus_greek_label( 'order', esc_html__( 'Order the book', 'paulus' ) ) . '</a>';
 	}
 	return '';
 }
@@ -307,9 +307,9 @@ function paulus_sc_book_teaser() {
 				<?php endif; ?>
 				<div class="paulus-teaser__buttons">
 					<?php if ( $buy ) : ?>
-						<a class="paulus-button" href="<?php echo esc_url( $buy ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Order the book', 'paulus' ); ?></a>
+						<a class="paulus-button" href="<?php echo esc_url( $buy ); ?>" target="_blank" rel="noopener" title="<?php echo esc_attr( paulus_greek_title( 'order' ) ); ?>"><?php echo paulus_greek_label( 'order', esc_html__( 'Order the book', 'paulus' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 					<?php endif; ?>
-					<a class="paulus-button paulus-button--outline" href="<?php echo esc_url( $url ); ?>"><?php esc_html_e( 'About the book', 'paulus' ); ?></a>
+					<a class="paulus-button paulus-button--outline" href="<?php echo esc_url( $url ); ?>" title="<?php echo esc_attr( paulus_greek_title( 'the-book' ) ); ?>"><?php echo paulus_greek_label( 'the-book', esc_html__( 'About the book', 'paulus' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 				</div>
 			</div>
 		</div>

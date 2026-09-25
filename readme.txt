@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.51.5
+Stable tag: 2.55.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,36 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.55.1 =
+* Login page: on hover, LOG IN becomes ΕΙΣΕΛΘΑΤΕ.
+
+= 2.55.0 =
+* The login page in the site's own dress, in every colour scheme, set on Theme Options, Login.
+
+= 2.54.1 =
+* The login address's emergency switch is define( 'PAULUS_HIDE_LOGIN', false ); in wp-config.php.
+
+= 2.54.0 =
+* Built in from three plugins, keeping their settings: unlisted posts and pages, clean search addresses, and a private login address.
+
+= 2.53.1 =
+* Koine Greek checked for consistency across the whole site; the Journal tooltip and the README brought into line.
+
+= 2.53.0 =
+* Every screen size, from 320 to 1920 pixels: no sideways scrolling, a one-row header, readable labels and full-size tap targets.
+
+= 2.52.3 =
+* Buttons: Read the charges, About the book, Order the book and Search show their Koine Greek on hover.
+
+= 2.52.2 =
+* Header wordmark: on hover, APOSTLE OF DOOM becomes ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ, "super-apostle".
+
+= 2.52.1 =
+* Theme screenshot: composed after the owner's capture of the live hero, Paul drawn larger.
+
+= 2.52.0 =
+* Footer Reference column: on hover each page name is replaced by its Koine Greek.
 
 = 2.51.5 =
 * Theme screenshot: the portrait drawn larger, standing on the border, level with the headline.

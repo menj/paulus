@@ -2,6 +2,94 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.55.1] - 2026-09-25
+
+### Added
+
+- Login page: on hover or keyboard focus, LOG IN is replaced at once by ΕΙΣΕΛΘΑΤΕ ("enter", Matthew 7:13), the register's word for the page, as on the inscription above the card. WordPress draws the button as an `<input>`, which holds text only, so `assets/js/login.js` exchanges it for an equivalent `<button>` (the same id, name, value and classes) carrying the English and the Greek in one cell; without JavaScript WordPress's own button stays. The Greek is set in EB Garamond capitals, the swap styles are in `assets/css/login.css`. Tested on WordPress 7.1.2: the button keeps its width (340 pixels) on hover, its tooltip gives the Greek, sense and verse, screen readers hear "Log In", and logging in through it reaches the dashboard.
+
+## [2.55.0] - 2026-09-25
+
+### Added
+
+- The login page in the site's own dress (`inc/login.php`, `assets/css/login.css`), after the owner's sample: the colour scheme's ground, with the parchment grain when the ornament is on, between two meander bands; a portrait medallion ringed in the accent above the APOSTLE OF DOOM wordmark in Roman capitals, linking home; the tagline in italic; the Greek ΕΙΣΕΛΘΑΤΕ ("enter", Matthew 7:13, "Enter by the narrow gate", checked against the SBL Greek New Testament and added to the register) over a card with the accent on its upper edge and the limestone grain; typewriter labels, fields of at least 44 pixels, and a full-width button lettered like the header's book button; messages and errors in the same card; the links beneath in the label face. It covers log in, lost password, reset password, messages, errors and the session-expiry login in the admin, on the private login address as on wp-login.php. The login page does not load the site's global styles, so the module prints the theme.json colour presets and adds the scheme's body class; card and field colours are drawn from the scheme, blended with the colour it sets on its accent, so every scheme reads well: text contrast measured in all six schemes at 4.7 to 17, against the 4.5 guideline. No sideways scrolling on a phone of 390 pixels. The WordPress language menu under the form is left out.
+- Theme Options, Login (a new tab): the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off.
+- The logo follows Login Logo by Mark Jaquith (GPL v2 or later): with no address set, a file named `login-logo.png` in the wp-content folder takes the medallion's place; while that plugin is active, its own logo stands. Credited in `licenses/built-in-plugins.txt`.
+
+## [2.54.1] - 2026-09-25
+
+### Changed
+
+- The private login address's emergency switch takes the owner's form: `define( 'PAULUS_HIDE_LOGIN', false );` in `wp-config.php` switches the module off and restores wp-login.php; with the line left out, or set to `true`, the module runs. It replaces the constant `PAULUS_HIDE_LOGIN_OFF` of 2.54.0. Tested on WordPress 7.1.2 in all three positions: with no line and with `true`, wp-login.php shows the page not found and the private address shows the login form; with `false`, wp-login.php shows the login form and the private address is not found.
+
+## [2.54.0] - 2026-09-25
+
+### Added
+
+- Three plugins built into the theme as native modules, at the owner's request, each a rewrite in the theme's conventions that reads and writes the plugin's own options, so the site's present settings carry over. Each waits while its plugin is active, and a dashboard notice names any still running. Credits and licences (all GPL v2 or later) in `licenses/built-in-plugins.txt`.
+  - Unlisting (`inc/unlist.php`, from Unlist Posts & Pages): an unlisted post or page opens by its address and is left out of every list. Beyond the plugin, which filtered only the main SQL, the theme applies it on `pre_get_posts` and to `get_pages()`, so the theme's own lists (section cards, reading order, rail, Sitemap page, footer columns, Journal) leave the item out too, and it adds WordPress's and Rank Math's XML sitemaps (`wp_sitemaps_posts_query_args`, `rank_math/sitemap/posts_to_exclude`). Its page is marked noindex through WordPress and Rank Math. An unlisted article keeps its own reading navigation, to its listed neighbours. Editors see everything; an "Unlist" box in the editor's sidebar, an "Unlisted" label and view in the post lists, and the dashboard widget's list.
+  - Search addresses (`inc/search-permalinks.php`, from Pretty Search Permalinks): `/search/paul/` in place of `/?s=paul`, with a permanent redirect from the form's address; the base is set on Settings, Permalinks.
+  - A private login address (`inc/hide-login.php`, from WPS Hide Login): the plugin's request handling followed step by step, its first step moved from `plugins_loaded` (before any theme loads) to `after_setup_theme`, the rest on `wp_loaded` as in the plugin. Settings on Settings, Permalinks, which refuse reserved addresses and the address of an existing page; the dashboard widget shows the login address. Nothing changes until an address is saved, and `define( 'PAULUS_HIDE_LOGIN', false );` in `wp-config.php` switches the module off.
+- Tested on WordPress 7.1.2 with Rank Math: an unlisted article and page open by address with noindex, and are absent from the front page, section and Reference pages, the Sitemap page, search, the feed's items, the reading order and Rank Math's sitemap exclusions; `/?s=paul` goes to `/search/paul/`; with the address "masuk", wp-login.php shows the page not found, the admin sends visitors away, `/masuk/` logs in to the dashboard, and the logout, lost-password and registration links use it; the password form for protected posts, AJAX and cron are untouched. With the three plugins active as well, the site runs without error, the plugins do the work, and the notice names them.
+
+## [2.53.1] - 2026-09-25
+
+### Changed
+
+- Koine Greek checked for consistency across the whole site, in two ways. In the source, every run of Greek capitals in the theme's code, templates, pages and documentation was compared with the register (`paulus_greek_marks()`, 20 entries): all code and content draw on it. On the rendered site, 24 kinds of page were crawled and all 581 Greek labels a reader can see (inscriptions, hover swaps, the search label) were recorded with what they name: every section, page or action is given exactly one form, and no form stands for two different places; where one Greek form goes with two English labels, both lead to the same place (ΒΙΒΛΙΟΝ for "The book" and "About the book", ΚΑΤΗΓΟΡΙΑ for "The Charges" and "Read the charges", ΧΡΟΝΟΙ for "Timeline" and "Timeline of Paul's life").
+
+### Fixed
+
+- The Journal canton's tooltip began with the date of the latest entry; like every other label's, it now begins with the Greek, its sense and verse ("ΓΡΑΦΩ: I write (1 John 2:1)"), followed by the date. Every Greek form now carries the same sense and verse wherever it appears.
+- README: the older "Koine Greek" section still listed the first seven inscriptions, with the retired forms ΣΑΥΛΟΣ Ο ΚΑΙ ΠΑΥΛΟΣ, and said the Greek appeared in no navigation, button or footer; it now points to the register. The Journal paragraph gave ΤΑΥΤΑ ΓΡΑΦΩ ΥΜΙΝ; it gives ΓΡΑΦΩ. The retired forms remain only in the changelog, as the record of earlier releases.
+
+## [2.53.0] - 2026-09-25
+
+### Fixed
+
+An audit of eighteen kinds of page at eleven widths from 320 to 1920 pixels (198 combinations) on WordPress 7.1.2, for sideways scrolling, elements running off the screen, text too small on phones and tap targets too small on touch screens, found these and they are fixed:
+
+- Phones of 320 pixels: the header was 364 pixels wide, so every page scrolled sideways by 44 pixels. At 360 pixels and under, the wordmark (0.86rem, narrower spacing) and the header tools (closer, 2rem buttons) are set smaller; the header now fits.
+- Article and Journal-entry title panels on phones held a width of 428 pixels, scrolling sideways by up to 108 pixels: the share row, nine buttons since the copy link of 2.45, did not wrap. It wraps now.
+- Tablets of 600 to 1023 pixels: the menu wrapped onto a second row, making the header 147 pixels tall at 768 and 820. WordPress collapses the navigation only below 600 pixels; the theme now extends that collapse to 1023, so tablets use the menu button and the header keeps one row (99 pixels).
+- The "Count" word on the front page's article cards was 8 pixels at every width; it is 11.2 pixels.
+- Touch screens: the header wordmark (22 pixels tall), the answer link marks (16), breadcrumbs, the Journal's year (19), month (20), entry and feed links, the Sitemap's group headings (13) and the author card's book toggle (22) are given a tap area of at least 44 pixels, without changing how they look. Links within running text are left as they are, as the guideline allows.
+- The opened menu: labels carrying the Greek swap sat at different indents, centred in cells as wide as their Greek; the open menu is now set flush left.
+
+The audit now finds no sideways scrolling, no element off the screen, no text under 11 pixels on phones and no tap target under 24 pixels outside running text, and a one-row header at every width (96 to 103 pixels). The search panel, which measured as overflowing while closed, fits the screen when open at every width and needed no change.
+
+## [2.52.3] - 2026-09-25
+
+### Added
+
+- The buttons carry the Greek swap: Read the charges ΚΑΤΗΓΟΡΙΑ and About the book ΒΙΒΛΙΟΝ, in the hero and in the book panel and banner, take the words of the section and page they open; Order the book ΑΓΟΡΑΣΑΤΕ ("buy", Matthew 25:9, "go… and buy for yourselves"), in all three of its forms including the email one; and the search button ΖΗΤΕΙΤΕ ("seek", Matthew 7:7). The two new words join the register, checked against the SBL Greek New Testament, and the search field's own ΖΗΤΕΙΤΕ label now reads from it. The shared hover rule covers buttons as well as links. In the buttons the Greek is set in EB Garamond at the buttons' weight and a little larger, to match their heavy capitals. Checked on WordPress 7.1.2: every button keeps its width on hover, shows its Greek with its tooltip, and is heard in English.
+
+## [2.52.2] - 2026-09-25
+
+### Added
+
+- Header wordmark: on hover or keyboard focus, APOSTLE OF DOOM is replaced at once by ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ, "super-apostle", Paul's sarcastic name for the Jerusalem apostles (2 Corinthians 11:5; 12:11, checked against the SBL Greek New Testament), turned back on Paul at the owner's choice. The Greek joins the register (key `site`) and is added to the Site Title block marked `paulus-site-title` as it renders (`paulus_site_title_greek()`), so the footer's wordmark, built separately, stays in English. Set in EB Garamond capitals in the accent colour, flush left; the wordmark keeps its width (240 pixels at rest and on hover at 1440 and 1024 wide, the menu still on one line). On phones, where nothing hovers and the header is full, the Greek is left out and reserves no width. The tooltip gives the Greek, sense and verse; screen readers hear "Apostle of Doom".
+
+### Fixed
+
+- `readme.txt`: the 2.52.0 entry carried the heading "2.52.1".
+
+## [2.52.1] - 2026-09-25
+
+### Changed
+
+- `screenshot.png` follows the composition of the owner's capture of the live front page, in which Paul is drawn large beside the headline with the cross rising close under the header. The capture itself (1846 by 972, nearly 1.9 to 1) could not fill WordPress's 4:3 frame without a band of added space above the header or below the hero, or an empty band in the frame; so the screenshot is drawn from the theme at 4:3 with the portrait enlarged to 665 pixels. That is the largest size that keeps at least 20 pixels between the illustration's outline and every line of text, measured pixel by pixel beside the introduction and the buttons (680 comes within 8 pixels; 700 and above overlap the introduction). The text starts close under the header; the portrait stands on the lower border. The site itself is unchanged.
+
+## [2.52.0] - 2026-09-25
+
+### Added
+
+- The Reference pages join the Greek register, each word checked against the SBL Greek New Testament: Timeline ΧΡΟΝΟΙ ("times", Acts 1:7, "the times or the seasons"), Glossary ΟΝΟΜΑΤΑ ("names", Acts 18:15, "a question of words and names"), Study guide ΖΗΤΗΜΑΤΑ ("questions", Acts 25:19), Sources ΠΗΓΑΙ ("springs, sources", Revelation 8:10). The footer's Reference column replaces each name with its Greek on hover, as the other menus do; the four pages carry the same word as their title-panel inscription, and breadcrumbs and the Sitemap's links to them carry it too. The breadcrumb lookup now finds a page in the register wherever it sits, where it had looked only at top-level addresses. A crawl of fourteen pages finds 21 sections and pages named in Greek, each with one form throughout.
+
+### Fixed
+
+- Footer link columns: the swap cell centred its text, which set the shorter English names in a column slightly in from the left edge. The footer columns now align it flush left (every label in a column measured on one edge); the menu and the bar keep it centred.
+
 ## [2.51.5] - 2026-09-24
 
 ### Changed

@@ -241,7 +241,9 @@ function paulus_sc_journal_canton() {
 	$fresh   = ( time() - (int) get_post_time( 'U', true, $latest[0] ) ) < 14 * DAY_IN_SECONDS;
 	$current = is_post_type_archive( 'paulus_journal' ) || is_singular( 'paulus_journal' );
 	/* translators: %s: date of the latest entry. */
-	$title = sprintf( __( 'Latest entry: %s', 'paulus' ), get_the_date( 'j F Y', $latest[0] ) ) . ' · ' . implode( ': ', paulus_nav_greek_words()['journal'] );
+	// The Greek, its sense and verse first, as on every other label; then the
+	// date of the latest entry.
+	$title = paulus_greek_title( 'journal' ) . ' · ' . sprintf( __( 'Latest entry: %s', 'paulus' ), get_the_date( 'j F Y', $latest[0] ) );
 	$label = $fresh ? sprintf( /* translators: %s: Journal title. */ __( '%s, new entry', 'paulus' ), $name ) : $name;
 	return '<a class="paulus-journal-canton' . ( $current ? ' is-current' : '' ) . '" href="' . esc_url( paulus_journal_url() ) . '" title="' . esc_attr( $title ) . '" aria-label="' . esc_attr( $label ) . '"' . ( $current ? ' aria-current="page"' : '' ) . '>'
 		. paulus_icon( 'quill' )
