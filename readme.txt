@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.55.1
+Stable tag: 2.56.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,9 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.56.0 =
+* From the site's 2023 backup: a Journal entry on how the site began, an About the Author page, and The 2023 edition among the appendices.
 
 = 2.55.1 =
 * Login page: on hover, LOG IN becomes ΕΙΣΕΛΘΑΤΕ.

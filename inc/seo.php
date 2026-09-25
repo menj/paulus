@@ -1156,7 +1156,7 @@ function paulus_sc_sitemap() {
 	$out .= '</section><div class="paulus-sitemap__more">';
 	// The pages that close the case.
 	$pages = array();
-	foreach ( array( 'the-verdict', 'answers', 'the-book' ) as $slug ) {
+	foreach ( array( 'the-verdict', 'answers', 'the-book', 'about-the-author' ) as $slug ) {
 		$page = get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
 			$pages[] = '<li>' . $link( $page ) . '</li>';

@@ -1066,3 +1066,7 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 /* The opened menu is a list set flush left: its labels align to the start
  * of the swap cell, where the header row centres them. */
 .wp-block-navigation__responsive-container.is-menu-open .paulus-greekswap { justify-items: start; }
+
+/* The author card's link to the full biography, in the label face. */
+.paulus-author__more { margin: 0.6rem 0 0; font-family: var(--t-label); font-size: 0.85rem; }
+.paulus-author__more a { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }

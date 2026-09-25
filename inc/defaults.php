@@ -167,6 +167,7 @@ function paulus_hero_srcset( $url ) {
 function paulus_images() {
 	return array(
 		'paul-portrait' => __( 'Portrait (cover art)', 'paulus' ),
+		'paul-halo-2023' => __( 'Painting of Paul with a halo (the 2023 edition)', 'paulus' ),
 		'paul-portrait-face' => __( 'Portrait (cover art), close-up', 'paulus' ),
 		'paul-portrait-hands' => __( 'Portrait (cover art), hands and scroll', 'paulus' ),
 		'paul-portrait-ink' => __( 'Portrait (cover art), ink duotone', 'paulus' ),

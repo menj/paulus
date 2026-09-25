@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.49.0',
+	'content_version' => '2.56.0',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -892,6 +892,16 @@ return array(
 			'image'     => 'paul-gladius-painted',
 			'date'      => '2026-09-24 09:00:00',
 		),
+		array(
+			'slug'      => 'how-apostle-of-doom-began',
+			'title'     => 'How Apostle of Doom began',
+			'seo_title' => 'How Apostle of Doom began',
+			'meta'      => 'How this site began in July 2023 as an English book in progress, and how the Malay book came to be. Read the entry.',
+			'excerpt'   => 'The site opened on 30 July 2023 as an English book in progress. What it set out to do, what it published, and what became of it.',
+			'file'      => 'journal-how-the-site-began.html',
+			'image'     => 'paul-halo-2023',
+			'date'      => '2026-09-25 09:00:00',
+		),
 	),
 
 	'pages' => array(
@@ -1017,6 +1027,28 @@ return array(
 			'file'    => 'why-luke-does-not-know-pauls-letters.html',
 			'image'   => 'paul-decayed-stone',
 			'order'   => 3,
+		),
+
+		array(
+			'slug'      => 'the-2023-edition',
+			'meta'      => 'The preface and first chapter this site published on 30 July 2023, kept in the wording in which they first appeared. Read them.',
+			'title'     => 'The 2023 edition',
+			'seo_title' => 'The 2023 edition: preface and chapter one',
+			'parent'    => 'appendices',
+			'excerpt'   => 'The first texts this site published, in July 2023, when it began as an English book in progress.',
+			'file'      => 'the-2023-edition.html',
+			'image'     => 'paul-halo-2023',
+			'order'     => 4,
+		),
+
+		array(
+			'slug'      => 'about-the-author',
+			'meta'      => 'Mohd Elfie Nieshaem Juferi: Muslim apologist, award-winning Malay author, and the writer behind Apostle of Doom. Read more.',
+			'title'     => 'About the Author',
+			'seo_title' => 'About the Author',
+			'excerpt'   => 'The writer of the book from which this site draws its case against Paul of Tarsus.',
+			'file'      => 'about-the-author.html',
+			'order'     => 60,
 		),
 
 		array(

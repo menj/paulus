@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.55.1.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.56.0.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.

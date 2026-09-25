@@ -710,6 +710,7 @@ function paulus_schema_deepen_node( $node ) {
 		&& ! paulus_node_is( $node, array( 'Article', 'BlogPosting', 'ScholarlyArticle' ) ) ) {
 		$kind = array(
 			'contact'              => 'ContactPage',
+			'about-the-author'     => 'ProfilePage',
 			'paul-in-the-churches' => 'ImageGallery',
 			'reference'            => 'CollectionPage',
 			'appendices'           => 'CollectionPage',
@@ -737,6 +738,9 @@ function paulus_schema_deepen_node( $node ) {
 		}
 		if ( 'contact' === $slug ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_sid( 'publisher' ) ) );
+		}
+		if ( 'about-the-author' === $slug ) {
+			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_sid( 'author' ) ) );
 		}
 		if ( is_front_page() ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_sid( 'sections' ) ) );

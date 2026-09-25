@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.56.0] - 2026-09-25
+
+### Added
+
+From the site's backup of 21 August 2023 (the WordPress database and uploads of the site as it opened on 30 July 2023), at the owner's direction:
+
+- Journal: "How Apostle of Doom began" (25 September 2026), from the 2023 page "About Apostle of Doom": the site's opening as an English book in progress, its Malay origin, the plan to publish free with a PDF to follow, its purpose and the maxim al-kufr millatun wāḥidah (in Arabic script, transliterated and translated), what it published, and how the Malay book came to be published by Langgam Fikir in 2025. First person, as the Journal's entries are; the working titles and the book in footnotes.
+- About the Author (`/about-the-author/`), from the 2023 page "About The Author", rewritten: early life and education (San Jose, 1980; Sri Inai Junior and SMK Abdullah Munshi, Penang; a degree in Computer Science and Information Technology), apologetics (Bismika Allahuma, The Muslim Apologist), writing and publishing, and work. Marked up as a ProfilePage whose subject is the author; listed in the Sitemap beside the book; the author card on articles links to it ("More about the author").
+- Appendices: The 2023 edition (`/appendices/the-2023-edition/`), the preface and first chapter the site published on 30 July 2023, in the wording in which they first appeared, with the two images that went with them: a painting of Paul with a halo (artist not recorded; public domain, as supplied by the site's owner; also the Journal entry's featured image) and Parmigianino's *The Conversion of Saint Paul*, 1527, Kunsthistorisches Museum, Vienna, GG 2035 (public domain; verified from the museum's photograph on Wikimedia Commons). The Appendices footer column lists it.
+- The new prose was checked against the house rules: no contractions, em dashes, contrastive negation or banned words. Search descriptions of 115 to 127 characters. No redirects were added for the 2023 addresses, at the owner's direction.
+- Tested on WordPress 7.1.2: the sync creates the two pages and the entry; each renders without error; structured data validates (1,467 nodes, no unknown term or broken reference).
+
 ## [2.55.1] - 2026-09-25
 
 ### Added

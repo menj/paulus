@@ -1063,6 +1063,11 @@ function paulus_author_card( $placement = 'footer' ) {
 	$out .= '<h2 class="paulus-author__name" id="paulus-author-name">' . esc_html( $name ) . '</h2>';
 	// The bio may carry links and light emphasis (see paulus_bio_kses()).
 	$out .= '<p class="paulus-author__bio">' . paulus_author_bio_html( $bio ) . '</p>';
+	// The full biography, once its page is published (and not on that page).
+	$about = get_page_by_path( 'about-the-author' );
+	if ( $about && 'publish' === $about->post_status && ! is_page( $about->ID ) ) {
+		$out .= '<p class="paulus-author__more"><a href="' . esc_url( get_permalink( $about ) ) . '">' . esc_html__( 'More about the author', 'paulus' ) . '</a></p>';
+	}
 	if ( $books ) {
 		$out .= '<details class="paulus-author__books"><summary>'
 			/* translators: %d: number of books. */
