@@ -319,11 +319,13 @@ add_shortcode( 'paulus_parts', 'paulus_sc_parts' );
 function paulus_sc_link( $atts, $content = '' ) {
 	$atts = shortcode_atts( array( 'slug' => '', 'anchor' => '' ), $atts, 'paulus_link' );
 	$post = get_page_by_path( $atts['slug'], OBJECT, array( 'post', 'page' ) );
-	$text = $content ? $content : ( $post ? get_the_title( $post ) : $atts['slug'] );
-	if ( ! $post ) {
+	// No page or article by that name: a section of the case (a category).
+	$term = $post ? null : get_term_by( 'slug', $atts['slug'], 'category' );
+	$text = $content ? $content : ( $post ? get_the_title( $post ) : ( $term ? $term->name : $atts['slug'] ) );
+	if ( ! $post && ! $term ) {
 		return esc_html( $text );
 	}
-	$url = get_permalink( $post ) . ( $atts['anchor'] ? '#' . rawurlencode( $atts['anchor'] ) : '' );
+	$url = ( $post ? get_permalink( $post ) : get_term_link( $term ) ) . ( $atts['anchor'] ? '#' . rawurlencode( $atts['anchor'] ) : '' );
 	return '<a href="' . esc_url( $url ) . '">' . wp_kses_post( $text ) . '</a>';
 }
 add_shortcode( 'paulus_link', 'paulus_sc_link' );
@@ -821,22 +823,25 @@ function paulus_greek_marks() {
 		'the-witnesses'  => array( 'ΟΙ ΜΑΡΤΥΡΕΣ', __( 'The witnesses (Acts 7:58)', 'paulus' ) ),
 		'the-verdict'    => array( 'ΚΡΙΣΙΣ', __( 'Judgment (John 5:22)', 'paulus' ) ),
 		'answers'        => array( 'ΑΠΟΛΟΓΙΑ', __( 'Defence (Acts 22:1)', 'paulus' ) ),
-		'the-book'       => array( 'ΒΙΒΛΙΟΝ', __( 'The book (Luke 4:17)', 'paulus' ) ),
+		'the-book'       => array( 'ΒΙΒΛΙΟΝ', __( 'A book, a scroll (Luke 4:17)', 'paulus' ) ),
 		'journal'        => array( 'ΓΡΑΦΩ', __( 'I write (1 John 2:1)', 'paulus' ) ),
 		'chronology'     => array( 'ΧΡΟΝΟΙ', __( 'Times (Acts 1:7)', 'paulus' ) ),
 		'glossary'       => array( 'ΟΝΟΜΑΤΑ', __( 'Names (Acts 18:15)', 'paulus' ) ),
 		'study-questions' => array( 'ΖΗΤΗΜΑΤΑ', __( 'Questions (Acts 25:19)', 'paulus' ) ),
 		'sources'        => array( 'ΠΗΓΑΙ', __( 'Springs, sources (Revelation 8:10)', 'paulus' ) ),
 		'privacy-policy' => array( 'ΚΑΤʼ ΙΔΙΑΝ', __( 'Privately (Mark 4:34)', 'paulus' ) ),
-		'terms-of-use'   => array( 'ΟΡΟΘΕΣΙΑΙ', __( 'The bounds set (Acts 17:26)', 'paulus' ) ),
-		'dmca'           => array( 'ΑΠΟΔΟΤΕ', __( 'Render to each his own (Matthew 22:21)', 'paulus' ) ),
+		'terms-of-use'   => array( 'ΟΡΟΘΕΣΙΑΙ', __( 'Boundaries (Acts 17:26)', 'paulus' ) ),
+		'dmca'           => array( 'ΑΠΟΔΟΤΕ', __( 'Render, give back (Matthew 22:21)', 'paulus' ) ),
 		'contact'        => array( 'ΕΠΙΣΤΟΛΗ', __( 'A letter (Acts 15:30)', 'paulus' ) ),
+		'about-the-author' => array( 'Ο ΓΡΑΨΑΣ ΤΑΥΤΑ', __( 'The one who wrote these things (John 21:24)', 'paulus' ) ),
 		'sitemap'        => array( 'ΟΔΗΓΟΣ', __( 'A guide (Romans 2:19)', 'paulus' ) ),
 		'404'            => array( 'ΑΠΟΛΩΛΩΣ', __( 'Lost (Luke 15:24)', 'paulus' ) ),
 		// The header wordmark: Paul's sneer at the Jerusalem apostles, turned back on him.
-		'site'           => array( 'ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ', __( 'Super-apostle (2 Corinthians 12:11)', 'paulus' ) ),
+		'site'           => array( 'Ο ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ', __( 'The super-apostle (2 Corinthians 12:11)', 'paulus' ) ),
 		// Actions: the search button and field, and ordering the book.
 		'search'         => array( 'ΖΗΤΕΙΤΕ', __( 'Seek (Matthew 7:7)', 'paulus' ) ),
+		// The search field's own label: "Search the scriptures".
+		'search-label'   => array( 'ΕΡΑΥΝΑΤΕ', __( 'Search, examine (John 5:39)', 'paulus' ) ),
 		'order'          => array( 'ΑΓΟΡΑΣΑΤΕ', __( 'Buy (Matthew 25:9)', 'paulus' ) ),
 		// The login page: "Enter by the narrow gate".
 		'login'          => array( 'ΕΙΣΕΛΘΑΤΕ', __( 'Enter (Matthew 7:13)', 'paulus' ) ),
@@ -889,6 +894,9 @@ function paulus_sc_page_hero() {
 			$title      = $name;
 			$standfirst = (string) paulus_option( 'journal_intro' );
 			$crumbs[]   = array( $name, '' );
+			// The Journal's picture: a Roman inkwell, for its word, ΓΡΑΦΩ.
+			$alts  = paulus_image_alts();
+			$image = '<img src="' . esc_url( paulus_image_url( 'met-inkwell-stylus' ) ) . '" alt="' . esc_attr( $alts['met-inkwell-stylus'] ?? '' ) . '" width="1024" height="1024" fetchpriority="high">';
 		}
 	} elseif ( is_category() ) {
 		$term       = get_queried_object();
@@ -907,7 +915,8 @@ function paulus_sc_page_hero() {
 	} elseif ( is_singular() ) {
 		$post       = get_post();
 		$title      = get_the_title( $post );
-		$standfirst = has_excerpt( $post ) && ! is_page() ? get_the_excerpt( $post ) : '';
+		// Pages show their excerpt beside the featured image, as articles do.
+		$standfirst = has_excerpt( $post ) ? get_the_excerpt( $post ) : '';
 		if ( is_single() && (int) get_post_meta( $post->ID, '_paulus_parts', true ) > 1 ) {
 			$series_title = get_post_meta( $post->ID, '_paulus_series_title', true );
 			if ( $series_title ) {
@@ -974,6 +983,18 @@ function paulus_sc_page_hero() {
 	$out .= '<div class="paulus-hero-panel__body">' . $meta;
 	$greek_key = is_category() ? get_queried_object()->slug : ( is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : ( is_post_type_archive( 'paulus_journal' ) && ! paulus_journal_period() ? 'journal' : '' ) );
 	$greek     = $greek_key ? paulus_greek_mark( $greek_key, 'paulus-greek--panel' ) : '';
+	// A page may carry a heading of its own ('heading' in the manifest),
+	// shown here only; its title stays the name used everywhere else (menus,
+	// footer, breadcrumb, Sitemap, browser tab).
+	if ( is_page() ) {
+		$slug = (string) get_post_field( 'post_name', get_queried_object_id() );
+		foreach ( (array) ( paulus_manifest()['pages'] ?? array() ) as $item ) {
+			if ( ( $item['slug'] ?? '' ) === $slug && ! empty( $item['heading'] ) ) {
+				$title = (string) $item['heading'];
+				break;
+			}
+		}
+	}
 	$out      .= ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h1 class="paulus-hero-panel__title">' . esc_html( $title ) . '</h1>';
 	if ( $standfirst ) {
 		$out .= '<p class="paulus-hero-panel__standfirst">' . esc_html( $standfirst ) . '</p>';
@@ -1605,7 +1626,10 @@ add_filter( 'the_content', 'paulus_answers_navigation', 20 );
 function paulus_sc_footer_legal() {
 	// Each term is replaced on hover by its Koine Greek from the register.
 	$items = array();
-	foreach ( array( 'privacy-policy', 'terms-of-use', 'dmca', 'contact', 'sitemap' ) as $slug ) {
+	// The owner's order. The bar may name a page in its own words ("Contact
+	// Us"); the page's title, and every other label, stays as it is.
+	$labels = array( 'contact' => __( 'Contact Us', 'paulus' ) );
+	foreach ( array( 'about-the-author', 'terms-of-use', 'privacy-policy', 'dmca', 'contact', 'sitemap' ) as $slug ) {
 		if ( 'privacy-policy' === $slug && (int) get_option( 'wp_page_for_privacy_policy' ) ) {
 			$page = get_post( (int) get_option( 'wp_page_for_privacy_policy' ) );
 		} elseif ( 'sitemap' === $slug ) {
@@ -1617,7 +1641,7 @@ function paulus_sc_footer_legal() {
 			$current = is_page( $page->ID ) ? ' aria-current="page"' : '';
 			$title   = paulus_greek_title( $slug );
 			$items[] = '<li><a href="' . esc_url( get_permalink( $page ) ) . '"' . $current . ( $title ? ' title="' . esc_attr( $title ) . '"' : '' ) . '>'
-				. paulus_greek_label( $slug, esc_html( get_the_title( $page ) ) ) . '</a></li>';
+				. paulus_greek_label( $slug, esc_html( $labels[ $slug ] ?? get_the_title( $page ) ) ) . '</a></li>';
 		}
 	}
 	if ( ! $items ) {

@@ -2,6 +2,202 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.59.5] - 2026-09-26
+
+### Changed
+
+- Appendices, "Why 'Apostle of Doom'", rewritten to the owner's voice profile (menj-voice-profile), with the anti-ai-writing-style line rules and a sprinkling of the Faruqian register.
+  - Editorial *we* throughout, in place of the third-person "the site"; the piece names its purpose in its second sentence (*in shāʾ Allāh*, God willing).
+  - The opponent's frame refused: once disputed, Paul's self-given title is carried in scare quotes ("apostle").
+  - Islamic framing brackets: Sūrah al-Baqarah 2:79 opens the section ("So woe to those who write the scripture with their own hands, then say, 'This is from God'"), in the wording the site already uses and checked against the Arabic. The ḥadīth stands at the point of judgment. The verse's second half closes it ("woe to them for what their hands have written"), under an H3 verdict.
+  - Honorifics as the site uses them: *ʿalayhi al-salām* after ʿĪsā ibn Maryam, ﷺ after the Prophet.
+  - Faruqian register: two Latinisms at their pivots. *Ex concessis* is paired, as the book pairs its methods, with *al-iḥtijāj bi-kalām al-khaṣm ʿalayh* (in Arabic, transliterated and translated), arguing against an opponent with his own words, at the argument from Paul's own Greek. *In nuce* stands at the verdict.
+- Audited: no banned word, contrastive negation, contraction or em dash; paragraphs of one to three sentences; sentence lengths from 7 to 57 words. The previous text is recorded, so the sync updates an unedited copy.
+
+## [2.59.4] - 2026-09-26
+
+### Added
+
+- Appendices: a section, "Why 'Apostle of Doom'", above the list of appendices (no new page), from the owner's account of the name.
+  - "Apostle" is the title Paul gave himself (Galatians 1:1, 12).
+  - "Doom" names the ruin his teaching brought on the message of ʿĪsā ibn Maryam, linked to the Charges.
+  - It names the end awaiting his followers. The hadith of the prison in Hell called Būlus (Jāmiʿ al-Tirmidhī, no. 2492, graded ḥasan) is given in Arabic, transliterated and translated. It is presented as the echo the book weighs, since the report speaks of the arrogant and names no man; linked to the early Islamic record.
+  - It is the New Testament's word ἀπώλεια, destruction, which Paul turned on his opponents (Philippians 3:19; cf. Matthew 7:13).
+  - It is the end Paul foretold within his lifetime, which never came (1 Thessalonians 4:15–17; 1 Corinthians 7:29, 31), linked to the failed prophet.
+- Every quotation was checked live: the KJV wording of each verse, the Greek against the SBL Greek New Testament, and the hadith's Arabic and grade against sunnah.com. Verse numbers and the book's title are in footnotes. One Latinism, *in nuce*, sits at the closing verdict. No contraction, contrastive negation, triad or em dash. The page's lead now names the section; the page's previous text is recorded, so the sync updates an unedited copy.
+
+### Fixed
+
+- `[paulus_link]` linked only to pages and articles and fell back to plain text for anything else. It now links to a section of the case (a category) when no page or article has the name.
+
+## [2.59.3] - 2026-09-26
+
+### Fixed
+
+- The image conversion of 2.59.0 deleted a featured image's old file before uploading its AVIF. Had an upload failed, the entry would have been left with no file. It now writes and checks the new file first and deletes the old one only then; a failed upload leaves the entry exactly as it was, and the conversion is tried again. On the live site, the update step had not reached the conversion, so no file was lost: all 50 media entries load, checked through the REST interface.
+- The live site had not taken any content update since 2.56.0: About the Author kept its first text and had no photograph, and none of the pictures added since 2.58.1 were in its media library. The cause cannot be seen from outside. The update step is now resumable and observable, so it cannot fail unseen.
+  - A time budget: image imports and conversions stop after about 15 seconds per page load (`paulus_sync_budget`), well inside PHP's usual limit, and continue on the next. The version is recorded only once every image is done; housekeeping waits for that.
+  - Stage notes, with errors caught and recorded, and a shutdown check that records fatal errors PHP cannot catch (the time limit, memory).
+  - The dashboard's Paulus panel shows "Content sync": up to date, waiting to run, in progress with the images still to do, or stopped with the stage and the error.
+- Tested on WordPress 7.1.2 in the live site's condition: theme media back to JPEG, the new pictures absent, content 2.56.0, with a 6-second budget and 0.5-second thumbnails. Five page loads finished it (12 conversions each, then the new pictures), no entry ever without its file, and the version recorded only at the end. About the Author then had its photograph and current text.
+
+## [2.59.2] - 2026-09-26
+
+### Added
+
+- Old image files are removed the moment the theme is activated, at the owner's request. The housekeeping of 2.59.1 runs on `after_switch_theme`, across the uploads and the theme's own image folders.
+- The same happens when the active theme is updated to a new version, where no activation takes place. A hook fired during the update would run the old version's code before the new files and their list exist, so the new version runs the clean-up on the first admin page it serves, once per version (`paulus_housekeeping_version`).
+- Tested on WordPress 7.1.2. On activation, three planted old files (a figure and an illustration in the theme folder, a copy in the uploads) were removed, and the owner's file kept. On the first admin page after an update, three more were removed and the version recorded. A later admin page does not run it again.
+
+## [2.59.1] - 2026-09-26
+
+### Added
+
+- Image housekeeping, at the owner's request: unused files are removed from the live site automatically, after each content update and weekly through WP-Cron (`paulus_image_housekeeping`, scheduled while the theme is active, cleared when another theme is switched in).
+  - The uploads: superseded copies of the theme's own illustrations that no media entry uses, as in 2.59.0, now run weekly as well as once per version.
+  - The theme folder: images in its own image folders (`assets/images`, `assets/images/church`, `assets/social`) that this version does not ship, by the list in `assets/files.json`, written at packaging (240 files). A theme uploaded by FTP, or unzipped over the old folder, overwrites files but deletes none, so images a newer version dropped would otherwise stay.
+  - The owner's own uploads, used or not, are never removed.
+  - Each run is recorded; the dashboard widget shows the last run, the files it removed, the total, and the next run.
+- Tested on WordPress 7.1.2, with the event fired as WP-Cron fires it. Two strays in the theme folder (a JPEG illustration and a full-size WebP figure of the previous version) and one in the uploads were removed; all 240 shipped files remain; an unused file of the owner's was kept; the schedule is cleared on switching themes.
+
+### Fixed
+
+- WP-Cron passes an empty argument to an event scheduled without any, which the housekeeping read as "not forced", so a scheduled run would have skipped the uploads once they had been cleaned for the version. The scheduled run now always forces it.
+
+## [2.59.0] - 2026-09-26
+
+### Changed
+
+- Images, at the owner's direction: AVIF for large images, WebP for small ones.
+  - 55 featured images and illustrations, 1,024–1,600 pixels, from JPEG to AVIF at quality 60: 11.7 MB to 6.0 MB. The engravings' fine lines keep that quality.
+  - 63 full-size figures from WebP to AVIF at quality 50: about 11.8 MB to 7.9 MB. They were re-encoded from the original WebP files, never twice. The quality was chosen by measurement on six figures: 36 per cent smaller than WebP with SSIM of 0.954 or better, where 42 fell to 0.926.
+  - The hero cutout to AVIF, keeping its transparency.
+  - The smaller widths stay WebP: figures at 720, the hero at 480 and 720, the author's portrait at 240, the 96-pixel icon.
+  - The publisher logo and site icon stay PNG, which structured data and home-screen icons require.
+  - What visitors load falls by about 9.5 MB, a third.
+- Link previews use JPEG copies (`assets/social/`, 1,024 pixels, quality 75), since Facebook, WhatsApp, LinkedIn and X do not show AVIF: the theme's own tags, and Rank Math's through `rank_math/opengraph/{facebook,twitter}/image_array`, with the type set to `image/jpeg`. A page without an image, the front page and the Journal page among them, had published no preview; it now takes the portrait's copy unless a default is set in Rank Math.
+- Dimensions are read from `assets/images/sizes.json` (184 images), so figures keep their width and height on servers whose PHP cannot read AVIF (before 8.2).
+- The old files are removed. On sync, each featured image of the theme's still held as JPEG in the media library is converted in its own entry: the old file and every size WordPress made from it are deleted first (`wp_delete_attachment_files()`), the AVIF goes in, the file type becomes `image/avif`, the ID stays. A one-time clean-up (`paulus_cleanup_image_residue()`) then removes superseded copies earlier refreshes left in the uploads folder: files named after a bundled illustration, in JPEG or WebP, that no media entry uses. The owner's files are never touched. The theme itself no longer ships the JPEG illustrations or the full-size WebP figures.
+- Tested on WordPress 7.1.2 with the media library of the previous releases. Before: 56 theme JPEG and WebP files in uploads. After: none, and 54 entries, all AVIF with no missing file. No page's featured-image ID changed (54 of 54). A planted leftover was removed; two files of the owner's (one named like an illustration) were kept. Across eight page types: 41 AVIF, 13 WebP and 13 PNG requests, no broken image. Figures serve AVIF with the WebP variant in `srcset`; the hero likewise. Link previews are JPEG and load. Structured data validates.
+
+## [2.58.7] - 2026-09-26
+
+### Changed
+
+- The search form carries two different Greek words, at the owner's direction, where 2.58.6 had kept one: the button's rollover returns (ΖΗΤΕΙΤΕ, "seek", Matthew 7:7), and the field's label takes a word of its own, ΕΡΑΥΝΑΤΕ ("search", John 5:39, "Search the scriptures"; the SBL text's Koine spelling ἐραυνᾶτε, checked against it), the New Testament's verb for searching texts closely. It joins the register as `search-label`. It is a second-person plural present form read as an imperative, standing on its own as ΖΗΤΕΙΤΕ does. The label keeps its style (EB Garamond capitals, widely spaced, in the accent colour, centred against the field). Checked on the header's search panel and on the results page: each word appears once, the button keeps its width (133 pixels), and a phone shows no sideways scrolling.
+
+## [2.58.6] - 2026-09-26
+
+### Changed
+
+- The search form showed ΖΗΤΕΙΤΕ twice, as the Greek label beside the field and again on the Search button's rollover (added in 2.52.3), as the owner noticed. The label keeps it, standing as the form's inscription as the site's pages and sections carry theirs; the button stays in English, with no rollover or tooltip. This holds in the header's search panel and on the search results page, which share the form.
+
+## [2.58.5] - 2026-09-26
+
+### Fixed
+
+- The Koine Greek audited for grammar as standalone labels, all 23 forms in the register. Single words stand in the nominative, the natural case for a label, even where the verse has another (ΚΑΤΗΓΟΡΙΑ, where John 18:29 has κατηγορίαν; ΚΡΙΣΙΣ, ΧΡΟΝΟΙ, ΟΝΟΜΑΤΑ, ΠΗΓΑΙ, ΟΡΟΘΕΣΙΑΙ, ΟΔΗΓΟΣ likewise). The imperatives (ΑΠΟΔΟΤΕ, ΖΗΤΕΙΤΕ, ΑΓΟΡΑΣΑΤΕ, ΕΙΣΕΛΘΑΤΕ), ΓΡΑΦΩ, the participles (ΑΠΟΛΩΛΩΣ, masculine as in Luke 15:24; Ο ΓΡΑΨΑΣ ΤΑΥΤΑ), ΟΙ ΜΑΡΤΥΡΕΣ and the elided ΚΑΤʼ ΙΔΙΑΝ are all well formed. One was not: the header wordmark's ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ. ὑπερλίαν is an adverb, and in 2 Corinthians 11:5 and 12:11 it acts as an adjective only in the attributive position between article and noun (τῶν ὑπερλίαν ἀποστόλων); without the article the phrase does not stand. It now reads Ο ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ, "the super-apostle". Set at 0.84em with 0.06em spacing, it fits within the English wordmark's width (225 against 233 pixels), so the header keeps its size and the menu its single row at 1,024 pixels.
+- Three glosses (the tooltips) now say only what the Greek says. ΒΙΒΛΙΟΝ, "A book, a scroll", where it had read "The book", an article the Greek does not have. ΟΡΟΘΕΣΙΑΙ, "Boundaries", where it had read "The bounds set". ΑΠΟΔΟΤΕ, "Render, give back", where it had read "Render to each his own", words the Greek does not have.
+
+## [2.58.4] - 2026-09-26
+
+### Changed
+
+- Footer bar in the owner's order: About the Author, Terms of Use, Privacy Policy, DMCA, Contact Us, Sitemap. The Contact page is named "Contact Us" in the bar and in the footer's navigation in the structured data only. Its title and every other label stay "Contact" (breadcrumb, Sitemap, browser tab), and its heading stays "Contact Apostle of Doom". Each link keeps its Greek on hover. Structured data validates.
+
+## [2.58.3] - 2026-09-26
+
+### Added
+
+- About the Author joins the footer bar, between DMCA and Contact, with its Koine Greek on hover: Ο ΓΡΑΨΑΣ ΤΑΥΤΑ, "the one who wrote these things", said of the disciple behind the Fourth Gospel (John 21:24, checked against the SBL Greek New Testament). The word joins the register, so the page carries it as its title-panel inscription, and its links in the Sitemap and breadcrumbs carry the swap. The footer's navigation in the structured data lists it. The bar now reads Privacy Policy, Terms of Use, DMCA, About the Author, Contact, Sitemap. It keeps its width on hover (1,180 pixels at desktop) and wraps to three rows on a phone without sideways scrolling. Structured data validates (1,491 nodes).
+- Terms of Use was already in the bar with its Greek, ΟΡΟΘΕΣΙΑΙ (Acts 17:26), on the live site as in the theme; unchanged.
+
+## [2.58.2] - 2026-09-26
+
+### Changed
+
+- The pages' lead paragraphs (their excerpts, shown beside the featured image in the title panel since 2.58.0) are rewritten, at the owner's direction. They had been one-line summaries of 6 to 26 words, 12 typically, where the articles' leads run 18 to 38. All eighteen pages, the book page excepted, now have two sentences of 36 to 47 words: what the page holds, and what the reader will find there. Each factual claim was checked against its page (the timeline runs from birth to death; the glossary includes Arabic terms; the Terms permit short quotation with a link; the Martin page carries editor's notes).
+- House rules held: no contractions, contrastive negation, em dashes, rhetorical triads or banned words, and no titles of works in the running text.
+- The sync updated all eighteen excerpts on a site holding the old ones (WordPress 7.1.2). The index pages that list these excerpts, Reference and Appendices, read well at the new length. The lead is set at 20 pixels on desktop and 17.6 on phones, larger than the body text.
+
+## [2.58.1] - 2026-09-26
+
+### Added
+
+- Every item on the site now shows a featured image beside its lead paragraph in the title panel, at the owner's direction. An audit of all 58 articles, pages, Journal entries and section pages found six without a picture: Privacy Policy, Terms of Use, DMCA, Contact, About the Author and the Journal page. The book page keeps its own panel, the cover beside the title and the book's opening question as its lead.
+- All 47 bundled illustrations were already featured elsewhere, and the figures in the articles each appear once already. So five new pictures come from The Metropolitan Museum of Art's Open Access collection, CC0, each public-domain status read from the Museum's record, each object chosen for the page's Greek word:
+  - Privacy Policy (ΚΑΤʼ ΙΔΙΑΝ, "privately"): a Roman bronze ring key, 3rd–4th century CE, 98.11.2.
+  - Terms of Use: a Roman bronze military diploma of about 149 CE, a grant engraved in Latin, 23.160.32a, b.
+  - DMCA (ΑΠΟΔΟΤΕ, "render unto Caesar"): a Roman gold ring with a carnelian portrait of Tiberius, the Caesar of Matthew 22:21, 14–37 CE, 1994.230.7.
+  - Contact (ΕΠΙΣΤΟΛΗ, "a letter"): a papyrus letter in Greek, Roman Egypt, early 3rd century CE, 25.8.
+  - The Journal (ΓΡΑΦΩ, "I write"): a Roman terracotta inkwell, 1st–2nd century CE, 26.60.34.
+- About the Author shows the author's photograph from the 2023 site, squared; it is the largest photograph available (358 by 417 pixels).
+- Each picture is squared to 1,024 pixels like the other featured images, with alt text. Each carries its Museum credit and the CC0 dedication in the structured data (registered as figures, so the rule for the site's own illustrations does not credit them to the author); `licenses/met-open-access.txt` lists them. A Cubit measuring rod, first chosen for Terms of Use, was dropped: in a title panel it reads as a thin line.
+- Tested on WordPress 7.1.2: every item has both image and lead; structured data validates (1,469 nodes).
+
+## [2.58.0] - 2026-09-26
+
+### Changed
+
+- The Sitemap is redesigned at the owner's direction. The text was too small, the organisation weak, and the page had no pictures or icons.
+  - The page now runs at the wide width: its body widens to 1,180 pixels only when it holds the Sitemap, and every other page keeps the 720-pixel reading width.
+  - Each section of the case is a card with its picture, Greek inscription, description and article count. Its articles follow in three flowing columns (one on phones), each with its own picture, label and title, and the parts of a series nested beneath the first part, with no entry split between columns.
+  - The rest of the site follows as four cards, each with a newly drawn icon in the style of the theme's quill and search marks: scales (the Verdict and the book, now including About the Author), an open book (Reference), a paperclip (Appendices) and the quill (the Journal). They sit four across at desktop width, two by two at tablet width and one per row on phones.
+  - Every entry has a picture. An article falls back to the illustration the manifest names should its attached image be missing; the author's page shows the author's portrait and the book's page its cover.
+  - Text is larger: titles about 18 pixels, section names 32, descriptions 17, and nothing under 12.8 (the typewriter labels).
+  - Checked on WordPress 7.1.2 at 1,440, 1,024 and 390 pixels: no empty or broken picture, no sideways scrolling, headings in one colour, titles aligned.
+- Every page now shows its lead paragraph (its excerpt) beside its featured image in the title panel, as articles, sections and Journal entries do. The panel had left it out on pages. Two pages opened their body with nearly the same sentence, Appendices and the Sitemap; those openings are removed. The Sitemap's lead is rewritten for the purpose, and the previous texts and excerpt are recorded, so the sync updates unedited copies.
+
+## [2.57.2] - 2026-09-26
+
+### Changed
+
+- The Contact page's heading reads "Contact Apostle of Doom", at the owner's request, and nothing else changes. A page may now carry a heading of its own (`'heading'` in the manifest), shown in the title panel only. The page's title stays "Contact", and with it every label that uses the title: the browser tab ("Contact | Apostle of Doom"), the breadcrumb, the footer bar and the Sitemap. Checked on WordPress 7.1.2; other pages keep their own headings.
+
+## [2.57.1] - 2026-09-26
+
+### Changed
+
+- The Contact page's text is built into the theme, at the owner's direction. `templates/page-contact.html`, which WordPress applies to the page at `/contact/`, mirrors the page template and sets the theme's file `content/articles/legal-contact.html` as the page body through a new shortcode, `[paulus_theme_page file="…"]`. That shortcode reads only from `content/articles`, with the name stripped to a bare file name. The page shows the theme's text on every site the moment the theme is installed, whatever the page in the database holds; the live site's empty Contact page included. The text is changed by changing that file. It keeps the post-content block's wrapper, so the page has the site's prose width, face and justification, the same as other pages (720 pixels, Sabon Next LT, justified). The page editor shows a notice that the page's text comes from the theme. Tested on WordPress 7.1.2 with the Contact page emptied, as on the live site: the full text renders, with the email, book and DMCA links; other pages keep their own text; structured data validates (1,467 nodes).
+
+## [2.57.0] - 2026-09-26
+
+### Changed
+
+- The Contact page is set up automatically with the theme. It had shipped as a draft with the three legal pages, and on the live site the address held an empty page titled Contact (page 366), which the sync left alone as an existing page, so visitors saw a title and nothing below it. Now the sync creates and publishes the page on a fresh site, fills an empty Contact page already at the address with the theme's text, and publishes an untouched draft. A Contact page holding anything of the owner's is left as it is: text, or a contact-form shortcode or block. Empty means nothing but block comments and blank paragraphs. Two new manifest fields carry it, `fill_if_empty` and `publish_if_draft`. Tested on WordPress 7.1.2 in six cases: an empty published page, an empty page of blank paragraph blocks, the untouched draft, a page holding only a contact-form shortcode, a page the owner wrote, and a fresh site.
+- Contact page text: the review note is removed, since the page now publishes itself, and the wording follows the house style. It is in the active voice ("Mohd Elfie Nieshaem Juferi publishes…", "We read every message…"), and the triad "corrections, questions about the sources, and replies" is cut to two items. The previous text is recorded, so the sync updates an unedited copy.
+- Privacy Policy, Terms of Use and DMCA still ship as drafts for the owner's review.
+
+## [2.56.3] - 2026-09-25
+
+### Changed
+
+- About the Author, the Journal entry "How Apostle of Doom began" and the note that opens The 2023 edition are rewritten to the owner's English style (anti-ai-writing-style) and the Faruqian register. The 2023 preface and chapter stay as the owner published them.
+- The Journal entry dropped one negate-and-replace sentence ("did not run beyond its first chapter… was finished instead"); it now says what happened. Paragraphs run one to three sentences, and sentence length now varies between 5 and 40 words.
+- Faruqian register: one Latinism in the Journal entry, *raison d'être*, at the sentence that names the site's founding purpose. The biography and the archival note take none, as the register test requires for non-analytical prose.
+- About the Author: shorter paragraphs, a broken rhythm, and the puffery cut ("where readers come to learn and to debate"; "his training in computing serves his work").
+- Audited mechanically: no banned word, dead phrase or dead transition; no negate-and-replace, triad or anaphoric run; no contraction or em dash.
+
+### Fixed
+
+- Journal entries the theme ships now take revised text on the next sync, as pages do, while they still hold a text the theme shipped; an entry the owner has edited is left alone. They had been created once and never refreshed. Tested on WordPress 7.1.2 for both cases.
+
+## [2.56.2] - 2026-09-25
+
+### Fixed
+
+- About the Author: the education sentence said the author holds a bachelor's degree, taken from the 2023 page. At the owner's correction it now reads that he studied Computer Science and Information Technology at a private university and holds an Advanced Diploma in Computing, with a specialism in Software Engineering. The page's previous text is recorded, so the sync updates it on sites that installed 2.56.0 (checked on WordPress 7.1.2). The 2.56.0 entry below records what that release shipped.
+
+## [2.56.1] - 2026-09-25
+
+### Changed
+
+- The painting of Paul with a halo from the 2023 edition is credited to its painter, from the source the owner found: Giuseppe Franchi, *Portrait of Saint Paul the Apostle*, oil on canvas, 66 × 51 cm, Pinacoteca Ambrosiana, Milan, inv. 1519 (per Bridgeman Images' record). Verified live: Franchi (about 1550 to 1627/28), a Lombard painter, made a long series of half-length portraits of saints and popes for Cardinal Federico Borromeo, now in the Ambrosiana, oil on canvas at about 51 by 65 cm, recorded in the Lombardy heritage catalogue; the record of this portrait itself could not be read directly (Bridgeman refuses automated access, and the catalogue pages found did not include it). The painting is in the public domain. Updated in the figure record (credit and description), the caption on The 2023 edition (whose previous text is recorded so the sync updates it on sites that installed 2.56.0), and the featured-image list. No link to Bridgeman, which licenses its photographs.
+
+### Fixed
+
+- Structured data: a featured image that is someone else's work was credited to the site's author, under the Terms of Use, by the rule for the site's own illustrations. A featured image that is also a registered figure now takes that figure's credit and licence, whether it stands as a node of its own or is nested in an article (the Journal's entry nests its featured image); the site's own illustrations are credited to the author as before. Checked on The 2023 edition, the Journal entry and an article; structured data validates (1,467 nodes, no unknown term or broken reference).
+
 ## [2.56.0] - 2026-09-25
 
 ### Added

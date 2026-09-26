@@ -58,41 +58,54 @@ function paulus_replaced_images() {
 }
 
 /**
- * Replace an imported illustration's file when the bundled one has changed.
- *
- * Each import records the MD5 of the bundled file it copied. When the
- * bundled file no longer matches (or, for an import made before hashes were
- * kept, when the illustration is one redrawn since), the new file is copied
- * to the uploads folder under a fresh name, so no cache serves the old one,
- * and the attachment is pointed at it with its sizes regenerated. The
- * attachment ID, and every featured-image link to it, stay the same.
+ * Keep an imported illustration in step with the theme's file. The theme's
+ * featured images are AVIF: a media entry that still holds an older file
+ * (a JPEG from an earlier release, or a redrawn illustration) takes the
+ * current one. The old file and every size WordPress made from it are
+ * deleted first, so nothing is left behind; the entry keeps its ID, so every
+ * page keeps its featured image.
  *
  * @param string $slug Image slug.
  * @param int    $id   Attachment ID.
  */
 function paulus_refresh_attachment( $slug, $id ) {
-	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.jpg';
+	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.avif';
 	if ( ! file_exists( $source ) ) {
 		return;
 	}
 	$hashes  = get_option( 'paulus_attachment_hashes', array() );
 	$current = md5_file( $source );
 	$stored  = $hashes[ $slug ] ?? '';
-	if ( $stored === $current ) {
+	$file    = (string) get_attached_file( $id );
+	$is_avif = (bool) preg_match( '/\.avif$/i', $file );
+	if ( $is_avif && $stored === $current ) {
 		return;
 	}
-	if ( '' === $stored && ! isset( paulus_replaced_images()[ $slug ] ) ) {
+	if ( $is_avif && '' === $stored && ! isset( paulus_replaced_images()[ $slug ] ) ) {
 		// Imported before hashes were kept, and never redrawn: record it.
 		$hashes[ $slug ] = $current;
 		update_option( 'paulus_attachment_hashes', $hashes, false );
 		return;
 	}
-	$upload = wp_upload_bits( $slug . '-' . substr( $current, 0, 8 ) . '.jpg', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-	if ( ! empty( $upload['error'] ) ) {
+	// A conversion waits for the next page load if this one's time is spent.
+	if ( function_exists( 'paulus_sync_has_time' ) && ! paulus_sync_has_time() ) {
 		return;
 	}
 	require_once ABSPATH . 'wp-admin/includes/image.php';
+	// The new file goes in first. Only once it is safely written is the old
+	// one removed: a failed upload leaves the entry exactly as it was, still
+	// showing its old image, and the conversion is tried again next time.
+	$upload = wp_upload_bits( $slug . '-' . substr( $current, 0, 8 ) . '.avif', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( ! empty( $upload['error'] ) || empty( $upload['file'] ) || ! file_exists( $upload['file'] ) || ! filesize( $upload['file'] ) ) {
+		return;
+	}
+	if ( '' !== $file && $file !== $upload['file'] ) {
+		$meta   = wp_get_attachment_metadata( $id );
+		$backup = get_post_meta( $id, '_wp_attachment_backup_sizes', true );
+		wp_delete_attachment_files( $id, is_array( $meta ) ? $meta : array(), is_array( $backup ) ? $backup : array(), $file );
+	}
 	update_attached_file( $id, $upload['file'] );
+	wp_update_post( array( 'ID' => $id, 'post_mime_type' => 'image/avif' ) );
 	wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
 	update_post_meta( $id, '_wp_attachment_image_alt', paulus_image_alts()[ $slug ] ?? __( 'Illustration of Paul of Tarsus', 'paulus' ) );
 	$hashes[ $slug ] = $current;
@@ -111,17 +124,21 @@ function paulus_attach_image( $slug ) {
 		paulus_refresh_attachment( $slug, (int) $map[ $slug ] );
 		return (int) $map[ $slug ];
 	}
-	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.jpg';
+	// A new import waits for the next page load if this one's time is spent.
+	if ( function_exists( 'paulus_sync_has_time' ) && ! paulus_sync_has_time() ) {
+		return 0;
+	}
+	$source = PAULUS_DIR . '/assets/images/' . sanitize_file_name( $slug ) . '.avif';
 	if ( ! file_exists( $source ) ) {
 		return 0;
 	}
-	$upload = wp_upload_bits( $slug . '.jpg', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$upload = wp_upload_bits( $slug . '.avif', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 	if ( ! empty( $upload['error'] ) ) {
 		return 0;
 	}
 	$id = wp_insert_attachment(
 		array(
-			'post_mime_type' => 'image/jpeg',
+			'post_mime_type' => 'image/avif',
 			'post_title'     => paulus_images()[ $slug ] ?? $slug,
 			'post_status'    => 'inherit',
 		),
@@ -567,6 +584,28 @@ function paulus_run_install() {
 			}
 			paulus_sync_search_fields( $page->ID, $item );
 			paulus_refresh_unedited( $page, $item );
+			// Pages set up with the theme (the Contact page): an empty page at
+			// the address takes the theme's text, since it holds nothing of the
+			// owner's; an untouched draft is published. A page the owner has
+			// written is left as it is.
+			if ( ! empty( $item['fill_if_empty'] ) ) {
+				$page = get_post( $page->ID );
+				// Empty means nothing at all: block comments and blank paragraphs
+				// only. A shortcode, a form block or any text counts as the owner's.
+				$bare = preg_replace( '#<p>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', preg_replace( '/<!--.*?-->/s', '', (string) $page->post_content ) );
+				if ( '' === trim( (string) $bare ) ) {
+					wp_update_post( array( 'ID' => $page->ID, 'post_content' => paulus_content_file( $item['file'] ) ) );
+					if ( '' === get_post_field( 'post_excerpt', $page->ID ) && ! empty( $item['excerpt'] ) ) {
+						wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
+					}
+				}
+			}
+			if ( ! empty( $item['publish_if_draft'] ) ) {
+				$page = get_post( $page->ID );
+				if ( 'draft' === $page->post_status && trim( (string) $page->post_content ) === trim( paulus_content_file( $item['file'] ) ) ) {
+					wp_update_post( array( 'ID' => $page->ID, 'post_status' => 'publish' ) );
+				}
+			}
 			// menu_order and page_template follow the manifest only while
 			// they still match what this site last shipped for this page
 			// (the same protection the category assignment on articles
@@ -636,9 +675,13 @@ function paulus_run_install() {
 		flush_rewrite_rules();
 	}
 
+	paulus_sync_note( 'journal and navigation' );
 	paulus_install_journal();
 	paulus_install_navigation( $parts );
+	paulus_sync_note( 'images' );
 	paulus_sync_images();
+	// With every featured image converted, clear what earlier releases left,
+	// in the uploads and in the theme's own image folders.
 	paulus_sync_front_meta();
 	paulus_install_site_icon();
 
@@ -646,6 +689,16 @@ function paulus_run_install() {
 		paulus_attach_image( $slug );
 	}
 	paulus_attach_image( 'book-cover' );
+
+	// Images left for the next page load: not done yet, so the version is
+	// not recorded and the next load continues where this one stopped.
+	if ( ! empty( $GLOBALS['paulus_sync_incomplete'] ) ) {
+		paulus_sync_note( 'images', 'pending' );
+		return false;
+	}
+	// With every image in place, clear what earlier releases left.
+	paulus_sync_note( 'housekeeping' );
+	paulus_image_housekeeping( false );
 
 	return $failed ? false : $created;
 }
@@ -937,10 +990,18 @@ function paulus_install_journal() {
 	}
 	$done = (array) get_option( 'paulus_journal_shipped', array() );
 	foreach ( (array) ( paulus_manifest()['journal'] ?? array() ) as $e ) {
-		if ( empty( $e['slug'] ) || in_array( $e['slug'], $done, true ) ) {
+		if ( empty( $e['slug'] ) ) {
 			continue;
 		}
 		$existing = get_posts( array( 'post_type' => 'paulus_journal', 'name' => $e['slug'], 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids' ) );
+		// An entry the theme shipped takes its revised text, as pages do, while
+		// it still holds a text the theme shipped (never once the owner edits it).
+		if ( $existing && function_exists( 'paulus_refresh_unedited' ) ) {
+			paulus_refresh_unedited( get_post( (int) $existing[0] ), $e );
+		}
+		if ( in_array( $e['slug'], $done, true ) ) {
+			continue;
+		}
 		if ( ! $existing ) {
 			$content = paulus_content_file( $e['file'] );
 			if ( '' === $content ) {
@@ -980,4 +1041,187 @@ function paulus_install_journal() {
 		$done[] = $e['slug'];
 		update_option( 'paulus_journal_shipped', $done, false );
 	}
+}
+
+/**
+ * Remove superseded copies of the theme's illustrations from the uploads
+ * folder: files named after a bundled illustration (<slug>.jpg,
+ * <slug>-<hash>.jpg, their sizes, in JPEG or WebP) that no media entry uses.
+ * Earlier refreshes left them behind. Files of the owner's own are never
+ * touched: only the theme's own illustration names are considered, and only
+ * files no attachment points to. Runs once per content version.
+ *
+ * @return int Files removed.
+ */
+function paulus_cleanup_image_residue( $force = false ) {
+	$version = (string) ( paulus_manifest()['content_version'] ?? '' );
+	if ( ! $force && get_option( 'paulus_residue_cleaned' ) === $version ) {
+		return 0;
+	}
+	$uploads = wp_get_upload_dir();
+	$base    = trailingslashit( $uploads['basedir'] );
+	if ( ! is_dir( $base ) ) {
+		return 0;
+	}
+	// Every file a media entry uses, with its sizes.
+	global $wpdb;
+	$keep = array();
+	foreach ( $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file'" ) as $rel ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$keep[ $base . $rel ] = true;
+	}
+	foreach ( $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attachment_metadata'" ) as $raw ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$meta = maybe_unserialize( $raw );
+		if ( is_array( $meta ) && ! empty( $meta['file'] ) ) {
+			$dir = trailingslashit( dirname( $base . $meta['file'] ) );
+			foreach ( (array) ( $meta['sizes'] ?? array() ) as $size ) {
+				if ( ! empty( $size['file'] ) ) {
+					$keep[ $dir . $size['file'] ] = true;
+				}
+			}
+			if ( ! empty( $meta['original_image'] ) ) {
+				$keep[ $dir . $meta['original_image'] ] = true;
+			}
+		}
+	}
+	$slugs = array_map( 'preg_quote', array_merge( array_keys( paulus_images() ), array( 'book-cover' ) ) );
+	$re    = '/^(' . implode( '|', $slugs ) . ')(-[0-9a-f]{8})?(-\d+x\d+|-scaled)?\.(jpe?g|webp)$/i';
+	$gone  = 0;
+	$it    = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
+	foreach ( $it as $f ) {
+		$path = $f->getPathname();
+		if ( $f->isFile() && preg_match( $re, $f->getFilename() ) && empty( $keep[ $path ] ) && 0 === strpos( $path, $base ) ) {
+			wp_delete_file( $path );
+			$gone += file_exists( $path ) ? 0 : 1;
+		}
+	}
+	update_option( 'paulus_residue_cleaned', $version, false );
+	return $gone;
+}
+
+/**
+ * Remove images from the theme's own image folders (assets/images,
+ * assets/images/church, assets/social) that this version does not ship. A
+ * theme uploaded by FTP, or unzipped over the old folder, overwrites files
+ * but deletes none, so images a newer version dropped would stay. The list
+ * of what ships is assets/files.json, written when the theme is packaged;
+ * without it nothing is removed. Only image files in those folders are
+ * considered.
+ *
+ * @return int Files removed.
+ */
+function paulus_cleanup_theme_residue() {
+	$list = PAULUS_DIR . '/assets/files.json';
+	if ( ! file_exists( $list ) ) {
+		return 0;
+	}
+	$ships = array_flip( (array) json_decode( (string) file_get_contents( $list ), true ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( ! $ships ) {
+		return 0;
+	}
+	$gone = 0;
+	foreach ( array( 'assets/images', 'assets/images/church', 'assets/social' ) as $dir ) {
+		foreach ( (array) glob( PAULUS_DIR . '/' . $dir . '/*.{avif,webp,jpg,jpeg,png,gif}', GLOB_BRACE ) as $path ) {
+			$rel = $dir . '/' . basename( $path );
+			if ( is_file( $path ) && ! isset( $ships[ $rel ] ) ) {
+				wp_delete_file( $path );
+				$gone += file_exists( $path ) ? 0 : 1;
+			}
+		}
+	}
+	return $gone;
+}
+
+/**
+ * Image housekeeping: both clean-ups, with the run recorded for the
+ * dashboard. Runs weekly through WP-Cron, and after each content update.
+ *
+ * @param bool $force Run the uploads clean-up even if it ran for this version.
+ */
+function paulus_image_housekeeping( $force = true ) {
+	$uploads = paulus_cleanup_image_residue( $force );
+	$theme   = paulus_cleanup_theme_residue();
+	update_option(
+		'paulus_housekeeping',
+		array(
+			'time'    => time(),
+			'uploads' => (int) $uploads,
+			'theme'   => (int) $theme,
+			'total'   => (int) ( get_option( 'paulus_housekeeping' )['total'] ?? 0 ) + $uploads + $theme,
+		),
+		false
+	);
+}
+// WP-Cron passes an empty argument to an event scheduled without any, which
+// would read as "not forced": the scheduled run always forces the clean-up.
+add_action( 'paulus_image_housekeeping', static function () {
+	paulus_image_housekeeping( true );
+} );
+
+// On activation (Appearance, Themes, Activate) the old files go at once.
+add_action( 'after_switch_theme', static function () {
+	paulus_image_housekeeping( true );
+	update_option( 'paulus_housekeeping_version', PAULUS_VERSION, false );
+} );
+
+// On an update of the active theme there is no activation, and a hook fired
+// during the update would run the old version's code. So the new version
+// runs the clean-up on the first admin page it serves, once per version.
+add_action( 'admin_init', static function () {
+	if ( get_option( 'paulus_housekeeping_version' ) !== PAULUS_VERSION && current_user_can( 'manage_options' ) ) {
+		update_option( 'paulus_housekeeping_version', PAULUS_VERSION, false );
+		paulus_image_housekeeping( true );
+	}
+} );
+
+// The weekly run is scheduled while the theme is active, and removed when
+// another theme is switched in.
+add_action( 'init', static function () {
+	if ( ! wp_next_scheduled( 'paulus_image_housekeeping' ) ) {
+		wp_schedule_event( time() + HOUR_IN_SECONDS, 'weekly', 'paulus_image_housekeeping' );
+	}
+} );
+add_action( 'switch_theme', static function () {
+	wp_clear_scheduled_hook( 'paulus_image_housekeeping' );
+} );
+
+/**
+ * The update's time budget. Image imports and conversions are slow on a
+ * server that makes AVIF thumbnails, so each page load does as many as fit
+ * in about fifteen seconds, well inside PHP's usual thirty-second limit; the
+ * rest follow on the next load, and the version is recorded only once all
+ * are done.
+ *
+ * @return bool Whether time remains for another image.
+ */
+function paulus_sync_has_time() {
+	if ( ! isset( $GLOBALS['paulus_sync_started'] ) ) {
+		$GLOBALS['paulus_sync_started'] = microtime( true );
+	}
+	if ( microtime( true ) - $GLOBALS['paulus_sync_started'] < (float) apply_filters( 'paulus_sync_budget', 15 ) ) {
+		return true;
+	}
+	$GLOBALS['paulus_sync_incomplete'] = true;
+	return false;
+}
+
+/**
+ * Record the update's progress, for the dashboard: the stage it has reached,
+ * and, if it stopped, why.
+ *
+ * @param string $stage   Stage name.
+ * @param string $state   running, pending, done or failed.
+ * @param string $message Error message, if any.
+ */
+function paulus_sync_note( $stage, $state = 'running', $message = '' ) {
+	update_option(
+		'paulus_sync_status',
+		array(
+			'stage'   => $stage,
+			'state'   => $state,
+			'message' => $message,
+			'time'    => time(),
+			'target'  => (string) ( paulus_manifest()['content_version'] ?? '' ),
+		),
+		false
+	);
 }

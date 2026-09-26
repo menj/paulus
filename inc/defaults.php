@@ -118,7 +118,7 @@ function paulus_option( $key ) {
 
 /**
  * Hero image URL. Uses the transparent cutout of an illustration when one
- * is bundled (assets/images/<slug>-cutout.webp), so the figure sits on the
+ * is bundled (assets/images/<slug>-cutout.avif), so the figure sits on the
  * page background in every color scheme instead of in a square of its own.
  *
  * @param string $slug Image slug.
@@ -126,7 +126,7 @@ function paulus_option( $key ) {
  */
 function paulus_hero_image_url( $slug ) {
 	$slug = array_key_exists( $slug, paulus_images() ) ? $slug : 'paul-portrait';
-	$file = sanitize_file_name( $slug ) . '-cutout.webp';
+	$file = sanitize_file_name( $slug ) . '-cutout.avif';
 	if ( file_exists( PAULUS_DIR . '/assets/images/' . $file ) ) {
 		return PAULUS_URI . '/assets/images/' . $file;
 	}
@@ -135,19 +135,20 @@ function paulus_hero_image_url( $slug ) {
 
 /**
  * srcset for a hero image: the 480 and 720 widths, when they exist beside the
- * full file (name-480.webp, name-720.webp).
+ * full file: the full file is AVIF, the smaller widths WebP (name-480.webp,
+ * name-720.webp).
  *
  * @param string $url Full-size image URL.
  * @return string srcset attribute value, or empty.
  */
 function paulus_hero_srcset( $url ) {
 	$file = basename( wp_parse_url( $url, PHP_URL_PATH ) );
-	if ( ! preg_match( '/^(.+)\.(webp|jpg|png)$/', $file, $m ) ) {
+	if ( ! preg_match( '/^(.+)\.(avif|webp|jpg|png)$/', $file, $m ) ) {
 		return '';
 	}
 	$set = array();
 	foreach ( array( 480, 720 ) as $w ) {
-		$name = $m[1] . '-' . $w . '.' . $m[2];
+		$name = $m[1] . '-' . $w . '.webp';
 		if ( file_exists( PAULUS_DIR . '/assets/images/' . $name ) ) {
 			$set[] = PAULUS_URI . '/assets/images/' . $name . ' ' . $w . 'w';
 		}
@@ -167,7 +168,13 @@ function paulus_hero_srcset( $url ) {
 function paulus_images() {
 	return array(
 		'paul-portrait' => __( 'Portrait (cover art)', 'paulus' ),
-		'paul-halo-2023' => __( 'Painting of Paul with a halo (the 2023 edition)', 'paulus' ),
+		'paul-halo-2023' => __( 'Giuseppe Franchi, Saint Paul (the 2023 edition)', 'paulus' ),
+		'met-ring-key' => __( 'Roman ring key (The Met)', 'paulus' ),
+		'met-diploma' => __( 'Roman military diploma (The Met)', 'paulus' ),
+		'met-tiberius-ring' => __( 'Ring with a portrait of Tiberius (The Met)', 'paulus' ),
+		'met-papyrus-letter' => __( 'Greek papyrus letter (The Met)', 'paulus' ),
+		'met-inkwell-stylus' => __( 'Roman inkwell and stylus (The Met)', 'paulus' ),
+		'author-photo' => __( 'The author (photograph)', 'paulus' ),
 		'paul-portrait-face' => __( 'Portrait (cover art), close-up', 'paulus' ),
 		'paul-portrait-hands' => __( 'Portrait (cover art), hands and scroll', 'paulus' ),
 		'paul-portrait-ink' => __( 'Portrait (cover art), ink duotone', 'paulus' ),
@@ -223,6 +230,12 @@ function paulus_images() {
  */
 function paulus_image_alts() {
 	return array(
+		'met-ring-key' => __( 'Roman bronze ring key, a small key worn on the finger, third or fourth century CE', 'paulus' ),
+		'met-diploma' => __( 'Roman bronze military diploma of about 149 CE, a tablet engraved in Latin with the grant of Antoninus Pius', 'paulus' ),
+		'met-tiberius-ring' => __( 'Roman gold ring set with a carnelian intaglio portrait of the emperor Tiberius, 14 to 37 CE', 'paulus' ),
+		'met-papyrus-letter' => __( 'Papyrus letter written in Greek, from Roman Egypt, early third century CE', 'paulus' ),
+		'met-inkwell-stylus' => __( 'Roman terracotta inkwell, first or second century CE', 'paulus' ),
+		'author-photo' => __( 'Photograph of Mohd Elfie Nieshaem Juferi', 'paulus' ),
 		'paul-portrait' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross', 'paulus' ),
 		'paul-portrait-face' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, close-up of the face', 'paulus' ),
 		'paul-portrait-hands' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, close-up of the hands and scroll', 'paulus' ),
@@ -283,5 +296,54 @@ function paulus_image_url( $slug ) {
 	if ( 'book-cover' !== $slug && ! array_key_exists( $slug, paulus_images() ) ) {
 		$slug = 'paul-portrait';
 	}
-	return PAULUS_URI . '/assets/images/' . sanitize_file_name( $slug ) . '.jpg';
+	return PAULUS_URI . '/assets/images/' . sanitize_file_name( $slug ) . '.avif';
+}
+
+/**
+ * A JPEG copy of an illustration for link previews (Open Graph, X), where
+ * AVIF is not shown: assets/social/<slug>.jpg.
+ *
+ * @param string $slug Image slug.
+ * @return string URL, or empty when there is no copy.
+ */
+function paulus_social_image_url( $slug ) {
+	$slug = sanitize_file_name( (string) $slug );
+	return file_exists( PAULUS_DIR . '/assets/social/' . $slug . '.jpg' ) ? PAULUS_URI . '/assets/social/' . $slug . '.jpg' : '';
+}
+
+/**
+ * The social copy for an image address of the theme's: a bundled
+ * illustration, or a featured image the theme imported into the media
+ * library (named <slug>.avif, <slug>-<hash>.avif, or a sub-size of either).
+ *
+ * @param string $url Image address.
+ * @return string Social copy's URL, or empty.
+ */
+function paulus_social_for_url( $url ) {
+	$base = basename( (string) wp_parse_url( (string) $url, PHP_URL_PATH ) );
+	if ( ! preg_match( '/^(.+?)(-[0-9a-f]{8})?(-\d+x\d+)?\.(avif|jpe?g|webp|png)$/i', $base, $m ) ) {
+		return '';
+	}
+	return array_key_exists( $m[1], paulus_images() ) || 'book-cover' === $m[1] ? paulus_social_image_url( $m[1] ) : '';
+}
+
+/**
+ * An image's width and height, from assets/images/sizes.json (written when
+ * the images are made), so no page depends on the server's PHP reading AVIF
+ * (getimagesize() reads it only from PHP 8.2). Falls back to getimagesize().
+ *
+ * @param string $path Absolute path under assets/images.
+ * @return array|false Width and height, or false.
+ */
+function paulus_image_size( $path ) {
+	static $sizes = null;
+	if ( null === $sizes ) {
+		$json  = PAULUS_DIR . '/assets/images/sizes.json';
+		$sizes = file_exists( $json ) ? (array) json_decode( (string) file_get_contents( $json ), true ) : array(); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	}
+	$key = ltrim( str_replace( PAULUS_DIR . '/assets/images/', '', (string) $path ), '/' );
+	if ( isset( $sizes[ $key ] ) ) {
+		return array( (int) $sizes[ $key ][0], (int) $sizes[ $key ][1] );
+	}
+	return file_exists( $path ) ? @getimagesize( $path ) : false; // phpcs:ignore WordPress.PHP.NoSilencedErrors
 }

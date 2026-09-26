@@ -126,6 +126,51 @@ function paulus_dashboard_render() {
 				?>
 			</td></tr>
 			<?php endif; ?>
+			<?php
+			$paulus_sync = get_option( 'paulus_sync_status' );
+			$paulus_cv   = (string) get_option( 'paulus_content_version' );
+			$paulus_tv   = (string) ( paulus_manifest()['content_version'] ?? '' );
+			?>
+			<tr><th scope="row"><?php esc_html_e( 'Content sync', 'paulus' ); ?></th><td>
+				<?php
+				if ( $paulus_cv === $paulus_tv ) {
+					/* translators: %s: content version. */
+					echo esc_html( sprintf( __( 'Up to date (content %s).', 'paulus' ), $paulus_tv ) );
+				} elseif ( is_array( $paulus_sync ) && 'pending' === $paulus_sync['state'] ) {
+					$paulus_left = 0;
+					$paulus_map  = get_option( 'paulus_attachments', array() );
+					foreach ( array_merge( array_keys( paulus_images() ), array( 'book-cover' ) ) as $paulus_slug ) {
+						$paulus_id = (int) ( $paulus_map[ $paulus_slug ] ?? 0 );
+						if ( ! $paulus_id || ! preg_match( '/\.avif$/i', (string) get_attached_file( $paulus_id ) ) ) {
+							++$paulus_left;
+						}
+					}
+					/* translators: %d: images still to import or convert. */
+					echo esc_html( sprintf( _n( 'In progress: %d image still to import or convert. Each admin page you open continues it.', 'In progress: %d images still to import or convert. Each admin page you open continues it.', $paulus_left, 'paulus' ), $paulus_left ) );
+				} elseif ( is_array( $paulus_sync ) && 'failed' === $paulus_sync['state'] ) {
+					echo '<strong>' . esc_html__( 'Stopped.', 'paulus' ) . '</strong> ' . esc_html( sprintf( /* translators: 1: stage, 2: time, 3: message. */ __( 'At %1$s, %2$s: %3$s', 'paulus' ), $paulus_sync['stage'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $paulus_sync['time'] ), $paulus_sync['message'] ) );
+				} else {
+					/* translators: 1: installed content version, 2: this theme's. */
+					echo esc_html( sprintf( __( 'Waiting: content %1$s installed, %2$s to come. It runs on the next page you open while logged in.', 'paulus' ), '' !== $paulus_cv ? $paulus_cv : '–', $paulus_tv ) );
+				}
+				?>
+			</td></tr>
+			<?php $paulus_hk = get_option( 'paulus_housekeeping' ); ?>
+			<tr><th scope="row"><?php esc_html_e( 'Image housekeeping', 'paulus' ); ?></th><td>
+				<?php
+				if ( is_array( $paulus_hk ) && ! empty( $paulus_hk['time'] ) ) {
+					/* translators: 1: date and time, 2: files removed then, 3: files removed in all. */
+					echo esc_html( sprintf( __( 'Last run %1$s: %2$d unused files removed (%3$d in all).', 'paulus' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $paulus_hk['time'] ), (int) $paulus_hk['uploads'] + (int) $paulus_hk['theme'], (int) $paulus_hk['total'] ) );
+				} else {
+					esc_html_e( 'Not yet run.', 'paulus' );
+				}
+				$paulus_next = wp_next_scheduled( 'paulus_image_housekeeping' );
+				if ( $paulus_next ) {
+					/* translators: %s: date and time. */
+					echo ' ' . esc_html( sprintf( __( 'Next run %s.', 'paulus' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $paulus_next ) ) );
+				}
+				?>
+			</td></tr>
 			<tr><th scope="row"><?php esc_html_e( 'Articles and pages', 'paulus' ); ?></th><td>
 				<?php
 				/* translators: 1: number of articles, 2: number of pages. */

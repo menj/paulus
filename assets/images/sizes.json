@@ -1,0 +1,738 @@
+{
+"author-photo.avif": [
+1024,
+1024
+],
+"author-portrait.webp": [
+240,
+240
+],
+"book-cover.avif": [
+960,
+1291
+],
+"church/al-faruqi-portrait-720.webp": [
+720,
+895
+],
+"church/al-faruqi-portrait.avif": [
+1126,
+1400
+],
+"church/alexamenos-graffito-720.webp": [
+720,
+843
+],
+"church/alexamenos-graffito.avif": [
+806,
+944
+],
+"church/arch-of-titus-spoils-720.webp": [
+720,
+478
+],
+"church/arch-of-titus-spoils.avif": [
+1400,
+930
+],
+"church/areopagus-720.webp": [
+720,
+469
+],
+"church/areopagus.avif": [
+1200,
+782
+],
+"church/bab-kisan-720.webp": [
+720,
+537
+],
+"church/bab-kisan.avif": [
+1400,
+1045
+],
+"church/benei-hezir-720.webp": [
+720,
+531
+],
+"church/benei-hezir.avif": [
+1400,
+1032
+],
+"church/birmingham-quran-720.webp": [
+720,
+469
+],
+"church/birmingham-quran.avif": [
+1400,
+911
+],
+"church/bloemaert-rock-720.webp": [
+720,
+533
+],
+"church/bloemaert-rock.avif": [
+1400,
+1036
+],
+"church/bukhari-ms-720.webp": [
+720,
+414
+],
+"church/bukhari-ms.avif": [
+1192,
+686
+],
+"church/byzantine-medallion-720.webp": [
+720,
+576
+],
+"church/byzantine-medallion.avif": [
+1400,
+1120
+],
+"church/caravaggio-conversion-720.webp": [
+720,
+946
+],
+"church/caravaggio-conversion.avif": [
+1065,
+1400
+],
+"church/caravaggio-odescalchi-720.webp": [
+720,
+886
+],
+"church/caravaggio-odescalchi.avif": [
+731,
+900
+],
+"church/catacomb-christ-peter-paul-720.webp": [
+720,
+828
+],
+"church/catacomb-christ-peter-paul.avif": [
+1200,
+1380
+],
+"church/celsus-library-720.webp": [
+720,
+558
+],
+"church/celsus-library.avif": [
+1400,
+1085
+],
+"church/codex-alexandrinus-720.webp": [
+720,
+927
+],
+"church/codex-alexandrinus.avif": [
+1087,
+1400
+],
+"church/cordoba-mosque-720.webp": [
+720,
+540
+],
+"church/cordoba-mosque.avif": [
+1400,
+1050
+],
+"church/corinth-apollo-720.webp": [
+720,
+480
+],
+"church/corinth-apollo.avif": [
+1400,
+933
+],
+"church/dome-of-the-rock-720.webp": [
+710,
+1000
+],
+"church/dome-of-the-rock.avif": [
+994,
+1400
+],
+"church/el-greco-peter-paul-720.webp": [
+720,
+843
+],
+"church/el-greco-peter-paul.avif": [
+1196,
+1400
+],
+"church/epiphanius-ohrid.avif": [
+704,
+1045
+],
+"church/etchmiadzin-thecla-720.webp": [
+720,
+441
+],
+"church/etchmiadzin-thecla.avif": [
+1100,
+674
+],
+"church/faruqi-grave-720.webp": [
+720,
+512
+],
+"church/faruqi-grave.avif": [
+1100,
+783
+],
+"church/guercino-hagar-720.webp": [
+720,
+534
+],
+"church/guercino-hagar.avif": [
+960,
+712
+],
+"church/habib-neccar-720.webp": [
+720,
+540
+],
+"church/habib-neccar.avif": [
+1400,
+1050
+],
+"church/herodium-720.webp": [
+720,
+540
+],
+"church/herodium.avif": [
+1400,
+1050
+],
+"church/isaiah-scroll-720.webp": [
+720,
+819
+],
+"church/isaiah-scroll.avif": [
+1231,
+1400
+],
+"church/judaea-diploma-720.webp": [
+720,
+465
+],
+"church/judaea-diploma.avif": [
+1280,
+826
+],
+"church/kufa-1915-720.webp": [
+720,
+566
+],
+"church/kufa-1915.avif": [
+783,
+616
+],
+"church/la-hyre-malta-720.webp": [
+720,
+464
+],
+"church/la-hyre-malta.avif": [
+960,
+618
+],
+"church/lateran-ciborium-720.webp": [
+660,
+1000
+],
+"church/lateran-ciborium.avif": [
+924,
+1400
+],
+"church/malacca-st-pauls-720.webp": [
+720,
+480
+],
+"church/malacca-st-pauls.avif": [
+1400,
+933
+],
+"church/map-journeys-720.webp": [
+720,
+472
+],
+"church/map-journeys.avif": [
+1400,
+917
+],
+"church/marcion-woodcut-720.webp": [
+720,
+932
+],
+"church/marcion-woodcut.avif": [
+871,
+1127
+],
+"church/minaret-isa-720.webp": [
+720,
+960
+],
+"church/minaret-isa.avif": [
+1050,
+1400
+],
+"church/munich-talmud-720.webp": [
+720,
+926
+],
+"church/munich-talmud.avif": [
+1089,
+1400
+],
+"church/nag-hammadi-720.webp": [
+569,
+1000
+],
+"church/nag-hammadi.avif": [
+797,
+1400
+],
+"church/nero-bust-720.webp": [
+720,
+960
+],
+"church/nero-bust.avif": [
+1050,
+1400
+],
+"church/nicaea-icon-720.webp": [
+720,
+919
+],
+"church/nicaea-icon.avif": [
+1097,
+1400
+],
+"church/papyrus-46-720.webp": [
+720,
+508
+],
+"church/papyrus-46.avif": [
+1400,
+987
+],
+"church/parmigianino-conversion-720.webp": [
+523,
+720
+],
+"church/parmigianino-conversion.avif": [
+744,
+1024
+],
+"church/paul-before-felix-720.webp": [
+720,
+583
+],
+"church/paul-before-felix.avif": [
+1400,
+1134
+],
+"church/paul-halo-2023-720.webp": [
+720,
+540
+],
+"church/paul-halo-2023.avif": [
+1400,
+1050
+],
+"church/pella-ruins-720.webp": [
+720,
+540
+],
+"church/pella-ruins.avif": [
+1400,
+1050
+],
+"church/penang-st-george-720.webp": [
+720,
+540
+],
+"church/penang-st-george.avif": [
+1280,
+960
+],
+"church/poussin-ecstasy-720.webp": [
+720,
+935
+],
+"church/poussin-ecstasy.avif": [
+1078,
+1400
+],
+"church/raphael-elymas-720.webp": [
+720,
+560
+],
+"church/raphael-elymas.avif": [
+1200,
+933
+],
+"church/raphael-lystra-720.webp": [
+720,
+457
+],
+"church/raphael-lystra.avif": [
+1400,
+889
+],
+"church/rembrandt-moses-720.webp": [
+720,
+898
+],
+"church/rembrandt-moses.avif": [
+1122,
+1400
+],
+"church/rembrandt-prison-720.webp": [
+720,
+847
+],
+"church/rembrandt-prison.avif": [
+1190,
+1400
+],
+"church/rembrandt-self-paul-720.webp": [
+666,
+1000
+],
+"church/rembrandt-self-paul.avif": [
+933,
+1400
+],
+"church/rembrandt-stephen-720.webp": [
+720,
+518
+],
+"church/rembrandt-stephen.avif": [
+1400,
+1008
+],
+"church/sinaiticus-720.webp": [
+720,
+707
+],
+"church/sinaiticus.avif": [
+760,
+746
+],
+"church/spong-2006-720.webp": [
+720,
+480
+],
+"church/spong-2006.avif": [
+800,
+533
+],
+"church/straight-street-720.webp": [
+720,
+986
+],
+"church/straight-street.avif": [
+1022,
+1400
+],
+"church/tadolini-statue-720.webp": [
+720,
+480
+],
+"church/tadolini-statue.avif": [
+1400,
+933
+],
+"church/tarsus-cleopatra-gate-720.webp": [
+720,
+540
+],
+"church/tarsus-cleopatra-gate.avif": [
+1400,
+1050
+],
+"church/temple-model-720.webp": [
+720,
+413
+],
+"church/temple-model.avif": [
+1400,
+804
+],
+"church/tomb-of-paul-720.webp": [
+720,
+579
+],
+"church/tomb-of-paul.avif": [
+1400,
+1125
+],
+"church/traditio-legis-720.webp": [
+720,
+480
+],
+"church/traditio-legis.avif": [
+1400,
+933
+],
+"church/tre-fontane-beheading-720.webp": [
+720,
+743
+],
+"church/tre-fontane-beheading.avif": [
+1357,
+1400
+],
+"church/tughrul-rey-720.webp": [
+720,
+540
+],
+"church/tughrul-rey.avif": [
+1024,
+768
+],
+"church/umayyad-interior-720.webp": [
+720,
+478
+],
+"church/umayyad-interior.avif": [
+1400,
+929
+],
+"church/valentin-paul-writing-720.webp": [
+720,
+530
+],
+"church/valentin-paul-writing.avif": [
+1400,
+1030
+],
+"met-diploma.avif": [
+1024,
+1024
+],
+"met-inkwell-stylus.avif": [
+1024,
+1024
+],
+"met-papyrus-letter.avif": [
+1024,
+1024
+],
+"met-ring-key.avif": [
+1024,
+1024
+],
+"met-tiberius-ring.avif": [
+1024,
+1024
+],
+"paul-bastard-face.avif": [
+1024,
+1024
+],
+"paul-bastard-hands.avif": [
+1024,
+614
+],
+"paul-bastard-ink.avif": [
+1024,
+1024
+],
+"paul-bastard-oxblood.avif": [
+1024,
+1024
+],
+"paul-bastard-stone.avif": [
+1024,
+1024
+],
+"paul-bastard.avif": [
+1024,
+1024
+],
+"paul-decayed-face.avif": [
+1024,
+1024
+],
+"paul-decayed-hands.avif": [
+1024,
+614
+],
+"paul-decayed-ink.avif": [
+1024,
+1024
+],
+"paul-decayed-mirror.avif": [
+1024,
+1024
+],
+"paul-decayed-oxblood.avif": [
+1024,
+1024
+],
+"paul-decayed-stone.avif": [
+1024,
+1024
+],
+"paul-decayed.avif": [
+1024,
+1024
+],
+"paul-dunce-face.avif": [
+1024,
+1024
+],
+"paul-dunce-hands.avif": [
+1024,
+614
+],
+"paul-dunce-ink.avif": [
+1024,
+1024
+],
+"paul-dunce-oxblood.avif": [
+1024,
+1024
+],
+"paul-dunce.avif": [
+1024,
+1024
+],
+"paul-gladius-painted.avif": [
+1024,
+1024
+],
+"paul-halo-2023.avif": [
+1600,
+1200
+],
+"paul-horned-bastard-face.avif": [
+1024,
+1024
+],
+"paul-horned-bastard-hands.avif": [
+1024,
+614
+],
+"paul-horned-bastard-ink.avif": [
+1024,
+1024
+],
+"paul-horned-bastard-oxblood.avif": [
+1024,
+1024
+],
+"paul-horned-bastard-stone.avif": [
+1024,
+1024
+],
+"paul-horned-bastard.avif": [
+1024,
+1024
+],
+"paul-horned-face.avif": [
+1024,
+1024
+],
+"paul-horned-grin-face.avif": [
+1024,
+1024
+],
+"paul-horned-grin-hands.avif": [
+1024,
+614
+],
+"paul-horned-grin-ink.avif": [
+1024,
+1024
+],
+"paul-horned-grin-oxblood.avif": [
+1024,
+1024
+],
+"paul-horned-grin-stone.avif": [
+1024,
+1024
+],
+"paul-horned-grin.avif": [
+1024,
+1024
+],
+"paul-horned-hands.avif": [
+1024,
+614
+],
+"paul-horned-ink.avif": [
+1024,
+1024
+],
+"paul-horned-mirror.avif": [
+1024,
+1024
+],
+"paul-horned-oxblood.avif": [
+1024,
+1024
+],
+"paul-horned-stone.avif": [
+1024,
+1024
+],
+"paul-horned.avif": [
+1024,
+1024
+],
+"paul-portrait-cutout-480.webp": [
+480,
+511
+],
+"paul-portrait-cutout-720.webp": [
+720,
+766
+],
+"paul-portrait-cutout.avif": [
+962,
+1024
+],
+"paul-portrait-face.avif": [
+1024,
+1024
+],
+"paul-portrait-hands.avif": [
+1024,
+614
+],
+"paul-portrait-ink.avif": [
+1024,
+1024
+],
+"paul-portrait-mirror-stone.avif": [
+1024,
+1024
+],
+"paul-portrait-mirror.avif": [
+1024,
+1024
+],
+"paul-portrait-oxblood.avif": [
+1024,
+1024
+],
+"paul-portrait-stone.avif": [
+1024,
+1024
+],
+"paul-portrait.avif": [
+1024,
+1024
+],
+"site-icon-96.webp": [
+96,
+96
+]
+}

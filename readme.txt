@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.56.0
+Stable tag: 2.59.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,66 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.59.5 =
+* Appendices: the section on the site's name rewritten in the owner's voice.
+
+= 2.59.4 =
+* Appendices: why the site is called "Apostle of Doom".
+
+= 2.59.3 =
+* Update step made safe and resumable on slow servers, with its state shown on the dashboard.
+
+= 2.59.2 =
+* Old image files are removed the moment the theme is activated, and after each update of the theme.
+
+= 2.59.1 =
+* Image housekeeping: unused files removed automatically, after each update and weekly, from the uploads and the theme's own image folders.
+
+= 2.59.0 =
+* Images: AVIF for large images, WebP for small ones, JPEG copies for link previews; old files in the media library converted and removed.
+
+= 2.58.7 =
+* Search: the field's label reads ΕΡΑΥΝΑΤΕ, and the button's rollover ΖΗΤΕΙΤΕ.
+
+= 2.58.6 =
+* Search: ΖΗΤΕΙΤΕ appears once, as the field's label; the button stays in English.
+
+= 2.58.5 =
+* Koine Greek checked for grammar: the wordmark's rollover corrected to Ο ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ; three glosses made exact.
+
+= 2.58.4 =
+* Footer bar reordered: About the Author, Terms of Use, Privacy Policy, DMCA, Contact Us, Sitemap.
+
+= 2.58.3 =
+* Footer bar: About the Author added, with its Koine Greek on hover.
+
+= 2.58.2 =
+* Page leads rewritten as full paragraphs of 36 to 47 words.
+
+= 2.58.1 =
+* Every page, article and Journal entry now has a featured image beside its lead paragraph in the title panel.
+
+= 2.58.0 =
+* Sitemap redesigned: cards with pictures and icons at the wide width, larger text. Every page shows its lead paragraph beside its featured image.
+
+= 2.57.2 =
+* The Contact page's heading reads "Contact Apostle of Doom"; its labels stay "Contact".
+
+= 2.57.1 =
+* The Contact page's text is built into the theme and shows at once, whatever the page holds.
+
+= 2.57.0 =
+* The Contact page is set up automatically with the theme, and an empty Contact page is filled.
+
+= 2.56.3 =
+* About the Author, the Journal entry on the site's beginning and the note on The 2023 edition, rewritten in the house style.
+
+= 2.56.2 =
+* About the Author: education corrected to an Advanced Diploma in Computing, with a specialism in Software Engineering.
+
+= 2.56.1 =
+* The 2023 painting of Paul credited to Giuseppe Franchi, Pinacoteca Ambrosiana, Milan.
 
 = 2.56.0 =
 * From the site's 2023 backup: a Journal entry on how the site began, an About the Author page, and The 2023 edition among the appendices.

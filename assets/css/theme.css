@@ -447,9 +447,9 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-result { position: relative; padding: 1.25rem 0 1.25rem 3.25rem; border-top: 1px solid var(--t-rule); }
 .paulus-result__n { position: absolute; left: 0; top: 1.3rem; display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; font-family: var(--t-roman); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--t-accent-deep); border: 1px solid var(--t-rule); border-radius: 50%; }
 .paulus-searchform__mark { display: inline-flex; align-items: center; font-family: var(--t-roman); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t-accent-deep); padding-right: 0.2rem; }
+.paulus-searchform__mark[lang="grc"] { font-family: var(--t-garamond); font-weight: 600; letter-spacing: 0.14em; }
 /* Koine Greek in uncials (the search label and the inscriptions above
  * section and page headings). Cinzel has no Greek, so EB Garamond sets it. */
-.paulus-searchform__mark[lang="grc"] { font-family: var(--t-garamond); font-weight: 600; letter-spacing: 0.14em; }
 .paulus-greek { font-family: var(--t-garamond); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.18em; color: var(--t-accent-deep); cursor: help; }
 .paulus-greek-line { margin: 0 0 0.55rem; line-height: 1.2; }
 /* In the title panel the Greek line takes the breadcrumb's size and sits the
@@ -950,36 +950,64 @@ h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focu
 @media (prefers-reduced-motion: reduce) { .paulus-journal-canton { transition: none; } }
 @media print { .paulus-journal-canton { display: none !important; } }
 
-/* Sitemap: the site as a table of contents. The case as rows (section name
- * and description beside its articles in two columns), then one band of
- * four columns for the other pages. Titles only. */
-.paulus-sitemap { margin-top: 1.5rem; }
-.paulus-sitemap a { color: var(--t-ink); text-decoration: none; }
-.paulus-sitemap a:hover, .paulus-sitemap a:focus-visible { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
-.paulus-prose .paulus-sitemap ul, .paulus-prose .paulus-sitemap ol { list-style: none; margin: 0; padding: 0; }
-.paulus-prose .paulus-sitemap li { text-align: left; hyphens: manual; -webkit-hyphens: manual; }
-.paulus-prose .paulus-sitemap__heading { margin: 0 0 1rem; padding-top: 0.8rem; border-top: 2px solid var(--t-accent); font-family: var(--t-label); font-weight: 400; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: none; color: var(--t-accent-deep); }
-.paulus-prose .paulus-sitemap__heading a { color: inherit; }
-.paulus-sitemap__part { display: grid; grid-template-columns: minmax(11rem, 15rem) 1fr; gap: 0.75rem var(--t-gap); padding: 1.25rem 0 1.5rem; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 30%, transparent); }
-.paulus-sitemap__part:first-of-type { padding-top: 0.25rem; }
-.paulus-prose .paulus-sitemap__part-head h3 { margin: 0 0 0.4rem; font-family: var(--t-display); font-size: 1.45rem; line-height: 1.15; text-align: left; }
-.paulus-prose .paulus-sitemap__part-head p { margin: 0; font-size: 0.95rem; line-height: 1.5; color: var(--t-muted); text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-.paulus-sitemap__list { columns: 2 17rem; column-gap: var(--t-gap); counter-reset: sm; }
-.paulus-sitemap__item { break-inside: avoid; margin: 0 0 0.75rem; font-size: 1.02rem; line-height: 1.35; }
-.paulus-sitemap__label { display: block; margin-bottom: 0.1rem; font-family: var(--t-label); font-size: 0.72rem; line-height: 1.3; color: var(--t-accent-deep); }
-.paulus-sitemap__parts { margin: 0.35rem 0 0 0.9rem !important; padding-left: 0.75rem !important; border-left: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); }
-.paulus-sitemap__parts li { margin: 0 0 0.3rem; font-size: 0.93rem; line-height: 1.35; }
-.paulus-sitemap__no { font-family: var(--t-label); font-size: 0.7rem; color: var(--t-muted); margin-right: 0.25rem; }
-.paulus-sitemap__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem var(--t-gap); margin-top: 2.5rem; }
-.paulus-sitemap__group li { margin: 0 0 0.55rem; font-size: 1rem; line-height: 1.35; }
-.paulus-sitemap__date { display: block; font-family: var(--t-label); font-size: 0.7rem; color: var(--t-muted); }
+/* Sitemap: the whole site at a glance, at the wide width. Each section is a
+ * card with its picture, Greek inscription, description and count, over its
+ * articles, each with its own picture, label and title. The rest of the site
+ * follows as four cards, each with an icon. */
+/* The page body holding the Sitemap takes the wide width; every other page
+ * keeps the reading width. */
+.paulus-prose:has(> .paulus-sm) { max-width: var(--wp--style--global--wide-size, 1180px) !important; }
+.paulus-sm { margin-top: 0.5rem; }
+.paulus-prose .paulus-sm__heading { margin: 0 0 1.25rem; padding-top: 0.9rem; border-top: 2px solid var(--t-accent); font-family: var(--t-label); font-weight: 400; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--t-accent-deep); text-align: left; }
+.paulus-sm a { color: var(--t-ink); text-decoration: none; }
+.paulus-prose .paulus-sm ol, .paulus-prose .paulus-sm ul { list-style: none; margin: 0; padding: 0; }
+.paulus-prose .paulus-sm li, .paulus-prose .paulus-sm p { text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+.paulus-sm__part, .paulus-sm__group { background: color-mix(in srgb, var(--t-surface) 88%, #fff 12%); border: 1px solid color-mix(in srgb, var(--t-rule) 28%, transparent); border-radius: var(--t-radius); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+.paulus-sm__part { padding: 1.6rem 1.7rem 1.4rem; margin: 0 0 1.75rem; }
+.paulus-sm__part-head { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; align-items: center; padding-bottom: 1.25rem; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 25%, transparent); }
+.paulus-sm__part-img { width: 160px; height: 160px; object-fit: cover; border-radius: var(--t-radius); border: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); background: var(--t-base); }
+.paulus-prose .paulus-sm__part-head .paulus-greek-line { margin: 0 0 0.2rem; }
+.paulus-prose .paulus-sm__part-name { margin: 0 0 0.4rem; font-family: var(--t-display); font-size: 2rem; line-height: 1.1; text-align: left; }
+.paulus-prose .paulus-sm__part-desc { margin: 0 0 0.5rem; font-size: 1.08rem; line-height: 1.55; color: var(--t-muted); }
+.paulus-prose .paulus-sm__count { margin: 0; font-family: var(--t-label); font-size: 0.86rem; color: var(--t-accent-deep); }
+.paulus-sm__list { columns: 3 20rem; column-gap: 1.8rem; margin-top: 1.2rem !important; }
+.paulus-sm__list > li { display: inline-block; width: 100%; break-inside: avoid; -webkit-column-break-inside: avoid; page-break-inside: avoid; margin: 0 0 0.55rem; vertical-align: top; }
+.paulus-sm__item { display: grid; grid-template-columns: 64px 1fr; gap: 0.95rem; align-items: center; padding: 0.45rem; margin: 0 -0.45rem; border-radius: var(--t-radius); transition: background-color 0.15s ease; }
+.paulus-sm__item:hover, .paulus-sm__item:focus-visible { background: color-mix(in srgb, var(--t-accent) 9%, transparent); }
+.paulus-sm__item:hover .paulus-sm__title, .paulus-sm__item:focus-visible .paulus-sm__title { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+.paulus-sm__thumb { display: block; width: 64px; height: 64px; object-fit: cover; border-radius: var(--t-radius); border: 1px solid color-mix(in srgb, var(--t-rule) 30%, transparent); background: color-mix(in srgb, var(--t-base) 80%, var(--t-ink) 20%); }
+.paulus-sm__thumb--none { background: color-mix(in srgb, var(--t-accent) 20%, var(--t-surface)); }
+.paulus-sm__text { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.paulus-sm__label { font-family: var(--t-label); font-size: 0.82rem; line-height: 1.3; color: var(--t-accent-deep); }
+.paulus-sm__title { font-family: var(--t-ui); font-size: 1.14rem; line-height: 1.3; color: var(--t-ink); }
+.paulus-sm .paulus-greekswap { justify-items: start; }
+.paulus-sm__parts { margin: 0.2rem 0 0.5rem calc(64px + 0.95rem) !important; padding-left: 0.8rem !important; border-left: 2px solid color-mix(in srgb, var(--t-accent) 35%, transparent); }
+.paulus-sm__parts li { margin: 0.3rem 0; font-size: 1.02rem; line-height: 1.35; }
+.paulus-sm__parts a:hover, .paulus-sm__parts a:focus-visible { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); }
+.paulus-sm__no { font-family: var(--t-label); font-size: 0.8rem; color: var(--t-accent-deep); margin-right: 0.3rem; }
+.paulus-sm__groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+@media (max-width: 1100px) { .paulus-sm__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .paulus-sm__groups { grid-template-columns: 1fr; } }
+.paulus-sm__group { padding: 1.3rem 1.4rem 1.1rem; }
+.paulus-prose .paulus-sm__group-head { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.9rem; padding-bottom: 0.8rem; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 25%, transparent); font-family: var(--t-display); font-size: 1.35rem; line-height: 1.2; text-align: left; color: var(--t-ink); }
+.paulus-sm__group-head a:hover, .paulus-sm__group-head a:focus-visible { color: var(--t-accent-deep); }
+.paulus-sm__icon { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--t-accent); color: var(--t-on-accent); }
+.paulus-sm__icon svg { width: 1.3rem; height: 1.3rem; }
+.paulus-sm__group-list li { margin: 0 0 0.35rem; }
+.paulus-sm__group .paulus-sm__item { grid-template-columns: 56px 1fr; }
+.paulus-sm__group .paulus-sm__thumb { width: 56px; height: 56px; }
+.paulus-sm__group .paulus-sm__title { font-size: 1.08rem; }
 @media (max-width: 700px) {
-	.paulus-sitemap__part { grid-template-columns: 1fr; }
+	.paulus-sm__part { padding: 1.2rem 1.1rem 1rem; }
+	.paulus-sm__part-head { grid-template-columns: 96px 1fr; gap: 1rem; }
+	.paulus-sm__part-img { width: 96px; height: 96px; }
+	.paulus-prose .paulus-sm__part-name { font-size: 1.6rem; }
+	.paulus-sm__list { columns: 1; }
+	.paulus-sm__item { grid-template-columns: 56px 1fr; }
+	.paulus-sm__thumb { width: 56px; height: 56px; }
+	.paulus-sm__parts { margin-left: calc(56px + 0.95rem) !important; }
 }
-@media (max-width: 520px) {
-	.paulus-sitemap__more { grid-template-columns: 1fr; }
-}
-
+@media (prefers-reduced-motion: reduce) { .paulus-sm__item { transition: none; } }
 /* The footer's secondary bar: Privacy Policy, Terms of Use, DMCA, Contact
  * and Sitemap, cut like a line of a Roman inscription: small Roman capitals,
  * widely spaced, divided by raised interpuncts. On hover or focus a double
@@ -1025,7 +1053,7 @@ a:hover .paulus-greekswap__gr, a:focus-visible .paulus-greekswap__gr { visibilit
  * where nothing hovers and the header is full, the Greek is left out and
  * reserves no width. */
 .paulus-site-title .paulus-greekswap { justify-items: start; }
-.paulus-site-title .paulus-greekswap__gr { font-family: var(--t-garamond); font-weight: 600; font-size: 0.92em; letter-spacing: 0.1em; color: var(--t-accent-deep); }
+.paulus-site-title .paulus-greekswap__gr { font-family: var(--t-garamond); font-weight: 600; font-size: 0.84em; letter-spacing: 0.06em; color: var(--t-accent-deep); }
 @media (max-width: 781px) { .paulus-site-title .paulus-greekswap__gr { display: none; } }
 
 /* Buttons carry the swap too (the search button is a <button>): the Greek
@@ -1061,7 +1089,7 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 	.paulus-journal__year { display: inline-block; padding: 0.55rem 0; margin: -0.55rem 0.5rem -0.55rem 0; }
 	.paulus-hero-panel__meta a { display: inline-block; padding: 0.4rem 0; margin: -0.4rem 0; }
 	.paulus-author__books summary { padding: 0.6rem 0; }
-	.paulus-journal__more a, .paulus-journal__archive a, .paulus-journal__feed a, .paulus-sitemap__heading a { display: inline-block; padding: 0.55rem 0; margin: -0.55rem 0; }
+	.paulus-journal__more a, .paulus-journal__archive a, .paulus-journal__feed a, .paulus-sm__group-head a { display: inline-block; padding: 0.55rem 0; margin: -0.55rem 0; }
 }
 /* The opened menu is a list set flush left: its labels align to the start
  * of the swap cell, where the header row centres them. */

@@ -17,7 +17,12 @@ defined( 'ABSPATH' ) || exit;
  */
 function paulus_figures() {
 	return array(
-		'paul-halo-2023' => array( 'alt' => __( 'Painting of Paul, balding and long-bearded, in a red mantle, a gold halo behind his head', 'paulus' ), 'author' => 'Painting of Paul, artist not recorded; from the site\'s 2023 edition', 'license' => 'Public domain, as supplied by the site\'s owner', 'license_url' => '', 'source' => '' ),
+		'met-ring-key' => array( 'alt' => __( 'Roman bronze ring key, a small key worn on the finger, third or fourth century CE', 'paulus' ), 'author' => 'Bronze ring key, 3rd–4th century CE; The Metropolitan Museum of Art, New York, 98.11.2', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/246764' ),
+		'met-tiberius-ring' => array( 'alt' => __( 'Roman gold ring set with a carnelian intaglio portrait of the emperor Tiberius, 14 to 37 CE', 'paulus' ), 'author' => 'Gold ring with carnelian intaglio portrait of Tiberius, ca. 14–37 CE; The Metropolitan Museum of Art, New York, 1994.230.7', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/256197' ),
+		'met-papyrus-letter' => array( 'alt' => __( 'Papyrus letter written in Greek, from Roman Egypt, early third century CE', 'paulus' ), 'author' => 'Papyrus letter in Greek, early 3rd century CE; The Metropolitan Museum of Art, New York, 25.8', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251788' ),
+		'met-inkwell-stylus' => array( 'alt' => __( 'Roman terracotta inkwell, first or second century CE', 'paulus' ), 'author' => 'Terracotta inkwell and bronze stylus, 1st‒2nd century CE; The Metropolitan Museum of Art, New York, 26.60.34', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/252501' ),
+		'met-diploma' => array( 'alt' => __( 'Roman bronze military diploma of about 149 CE, a tablet engraved in Latin with the grant of Antoninus Pius', 'paulus' ), 'author' => 'Bronze military diploma, ca. 149 CE; The Metropolitan Museum of Art, New York, 23.160.32a, b', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251376' ),
+		'paul-halo-2023' => array( 'alt' => __( 'Giuseppe Franchi\'s half-length painting of Paul, balding and long-bearded, in a red mantle, a gold halo behind his head', 'paulus' ), 'author' => 'Giuseppe Franchi, Portrait of Saint Paul the Apostle, oil on canvas, 66 × 51 cm; Pinacoteca Ambrosiana, Milan, inv. 1519', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
 		'parmigianino-conversion' => array( 'alt' => __( 'Parmigianino painting of Saul thrown to the ground beneath a rearing white horse, one arm raised, in a landscape', 'paulus' ), 'author' => 'Parmigianino', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:Francesco_Mazzola_gen._Parmigianino,_,_Kunsthistorisches_Museum_Wien,_Gem%C3%A4ldegalerie_-_Paulussturz_-_GG_2035_-_Kunsthistorisches_Museum.jpg' ),
 		'caravaggio-conversion' => array( 'alt' => __( 'Caravaggio painting of Saul fallen on his back beneath a horse, arms raised, in a pool of light', 'paulus' ), 'author' => 'Caravaggio', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:Caravaggio-The_Conversion_on_the_Way_to_Damascus.jpg' ),
 		'traditio-legis' => array( 'alt' => __( 'Apse mosaic of Christ standing on a hill between two apostles, with sheep and palms below', 'paulus' ), 'author' => 'José Luiz', 'license' => 'CC BY-SA 4.0', 'license_url' => 'https://creativecommons.org/licenses/by-sa/4.0', 'source' => 'https://commons.wikimedia.org/wiki/File:Traditio_Legis_mosaic_-_Santa_Costanza_-_Rome_2016.jpg' ),
@@ -97,11 +102,12 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 		return '';
 	}
 	$f    = $figs[ $atts['name'] ];
-	$file = PAULUS_DIR . '/assets/images/church/' . $atts['name'] . '.webp';
-	$size = file_exists( $file ) ? getimagesize( $file ) : array( 1400, 1050 );
-	$full = PAULUS_URI . '/assets/images/church/' . $atts['name'] . '.webp';
+	$file = PAULUS_DIR . '/assets/images/church/' . $atts['name'] . '.avif';
+	$size = paulus_image_size( $file );
+	$size = $size ? $size : array( 1400, 1050 );
+	$full = PAULUS_URI . '/assets/images/church/' . $atts['name'] . '.avif';
 	$mid      = PAULUS_DIR . '/assets/images/church/' . $atts['name'] . '-720.webp';
-	$mid_size = file_exists( $mid ) ? getimagesize( $mid ) : false;
+	$mid_size = file_exists( $mid ) ? paulus_image_size( $mid ) : false;
 	// The mid-size variant's own width, not an assumed 720: several of
 	// the portrait figures were resized to a fixed height instead, so
 	// their actual width differs and a hard-coded "720w" descriptor would

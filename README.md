@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.56.0.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.59.5.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -91,7 +91,7 @@ Color schemes are pure CSS: the active scheme is written as a body class, and `s
 | `[paulus_catalogue]` | The book's library catalogue record as a list of label and value (title, edition, author, publication, physical description, language, notes, subjects, ISBN, Bib ID, OCLC), on the book page under "Catalogue record"; the contents are left out, since the page lists them |
 | Answers page navigation | Not a shortcode: a `the_content` filter (`paulus_answers_navigation()`) builds, from the question headings as the page renders, a numbered index of the questions (thirteen) under the introduction (`#questions`), a link mark (#) on each question shown on hover or focus, and "All questions ↑" after each answer. The question anchors are the heading ids in the page, for example `/answers/#was-paul-an-apostle` |
 | `[paulus_download file="…"]Label[/paulus_download]` | A download link to a document bundled in `assets/docs/` (plain file names only). The archive of Dale B. Martin's notes uses it for the original PDF |
-| `[paulus_sitemap]` | The Sitemap page as a table of contents: the case first, each section's name and description beside a numbered list of its articles in reading order, each marked with its label (Count·II and so on) and a series' parts indented beneath its first; then, two by two, the verdict and the book, Reference, Appendices and the Journal's latest entries. Titles only |
+| `[paulus_sitemap]` | The Sitemap page at the wide width (the page body widens to 1,180 pixels only when it holds the Sitemap). Each section is a card with its picture, Greek inscription, description and article count, over its articles in three flowing columns, each with its own picture, label and title, a series' parts beneath its first. Then four cards, each with a drawn icon (`scales`, `book-open`, `paperclip`, `quill` in `assets/icons`): the Verdict and the book, Reference, Appendices and the Journal, every page with its picture (the author's portrait and the book cover where a page has no featured image; the illustration named in the manifest should an article's attached image be missing). Titles at about 18 pixels |
 | `[paulus_chart id="…"]` | A data chart from `inc/charts.php`, drawn as labelled HTML bars in the scheme's accent, values written out, with its source linked beneath. Three kinds: paired bars (two years per row), diverging bars (losses left of a centre line, gains right) and single bars on a scale with zero and marker lines. Rows the text discusses are drawn at full strength. In chapter sources, `{{chart:id}}` places one. Four charts from the Pew Research Center, on *The Verdict*: share of the world's population 2010 and 2050, net switching 2010–2050, where the world's Christians live 2010 and 2050, and change in population size 2015–2060 |
 | `[paulus_children]` | Child pages with summaries (Reference) |
 | `[paulus_page_list]` | Every page with its summary (Sitemap page) |
@@ -212,26 +212,28 @@ Sixty-one photographs and reproductions (churches, paintings, manuscripts, inscr
 | The Witnesses | ΟΙ ΜΑΡΤΥΡΕΣ | The witnesses | Acts 7:58 |
 | The Verdict | ΚΡΙΣΙΣ | Judgment | John 5:22 |
 | Answers | ΑΠΟΛΟΓΙΑ | Defence | Acts 22:1 |
-| The book | ΒΙΒΛΙΟΝ | The book | Luke 4:17 |
+| The book | ΒΙΒΛΙΟΝ | A book, a scroll | Luke 4:17 |
 | Journal | ΓΡΑΦΩ | I write | 1 John 2:1 |
 | Timeline | ΧΡΟΝΟΙ | Times | Acts 1:7 |
 | Glossary | ΟΝΟΜΑΤΑ | Names | Acts 18:15 |
 | Study guide | ΖΗΤΗΜΑΤΑ | Questions | Acts 25:19 |
 | Sources | ΠΗΓΑΙ | Springs, sources | Revelation 8:10 |
 | Privacy Policy | ΚΑΤʼ ΙΔΙΑΝ | Privately | Mark 4:34 |
-| Terms of Use | ΟΡΟΘΕΣΙΑΙ | The bounds set | Acts 17:26 |
-| DMCA | ΑΠΟΔΟΤΕ | Render to each his own | Matthew 22:21 |
+| Terms of Use | ΟΡΟΘΕΣΙΑΙ | Boundaries | Acts 17:26 |
+| DMCA | ΑΠΟΔΟΤΕ | Render, give back | Matthew 22:21 |
 | Contact | ΕΠΙΣΤΟΛΗ | A letter | Acts 15:30 |
+| About the Author | Ο ΓΡΑΨΑΣ ΤΑΥΤΑ | The one who wrote these things | John 21:24 |
 | Sitemap | ΟΔΗΓΟΣ | A guide | Romans 2:19 |
 | 404 | ΑΠΟΛΩΛΩΣ | Lost | Luke 15:24 |
 | Login page | ΕΙΣΕΛΘΑΤΕ | Enter | Matthew 7:13, "Enter by the narrow gate" |
-| Search (button and field label) | ΖΗΤΕΙΤΕ | Seek | Matthew 7:7 |
+| Search button (rollover) | ΖΗΤΕΙΤΕ | Seek | Matthew 7:7 |
+| Search field (label) | ΕΡΑΥΝΑΤΕ | Search, examine | John 5:39 |
 | Order the book (button) | ΑΓΟΡΑΣΑΤΕ | Buy | Matthew 25:9 |
-| Header wordmark | ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ | Super-apostle | 2 Corinthians 12:11 (and 11:5), Paul's sneer at the Jerusalem apostles, turned back on him |
+| Header wordmark | Ο ΥΠΕΡΛΙΑΝ ΑΠΟΣΤΟΛΟΣ | The super-apostle | 2 Corinthians 12:11 (and 11:5), Paul's sneer at the Jerusalem apostles, turned back on him |
 
 Every place that names one of them draws on the register: the title-panel inscription on the page itself (the book page's in its book panel), the front-page section headings and answers block, and, as a swap that replaces the English at once on hover or focus, the header wordmark (the Site Title block marked `paulus-site-title`, through `paulus_site_title_greek()`; the footer's wordmark is left in English), the header menu and the Journal canton, the footer's The case and Reference columns and bar, the breadcrumbs, and the Sitemap (whose section rows also carry their inscriptions). The swap is one mechanism, `paulus_greek_label()` and `paulus_greekswap()`: the English and the Greek share one cell, so nothing shifts; the tooltip gives the Greek, sense and verse (`paulus_greek_title()`); screen readers hear the English. A link is keyed to the section or page it points to (`paulus_greek_urls()` for the breadcrumbs, the link's target in the menu), so a renamed label keeps its Greek. Change a form in the register and it changes everywhere.
 
-The buttons carry the swap too: Read the charges ΚΑΤΗΓΟΡΙΑ and About the book ΒΙΒΛΙΟΝ (the words of the section and page they open), Order the book ΑΓΟΡΑΣΑΤΕ, and the search button ΖΗΤΕΙΤΕ, which is also the search field's label.
+The buttons carry the swap too: Read the charges ΚΑΤΗΓΟΡΙΑ and About the book ΒΙΒΛΙΟΝ (the words of the section and page they open), and Order the book ΑΓΟΡΑΣΑΤΕ. The search form carries two different words: its field's label, ΕΡΑΥΝΑΤΕ ("search", John 5:39, "Search the scriptures"), and its button's rollover, ΖΗΤΕΙΤΕ ("seek", Matthew 7:7).
 
 ## The Journal
 
@@ -249,7 +251,7 @@ The Journal has its own block in the header, set apart from the menu (`[paulus_j
 
 At the foot of the footer, under a hairline, a secondary bar (`[paulus_footer_legal]` in `parts/footer.html`) links Privacy Policy, Terms of Use, DMCA, Contact and Sitemap in one line cut like a Roman inscription: small Roman capitals (Cinzel, 0.7rem, widely spaced) divided by raised interpuncts; on hover or focus each English term is replaced at once, in the same place, by a Koine Greek word from the New Testament whose sense fits the page (Privacy Policy ΚΑΤʼ ΙΔΙΑΝ, "privately", Mark 4:34; Terms of Use ΟΡΟΘΕΣΙΑΙ, "the bounds set", Acts 17:26; DMCA ΑΠΟΔΟΤΕ, "render", Matthew 22:21; Contact ΕΠΙΣΤΟΛΗ, "a letter", Acts 15:30; Sitemap ΟΔΗΓΟΣ, "a guide", Romans 2:19; each checked against the SBL Greek New Testament), set in EB Garamond capitals, while a double hairline draws out beneath it in the accent colour. The tooltip gives the meaning and verse; screen readers hear the English. The current page keeps its ruling. Each link appears only once its page is published. The Sitemap moved there from the Reference column.
 
-The theme ships the four new pages as drafts (`'status' => 'draft'` in the manifest), with text written from what the site does: the Google tag found on the live site, server records, the reading position kept in the reader's browser, share buttons that send nothing until used, fonts served from the site; Malaysian law and the Personal Data Protection Act 2010; notice and counter-notice under the DMCA procedure, serving also for the Copyright Act 1987. Each opens with an HTML comment, unseen by readers, listing what the owner should confirm before publishing. The address they give comes from `[paulus_email]` (Theme Options, Book, publisher's email), shown as a mail link and obscured from harvesters. The Privacy Policy is registered as WordPress's privacy page if none is set; where WordPress's own draft privacy page still holds its untouched "Suggested text" template, the theme's text takes its place and the page stays a draft; a privacy page the owner has written or published is left alone. The dashboard widget lists the drafts awaiting review.
+The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'draft'` in the manifest). The Contact page's text lives in the theme: `templates/page-contact.html`, which WordPress applies to the page at `/contact/`, sets the theme's file `content/articles/legal-contact.html` as the page body through `[paulus_theme_page file="…"]`, so the page shows that text on every site whatever the page in the database holds; the page editor shows a notice saying so. Its heading reads "Contact Apostle of Doom" (`'heading'` in the manifest, shown in the title panel only); its title, and so every label, stays "Contact". The page itself is also set up with the theme: created and published at once on a fresh site; an empty Contact page already at the address takes the theme's text (`'fill_if_empty'`), and an untouched draft is published (`'publish_if_draft'`); a Contact page with anything of the owner's in it, a contact-form shortcode included, is left alone. The three drafted pages, with text written from what the site does: the Google tag found on the live site, server records, the reading position kept in the reader's browser, share buttons that send nothing until used, fonts served from the site; Malaysian law and the Personal Data Protection Act 2010; notice and counter-notice under the DMCA procedure, serving also for the Copyright Act 1987. Each opens with an HTML comment, unseen by readers, listing what the owner should confirm before publishing. The address they give comes from `[paulus_email]` (Theme Options, Book, publisher's email), shown as a mail link and obscured from harvesters. The Privacy Policy is registered as WordPress's privacy page if none is set; where WordPress's own draft privacy page still holds its untouched "Suggested text" template, the theme's text takes its place and the page stays a draft; a privacy page the owner has written or published is left alone. The dashboard widget lists the drafts awaiting review.
 
 ## Structured data in depth
 
@@ -295,6 +297,23 @@ If the login address is ever lost, add `define( 'PAULUS_HIDE_LOGIN', false );` t
 `inc/login.php` and `assets/css/login.css` dress the login page (wp-login.php, or the private login address) in the site's own look, in whichever colour scheme the site uses: the scheme's ground, with the parchment grain when the ornament is on, between two meander bands; a portrait medallion above the wordmark, linking home; the tagline; the Greek ΕΙΣΕΛΘΑΤΕ ("enter", Matthew 7:13, "Enter by the narrow gate") over a card with the accent on its upper edge and the limestone grain; labels in the typewriter face, fields and a full-width button lettered like the header's book button, whose LOG IN is replaced on hover or focus by ΕΙΣΕΛΘΑΤΕ (`assets/js/login.js` exchanges WordPress's `<input>` for an equivalent `<button>` with the same id, name, value and classes, so it can carry the swap; without JavaScript WordPress's own button stays); messages and errors in the same card; the links beneath in the label face. The login page does not load the site's global styles, so the module prints the theme.json colour presets and adds the scheme's body class itself. Every screen is covered: log in, lost password, reset password, messages, errors, and the small login a session-expiry dialogue shows in the admin. The card and field colours are drawn from the scheme, blended with the colour it sets on its accent, so text stays readable in all six schemes (contrast measured at 4.7 to 17 against the 4.5 guideline).
 
 Theme Options, Login: the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off. With no address set, a file named `login-logo.png` in the wp-content folder is shown in the medallion's place, as with the Login Logo plugin (credited in `licenses/built-in-plugins.txt`); while that plugin is active, its own logo stands.
+
+## Image formats
+
+Large images are AVIF; small ones WebP; link previews JPEG.
+
+| Images | Format | Where |
+|---|---|---|
+| Featured images and illustrations (1,024–1,600 px) | AVIF, quality 60 | `assets/images/<slug>.avif`; imported into the media library as AVIF |
+| Full-size figures (about 1,400 px) | AVIF, quality 50 | `assets/images/church/<name>.avif` |
+| Hero cutout (1,024 px, transparent) | AVIF, with its transparency | `assets/images/paul-portrait-cutout.avif` |
+| Smaller widths: figures at 720 px, the hero at 480 and 720 px; the author's portrait (240 px); the 96-pixel icon | WebP | beside their full-size files, in `srcset` |
+| Publisher logo, site icon | PNG | required as PNG or JPEG by structured data and home-screen icons |
+| Link previews (Open Graph, X) | JPEG, quality 75, 1,024 px | `assets/social/<slug>.jpg`: social networks do not show AVIF |
+
+`paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its JPEG copy, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).
+
+On sync, a featured image of the theme's still held as JPEG in the media library is converted in its entry: the old file and every size WordPress made from it are deleted first (`wp_delete_attachment_files()`), the AVIF goes in, the file type becomes `image/avif`, and the entry keeps its ID. Housekeeping keeps both places free of unused files, automatically: the moment the theme is activated (`after_switch_theme`), on the first admin page after the active theme is updated to a new version (once per version), after each content update, and weekly through WP-Cron (`paulus_image_housekeeping`, scheduled while the theme is active and cleared when another theme is switched in). `paulus_cleanup_theme_residue()` removes images in the theme's own image folders (`assets/images`, `assets/images/church`, `assets/social`) that this version does not ship, by the list in `assets/files.json`, written at packaging; a theme uploaded by FTP or unzipped over the old folder would otherwise keep images a newer version dropped. `paulus_cleanup_image_residue()` removes superseded copies earlier releases left in the uploads folder: files named after a bundled illustration, in JPEG or WebP, that no media entry uses. The owner's own files are never touched.
 
 ## Screen sizes
 

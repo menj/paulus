@@ -1,0 +1,15 @@
+Five featured images are photographs from The Metropolitan Museum of Art,
+New York, released through its Open Access programme under Creative Commons
+Zero (CC0 1.0): https://creativecommons.org/publicdomain/zero/1.0/
+The Museum's public-domain status for each was read from its collection
+record (isPublicDomain: true) on 26 September 2026.
+
+- Bronze ring key, 3rd–4th century CE, Roman. Accession 98.11.2. https://www.metmuseum.org/art/collection/search/246764
+- Gold ring with carnelian intaglio portrait of Tiberius, ca. 14–37 CE, Roman. Accession 1994.230.7. https://www.metmuseum.org/art/collection/search/256197
+- Papyrus letter in Greek, early 3rd century CE, Roman, Egyptian. Accession 25.8. https://www.metmuseum.org/art/collection/search/251788
+- Terracotta inkwell and bronze stylus, 1st‒2nd century CE, Roman. Accession 26.60.34. https://www.metmuseum.org/art/collection/search/252501
+- Bronze military diploma, ca. 149 CE, Roman. Accession 23.160.32a, b. https://www.metmuseum.org/art/collection/search/251376
+
+Each is credited in the site's structured data with its title, date and
+accession number. The files in assets/images/ are the Museum's photographs,
+squared to 1,024 pixels.

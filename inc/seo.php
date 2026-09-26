@@ -267,6 +267,8 @@ function paulus_head_meta() {
 	$title = wp_get_document_title();
 	$url   = is_front_page() ? home_url( '/' ) : ( is_singular() ? get_permalink() : ( is_category() ? get_term_link( get_queried_object() ) : '' ) );
 	$image = is_singular() && has_post_thumbnail() ? get_the_post_thumbnail_url( null, 'large' ) : paulus_image_url( 'paul-portrait' );
+	// Link previews take the JPEG copy: social networks do not show AVIF.
+	$image = paulus_social_for_url( $image ) ? paulus_social_for_url( $image ) : paulus_social_image_url( 'paul-portrait' );
 	if ( $desc ) {
 		printf( '<meta name="description" content="%s">' . "\n", esc_attr( $desc ) );
 	}
@@ -929,7 +931,7 @@ function paulus_figure_images_schema() {
 			continue;
 		}
 		$f   = $figs[ $row[1] ];
-		$url = PAULUS_URI . '/assets/images/church/' . $row[1] . '.webp';
+		$url = PAULUS_URI . '/assets/images/church/' . $row[1] . '.avif';
 		$lic = $f['license_url'] ? $f['license_url'] : ( 'Public domain' === $f['license'] ? 'https://creativecommons.org/publicdomain/mark/1.0/' : '' );
 		$img = array(
 			'@type'              => 'ImageObject',
@@ -1101,48 +1103,88 @@ function paulus_sc_page_list() {
 add_shortcode( 'paulus_page_list', 'paulus_sc_page_list' );
 
 /**
- * [paulus_sitemap] The whole site as a table of contents. The case first:
- * each section with its name and description beside a numbered list of its
- * articles, each marked with its label (Count·II and so on), the parts of a
- * series set beneath its first. Then one band: the pages that close the
- * case, Reference, Appendices and the Journal's latest entries. Titles
- * only, so the whole site can be taken in at a glance.
+ * [paulus_sitemap] The whole site at a glance, laid out at the wide width.
+ * The case first: each section as a card with its picture, Greek
+ * inscription, description and count, and its articles beneath, each with
+ * its own picture, label and title, the parts of a series set under the
+ * first. Then the rest of the site as four cards, each with an icon: the
+ * verdict and the book, Reference, Appendices and the Journal.
  *
  * @return string
  */
 function paulus_sc_sitemap() {
-	$link = static function ( $post, $text = '' ) {
-		$label = esc_html( $text ? $text : get_the_title( $post ) );
-		$key   = 'page' === $post->post_type ? $post->post_name : '';
-		$title = $key ? paulus_greek_title( $key ) : '';
-		return '<a href="' . esc_url( get_permalink( $post ) ) . '"' . ( $title ? ' title="' . esc_attr( $title ) . '"' : '' ) . '>' . ( $title ? paulus_greek_label( $key, $label ) : $label ) . '</a>';
+	// Each article's picture: its featured image, or, should that be missing,
+	// the illustration the theme names for it, so no card shows an empty box.
+	$named = array();
+	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $mp ) {
+		if ( ! empty( $mp['slug'] ) && ! empty( $mp['image'] ) ) {
+			$named[ $mp['slug'] ] = $mp['image'];
+		}
+	}
+	$thumb = static function ( $post ) use ( $named ) {
+		$url = get_the_post_thumbnail_url( $post, 'thumbnail' );
+		if ( ! $url && isset( $named[ $post->post_name ] ) && array_key_exists( $named[ $post->post_name ], paulus_images() ) ) {
+			$url = paulus_image_url( $named[ $post->post_name ] );
+		}
+		// Two pages carry no featured image: the author's page shows the
+		// author's portrait, the book's page its cover.
+		if ( ! $url && 'about-the-author' === $post->post_name && file_exists( PAULUS_DIR . '/assets/images/author-portrait.webp' ) ) {
+			$url = PAULUS_URI . '/assets/images/author-portrait.webp';
+		}
+		if ( ! $url && 'the-book' === $post->post_name ) {
+			$url = paulus_image_url( 'book-cover' );
+		}
+		return $url
+			? '<img class="paulus-sm__thumb" src="' . esc_url( $url ) . '" alt="" width="72" height="72" loading="lazy" decoding="async">'
+			: '<span class="paulus-sm__thumb paulus-sm__thumb--none" aria-hidden="true"></span>';
 	};
-	$out = '<div class="paulus-sitemap"><section class="paulus-sitemap__case" aria-labelledby="paulus-sm-case"><h2 class="paulus-sitemap__heading" id="paulus-sm-case">' . esc_html__( 'The case', 'paulus' ) . '</h2>';
+	$item = static function ( $post, $label = '' ) use ( $thumb ) {
+		$title = esc_html( get_the_title( $post ) );
+		$key   = 'page' === $post->post_type ? $post->post_name : '';
+		$tip   = $key ? paulus_greek_title( $key ) : '';
+		return '<a class="paulus-sm__item" href="' . esc_url( get_permalink( $post ) ) . '"' . ( $tip ? ' title="' . esc_attr( $tip ) . '"' : '' ) . '>'
+			. $thumb( $post )
+			. '<span class="paulus-sm__text">' . ( '' !== $label ? '<span class="paulus-sm__label">' . esc_html( $label ) . '</span>' : '' )
+			. '<span class="paulus-sm__title">' . ( $tip ? paulus_greek_label( $key, $title ) : $title ) . '</span></span></a>';
+	};
+
+	$out = '<div class="paulus-sm alignwide"><section class="paulus-sm__case" aria-labelledby="paulus-sm-case"><h2 class="paulus-sm__heading" id="paulus-sm-case">' . esc_html__( 'The case', 'paulus' ) . '</h2>';
+	$images = array();
+	foreach ( (array) ( paulus_manifest()['parts'] ?? array() ) as $p ) {
+		if ( ! empty( $p['slug'] ) && ! empty( $p['image'] ) ) {
+			$images[ $p['slug'] ] = $p['image'];
+		}
+	}
 	foreach ( paulus_parts() as $part ) {
 		$chapters = paulus_chapters( $part->term_id );
 		if ( ! $chapters ) {
 			continue;
 		}
-		$greek  = paulus_greek_mark( $part->slug );
-		$out   .= '<div class="paulus-sitemap__part"><div class="paulus-sitemap__part-head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h3><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></h3>'
-			. ( $part->description ? '<p>' . esc_html( $part->description ) . '</p>' : '' ) . '</div><ol class="paulus-sitemap__list">';
-		$open   = '';
+		$greek = paulus_greek_mark( $part->slug );
+		$img   = isset( $images[ $part->slug ] ) ? '<img class="paulus-sm__part-img" src="' . esc_url( paulus_image_url( $images[ $part->slug ] ) ) . '" alt="" width="160" height="160" loading="lazy" decoding="async">' : '';
+		/* translators: %d: number of articles. */
+		$count = sprintf( _n( '%d article', '%d articles', count( $chapters ), 'paulus' ), count( $chapters ) );
+		$out  .= '<article class="paulus-sm__part"><header class="paulus-sm__part-head">' . $img . '<div class="paulus-sm__part-text">'
+			. ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' )
+			. '<h3 class="paulus-sm__part-name"><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></h3>'
+			. ( $part->description ? '<p class="paulus-sm__part-desc">' . esc_html( $part->description ) . '</p>' : '' )
+			. '<p class="paulus-sm__count">' . esc_html( $count ) . '</p></div></header><ol class="paulus-sm__list">';
+		$open = '';
 		foreach ( $chapters as $post ) {
 			$series = (string) get_post_meta( $post->ID, '_paulus_series', true );
 			$no     = (int) get_post_meta( $post->ID, '_paulus_part_no', true );
 			if ( $series && $series === $open && $no > 1 ) {
 				/* translators: %d: part number. */
-				$out .= '<li><span class="paulus-sitemap__no">' . esc_html( sprintf( __( 'Part %d', 'paulus' ), $no ) ) . '</span> ' . $link( $post ) . '</li>';
+				$out .= '<li><a href="' . esc_url( get_permalink( $post ) ) . '"><span class="paulus-sm__no">' . esc_html( sprintf( __( 'Part %d', 'paulus' ), $no ) ) . '</span> ' . esc_html( get_the_title( $post ) ) . '</a></li>';
 				continue;
 			}
 			if ( $open ) {
 				$out .= '</ol></li>';
 				$open = '';
 			}
-			$label = (string) get_post_meta( $post->ID, '_paulus_label', true );
-			$out  .= '<li class="paulus-sitemap__item">' . ( $label ? '<span class="paulus-sitemap__label">' . esc_html( $label ) . '</span>' : '' ) . $link( $post );
+			$out .= '<li class="paulus-sm__entry">' . $item( $post, (string) get_post_meta( $post->ID, '_paulus_label', true ) );
 			if ( $series && 1 === $no ) {
-				$out .= '<ol class="paulus-sitemap__parts">';
+				$out .= '<ol class="paulus-sm__parts">';
 				$open = $series;
 			} else {
 				$out .= '</li>';
@@ -1151,44 +1193,57 @@ function paulus_sc_sitemap() {
 		if ( $open ) {
 			$out .= '</ol></li>';
 		}
-		$out .= '</ol></div>';
+		$out .= '</ol></article>';
 	}
-	$out .= '</section><div class="paulus-sitemap__more">';
-	// The pages that close the case.
-	$pages = array();
+	$out .= '</section>';
+
+	// The rest of the site: four cards, each with an icon.
+	$groups = array();
+	$pages  = array();
 	foreach ( array( 'the-verdict', 'answers', 'the-book', 'about-the-author' ) as $slug ) {
 		$page = get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
-			$pages[] = '<li>' . $link( $page ) . '</li>';
+			$pages[] = $item( $page );
 		}
 	}
 	if ( $pages ) {
-		$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading">' . esc_html__( 'The Verdict and the book', 'paulus' ) . '</h2><ul>' . implode( '', $pages ) . '</ul></section>';
+		$groups[] = array( 'scales', __( 'The Verdict and the book', 'paulus' ), '', $pages, '' );
 	}
-	// Reference and Appendices, each with its pages.
-	foreach ( array( 'reference', 'appendices' ) as $slug ) {
+	foreach ( array( 'reference' => 'book-open', 'appendices' => 'paperclip' ) as $slug => $icon ) {
 		$parent = get_page_by_path( $slug );
 		if ( ! $parent || 'publish' !== $parent->post_status ) {
 			continue;
 		}
-		$items = '';
+		$items = array();
 		foreach ( get_pages( array( 'parent' => $parent->ID, 'sort_column' => 'menu_order' ) ) as $child ) {
-			$items .= '<li>' . $link( $child ) . '</li>';
+			$items[] = $item( $child );
 		}
-		$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading"><a href="' . esc_url( get_permalink( $parent ) ) . '">' . esc_html( get_the_title( $parent ) ) . '</a></h2><ul>' . $items . '</ul></section>';
+		$groups[] = array( $icon, get_the_title( $parent ), get_permalink( $parent ), $items, '' );
 	}
-	// The Journal's latest entries.
 	if ( post_type_exists( 'paulus_journal' ) ) {
 		$entries = get_posts( array( 'post_type' => 'paulus_journal', 'post_status' => 'publish', 'numberposts' => 5 ) );
 		if ( $entries ) {
-			$items = '';
+			$items = array();
 			foreach ( $entries as $e ) {
-				$items .= '<li><time class="paulus-sitemap__date" datetime="' . esc_attr( get_the_date( 'c', $e ) ) . '">' . esc_html( get_the_date( 'j M Y', $e ) ) . '</time> ' . $link( $e ) . '</li>';
+				$items[] = $item( $e, get_the_date( 'j F Y', $e ) );
 			}
-			$out .= '<section class="paulus-sitemap__group"><h2 class="paulus-sitemap__heading"><a href="' . esc_url( paulus_journal_url() ) . '" title="' . esc_attr( paulus_greek_title( 'journal' ) ) . '">' . paulus_greek_label( 'journal', esc_html( paulus_option( 'journal_title' ) ) ) . '</a></h2><ul>' . $items . '</ul></section>';
+			$groups[] = array( 'quill', (string) paulus_option( 'journal_title' ), paulus_journal_url(), $items, 'journal' );
 		}
 	}
-	return $out . '</div></div>';
+	if ( $groups ) {
+		$out .= '<div class="paulus-sm__groups">';
+		foreach ( $groups as $g ) {
+			list( $icon, $name, $url, $items, $key ) = $g;
+			$head = esc_html( $name );
+			if ( $url ) {
+				$tip  = $key ? paulus_greek_title( $key ) : '';
+				$head = '<a href="' . esc_url( $url ) . '"' . ( $tip ? ' title="' . esc_attr( $tip ) . '"' : '' ) . '>' . ( $tip ? paulus_greek_label( $key, $head ) : $head ) . '</a>';
+			}
+			$out .= '<section class="paulus-sm__group"><h2 class="paulus-sm__group-head"><span class="paulus-sm__icon" aria-hidden="true">' . paulus_icon( $icon ) . '</span>' . $head . '</h2><ul class="paulus-sm__group-list"><li>' . implode( '</li><li>', $items ) . '</li></ul></section>';
+		}
+		$out .= '</div>';
+	}
+	return $out . '</div>';
 }
 add_shortcode( 'paulus_sitemap', 'paulus_sc_sitemap' );
 
@@ -1247,3 +1302,30 @@ function paulus_sc_404_quip() {
 		. '<p class="paulus-404__source"><span>' . esc_html( $source ) . '</span> <a href="' . $again . '" rel="nofollow">' . esc_html__( 'Hear another excuse', 'paulus' ) . '</a></p>';
 }
 add_shortcode( 'paulus_404_quip', 'paulus_sc_404_quip' );
+
+/**
+ * Rank Math's link previews (Facebook, X) take the JPEG copy of a featured
+ * image of the theme's, since social networks do not show AVIF.
+ */
+foreach ( array( 'facebook', 'twitter' ) as $paulus_network ) {
+	add_filter( "rank_math/opengraph/{$paulus_network}/image_array", static function ( $attachment ) {
+		$url    = is_array( $attachment ) ? (string) ( $attachment['url'] ?? '' ) : '';
+		$social = '' !== $url ? paulus_social_for_url( $url ) : '';
+		if ( $social ) {
+			$path                   = PAULUS_DIR . '/assets/social/' . basename( (string) wp_parse_url( $social, PHP_URL_PATH ) );
+			$size                   = @getimagesize( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$attachment['url']      = $social;
+			$attachment['type']     = 'image/jpeg';
+			$attachment['width']    = $size ? $size[0] : ( $attachment['width'] ?? '' );
+			$attachment['height']   = $size ? $size[1] : ( $attachment['height'] ?? '' );
+			unset( $attachment['secure_url'] );
+		}
+		return $attachment;
+	} );
+	// A page with no image of its own (the front page) and no default set
+	// in Rank Math would publish no preview: it takes the site's portrait.
+	add_filter( "rank_math/opengraph/{$paulus_network}/image", static function ( $url ) {
+		return '' === trim( (string) $url ) ? paulus_social_image_url( 'paul-portrait' ) : $url;
+	} );
+}
+unset( $paulus_network );

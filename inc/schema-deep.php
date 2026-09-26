@@ -293,12 +293,12 @@ function paulus_schema_page_elements() {
 		$header_parts[] = array( '@id' => $id );
 	}
 	$footer_parts = array();
-	$legal        = array( 'privacy-policy', 'terms-of-use', 'dmca', 'contact' );
+	$legal        = array( 'about-the-author', 'terms-of-use', 'privacy-policy', 'dmca', 'contact' );
 	foreach ( $legal as $i => $slug ) {
 		$page = 'privacy-policy' === $slug && (int) get_option( 'wp_page_for_privacy_policy' ) ? get_post( (int) get_option( 'wp_page_for_privacy_policy' ) ) : get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
 			$id             = paulus_sid( 'nav-footer-' . ( $i + 1 ) );
-			$nav[]          = array( '@type' => 'SiteNavigationElement', '@id' => $id, 'name' => get_the_title( $page ), 'url' => get_permalink( $page ) );
+			$nav[]          = array( '@type' => 'SiteNavigationElement', '@id' => $id, 'name' => 'contact' === $slug ? __( 'Contact Us', 'paulus' ) : get_the_title( $page ), 'url' => get_permalink( $page ) );
 			$footer_parts[] = array( '@id' => $id );
 		}
 	}
@@ -629,7 +629,7 @@ function paulus_schema_artworks( $content ) {
 		if ( '' === $form ) {
 			continue;
 		}
-		$img   = PAULUS_URI . '/assets/images/church/' . $row[1] . '.webp';
+		$img   = PAULUS_URI . '/assets/images/church/' . $row[1] . '.avif';
 		$cap   = paulus_schema_text( $row[2] );
 		$type  = in_array( $form, array( 'Manuscript', 'Map' ), true ) ? $form : 'VisualArtwork';
 		$out[] = array_filter(
@@ -754,6 +754,17 @@ function paulus_schema_deepen_node( $node ) {
 	// The article node, on articles, Journal entries and pages.
 	if ( paulus_node_is( $node, array( 'Article', 'BlogPosting', 'NewsArticle', 'ScholarlyArticle', 'TechArticle' ) ) && is_singular() ) {
 		$post = get_queried_object();
+		// An image nested in the article (its featured image) is credited as
+		// any image node is: a registered painting takes its painter's credit.
+		if ( ! empty( $node['image'] ) && is_array( $node['image'] ) ) {
+			if ( isset( $node['image']['@type'] ) ) {
+				$node['image'] = paulus_schema_deepen_node( $node['image'] );
+			} elseif ( array_keys( $node['image'] ) === range( 0, count( $node['image'] ) - 1 ) ) {
+				$node['image'] = array_map( static function ( $img ) {
+					return is_array( $img ) && isset( $img['@type'] ) ? paulus_schema_deepen_node( $img ) : $img;
+				}, $node['image'] );
+			}
+		}
 		if ( is_singular( 'paulus_journal' ) ) {
 			$node = paulus_node_add_type( $node, 'BlogPosting' );
 			$node = paulus_node_default( $node, 'isPartOf', array( '@id' => paulus_journal_url() . '#blog' ) );
@@ -813,6 +824,20 @@ function paulus_schema_deepen_node( $node ) {
 	// licence and the Contact page as the place to ask permission.
 	if ( paulus_node_is( $node, array( 'ImageObject' ) ) ) {
 		$src = (string) ( $node['contentUrl'] ?? $node['url'] ?? $node['@id'] ?? '' );
+		// A featured image that is someone else's work (a painting also
+		// registered as a figure) takes that work's credit and licence.
+		$key  = preg_replace( '/(-[0-9a-f]{8})?(-\d+x\d+|-scaled)?\.(avif|jpe?g|png|webp)$/i', '', basename( (string) wp_parse_url( $src, PHP_URL_PATH ) ) );
+		$figs = function_exists( 'paulus_figures' ) ? paulus_figures() : array();
+		if ( '' !== $src && isset( $figs[ $key ] ) && false === strpos( $src, '/assets/images/church/' ) ) {
+			$f    = $figs[ $key ];
+			$lic  = 'Public domain' === $f['license'] ? 'https://creativecommons.org/publicdomain/mark/1.0/' : (string) $f['license_url'];
+			$node['creditText'] = $f['author'] . ', ' . $f['license'];
+			unset( $node['copyrightNotice'], $node['copyrightHolder'], $node['creator'], $node['acquireLicensePage'] );
+			if ( $lic ) {
+				$node['license'] = $lic;
+			}
+			return $node;
+		}
 		if ( '' !== $src && false === strpos( $src, '/assets/images/church/' ) && ( false !== strpos( $src, '/wp-content/uploads/' ) || false !== strpos( $src, '/assets/images/' ) ) && empty( $node['license'] ) ) {
 			$name  = (string) paulus_option( 'book_author' );
 			$terms = get_page_by_path( 'terms-of-use' );
@@ -833,7 +858,7 @@ function paulus_schema_deepen_node( $node ) {
 
 	// Photographs of works of art point to the works themselves.
 	if ( paulus_node_is( $node, array( 'ImageObject' ) ) && ! empty( $node['@id'] ) && false !== strpos( $node['@id'], '/assets/images/church/' ) ) {
-		$key = basename( (string) wp_parse_url( $node['@id'], PHP_URL_PATH ), '.webp' );
+		$key = preg_replace( '/\.(avif|webp)$/', '', basename( (string) wp_parse_url( $node['@id'], PHP_URL_PATH ) ) );
 		$f   = function_exists( 'paulus_figures' ) ? ( paulus_figures()[ $key ] ?? null ) : null;
 		if ( $f && '' !== paulus_schema_artform( $f['alt'] ) ) {
 			$node = paulus_node_default( $node, 'about', array( '@id' => preg_replace( '/#image$/', '#work', $node['@id'] ) ) );

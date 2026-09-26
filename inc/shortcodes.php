@@ -330,3 +330,43 @@ function paulus_sc_email() {
 	return $email ? '<a href="' . esc_url( 'mailto:' . antispambot( $email ) ) . '">' . esc_html( antispambot( $email ) ) . '</a>' : '';
 }
 add_shortcode( 'paulus_email', 'paulus_sc_email' );
+
+/**
+ * [paulus_theme_page file="…"] A page whose text lives in the theme, in
+ * content/articles, set as the page body wherever a template calls for it
+ * (templates/page-contact.html for the Contact page). The page's text then
+ * comes from the theme on every site, whatever the page in the database
+ * holds, and is edited in the theme's file.
+ *
+ * @param array $atts Attributes.
+ * @return string
+ */
+function paulus_sc_theme_page( $atts ) {
+	$atts = shortcode_atts( array( 'file' => '' ), $atts, 'paulus_theme_page' );
+	$file = sanitize_file_name( basename( (string) $atts['file'] ) );
+	$html = '' !== $file ? paulus_content_file( $file ) : '';
+	if ( '' === trim( $html ) ) {
+		return '';
+	}
+	// The same wrapper the post-content block gives the page body, so the
+	// page takes the site's prose styles and width.
+	return '<div class="entry-content paulus-prose wp-block-post-content has-global-padding is-layout-constrained">' . do_shortcode( $html ) . '</div>';
+}
+add_shortcode( 'paulus_theme_page', 'paulus_sc_theme_page' );
+
+/**
+ * In the editor for the Contact page, say where its text comes from: the
+ * theme's file, through templates/page-contact.html, so edits made in the
+ * page editor do not show on the site.
+ */
+add_action( 'admin_notices', static function () {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if ( ! $screen || 'page' !== $screen->id ) {
+		return;
+	}
+	$post = get_post();
+	if ( ! $post || 'contact' !== $post->post_name || ! file_exists( PAULUS_DIR . '/templates/page-contact.html' ) ) {
+		return;
+	}
+	echo '<div class="notice notice-info"><p><strong>Paulus:</strong> ' . esc_html__( 'this page shows the text built into the theme (content/articles/legal-contact.html), whatever is written here. Change that file to change the page.', 'paulus' ) . '</p></div>';
+} );

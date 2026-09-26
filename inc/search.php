@@ -16,7 +16,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function paulus_search_form( $id = 'paulus-s' ) {
 	return '<form role="search" method="get" class="paulus-searchform" action="' . esc_url( home_url( '/' ) ) . '">'
-		. '<span class="paulus-searchform__mark" lang="grc" aria-hidden="true" title="' . esc_attr( paulus_greek_marks()['search'][1] ) . '">' . esc_html( paulus_greek_marks()['search'][0] ) . '</span>'
+		// The field's Greek label, ΕΡΑΥΝΑΤΕ ("search", John 5:39); the button's
+		// rollover carries a different word, ΖΗΤΕΙΤΕ ("seek", Matthew 7:7).
+		. '<span class="paulus-searchform__mark" lang="grc" aria-hidden="true" title="' . esc_attr( paulus_greek_marks()['search-label'][1] ) . '">' . esc_html( paulus_greek_marks()['search-label'][0] ) . '</span>'
 		. '<label class="screen-reader-text" for="' . esc_attr( $id ) . '">' . esc_html__( 'Search the site', 'paulus' ) . '</label>'
 		. '<input type="search" id="' . esc_attr( $id ) . '" name="s" value="' . esc_attr( get_search_query() ) . '" placeholder="' . esc_attr__( 'Search the case: Damascus, Barnabas, al-Qummī…', 'paulus' ) . '" autocomplete="off">'
 		. '<button type="submit" class="paulus-button" title="' . esc_attr( paulus_greek_title( 'search' ) ) . '">' . paulus_greek_label( 'search', esc_html__( 'Search', 'paulus' ) ) . '</button>'

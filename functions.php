@@ -516,13 +516,36 @@ function paulus_sync_structure() {
 		return;
 	}
 	set_transient( 'paulus_sync_lock', 1, MINUTE_IN_SECONDS );
-	$result = paulus_run_install();
+	paulus_sync_note( 'articles and pages' );
+	// A fatal error PHP cannot catch (the time limit, memory) is recorded
+	// with the stage reached, for the dashboard.
+	register_shutdown_function( static function () {
+		$e = error_get_last();
+		$s = get_option( 'paulus_sync_status' );
+		if ( $e && in_array( $e['type'], array( E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ), true ) && is_array( $s ) && 'running' === ( $s['state'] ?? '' ) ) {
+			paulus_sync_note( (string) $s['stage'], 'failed', $e['message'] );
+			delete_transient( 'paulus_sync_lock' );
+		}
+	} );
+	try {
+		$result = paulus_run_install();
+	} catch ( Throwable $e ) {
+		$result = false;
+		$s      = get_option( 'paulus_sync_status' );
+		paulus_sync_note( is_array( $s ) ? (string) $s['stage'] : '', 'failed', $e->getMessage() . ' (' . basename( $e->getFile() ) . ':' . $e->getLine() . ')' );
+	}
 	delete_transient( 'paulus_sync_lock' );
 	// Only a fully successful pass advances the recorded version: a
 	// partial failure (a wp_insert_post error, say) is retried on the
 	// next page load rather than being marked done.
 	if ( false !== $result ) {
 		update_option( 'paulus_content_version', $target, false );
+		paulus_sync_note( 'finished', 'done' );
+	} else {
+		$s = get_option( 'paulus_sync_status' );
+		if ( is_array( $s ) && 'running' === ( $s['state'] ?? '' ) ) {
+			paulus_sync_note( (string) $s['stage'], 'failed', __( 'A step reported an error; it is tried again on the next page load.', 'paulus' ) );
+		}
 	}
 }
 add_action( 'admin_init', 'paulus_sync_structure', 30 );
