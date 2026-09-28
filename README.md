@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.59.5.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.62.2.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -298,6 +298,22 @@ If the login address is ever lost, add `define( 'PAULUS_HIDE_LOGIN', false );` t
 
 Theme Options, Login: the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off. With no address set, a file named `login-logo.png` in the wp-content folder is shown in the medallion's place, as with the Login Logo plugin (credited in `licenses/built-in-plugins.txt`); while that plugin is active, its own logo stands.
 
+## Editorial foundation (internal: not stated on the site)
+
+The site, and the English book on Paul it will ground, rest on the thought of Isma'il Raji al Faruqi (1921–1986). That foundation is implicit.
+- The site states its principles as its own, grounded in the Qurʾān and the Sunnah, and never presents al Faruqi as its framework. "The measure" (`c01-the-measure`), the first article of The Charges, names no scholar.
+- Al Faruqi is quoted and cited only as a scholar among others, where his arguments bear on a point (Modern voices, Seven doctrines, "Lord" before the Spirit, Women, slaves and Caesar). His works are listed under "Muslim scholarship" on the Sources page.
+- His distinctive coinages (peccatism, metareligion, *epochē*, Christianism) are not used in the site's own voice. Where the site needs the idea, it uses plain terms.
+
+The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd ed. 1992) and *Divine Transcendence and Its Expression* (1983), are stated in "The measure" with Qurʾānic grounding. Every charge applies one:
+- *tawḥīd*, transcendence and the unity of truth, with three rules of judgment: correspondence with reality, no ultimate contradiction, openness to evidence (4:82; 17:36; 2:111; 30:30);
+- understanding before judgment;
+- man's innocence (53:38);
+- the law and the ethic of intention (3:50; "actions are but by intentions");
+- deeds in a good world (99:7–8; 7:32).
+
+ʿĪsā ibn Maryam upheld the law and restored its purpose; Paul abolished the law and put a dogma of salvation by the cross in the ethic's place. New content should argue from these principles in the same implicit way.
+
 ## Image formats
 
 Large images are AVIF; small ones WebP; link previews JPEG.
@@ -313,7 +329,7 @@ Large images are AVIF; small ones WebP; link previews JPEG.
 
 `paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its JPEG copy, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).
 
-On sync, a featured image of the theme's still held as JPEG in the media library is converted in its entry: the old file and every size WordPress made from it are deleted first (`wp_delete_attachment_files()`), the AVIF goes in, the file type becomes `image/avif`, and the entry keeps its ID. Housekeeping keeps both places free of unused files, automatically: the moment the theme is activated (`after_switch_theme`), on the first admin page after the active theme is updated to a new version (once per version), after each content update, and weekly through WP-Cron (`paulus_image_housekeeping`, scheduled while the theme is active and cleared when another theme is switched in). `paulus_cleanup_theme_residue()` removes images in the theme's own image folders (`assets/images`, `assets/images/church`, `assets/social`) that this version does not ship, by the list in `assets/files.json`, written at packaging; a theme uploaded by FTP or unzipped over the old folder would otherwise keep images a newer version dropped. `paulus_cleanup_image_residue()` removes superseded copies earlier releases left in the uploads folder: files named after a bundled illustration, in JPEG or WebP, that no media entry uses. The owner's own files are never touched.
+On sync, a featured image of the theme's still held as JPEG in the media library is converted in its entry: the old file and every size WordPress made from it are deleted first (`wp_delete_attachment_files()`), the AVIF goes in, the file type becomes `image/avif`, and the entry keeps its ID. Housekeeping keeps both places free of unused files, automatically: the moment the theme is activated (`after_switch_theme`), on the first admin page after the active theme is updated to a new version (once per version), after each content update, and weekly through WP-Cron (`paulus_image_housekeeping`, scheduled while the theme is active and cleared when another theme is switched in). `paulus_cleanup_theme_residue()` removes images in the theme's own image folders (`assets/images`, `assets/images/church`, `assets/social`) that this version does not ship, by the list in `assets/files.json`, written at packaging with the version it belongs to (`{"version": …, "files": […]}`); the clean-up acts only when that version matches the running theme, so a stale or older list removes nothing; a theme uploaded by FTP or unzipped over the old folder would otherwise keep images a newer version dropped. `paulus_cleanup_image_residue()` removes superseded copies earlier releases left in the uploads folder: files named after a bundled illustration, in JPEG or WebP, that no media entry uses. The owner's own files are never touched.
 
 ## Screen sizes
 

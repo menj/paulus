@@ -319,6 +319,21 @@ add_shortcode( 'paulus_parts', 'paulus_sc_parts' );
 function paulus_sc_link( $atts, $content = '' ) {
 	$atts = shortcode_atts( array( 'slug' => '', 'anchor' => '' ), $atts, 'paulus_link' );
 	$post = get_page_by_path( $atts['slug'], OBJECT, array( 'post', 'page' ) );
+	// get_page_by_path() finds a page by its full path only, so a child page
+	// (the Appendices' own pages) is not found by its slug alone: look it up
+	// by name wherever it sits.
+	if ( ! $post && '' !== $atts['slug'] ) {
+		$found = get_posts(
+			array(
+				'name'           => sanitize_title( $atts['slug'] ),
+				'post_type'      => array( 'page', 'post' ),
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+			)
+		);
+		$post  = $found ? $found[0] : null;
+	}
 	// No page or article by that name: a section of the case (a category).
 	$term = $post ? null : get_term_by( 'slug', $atts['slug'], 'category' );
 	$text = $content ? $content : ( $post ? get_the_title( $post ) : ( $term ? $term->name : $atts['slug'] ) );
@@ -476,12 +491,27 @@ function paulus_sc_article_nav() {
 	if ( get_post_meta( $id, '_paulus_questions', true ) ) {
 		$anchor = get_post_field( 'post_name', $id );
 	} elseif ( $series ) {
+		// A part without its own questions takes those of the nearest
+		// earlier part of its series that has them: the article it was
+		// divided from. Only when none precedes it, the first that follows.
+		$before = '';
+		$after  = '';
+		$passed = false;
 		foreach ( $chapters as $c ) {
-			if ( get_post_meta( $c->ID, '_paulus_series', true ) === $series && get_post_meta( $c->ID, '_paulus_questions', true ) ) {
-				$anchor = $c->post_name;
-				break;
+			if ( (int) $c->ID === (int) $id ) {
+				$passed = true;
+				continue;
+			}
+			if ( get_post_meta( $c->ID, '_paulus_series', true ) !== $series || ! get_post_meta( $c->ID, '_paulus_questions', true ) ) {
+				continue;
+			}
+			if ( ! $passed ) {
+				$before = $c->post_name;
+			} elseif ( '' === $after ) {
+				$after = $c->post_name;
 			}
 		}
+		$anchor = '' !== $before ? $before : $after;
 	}
 	if ( $qs && $anchor ) {
 		// How many questions the set holds: the list under its heading.

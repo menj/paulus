@@ -1,4 +1,6 @@
-[
+{
+"version": "2.62.2",
+"files": [
 "assets/images/author-photo.avif",
 "assets/images/author-portrait.webp",
 "assets/images/book-cover.avif",
@@ -45,6 +47,8 @@
 "assets/images/church/etchmiadzin-thecla.avif",
 "assets/images/church/faruqi-grave-720.webp",
 "assets/images/church/faruqi-grave.avif",
+"assets/images/church/faruqi-portrait-720.webp",
+"assets/images/church/faruqi-portrait.avif",
 "assets/images/church/guercino-hagar-720.webp",
 "assets/images/church/guercino-hagar.avif",
 "assets/images/church/habib-neccar-720.webp",
@@ -67,6 +71,8 @@
 "assets/images/church/map-journeys.avif",
 "assets/images/church/marcion-woodcut-720.webp",
 "assets/images/church/marcion-woodcut.avif",
+"assets/images/church/met-saint-paul-werve-720.webp",
+"assets/images/church/met-saint-paul-werve.avif",
 "assets/images/church/minaret-isa-720.webp",
 "assets/images/church/minaret-isa.avif",
 "assets/images/church/munich-talmud-720.webp",
@@ -240,3 +246,4 @@
 "assets/social/paul-portrait-stone.jpg",
 "assets/social/paul-portrait.jpg"
 ]
+}

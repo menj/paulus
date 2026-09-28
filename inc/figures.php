@@ -1,6 +1,6 @@
 <?php
 /**
- * Photographs of Paul in the churches, from Wikimedia Commons, bundled at
+ * Photographs of Paul in the churches, from Wikimedia Commons and The Met, bundled at
  * web size in assets/images/church/ with their licences. Each is shown as a
  * captioned figure with its credit by [paulus_figure].
  *
@@ -22,6 +22,8 @@ function paulus_figures() {
 		'met-papyrus-letter' => array( 'alt' => __( 'Papyrus letter written in Greek, from Roman Egypt, early third century CE', 'paulus' ), 'author' => 'Papyrus letter in Greek, early 3rd century CE; The Metropolitan Museum of Art, New York, 25.8', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251788' ),
 		'met-inkwell-stylus' => array( 'alt' => __( 'Roman terracotta inkwell, first or second century CE', 'paulus' ), 'author' => 'Terracotta inkwell and bronze stylus, 1st‒2nd century CE; The Metropolitan Museum of Art, New York, 26.60.34', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/252501' ),
 		'met-diploma' => array( 'alt' => __( 'Roman bronze military diploma of about 149 CE, a tablet engraved in Latin with the grant of Antoninus Pius', 'paulus' ), 'author' => 'Bronze military diploma, ca. 149 CE; The Metropolitan Museum of Art, New York, 23.160.32a, b', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251376' ),
+		'met-saint-paul-werve' => array( 'alt' => __( 'Burgundian limestone statue of Paul, bald and long-bearded, wrapped in heavy drapery, a book under his arm and a sword at his side', 'paulus' ), 'author' => 'Circle of Claus de Werve, Saint Paul, ca. 1420–30; The Metropolitan Museum of Art, New York, 22.31.1', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/466378' ),
+		'faruqi-portrait' => array( 'alt' => __( 'Black-and-white portrait photograph of Isma\'il Raji al Faruqi in a pinstripe suit and houndstooth tie', 'paulus' ), 'author' => 'Photographer unknown', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
 		'paul-halo-2023' => array( 'alt' => __( 'Giuseppe Franchi\'s half-length painting of Paul, balding and long-bearded, in a red mantle, a gold halo behind his head', 'paulus' ), 'author' => 'Giuseppe Franchi, Portrait of Saint Paul the Apostle, oil on canvas, 66 × 51 cm; Pinacoteca Ambrosiana, Milan, inv. 1519', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
 		'parmigianino-conversion' => array( 'alt' => __( 'Parmigianino painting of Saul thrown to the ground beneath a rearing white horse, one arm raised, in a landscape', 'paulus' ), 'author' => 'Parmigianino', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:Francesco_Mazzola_gen._Parmigianino,_,_Kunsthistorisches_Museum_Wien,_Gem%C3%A4ldegalerie_-_Paulussturz_-_GG_2035_-_Kunsthistorisches_Museum.jpg' ),
 		'caravaggio-conversion' => array( 'alt' => __( 'Caravaggio painting of Saul fallen on his back beneath a horse, arms raised, in a pool of light', 'paulus' ), 'author' => 'Caravaggio', 'license' => 'Public domain', 'license_url' => '', 'source' => 'https://commons.wikimedia.org/wiki/File:Caravaggio-The_Conversion_on_the_Way_to_Damascus.jpg' ),
@@ -115,15 +117,17 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 	$set = $mid_size ? PAULUS_URI . '/assets/images/church/' . $atts['name'] . '-720.webp ' . (int) $mid_size[0] . 'w, ' . $full . ' ' . (int) $size[0] . 'w' : '';
 	$tall = $size[1] > $size[0];
 	$lic  = $f['license_url'] ? '<a href="' . esc_url( $f['license_url'] ) . '" rel="license noopener" target="_blank">' . esc_html( $f['license'] ) . '</a>' : esc_html( $f['license'] );
-	// Figures from Wikimedia Commons credit and link their file page; a
-	// figure supplied from elsewhere (an empty source) gives author and
-	// licence only.
+	// A figure with a source links it, named for the site it is on
+	// (Wikimedia Commons, the Met's collection); a figure supplied from
+	// elsewhere (an empty source) gives author and licence only.
+	$host  = (string) wp_parse_url( (string) $f['source'], PHP_URL_HOST );
+	$label = false !== strpos( $host, 'wikimedia.org' ) ? 'Wikimedia Commons' : ( false !== strpos( $host, 'metmuseum.org' ) ? __( 'the Met’s collection', 'paulus' ) : preg_replace( '/^www\./', '', $host ) );
 	$cred = $f['source'] ? sprintf(
 		/* translators: 1: author, 2: licence, 3: source link. */
 		__( 'Image: %1$s, %2$s, via %3$s.', 'paulus' ),
 		esc_html( $f['author'] ),
 		$lic,
-		'<a href="' . esc_url( $f['source'] ) . '" rel="noopener" target="_blank">Wikimedia Commons</a>'
+		'<a href="' . esc_url( $f['source'] ) . '" rel="noopener" target="_blank">' . esc_html( $label ) . '</a>'
 	) : sprintf(
 		/* translators: 1: author, 2: licence. */
 		__( 'Image: %1$s, %2$s.', 'paulus' ),

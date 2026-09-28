@@ -945,13 +945,24 @@ function paulus_refresh_unedited( $post, $item ) {
 	// shipped hash, never whatever happens to be in the post right now,
 	// so a hand edit that survives one sync is never later mistaken for
 	// "unedited" once a further release changes the shipped text.
+	$kept = (array) get_option( 'paulus_kept_edits', array() );
 	if ( md5( $new ) !== $current && ( $current === ( $entry['content'] ?? '' ) || in_array( $current, $prior, true ) ) ) {
 		wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		$post->post_content = $new;
 		if ( ! empty( $item['meta'] ) ) {
 			update_post_meta( $post->ID, '_paulus_meta', $item['meta'] );
 		}
+		unset( $kept[ $post->ID ] );
+	} elseif ( md5( $new ) === $current ) {
+		unset( $kept[ $post->ID ] );
+	} else {
+		// The body matches no text the theme shipped: an edit by hand. It is
+		// kept, and listed on the dashboard, where the owner can take the
+		// theme's text or keep the edit. "Keep mine" holds until the
+		// theme's own text for this article changes again.
+		$kept[ $post->ID ] = array( 'file' => $file, 'shipped' => md5( $new ) );
 	}
+	update_option( 'paulus_kept_edits', $kept, false );
 
 	// Title and excerpt are protected independently of the body: each is
 	// only refreshed when it still matches what this site last shipped
@@ -1114,10 +1125,15 @@ function paulus_cleanup_theme_residue() {
 	if ( ! file_exists( $list ) ) {
 		return 0;
 	}
-	$ships = array_flip( (array) json_decode( (string) file_get_contents( $list ), true ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-	if ( ! $ships ) {
+	$data = json_decode( (string) file_get_contents( $list ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	// The list must belong to this exact version of the theme. A stale list,
+	// or one from before lists carried their version, would name too few
+	// files and turn the clean-up against the theme's own images: then
+	// nothing is removed.
+	if ( ! is_array( $data ) || ( $data['version'] ?? '' ) !== PAULUS_VERSION || empty( $data['files'] ) ) {
 		return 0;
 	}
+	$ships = array_flip( (array) $data['files'] );
 	$gone = 0;
 	foreach ( array( 'assets/images', 'assets/images/church', 'assets/social' ) as $dir ) {
 		foreach ( (array) glob( PAULUS_DIR . '/' . $dir . '/*.{avif,webp,jpg,jpeg,png,gif}', GLOB_BRACE ) as $path ) {
@@ -1225,3 +1241,88 @@ function paulus_sync_note( $stage, $state = 'running', $message = '' ) {
 		false
 	);
 }
+
+/**
+ * Articles the update left alone because they were edited by hand, which
+ * the owner has not chosen to keep: post ID => array( file, shipped ).
+ *
+ * @return array
+ */
+function paulus_kept_edits_pending() {
+	$kept      = (array) get_option( 'paulus_kept_edits', array() );
+	$dismissed = (array) get_option( 'paulus_kept_edits_dismissed', array() );
+	$out       = array();
+	foreach ( $kept as $id => $row ) {
+		if ( ! get_post( $id ) ) {
+			continue;
+		}
+		if ( isset( $dismissed[ $id ] ) && $dismissed[ $id ] === ( $row['shipped'] ?? '' ) ) {
+			continue;
+		}
+		$out[ $id ] = $row;
+	}
+	return $out;
+}
+
+/**
+ * Whether an article was divided, so that a later part now opens with
+ * sections its old text still holds: its file has a numbered successor
+ * (name-2.html) among the theme's articles.
+ *
+ * @param string $file Article file.
+ * @return bool
+ */
+function paulus_is_divided( $file ) {
+	$base = preg_replace( '/\.html$/', '', (string) $file );
+	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $item ) {
+		if ( ( $base . '-2.html' ) === ( $item['file'] ?? '' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * The owner's choice for an article kept because it was edited: take the
+ * theme's text, or keep the edit.
+ */
+add_action( 'admin_post_paulus_kept_edit', static function () {
+	$id     = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+	$choice = isset( $_POST['choice'] ) ? sanitize_key( wp_unslash( $_POST['choice'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+	check_admin_referer( 'paulus_kept_edit_' . $id );
+	if ( ! $id || ! current_user_can( 'edit_post', $id ) ) {
+		wp_die( esc_html__( 'You are not allowed to change this article.', 'paulus' ) );
+	}
+	$kept = (array) get_option( 'paulus_kept_edits', array() );
+	$row  = $kept[ $id ] ?? null;
+	$done = '';
+	if ( $row && 'theme' === $choice ) {
+		$new = paulus_content_file( $row['file'] );
+		if ( '' !== $new ) {
+			wp_update_post( array( 'ID' => $id, 'post_content' => $new ) );
+			unset( $kept[ $id ] );
+			update_option( 'paulus_kept_edits', $kept, false );
+			$done = 'theme';
+		}
+	} elseif ( $row && 'mine' === $choice ) {
+		$dismissed        = (array) get_option( 'paulus_kept_edits_dismissed', array() );
+		$dismissed[ $id ] = $row['shipped'];
+		update_option( 'paulus_kept_edits_dismissed', $dismissed, false );
+		$done = 'mine';
+	}
+	wp_safe_redirect( add_query_arg( array( 'paulus_kept' => $done, 'paulus_post' => $id ), admin_url( 'index.php' ) ) );
+	exit;
+} );
+
+add_action( 'admin_notices', static function () {
+	if ( empty( $_GET['paulus_kept'] ) || empty( $_GET['paulus_post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return;
+	}
+	$title = get_the_title( absint( $_GET['paulus_post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+	$msg   = 'theme' === $_GET['paulus_kept'] // phpcs:ignore WordPress.Security.NonceVerification
+		/* translators: %s: article title. */
+		? sprintf( __( '"%s" now has the theme\'s text.', 'paulus' ), $title )
+		/* translators: %s: article title. */
+		: sprintf( __( 'Your version of "%s" is kept.', 'paulus' ), $title );
+	echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $msg ) . '</p></div>';
+} );

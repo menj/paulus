@@ -155,6 +155,31 @@ function paulus_dashboard_render() {
 				}
 				?>
 			</td></tr>
+			<?php $paulus_kept = paulus_kept_edits_pending(); ?>
+			<tr><th scope="row"><?php esc_html_e( 'Your edits', 'paulus' ); ?></th><td>
+				<?php if ( ! $paulus_kept ) : ?>
+					<?php esc_html_e( 'Every article matches the theme\'s text, or you have chosen to keep your version.', 'paulus' ); ?>
+				<?php else : ?>
+					<p><?php echo esc_html( sprintf( /* translators: %d: number of articles. */ _n( 'The update left %d article alone because it was edited here. Choose which text to keep:', 'The update left %d articles alone because they were edited here. Choose which text to keep:', count( $paulus_kept ), 'paulus' ), count( $paulus_kept ) ) ); ?></p>
+					<ul class="paulus-dash__kept">
+					<?php foreach ( $paulus_kept as $paulus_id => $paulus_row ) : ?>
+						<li>
+							<a href="<?php echo esc_url( get_edit_post_link( $paulus_id ) ); ?>"><?php echo esc_html( get_the_title( $paulus_id ) ); ?></a>
+							<?php if ( paulus_is_divided( $paulus_row['file'] ) ) : ?>
+								<br><em><?php esc_html_e( 'This article was divided in this release. Keeping your version repeats the sections that now open its next part.', 'paulus' ); ?></em>
+							<?php endif; ?>
+							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="paulus-dash__kept-form">
+								<input type="hidden" name="action" value="paulus_kept_edit">
+								<input type="hidden" name="post_id" value="<?php echo (int) $paulus_id; ?>">
+								<?php wp_nonce_field( 'paulus_kept_edit_' . $paulus_id ); ?>
+								<button type="submit" name="choice" value="theme" class="button button-primary button-small"><?php esc_html_e( 'Use the theme\'s text', 'paulus' ); ?></button>
+								<button type="submit" name="choice" value="mine" class="button button-small"><?php esc_html_e( 'Keep mine', 'paulus' ); ?></button>
+							</form>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			</td></tr>
 			<?php $paulus_hk = get_option( 'paulus_housekeeping' ); ?>
 			<tr><th scope="row"><?php esc_html_e( 'Image housekeeping', 'paulus' ); ?></th><td>
 				<?php

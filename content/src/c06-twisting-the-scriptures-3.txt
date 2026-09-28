@@ -1,0 +1,31 @@
+{{fig:isaiah-scroll|The Great Isaiah Scroll from Qumran, second century BCE, Israel Museum, Jerusalem, at Isaiah 53: the Hebrew scriptures in the form they had long before Paul quoted them.}}
+
+Paul also played a chief part in shaping the New Testament through the distortion of the Jewish scriptures (the Tanakh) in support of a theology that departed from the teaching of ʿĪsā ibn Maryam (ʿalayhi al-salām). Cunningly, his followers or he himself twisted direct quotations from the Old Testament to attract Gentiles and cut the teaching of ʿĪsā ibn Maryam from its Jewish roots.
+
+One chief example is the quotation of Jeremiah 31:31–34 in the Epistle to the Hebrews, whose authorship is attributed to Paul although textual critics dispute it.[[fn:See Dianne Bergant and Robert J. Karris (eds.), <em>Tafsir Alkitab Perjanjian Baru</em> (Yogyakarta: Kanisius, 2002), p. 413.]] The theology of the letter reflects Paul's agenda of replacing the covenant of the Torah with a new covenant through Jesus Christ.[[fn:Hebrews 8:8–12.]] The original text of Jeremiah (<em>hinnēh yāmîm bāʾîm</em>, הִנֵּה יָמִים בָּאִים, "Behold, the days come") foretold a new covenant with Israel and Judah, promising the Torah written on the heart and the forgiveness of sins.[[fn:Jeremiah 31:31–34.]]
+
+The Epistle to the Hebrews altered the meaning of the text. The phrase "although I was an husband unto them" (Jeremiah 31:32, <em>bāʿaltî bām</em>, בָּעַלְתִּי בָם) is replaced by "and I regarded them not" (<em>kai egō ēmelēsa autōn</em>, καὶ ἐγὼ ἠμέλησα αὐτῶν) following the Septuagint (LXX). The Jeremiah text, which joins knowledge of God to unconditional forgiveness, is separated from its context in Hebrews by foregrounding forgiveness through the doctrine of redemption on the cross.[[fn:Hebrews 8:9.]] The choice portrays God as having rejected Israel and as sanctioning the abolition of the law that ʿĪsā ibn Maryam had confirmed.[[fn:cf. Matthew 5:17–18.]]
+
+{{kjv:Jeremiah 31:31-32}}
+
+{{kjv:Hebrews 8:8-9}}
+
+The letter then draws its conclusion from the prophecy: "In that he saith, A new covenant, he hath made the first old. Now that which decayeth and waxeth old is ready to vanish away."[[fn:Hebrews 8:13.]] Jeremiah says the reverse. The promise the letter has just quoted reads "I will put my law in their inward parts, and write it in their hearts": the new covenant is the law of Mūsā written on the heart, and Jeremiah gives no sign that it will vanish.[[fn:Jeremiah 31:33.]] The letter quotes the verse in full and draws from it the one conclusion it cannot bear.
+
+The pattern recurs, <em>mutatis mutandis</em>, in Galatians, where Paul twists a quotation from Genesis 12:7 (<em>lezarʿăkā</em>, לְזַרְעֲךָ, "unto thy seed"), turning "seed" (<em>zeraʿ</em>, זֶרַע, a singular noun with collective meaning) into a word referring to Jesus (<em>sperma</em>, σπέρμα, "seed," singular) to support his Christology.[[fn:Galatians 3:16.]] The real text of Genesis refers to all the descendants of Ibrāhīm, but Paul changed it to justify Jesus as the fulfiller of the promise.
+
+{{kjv:Galatians 3:16}}
+
+The letter to the Ephesians, written in Paul's name, quotes Psalm 68:18 (<em>lāqaḥtā mattānôt</em>, לָקַחְתָּ מַתָּנוֹת, "thou hast received gifts") but changes "received" (<em>lāqaḥtā</em>) to "gave" (<em>edōken</em>, ἔδωκεν), portraying Jesus as bestowing spiritual gifts.[[fn:Ephesians 4:8.]] The Psalm refers to God's victory and says nothing of the Messiah; the writer altered the verse to support the doctrine of Paul's school.
+
+In 1 Corinthians Paul gives Isaiah 64:4 (<em>lōʾ rāʾătāh ʿayin</em>, לֹא רָאֲתָה עַיִן, "neither hath the eye seen") in paraphrase and ties divine wisdom to Jesus, although the Isaiah text refers to God's future action for Israel. The loose paraphrase (<em>ha kategrapsen</em>, ἃ κατεγράψεν, "as it is written") departs from the original context and serves only to reinforce Paul's narrative.[[fn:1 Corinthians 2:9.]]
+
+One more striking example is in Romans, where Paul quotes Deuteronomy 30:11–14 (<em>kî-qārôb ʾēleykā haddābār</em>, כִּי־קָרוֹב אֵלֶיךָ הַדָּבָר, "for the word is very nigh unto thee"), which affirms that God's commandment is within reach without searching heaven or crossing the sea. Paul changes the meaning by tying it to righteousness through faith in Jesus (<em>peri dikaiosynēs tēs ek pisteōs</em>, περὶ δικαιοσύνης τῆς ἐκ πίστεως, "of the righteousness which is of faith") and makes Jesus the fulfiller of the word. That replaces the direct accessibility of the Torah with a reading centered on Jesus.[[fn:Romans 10:6–8.]]
+
+{{kjv:Deuteronomy 30:11-14}}
+
+{{kjv:Romans 10:6-8}}
+
+Paul's influence on the New Testament cannot be denied. Through his letters he introduced the doctrines that form the basis of Christian teaching today, and he also created a false mechanism of interpretation that allowed revelation to be distorted systematically and inherited by Christian institutions to this day. From justification by faith to freedom from the law, Paul's teaching continues to shape the growth and spread of Christianity.
+
+The changes Paul made damage the New Testament theologically. Where his teachings came from was the question of the fourth count. What they became is the question of the last: a religion that bears the name of ʿĪsā ibn Maryam and follows the teaching of Paul.

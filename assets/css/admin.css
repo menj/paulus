@@ -95,3 +95,9 @@
 	.paulus-panel .form-table th { width: auto; padding: 16px 0 4px; }
 	.paulus-panel .form-table td { padding: 4px 0 16px; }
 }
+
+/* Articles kept because edited here: one per row, with the two choices. */
+.paulus-dash__kept { margin: 0.5em 0 0; }
+.paulus-dash__kept li { margin: 0 0 0.9em; }
+.paulus-dash__kept em { color: #8a2c14; font-size: 12px; }
+.paulus-dash__kept-form { display: flex; gap: 6px; margin-top: 4px; }

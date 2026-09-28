@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.59.5
+Stable tag: 2.62.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,42 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.62.2 =
+* The measure restated in the site's own voice, grounded in the Qurʾān and Sunnah; the foundation left implicit.
+
+= 2.62.1 =
+* Divine transcendence, from al Faruqi's own treatise, in The measure and in "Lord" before the Spirit.
+
+= 2.62.0 =
+* The site founded on al Faruqi's thought: "The measure" opens The Charges; every count, The Verdict, the Glossary and the Sources page follow it.
+
+= 2.61.5 =
+* Isma'il al Faruqi's analysis of Paul, from four of his books, in three articles.
+
+= 2.61.4 =
+* Modern voices: a portrait of Isma'il Raji al Faruqi heads the section on him.
+
+= 2.61.3 =
+* Links to the Appendices' own pages, and 72 malformed links, now render as links.
+
+= 2.61.2 =
+* More of Riḍā's words; Dale B. Martin's notes cited in full.
+
+= 2.61.1 =
+* Dashboard: articles kept because they were edited here are listed, with a choice to take the theme's text or keep the edit.
+
+= 2.61.0 =
+* The case restructured for slower reading: 33 articles become 54, each one step of the argument; Riḍā, al-Kairanawī and new evidence added.
+
+= 2.60.1 =
+* The failed prophet: Deuteronomy 18:20 and the manner of Paul's death; Seven doctrines and Owning the New Testament strengthened.
+
+= 2.60.0 =
+* The Qurʾān as witness answers the "Islamic dilemma" and the missionary reading of 3:55 and 61:14; two new Answers entries.
+
+= 2.59.6 =
+* Paul in the churches: a Burgundian statue of Paul, about 1420–30, from The Met.
 
 = 2.59.5 =
 * Appendices: the section on the site's name rewritten in the owner's voice.

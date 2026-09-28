@@ -1,0 +1,12 @@
+Portraits
+=========
+
+faruqi-portrait (assets/images/church/faruqi-portrait.avif, -720.webp)
+  Isma'il Raji al Faruqi (1921-1986). Black-and-white portrait photograph.
+  Credited on the site as: Photographer unknown, Public domain.
+  Provenance: supplied to the site's owner, Mohd Elfie Nieshaem Juferi, as a
+  public-domain photograph, in September 2026. The original publication and
+  photographer are not recorded. Should its status be questioned, this is the
+  basis on which it was credited.
+  Processing: pale scan border trimmed (all four edges); converted to
+  AVIF and a 720-pixel WebP.

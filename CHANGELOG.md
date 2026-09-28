@@ -2,6 +2,212 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.2] - 2026-09-29
+
+### Changed
+
+At the owner's direction, the site stays firmly based on al Faruqi's principles without stating so.
+- "The measure" is rewritten in the site's own voice, retitled "The measure: the standard of this case", with Count I's picture in place of al Faruqi's portrait.
+  - Every principle stands in the same order and is applied to Paul the same way, now grounded in the Qurʾān and the Sunnah, each verified live: 4:82, 17:36, 2:111, 30:30, 53:38, 3:50, 99:7–8, 7:32, and *Ṣaḥīḥ al-Bukhārī* 1 / *Muslim* 1907 on intentions.
+  - No scholar is named or quoted. Qurʾān 3:50 carries the reconciliation on the law in ʿĪsā's own words: "confirming what was before me of the Torah and to make lawful for you some of what was forbidden to you".
+- Glossary: the coinages (Christianism, *epochē*, metareligion, peccatism) removed; "Transvaluation" defined in plain terms (29 terms).
+- Sources: the section presenting al Faruqi's works as the site's measure removed. His works return to "Muslim scholarship", still listed since the site cites them.
+- The portrait leaves the featured-image set and stays as the figure in Modern voices.
+- Al Faruqi's quotations as a scholar, in four articles, are unchanged; the count sentences and The Verdict already spoke only of "the measure".
+- The README records the foundation for this and later work, marked as internal and not stated on the site.
+- Tested: The measure names no scholar and every footnote resolves. The count links reach their section anchors. No page presents al Faruqi as the site's framework, by a site-wide search. Structured data validates.
+
+## [2.62.1] - 2026-09-29
+
+### Added
+
+From the owner's copy of al Faruqi, *Divine Transcendence and Its Expression* (Kuala Lumpur: ABIM, 1983). Each passage was read against the page image; the scan runs three pages ahead of the printed numbers.
+- The site's existing quotation from it ("Christian thought has not yet outgrown its linkage to the mystery religions") verified at p. 21, as cited.
+- The measure, "The unity of truth": transcendence as the heart of *tawḥīd*.
+  - Every human is "endowed with a *fitrah*, i.e., an innate *sensus communis*, by which to understand that God is, that He is One, and that He is transcendent" (p. 22).
+  - Applied to Paul's Christ "in the form of God" (Philippians 2:6, 10).
+- "Lord" before the Spirit: al Faruqi on how the titles changed meaning.
+  - "Son of man" meant a well-bred and noble man, and "Lord" a form of address that "implies respect and honor but not divinity" (pp. 11, 13).
+  - Sonship becomes metaphysical only in John and Paul: "This fact bears evidence of the foreign Greek source of the new meaning imposed upon the Hebrew/Aramaic word" (p. 11).
+  - "If Paul and other men with Hellenized minds misunderstood the term as meaning God, the fact tells about him, not about Jesus" (p. 13).
+  - The printed "methaphysical" on p. 11 is a typesetting slip, so that clause is paraphrased and the clean sentence after it quoted.
+- Tested: both pages update on sync (previous texts recorded), footnotes resolve, structured data validates.
+
+## [2.62.0] - 2026-09-29
+
+### Added
+
+The site founded on the thought of Isma'il Raji al Faruqi, at the owner's direction: his works at its core, explicitly and implicitly.
+
+- "The measure: al Faruqi's standard for this case", a new article opening The Charges, with al Faruqi's portrait as its picture. Framed by Qurʾān 3:64 ("a word that is equitable between us and you"), verified in Arabic.
+  - It sets out his method: *epochē*, then judgment by overarching principles (*Christian Ethics*, pp. 3–8).
+  - It sets out his principles, each quoted from its printed page:
+    - the unity of God and of truth, with its three rules of method (*Al Tawhid*, p. 43);
+    - man's innocence (p. 67);
+    - the ethic of intention (p. 74);
+    - the metareligious principles that actual being is good and malleable, its perfection a human burden (*Christian Ethics*, pp. 27–30);
+    - world-affirmation (*Al Tawhid*, p. 82).
+  - It applies each principle to Paul, and closes with the charges mapped to the principle each tests.
+- The reconciliation on the law, as the owner directed: ʿĪsā ibn Maryam upheld the law and restored its purpose, the ethic of intention against the literalism of his day (al Faruqi, *Al Tawhid*, p. 74). Paul abolished the law and put a dogma of salvation by the cross in its place: the Christianist transvaluation (*Christian Ethics*, Part Two, pp. 157ff.). Both hold.
+- Each count's first article now names, in one sentence after its opening paragraph, the principle it tests, linked to its section of "The measure". The Verdict opens as the judgment the measure delivers.
+- Glossary: Christianism, *epochē*, metareligion, peccatism, transvaluation, in al Faruqi's senses (33 terms).
+- Sources: a first section, "The measure: the works of Isma'il Raji al Faruqi". His works moved up from "Muslim scholarship", *Al Tawhid* corrected to the second edition the site cites (a duplicate entry merged), and "The Muslim Family" added.
+- The README records the editorial foundation, so later work argues from the same principles.
+- Tested on WordPress 7.1.2:
+  - "The measure" is first in The Charges, with its picture and 13 footnotes.
+  - Across 63 pages, 166 links resolve with no missing anchor, and no raw shortcode is visible.
+  - The changed pages update on sync (previous texts recorded), and structured data validates.
+  - Every new passage passes the house rules; "al Faruqi" is unhyphenated throughout.
+
+## [2.61.5] - 2026-09-29
+
+### Added
+
+From the owner's copies of four books by Isma'il R. al Faruqi. Every quotation was read against the printed page image, not the OCR text, and cited to its printed page (the *Christian Ethics* scan runs 13 pages ahead of the printed numbers, a constant offset confirmed at four numbered pages).
+- Modern voices, "Isma'il R. al Faruqi":
+  - His analysis of Paul's doctrine of sin, from *Christian Ethics* (1967): "Jesus never entertained the peccatist thesis" (p. 203).
+  - Romans 5:20 "clearly suggests the working of his blasphemously constructive mind" (p. 204).
+  - The doctrine made man "the utterly powerless creature that Christianist salvation theory requires him to be", "sheer construction, designed to serve dogma" (pp. 205–206).
+  - His later verdict in *Al Tawhid* (2nd ed., 1992): a new religiosity "transformed the religion of Jesus into Christianism, the religion of Paul, Athanasius, Tertullian, Augustine" (p. 159).
+- Seven doctrines, "Two gods in place of one": *barnash*, "son of man", "acquired in St. Paul a mysterious metaphysical dimension" (*Al Tawhid*, p. 22).
+- Women, slaves and Caesar, after 1 Timothy 2:11–15: "St. Paul's condemnation of woman as the vehicle through which death came into the world … is totally absent in Islam. Woman, therefore, is innocent." (*Essential Writings*, ed. Imtiyaz Yusuf, 2021, p. 182; the essay "The Muslim Family", first published in *Islam: Religion, Practice, Culture & World Order*.)
+- Deliberately not used, as errors a critic could correct:
+  - *Islam and the Problem of Israel*, p. 13, credits Paul with the "outcry that Athens had nothing to do with Jerusalem", which is Tertullian's.
+  - *Christian Ethics*, p. 204, reads Paul's quotation "I will destroy the wisdom of the wise" (1 Corinthians 1:19, from Isaiah 29:14) against the rise of Cyrus, which is the setting of Isaiah 44:25.
+  - Al Faruqi's own view that Jesus emancipated his followers from Jewish law (p. 119) is not presented as agreeing with the site's case.
+- Tested: the three articles update on sync (previous texts recorded); footnote chains resolve, with "op. cit." where the preceding note cites two works; no raw shortcode; structured data validates; "al Faruqi" unhyphenated throughout.
+
+## [2.61.4] - 2026-09-29
+
+### Added
+
+- Modern voices, "Isma'il R. al Faruqi": the owner's black-and-white portrait of al Faruqi (1921–1986) heads the section, before his assessment of Paul; the figure of his grave follows later in the section as before.
+  - Credited "Photographer unknown, Public domain". It was supplied to the owner as a public-domain photograph; its original publication and photographer are not recorded.
+  - `licenses/portraits.txt` records that basis, so the credit's grounds are on file should its status ever be questioned.
+  - The pale scan border was trimmed on all four edges. The figure is AVIF, 1,121 by 1,400 pixels, with a 720-pixel WebP in its `srcset`; it opens in the lightbox and is described in the structured data. The name is written without a hyphen, as the site writes it.
+- Tested: the portrait loads under the section heading with its caption and credit; the article updates on sync (its previous text recorded); structured data validates.
+
+## [2.61.3] - 2026-09-29
+
+### Fixed
+
+- `[paulus_link]` looked pages up with `get_page_by_path()`, which finds a child page only by its full path. So links to the Appendices' own pages printed their bare slug as plain text, with no link. The owner noticed it in the citation of Dale B. Martin's notes. It now finds the published page or article by name wherever it sits.
+  - The three affected targets now link: Martin's notes, The 2023 edition, and Why Luke does not know Paul's letters.
+  - All 38 link targets on the site render as links.
+- 72 link shortcodes in 11 articles were written without their closing slash (`[paulus_link slug="x"]`). WordPress reads such a tag as the start of a wrapped link and pairs it with a later closing tag, swallowing or garbling the text between. Readers saw "See ." with the link gone, or raw shortcode text, in The citizenship and the appeal to Caesar, The character of Paul, and Women, slaves and Caesar.
+  - Every opening tag followed by another opening tag before any closing tag is now self-closing; genuinely wrapped links are untouched.
+  - Fixed in sources and built pages alike. The previous texts are recorded, so the sync updates unedited copies.
+- The earlier link crawl followed only rendered links, so text that should have been a link passed unseen. The release checks now also search every page's visible text for raw shortcodes and bare link slugs.
+  - Tested across 66 pages (all 54 articles and the main pages): 3,182 links rendered, no raw shortcode or slug visible.
+
+## [2.61.2] - 2026-09-29
+
+### Added
+
+The rest of the owner's Riḍā citations, as requested.
+- Modern voices:
+  - Riḍā took Paul's own letters as evidence that the corruption of the Injīl "began in the first century" (Galatians 1:6–7; 2 Corinthians 11:13, which he cites as 11:15–16 in the Arabic numbering). KJV verified; *Tafsīr al-Manār*, vol. 6, p. 240.
+  - His reading of the quarrel with Barnabas: the two parted "on the reality of the teaching of the Messiah", and without Barnabas the apostles "would not have trusted his claim of repentance and faith" (vol. 6, pp. 240–241).
+  - Riḍā's appeal to the Gospel of Barnabas remains left out.
+- The Qurʾān as witness, "The crucifixion": Riḍā's finding that the story "has no connected chain" (*sanad muttaṣil*) to those it is reported from, and that its reporters "are not known with certainty" (vol. 6, p. 45).
+
+### Fixed
+
+- Dale B. Martin's notes were cited informally, as 'notes on "Luke" and Paul, 2019', in the Answers page and in "Why Luke does not know Paul's letters". The notes as received confirm the details, which the Appendices page also records. They are now cited in full: "'Luke' versus Paul," unpublished notes toward a book, written 18 March 2019 and revised 31 May and 5 June 2019, sent to the author in early 2023, with a link to the Appendices page. The year was right; the rest was missing.
+- Tested: all four changed pages update on sync; footnote chains checked (Ibid. and op. cit. each resolve on the page); structured data validates.
+
+## [2.61.1] - 2026-09-29
+
+### Added
+
+- "Your edits", in the dashboard's Paulus panel, at the owner's request.
+  - The content sync refreshes an article only when its text matches a version the theme shipped; an article edited by hand is left alone, which until now happened silently. Those articles are now recorded (`paulus_kept_edits`) and listed, each linked to its editor.
+  - Each has two choices. "Use the theme's text" replaces the body with the current text. "Keep mine" hides it until the theme's own text for that article changes again (`paulus_kept_edits_dismissed`).
+  - An article that was divided in 2.61.0 carries a warning: keeping the old text repeats the sections that now open its next part.
+  - An article that matches the theme, or is updated, leaves the list by itself. The choices are nonce-checked and need the right to edit the article.
+- Tested on WordPress 7.1.2 from the 2.60.1 state, with two divided articles edited by hand.
+  - The sync left both alone and listed them with the warning, along with a Journal entry carrying a paragraph added in an earlier test. That was a genuine edit: the stored text matched the theme byte for byte up to the added paragraph.
+  - "Use the theme's text" gave the Damascus road exactly the theme's text. "Keep mine" kept the edit to The flesh and removed it from the list.
+
+## [2.61.0] - 2026-09-29
+
+### Changed
+
+The case restructured, at the owner's request, so that it can be read slowly, one step of the argument at a time.
+
+- 20 long articles divided at their own headings into parts of about 700 to 1,200 words; Twisting the scriptures into three. 33 articles become 54. Each new part takes its first heading as its title and opens on that section's text, so no argument is cut mid-thought.
+  - The Man: Who was Paul of Tarsus?, The Roman, The Damascus road, A self-appointed apostle, The flesh.
+  - The Charges: The Jerusalem Council, By their fruits, Seven doctrines, The letters of a man, Five hundred witnesses, Borrowings from the rabbis, How Paul came to own the New Testament, The gospels and the new covenant, Twisting the scriptures, The church that followed Paul, The failed prophet.
+  - The Witnesses: No prophet between me and ʿĪsā, The early Islamic record, From Ibn Ḥazm to al Faruqi, The Qurʾān as witness.
+  - Every first part keeps its address, so existing links and rankings stand; new parts have new addresses. Standalone articles that divided (the profile, The Roman, The Qurʾān as witness) became two-part series. Every series was renumbered in reading order.
+- Order corrected in two places. The Qurʾān as witness now comes before the Islamic tradition, whose scholars read it. The religion of Paul in Malaysia and Southeast Asia moves to The Charges as the close of Count VI, after The religion of Paul today; its old address redirects (301).
+- Each new part has its own title, SEO title, meta description (at most 130 characters) and lead, checked against its text; later parts reuse their article's picture. First parts whose descriptions named material that moved were rewritten to match what they now hold. Two first parts were retitled: The Roman: name and tongue; The Jerusalem Council; Seven doctrines: God, the cross and faith.
+- Cross-references re-pointed: five links into sections that moved (the Answers page, the Timeline, The Qurʾān as witness). Footnotes cut from their antecedents were checked on every page; none was left orphaned.
+- A part without its own study questions now links to those of the nearest earlier part of its series, the article it was divided from; previously it took the first set in the series.
+
+### Added
+
+- The modern Muslim critique of Paul, opening Modern voices: Raḥmatullāh al-Kairanawī (the Agra debate, 1854; in Arabic from 1867), Rashīd Riḍā, Muhammad Ali Jauhar, and the Persian authors, from Jacques Waardenburg (ed.), *Muslim Perceptions of Other Religions* (Oxford University Press, 1999), pp. 234, 255, 273–275. Riḍā in his own words, from the owner's citations, each verified on Islamweb's text of *Tafsīr al-Manār* (al-Hayʾa al-Miṣriyya al-ʿĀmma lil-Kitāb, 1990): vol. 6, p. 45; vol. 6, pp. 240–241; vol. 10, p. 293 (the page the owner's note lacked), set in Arabic with its translation. Vol. 9, p. 215 is attributed to al-Kairanawī, quoted in the part of the commentary taken from his treatise, as its headings show. Riḍā's appeal to the Gospel of Barnabas is deliberately left out.
+- The three accounts compared: "Who hunted Paul at Damascus?" Paul blames the governor of King Aretas (2 Corinthians 11:32–33); Luke blames the Jews, with the disciples lowering him (Acts 9:23–25). KJV verified.
+- A death the scriptures never record: the 2009 radiocarbon dating Pope Benedict XVI announced, and Ulderico Santamaria, director of the Vatican Museums' diagnostic laboratory, saying the result "doesn't make certain, but also doesn't exclude" (CNN, 29 June 2009; National Catholic Reporter, 3 July 2009).
+- What the Romans saw: William Wrede's verdict, Paul "the second founder of Christianity" (*Paul*, trans. Lummis, 1907, p. 179).
+- Seven doctrines: Martin Buber's *emunah* and *pistis*, from the Internet Encyclopedia of Philosophy, with the scholarly challenge to his philology noted.
+- The Timeline: Aretas IV (reigned to about 40 CE) and Gallio, proconsul of Achaia about 51–52 CE by the Delphi inscription (Bible Odyssey), the one fixed date in Paul's life.
+
+### Fixed
+
+- The Verdict cited Michael Gary Duncan by "op. cit." with no full citation on the page; it is now given in full.
+
+### Tested
+
+On WordPress 7.1.2 from the 2.60.1 state, in one sync:
+- All 54 articles exist, each in its section with correct series numbering and a picture. First parts were updated (their previous texts recorded).
+- The Malaysia article's old address redirects 301.
+- Across the 54 articles and the main pages: 153 internal links resolve, no section anchor is missing, every footnote has its target.
+- Every article's questions link points to its own set. Structured data validates (1,507 nodes, no problems).
+- Every passage written is clear of banned words, contrastive negation, contractions and em dashes.
+
+## [2.60.1] - 2026-09-28
+
+### Added
+
+At the owner's direction, three arguments raised in the debate transcripts, written from verified sources.
+
+- The failed prophet, after the Torah's test (Deuteronomy 18:22):
+  - The same chapter names the end of the presumptuous prophet, "even that prophet shall die" (Deuteronomy 18:20).
+  - The Prophet Muhammad ﷺ died an old man, at sixty-three (*Ṣaḥīḥ al-Bukhārī*, no. 3536, from ʿĀʾishah).
+  - Paul died under the executioner's sword, beheaded in Rome (Eusebius, *Church History* 2.25.5).
+  - The passage closes by joining this to the article's existing argument from the unfulfilled prophecy: Paul's end fails the Torah's test twice over.
+- Seven doctrines, "Two gods in place of one": the foundation Paul laid for the Trinity, in his own words. He made ʿĪsā ibn Maryam a figure who existed "in the form of God", before whose name "every knee should bow" (Philippians 2:6, 10).
+- Owning the New Testament, "Paul wrote first": the earliest complete copy of the New Testament, Codex Sinaiticus, dates from the middle of the fourth century, about three hundred years after ʿĪsā ibn Maryam (University of Birmingham, Codex Sinaiticus project).
+- Verified live: Deuteronomy 18:20 and 18:22 and Philippians 2:6 and 2:10–11 (KJV); al-Bukhārī 3536 (sunnah.com); Eusebius 2.25.5 (the standard translation); the dating of Codex Sinaiticus (University of Birmingham; St Catherine's Monastery). Each rebuilt article was compared word by word with its previous version: only the new material changed. The previous texts are recorded, so the sync updates unedited copies.
+
+## [2.60.0] - 2026-09-28
+
+### Added
+
+The two arguments about Paul that the owner's nine debate transcripts return to most often, answered from primary sources. The transcripts themselves (anonymous auto-captions) are cited nowhere.
+
+- The Qurʾān as witness, new section "The Injīl and the letters", on the missionaries' "Islamic dilemma". The dilemma is a *petitio principii*: it assumes that the Qurʾān's Injīl is the New Testament. The Qurʾān defines the Injīl as a book God revealed (Āl ʿImrān 3:3) and gave to ʿĪsā ibn Maryam (al-Māʾidah 5:46). Thirteen of the New Testament's twenty-seven books are letters in Paul's name, with Hebrews long counted a fourteenth. The People of the Injīl are bidden to judge "by what Allah has revealed therein" (5:47), and the Qurʾān comes as "a criterion over" the scripture before it (5:48).
+- The Qurʾān as witness, "The disciples", extended with the rest of al-Ṣaff 61:14 and Āl ʿImrān 3:55, against the missionary reading that the church which prevailed must be that of ʿĪsā's followers.
+  - Al-Ṭabarī on 61:14 records from Ibn ʿAbbās (through Saʿīd ibn Jubayr) that ʿĪsā's followers split three ways, and that the two factions of disbelief killed the believing one. He explains the victory as the Prophet's confirmation of its witness, a victory of proof. A footnote notes the report's anachronistic sect names.
+  - Al-Ṭabarī on 3:55 reads "those who follow you" as the people of Islam, with Qatādah (Shākir ed., vol. 6, no. 7149). He records Ibn Zayd's contrary view, stated openly (no. 7155).
+  - Ibn Kathīr concludes that the Muslims are the true believers in ʿĪsā.
+- Answers: "Does the Qurʾān confirm the New Testament?" and "Did the Qurʾān promise that the followers of Jesus would prevail?", each linked to its section. The Answers page's FAQ markup now carries 16 questions.
+- Verified live: the five verses in Arabic and Saheeh International; al-Ṭabarī's Arabic commentary on both verses, and Ibn Kathīr's (abridged English), through the quran.com interface. The Arabic excerpts were cut by word position from the Uthmani edition and each confirmed an exact extract, after typed Arabic was found to differ from the edition in its diacritics. Report numbers are cited where the edition's page markers could not fix a page.
+- Audited to the house rules: no banned word, contrastive negation, contraction or em dash; one Latinism. The previous texts of both pages are recorded, so the sync updates unedited copies.
+
+## [2.59.6] - 2026-09-26
+
+### Added
+
+- Paul in the churches, "The sword and the book": the owner's photograph of the Met's *Saint Paul*, Circle of Claus de Werve, about 1420–30, French (Burgundian), limestone with traces of paint, 22.31.1. It is the Met's own primary image (DP144066); public domain (CC0), checked against the Museum's record. It stands before Tadolini's nineteenth-century statue, with a paragraph: tradition had fixed the attributes by the fifteenth century (bald and long-bearded, a book for his letters, a sword for the manner of his death), and the statue stood in the de Plaine family's private chapel at Poligny. The figure is AVIF at 1,050 by 1,400 pixels with a 720-pixel WebP in its `srcset`, opens in the lightbox, and is described in the structured data. The previous page text is recorded, so the sync updates an unedited copy.
+
+### Fixed
+
+- A figure's credit named every source "Wikimedia Commons". It now names the site the link goes to: Wikimedia Commons, the Met's collection, or the site's own name.
+- The theme-folder clean-up of 2.59.1 trusted `assets/files.json` whatever it held. A list that did not match the theme's files would have removed shipped images: in testing, a stale list removed the two new images. The list now records the theme version it was written for, and the clean-up acts only when that version matches the running theme; a stale list, or one from before lists carried their version, removes nothing. Tested: a stale list removed nothing and kept the new images; the matching list removed one planted stray and nothing else.
+
 ## [2.59.5] - 2026-09-26
 
 ### Changed
