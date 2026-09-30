@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.6
+Stable tag: 2.62.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,27 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.62.13 =
+* The early Islamic record: al-Qummī's translation names Tamartiyān, as the Arabic does.
+
+= 2.62.12 =
+* The book's name restored in full as its page title.
+
+= 2.62.11 =
+* The theme manages no redirects; old addresses are left to the owner.
+
+= 2.62.10 =
+* Every search title under 50 characters and every description under 130; the Ibn Ḥazm article's address follows its new title.
+
+= 2.62.9 =
+* Two article titles corrected to what the articles contain; al Faruqi's "Christianism" restored.
+
+= 2.62.8 =
+* Modern voices: the founder verdict stated once by each voice that adds to it; the account of Paul's feigned conversion points back to part 1.
+
+= 2.62.7 =
+* "The undefiled bed" closes the Greek body and the Jewish bed; study questions for two articles; the legal pages publish.
 
 = 2.62.6 =
 * Continuity: eight bridges so that each article picks up from the last and leads to the next.

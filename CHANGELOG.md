@@ -2,6 +2,103 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.13] - 2026-09-30
+
+### Fixed
+
+- The early Islamic record, al-Qummī: the English translation gave "Martiyān (Marcion)" where the Arabic (تمرتيان) and the transliteration have Tamartiyān. It now reads "Tamartiyān (Marcion)". Found while checking, at the owner's question, that the site gives Sayf ibn ʿUmar and al-Qummī in full. It does: al-Qummī's report in Arabic, transliteration and translation (*Tafsīr*, vol. 1, p. 49), and Sayf's report with van Koningsveld and Sean Anthony, matching the book's notes 402 and 403.
+
+## [2.62.12] - 2026-09-30
+
+### Fixed
+
+- The book page's search title restored to the book's full name, "Paulus: Perosak Risalah Al-Masih", at the owner's direction. It had been shortened in 2.62.10 to meet the title limit. The book's name is never shortened or altered; the README records it as the one exception.
+  - The shortened form is listed among earlier shipped values, so an installed site takes the full name back.
+  - Rendered: "Paulus: Perosak Risalah Al-Masih | Apostle of Doom" (50 characters, within the theme's trim limit, so shown whole).
+
+## [2.62.11] - 2026-09-30
+
+### Changed
+
+- The theme manages no redirects, at the owner's direction.
+  - When the sync renames an article or page (`was_slug`), it removes WordPress's record of the old slug, from which WordPress would otherwise redirect.
+  - The theme's own redirect for renamed pages, `paulus_redirect_old_page_slugs()`, is no longer hooked.
+  - Old addresses return 404 until the owner redirects them.
+  - Tested from the live site's state: the Ibn Ḥazm article renamed in place, one copy, no old-slug record; `/the-witnesses/from-ibn-hazm-to-al-faruqi/` returns 404 and the new address serves the article.
+
+## [2.62.10] - 2026-09-30
+
+### Changed
+
+- Search titles and meta descriptions reviewed across all 75 articles and pages against the owner's rules: a title under 50 characters including " | Apostle of Doom", a description under 130 including its call to action.
+  - 33 titles rewritten to 31 characters or fewer, keeping each article's key terms.
+  - Four descriptions sat at exactly 130; each lost a word or two.
+  - Measured as served on WordPress 7.1.2: the longest title is 49 characters, the longest description 129.
+- The Islamic tradition, part 5: the address follows the title of 2.62.9, `/from-ibn-hazm-to-al-faruqi/` becoming `/ibn-hazm-and-al-thalabi/`. Its four internal links are updated.
+
+### Fixed
+
+- Articles could not be renamed. The manifest's `was` key records a renamed content file, not a slug, and a first attempt left two copies of the article on the test site, one at each address.
+  - Articles now take `was_slug`, as pages already did: the sync renames the existing post in place, keeping its ID, content and history, and WordPress records the old slug.
+  - Tested: one post, the old address returning 301 to the new.
+- New search titles and descriptions did not reach existing articles. The sync replaces a stored value only when it is empty or one the theme shipped before (`prior_meta`), and the replaced values had never been recorded.
+  - 101 earlier shipped values are now listed: those of 2.62.9 and of 2.60.1, the 2.62.0 values of "The measure", and article titles stored as search titles by earlier releases.
+  - Values typed in by hand are still kept.
+
+## [2.62.9] - 2026-09-30
+
+### Fixed
+
+- Two titles that misdescribed their articles since the restructure of 2.61.0, found by setting every title beside the sections its article holds. The owner identified inaccurate titles as the real problem behind the repetition he noticed.
+  - The Islamic tradition, part 5: "From Ibn Ḥazm to Isma'il R. al Faruqi" became "Ibn Ḥazm and al-Thaʿlabī". Al Faruqi moved to part 6 when the article was divided. SEO title to match.
+  - The character, part 2: "Slaves, Caesar and the witnesses of conscience" became "Women, slaves, Caesar and the witnesses of conscience". The article opens with "Women, by the school of Paul", which the title omitted.
+  - That article's meta description and lead still promised "the verdict of Jefferson, Bentham and Shaw", moved to "The hostile witnesses" in 2.62.5. Both are rewritten to what the page holds.
+  - Addresses unchanged. Tested: an existing site takes the new titles and descriptions on sync.
+
+### Changed
+
+- Modern voices: al Faruqi's "Christianism, the religion of Paul, Athanasius, Tertullian, Augustine, of the imperial Roman Church" (*Al Tawhid*, p. 159) restored at the owner's direction, word for word as before. The other changes of 2.62.8 stand.
+
+## [2.62.8] - 2026-09-30
+
+### Changed
+
+"Modern voices, from al-Kairanawī to Shabbir Akhtar", after the owner noticed repetition on the live pages of the Islamic tradition's last two parts. The two parts share no section; the repetition was within part 2. It stated the verdict that Paul founded or corrupted Christianity five times in succession, two of them echoes.
+- Riḍā said it twice: "the first to lay down this Christian creed" (vol. 6, p. 45) and "laid the foundation of the present Christian religion" (vol. 10, p. 293). He also retold the account of Paul entering among the Christians to corrupt them from within, the tale part 1 has just told through al-Thaʿlabī. Vol. 6, p. 45 now points back to part 1: Riḍā "accepted the old account of Paul's feigned conversion, which al-Thaʿlabī tells". Vol. 10 stays as his one statement of the verdict, in Arabic.
+- Al Faruqi's "Christianism, the religion of Paul, Athanasius, Tertullian, Augustine" (*Al Tawhid*, p. 159), added in 2.61.5, removed as a further statement of the same verdict. His analysis of Paul's doctrine of sin stays.
+- Kept, each adding its own point: al-Kairanawī via Riḍā (the forbidden made lawful), Jauhar (the theology of the cross), the Persian authors (the verdict as common ground).
+- The verdict now appears twice on the page, where it appeared five times.
+
+### Fixed
+
+- Three notes in part 2 gave the Waardenburg volume in full. The second and third now take the short form, "in Waardenburg (ed.), op. cit.".
+- The pointer links to the top of part 1. The heading's anchor carries the encoded letter ʿ (`s-al-tha%ca%bflabi`), which the link shortcode would encode twice.
+- Tested: the page updates on sync (previous text recorded); footnotes resolve; no raw shortcode.
+
+## [2.62.7] - 2026-09-29
+
+### Added
+
+- "The Greek body and the Jewish bed": the owner's section "The undefiled bed", placed after the Talmud material and before "The thorn in the flesh", which keeps each subject together and leaves the handoff to the next part at the end.
+  - Every citation verified live:
+    - Revelation 14:4, Hebrews 13:4 (ἀμίαντος in the SBL Greek), 1 Timothy 4:1–3 and Matthew 19:12 (KJV);
+    - Qurʾān 57:27 and 30:21 (Arabic and Saheeh International);
+    - *Ṣaḥīḥ al-Bukhārī* 5063 and 5073, in sunnah.com's exact wording;
+    - Eusebius, *Church History* 6.8.1–3, NPNF: "in too literal and extreme a sense"; Demetrius "admired greatly the daring nature of the act".
+  - Goulder's wording, "had the gift of celibate continence and wished others did too", verified in the project's copy of the book, and his reading of the 144,000 as Jewish Christians confirmed. That copy has no page numbers, so pp. 65–67 stand on the owner's citation.
+  - The link in note 3 was given its closing slash.
+- Study questions for "The measure" (six) and "The hostile witnesses" (five), in reading order; both articles now link to their own sets. The Malaysia questions moved under Count 6, retitled, after the article's move in 2.61.0. The guide now holds 132 questions.
+
+### Changed
+
+- Privacy Policy, Terms of Use and DMCA: reviewed against the theme and the live site, and set to publish while still untouched drafts (`publish_if_draft`), as the Contact page is. A draft edited by hand stays a draft.
+  - The Privacy Policy's claims hold. Google's tag runs on the live site through Site Kit. Fonts and images are served locally: the one Cloudflare address in the theme is an unused setting inside the bundled PDF library. The reading position is kept for 60 days (`60 * 864e5`). The share buttons are plain links.
+- Tested on WordPress 7.1.2:
+  - the untouched Privacy Policy and DMCA drafts published, and a hand-edited Terms of Use draft stayed a draft;
+  - both questions links reach their sets;
+  - the new section renders with every footnote resolved;
+  - structured data validates.
+
 ## [2.62.6] - 2026-09-29
 
 ### Changed

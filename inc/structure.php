@@ -793,7 +793,9 @@ function paulus_redirect_old_page_slugs() {
 		}
 	}
 }
-add_action( 'template_redirect', 'paulus_redirect_old_page_slugs', 1 );
+// Redirects are left to the site owner: the theme renames addresses and
+// does not redirect old ones.
+// add_action( 'template_redirect', 'paulus_redirect_old_page_slugs', 1 );
 
 /**
  * Footer brand block: the wordmark and a line about the site.

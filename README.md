@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.62.6.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload `paulus-2.62.13.zip` under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -313,6 +313,13 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 - deeds in a good world (99:7–8; 7:32).
 
 ʿĪsā ibn Maryam upheld the law and restored its purpose; Paul abolished the law and put a dogma of salvation by the cross in the ethic's place. New content should argue from these principles in the same implicit way.
+
+## Search titles and descriptions
+
+- A page's search title, including the " | Apostle of Doom" ending the theme appends, stays under 50 characters: the `seo_title` in the manifest is at most 31. The one exception is the book's name, **Paulus: Perosak Risalah Al-Masih**, which is never shortened or altered.
+- A meta description stays under 130 characters, its closing call to action included.
+- When either changes, the value it replaces goes into `prior_meta`, so installed sites take the new one. Anything typed in by hand is kept.
+- An article's slug follows its title. A renamed article carries `was_slug`, and the sync renames the existing post in place. The theme manages no redirects: WordPress's old-slug record is removed after a rename, and old addresses are left for the owner to redirect.
 
 ## Image formats
 
