@@ -2,6 +2,74 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.6] - 2026-09-29
+
+### Changed
+
+The continuity pass, completing the owner's request that the text connect. Every article's opening and closing was read in reading order across the three sections. Most junctions already connect: a part closes on the question the next answers, and Count IV hands to Count V on the question of revelation or plagiarism. Eight did not, and each gained one sentence:
+- Profile, part 2: from the uncertain family to the city the sources describe.
+- The Roman, part 2: "The name and the tongues served Paul in speech; the citizenship served him in law."
+- Count II closes into Count III: Paul answered the disciples' opposition by remaking his message, the third count (linked).
+- Count III closes into Count IV: where the doctrines came from, revelation or the schools of his day (linked).
+- Count V, part 3: the gospels took form after the letters and bear their mark.
+- The revelation, part 2: missionaries answer the Qurʾān's witness with a dilemma.
+- The Islamic tradition, part 1: "the witnesses so far" now includes the revelation, which precedes it since 2.61.0.
+- The Islamic tradition, part 2: the tradition turned first to the titles Paul claimed.
+
+No bridge restates what its article goes on to argue. Each passes the house rules.
+
+Tested: the changed articles update on sync (previous texts recorded). Across all 56 articles, internal links resolve, footnotes resolve, and no raw shortcode is visible.
+
+## [2.62.5] - 2026-09-29
+
+### Changed
+
+Repetitions removed across the case, at the owner's direction: each point made in one place, other places pointing to it with a link. A repetition that serves its own article's argument stays, as the owner allowed.
+- Audit, across all articles and the main pages: quotations of six or more words in more than one article; verse blocks printed more than once; shared runs of ten or more words; Bible passages cited in three or more articles, each read in context.
+- Replaced with pointers:
+  - Scripture reprinted:
+    - the three Damascus accounts in "Revelation or borrowing?";
+    - "all things to all men" in "Them which say they are apostles";
+    - Revelation 2:2 in "Twisting the scriptures";
+    - Acts 15:19–21 in "James, the brother";
+    - Galatians 2:16 in Seven doctrines;
+    - four title verses in "Paul's own titles";
+    - Galatians 1:12 in "Borrowings from the rabbis".
+  - Prose restated: Christian Zionism in the Malaysia article; the Barnabas opening of "By their fruits".
+  - Quotations of Wrede in "What the Romans saw", and of Jefferson, Bentham and Shaw in "Women, slaves and Caesar".
+- "The hostile witnesses" keeps the three verdicts on Paul as a whole: Jefferson, now with Gaustad's account of his compilation; Wrede; Shaw. Bentham, Nietzsche, Buber and Goulder are named there with links to the articles that quote them.
+- "The failed prophet" has a new two-sentence opening that points to the hostile witnesses and turns to its subject. Its Jefferson material moved to "The hostile witnesses", which also takes a compilation title out of the body text.
+- Kept by design:
+  - "Tarsus, and a persona", which first defines "all things to all men";
+  - "Saul the persecutor", which ends on the opening of the vision as a bridge;
+  - "The purse", where "being crafty" bears on the money;
+  - the comparison table in "The foundations of Pauline doctrine";
+  - the high priest's daughter as biography and as motive;
+  - the Answers page, Timeline and study guide, which summarise and link by design.
+
+### Fixed
+
+- "Twisting the scriptures" cited Levine and Brettler by "op. cit." with no author; the names are restored. Every "Ibid." and "op. cit." in the changed articles was checked against the note before it.
+- Tested: the changed articles update on sync (previous texts recorded). Across all 56 articles: 150 links resolve with no missing anchor, no broken footnote, no raw shortcode. Structured data validates. A re-run of the duplicate check finds only the repetitions kept by design.
+
+## [2.62.4] - 2026-09-29
+
+### Added
+
+- The Witnesses, sixth witness: "The hostile witnesses" (label "The dissenters"), before the closing Testimony. The owner noticed the section had shrunk to five when Malaysia moved to Count VI in 2.61.0.
+  - Critics from the Christian and Jewish world Paul's religion shaped, who owed nothing to Islam: Jefferson (1820), Bentham (1823), Nietzsche, Wrede, Buber, Goulder and Shaw.
+  - Every quotation and citation is taken exactly as the site already carries it, verified when first added; no new source enters unverified.
+  - Framed by the courtroom principle of testimony against interest. It names al Faruqi nowhere, keeping the foundation implicit.
+
+### Changed
+
+- The Witnesses' introduction names its six witnesses in order. The sync now recognises the two earlier shipped versions of that introduction, so an installed site takes the new one; an owner's own wording is still kept. Tested from the live site's current text and from an owner's text.
+- The Charges on the front page: "The measure" is set above the grid as "Read first", so the six counts keep two full rows. It had stood alone on a third row since 2.62.0. The section's archive still lists it first as a card.
+
+### Fixed
+
+- Card grids drew a separating rule on the left of every card after the first, including the card that opens each new row. At three columns (861 pixels and wider, the only width with rules), a card that opens a row now takes none. Checked on every card grid of the front page and a section archive.
+
 ## [2.62.2] - 2026-09-29
 
 ### Changed

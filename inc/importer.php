@@ -255,6 +255,9 @@ function paulus_install_parts() {
 			$stale   = array(
 				'',
 				'What Muslim scholars have said about Paul since the ninth century, and a letter from one who once followed him.',
+				// Earlier descriptions of The Witnesses, as shipped.
+				'The Jewish followers of ʿĪsā who refused Paul, the Muslim scholars who named him, and a letter from one who once defended him.',
+				'The brother who led the disciples, the Jewish followers who refused Paul, the Muslim scholars who named him, the revelation they read, a letter from one who once defended him, and the case in Southeast Asia today.',
 			);
 			if ( in_array( $term->description, $stale, true ) && $term->description !== $part['description'] ) {
 				wp_update_term( $term_id, 'category', array( 'description' => $part['description'] ) );

@@ -1098,3 +1098,8 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 /* The author card's link to the full biography, in the label face. */
 .paulus-author__more { margin: 0.6rem 0 0; font-family: var(--t-label); font-size: 0.85rem; }
 .paulus-author__more a { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+
+/* The counts overview: the article that frames the counts, set above them. */
+.paulus-part__first { text-align: center; margin: -0.5rem auto 2rem; font-size: 1.05rem; }
+.paulus-part__first-label { font-family: var(--t-label); font-size: 0.8rem; font-weight: 700; color: var(--t-accent-deep); margin-right: 0.5em; }
+.paulus-part__first a { color: var(--t-ink); font-weight: 600; text-decoration-color: var(--t-accent); text-underline-offset: 3px; }

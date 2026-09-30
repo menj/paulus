@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.2
+Stable tag: 2.62.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,15 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.62.6 =
+* Continuity: eight bridges so that each article picks up from the last and leads to the next.
+
+= 2.62.5 =
+* Repetitions removed across the case: each point made in one place, with pointers elsewhere.
+
+= 2.62.4 =
+* The Witnesses: a sixth witness, The hostile witnesses. Card grids: no stray rule at the start of a row. The Charges: The measure set above the six counts.
 
 = 2.62.2 =
 * The measure restated in the site's own voice, grounded in the Qurʾān and Sunnah; the foundation left implicit.

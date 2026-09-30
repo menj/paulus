@@ -55,6 +55,9 @@ body { background-color: var(--och); background-image: url("data:image/svg+xml,%
 @media (min-width: 861px) {
 	.paulus-parts--text .paulus-chapters > li + li,
 	.paulus-parts--cards .paulus-chapters > li + li { border-left: 1px solid var(--t-rule); padding-left: var(--t-gap); margin-left: calc(var(--t-gap) * -1); }
+	/* The grid runs three to a row here: a card that opens a row takes no rule. */
+	.paulus-parts--text .paulus-chapters > li:nth-child(3n+1),
+	.paulus-parts--cards .paulus-chapters > li:nth-child(3n+1) { border-left: 0; padding-left: 0; margin-left: 0; }
 	.paulus-parts--text .paulus-chapters,
 	.paulus-parts--cards .paulus-chapters { column-gap: calc(var(--t-gap) * 2); }
 	/* The footer columns are flex items with their own gap, so the rule sits

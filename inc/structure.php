@@ -298,7 +298,29 @@ function paulus_sc_parts( $atts ) {
 		if ( $part->description ) {
 			$out .= '<p class="paulus-part__description">' . esc_html( $part->description ) . '</p>';
 		}
-		$out .= '</header><ol class="paulus-chapters">';
+		$out .= '</header>';
+		// On the counts overview the grid holds the counts alone; an article
+		// that is not a count (The measure, which frames them) is set above
+		// the grid as the thing to read first, so the counts keep full rows.
+		if ( 'counts' === $style ) {
+			$lead     = array();
+			$chapters = array_values(
+				array_filter(
+					$chapters,
+					static function ( $c ) use ( &$lead ) {
+						if ( 0 === strpos( (string) get_post_meta( $c->ID, '_paulus_label', true ), 'Count' ) ) {
+							return true;
+						}
+						$lead[] = $c;
+						return false;
+					}
+				)
+			);
+			foreach ( $lead as $c ) {
+				$out .= '<p class="paulus-part__first"><span class="paulus-part__first-label">' . esc_html__( 'Read first', 'paulus' ) . '</span> <a href="' . esc_url( get_permalink( $c ) ) . '">' . esc_html( get_the_title( $c ) ) . '</a></p>';
+			}
+		}
+		$out .= '<ol class="paulus-chapters">';
 		foreach ( $chapters as $chapter ) {
 			$out .= paulus_chapter_card( $chapter, $style, true );
 		}

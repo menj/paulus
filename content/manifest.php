@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.2',
+	'content_version' => '2.62.6',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -376,6 +376,27 @@ return array(
 		'c01-the-measure.html#61' => 'd341d51a3ba2013f6c043039342361d9',
 		'glossary.html#61' => 'c0bd8fa174e7a5df1cc00caa5e6f2389',
 		'sources.html#61' => '899368cf067f8088489268a12426134e',
+		'c04-by-their-fruits-2.html#62' => '08577c2612e06ad990278eac84acde6a',
+		'c04-by-their-fruits.html#62' => '9ae25d9bc79d342417e103851c452ce9',
+		'c05-seven-doctrines.html#62' => 'bc4e351440a1881ff898586dc2435e23',
+		'c06-twisting-the-scriptures.html#62' => '4acbf4522fc764358ff688d45e7aa894',
+		'c07-witnesses-and-angels.html#62' => '19cde18327d13bf3b94cce5ea569e8ed',
+		'c09-the-church-that-followed-paul-2.html#62' => 'fca4b4b8985857c91b3f2245daf055c8',
+		'c09-the-failed-prophet.html#62' => '90e27efbf9119802416cd7ea63ee4cb1',
+		'c10-no-prophet-between-2.html#62' => 'a882f30bda571c94f01cbc25fa6654a9',
+		'c12-malaysia-and-southeast-asia.html#62' => 'ca70ffb82c4524ee49e2fcbefe3759c0',
+		'c13-women-slaves-and-caesar.html#62' => 'cb6009fe72659b999f342076d317d4b5',
+		'c15-james-the-brother.html#62' => '3828c54cb40d080108deac0dd8452c50',
+		'c16-the-hostile-witnesses.html#62' => '86d7d0d28aa656b3d1b692c97e8c342c',
+		'c07-borrowings-from-the-rabbis.html#62' => 'a3d8c4100ed93a46214df40ca97c305e',
+		'c02-who-was-paul-2.html#63' => '43fba4a3aa81acc4cac47aaca1ffc3ea',
+		'c04-by-their-fruits-2.html#63' => '1836509e8127f8a4cf43134787973847',
+		'c05-seven-doctrines-2.html#63' => '6deafb679413ceb1993b4047891a0ceb',
+		'c06-the-gospels-and-the-new-covenant.html#63' => 'fdf549c98245742434d2e006a1a6f2db',
+		'c10-no-prophet-between-2.html#63' => 'a88705ed5dbfad7e1d8ffd9a3c4a8840',
+		'c10-no-prophet-between.html#63' => '1fb16adf9b1c9938a663db8b0743699a',
+		'c14-the-roman-2.html#63' => 'a5a7c5ab43b899a1da494a8015e89734',
+		'c15-the-quran-as-witness-2.html#63' => '0670db2e5798b1e3c2cf2325790ca3b8',
 		'study-questions.html#14' => 'c3288122275334ae35467f624f0e5246',
 		'answers.html#14' => 'da99a9ec564cbee77d4f4b16a78305b2',
 		'c03-the-damascus-road.html#14' => '400f89b0e99d4f0375d2f35162a1a0a8',
@@ -455,7 +476,7 @@ return array(
 		array(
 			'slug'        => 'the-witnesses',
 			'name'        => 'The Witnesses',
-			'description' => 'The brother who led the disciples, the Jewish followers who refused Paul, the Muslim scholars who named him, the revelation they read, a letter from one who once defended him, and the case in Southeast Asia today.',
+			'description' => 'The brother who led the disciples, the Jewish followers who refused Paul, the revelation they read, the Muslim scholars who named him, critics from his own side who reached the same verdict, and a letter from one who once defended him.',
 			'seo_title'   => 'The witnesses against Paul',
 			'meta'        => 'The brother of ʿĪsā ibn Maryam, the first law-keeping believers, Muslim scholars and the Qurʾān all testify. Their words are here.',
 			'image'       => 'paul-horned-stone',
@@ -1278,6 +1299,17 @@ return array(
 			'excerpt'   => 'The modern Muslim critique of Paul, from the debates at Agra and Rashīd Riḍā\'s commentary in Cairo to Reza Aslan and Shabbir Akhtar.',
 			'image'     => 'paul-bastard-oxblood',
 			'file'      => 'c10-from-ibn-hazm-to-al-faruqi-2.html',
+		),
+		array(
+			'slug'      => 'the-hostile-witnesses',
+			'title'     => 'The hostile witnesses',
+			'seo_title' => 'The hostile witnesses: Paul judged by his own side',
+			'meta'      => 'Jefferson, Bentham, Nietzsche, Wrede, Buber and Shaw: witnesses from Paul\'s own side who reached our verdict. Read on.',
+			'excerpt'   => 'Critics from the Christian and Jewish world Paul\'s religion shaped, who owed nothing to Islam and reached the same verdict: a statesman, a lawyer, a philosopher, scholars and a playwright.',
+			'label'     => 'The dissenters',
+			'part'      => 'the-witnesses',
+			'image'     => 'paul-halo-2023',
+			'file'      => 'c16-the-hostile-witnesses.html',
 		),
 		array(
 			'slug'    => 'an-epistle-to-the-churches-of-paul',
