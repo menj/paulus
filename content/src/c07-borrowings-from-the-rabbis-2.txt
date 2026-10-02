@@ -40,11 +40,13 @@ A second example is in 1 Corinthians, where Paul writes:
 
 {{kjv:1 Corinthians 2:9}}
 
-The verse exists in neither the Torah nor any book of the prophets. Its <em>ipsissima verba</em> are rabbinic, an expression in Midrash Tehillim (on Psalm 31):
+Paul introduces the words with "as it is written", and the ancient church debated where. Some assigned them to an apocryphal Revelation of Elijah. Jerome traced them to Isaiah, and conceded that "the apostle has not rendered his original word for word".[[fn:Jerome, Letter 57 (to Pammachius), §9, trans. W. H. Fremantle, <em>Nicene and Post-Nicene Fathers</em>, 2nd ser., vol. 6.]] The Hebrew of Isaiah reads:
 
-<blockquote><p lang="he" dir="rtl">עין לא ראתה אלהים זולתך</p><p><em>ʿAyin lo raʾatah Elohim zulatekha.</em></p><p>Eye has not seen a God besides You.</p></blockquote>
+<blockquote><p lang="he" dir="rtl">עַיִן לֹא־רָאָתָה אֱלֹהִים זוּלָתְךָ יַעֲשֶׂה לִמְחַכֵּה־לוֹ</p><p><em>ʿAyin lo raʾatah Elohim zulatekha yaʿaseh limḥakkeh lo.</em></p><p>"Neither hath the eye seen, O God, beside thee, what he hath prepared for him that waiteth for him."[[fn:Isaiah 64:4 (KJV); 64:3 in the Hebrew numbering. The rabbis expound the same words in Midrash Tehillim on Psalm 31.]]</p></blockquote>
 
-The expression is a spiritual poem in the rabbinic tradition. Paul raised it and adapted it as part of his doctrine of salvation. It proves that Paul's ability to turn the poetry and reflection of Jewish tradition into "scripture" in his own version of the gospel is creative adaptation, and no revelation.
+Set beside each other, the two texts part company. Isaiah speaks of God alone, whom no eye has seen beside Him, acting for those who wait for Him. Paul makes the verse a promise of hidden things prepared "for them that love him", adds a clause on the heart of man that Isaiah lacks, and still calls his own wording "written". The prophecy of Isaiah became, in his hands, a proof text for the gospel he claimed was revealed to him.
+
+The same promise appears in a <em>ḥadīth qudsī</em> (a report in which the Prophet ﷺ conveys the words of God): "I have prepared for My righteous servants what no eye has seen and no ear has heard, nor has it occurred to human heart."[[fn:<em>Forty Hadith Qudsi</em>, no. 37, from Abū Hurayrah, related by al-Bukhārī, Muslim, al-Tirmidhī and Ibn Mājah.]] Some have argued from the likeness that God here quotes Paul. Paul's own words answer them. He introduced the promise with "as it is written", so by his own testimony its form stood in a text older than his letter, whether in Isaiah or in the book of Elijah that others named. The hadith, for its part, names its own confirmation in the Qurʾān: "No soul knows what comfort has been concealed for them."[[fn:<em>Ṣaḥīḥ Muslim</em> 2824a, citing Sūrah al-Sajdah 32:17.]] A promise that stood in revelation before Paul, and stands in revelation after him, does not become his by passing through his letter.
 
 ## Revelation, or plagiarism?
 

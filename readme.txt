@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.13
+Stable tag: 2.62.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,9 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.62.14 =
+* Answers to the claim that the Qurʾān and a hadith qudsī honour Paul; "Eye hath not seen" corrected.
 
 = 2.62.13 =
 * The early Islamic record: al-Qummī's translation names Tamartiyān, as the Arabic does.

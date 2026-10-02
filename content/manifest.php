@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.13',
+	'content_version' => '2.62.14',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -404,6 +404,8 @@ return array(
 		'c10-from-ibn-hazm-to-al-faruqi-2.html#67' => 'd2e1621cca776097f8a24349980d29ef',
 		'c15-the-quran-as-witness.html#67' => '77fd1f5eeeeb7689312b130e1c725a4f',
 		'c10-the-early-islamic-record.html#68' => '1f1ae159de836fa2d49fbcd22cf1918a',
+		'c07-borrowings-from-the-rabbis-2.html#69' => 'acdab7191f48621395e8759726f2a662',
+		'c10-no-prophet-between-2.html#69' => 'f66daa9f239ce405ed7987397d2b357a',
 		'study-questions.html#14' => 'c3288122275334ae35467f624f0e5246',
 		'answers.html#14' => 'da99a9ec564cbee77d4f4b16a78305b2',
 		'c03-the-damascus-road.html#14' => '400f89b0e99d4f0375d2f35162a1a0a8',

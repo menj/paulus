@@ -2,6 +2,24 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.14] - 2026-10-02
+
+### Added
+
+Answers to an article the owner supplied, "Allah says Paul the Apostle is his Messenger". It argues from Qurʾān 36:14 and 61:14, from early chroniclers, and from a hadith qudsī. 36:14 and Ibn Isḥāq were already answered; the rest is now.
+- Paul's own titles, and the tafsīr of Yā Sīn, new section "Al-Ṣaff 61:14, and the argument from early sympathy".
+  - In al-Qurṭubī's commentary on 61:14, read in his text, the believers' victory is explained through the coming of the Prophet (Ibn ʿAbbās), over the factions that called ʿĪsā God or the son of God, and by proof (Zayd ibn ʿAlī, Qatādah). Paul appears only after a weaker view introduced "it is said", within Ibn Isḥāq's list of envoys.
+  - The "early sympathy" thesis is answered by chronology: Sayf ibn ʿUmar wrote within a generation of Ibn Isḥāq, and the Prophet's judgment that no prophet stands between him and ʿĪsā is older than both. The neutral reports retell the Christian narrative and pronounce no verdict.
+  - Linked to The disciples, The early Islamic record and the first part of the Islamic tradition.
+
+### Fixed
+
+- Borrowings from the rabbis, "Eye hath not seen", rewritten.
+  - It said 1 Corinthians 2:9 "exists in neither the Torah nor any book of the prophets", and that its words are rabbinic. The Hebrew it quoted, עַיִן לֹא־רָאָתָה אֱלֹהִים זוּלָתְךָ, is Isaiah 64:3 (64:4 in the KJV), verified against the Masoretic text; Midrash Tehillim quotes Isaiah.
+  - The section now argues from what is true. Paul cites the words "as it is written". Jerome traced them to Isaiah, against those who named an apocryphal Revelation of Elijah, and conceded that "the apostle has not rendered his original word for word" (Letter 57, §9, verified). Paul changed Isaiah's "him that waiteth for him" to "them that love him", added a clause on the heart, and still called his wording written.
+  - It also answers the claim that God quotes Paul in the hadith qudsī "I have prepared for My righteous servants…" (*Forty Hadith Qudsi* 37; *Ṣaḥīḥ Muslim* 2824a, which names its confirmation in Qurʾān 32:17). By Paul's own "as it is written", the form stood in a text older than his letter.
+- Tested: both articles update on sync (previous texts recorded); footnotes and cross-links resolve; the new prose passes the house rules.
+
 ## [2.62.13] - 2026-09-30
 
 ### Fixed
