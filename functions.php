@@ -654,3 +654,6 @@ function paulus_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'paulus_body_class' );
+
+/* Cross-site content links between the sister sites. */
+require_once get_stylesheet_directory() . '/inc/network-links.php';
