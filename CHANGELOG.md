@@ -2,6 +2,61 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.17] - 2026-10-09
+
+### Added
+- Bernardo Daddi's *Saint Paul and a Group of Worshippers* (Florence, 1333; National Gallery of Art, Washington, 1937.1.3) in "Paul in the churches", section "The sword and the book", placed in date order ahead of the Burgundian statue. The image is the gallery's open-access (CC0) file, credited as the gallery asks: AVIF at 1000 px, WebP at 720 px.
+- Figure credits from nga.gov read "via the National Gallery of Art's collection".
+- The panel's white surround removed: the image is cut to the shape of the gabled frame, and shaped figures drop the square border and shadow for one that follows the outline.
+- Captions under tall (portrait) figures run to a reading width of up to 36rem, centred under the image, instead of being squeezed to the image's own width.
+
+### Removed
+- The note at the foot of "Paul in the churches" saying every photograph came from Wikimedia Commons. Each caption already carries its own credit, licence and source link, and the note was no longer accurate now that images also come from the Met and the National Gallery of Art.
+
+### Changed
+- The book's Malay title is written "Paulus Perosak Risalah Al-Masih", without a colon, in the settings default, the book page's search title and description, the citations in three articles and the theme notes. A one-time upgrade corrects the stored setting where it still holds the colon form; earlier shipped values are listed so unedited copies update.
+
+## [2.62.16] - 2026-10-02
+
+### Added
+
+From the owner's copy of E. P. Sanders's Britannica article on Paul. Each quotation is taken word for word from that page. Sanders is named in the text; the encyclopedia appears only in the footnotes.
+- How Paul came to own the New Testament:
+  - his measure of Paul's share: about half of the New Testament "stems from Paul and the people whom he influenced", and Paul is "often considered to be the most important person after Jesus in the history of Christianity";
+  - his "Only 7 of the 13 letters… can be accepted as being entirely authentic" as the authority for the site's existing sentence on the seven letters.
+- The three accounts compared, new section "The conflict conceded": Paul "states that he saw the Lord" while "Acts claims that near Damascus he saw a blinding bright light" (1 Corinthians 9:1, KJV verified); Acts "secondhand", "sometimes in direct conflict with the letters".
+- The parting with Barnabas: the division of labour with the pillars judged "a political bargain not to interfere in each other's spheres". The existing note on Galatians 1:16 and 2:7–9 stays on its own sentence.
+- His points the site already makes in its own words, on the curse on rival preachers and the tradition of execution under Nero, were not added again.
+- The second file supplied, the Islamic Paradigm article, was already answered in 2.62.14–15.
+
+### Fixed
+
+- Dale B. Martin's notes were still cited informally, 'notes on "Luke" and Paul, 2019', in seven articles; 2.61.2 had corrected only two places. Each article now gives the full form at its first citation, naming the section cited, and "Martin, op. cit." thereafter.
+- Tested across all 56 articles: no informal citation remains, every footnote resolves, no raw shortcode; the changed articles update on sync (previous texts recorded).
+
+## [2.62.15] - 2026-10-02
+
+### Changed
+
+At the owner's direction, the material of 2.62.14 now carries a footnote for every claim, and each quotation in its original language beside its translation.
+- "Eye hath not seen" (Borrowings from the rabbis, part 2):
+  - 1 Corinthians 2:9 in the SBL Greek beside the KJV.
+  - Isaiah 64 in full, the Masoretic Hebrew of 64:3 beside the KJV of 64:4, so the original and translation correspond word for word.
+  - The hadith qudsī in Arabic (*Ṣaḥīḥ Muslim* 2824a) and Qurʾān 32:17 in Arabic beside Saheeh International.
+  - Footnotes added for the comparison of Isaiah with Paul, and for the argument answered: the Islamic Paradigm article, "Allah Says He Sent Paul the Apostle as a Messenger", Point #4.
+  - The aside on Midrash Tehillim removed: Sefaria refused automated access, so the reference could not be verified (NOT_FOUND), and the argument does not rest on it.
+- "Al-Ṣaff 61:14, and the argument from early sympathy" (Paul's own titles):
+  - al-Qurṭubī quoted in Arabic with translation and cited to vol. 18, p. 81, as the Islamweb text gives it; its record names no edition, so none is claimed.
+  - The two arguments answered are cited to the same article, Points #2 and #3.
+  - Sayf placed in the second Islamic century on the authority of Sean Anthony, *Der Islam* 85 (2010); Ibn Isḥāq's death in 767 from *Encyclopaedia Britannica*. These replace the unsourced "around 800".
+  - The hadith "no prophet between me and him" in Arabic with translation.
+  - The retold Christian narrative cited to Ibn Isḥāq's list of envoys, Guillaume, p. 653.
+
+### Fixed
+
+- The Islamic tradition, part 1: the hadith "there has been no prophet between me and him" was cited as *Ṣaḥīḥ al-Bukhārī* 3258. In sunnah.com's numbering it is 3442 (Book 60, Hadith 112), verified, and is now cited so.
+- Tested: the three articles update on sync (previous texts recorded); every footnote resolves; the Greek, Hebrew and Arabic render; the prose passes the house rules.
+
 ## [2.62.14] - 2026-10-02
 
 ### Added

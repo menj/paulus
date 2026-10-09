@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.14',
+	'content_version' => '2.62.17',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -406,17 +406,32 @@ return array(
 		'c10-the-early-islamic-record.html#68' => '1f1ae159de836fa2d49fbcd22cf1918a',
 		'c07-borrowings-from-the-rabbis-2.html#69' => 'acdab7191f48621395e8759726f2a662',
 		'c10-no-prophet-between-2.html#69' => 'f66daa9f239ce405ed7987397d2b357a',
+		'c07-borrowings-from-the-rabbis-2.html#70' => '8629df8fd8f4f8064adff4357105e4e6',
+		'c10-no-prophet-between-2.html#70' => '7700712ec758991a04c5b31fd98fa4b2',
+		'c10-no-prophet-between.html#70' => 'a8318045c9829263dc3ced1bcdc0c7c9',
+		'c06-owning-the-new-testament.html#71' => 'a87560488fd6874985d0cbdc22d1df82',
+		'c03-the-damascus-road-2.html#71' => '6a43c54bb8ddc2e6dfc392d4e67a3f1c',
+		'c04-the-jerusalem-council-2.html#71' => '06fc981b0a59c7b61080ec101e8e0a90',
+		'c03-a-self-appointed-apostle.html#71' => '4e6a6ac49a8c8b0190bb6d7cf074f6cc',
+		'c09-the-church-that-followed-paul-2.html#71' => '94ad73159244a1a6c2c11060e41973ab',
+		'c10-no-prophet-between-2.html#71' => 'ff7ee31f5065839a200f51a76a051d8b',
+		'c14-the-roman.html#71' => '4d704268d09a2d94dadf57da8453b3df',
+		'churches.html#72' => 'c399a79987b5e7b27f96a226caafa48c',
 		'study-questions.html#14' => 'c3288122275334ae35467f624f0e5246',
 		'answers.html#14' => 'da99a9ec564cbee77d4f4b16a78305b2',
 		'c03-the-damascus-road.html#14' => '400f89b0e99d4f0375d2f35162a1a0a8',
 		'c06-owning-the-new-testament.html#14' => '069a5f8b5cc2025510667722d4993fb7',
 		'c03-saul-the-persecutor.html#14' => 'a4d8857c243e4be5b53da067e386b487',
 		'c03-saul-the-persecutor.html#13' => 'ac645a53e95838b98e48a031a7595ab0',
+		'appendices.html#73' => 'd1c53d716fa813bdec1f76c293fb445d',
+		'journal-how-the-site-began.html#74' => '0c9ebbdac3a05a6cf18bf6d46eb38994',
+		'c12-malaysia-and-southeast-asia.html#75' => '048ba6cf9e49b45541f8c621343cb12d',
 	),
 	// Meta descriptions shipped in earlier releases. A stored description
 	// that still matches one of these was never edited by hand and is
 	// refreshed from the current manifest.
 	'prior_meta' => array(
+		'Paulus: Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025), the book behind this site, now in print.',
 		'Paulus: Perosak Risalah',
 		'Tarsus, and a persona for every audience',
 		'The Roman: name and tongue',
@@ -1676,10 +1691,10 @@ return array(
 		),
 		array(
 			'slug'     => 'the-book',
-			'meta'      => 'Paulus: Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025), the book behind this site, now in print.',
+			'meta'      => 'Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025), the book behind this site, now in print.',
 			'title'    => 'The book',
-			'seo_title' => 'Paulus: Perosak Risalah Al-Masih',
-			'excerpt'  => 'Paulus: Perosak Risalah Al-Masih, the book these articles are drawn from.',
+			'seo_title' => 'Paulus Perosak Risalah Al-Masih',
+			'excerpt'  => 'Paulus Perosak Risalah Al-Masih, the book these articles are drawn from.',
 			'file'     => 'the-book.html',
 			'template' => 'page-book',
 			'order'    => 4,

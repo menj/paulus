@@ -22,6 +22,7 @@ function paulus_figures() {
 		'met-papyrus-letter' => array( 'alt' => __( 'Papyrus letter written in Greek, from Roman Egypt, early third century CE', 'paulus' ), 'author' => 'Papyrus letter in Greek, early 3rd century CE; The Metropolitan Museum of Art, New York, 25.8', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251788' ),
 		'met-inkwell-stylus' => array( 'alt' => __( 'Roman terracotta inkwell, first or second century CE', 'paulus' ), 'author' => 'Terracotta inkwell and bronze stylus, 1st‒2nd century CE; The Metropolitan Museum of Art, New York, 26.60.34', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/252501' ),
 		'met-diploma' => array( 'alt' => __( 'Roman bronze military diploma of about 149 CE, a tablet engraved in Latin with the grant of Antoninus Pius', 'paulus' ), 'author' => 'Bronze military diploma, ca. 149 CE; The Metropolitan Museum of Art, New York, 23.160.32a, b', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/251376' ),
+		'nga-daddi-saint-paul' => array( 'alt' => __( 'Gold-ground panel of Paul standing full length, a sword in his right hand and a black book against his chest, with twelve small worshippers kneeling at his feet', 'paulus' ), 'author' => 'Andrew W. Mellon Collection, 1937.1.3. Courtesy National Gallery of Art, Washington', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.nga.gov/artworks/1-saint-paul-and-group-worshippers', 'cutout' => true ),
 		'met-saint-paul-werve' => array( 'alt' => __( 'Burgundian limestone statue of Paul, bald and long-bearded, wrapped in heavy drapery, a book under his arm and a sword at his side', 'paulus' ), 'author' => 'Circle of Claus de Werve, Saint Paul, ca. 1420–30; The Metropolitan Museum of Art, New York, 22.31.1', 'license' => 'Public domain (CC0)', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'source' => 'https://www.metmuseum.org/art/collection/search/466378' ),
 		'faruqi-portrait' => array( 'alt' => __( 'Black-and-white portrait photograph of Isma\'il Raji al Faruqi in a pinstripe suit and houndstooth tie', 'paulus' ), 'author' => 'Photographer unknown', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
 		'paul-halo-2023' => array( 'alt' => __( 'Giuseppe Franchi\'s half-length painting of Paul, balding and long-bearded, in a red mantle, a gold halo behind his head', 'paulus' ), 'author' => 'Giuseppe Franchi, Portrait of Saint Paul the Apostle, oil on canvas, 66 × 51 cm; Pinacoteca Ambrosiana, Milan, inv. 1519', 'license' => 'Public domain', 'license_url' => '', 'source' => '' ),
@@ -121,7 +122,7 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 	// (Wikimedia Commons, the Met's collection); a figure supplied from
 	// elsewhere (an empty source) gives author and licence only.
 	$host  = (string) wp_parse_url( (string) $f['source'], PHP_URL_HOST );
-	$label = false !== strpos( $host, 'wikimedia.org' ) ? 'Wikimedia Commons' : ( false !== strpos( $host, 'metmuseum.org' ) ? __( 'the Met’s collection', 'paulus' ) : preg_replace( '/^www\./', '', $host ) );
+	$label = false !== strpos( $host, 'wikimedia.org' ) ? 'Wikimedia Commons' : ( false !== strpos( $host, 'metmuseum.org' ) ? __( 'the Met’s collection', 'paulus' ) : ( false !== strpos( $host, 'nga.gov' ) ? __( 'the National Gallery of Art’s collection', 'paulus' ) : preg_replace( '/^www\./', '', $host ) ) );
 	$cred = $f['source'] ? sprintf(
 		/* translators: 1: author, 2: licence, 3: source link. */
 		__( 'Image: %1$s, %2$s, via %3$s.', 'paulus' ),
@@ -134,7 +135,7 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 		esc_html( $f['author'] ),
 		$lic
 	);
-	return '<figure class="paulus-figure' . ( $tall ? ' paulus-figure--tall' : '' ) . ( '1' === $atts['wide'] ? ' paulus-figure--wide' : '' ) . '">'
+	return '<figure class="paulus-figure' . ( $tall ? ' paulus-figure--tall' : '' ) . ( '1' === $atts['wide'] ? ' paulus-figure--wide' : '' ) . ( ! empty( $f['cutout'] ) ? ' paulus-figure--cutout' : '' ) . '">'
 		. '<a class="paulus-figure__zoom" href="' . esc_url( $full ) . '" data-lightbox="paulus-figures" data-title="' . esc_attr( wp_strip_all_tags( $caption ) . ' ' . wp_strip_all_tags( $cred ) ) . '" aria-label="' . esc_attr__( 'Open the full-size image', 'paulus' ) . '">'
 		. '<img src="' . esc_url( $full ) . '"' . ( $set ? ' srcset="' . esc_attr( $set ) . '" sizes="(max-width: 760px) 100vw, 720px"' : '' ) . ' alt="' . esc_attr( $f['alt'] ) . '" width="' . (int) $size[0] . '" height="' . (int) $size[1] . '" loading="lazy" decoding="async">'
 		. '</a>'

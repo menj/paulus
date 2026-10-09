@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.14
+Stable tag: 2.62.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsu
 
 == Description ==
 
-Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus: Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, bundled fonts, illustrations and sixty licensed photographs, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
+Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, bundled fonts, illustrations and sixty licensed photographs, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
 
 == Installation ==
 
@@ -21,6 +21,16 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
 == Changelog ==
+
+= 2.62.17 =
+* Bernardo Daddi's 1333 panel of Paul with the sword and the book added to "Paul in the churches", cut to the shape of its frame.
+* The book's title written "Paulus Perosak Risalah Al-Masih" throughout.
+
+= 2.62.16 =
+* E. P. Sanders cited in three articles; Dale B. Martin's notes cited in full across the site.
+
+= 2.62.15 =
+* The new answers given full footnotes, with each quotation in its original language beside its translation.
 
 = 2.62.14 =
 * Answers to the claim that the Qurʾān and a hadith qudsī honour Paul; "Eye hath not seen" corrected.

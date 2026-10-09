@@ -47,7 +47,7 @@ function paulus_defaults() {
 		'cat_bib'          => '300162873',
 		'cat_edition'      => 'Cetakan kedua',
 		'cat_imprint'      => 'Seri Kembangan, Selangor : Langgam Fikir, 2025',
-		'book_title'       => 'Paulus: Perosak Risalah Al-Masih',
+		'book_title'       => 'Paulus Perosak Risalah Al-Masih',
 		'book_title_en'    => 'Apostle of Doom',
 		'book_subtitle'    => 'Sejarah Bagaimana Ajaran Kristian Dicipta Sepenuhnya',
 		'book_subtitle_en' => 'How Paul of Tarsus Undid Jesus',
@@ -282,7 +282,7 @@ function paulus_image_alts() {
 		'paul-horned-grin-hands' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the hands and scroll', 'paulus' ),
 		'paul-horned-grin-ink' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in dark ink duotone', 'paulus' ),
 		'paul-horned-grin-oxblood' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in oxblood duotone', 'paulus' ),
-		'book-cover'    => __( 'Front cover of Paulus: Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi', 'paulus' ),
+		'book-cover'    => __( 'Front cover of Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi', 'paulus' ),
 	);
 }
 

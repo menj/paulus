@@ -406,6 +406,22 @@ function paulus_upgrade_2191() {
 	update_option( 'paulus_db_version', '2.19.1', false );
 }
 /**
+ * One-time upgrade to 2.62.17: the book's Malay title is written
+ * "Paulus Perosak Risalah Al-Masih", without a colon, where the options
+ * still hold the earlier form.
+ */
+function paulus_upgrade_26217() {
+	if ( version_compare( (string) get_option( 'paulus_db_version', '0' ), '2.62.17', '>=' ) ) {
+		return;
+	}
+	$opts = get_option( 'paulus_options' );
+	if ( is_array( $opts ) && in_array( $opts['book_title'] ?? null, array( 'Paulus: Perosak Risalah Al-Masih', 'Paulus: Perosak Risalah al-Masih' ), true ) ) {
+		$opts['book_title'] = 'Paulus Perosak Risalah Al-Masih';
+		update_option( 'paulus_options', $opts );
+	}
+	update_option( 'paulus_db_version', '2.62.17', false );
+}
+/**
  * One-time repair to 2.33.5: the structure sync of 2.30.0 to 2.33.4 saved the
  * options record through a sanitiser that blanked every field it was not
  * given, emptying fields a site had never saved itself. Restore the footer
@@ -458,6 +474,7 @@ function paulus_run_upgrades() {
 	paulus_upgrade_2111();
 	paulus_upgrade_2191();
 	paulus_upgrade_2335();
+	paulus_upgrade_26217();
 }
 add_action( 'admin_init', 'paulus_run_upgrades' );
 require_once PAULUS_DIR . '/inc/options-fields.php';

@@ -408,11 +408,11 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 
 /* Photographs of Paul in the churches */
 .paulus-prose .paulus-figure { display: block; margin: 2.25rem auto; width: 100%; }
-.paulus-prose .paulus-figure--tall { display: table; width: auto; max-width: 100%; }
+.paulus-prose .paulus-figure--tall { display: block; width: 100%; }
 .paulus-prose .paulus-figure__zoom { display: block; cursor: zoom-in; line-height: 0; }
 .paulus-prose .paulus-figure img { display: block; width: auto; max-width: 100%; height: auto; max-height: 80vh; margin: 0 auto; border: 1px solid var(--t-rule); box-shadow: 0 6px 18px rgba(31, 26, 20, 0.18); }
 .paulus-prose .paulus-figure:not(.paulus-figure--tall) img { width: 100%; max-height: none; }
-.paulus-prose .paulus-figure--tall figcaption { display: table-caption; caption-side: bottom; }
+.paulus-prose .paulus-figure--tall figcaption { display: block; width: min(100%, 36rem); margin-left: auto; margin-right: auto; }
 .paulus-prose .paulus-figure figcaption { font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.45; color: var(--t-muted); margin-top: 0.6rem; text-align: left; }
 .paulus-prose .paulus-figure__credit { display: block; font-family: var(--t-label); font-size: 0.72rem; color: var(--t-accent-deep); margin-top: 0.3rem; }
 .paulus-prose .paulus-figure__credit a { color: inherit; }
@@ -1103,3 +1103,6 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 .paulus-part__first { text-align: center; margin: -0.5rem auto 2rem; font-size: 1.05rem; }
 .paulus-part__first-label { font-family: var(--t-label); font-size: 0.8rem; font-weight: 700; color: var(--t-accent-deep); margin-right: 0.5em; }
 .paulus-part__first a { color: var(--t-ink); font-weight: 600; text-decoration-color: var(--t-accent); text-underline-offset: 3px; }
+
+/* Shaped images (transparent ground): no frame box, a shadow that follows the outline. */
+.paulus-prose .paulus-figure--cutout img { border: 0; box-shadow: none; filter: drop-shadow(0 6px 12px rgba(31, 26, 20, 0.22)); }

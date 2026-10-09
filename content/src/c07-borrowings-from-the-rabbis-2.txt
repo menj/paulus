@@ -38,15 +38,23 @@ Paul's use of the phrase "the third heaven" reflects direct influence from the c
 
 A second example is in 1 Corinthians, where Paul writes:
 
-{{kjv:1 Corinthians 2:9}}
+<blockquote><p lang="grc">ἀλλὰ καθὼς γέγραπται· Ἃ ὀφθαλμὸς οὐκ εἶδεν καὶ οὖς οὐκ ἤκουσεν καὶ ἐπὶ καρδίαν ἀνθρώπου οὐκ ἀνέβη, ὅσα ἡτοίμασεν ὁ θεὸς τοῖς ἀγαπῶσιν αὐτόν.</p><p>"But as it is written, Eye hath not seen, nor ear heard, neither have entered into the heart of man, the things which God hath prepared for them that love him."[[fn:1 Corinthians 2:9; Greek from the SBL Greek New Testament, English from the KJV.]]</p></blockquote>
 
 Paul introduces the words with "as it is written", and the ancient church debated where. Some assigned them to an apocryphal Revelation of Elijah. Jerome traced them to Isaiah, and conceded that "the apostle has not rendered his original word for word".[[fn:Jerome, Letter 57 (to Pammachius), §9, trans. W. H. Fremantle, <em>Nicene and Post-Nicene Fathers</em>, 2nd ser., vol. 6.]] The Hebrew of Isaiah reads:
 
-<blockquote><p lang="he" dir="rtl">עַיִן לֹא־רָאָתָה אֱלֹהִים זוּלָתְךָ יַעֲשֶׂה לִמְחַכֵּה־לוֹ</p><p><em>ʿAyin lo raʾatah Elohim zulatekha yaʿaseh limḥakkeh lo.</em></p><p>"Neither hath the eye seen, O God, beside thee, what he hath prepared for him that waiteth for him."[[fn:Isaiah 64:4 (KJV); 64:3 in the Hebrew numbering. The rabbis expound the same words in Midrash Tehillim on Psalm 31.]]</p></blockquote>
+<blockquote><p lang="he" dir="rtl">וּמֵעוֹלָם לֹא־שָׁמְעוּ לֹא הֶאֱזִינוּ עַיִן לֹא־רָאָתָה אֱלֹהִים זוּלָתְךָ יַעֲשֶׂה לִמְחַכֵּה־לוֹ׃</p><p>"For since the beginning of the world men have not heard, nor perceived by the ear, neither hath the eye seen, O God, beside thee, what he hath prepared for him that waiteth for him."[[fn:Isaiah 64:4 (KJV); 64:3 in the Hebrew numbering of the Masoretic text.]]</p></blockquote>
 
-Set beside each other, the two texts part company. Isaiah speaks of God alone, whom no eye has seen beside Him, acting for those who wait for Him. Paul makes the verse a promise of hidden things prepared "for them that love him", adds a clause on the heart of man that Isaiah lacks, and still calls his own wording "written". The prophecy of Isaiah became, in his hands, a proof text for the gospel he claimed was revealed to him.
+Set beside each other, the two texts part company. Isaiah speaks of God alone, whom no eye has seen beside Him, acting for those who wait for Him. Paul makes the verse a promise of hidden things prepared "for them that love him", adds a clause on the heart of man that Isaiah lacks, and still calls his own wording "written".[[fn:Cf. Isaiah 64:4; 1 Corinthians 2:9.]] The prophecy of Isaiah became, in his hands, a proof text for the gospel he claimed was revealed to him.
 
-The same promise appears in a <em>ḥadīth qudsī</em> (a report in which the Prophet ﷺ conveys the words of God): "I have prepared for My righteous servants what no eye has seen and no ear has heard, nor has it occurred to human heart."[[fn:<em>Forty Hadith Qudsi</em>, no. 37, from Abū Hurayrah, related by al-Bukhārī, Muslim, al-Tirmidhī and Ibn Mājah.]] Some have argued from the likeness that God here quotes Paul. Paul's own words answer them. He introduced the promise with "as it is written", so by his own testimony its form stood in a text older than his letter, whether in Isaiah or in the book of Elijah that others named. The hadith, for its part, names its own confirmation in the Qurʾān: "No soul knows what comfort has been concealed for them."[[fn:<em>Ṣaḥīḥ Muslim</em> 2824a, citing Sūrah al-Sajdah 32:17.]] A promise that stood in revelation before Paul, and stands in revelation after him, does not become his by passing through his letter.
+The same promise appears in a <em>ḥadīth qudsī</em> (a report in which the Prophet ﷺ conveys the words of God):
+
+<blockquote><p class="arabic" lang="ar" dir="rtl">أَعْدَدْتُ لِعِبَادِيَ الصَّالِحِينَ مَا لَا عَيْنٌ رَأَتْ وَلَا أُذُنٌ سَمِعَتْ وَلَا خَطَرَ عَلَى قَلْبِ بَشَرٍ</p><p>"I have prepared for My righteous servants what no eye has seen and no ear has heard, nor has it occurred to human heart."[[fn:<em>Ṣaḥīḥ Muslim</em> 2824a, from Abū Hurayrah; also related by al-Bukhārī, al-Tirmidhī and Ibn Mājah (<em>Forty Hadith Qudsi</em>, no. 37).]]</p></blockquote>
+
+Some have argued from the likeness that God here quotes Paul.[[fn:“Allah Says He Sent Paul the Apostle as a Messenger,” <em>Islamic Paradigm</em>, https://islamicparadigm.wordpress.com/allah-says-he-sent-paul-the-apostle-as-a-messenger/ (accessed 2 October 2026), Point #4.]] Paul's own words answer them. He introduced the promise with "as it is written", so by his own testimony its form stood in a text older than his letter, whether in Isaiah or in the book of Elijah that others named. The hadith, for its part, names its own confirmation in the Qurʾān:
+
+<blockquote><p class="arabic" lang="ar" dir="rtl">فَلَا تَعْلَمُ نَفْسٌ مَّا أُخْفِيَ لَهُم مِّن قُرَّةِ أَعْيُنٍ جَزَاءً بِمَا كَانُوا يَعْمَلُونَ</p><p>"And no soul knows what has been hidden for them of comfort for eyes as reward for what they used to do."[[fn:Sūrah al-Sajdah 32:17, cited in <em>Ṣaḥīḥ Muslim</em> 2824a as the confirmation of the hadith.]]</p></blockquote>
+
+A promise that stood in revelation before Paul, and stands in revelation after him, does not become his by passing through his letter.
 
 ## Revelation, or plagiarism?
 

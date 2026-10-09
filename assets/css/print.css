@@ -51,3 +51,5 @@ body::before, body::after, .paulus-header::after, .paulus-footer::before { displ
 .paulus-figure { page-break-inside: avoid; break-inside: avoid; max-width: 60% !important; margin: 8pt auto !important; }
 .paulus-figure img { box-shadow: none !important; border: 0.5pt solid #000 !important; max-width: 100% !important; }
 .paulus-figure figcaption { font-size: 8.5pt !important; color: #000 !important; }
+
+.paulus-figure--cutout img { border: 0 !important; filter: none !important; }
