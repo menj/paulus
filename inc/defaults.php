@@ -92,6 +92,8 @@ function paulus_defaults() {
 		'read_memory'      => 1,
 		'read_copy'        => 1,
 		'read_top'         => 1,
+		'media_no_sizes'   => 1,
+		'media_no_scaled'  => 1,
 		// Front page.
 		'hero_kicker'      => 'The case against Paul of Tarsus',
 		'hero_heading'     => 'Apostle of Doom',

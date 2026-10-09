@@ -1380,7 +1380,9 @@ function paulus_sc_article_rail() {
 	$roman  = array( 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X' );
 	$out    = '<aside class="paulus-rail" aria-label="' . esc_attr__( 'In this chapter', 'paulus' ) . '"><div class="paulus-rail__inner">';
 	$sections = paulus_article_sections( $id );
-	if ( $sections ) {
+	// With three or more sections the contents tablet above the first one
+	// lists them (paulus_page_contents), so the rail does not repeat them.
+	if ( $sections && count( $sections ) < 3 ) {
 		$out .= '<p class="paulus-rail__label">' . esc_html__( 'In this article', 'paulus' ) . '</p><ol class="paulus-rail__sections">';
 		foreach ( $sections as $sec ) {
 			$out .= '<li><a href="#' . esc_attr( $sec['id'] ) . '">' . esc_html( $sec['text'] ) . '</a></li>';
@@ -1650,7 +1652,7 @@ function paulus_answers_navigation( $content ) {
 		$items .= '<li><a href="#' . esc_attr( $h[1] ) . '">' . wp_kses( $h[2], array( 'em' => array() ) ) . '</a></li>';
 	}
 	/* translators: %s: number of questions. */
-	$index = '<nav class="paulus-faq-index" id="questions" aria-labelledby="paulus-faq-index-label"><p class="paulus-faq-index__label" id="paulus-faq-index-label">' . esc_html( sprintf( _n( '%s question', '%s questions', count( $m ), 'paulus' ), number_format_i18n( count( $m ) ) ) ) . '</p><ol>' . $items . '</ol></nav>';
+	$index = '<nav class="paulus-faq-index paulus-contents" id="questions" aria-labelledby="paulus-faq-index-label"><p class="paulus-faq-index__label" id="paulus-faq-index-label">' . esc_html( sprintf( _n( '%s question', '%s questions', count( $m ), 'paulus' ), number_format_i18n( count( $m ) ) ) ) . '</p><ol>' . $items . '</ol></nav>';
 	$back  = '<p class="paulus-faq-back"><a href="#questions">' . esc_html__( 'All questions', 'paulus' ) . ' <span aria-hidden="true">↑</span></a></p>';
 	$first = true;
 	$content = preg_replace_callback(
@@ -1669,6 +1671,64 @@ function paulus_answers_navigation( $content ) {
 	return preg_replace( '#</p>#', '</p>' . $index, $content, 1 );
 }
 add_filter( 'the_content', 'paulus_answers_navigation', 20 );
+
+/**
+ * Long articles and pages: a table of contents under the introduction,
+ * an anchor on every section heading, and a way back to the top after
+ * each section. Built from the headings as the page renders, so an
+ * edited copy of the page gets them too.
+ *
+ * @param string $content Rendered content.
+ * @return string
+ */
+function paulus_page_contents( $content ) {
+	// Every article and page with three or more sections, except the front
+	// page and the Answers page, which keeps its own index of questions.
+	if ( ! is_singular() || is_front_page() || is_page( 'answers' ) || ! in_the_loop() || ! is_main_query() ) {
+		return $content;
+	}
+	if ( ! apply_filters( 'paulus_page_contents', true, get_the_ID() ) ) {
+		return $content;
+	}
+	if ( ! preg_match_all( '#<h2(\s[^>]*)?>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) || count( $m ) < 3 ) {
+		return $content;
+	}
+	// Ids for the headings that have none.
+	$seen = array();
+	$ids  = array();
+	foreach ( $m as $h ) {
+		if ( preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1] ?? '', $e ) ) {
+			$ids[] = $e[1];
+			continue;
+		}
+		$slug  = sanitize_title( remove_accents( wp_strip_all_tags( $h[2] ) ) ) ?: 'section';
+		$n     = $seen[ $slug ] = ( $seen[ $slug ] ?? 0 ) + 1;
+		$ids[] = $slug . ( $n > 1 ? '-' . $n : '' );
+	}
+	$items = '';
+	foreach ( $m as $i => $h ) {
+		$items .= '<li><a href="#' . esc_attr( $ids[ $i ] ) . '">' . wp_kses( $h[2], array( 'em' => array() ) ) . '</a></li>';
+	}
+	$index = '<nav class="paulus-faq-index paulus-contents" id="contents" aria-labelledby="paulus-contents-label"><p class="paulus-faq-index__label" id="paulus-contents-label">' . esc_html__( 'Contents', 'paulus' ) . '</p><ol>' . $items . '</ol></nav>';
+	$back  = '<p class="paulus-faq-back"><a href="#contents">' . esc_html__( 'Back to top', 'paulus' ) . ' <span aria-hidden="true">↑</span></a></p>';
+	$i     = 0;
+	$content = preg_replace_callback(
+		'#<h2(\s[^>]*)?>(.*?)</h2>#s',
+		static function ( $h ) use ( &$i, $ids, $back ) {
+			$id   = $ids[ $i ];
+			$attr = preg_replace( '#\s*\bid=["\'][^"\']*["\']#', '', $h[1] ?? '' );
+			$mark = '<a class="paulus-anchor" href="#' . esc_attr( $id ) . '" aria-label="' . esc_attr__( 'Link to this section', 'paulus' ) . '">#</a>';
+			$lead = $i ? $back : '';
+			$i++;
+			return $lead . '<h2 id="' . esc_attr( $id ) . '"' . $attr . '>' . $h[2] . ' ' . $mark . '</h2>';
+		},
+		$content
+	);
+	$content = preg_match( '#<ol class="footnotes"#', $content ) ? preg_replace( '#<ol class="footnotes"#', $back . '<ol class="footnotes"', $content, 1 ) : $content . $back;
+	// The contents sit directly above the first section.
+	return preg_replace( '#<h2 #', $index . '<h2 ', $content, 1 );
+}
+add_filter( 'the_content', 'paulus_page_contents', 20 );
 
 /**
  * [paulus_footer_legal] The footer's secondary bar, at its foot: Privacy

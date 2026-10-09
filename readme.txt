@@ -24,6 +24,8 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 
 = 2.62.17 =
 * Bernardo Daddi's 1333 panel of Paul with the sword and the book added to "Paul in the churches", cut to the shape of its frame.
+* Every article and page with three or more sections: a Roman-tablet table of contents, section anchors and back-to-top links; the Answers index in the same design.
+* Theme Options, Media: no resized or scaled copies of new uploads (on by default).
 * The book's title written "Paulus Perosak Risalah Al-Masih" throughout.
 
 = 2.62.16 =

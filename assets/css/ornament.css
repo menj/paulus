@@ -101,3 +101,12 @@ body { background-color: var(--och); background-image: url("data:image/svg+xml,%
 .paulus-author__seal { color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 2px #f4e7cf40, inset 0 0 0 5px #5a2011, inset 0 0 0 6px #f4e7cf30, 0 2px 4px rgba(0, 0, 0, 0.35); font-family: var(--t-label); letter-spacing: 0.14em; }
 
 .paulus-author__seal--photo { padding: 6px; }
+
+/* Contents tablet: limestone face with a meander band under the heading,
+ * each section numbered on a bronze prutah, the way back struck likewise. */
+.paulus-prose .paulus-contents { background-color: #c7ad7e; box-shadow: inset 0 0 0 1px #8f7146, inset 0 0 0 8px #b8955f, inset 0 0 0 9px #8f7146, 0 14px 30px -24px rgb(0 0 0 / 0.55); }
+.paulus-prose .paulus-contents::before, .paulus-prose .paulus-contents::after { background: #8f7146; }
+.paulus-prose .paulus-contents .paulus-faq-index__label { padding-bottom: 1.05rem; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11V1h18v8h-6V5h-4v2h2' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3Cpath d='M18 9h6' fill='none' stroke='%237a2e1a' stroke-width='1.8'/%3E%3C/svg%3E") repeat-x bottom / 24px 12px; }
+.paulus-prose .paulus-contents li { grid-template-columns: 2.6rem 1fr; align-items: center; }
+.paulus-prose .paulus-contents li::before { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; font-size: 0.62rem; letter-spacing: 0.02em; color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 1px #f4e7cf40, inset 0 0 0 3px #5a2011, 0 1px 3px rgba(0, 0, 0, 0.35); }
+.paulus-prose .paulus-faq-back a span { border: 0; color: #f4e7cf; background: radial-gradient(circle at 35% 30%, #a7592f, #7a2e1a 60%, #5a2011); box-shadow: inset 0 0 0 1px #f4e7cf40, 0 1px 3px rgba(0, 0, 0, 0.35); }

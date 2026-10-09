@@ -87,6 +87,13 @@ function paulus_fields() {
 				'read_top'      => array( __( 'Back-to-top button on long pages', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'media'      => array(
+			'label'  => __( 'Media', 'paulus' ),
+			'fields' => array(
+				'media_no_sizes'  => array( __( 'Keep only the original of each upload (WordPress makes no resized copies: thumbnail, medium, large and the rest)', 'paulus' ), 'checkbox' ),
+				'media_no_scaled' => array( __( 'Never scale down large uploads (WordPress otherwise saves a reduced "-scaled" copy of images wider or taller than 2560 pixels)', 'paulus' ), 'checkbox' ),
+			),
+		),
 		'login'      => array(
 			'label'  => __( 'Login', 'paulus' ),
 			'fields' => array(

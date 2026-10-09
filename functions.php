@@ -484,6 +484,7 @@ require_once PAULUS_DIR . '/inc/structure.php';
 require_once PAULUS_DIR . '/inc/importer.php';
 require_once PAULUS_DIR . '/inc/seo.php';
 require_once PAULUS_DIR . '/inc/figures.php';
+require_once PAULUS_DIR . '/inc/media.php';
 require_once PAULUS_DIR . '/inc/charts.php';
 require_once PAULUS_DIR . '/inc/dashboard.php';
 require_once PAULUS_DIR . '/inc/journal.php';

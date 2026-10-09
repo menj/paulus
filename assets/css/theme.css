@@ -795,7 +795,25 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-faq-index a { color: var(--t-ink); text-decoration: none; font-size: 1rem; line-height: 1.35; }
 .paulus-faq-index a:hover, .paulus-faq-index a:focus-visible { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
 .paulus-prose h2[id] { scroll-margin-top: 1.5rem; }
-#questions { scroll-margin-top: 1.5rem; }
+#questions, #contents { scroll-margin-top: 1.5rem; }
+/* Contents of a long page, set as an inscribed Roman tablet (tabula ansata):
+ * a double-ruled frame with dovetail handles, the heading in Roman capitals
+ * between interpuncts, and the sections numbered in Roman numerals. */
+.paulus-prose .paulus-contents { position: relative; margin: 2.25rem 18px 3rem; padding: 1.5rem clamp(1.1rem, 4vw, 2.25rem) 1.1rem; border: 0; background: var(--t-surface); box-shadow: inset 0 0 0 1px var(--t-rule), inset 0 0 0 7px var(--t-surface), inset 0 0 0 8px var(--t-rule); }
+.paulus-prose .paulus-contents::before, .paulus-prose .paulus-contents::after { content: ""; position: absolute; top: 50%; width: 16px; height: 46px; margin-top: -23px; background: var(--t-rule); }
+.paulus-prose .paulus-contents::before { left: -16px; clip-path: polygon(100% 36%, 0 0, 0 100%, 100% 64%); }
+.paulus-prose .paulus-contents::after { right: -16px; clip-path: polygon(0 36%, 100% 0, 100% 100%, 0 64%); }
+.paulus-prose .paulus-contents .paulus-faq-index__label { margin: 0 0 1.1rem !important; font-family: var(--t-roman); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--t-accent-deep); text-align: center !important; }
+.paulus-prose .paulus-contents .paulus-faq-index__label::before, .paulus-prose .paulus-contents .paulus-faq-index__label::after { content: "\00B7"; color: var(--t-accent); margin: 0 0.6em; letter-spacing: 0; }
+.paulus-prose .paulus-contents ol { columns: 2 15rem; }
+.paulus-prose .paulus-contents li { grid-template-columns: 2.9rem 1fr; margin-bottom: 0.7rem; }
+.paulus-prose .paulus-contents li::before { content: counter(q, upper-roman); font-family: var(--t-roman); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.06em; color: var(--t-accent); }
+.paulus-prose .paulus-contents a { font-family: var(--t-display); font-weight: 700; font-size: 1.02rem; }
+/* The way back: a small Roman-capital line closing each section. */
+.paulus-prose .paulus-faq-back a { display: inline-flex; align-items: center; gap: 0.5em; font-family: var(--t-roman); font-weight: 700; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--t-accent-deep); }
+.paulus-prose .paulus-faq-back a span { display: inline-grid; place-items: center; width: 1.7em; height: 1.7em; border: 1px solid currentColor; border-radius: 50%; letter-spacing: 0; font-size: 1.05em; }
+@media (max-width: 480px) { .paulus-prose .paulus-contents { margin-inline: 12px; } .paulus-prose .paulus-contents::before, .paulus-prose .paulus-contents::after { width: 11px; height: 34px; margin-top: -17px; } .paulus-prose .paulus-contents::before { left: -11px; } .paulus-prose .paulus-contents::after { right: -11px; } }
+
 .paulus-anchor { margin-left: 0.3em; font-family: var(--t-label); font-size: 0.6em; font-weight: 400; color: var(--t-accent); text-decoration: none; opacity: 0; transition: opacity 0.15s ease; vertical-align: 0.15em; }
 h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focus-visible { opacity: 1; }
 @media (hover: none) { .paulus-anchor { opacity: 0.55; } }
@@ -1106,3 +1124,6 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 
 /* Shaped images (transparent ground): no frame box, a shadow that follows the outline. */
 .paulus-prose .paulus-figure--cutout img { border: 0; box-shadow: none; filter: drop-shadow(0 6px 12px rgba(31, 26, 20, 0.22)); }
+
+/* Contents entries are titles, set ragged right like the rail, never justified. */
+.paulus-prose .paulus-contents li, .paulus-prose .paulus-contents a { text-align: left !important; text-align-last: auto; hyphens: manual !important; }
