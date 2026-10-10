@@ -91,7 +91,7 @@ body.paulus-login::after { margin: auto auto 1.4rem; }
 .paulus-login.paulus-login--plugin-logo #login h1 a::before { display: none; }
 
 /* The tagline and the Greek inscription over the card. */
-.paulus-login__tagline { margin: 0.2rem 0 0; text-align: center; font-family: var(--t-garamond); font-style: italic; font-size: 1.05rem; color: var(--t-muted); }
+.paulus-login__tagline { margin: 0.2rem 0 0; text-align: center; font-family: var(--t-garamond); font-size: 1.05rem; color: var(--t-muted); }
 .paulus-login__greek { margin: 1.4rem 0 0.55rem; text-align: center; font-family: var(--t-garamond); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.3em; color: var(--t-accent-deep); }
 .paulus-login__greek span { cursor: help; }
 

@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.25] - 2026-10-10
+
+### Changed
+- Quotations are redrawn in the theme's own language: a tablet with a double rule above and below, a wash of the scheme's surface colour, an oxblood opening mark in Cinzel, and the quoted words in roman Garamond, left-aligned at the full measure. A quotation with a reference sets it in the label face, in capitals, after a dash, on the right. Scripture blocks (the Greek over the English, with the accent rule) are unchanged. In print a quotation keeps the plain left rule.
+- No italics where a passage has to be read: quotations, the editor's note on Martin's notes, the book blurb and subtitle, the teaser subtitle, the 404 line, the empty Journal message and the login tagline are set in roman. Emphasis and titles marked in the text itself keep theirs.
+
 ## [2.62.24] - 2026-10-10
 
 ### Fixed

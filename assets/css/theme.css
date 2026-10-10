@@ -169,7 +169,7 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-teaser__cover img { display: block; width: 100%; max-width: 220px; height: auto; box-shadow: 8px 12px 28px rgba(31, 26, 20, 0.35), 0 0 0 1px rgba(31, 26, 20, 0.15); }
 .paulus-teaser__kicker { font-family: var(--t-roman); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t-accent-deep); margin: 0 0 0.6rem; }
 .paulus-teaser__title { font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.1; margin: 0; }
-.paulus-teaser__subtitle { font-family: var(--t-garamond); font-style: italic; font-size: 1.15rem; color: var(--t-muted); margin: 0.35rem 0 0; }
+.paulus-teaser__subtitle { font-family: var(--t-garamond); font-size: 1.15rem; color: var(--t-muted); margin: 0.35rem 0 0; }
 .paulus-teaser__text { margin: 0.9rem 0 0; font-size: 1.02rem; line-height: 1.5; max-width: 52ch; }
 .paulus-teaser__details { font-family: var(--t-label); font-size: 0.8rem; color: var(--t-accent-deep); margin: 0.8rem 0 0; font-variant-numeric: tabular-nums; }
 .paulus-teaser__detail { white-space: nowrap; }
@@ -189,9 +189,9 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 .paulus-book__cover img { display: block; width: 100%; height: auto; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22); }
 .paulus-book__kicker { color: var(--t-accent-deep); font-size: 0.85rem; font-weight: 700; margin: 0 0 0.5rem; }
 .paulus-book__title { font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.08; margin: 0 0 0.75rem; }
-.paulus-book__subtitle { margin: 0 0 1.25rem; font-style: italic; }
+.paulus-book__subtitle { margin: 0 0 1.25rem; }
 .paulus-book__gloss { font-family: var(--wp--preset--font-family--body); font-style: normal; font-size: 0.95rem; color: var(--t-muted); }
-.paulus-book__blurb { max-width: 60ch; font-family: var(--t-garamond); font-style: italic; font-size: 1.3rem; line-height: 1.5; }
+.paulus-book__blurb { max-width: 60ch; font-family: var(--t-garamond); font-size: 1.3rem; line-height: 1.5; }
 .paulus-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem 1.5rem; margin: 1.75rem 0; padding: 1.25rem 0; border-block: 1px solid var(--t-rule); }
 .paulus-details div { margin: 0; }
 .paulus-details dt { font-size: 0.72rem; color: var(--t-muted); margin-bottom: 0.15rem; }
@@ -252,8 +252,9 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 }
 .paulus-prose h2 { font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2rem); color: var(--t-accent); margin-top: 2.75rem; }
 .paulus-prose a { color: var(--t-accent-deep); text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
-.paulus-prose blockquote { margin: 2rem auto; padding: 0; border: 0; text-align: center; font-family: var(--t-garamond); font-style: italic; font-size: 1.3rem; line-height: 1.55; max-width: 36em; }
-.paulus-prose blockquote p { margin: 0 0 0.5rem; text-align: center; }
+.paulus-prose blockquote { position: relative; margin: 1.9rem 0; padding: 1.2rem 1.5rem 1.15rem 3.6rem; border: 0; border-top: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); border-bottom: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); background: color-mix(in srgb, var(--t-surface) 42%, transparent); text-align: left; font-family: var(--t-garamond); font-style: normal; font-size: 1.2rem; line-height: 1.65; max-width: none; }
+.paulus-prose blockquote::before { content: "\201C"; position: absolute; left: 0.9rem; top: 0.6rem; font-family: var(--t-roman); font-weight: 700; font-size: 3.1rem; line-height: 1; color: var(--t-accent); }
+.paulus-prose blockquote p { margin: 0 0 0.6rem; text-align: left; }
 .paulus-prose .arabic { font-family: var(--t-arabic); font-size: 1.6rem; line-height: 2; direction: rtl; text-align: center; font-style: normal; color: var(--t-accent); }
 .paulus-prose sup a { text-decoration: none; font-weight: 600; padding-inline: 0.1em; }
 .paulus-prose .footnotes { margin-top: 3.5rem; padding: 0 0 0 1.4em; font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); column-gap: var(--t-gap); }
@@ -295,7 +296,8 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-ms__contents li { margin-bottom: 0.3rem; }
 
 /* Scripture and source quotations inside articles */
-.paulus-prose blockquote.scripture { text-align: left; font-style: normal; font-family: var(--t-garamond); font-size: 1.15rem; line-height: 1.6; max-width: none; margin: 1.5rem 0 1.75rem 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid var(--t-accent); }
+.paulus-prose blockquote.scripture { text-align: left; font-style: normal; font-family: var(--t-garamond); font-size: 1.15rem; line-height: 1.6; max-width: none; margin: 1.5rem 0 1.75rem 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid var(--t-accent); border-top: 0; border-bottom: 0; background: none; }
+.paulus-prose blockquote.scripture::before { content: none; }
 .paulus-prose blockquote.scripture p { text-align: justify; }
 .paulus-prose blockquote.scripture .greek { font-family: var(--t-garamond); font-size: 1.1rem; line-height: 1.6; color: var(--t-ink); padding-bottom: 0.7rem; margin-bottom: 0.7rem; border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 45%, transparent); }
 .paulus-prose .v { font-family: var(--t-label); font-size: 0.7em; color: var(--t-accent); vertical-align: super; margin: 0 0.2em 0 0.35em; }
@@ -622,7 +624,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 /* 404 */
 .paulus-404__kicker { font-family: var(--t-label); font-size: 0.8rem; color: var(--t-accent-deep); margin: 0 0 0.75rem; }
 .paulus-404__title { margin-top: 0; }
-.paulus-404__quip { font-size: 1.3rem; line-height: 1.55; font-style: italic; max-width: 38em; margin: 0 0 0.75rem; }
+.paulus-404__quip { font-size: 1.3rem; line-height: 1.55; max-width: 38em; margin: 0 0 0.75rem; }
 .paulus-404__source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4em 1.25em; font-family: var(--t-label); font-size: 0.8rem; color: var(--t-muted); margin: 0 0 2.25rem; }
 .paulus-404__source a { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.25em; }
 .paulus-404__source a:hover { color: var(--t-accent); }
@@ -835,7 +837,7 @@ h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focu
 .paulus-archive__list li { margin-bottom: 0.6rem; }
 .paulus-prose .paulus-archive .paulus-archive__break { margin: 0.4rem 0 0; text-align: center; text-align-last: center; font-size: 1.6rem; letter-spacing: 0.4em; line-height: 1; color: var(--t-muted); }
 .paulus-prose .paulus-archive .paulus-archive__end { position: relative; margin: 1.1rem auto 0; max-width: 33em; padding: 1.1rem 1.5rem 1.15rem; text-align: center; text-align-last: center; font-family: var(--t-garamond); font-size: 1.02rem; line-height: 1.55; color: var(--t-muted); border-top: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); border-bottom: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); background: color-mix(in srgb, var(--t-surface) 45%, transparent); }
-.paulus-prose .paulus-archive .paulus-archive__end p { margin: 0; text-align: center; text-align-last: center; font-style: italic; }
+.paulus-prose .paulus-archive .paulus-archive__end p { margin: 0; text-align: center; text-align-last: center; }
 .paulus-prose .paulus-archive .paulus-archive__end p.paulus-archive__end-label { margin: 0 0 0.45rem; font-family: var(--t-label); font-style: normal; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t-accent-deep); }
 .paulus-prose .paulus-archive .paulus-archive__end a { color: var(--t-accent-deep); }
 .paulus-archive__notes { margin: 2.25rem 0 0; padding: 1rem 0 0 1.3rem; border-top: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); }
@@ -939,7 +941,7 @@ h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focu
 .paulus-journal__more { margin: 0; }
 .paulus-journal__more a { font-family: var(--t-garamond); font-weight: 600; color: var(--t-accent-deep); text-decoration: none; }
 .paulus-journal__more a:hover, .paulus-journal__more a:focus-visible { text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
-.paulus-journal__empty { font-style: italic; color: var(--t-muted); }
+.paulus-journal__empty { color: var(--t-muted); }
 .paulus-journal__pages ul { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; list-style: none; margin: 0 0 2.5rem; padding: 0; }
 .paulus-journal__pages a, .paulus-journal__pages span { display: inline-block; min-width: 2.5rem; padding: 0.4rem 0.8rem; border: 1px solid var(--t-accent); border-radius: 999px; text-align: center; color: var(--t-accent-deep); text-decoration: none; }
 .paulus-journal__pages .current { background: var(--t-accent); color: var(--t-on-accent); }
@@ -1147,9 +1149,8 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 .paulus-prose .paulus-contents li, .paulus-prose .paulus-contents a { text-align: left !important; text-align-last: auto; hyphens: manual !important; }
 
 /* A quotation with its reference line under the quoted words. */
-.paulus-prose blockquote.paulus-quote { margin: 1.2rem auto; }
-.paulus-prose blockquote.paulus-quote > p { margin: 0; }
-.paulus-prose blockquote.paulus-quote > p.paulus-quote__ref { margin-top: 0.3rem; text-align: right; text-align-last: right; font-style: normal; font-family: var(--t-label); font-size: 0.85rem; letter-spacing: 0.06em; color: var(--t-muted); }
+.paulus-prose blockquote > p.paulus-quote__ref { margin: 0.2rem 0 0; text-align: right; font-style: normal; font-family: var(--t-label); font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t-accent-deep); }
+.paulus-prose blockquote > p.paulus-quote__ref::before { content: "\2014\00a0"; }
 
 /* The honorific after the name of ʿĪsā ibn Maryam: calligraphy drawn as a mask in
  * the colour of the text, with the words kept for screen readers and copying.
