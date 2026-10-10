@@ -574,6 +574,13 @@ add_action( 'template_redirect', 'paulus_sync_structure' );
  * Front-end assets.
  */
 function paulus_enqueue_assets() {
+	// The header menu depends on WordPress's navigation stylesheet (it hides the
+	// menu button on wide screens and removes the list bullets). WordPress
+	// prints it only when the block renders; if something on the site stops
+	// that, load it here, under its own handle so it is never printed twice.
+	if ( ! wp_style_is( 'wp-block-navigation', 'enqueued' ) ) {
+		wp_enqueue_style( 'paulus-core-navigation', includes_url( 'blocks/navigation/style.min.css' ), array(), get_bloginfo( 'version' ) );
+	}
 	wp_enqueue_style( 'paulus-fonts', PAULUS_URI . '/assets/css/fonts.css', array(), PAULUS_VERSION );
 	// Load after the parent stylesheet (handle registered by Twenty Twenty-Five).
 	wp_enqueue_style( 'paulus-schemes', PAULUS_URI . '/assets/css/schemes.css', array( 'twentytwentyfive-style', 'paulus-fonts' ), PAULUS_VERSION );

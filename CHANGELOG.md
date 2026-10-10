@@ -2,7 +2,10 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [2.62.18] - 2026-10-10
+
+### Fixed
+- The header menu showing both the open and close buttons and a bulleted list on wide screens when WordPress does not print its navigation stylesheet. The theme now loads that stylesheet itself, and keeps the desktop menu inline with its own rules as well.
 
 ### Added
 - Error pages in the site's own dress, for when WordPress cannot run the theme: maintenance (`maintenance.php`), database error (`db-error.php`) and PHP fatal error (`php-error.php`). The theme copies them from its `dropins` folder into wp-content, filling in the site name and addresses; a file there that the theme did not write is left alone, and switching themes removes them. They carry the parchment ground between meander bands, the card with the accent on its upper edge and the site's faces, with colours as variables in `assets/css/error-page.css` (ochre, and the ink scheme for dark displays). The maintenance and database pages reload themselves every minute.
