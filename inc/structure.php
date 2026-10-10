@@ -1641,7 +1641,7 @@ add_filter( 'the_content', 'paulus_section_ids', 7 );
  * @return string
  */
 function paulus_answers_navigation( $content ) {
-	if ( ! is_page( 'answers' ) || ! in_the_loop() || ! is_main_query() ) {
+	if ( ! is_page( array( 'answers', 'questions' ) ) || ! in_the_loop() || ! is_main_query() ) {
 		return $content;
 	}
 	if ( ! preg_match_all( '#<h2 id="([^"]+)"[^>]*>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) || count( $m ) < 2 ) {
@@ -1684,7 +1684,7 @@ add_filter( 'the_content', 'paulus_answers_navigation', 20 );
 function paulus_page_contents( $content ) {
 	// Every article and page with three or more sections, except the front
 	// page and the Answers page, which keeps its own index of questions.
-	if ( ! is_singular() || is_front_page() || is_page( 'answers' ) || ! in_the_loop() || ! is_main_query() ) {
+	if ( ! is_singular() || is_front_page() || is_page( array( 'answers', 'questions' ) ) || ! in_the_loop() || ! is_main_query() ) {
 		return $content;
 	}
 	if ( ! apply_filters( 'paulus_page_contents', true, get_the_ID() ) ) {

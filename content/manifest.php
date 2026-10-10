@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.17',
+	'content_version' => '2.62.20',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -1477,6 +1477,16 @@ return array(
 			'image'     => 'paul-halo-2023',
 			'date'      => '2026-09-25 09:00:00',
 		),
+		array(
+			'slug'      => 'did-paul-ever-meet-jesus',
+			'title'     => 'Did Paul ever meet Jesus?',
+			'seo_title' => 'Did Paul ever meet Jesus?',
+			'meta'      => 'Did Paul ever meet Jesus? Not in his lifetime. The one meeting Paul claims came after the crucifixion, and no one else saw it. Read the entry.',
+			'excerpt'   => 'Paul never met Jesus in his life on earth. The one meeting he claims came after the crucifixion, and he is its only witness.',
+			'file'      => 'journal-did-paul-meet-jesus.html',
+			'image'     => 'paul-dunce-face',
+			'date'      => '2026-10-10 09:00:00',
+		),
 	),
 
 	'pages' => array(
@@ -1489,6 +1499,16 @@ return array(
 			'file'    => 'answers.html',
 			'image'   => 'paul-dunce-face',
 			'order'   => 1,
+		),
+		array(
+			'slug'      => 'questions',
+			'meta'      => 'Who was Paul, did he meet Jesus, how did he die, did he found Christianity? Short answers to the questions people ask about Paul of Tarsus.',
+			'title'     => 'Questions about Paul of Tarsus',
+			'seo_title' => 'Questions about Paul of Tarsus',
+			'excerpt'   => 'The questions people ask most about Paul: who he was, whether he met Jesus, how he died and whether he founded Christianity. Each is answered briefly from his own letters and from Acts, with a link to the full evidence.',
+			'file'      => 'questions.html',
+			'image'     => 'paul-dunce-hands',
+			'order'     => 6,
 		),
 		array(
 			'slug'    => 'the-verdict',

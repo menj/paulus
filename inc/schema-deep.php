@@ -112,7 +112,7 @@ function paulus_node_default( $node, $prop, $value ) {
  * @return array<string, array>
  */
 function paulus_schema_entities() {
-	return array(
+	$entities = array(
 		'paul'   => array(
 			'@type'         => 'Person',
 			'@id'           => paulus_sid( 'paul-of-tarsus' ),
@@ -158,6 +158,79 @@ function paulus_schema_entities() {
 			'affiliation' => array( '@type' => 'CollegeOrUniversity', 'name' => 'Yale University' ),
 			'sameAs'      => array( 'https://en.wikipedia.org/wiki/Dale_Martin_(scholar)', 'https://www.wikidata.org/wiki/Q26923442' ),
 		),
+	);
+	foreach ( paulus_schema_named_things() as $key => $t ) {
+		$node = array(
+			'@type'  => $t[0],
+			'@id'    => paulus_sid( $key ),
+			'name'   => $t[1],
+			'sameAs' => array_values( array_filter( array( 'https://en.wikipedia.org/wiki/' . $t[3], $t[4] ? 'https://www.wikidata.org/wiki/' . $t[4] : '' ) ) ),
+			'__re'   => $t[5],
+		);
+		if ( $t[2] ) {
+			$node['alternateName'] = $t[2];
+		}
+		$entities[ $key ] = $node;
+	}
+	$entities['isa']['__re']   = '/ʿĪsā|\\bJesus\\b|\\bChrist\\b/u';
+	$entities['acts']['__re']  = '/Acts of the Apostles|\\bActs \\d/u';
+	$entities['paul']['__re']  = '';
+	return $entities;
+}
+
+/**
+ * More people, places and works the text names, each as a linked entity: type,
+ * name, other names, Wikipedia page, Wikidata item where known, and the
+ * pattern that finds it in a page's text. A page mentions an entity (and
+ * the entity's own node joins the page's graph) only when its text names it.
+ *
+ * @return array<string, array>
+ */
+function paulus_schema_named_things() {
+	$p = 'Person';
+	$l = 'Place';
+	$b = 'Book';
+	return array(
+		'muhammad'    => array( $p, 'Muhammad', array( 'The Prophet Muhammad' ), 'Muhammad', 'Q9458', '/Mu[hḥ]ammad|ﷺ/u' ),
+		'peter'       => array( $p, 'Peter the Apostle', array( 'Simon Peter', 'Cephas' ), 'Saint_Peter', 'Q33923', '/\b(Peter|Cephas)\b/u' ),
+		'james'       => array( $p, 'James, brother of Jesus', array( 'James the Just' ), 'James,_brother_of_Jesus', '', '/James the (brother|Just)|James, the (Lord’s |Lord\'s )?brother|brother of the Lord|\bJames\b/u' ),
+		'barnabas'    => array( $p, 'Barnabas', array(), 'Barnabas', '', '/\bBarnabas\b/u' ),
+		'gamaliel'    => array( $p, 'Gamaliel the Elder', array( 'Gamaliel' ), 'Gamaliel', '', '/\bGamaliel\b/u' ),
+		'stephen'     => array( $p, 'Stephen the Protomartyr', array( 'Saint Stephen' ), 'Saint_Stephen', '', '/\bStephen\b/u' ),
+		'luke'        => array( $p, 'Luke the Evangelist', array( 'Luke' ), 'Luke_the_Evangelist', '', '/\bLuke\b/u' ),
+		'clement'     => array( $p, 'Clement of Rome', array( 'Pope Clement I' ), 'Pope_Clement_I', '', '/Clement of Rome|1 Clement|First Clement/u' ),
+		'eusebius'    => array( $p, 'Eusebius of Caesarea', array(), 'Eusebius', '', '/\bEusebius\b/u' ),
+		'tertullian'  => array( $p, 'Tertullian', array(), 'Tertullian', '', '/\bTertullian\b/u' ),
+		'nero'        => array( $p, 'Nero', array( 'Nero Claudius Caesar' ), 'Nero', '', '/\bNero\b/u' ),
+		'albiruni'    => array( $p, 'Abū Rayḥān al-Bīrūnī', array( 'al-Biruni' ), 'Al-Biruni', '', '/B[iī]r[uū]n[iī]/u' ),
+		'ibnhazm'     => array( $p, 'Ibn Ḥazm', array( 'Ibn Hazm' ), 'Ibn_Hazm', '', '/Ibn Ḥ?azm/u' ),
+		'tarsus'      => array( $l, 'Tarsus', array(), 'Tarsus,_Mersin', '', '/\bTarsus\b/u' ),
+		'damascus'    => array( $l, 'Damascus', array(), 'Damascus', '', '/\bDamascus\b/u' ),
+		'jerusalem'   => array( $l, 'Jerusalem', array(), 'Jerusalem', '', '/\b(Jerusalem|Islamicjerusalem)\b/u' ),
+		'rome'        => array( $l, 'Rome', array(), 'Rome', '', '/\bRome\b/u' ),
+		'antioch'     => array( $l, 'Antioch', array(), 'Antioch', '', '/\bAntioch\b/u' ),
+		'corinth'     => array( $l, 'Corinth', array(), 'Corinth', '', '/\bCorinth\b/u' ),
+		'ephesus'     => array( $l, 'Ephesus', array(), 'Ephesus', '', '/\bEphesus\b/u' ),
+		'philippi'    => array( $l, 'Philippi', array(), 'Philippi', '', '/\bPhilippi\b/u' ),
+		'thessalonica' => array( $l, 'Thessalonica', array( 'Thessaloniki' ), 'Thessaloniki', '', '/\bThessalonica\b/u' ),
+		'athens'      => array( $l, 'Athens', array(), 'Athens', '', '/\bAthens\b/u' ),
+		'cyprus'      => array( $l, 'Cyprus', array(), 'Cyprus', '', '/\bCyprus\b/u' ),
+		'galatia'     => array( $l, 'Galatia', array(), 'Galatia', '', '/\bGalatia\b/u' ),
+		'caesarea'    => array( $l, 'Caesarea Maritima', array( 'Caesarea' ), 'Caesarea_Maritima', '', '/\bCaesarea\b/u' ),
+		'romans'      => array( $b, 'Epistle to the Romans', array( 'Romans' ), 'Epistle_to_the_Romans', '', '/Epistle to the Romans|letter to the Romans|\bRomans \d/u' ),
+		'1corinthians' => array( $b, 'First Epistle to the Corinthians', array( '1 Corinthians' ), 'First_Epistle_to_the_Corinthians', '', '/1 Corinthians|First Corinthians/u' ),
+		'2corinthians' => array( $b, 'Second Epistle to the Corinthians', array( '2 Corinthians' ), 'Second_Epistle_to_the_Corinthians', '', '/2 Corinthians|Second Corinthians/u' ),
+		'galatians'   => array( $b, 'Epistle to the Galatians', array( 'Galatians' ), 'Epistle_to_the_Galatians', '', '/Epistle to the Galatians|letter to the Galatians|\bGalatians \d/u' ),
+		'philippians' => array( $b, 'Epistle to the Philippians', array( 'Philippians' ), 'Epistle_to_the_Philippians', '', '/Epistle to the Philippians|\bPhilippians \d/u' ),
+		'1thessalonians' => array( $b, 'First Epistle to the Thessalonians', array( '1 Thessalonians' ), 'First_Epistle_to_the_Thessalonians', '', '/1 Thessalonians|First Thessalonians/u' ),
+		'philemon'    => array( $b, 'Epistle to Philemon', array( 'Philemon' ), 'Epistle_to_Philemon', '', '/\bPhilemon\b/u' ),
+		'matthew'     => array( $b, 'Gospel of Matthew', array(), 'Gospel_of_Matthew', '', '/Gospel of Matthew|\bMatthew \d/u' ),
+		'mark'        => array( $b, 'Gospel of Mark', array(), 'Gospel_of_Mark', '', '/Gospel of Mark|\bMark \d/u' ),
+		'lukegospel'  => array( $b, 'Gospel of Luke', array(), 'Gospel_of_Luke', '', '/Gospel of Luke|\bLuke \d/u' ),
+		'john'        => array( $b, 'Gospel of John', array(), 'Gospel_of_John', '', '/Gospel of John|\bJohn \d/u' ),
+		'quran'       => array( $b, 'The Quran', array( 'Qurʾān', 'Koran' ), 'Quran', '', '/Qur[ʾ’\']?[aā]n|\bKoran\b/u' ),
+		'torah'       => array( $b, 'The Torah', array(), 'Torah', '', '/\bTorah\b/u' ),
+		'tanakh'      => array( $b, 'The Tanakh', array( 'Hebrew Bible' ), 'Hebrew_Bible', '', '/\bTanakh\b|Hebrew Bible/u' ),
 	);
 }
 
@@ -225,6 +298,94 @@ function paulus_schema_citations( $content ) {
 		}
 	}
 	return array_slice( array_values( array_unique( $out ) ), 0, 100 );
+}
+
+/**
+ * The footnotes of the current text as citation nodes: each note's text, its
+ * place in the list, and the address of the note on the page.
+ *
+ * @param string $content Content.
+ * @param string $base    Page address.
+ * @return array
+ */
+function paulus_schema_citation_nodes( $content, $base ) {
+	if ( ! preg_match( '#<ol class="footnotes"[^>]*>(.*?)</ol>#s', $content, $m ) ) {
+		return array();
+	}
+	preg_match_all( '#<li([^>]*)>(.*?)</li>#s', $m[1], $li, PREG_SET_ORDER );
+	$out = array();
+	foreach ( $li as $i => $note ) {
+		$text = paulus_schema_text( preg_replace( '#<a [^>]*aria-label="Back to text"[^>]*>.*?</a>#s', '', $note[2] ) );
+		if ( '' === $text ) {
+			continue;
+		}
+		$node = array(
+			'@type'    => 'CreativeWork',
+			'text'     => mb_substr( $text, 0, 400 ),
+			'position' => $i + 1,
+		);
+		if ( preg_match( '#\bid="([^"]+)"#', $note[1], $id ) ) {
+			$node['@id'] = $base . '#' . $id[1];
+			$node['url'] = $base . '#' . $id[1];
+		}
+		$out[] = $node;
+	}
+	return array_slice( $out, 0, 100 );
+}
+
+/**
+ * The sections of a text: each h2 heading as a WebPageElement with the
+ * address of its anchor, numbered in reading order. Anchors follow the
+ * theme's own rule (paulus_page_contents): the heading's id, else its slug.
+ *
+ * @param string $content Content.
+ * @param string $base    Page address.
+ * @return array
+ */
+function paulus_schema_sections( $content, $base ) {
+	if ( ! preg_match_all( '#<h2(\s[^>]*)?>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) ) {
+		return array();
+	}
+	$seen = array();
+	$out  = array();
+	foreach ( $m as $i => $h ) {
+		$name = paulus_schema_text( $h[2] );
+		if ( preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1] ?? '', $e ) ) {
+			$id = $e[1];
+		} else {
+			$slug = sanitize_title( remove_accents( wp_strip_all_tags( $h[2] ) ) ) ?: 'section';
+			$n    = $seen[ $slug ] = ( $seen[ $slug ] ?? 0 ) + 1;
+			$id   = $slug . ( $n > 1 ? '-' . $n : '' );
+		}
+		if ( '' === $name ) {
+			continue;
+		}
+		$out[] = array(
+			'@type'    => 'WebPageElement',
+			'@id'      => $base . '#' . $id,
+			'name'     => $name,
+			'url'      => $base . '#' . $id,
+			'position' => $i + 1,
+		);
+	}
+	return array_slice( $out, 0, 60 );
+}
+
+/**
+ * The people, places and works a text names, as references to their entities.
+ *
+ * @param string $content Content.
+ * @return array
+ */
+function paulus_schema_mentions( $content ) {
+	$text = paulus_schema_text( $content );
+	$out  = array();
+	foreach ( paulus_schema_entities() as $e ) {
+		if ( ! empty( $e['__re'] ) && preg_match( $e['__re'], $text ) ) {
+			$out[] = array( '@id' => $e['@id'] );
+		}
+	}
+	return $out;
 }
 
 /**
@@ -456,7 +617,6 @@ function paulus_schema_component_nodes() {
 			'about'               => array( '@id' => paulus_sid( 'paul-of-tarsus' ) ),
 			'educationalUse'      => 'discussion',
 			'learningResourceType' => 'study guide',
-			'numberOfItems'       => count( $questions ),
 			'hasPart'             => $questions,
 		);
 	}
@@ -722,7 +882,13 @@ function paulus_schema_deepen_node( $node ) {
 		if ( ! is_404() && ! is_search() ) {
 			$node = paulus_node_default( $node, 'about', $paul );
 		}
-		$node = paulus_node_default( $node, 'hasPart', array( array( '@id' => paulus_sid( 'header' ) ), array( '@id' => paulus_sid( 'footer' ) ) ) );
+		$node = paulus_node_default( $node, 'hasPart', array_merge( array( array( '@id' => paulus_sid( 'header' ) ), array( '@id' => paulus_sid( 'footer' ) ) ), is_singular() && ! is_404() ? paulus_schema_sections( $content, $url ) : array() ) );
+		if ( is_singular() && ! is_404() ) {
+			$mentions = paulus_schema_mentions( $content );
+			if ( $mentions ) {
+				$node = paulus_node_default( $node, 'mentions', $mentions );
+			}
+		}
 		$main = array(
 			'glossary'                       => '#glossary',
 			'study-questions'                => '#study-guide',
@@ -774,8 +940,9 @@ function paulus_schema_deepen_node( $node ) {
 			$node['@type'] = array( 'Article', 'ScholarlyArticle' );
 		}
 		$node = paulus_node_default( $node, 'about', 'why-luke-does-not-know-pauls-letters' === $slug ? array( $paul, array( '@id' => paulus_sid( 'acts-of-the-apostles' ) ) ) : $paul );
-		if ( false !== strpos( $content, 'ʿĪsā' ) ) {
-			$node = paulus_node_default( $node, 'mentions', array( '@id' => paulus_sid( 'isa-ibn-maryam' ) ) );
+		$mentions = paulus_schema_mentions( $content );
+		if ( $mentions ) {
+			$node = paulus_node_default( $node, 'mentions', $mentions );
 		}
 		if ( is_singular( 'post' ) ) {
 			$node = paulus_node_default( $node, 'isBasedOn', array( '@id' => paulus_sid( 'book' ) ) );
@@ -808,11 +975,11 @@ function paulus_schema_deepen_node( $node ) {
 				$node['isPartOf'] = array_values( array_filter( array_merge( (array) ( isset( $node['isPartOf'] ) && ! isset( $node['isPartOf']['@type'] ) ? array( $node['isPartOf'] ) : array() ), array( array( '@type' => 'CreativeWorkSeries', 'name' => $series['title'] ) ) ) ) );
 			}
 		}
-		$cites = paulus_schema_citations( $content );
+		$cites = paulus_schema_citation_nodes( $content, $url );
 		if ( $cites ) {
 			$node = paulus_node_default( $node, 'citation', $cites );
 		}
-		$parts = paulus_schema_quotations( $content, $url );
+		$parts = array_merge( paulus_schema_sections( $content, $url ), paulus_schema_quotations( $content, $url ) );
 		if ( $parts ) {
 			$node = paulus_node_default( $node, 'hasPart', $parts );
 		}
@@ -909,6 +1076,7 @@ function paulus_schema_deepen( $nodes ) {
 	// refers to, each as a node of its own.
 	$extra = array_merge( paulus_schema_page_elements(), array_map( 'paulus_schema_deepen_node', paulus_schema_component_nodes() ) );
 	foreach ( paulus_schema_entities() as $entity ) {
+		unset( $entity['__re'] );
 		if ( paulus_schema_refers( array( $nodes, $extra ), $entity['@id'] ) ) {
 			$extra[] = $entity;
 		}
@@ -931,7 +1099,7 @@ function paulus_schema_deepen( $nodes ) {
 	if ( $archive && ! is_page( $archive->ID ) && paulus_schema_refers( array( $nodes, $extra ), get_permalink( $archive ) . '#manuscript' ) ) {
 		$extra[] = array( '@type' => 'Manuscript', '@id' => get_permalink( $archive ) . '#manuscript', 'name' => '“Luke” versus Paul', 'author' => array( '@id' => paulus_sid( 'dale-b-martin' ) ), 'url' => get_permalink( $archive ) );
 		if ( ! paulus_schema_refers( array( $nodes, $extra ), paulus_sid( 'dale-b-martin' ) . '"' ) ) {
-			$extra[] = paulus_schema_entities()['martin'];
+			$extra[] = array_diff_key( paulus_schema_entities()['martin'], array( '__re' => 1 ) );
 		}
 	}
 	$i = 0;
