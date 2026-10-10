@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.17
+Stable tag: 2.62.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,42 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.29 =
+* Documentation brought up to date (README, UPGRADING, this file, CHANGELOG). The licence file is one flowing document, LICENSES.md.
+
+= 2.62.28 =
+* The licence texts merged into one file, now Markdown.
+
+= 2.62.27 =
+* Arabic set by use: Quranic verses in KFGQPC Hafs Uthmanic Script, hadiths in Dubidam Arabic, everything else in Arslan Wessam. No italics inside quotations.
+
+= 2.62.26 =
+* Arabic script in Dubidam Arabic (light, regular, bold), letters and marks only because of the free edition's watermark.
+
+= 2.62.25 =
+* Quotations redrawn as tablets in the theme's design; italics removed from reading text.
+
+= 2.62.24 =
+* Fixes from code review: quote CSS scope, structured-data section addresses, the James entity, the 404 list, an atomic structure-sync lock, prior content hashes and two wrong citations.
+
+= 2.62.23 =
+* The honorific after the name of ʿĪsā ibn Maryam in calligraphy. Reading progress options: pages, position, height, colours.
+
+= 2.62.22 =
+* Five images of Paul from Wikimedia Commons with credits; an engraving-style portrait of Dale B. Martin; the image list regenerated.
+
+= 2.62.21 =
+* Paul of Tarsus at a glance; more questions and glossary entries; search titles and descriptions for eighteen pages; Mustafa Akyol among the modern Muslim voices; the keyword map.
+
+= 2.62.20 =
+* The Questions page; the Journal entry "Did Paul ever meet Jesus?"; wider structured data (sections, citations, mentions); an end marker and editor's note on Martin's notes.
+
+= 2.62.19 =
+* Error pages copied into wp-content on the first page load; the core navigation stylesheet always loaded.
+
+= 2.62.18 =
+* The desktop header menu stays inline when the core navigation stylesheet is missing; version raised so cached styles refresh.
 
 = 2.62.17 =
 * Bernardo Daddi's 1333 panel of Paul with the sword and the book added to "Paul in the churches", cut to the shape of its frame.
