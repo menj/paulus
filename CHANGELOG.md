@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.24] - 2026-10-10
+
+### Fixed
+Findings from the CodeAnt reviews of the earlier pull requests, each checked against the code first.
+- The quotation style added for "Paul of Tarsus at a glance" applied to every classless blockquote on the site, which would have shrunk and right-aligned the last paragraph of any one-paragraph quotation (Akhtar's, Akyol's). It now applies only to a quotation marked `paulus-quote`.
+- The section addresses in the structured data used the wrong anchors for articles and Journal entries (the rail's `s-` ids) and for pages without ids. They now come from the headings the page really renders, and a heading with no address is listed without one. Checked on 88 pages: every address resolves.
+- A Journal entry or article that names "James" (the son of Zebedee, say) no longer links to James, the brother of Jesus; the pattern now needs "the brother", "the Lord's brother" or "the Just".
+- The 404 page no longer lists a page that is a draft or private.
+- The structure sync's lock was a transient checked and then set in two steps, so two simultaneous administrator requests could both run it and create a page twice. The lock is now claimed atomically (adding an option fails if it exists) and a lock over a minute old is taken over.
+- Sites that never recorded a content hash for a changed text (churches, glossary, Martin's notes, the Questions and glance pages and Akyol's article) now still refresh: the earlier shipped texts are listed in `prior_hashes`.
+- "Paul of Tarsus at a glance" cited Acts 21:39 for his birth; Acts 22:3 says he was born in Tarsus, and 21:39 only names it as his city. The ivory plaque of the sixth or seventh century was said to be "a century or two" before the medallion of about 1100; it is five centuries.
+- The front page's questions section now links to the Questions page as well as the Answers. The 2.62.20 note that the Questions page was linked from the front-page cards was wrong: the cards belong to the Site map page.
+
 ## [2.62.23] - 2026-10-10
 
 ### Added
@@ -35,7 +48,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.62.20] - 2026-10-10
 
 ### Added
-- A Questions page, "Questions about Paul of Tarsus" (`/questions/`): 21 short answers to the questions people search for most (who Paul was, Saul and Paul, the name's meaning, birth and appearance, marriage, Jew and Pharisee, Roman citizen, meeting Jesus, the Twelve, who taught him, what he did before his call, Damascus, his death, the founder of Christianity, why he mattered, his arrests, the letters, his teaching, whether he was real, Islam, his wrongs). Each links to the full evidence; the page has its own index, anchors and FAQPage markup like Answers, and is linked from the front-page cards and the 404 page. Chosen from the Semrush question export (708 questions, folded into 21 intents); the full keyword list is classified in `docs/keyword-map.csv` (2,170 keywords: cluster, where each is used, 258 marked irrelevant with the reason: places, schools and parishes, feast days and patronage, films, study aids, other languages and names).
+- A Questions page, "Questions about Paul of Tarsus" (`/questions/`): 21 short answers to the questions people search for most (who Paul was, Saul and Paul, the name's meaning, birth and appearance, marriage, Jew and Pharisee, Roman citizen, meeting Jesus, the Twelve, who taught him, what he did before his call, Damascus, his death, the founder of Christianity, why he mattered, his arrests, the letters, his teaching, whether he was real, Islam, his wrongs). Each links to the full evidence; the page has its own index, anchors and FAQPage markup like Answers, and is linked from the Site map cards and the 404 page. Chosen from the Semrush question export (708 questions, folded into 21 intents); the full keyword list is classified in `docs/keyword-map.csv` (2,170 keywords: cluster, where each is used, 258 marked irrelevant with the reason: places, schools and parishes, feast days and patronage, films, study aids, other languages and names).
 - Structured data across the site: every section heading as a WebPageElement with its anchor; each footnote as a linked CreativeWork citation; the people, places and works a page names (ʿĪsā ibn Maryam, Muḥammad ﷺ, Peter, James, Barnabas, Gamaliel, Stephen, Luke, Clement, Eusebius, Nero, the cities of Paul's journeys, his letters, the Gospels, the Quran, the Torah and the Tanakh) as `mentions`, each linked to its Wikipedia page; the Quiz on the study guide no longer carries a property schema.org does not allow on it. Checked on 88 pages against the current schema.org vocabulary: no unknown types or properties, no dangling references.
 - The end of Dale B. Martin's notes is marked: after the last heading ("E. Why does Luke not seem to know Paul's letters?") a centred ellipsis and an editor's note, set in a ruled panel with its own label, say that the notes stop there and link to this site's answer. Marked as editorial, apart from his text.
 - A Journal entry, "Did Paul ever meet Jesus?" (about 450 words, dated 10 October 2026): Paul never met Jesus in his life on earth, and the one meeting he claims, after the crucifixion, has no witness but himself. It cites 1 Corinthians 9:1 and 15:5–8, Galatians 1:11–19, 2 Corinthians 5:16, and Acts 1:21–22, 9:7, 22:9 and 26:12–18, and links to the Damascus road, the three accounts compared, and "A self-appointed apostle". Content version 2.62.20.

@@ -430,7 +430,12 @@ function paulus_sc_answers_teaser( $atts ) {
 			. '<div class="paulus-faq__answer">' . wp_kses_post( do_shortcode( $item['answer'] ) ) . '</div>'
 			. '</details>';
 	}
-	$out .= '</div><p class="paulus-answers__more"><a class="paulus-link" href="' . esc_url( $url ) . '">' . esc_html__( 'All answers, with references', 'paulus' ) . '</a></p></section>';
+	$questions = get_page_by_path( 'questions' );
+	$more      = '<a class="paulus-link" href="' . esc_url( $url ) . '">' . esc_html__( 'All answers, with references', 'paulus' ) . '</a>';
+	if ( $questions && 'publish' === $questions->post_status ) {
+		$more .= ' <span aria-hidden="true">·</span> <a class="paulus-link" href="' . esc_url( get_permalink( $questions ) ) . '">' . esc_html__( 'Questions about Paul', 'paulus' ) . '</a>';
+	}
+	$out .= '</div><p class="paulus-answers__more">' . $more . '</p></section>';
 	return $out;
 }
 add_shortcode( 'paulus_answers_teaser', 'paulus_sc_answers_teaser' );

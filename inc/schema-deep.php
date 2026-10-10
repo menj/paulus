@@ -193,7 +193,7 @@ function paulus_schema_named_things() {
 	return array(
 		'muhammad'    => array( $p, 'Muhammad', array( 'The Prophet Muhammad' ), 'Muhammad', 'Q9458', '/Mu[hḥ]ammad|ﷺ/u' ),
 		'peter'       => array( $p, 'Peter the Apostle', array( 'Simon Peter', 'Cephas' ), 'Saint_Peter', 'Q33923', '/\b(Peter|Cephas)\b/u' ),
-		'james'       => array( $p, 'James, brother of Jesus', array( 'James the Just' ), 'James,_brother_of_Jesus', '', '/James the (brother|Just)|James, the (Lord’s |Lord\'s )?brother|brother of the Lord|\bJames\b/u' ),
+		'james'       => array( $p, 'James, brother of Jesus', array( 'James the Just' ), 'James,_brother_of_Jesus', '', '/James,? (the )?(Lord’s |Lord\'s )?brother|James the Just|brother of the Lord/u' ),
 		'barnabas'    => array( $p, 'Barnabas', array(), 'Barnabas', '', '/\bBarnabas\b/u' ),
 		'gamaliel'    => array( $p, 'Gamaliel the Elder', array( 'Gamaliel' ), 'Gamaliel', '', '/\bGamaliel\b/u' ),
 		'stephen'     => array( $p, 'Stephen the Protomartyr', array( 'Saint Stephen' ), 'Saint_Stephen', '', '/\bStephen\b/u' ),
@@ -335,6 +335,30 @@ function paulus_schema_citation_nodes( $content, $base ) {
 }
 
 /**
+ * Record the headings the page really shows, after every other content
+ * filter has run, so the structured data links only to anchors that exist.
+ * The page body renders before wp_head in a block theme, so what is recorded
+ * here is there when the structured data is built.
+ *
+ * @param string $content Rendered content.
+ * @return string
+ */
+function paulus_schema_capture_headings( $content ) {
+	if ( is_singular() && in_the_loop() && is_main_query() && preg_match_all( '#<h2(\s[^>]*)?>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) ) {
+		$seen = array();
+		foreach ( $m as $h ) {
+			$seen[] = array(
+				'id'   => preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1] ?? '', $e ) ? $e[1] : '',
+				'text' => paulus_schema_text( preg_replace( '#<a class="paulus-anchor".*?</a>#s', '', $h[2] ) ),
+			);
+		}
+		$GLOBALS['paulus_schema_headings'] = $seen;
+	}
+	return $content;
+}
+add_filter( 'the_content', 'paulus_schema_capture_headings', 99 );
+
+/**
  * The sections of a text: each h2 heading as a WebPageElement with the
  * address of its anchor, numbered in reading order. Anchors follow the
  * theme's own rule (paulus_page_contents): the heading's id, else its slug.
@@ -344,6 +368,44 @@ function paulus_schema_citation_nodes( $content, $base ) {
  * @return array
  */
 function paulus_schema_sections( $content, $base ) {
+	// The headings as the page rendered them, with their real ids.
+	if ( ! empty( $GLOBALS['paulus_schema_headings'] ) ) {
+		$out = array();
+		foreach ( $GLOBALS['paulus_schema_headings'] as $i => $h ) {
+			if ( '' === $h['text'] ) {
+				continue;
+			}
+			$el = array(
+				'@type'    => 'WebPageElement',
+				'name'     => $h['text'],
+				'position' => $i + 1,
+			);
+			if ( '' !== $h['id'] ) {
+				$el['@id'] = $base . '#' . $h['id'];
+				$el['url'] = $base . '#' . $h['id'];
+			}
+			$out[] = $el;
+		}
+		return array_slice( $out, 0, 60 );
+	}
+	// Articles and Journal entries take the ids the rail links to (s- and the
+	// slug), which paulus_section_ids() writes into the page.
+	if ( is_single() && function_exists( 'paulus_article_sections' ) ) {
+		$out = array();
+		foreach ( paulus_article_sections( get_queried_object_id() ) as $i => $sec ) {
+			if ( '' === trim( $sec['text'] ) ) {
+				continue;
+			}
+			$out[] = array(
+				'@type'    => 'WebPageElement',
+				'@id'      => $base . '#' . $sec['id'],
+				'name'     => $sec['text'],
+				'url'      => $base . '#' . $sec['id'],
+				'position' => $i + 1,
+			);
+		}
+		return array_slice( $out, 0, 60 );
+	}
 	if ( ! preg_match_all( '#<h2(\s[^>]*)?>(.*?)</h2>#s', $content, $m, PREG_SET_ORDER ) ) {
 		return array();
 	}
@@ -351,7 +413,8 @@ function paulus_schema_sections( $content, $base ) {
 	$out  = array();
 	foreach ( $m as $i => $h ) {
 		$name = paulus_schema_text( $h[2] );
-		if ( preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1] ?? '', $e ) ) {
+		$stored = (bool) preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1] ?? '', $e );
+		if ( $stored ) {
 			$id = $e[1];
 		} else {
 			$slug = sanitize_title( remove_accents( wp_strip_all_tags( $h[2] ) ) ) ?: 'section';
@@ -361,13 +424,19 @@ function paulus_schema_sections( $content, $base ) {
 		if ( '' === $name ) {
 			continue;
 		}
-		$out[] = array(
+		$el = array(
 			'@type'    => 'WebPageElement',
-			'@id'      => $base . '#' . $id,
 			'name'     => $name,
-			'url'      => $base . '#' . $id,
 			'position' => $i + 1,
 		);
+		// A heading with no id of its own is named without an address: the
+		// theme gives it one only while rendering, and the rendered
+		// headings (above) are the ones to link to.
+		if ( $stored ) {
+			$el['@id'] = $base . '#' . $id;
+			$el['url'] = $base . '#' . $id;
+		}
+		$out[] = $el;
 	}
 	return array_slice( $out, 0, 60 );
 }

@@ -511,6 +511,24 @@ function paulus_preload_fonts() {
 add_action( 'wp_head', 'paulus_preload_fonts', 1 );
 
 /**
+ * Claim the structure sync. add_option() cannot add an option that exists, so
+ * only one of two simultaneous requests gets the claim.
+ *
+ * @return bool Whether this request may run the sync.
+ */
+function paulus_sync_lock() {
+	if ( add_option( 'paulus_sync_lock', time(), '', false ) ) {
+		return true;
+	}
+	$held = (int) get_option( 'paulus_sync_lock' );
+	if ( $held && time() - $held > MINUTE_IN_SECONDS ) {
+		delete_option( 'paulus_sync_lock' );
+		return add_option( 'paulus_sync_lock', time(), '', false );
+	}
+	return false;
+}
+
+/**
  * Keep the installed structure in step with the manifest.
  *
  * Runs whenever an administrator loads a page, admin or front end, and the
@@ -530,12 +548,13 @@ function paulus_sync_structure() {
 	if ( ! paulus_is_installed() ) {
 		return;
 	}
-	// A simple mutex: this can run on both admin_init and template_redirect,
-	// so two requests landing close together must not both attempt the sync.
-	if ( get_transient( 'paulus_sync_lock' ) ) {
+	// A mutex: this can run on both admin_init and template_redirect, so two
+	// requests landing close together must not both run the sync. Adding an
+	// option that already exists fails, which makes the claim atomic; a lock
+	// older than a minute belongs to a request that died, and is taken over.
+	if ( ! paulus_sync_lock() ) {
 		return;
 	}
-	set_transient( 'paulus_sync_lock', 1, MINUTE_IN_SECONDS );
 	paulus_sync_note( 'articles and pages' );
 	// A fatal error PHP cannot catch (the time limit, memory) is recorded
 	// with the stage reached, for the dashboard.
@@ -544,7 +563,7 @@ function paulus_sync_structure() {
 		$s = get_option( 'paulus_sync_status' );
 		if ( $e && in_array( $e['type'], array( E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ), true ) && is_array( $s ) && 'running' === ( $s['state'] ?? '' ) ) {
 			paulus_sync_note( (string) $s['stage'], 'failed', $e['message'] );
-			delete_transient( 'paulus_sync_lock' );
+			delete_option( 'paulus_sync_lock' );
 		}
 	} );
 	try {
@@ -554,7 +573,7 @@ function paulus_sync_structure() {
 		$s      = get_option( 'paulus_sync_status' );
 		paulus_sync_note( is_array( $s ) ? (string) $s['stage'] : '', 'failed', $e->getMessage() . ' (' . basename( $e->getFile() ) . ':' . $e->getLine() . ')' );
 	}
-	delete_transient( 'paulus_sync_lock' );
+	delete_option( 'paulus_sync_lock' );
 	// Only a fully successful pass advances the recorded version: a
 	// partial failure (a wp_insert_post error, say) is retried on the
 	// next page load rather than being marked done.

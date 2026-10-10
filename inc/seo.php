@@ -1260,7 +1260,7 @@ function paulus_sc_404_links() {
 	}
 	foreach ( array( 'answers', 'questions', 'paul-at-a-glance', 'the-verdict', 'the-book', 'sitemap' ) as $slug ) {
 		$page = 'sitemap' === $slug ? paulus_sitemap_page() : get_page_by_path( $slug );
-		if ( $page ) {
+		if ( $page && 'publish' === $page->post_status ) {
 			$out .= '<li><a href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html( get_the_title( $page ) ) . '</a></li>';
 		}
 	}

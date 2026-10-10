@@ -1146,10 +1146,10 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 /* Contents entries are titles, set ragged right like the rail, never justified. */
 .paulus-prose .paulus-contents li, .paulus-prose .paulus-contents a { text-align: left !important; text-align-last: auto; hyphens: manual !important; }
 
-/* Plain quotations (no class): the reference line under the quoted words. */
-.paulus-prose blockquote:not([class]) { margin: 1.2rem 0; }
-.paulus-prose blockquote:not([class]) > p { margin: 0; }
-.paulus-prose blockquote:not([class]) > p:last-child { margin-top: 0.3rem; text-align: right; text-align-last: right; font-style: normal; font-family: var(--t-label); font-size: 0.85rem; letter-spacing: 0.06em; color: var(--t-muted); }
+/* A quotation with its reference line under the quoted words. */
+.paulus-prose blockquote.paulus-quote { margin: 1.2rem auto; }
+.paulus-prose blockquote.paulus-quote > p { margin: 0; }
+.paulus-prose blockquote.paulus-quote > p.paulus-quote__ref { margin-top: 0.3rem; text-align: right; text-align-last: right; font-style: normal; font-family: var(--t-label); font-size: 0.85rem; letter-spacing: 0.06em; color: var(--t-muted); }
 
 /* The honorific after the name of ʿĪsā ibn Maryam: calligraphy drawn as a mask in
  * the colour of the text, with the words kept for screen readers and copying.
