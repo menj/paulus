@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.19] - 2026-10-10
+
+### Fixed
+- The error pages are copied into wp-content on the first page load after an install or update, not only when the admin is opened, so they exist before WordPress needs them.
+- The theme always loads WordPress's navigation stylesheet under its own handle; the earlier check for whether WordPress had queued it did not trigger when WordPress queued it but never printed it.
+
 ## [2.62.18] - 2026-10-10
 
 ### Fixed
