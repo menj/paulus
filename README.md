@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload `paulus-2.62.17.zip` under Appearance, Themes, Add New, and activate it.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.62.28, made from this repository) under Appearance, Themes, Add New, and activate it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -23,6 +23,9 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /category/the-charges/             Count·I (1), Count·II (2), Count·III (3), Count·IV (2), Count·V (3), Count·VI (3)
 /category/the-witnesses/           The early church, The brother, The Islamic tradition (3 parts), The revelation, Testimony, The region
 /answers/                          Short answers to common missionary claims, each linked to its article
+/questions/                        Short answers to the questions people search for most (who Paul was, whether he met Jesus, how he died), each linked to its article
+/paul-at-a-glance/                 The story, ten facts, names, journeys, letters, legacy, quotations and pictures on one page
+/journal/                          Dated entries by the author, each with its own address
 /the-verdict/                      The epilogue in full
 /reference/                        Timeline, glossary, study guide, sources, Paul in the churches
 /the-book/                         The book: details, contents, order link, publisher, author
@@ -43,7 +46,7 @@ Running the installer again is safe. It leaves existing text alone, moves articl
 | Catalogue record | The book's library record for the book page: title and statement of responsibility, physical description, language, notes (one per line), subject headings (one per line), ISBNs as catalogued (one per line) and Bib ID. Edition, imprint and OCLC number come from the Book tab |
 | Publisher | Name, registration number, email and website (shown on the book page); address and telephone, published in the structured data only |
 | Colors | First-century ornament switch (on by default). Named scheme: Ochre (book cover, default), Vellum, Oxblood, Ink, Paper, Graphite |
-| Reading | Five reading aids, each on by default: a progress bar across the top of articles; the left and right arrow keys for the previous and next article in the reading order (ignored in form fields and while the image viewer is open); a resume prompt on long articles and pages, which offers to return a reader to the section where they stopped and never moves the page by itself (position kept only in the reader's browser, for sixty days, and cleared on reaching the end); a copy-link button in the share row; and a back-to-top button. All respect reduced motion and are left out of print |
+| Reading | Five reading aids, each on by default. The progress bar can be shown on articles, Journal entries and pages (each its own switch), at the top or the bottom of the screen, 1 to 12 pixels high, in a bar colour and a track colour (hex codes; left empty they follow the colour scheme), and is chosen on the server so a page that should not have it never loads it. The other aids: the left and right arrow keys for the previous and next article in the reading order (ignored in form fields and while the image viewer is open); a resume prompt on long articles and pages, which offers to return a reader to the section where they stopped and never moves the page by itself (position kept only in the reader's browser, for sixty days, and cleared on reaching the end); a copy-link button in the share row; and a back-to-top button. All respect reduced motion and are left out of print |
 | Front page | Search title (shown before "\| Apostle of Doom"), meta description, kicker, heading, subheading, introduction, hero image, footer description and footer badges (links and images) |
 | Content | Site structure installer, with the structure version on the site beside the one shipped |
 
@@ -57,14 +60,16 @@ Defaults live in `paulus_defaults()` in `inc/defaults.php`. The fields themselve
 paulus/
   assets/css/     theme.css, schemes.css, ornament.css, fonts.css, print.css, admin.css
   assets/js/      admin.js, lightbox-init.js (editor images into the lightbox), reader.js (section marking in the article rail), print.js (Print and Save as PDF), vendor/html2pdf.bundle.min.js (0.14.0, MIT)
-  assets/fonts/   WOFF2 fonts
+  assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC Hafs Uthmanic Script)
   assets/icons/   share marks from the Minimalist Social Icons pack (facebook, x, whatsapp, telegram), the theme's email, print and search marks, a Save as PDF mark (a page with a folded corner and a download arrow, drawn in the text colour like the rest), and social/ with the full pack (45 platforms) for the footer
   assets/images/  cover, publisher logo, author portrait, seven illustrations and their variants, site icon
   build.py        builds content/articles from content/src
+  LICENSES.md     the theme's licence and what is bundled with it, in one document
+  docs/           keyword-map.csv: every keyword from the Semrush research, its cluster, and where it is worked into the site
+  dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.php, src/ (chapter sources), articles/ (built HTML)
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, figures (church photographs and their credits), search (header search, results)
-  licenses/       vendor and font licence files, kept out of the served asset folders
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, dashboard, unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -199,7 +204,7 @@ The front-page hero uses a cutout of the portrait with its background removed (`
 
 ## Photographs
 
-Sixty-one photographs and reproductions (churches, paintings, manuscripts, inscriptions, sites, and a portrait of Isma'il R. al Faruqi), sixty of them from Wikimedia Commons, are bundled in `assets/images/church/` at up to 1,400 pixels with 720-pixel versions for `srcset`, with the Commons metadata in `commons-meta.json`. Fetch Commons files through the standard thumbnail widths (for example `1280px-`); Wikimedia refuses bulk requests for originals. `inc/figures.php` registers each with its alt text, author, licence and source page, and `[paulus_figure name="…"]Caption[/paulus_figure]` renders it as a captioned figure with a credit line linking the licence and the Commons page. In the chapter sources the syntax is `{{fig:name|Caption}}`. They appear in every article and on the timeline and the reference page "Paul in the churches"; the woodcut illustrations stay as the featured images. Figures fill the text column; images taller than they are wide are held to 80 per cent of the screen height, and the frame and caption shrink to the image, so no frame ever shows empty space, and each opens in a Lightbox2 viewer (bundled in `assets/vendor/lightbox2/`, 2.12.0, MIT; licence in `licenses/`), styled in `assets/css/lightbox.css`: the caption and credit beneath, "Figure 3 of 8", arrow and keyboard navigation between the figures of a page. Lightbox2 and jQuery load only on pages that contain a figure or an image linked to its file; images added in the editor (Image blocks linked to the media file) get the same frame-fits-image styling and open in the same viewer, with their caption. Without JavaScript the link opens the full-size file. Only public-domain, CC0 and Creative Commons attribution (including share-alike) licences are used, and every figure carries its credit. A figure supplied from outside Commons takes an empty `source`: its credit line then gives author and licence only, and its structured data omits `acquireLicensePage`. To add one: bundle the WebP files, add the entry to `paulus_figures()` and `commons-meta.json`, and place it with `{{fig:name|Caption}}` in the chapter source.
+Seventy-seven figures (churches, paintings, statues, manuscripts, inscriptions, sites, and portraits of Isma'il R. al Faruqi and Dale B. Martin), most of them from Wikimedia Commons and the rest from museum open-access collections and the author, are bundled in `assets/images/church/` at up to 1,400 pixels with 720-pixel versions for `srcset`, with the Commons metadata in `commons-meta.json`. Fetch Commons files through the standard thumbnail widths (for example `1280px-`); Wikimedia refuses bulk requests for originals. `inc/figures.php` registers each with its alt text, author, licence and source page, and `[paulus_figure name="…"]Caption[/paulus_figure]` renders it as a captioned figure with a credit line linking the licence and the Commons page. In the chapter sources the syntax is `{{fig:name|Caption}}`. They appear in every article and on the timeline and the reference page "Paul in the churches"; the woodcut illustrations stay as the featured images. Figures fill the text column; images taller than they are wide are held to 80 per cent of the screen height, and the frame and caption shrink to the image, so no frame ever shows empty space, and each opens in a Lightbox2 viewer (bundled in `assets/vendor/lightbox2/`, 2.12.0, MIT; licence in `LICENSES.md`), styled in `assets/css/lightbox.css`: the caption and credit beneath, "Figure 3 of 8", arrow and keyboard navigation between the figures of a page. Lightbox2 and jQuery load only on pages that contain a figure or an image linked to its file; images added in the editor (Image blocks linked to the media file) get the same frame-fits-image styling and open in the same viewer, with their caption. Without JavaScript the link opens the full-size file. Only public-domain, CC0 and Creative Commons attribution (including share-alike) licences are used, and every figure carries its credit. A figure supplied from outside Commons takes an empty `source`: its credit line then gives author and licence only, and its structured data omits `acquireLicensePage`. To add one: bundle the WebP files, add the entry to `paulus_figures()` and `commons-meta.json`, and place it with `{{fig:name|Caption}}` in the chapter source.
 
 ## Koine Greek, one register
 
@@ -247,6 +252,26 @@ The theme can ship entries: those listed under `journal` in `content/manifest.ph
 
 The Journal has its own block in the header, set apart from the menu (`[paulus_journal_canton]` in `parts/header.html`, between the menu and the search): an outlined companion to the book button, the same shape, height and lettering, with a quill mark and the word Journal, and a dot while the latest entry is under a fortnight old. Below 1200 pixels it takes a round form matching the search button, and it stays in view on phones when the menu collapses. It appears once the Journal has a published entry, and it is marked as current on Journal pages. A header part customised in the Site Editor keeps its own layout; add the shortcode there to show the canton. The header menu is rebuilt for it only while it still holds exactly the links the theme placed there; a menu edited in the Site Editor is kept, and the dashboard widget then asks for the link to be added by hand.
 
+## Questions and Paul at a glance
+
+Two pages exist to answer what people search for. `/questions/` (`content/articles/questions.html`) holds 27 short answers, one `h2` per question, built from the 708 question keywords of the Semrush research folded into distinct intents (who Paul was, Saul and Paul, the meaning of the name, birth and appearance, marriage, Jew and Pharisee, Roman citizen, meeting Jesus, the Twelve, who taught him, the persecutions, Damascus, his death, the founder of Christianity, the thorn in the flesh, Paul versus Jesus, the Sanhedrin, Islam, and more). Each answer rests on Paul's letters and Acts, each links to the article that sets out the evidence, and the page gets the same index, anchors and `FAQPage` markup as Answers (`is_page( array( 'answers', 'questions' ) )` in `inc/structure.php` and `inc/seo.php`). `/paul-at-a-glance/` gathers the story, ten facts, names, journeys, letters, legacy, quotations and pictures for the non-question searches (biography, facts, travels, quotes, images). The front page's questions section links to both, the 404 page and the Site map list them, and five Paul quotations on the glance page are marked `<blockquote class="paulus-quote">` with a `paulus-quote__ref` line.
+
+## Keyword research
+
+`docs/keyword-map.csv` records every keyword of the Semrush export (2,170 of them): its volume and difficulty, its cluster (death and martyrdom, founder of Christianity, Damascus, meeting Jesus, and so on, or a reason it was left out), the page that answers it, and whether its words now appear together on at least one page. Of the 1,923 judged relevant, 1,662 (98% of the search volume) now appear together on at least one page. They were worked in by their meaning rather than repeated word for word: the two pages above, seven glossary entries, a section of the Akyol article and the Sources, and search titles and descriptions rewritten for eighteen pages. The 247 left out are places, schools and parishes, feast days and patronage, films, study aids, other languages and unrelated names; most of the 261 relevant keywords not yet matched are misspellings. The clusters come from word matching, so treat the file as a working record.
+
+## Error pages
+
+WordPress shows its plain screens when it cannot load the theme. `dropins/maintenance.php`, `db-error.php` and `php-error.php` replace them with pages in the site's dress: parchment ground between two meander bands, a card with the accent on its upper edge, the site's faces, in the ochre scheme or the ink scheme on dark displays (`assets/css/error-page.css`). They need nothing from the database. `inc/dropins.php` copies them into `wp-content/` on the first page load after an install or update, filling in the site name, the home address and the address of the theme's stylesheets; a file there that the theme did not write is left alone, and switching themes removes them. The maintenance and database pages reload every minute.
+
+## Quotations, italics, the honorific and Arabic script
+
+A quotation is a tablet: a double rule above and below, a wash of the scheme's surface colour, an oxblood opening mark in Cinzel, and the words in roman Garamond, left-aligned at the full measure; a reference line is set in the label face, in capitals, after a dash. Scripture blocks (the Greek over the English, with the accent rule) keep their own design. Italics are not used where a passage has to be read: quotations (including emphasised transliterations inside them), the editor's note on Martin's notes, the book blurb and subtitle, the teaser subtitle, the 404 line, the empty-Journal message and the login tagline are roman.
+
+After the name of ʿĪsā ibn Maryam the written honorific ("ʿalayhi al-salām, peace be upon him") is replaced at render time by its calligraphy (`inc/honorific.php`, `assets/images/alayhi-al-salam.webp`, drawn as a CSS mask in the colour of the text), with the words kept in the page for screen readers, search engines and copying and shown as written where a browser cannot draw the mask. Other names that take the phrase (Ādam, Mūsā) keep the words.
+
+Arabic script is set in three fonts by what it is: a Quranic verse is marked `<p class="arabic quran" lang="ar" dir="rtl">` and set in KFGQPC Hafs Uthmanic Script; a hadith is marked `class="arabic hadith"` (or `<span class="hadith" lang="ar">` inline) and set in Dubidam Arabic; everything else in Arabic is set in Arslan Wessam, the default for every `lang="ar"` element. The families are in `theme.json` as `quran`, `hadith` and `arabic`.
+
 ## The footer bar and the site's legal pages
 
 At the foot of the footer, under a hairline, a secondary bar (`[paulus_footer_legal]` in `parts/footer.html`) links Privacy Policy, Terms of Use, DMCA, Contact and Sitemap in one line cut like a Roman inscription: small Roman capitals (Cinzel, 0.7rem, widely spaced) divided by raised interpuncts; on hover or focus each English term is replaced at once, in the same place, by a Koine Greek word from the New Testament whose sense fits the page (Privacy Policy ΚΑΤʼ ΙΔΙΑΝ, "privately", Mark 4:34; Terms of Use ΟΡΟΘΕΣΙΑΙ, "the bounds set", Acts 17:26; DMCA ΑΠΟΔΟΤΕ, "render", Matthew 22:21; Contact ΕΠΙΣΤΟΛΗ, "a letter", Acts 15:30; Sitemap ΟΔΗΓΟΣ, "a guide", Romans 2:19; each checked against the SBL Greek New Testament), set in EB Garamond capitals, while a double hairline draws out beneath it in the accent colour. The tooltip gives the meaning and verse; screen readers hear the English. The current page keeps its ruling. Each link appears only once its page is published. The Sitemap moved there from the Reference column.
@@ -260,10 +285,12 @@ The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'd
 | Where | What is described |
 |---|---|
 | Every page | `WPHeader`, `WPFooter` and a `SiteNavigationElement` for each menu and footer-bar link; the page's `about` (Paul of Tarsus); the publisher's `ContactPoint`, `email`, `publishingPrinciples` (Terms of Use) and `correctionsPolicy` (Contact); the author's profiles and `knowsAbout`; the site's `about`, `isBasedOn` (the book) and `copyrightHolder` |
-| Articles | `Article` + `ScholarlyArticle` (an SEO plugin's default BlogPosting gives way); `about`, `mentions` (ʿĪsā ibn Maryam), `isBasedOn` (the book), `articleSection` (section and label), the series as `CreativeWorkSeries` with `position`, `wordCount`, `timeRequired`, `citation` (every footnote), `hasPart` (each scripture block as a `Quotation` based on the King James Version), `speakable`, `copyrightHolder`, `copyrightYear`, `isAccessibleForFree` |
+| Articles | `Article` + `ScholarlyArticle` (an SEO plugin's default BlogPosting gives way); `about`, `mentions` (the people, places and works the text names, from a table of about 50 with Wikipedia links: ʿĪsā ibn Maryam, Muḥammad ﷺ, Peter, Barnabas, the cities of Paul's journeys, his letters, the Gospels, the Quran, the Torah, Mustafa Akyol and the rest), `isBasedOn` (the book), `articleSection` (section and label), the series as `CreativeWorkSeries` with `position`, `wordCount`, `timeRequired`, `citation` (every footnote), `hasPart` (each scripture block as a `Quotation` based on the King James Version), `speakable`, `copyrightHolder`, `copyrightYear`, `isAccessibleForFree` |
 | The Verdict | an article node, and each of the four charts as a `Dataset` created by the Pew Research Center, with its figures, years and source |
 | Why Luke does not seem to know Paul's letters | `ScholarlyArticle`, about Paul and the Acts of the Apostles, based on Martin's manuscript |
 | “Luke” versus Paul (Martin's notes) | a `Manuscript` by Dale B. Martin (2019), with its PDF as a `MediaObject` |
+| Every page with headings | each section heading as a `WebPageElement` with its position and, where the page gives it an anchor, its address (taken from the headings the page really rendered, so every address resolves); each footnote as a `CreativeWork` `citation` with its address |
+| Questions | an `FAQPage` of every question and its accepted answer, built the same way as Answers |
 | Timeline | an `ItemList` of 17 `Event`s in Paul's life |
 | Glossary | a `DefinedTermSet` of its `DefinedTerm`s |
 | Study guide | a `Quiz` of 121 open-ended `Question`s, grouped by article |
@@ -280,7 +307,7 @@ Linked entities carry Wikipedia and Wikidata identifiers, each verified against 
 
 ## Built in: unlisting, search addresses, a private login address
 
-Three plugins are built into the theme as native modules, each a rewrite that keeps the plugin's own settings, so a site that used them carries on unchanged. Each module waits while its plugin is still active (a dashboard notice names the plugins still running); deactivate the plugins and the theme takes over. Credits and licences are in `licenses/built-in-plugins.txt`.
+Three plugins are built into the theme as native modules, each a rewrite that keeps the plugin's own settings, so a site that used them carries on unchanged. Each module waits while its plugin is still active (a dashboard notice names the plugins still running); deactivate the plugins and the theme takes over. Credits and licences are in `LICENSES.md`.
 
 | Module | From | What it does | Settings |
 |---|---|---|---|
@@ -296,7 +323,7 @@ If the login address is ever lost, add `define( 'PAULUS_HIDE_LOGIN', false );` t
 
 `inc/login.php` and `assets/css/login.css` dress the login page (wp-login.php, or the private login address) in the site's own look, in whichever colour scheme the site uses: the scheme's ground, with the parchment grain when the ornament is on, between two meander bands; a portrait medallion above the wordmark, linking home; the tagline; the Greek ΕΙΣΕΛΘΑΤΕ ("enter", Matthew 7:13, "Enter by the narrow gate") over a card with the accent on its upper edge and the limestone grain; labels in the typewriter face, fields and a full-width button lettered like the header's book button, whose LOG IN is replaced on hover or focus by ΕΙΣΕΛΘΑΤΕ (`assets/js/login.js` exchanges WordPress's `<input>` for an equivalent `<button>` with the same id, name, value and classes, so it can carry the swap; without JavaScript WordPress's own button stays); messages and errors in the same card; the links beneath in the label face. The login page does not load the site's global styles, so the module prints the theme.json colour presets and adds the scheme's body class itself. Every screen is covered: log in, lost password, reset password, messages, errors, and the small login a session-expiry dialogue shows in the admin. The card and field colours are drawn from the scheme, blended with the colour it sets on its accent, so text stays readable in all six schemes (contrast measured at 4.7 to 17 against the 4.5 guideline).
 
-Theme Options, Login: the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off. With no address set, a file named `login-logo.png` in the wp-content folder is shown in the medallion's place, as with the Login Logo plugin (credited in `licenses/built-in-plugins.txt`); while that plugin is active, its own logo stands.
+Theme Options, Login: the portrait in the medallion (any bundled portrait; the close-up by default), a logo image address in its place, the tagline ("Authors and editors only." by default), and the Greek inscription on or off. With no address set, a file named `login-logo.png` in the wp-content folder is shown in the medallion's place, as with the Login Logo plugin (credited in `LICENSES.md`); while that plugin is active, its own logo stands.
 
 ## Editorial foundation (internal: not stated on the site)
 
@@ -386,7 +413,7 @@ The site's Koine Greek, in inscriptions and in the swaps that replace English on
 
 ## Fonts
 
-All fonts are bundled in `assets/fonts/` as WOFF2 and declared in `assets/css/fonts.css`. Nothing loads from a third-party server. Font and vendor licence files live in `licenses/`, so only runtime assets sit under `assets/`.
+All fonts are bundled in `assets/fonts/` as WOFF2 and declared in `assets/css/fonts.css`. Nothing loads from a third-party server. Every licence (fonts, scripts, icons, images) is in the one file `LICENSES.md` at the root, so only runtime assets sit under `assets/`.
 
 | Font | Role |
 | --- | --- |
@@ -403,12 +430,12 @@ The free edition of Dubidam replaces its digits and most punctuation with a wate
 
 ### Licensing
 
-The theme's own code is GPL v2 or later. The bundled fonts, illustrations and photographs are not covered by that licence and keep their own: each file's licence is listed below and in `licenses/`. A licence belongs to its owner and cannot be changed by the theme, so none of the fonts is relicensed.
+The theme's own code is GPL v2 or later. The bundled fonts, illustrations and photographs are not covered by that licence and keep their own: each one's licence is listed below and in `LICENSES.md`. A licence belongs to its owner and cannot be changed by the theme, so none of the fonts is relicensed.
 
-EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License 2.0) are free for web use; their licences ship in `licenses/`. Check the others before the site goes public:
+EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License 2.0) are free for web use; their licences are in `LICENSES.md`. Check the others before the site goes public:
 
 - **Sabon Next LT** is a Monotype font. A desktop license does not cover web embedding; a web font license is required.
 - **Dubidam** is the free personal-use edition from NamelaType. A site that sells a book needs the commercial license, which also removes the watermarked glyphs.
-- **KFGQPC Hafs Uthmanic Script** belongs to the King Fahd Glorious Quran Printing Complex and is free of cost to use, copy and distribute, but its licence forbids selling, modifying, altering or reproducing it; the full text is in `licenses/kfgqpc-hafs-uthmanic-script.txt`. The bundled WOFF2 is the supplied TrueType re-encoded without changing a glyph (only the digital-signature table, which WOFF2 cannot hold, is left out).
-- **Dubidam Arabic** is the free personal-use edition from NamelaType (the font names say "FREE PERSONAL USE"), supplied by the site owner in three weights. The same licence point applies as for Dubidam: a site that sells a book needs the commercial license, which also removes the watermarked glyphs. See `licenses/dubidam-arabic.txt`.
+- **KFGQPC Hafs Uthmanic Script** belongs to the King Fahd Glorious Quran Printing Complex and is free of cost to use, copy and distribute, but its licence forbids selling, modifying, altering or reproducing it; the full text is in `LICENSES.md`. The bundled WOFF2 is the supplied TrueType re-encoded without changing a glyph (only the digital-signature table, which WOFF2 cannot hold, is left out).
+- **Dubidam Arabic** is the free personal-use edition from NamelaType (the font names say "FREE PERSONAL USE"), supplied by the site owner in three weights. The same licence point applies as for Dubidam: a site that sells a book needs the commercial license, which also removes the watermarked glyphs. See `LICENSES.md`.
 - **Arslan Wessam** is distributed through Dev-Point.com with no license file. Its embedding flag permits web use, but confirm the terms with the author.

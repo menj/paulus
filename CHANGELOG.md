@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.29] - 2026-10-10
+
+### Changed
+- The licence file is one flowing document. `LICENSES.md` now says in about 860 words what the theme is made of and on what terms (the GPL v2 or later for the theme's code, the four built-in plugins, the two scripts, the typefaces and the Quran font's conditions, the icons and the images), with links to the licences themselves in place of the reproduced texts. The earlier file, with every licence text word for word, is in the repository history at commit `97246e5`. It also states plainly that the free personal-use fonts (Dubidam, Dubidam Arabic) and Sabon Next LT need commercial or web licences for a public site, and that the LinkedIn and Scribd icons need the credit "Icons by Font Awesome (fontawesome.com), CC BY 4.0".
+- Documentation brought up to date: the README (installation, site architecture with the Questions, Paul at a glance and Journal addresses, the Reading options, the structure of the folders, the structured data table, the photograph count, and new sections on the Questions and glance pages, the keyword research, the error pages, and quotations, italics, the honorific and Arabic script); UPGRADING.md (a note for 2.62.18 to 2.62.29: the error pages, new pages and refresh of edited text, the sync lock, the image list, fonts, reading options and licences); and the `readme.txt` changelog from 2.62.18 on.
+
+## [2.62.28] - 2026-10-10
+
+### Changed
+- One licence file. The twelve licence texts that sat in `licenses/` and beside the fonts (SIL Open Font License for Cinzel and EB Garamond, Apache for Special Elite, Dubidam Arabic, KFGQPC, html2pdf.js and its bundle notices, Lightbox2, the built-in plugins, the icon pack, the Met's open access terms and the portraits) are now sections of `LICENSES.md` at the root (Markdown, each text word for word in its own code block), with the GPL v2 or later notice for the theme's own code at the top and notes for the fonts that have no licence file. The `licenses/` folder is gone. Terms are unchanged by the merge.
+
 ## [2.62.27] - 2026-10-10
 
 ### Changed
