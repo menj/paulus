@@ -1091,6 +1091,18 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 	.paulus-nav .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) { display: none; }
 }
 
+/* Desktop (1024 pixels and up): the menu is a plain inline row. These rules
+ * repeat what WordPress's navigation stylesheet does, so the header still
+ * renders correctly when a cache or optimiser plugin strips that stylesheet:
+ * no open or close buttons, no bullets, no overlay. */
+@media (min-width: 1024px) {
+	.paulus-nav .wp-block-navigation__responsive-container-open,
+	.paulus-nav .wp-block-navigation__responsive-container-close { display: none; }
+	.paulus-nav .wp-block-navigation__responsive-container:not(.is-menu-open) { display: block; position: static; background: none; }
+	.paulus-nav .wp-block-navigation__container { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 0; padding: 0; list-style: none; }
+	.paulus-nav .wp-block-navigation-item { list-style: none; }
+}
+
 /* Narrow phones (360 pixels and under): a smaller wordmark and closer
  * header tools, so the header fits without scrolling sideways. */
 @media (max-width: 360px) {
