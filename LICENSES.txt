@@ -1,3 +1,569 @@
+PAULUS: LICENCES AND NOTICES FOR THE THEME AND EVERYTHING BUNDLED WITH IT
+==============================================================================
+
+Contents
+
+   1. Theme code
+   2. Font: Cinzel (SIL Open Font License 1.1)
+   3. Font: EB Garamond (SIL Open Font License 1.1)
+   4. Font: Special Elite (Apache License 2.0)
+   5. Font: Dubidam Arabic (NamelaType, free personal-use edition)
+   6. Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
+   7. Font: Sabon Next LT, Dubidam and Arslan Wessam
+   8. Script: html2pdf.js (MIT)
+   9. Script: html2pdf.js bundle, third-party licence notices
+  10. Script and styles: Lightbox2 (MIT)
+  11. Plugins built into the theme
+  12. Icons: Minimalist Social Icons Pack
+  13. Images: The Metropolitan Museum of Art open access
+  14. Images: portraits
+
+==============================================================================
+1. Theme code
+==============================================================================
+
+Paulus, Copyright 2023-2026 MENJ.
+The theme's own code (PHP, CSS, JavaScript) is licensed under the GNU General
+Public License, version 2 or later: https://www.gnu.org/licenses/gpl-2.0.html
+(the licence WordPress itself uses, and the one declared in style.css).
+
+Everything else below keeps the licence of its owner. A licence belongs to its
+owner and is not changed by being bundled here, so none of it is relicensed.
+
+Paulus is built for one site, apostleofdoom.org, and is not distributed as a
+product. This file records what is bundled and under which terms. Photographs
+and other figures carry their own author, licence and source in the credit line
+of each figure (inc/figures.php), and the licence list for each is in
+assets/images/church/commons-meta.json.
+
+==============================================================================
+2. Font: Cinzel (SIL Open Font License 1.1)
+==============================================================================
+
+Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+==============================================================================
+3. Font: EB Garamond (SIL Open Font License 1.1)
+==============================================================================
+
+Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://openfontlicense.org
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+==============================================================================
+4. Font: Special Elite (Apache License 2.0)
+==============================================================================
+
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+==============================================================================
+5. Font: Dubidam Arabic (NamelaType, free personal-use edition)
+==============================================================================
+
+Dubidam Arabic (Light, Regular, Bold)
+
+Designers: Nur Syamsi and Bustanul Arifin
+Foundry:   NamelaType, https://namelatype.com
+Copyright: (c) 2023 by NamelaType
+Trademark: Dubidam is a trademark of NamelaType.
+Edition:   "Dubidam Arabic FREE PERSONAL USE" (the family name in the font files)
+
+Used in: hadiths in Arabic, and nothing else (the class "hadith").
+
+Supplied to this theme by the site owner as OpenType files and converted to
+WOFF2 without other change (assets/fonts/dubidam-arabic-light.woff2,
+-regular.woff2 and -bold.woff2). The font files carry the licence line "This
+Font Software is licensed namelatype.com"; the terms are NamelaType's, at that
+address.
+
+The free personal-use edition draws a watermark in place of the Arabic-Indic
+digits, the Arabic semicolon and question mark, quotation marks, dashes and
+some symbols. The theme's unicode-range (assets/css/fonts.css) therefore covers
+only the letters and marks the font draws properly, and Arslan Wessam supplies
+the rest. A public site that sells a book needs NamelaType's commercial
+licence, which also removes the watermark. Check the terms with NamelaType
+before the site goes public.
+
+==============================================================================
+6. Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
+==============================================================================
+
+KFGQPC HAFS Uthmanic Script, Version 2.2 (Regular)
+
+Owner:   King Fahd Glorious Quran Printing Complex (KFGQPC), Al-Madinah
+         Al-Munawwarah, Kingdom of Saudi Arabia. http://fonts.qurancomplex.gov.sa/
+Used in: Quranic verses in Arabic, and nothing else (the class "quran").
+
+The font file is bundled as assets/fonts/kfgqpc-hafs-uthmanic-script.woff2: the
+supplied TrueType file re-encoded as WOFF2 with every glyph outline, advance
+width and character-map entry unchanged (checked glyph by glyph). The WOFF2
+format cannot carry the font's digital-signature table (DSIG), which is the
+only thing left out. If KFGQPC's terms require the signed TrueType file to be
+served as supplied, replace this WOFF2 with that file.
+
+The licence text carried inside the font file follows, unchanged.
+
+---------------------------------------------------------------------------
+The digitally signed machine readable Typeface(Font) licensed to you is
+copyrighted, (2010), King Fahd Glorious Quran Printing Complex.
+ISBN: 978-603-8010-15-0, Accession No. 1430/7278
+All rights reserved. This Font is the property of King Fahd Glorious Quran
+Printing Complex, and may not be reproduced, modified without the express
+written approval of King Fahd Glorious Quran Printing Complex.
+
+ELECTRONIC END-USER LICENSE AGREEMENT
+
+By installing this Font You accept all the terms and conditions of this
+Agreement.
+
+Copyright (c) 2010 by King Fahd Glorious Quran Printing Complex (KFGQPC),
+AlMadinah AlMunawarrah, Kingdom of Saudi Arabia. All Rights Reserved. KFGQPC
+retains full title and ownership of this Typeface both as artwork and font
+software. This Agreement does not grant you any intellectual property rights
+in the Font.
+
+Permission is hereby granted, Free of Cost, to any person obtaining a copy of
+this Font accompanying this license, the rights to Use, Copy, Distribute,
+subject to the following conditions:
+
+1.    The Font Software cannot be Sold, Modified, Altered, Translated, Reverse
+Engineered, Decompiled, Disassembled, Reproduced or Attempted to discover the
+Source Code of this Font in no means.
+
+2.    The Font Software is provided "AS IS", and KFGQPC makes no warranties as
+to its use or performance, fitness for a particular purpose. KFGQPC does not
+and cannot warrant the performance or results you may obtain by using the
+Font. In no event shall KFGQPC be liable for any Claims, Damages or other
+Liability, including any Damages, arising from, out of the use or inability to
+use the Font or from other dealings in the Font.
+
+==============================================================================
+7. Font: Sabon Next LT, Dubidam and Arslan Wessam
+==============================================================================
+
+Sabon Next LT is a Monotype font: a desktop licence does not cover web
+embedding, and a web font licence is required.
+
+Dubidam (Latin) is NamelaType's free personal-use edition (see the Dubidam
+Arabic notice above for the same foundry's terms); a public site that sells a
+book needs the commercial licence, which also removes the watermarked glyphs.
+
+Arslan Wessam is distributed through Dev-Point.com with no licence file. Its
+embedding flag permits web use; confirm the terms with the author.
+
+==============================================================================
+8. Script: html2pdf.js (MIT)
+==============================================================================
+
+The MIT License
+
+Copyright (c) 2017 Erik Koopmans
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+==============================================================================
+9. Script: html2pdf.js bundle, third-party licence notices
+==============================================================================
+
 /*!
  * html2canvas 1.4.1 <https://html2canvas.hertzen.com>
  * Copyright (c) 2022 Niklas von Hertzen <https://hertzen.com>
@@ -2113,3 +2679,294 @@ PERFORMANCE OF THIS SOFTWARE.
   https://webpjs.appspot.com
   WebPRiffParser dominikhlbg@gmail.com
   */
+
+==============================================================================
+10. Script and styles: Lightbox2 (MIT)
+==============================================================================
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Lokesh Dhakar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+==============================================================================
+11. Plugins built into the theme
+==============================================================================
+
+Paulus builds in the work of four plugins, rewritten as theme modules.
+All three are licensed under the GNU General Public License, version 2 or
+later, as is this theme. Their authors are credited here with thanks.
+
+1. inc/unlist.php
+   From: Unlist Posts & Pages, version 1.2.1
+   Author: Nikschavan (Nikhil Chavan)
+   https://wordpress.org/plugins/unlist-posts/
+   License: GPL v2 or later
+   Uses the plugin's option, unlist_posts, and its filter, unlist_posts_enabled.
+
+2. inc/search-permalinks.php
+   From: Pretty Search Permalinks (wp-seo-search), version 1.3
+   Author: Angel Costa, https://netmundo.com.br/
+   https://wordpress.org/plugins/wp-seo-search/
+   License: GPL v2 or later
+   Uses the plugin's option, wpseosearch_base.
+
+3. inc/hide-login.php
+   From: WPS Hide Login, version 1.9.18
+   Authors: WPServeur, Nicolas Kulka, wpformation
+   https://wordpress.org/plugins/wps-hide-login/
+   License: GPL v2 or later
+   Uses the plugin's options, whl_page and whl_redirect_admin, and its
+   filter, wps_hide_login_signup_enable.
+
+4. inc/login.php (the logo above the login form)
+   From: Login Logo, version 0.10.3
+   Author: Mark Jaquith, https://coveredweb.com/
+   https://txfx.net/wordpress-plugins/login-logo/
+   License: GPL v2 or later
+   Keeps its behaviour: a file named login-logo.png in the wp-content
+   folder is shown above the login form.
+
+The full text of the GNU General Public License, version 2, is at
+https://www.gnu.org/licenses/gpl-2.0.html
+
+==============================================================================
+12. Icons: Minimalist Social Icons Pack
+==============================================================================
+
+MINIMALIST SOCIAL & PLATFORM ICONS PACK
+========================================
+
+41 single-color, minimalist icons for social media platforms, music
+platforms, and identity/library authority services. Every icon is a
+clean monochrome glyph with no gradients, shadows, or extra detail —
+just the mark.
+
+INCLUDED (44 — every icon has both SVG and PNG)
+--------------------------------------------------
+Facebook, Instagram, X (Twitter), LinkedIn, YouTube, TikTok,
+Pinterest, Snapchat, WhatsApp, Telegram, Reddit, Discord, Threads,
+WeChat, Tumblr, Twitch, Vimeo, Medium, Behance, Dribbble, Mastodon,
+Bluesky, LINE, Signal, GitHub, Spotify, Goodreads, Wikidata,
+Wikipedia, Academia.edu, Quora, Issuu, Substack, Flickr, Scribd,
+GTribe, WordPress, WordPress.org Profile, SoundCloud, Suno, ORCID,
+OCLC, VIAF, ISNI, Fiverr
+
+Every file in this pack now has a vector (svg/black, svg/white) and
+a raster (png/black, png/white) version — no PNG-only exceptions.
+
+NEWLY ADDED IN THIS MERGE (8)
+------------------------------
+Every one of these was checked against an actual source file, not
+assumed from the platform name. Several went through corrections
+before landing here — full history below for anyone who wants it,
+but the short version: all 8 are now verified against either the
+supplied favicon or (for Suno and ISNI) the brand's own official
+logo file, fetched directly after the favicons turned out to be too
+low-res to trace with real confidence.
+
+Confirmed as accurate matches to the supplied source, sourced from
+CC0 (public-domain) icon sets and re-fitted to this pack's 24x24
+viewBox / single-path / black-and-white convention:
+  - WordPress   (svg/png, black+white) — matches profiles_wordpress_org.ico
+  - SoundCloud  (svg/png, black+white) — matches soundcloud.ico
+  - ORCID       (svg/png, black+white) — matches ORCID.ico
+  - OCLC        (svg/png, black+white) — matches oclc-entities.ico
+                (three interlocking rings, same structure as source)
+
+Did NOT match the supplied source, so traced/rebuilt instead of
+using the general-brand icon:
+  - Fiverr — the CC0 icon set's mark is the black "fiverr." wordmark,
+             but the supplied fiverr.ico is a different Fiverr asset:
+             a green circular badge with a white "fh" ligature (the
+             monogram used as their favicon/app icon). Isolated the
+             ligature and traced it to vector — mark-only, no
+             circle, matching this pack's convention for every other
+             badge-style logo (Spotify, LINE, etc. also drop their
+             colour/background the same way). First trace used only
+             the 16x16 favicon, which gave a blocky, staircase-edged
+             result — the 'f' hook should be a smooth curve, not a
+             right-angle step. Retraced from a clean 980x980
+             reference of the same mark; the curve is now correct.
+  - Suno    — the CC0 icon set's mark is Suno's current abstract
+             logo (two joined crescents), which turned out to be
+             unrelated to the "SUNO" wordmark in the supplied
+             favicon. Suno rebranded on 1 July 2024, so this may
+             just be an old favicon that never got updated. Resolved
+             properly rather than guessed: fetched Suno's own official
+             2024 logo file (Suno_Logo_2024.svg) and extracted the
+             real wordmark paths directly — no tracing or
+             reconstruction involved, this is the actual brand
+             vector, letter-for-letter. (First extraction attempt
+             concatenated the four letter paths into one path string
+             and broke their positioning — S, U, N, O need to stay
+             as separate <path> elements since each one's original
+             coordinates assume its own fresh starting point. Fixed
+             and re-verified against the source file directly.)
+
+Not available in any open icon set at all, so hand-built (same
+approach as the two corrections above) and traced to vector:
+  - GTribe — was PNG-only in the previous version of this pack (the
+             trace kept clipping); retraced from the existing
+             512x512 PNG silhouette and now ships as gtribe.svg in
+             both black and white, matching every other icon. This
+             one's a genuine trace of the original artwork, not a
+             redraw — the source PNG was clean and high-res.
+  - VIAF   — the first version substituted a plain bold sans
+             wordmark instead of matching the actual logo — an
+             error, not an intentional simplification. Re-examined
+             at full resolution (48x48): the real mark is a bold
+             italic serif "VI" over "AF" in a tight 2x2 letter grid,
+             right-aligned. Rebuilt to match that structure and
+             traced to vector.
+  - ISNI   — same resolution problem as Suno: the only source was a
+             16x16 favicon, too low-res to confirm real letterforms,
+             so earlier versions were best-effort reconstructions,
+             not verified matches. Resolved the same way: fetched
+             ISNI's own official logo file (isni-logo.png, 2665x1613)
+             directly from isni.org and traced it properly this time.
+             Turned out the real logo isn't a white wordmark on a
+             solid badge at all — it's a solid indigo badge with the
+             letters cut out as transparent holes. The first trace
+             attempt didn't account for that and picked up the
+             badge's rounded corners as stray artifacts (the corner
+             transparency and the letter-hole transparency looked
+             identical to a plain threshold). Fixed by isolating
+             which transparent regions are actually enclosed by the
+             badge (the letters) versus connected to the outside
+             (the corners), then traced only the enclosed shapes.
+             Also lowercase "isni", not "ISNI" — the real wordmark is
+             lowercase throughout, which no earlier version had
+             right either. This is now a genuine trace, not a
+             reconstruction.
+
+NOT MERGED
+----------
+(nothing outstanding — see the correction note below for
+profiles_wordpress_org.ico)
+
+CORRECTION
+----------
+profiles_wordpress_org.ico is the icon for profiles.wordpress.org
+(the WordPress.org user-profile directory) — a distinct service
+from wordpress.svg/png (the general WordPress platform mark), even
+though both use the same "W" glyph. It's now its own file,
+wordpress-profile.svg/png, rather than folded into wordpress.svg.
+Use whichever matches what you're actually linking to.
+
+NOT INCLUDED (from the original pack)
+--------------------------------------
+- Open Library — no open, GPL-compatible source mark was found for
+  it. The "open.png" sign sent originally didn't look like it was
+  meant to represent this (no book/library imagery), so it wasn't
+  added.
+- Google Play Books — only a generic "Google Play" storefront icon
+  was available, not a Books-specific mark.
+
+FOLDERS
+-------
+svg/black/   vector icons, black fill      -> for light backgrounds
+svg/white/   vector icons, white fill      -> for dark backgrounds
+png/black/   512x512 raster, black, transparent background
+png/white/   512x512 raster, white, transparent background
+
+Use the SVGs wherever you can — they're crisp at any size, and the
+files are only ~0.3-2KB each, so a full social row costs almost
+nothing in page weight (good for Core Web Vitals / LCP). The PNGs
+are there as a fallback for tools or builders that don't accept SVG.
+
+USAGE
+-----
+- Files are named after the platform (e.g. instagram.svg,
+  instagram.png) so you can drop them straight into a footer or
+  "follow us" block.
+- To recolor an SVG: open it in a text editor and change the
+  fill="#..." value, or inline the <svg> in your HTML and set
+  `fill: currentColor` to control it from CSS.
+
+LICENSE
+-------
+This pack — the compiled set, the 24x24 single-path/black-white
+convention, and every redrawn or traced mark (GTribe, Fiverr, Suno,
+VIAF, ISNI) — is released under the GNU General Public License
+(GPL). 36 of the 43 icons started from CC0 (public-domain) source
+material, which carries no attribution requirement and imposes no
+restriction on relicensing the combined work under GPL. The
+remaining 7 (GTribe, Fiverr, Suno, VIAF, ISNI, plus the two Font
+Awesome exceptions below) are simple text/glyph marks traced or
+redrawn from the brand's own logo file, below the threshold most
+jurisdictions require for copyright protection on a logo of that
+simplicity — the same reasoning under which Wikimedia Commons hosts
+the ISNI wordmark itself as public domain.
+
+EXCEPTION — LinkedIn and Scribd:
+These two icons originate from Font Awesome Free, licensed CC BY
+4.0. That license's attribution condition is a term of the license
+itself, not a courtesy — it can't be dropped and these two files
+can't be relicensed under GPL without Font Awesome's terms
+following them. So, for linkedin.svg/png and scribd.svg/png only:
+  Icons by Font Awesome (https://fontawesome.com), CC BY 4.0.
+Keep that credit somewhere on the site (a footer or credits page
+covering just those two files is enough) if you use them. Everything
+else in the pack is unaffected.
+
+The brand names and logos themselves remain trademarks of their
+respective companies regardless of the icon file's license. Using
+them to link to your own official profiles (a "follow us" row) is
+standard, low-risk practice — just don't imply endorsement or
+affiliation beyond that.
+
+==============================================================================
+13. Images: The Metropolitan Museum of Art open access
+==============================================================================
+
+Five featured images are photographs from The Metropolitan Museum of Art,
+New York, released through its Open Access programme under Creative Commons
+Zero (CC0 1.0): https://creativecommons.org/publicdomain/zero/1.0/
+The Museum's public-domain status for each was read from its collection
+record (isPublicDomain: true) on 26 September 2026.
+
+- Bronze ring key, 3rd–4th century CE, Roman. Accession 98.11.2. https://www.metmuseum.org/art/collection/search/246764
+- Gold ring with carnelian intaglio portrait of Tiberius, ca. 14–37 CE, Roman. Accession 1994.230.7. https://www.metmuseum.org/art/collection/search/256197
+- Papyrus letter in Greek, early 3rd century CE, Roman, Egyptian. Accession 25.8. https://www.metmuseum.org/art/collection/search/251788
+- Terracotta inkwell and bronze stylus, 1st‒2nd century CE, Roman. Accession 26.60.34. https://www.metmuseum.org/art/collection/search/252501
+- Bronze military diploma, ca. 149 CE, Roman. Accession 23.160.32a, b. https://www.metmuseum.org/art/collection/search/251376
+
+Each is credited in the site's structured data with its title, date and
+accession number. The files in assets/images/ are the Museum's photographs,
+squared to 1,024 pixels.
+
+==============================================================================
+14. Images: portraits
+==============================================================================
+
+Portraits
+=========
+
+faruqi-portrait (assets/images/church/faruqi-portrait.avif, -720.webp)
+  Isma'il Raji al Faruqi (1921-1986). Black-and-white portrait photograph.
+  Credited on the site as: Photographer unknown, Public domain.
+  Provenance: supplied to the site's owner, Mohd Elfie Nieshaem Juferi, as a
+  public-domain photograph, in September 2026. The original publication and
+  photographer are not recorded. Should its status be questioned, this is the
+  basis on which it was credited.
+  Processing: pale scan border trimmed (all four edges); converted to
+  AVIF and a 720-pixel WebP.
+
