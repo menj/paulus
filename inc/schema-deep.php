@@ -203,6 +203,7 @@ function paulus_schema_named_things() {
 		'tertullian'  => array( $p, 'Tertullian', array(), 'Tertullian', '', '/\bTertullian\b/u' ),
 		'nero'        => array( $p, 'Nero', array( 'Nero Claudius Caesar' ), 'Nero', '', '/\bNero\b/u' ),
 		'albiruni'    => array( $p, 'Abū Rayḥān al-Bīrūnī', array( 'al-Biruni' ), 'Al-Biruni', '', '/B[iī]r[uū]n[iī]/u' ),
+		'akyol'       => array( $p, 'Mustafa Akyol', array(), 'Mustafa_Akyol', '', '/\\bAkyol\\b/u' ),
 		'ibnhazm'     => array( $p, 'Ibn Ḥazm', array( 'Ibn Hazm' ), 'Ibn_Hazm', '', '/Ibn Ḥ?azm/u' ),
 		'tarsus'      => array( $l, 'Tarsus', array(), 'Tarsus,_Mersin', '', '/\bTarsus\b/u' ),
 		'damascus'    => array( $l, 'Damascus', array(), 'Damascus', '', '/\bDamascus\b/u' ),

@@ -9,6 +9,9 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - Six more questions on the Questions page: the apostle to the Gentiles, whether Paul is a Jewish name, the thorn in the flesh, whether he was a homosexual (no source says so), Paul vs Jesus, and whether he sat on the Sanhedrin. The headings take in the phrasings people search ("Saul vs Paul", "Did Paul persecute Christians?", "What caused Paul to stop persecuting and become a missionary?").
 - Seven glossary entries: Apostle to the Gentiles, Cilicia, Corinth, Ephesus, Paul the Apostle, Paulinism and Saul of Tarsus.
 
+### Added (continued)
+- Mustafa Akyol in "Modern voices from al-Kairanawi to Akhtar": a section giving his view that Paul was no conspirator and that the one informed Islamic critique is that he parted ways with Judaism too much, quoted from *The Islamic Jesus* (St. Martin's Press, 2017), pp. 56–57, with the site's answer. The concluding paragraph now speaks of "the other scholars here". He is also in the Sources and in the structured data as a named person.
+
 ### Changed
 - Search titles and descriptions rewritten for eighteen pages and articles from the keyword research: who Paul was, Tarsus, Saul the persecutor, the Damascus road and its three accounts, whether he was an apostle, Saul to Paul, Roman citizenship, whether he founded Christianity, how he died, his letters and books, the timeline, pictures, the section pages, the glossary, the sources and Barnabas. Every description is 160 characters or fewer.
 - The keyword map (`docs/keyword-map.csv`) now records, for each of the 1,923 relevant keywords, whether it is worked into the site and on which page. 1,660 are (98% of search volume); the rest are misspellings and names unrelated to Paul, left out on purpose.
