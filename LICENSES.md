@@ -1,45 +1,35 @@
-PAULUS: LICENCES AND NOTICES FOR THE THEME AND EVERYTHING BUNDLED WITH IT
-==============================================================================
+# Licences and notices
 
-Contents
+The licences and notices for the Paulus theme and everything bundled with it. Each licence text below is reproduced word for word from its owner's file, set in a code block so that nothing in it is reformatted.
 
-   1. Theme code
-   2. Font: Cinzel (SIL Open Font License 1.1)
-   3. Font: EB Garamond (SIL Open Font License 1.1)
-   4. Font: Special Elite (Apache License 2.0)
-   5. Font: Dubidam Arabic (NamelaType, free personal-use edition)
-   6. Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
-   7. Font: Sabon Next LT, Dubidam and Arslan Wessam
-   8. Script: html2pdf.js (MIT)
-   9. Script: html2pdf.js bundle, third-party licence notices
-  10. Script and styles: Lightbox2 (MIT)
-  11. Plugins built into the theme
-  12. Icons: Minimalist Social Icons Pack
-  13. Images: The Metropolitan Museum of Art open access
-  14. Images: portraits
+## Contents
 
-==============================================================================
-1. Theme code
-==============================================================================
+1. [Theme code](#1-theme-code)
+2. [Font: Cinzel (SIL Open Font License 1.1)](#2-font-cinzel-sil-open-font-license-1-1)
+3. [Font: EB Garamond (SIL Open Font License 1.1)](#3-font-eb-garamond-sil-open-font-license-1-1)
+4. [Font: Special Elite (Apache License 2.0)](#4-font-special-elite-apache-license-2-0)
+5. [Font: Dubidam Arabic (NamelaType, free personal-use edition)](#5-font-dubidam-arabic-namelatype-free-personal-use-edition)
+6. [Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)](#6-font-kfgqpc-hafs-uthmanic-script-king-fahd-glorious-quran-printing-complex)
+7. [Font: Sabon Next LT, Dubidam and Arslan Wessam](#7-font-sabon-next-lt-dubidam-and-arslan-wessam)
+8. [Script: html2pdf.js (MIT)](#8-script-html2pdf-js-mit)
+9. [Script: html2pdf.js bundle, third-party licence notices](#9-script-html2pdf-js-bundle-third-party-licence-notices)
+10. [Script and styles: Lightbox2 (MIT)](#10-script-and-styles-lightbox2-mit)
+11. [Plugins built into the theme](#11-plugins-built-into-the-theme)
+12. [Icons: Minimalist Social Icons Pack](#12-icons-minimalist-social-icons-pack)
+13. [Images: The Metropolitan Museum of Art open access](#13-images-the-metropolitan-museum-of-art-open-access)
+14. [Images: portraits](#14-images-portraits)
 
-Paulus, Copyright 2023-2026 MENJ.
-The theme's own code (PHP, CSS, JavaScript) is licensed under the GNU General
-Public License, version 2 or later: https://www.gnu.org/licenses/gpl-2.0.html
-(the licence WordPress itself uses, and the one declared in style.css).
+## 1. Theme code
 
-Everything else below keeps the licence of its owner. A licence belongs to its
-owner and is not changed by being bundled here, so none of it is relicensed.
+Paulus, Copyright 2023-2026 MENJ. The theme's own code (PHP, CSS, JavaScript) is licensed under the GNU General Public License, version 2 or later: https://www.gnu.org/licenses/gpl-2.0.html (the licence WordPress itself uses, and the one declared in style.css).
 
-Paulus is built for one site, apostleofdoom.org, and is not distributed as a
-product. This file records what is bundled and under which terms. Photographs
-and other figures carry their own author, licence and source in the credit line
-of each figure (inc/figures.php), and the licence list for each is in
-assets/images/church/commons-meta.json.
+Everything else below keeps the licence of its owner. A licence belongs to its owner and is not changed by being bundled here, so none of it is relicensed.
 
-==============================================================================
-2. Font: Cinzel (SIL Open Font License 1.1)
-==============================================================================
+Paulus is built for one site, apostleofdoom.org, and is not distributed as a product. This file records what is bundled and under which terms. Photographs and other figures carry their own author, licence and source in the credit line of each figure (inc/figures.php), and the licence list for each is in assets/images/church/commons-meta.json.
 
+## 2. Font: Cinzel (SIL Open Font License 1.1)
+
+```text
 Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
@@ -133,11 +123,11 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
+```
 
-==============================================================================
-3. Font: EB Garamond (SIL Open Font License 1.1)
-==============================================================================
+## 3. Font: EB Garamond (SIL Open Font License 1.1)
 
+```text
 Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
@@ -231,11 +221,11 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
+```
 
-==============================================================================
-4. Font: Special Elite (Apache License 2.0)
-==============================================================================
+## 4. Font: Special Elite (Apache License 2.0)
 
+```text
 
                                  Apache License
                            Version 2.0, January 2004
@@ -438,11 +428,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+```
 
-==============================================================================
-5. Font: Dubidam Arabic (NamelaType, free personal-use edition)
-==============================================================================
+## 5. Font: Dubidam Arabic (NamelaType, free personal-use edition)
 
+```text
 Dubidam Arabic (Light, Regular, Bold)
 
 Designers: Nur Syamsi and Bustanul Arifin
@@ -466,11 +456,11 @@ only the letters and marks the font draws properly, and Arslan Wessam supplies
 the rest. A public site that sells a book needs NamelaType's commercial
 licence, which also removes the watermark. Check the terms with NamelaType
 before the site goes public.
+```
 
-==============================================================================
-6. Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
-==============================================================================
+## 6. Font: KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
 
+```text
 KFGQPC HAFS Uthmanic Script, Version 2.2 (Regular)
 
 Owner:   King Fahd Glorious Quran Printing Complex (KFGQPC), Al-Madinah
@@ -519,25 +509,19 @@ and cannot warrant the performance or results you may obtain by using the
 Font. In no event shall KFGQPC be liable for any Claims, Damages or other
 Liability, including any Damages, arising from, out of the use or inability to
 use the Font or from other dealings in the Font.
+```
 
-==============================================================================
-7. Font: Sabon Next LT, Dubidam and Arslan Wessam
-==============================================================================
+## 7. Font: Sabon Next LT, Dubidam and Arslan Wessam
 
-Sabon Next LT is a Monotype font: a desktop licence does not cover web
-embedding, and a web font licence is required.
+Sabon Next LT is a Monotype font: a desktop licence does not cover web embedding, and a web font licence is required.
 
-Dubidam (Latin) is NamelaType's free personal-use edition (see the Dubidam
-Arabic notice above for the same foundry's terms); a public site that sells a
-book needs the commercial licence, which also removes the watermarked glyphs.
+Dubidam (Latin) is NamelaType's free personal-use edition (see the Dubidam Arabic notice above for the same foundry's terms); a public site that sells a book needs the commercial licence, which also removes the watermarked glyphs.
 
-Arslan Wessam is distributed through Dev-Point.com with no licence file. Its
-embedding flag permits web use; confirm the terms with the author.
+Arslan Wessam is distributed through Dev-Point.com with no licence file. Its embedding flag permits web use; confirm the terms with the author.
 
-==============================================================================
-8. Script: html2pdf.js (MIT)
-==============================================================================
+## 8. Script: html2pdf.js (MIT)
 
+```text
 The MIT License
 
 Copyright (c) 2017 Erik Koopmans
@@ -559,11 +543,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-==============================================================================
-9. Script: html2pdf.js bundle, third-party licence notices
-==============================================================================
+## 9. Script: html2pdf.js bundle, third-party licence notices
 
+```text
 /*!
  * html2canvas 1.4.1 <https://html2canvas.hertzen.com>
  * Copyright (c) 2022 Niklas von Hertzen <https://hertzen.com>
@@ -2679,11 +2663,11 @@ PERFORMANCE OF THIS SOFTWARE.
   https://webpjs.appspot.com
   WebPRiffParser dominikhlbg@gmail.com
   */
+```
 
-==============================================================================
-10. Script and styles: Lightbox2 (MIT)
-==============================================================================
+## 10. Script and styles: Lightbox2 (MIT)
 
+```text
 The MIT License (MIT)
 
 Copyright (c) 2015 Lokesh Dhakar
@@ -2705,11 +2689,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-==============================================================================
-11. Plugins built into the theme
-==============================================================================
+## 11. Plugins built into the theme
 
+```text
 Paulus builds in the work of four plugins, rewritten as theme modules.
 All three are licensed under the GNU General Public License, version 2 or
 later, as is this theme. Their authors are credited here with thanks.
@@ -2746,11 +2730,11 @@ later, as is this theme. Their authors are credited here with thanks.
 
 The full text of the GNU General Public License, version 2, is at
 https://www.gnu.org/licenses/gpl-2.0.html
+```
 
-==============================================================================
-12. Icons: Minimalist Social Icons Pack
-==============================================================================
+## 12. Icons: Minimalist Social Icons Pack
 
+```text
 MINIMALIST SOCIAL & PLATFORM ICONS PACK
 ========================================
 
@@ -2932,11 +2916,11 @@ respective companies regardless of the icon file's license. Using
 them to link to your own official profiles (a "follow us" row) is
 standard, low-risk practice — just don't imply endorsement or
 affiliation beyond that.
+```
 
-==============================================================================
-13. Images: The Metropolitan Museum of Art open access
-==============================================================================
+## 13. Images: The Metropolitan Museum of Art open access
 
+```text
 Five featured images are photographs from The Metropolitan Museum of Art,
 New York, released through its Open Access programme under Creative Commons
 Zero (CC0 1.0): https://creativecommons.org/publicdomain/zero/1.0/
@@ -2952,11 +2936,11 @@ record (isPublicDomain: true) on 26 September 2026.
 Each is credited in the site's structured data with its title, date and
 accession number. The files in assets/images/ are the Museum's photographs,
 squared to 1,024 pixels.
+```
 
-==============================================================================
-14. Images: portraits
-==============================================================================
+## 14. Images: portraits
 
+```text
 Portraits
 =========
 
@@ -2969,4 +2953,5 @@ faruqi-portrait (assets/images/church/faruqi-portrait.avif, -720.webp)
   basis on which it was credited.
   Processing: pale scan border trimmed (all four edges); converted to
   AVIF and a 720-pixel WebP.
+```
 

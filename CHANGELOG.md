@@ -5,7 +5,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.62.28] - 2026-10-10
 
 ### Changed
-- One licence file. The twelve licence texts that sat in `licenses/` and beside the fonts (SIL Open Font License for Cinzel and EB Garamond, Apache for Special Elite, Dubidam Arabic, KFGQPC, html2pdf.js and its bundle notices, Lightbox2, the built-in plugins, the icon pack, the Met's open access terms and the portraits) are now sections of `LICENSES.txt` at the root, word for word, with the GPL v2 or later notice for the theme's own code at the top and notes for the fonts that have no licence file. The `licenses/` folder is gone. Terms are unchanged by the merge.
+- One licence file. The twelve licence texts that sat in `licenses/` and beside the fonts (SIL Open Font License for Cinzel and EB Garamond, Apache for Special Elite, Dubidam Arabic, KFGQPC, html2pdf.js and its bundle notices, Lightbox2, the built-in plugins, the icon pack, the Met's open access terms and the portraits) are now sections of `LICENSES.md` at the root (Markdown, each text word for word in its own code block), with the GPL v2 or later notice for the theme's own code at the top and notes for the fonts that have no licence file. The `licenses/` folder is gone. Terms are unchanged by the merge.
 
 ## [2.62.27] - 2026-10-10
 

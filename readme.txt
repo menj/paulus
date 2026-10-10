@@ -26,14 +26,14 @@ Paulus, Copyright 2023-2026 MENJ. The theme's code is licensed under the GNU Gen
 
 Bundled resources keep the licences of their owners and are not relicensed:
 
-* Cinzel and EB Garamond: SIL Open Font License 1.1 (texts in LICENSES.txt).
+* Cinzel and EB Garamond: SIL Open Font License 1.1 (texts in LICENSES.md).
 * Special Elite: Apache License 2.0.
 * Sabon Next LT: Monotype commercial font; a web font licence is required.
-* Dubidam and Dubidam Arabic: NamelaType, free personal-use edition; a commercial licence is required for a public site that sells a book. See LICENSES.txt.
-* KFGQPC Hafs Uthmanic Script: King Fahd Glorious Quran Printing Complex, free of cost to use, copy and distribute, not to be sold or modified. See LICENSES.txt.
+* Dubidam and Dubidam Arabic: NamelaType, free personal-use edition; a commercial licence is required for a public site that sells a book. See LICENSES.md.
+* KFGQPC Hafs Uthmanic Script: King Fahd Glorious Quran Printing Complex, free of cost to use, copy and distribute, not to be sold or modified. See LICENSES.md.
 * Arslan Wessam: distributed through Dev-Point.com with no licence file.
-* Photographs and images: the licence stated in each figure's credit line (Wikimedia Commons, The Met, the National Gallery of Art, Yale University Art Gallery); see LICENSES.txt.
-* html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.txt.
+* Photographs and images: the licence stated in each figure's credit line (Wikimedia Commons, The Met, the National Gallery of Art, Yale University Art Gallery); see LICENSES.md.
+* html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
 
