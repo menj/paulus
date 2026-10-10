@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.22] - 2026-10-10
+
+### Added
+- Five images of Paul from Wikimedia Commons, each with its author, licence and source link in the figure's credit line: the marble statue in the Grotto of Saint Paul at Rabat, Malta (CC BY-SA 4.0, Augustyński); a painted statue of Paul with a scroll and a sword (CC BY 3.0, Jayzl Nebre-Villfania); Gregorio Fernández's carving of 1606 for the high altar of San Miguel y San Julián, Valladolid (CC BY-SA 3.0, 3Félix); a Byzantine ivory plaque of Paul, Musée de Cluny (CC BY-SA 3.0, Clio20); and a panel attributed to Lucas van Leyden, about 1520, oil on panel, Yale University Art Gallery 1961.52 (public domain). They stand in "Paul in the churches", in four new sections ("The attributes fixed", "Carved for the altar", "The grotto at Rabat", and the ivory under "The Byzantine saint"), and three of them also in "Paul of Tarsus at a glance".
+- A portrait of Dale B. Martin on his Journal entry and on the page of his notes, drawn from a still of the author's video in the site's engraving style (head and shoulders, ink hatching on ochre paper, oxblood on the collar), credited "Portrait by MENJ, drawn from a still of his video".
+
+### Changed
+- `assets/files.json` is written for the current version again (it had stayed at 2.62.17, which switched off the clean-up of images a release no longer ships); it lists all 256 images.
+
 ## [2.62.21] - 2026-10-10
 
 ### Added

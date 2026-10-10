@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.21',
+	'content_version' => '2.62.22',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
