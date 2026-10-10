@@ -495,6 +495,7 @@ require_once PAULUS_DIR . '/inc/unlist.php';
 require_once PAULUS_DIR . '/inc/search-permalinks.php';
 require_once PAULUS_DIR . '/inc/hide-login.php';
 require_once PAULUS_DIR . '/inc/login.php';
+require_once PAULUS_DIR . '/inc/dropins.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**
