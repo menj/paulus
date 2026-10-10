@@ -1201,7 +1201,7 @@ function paulus_sc_sitemap() {
 	// The rest of the site: four cards, each with an icon.
 	$groups = array();
 	$pages  = array();
-	foreach ( array( 'the-verdict', 'answers', 'questions', 'the-book', 'about-the-author' ) as $slug ) {
+	foreach ( array( 'the-verdict', 'answers', 'questions', 'paul-at-a-glance', 'the-book', 'about-the-author' ) as $slug ) {
 		$page = get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
 			$pages[] = $item( $page );
@@ -1258,7 +1258,7 @@ function paulus_sc_404_links() {
 	foreach ( paulus_parts() as $part ) {
 		$out .= '<li><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></li>';
 	}
-	foreach ( array( 'answers', 'questions', 'the-verdict', 'the-book', 'sitemap' ) as $slug ) {
+	foreach ( array( 'answers', 'questions', 'paul-at-a-glance', 'the-verdict', 'the-book', 'sitemap' ) as $slug ) {
 		$page = 'sitemap' === $slug ? paulus_sitemap_page() : get_page_by_path( $slug );
 		if ( $page ) {
 			$out .= '<li><a href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html( get_the_title( $page ) ) . '</a></li>';
