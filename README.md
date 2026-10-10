@@ -279,7 +279,7 @@ Linked entities carry Wikipedia and Wikidata identifiers, each verified against 
 
 ## Built in: unlisting, search addresses, a private login address
 
-Three plugins are built into the theme as native modules, each a rewrite that keeps the plugin's own settings, so a site that used them carries on unchanged. Each module waits while its plugin is still active (a dashboard notice names the plugins still running); deactivate the plugins and the theme takes over. Credits and licences are in `licenses/built-in-plugins.txt`.
+Three plugins are built into the theme as native modules, each a rewrite that keeps the plugin's own settings, so a site that used them carries on unchanged. Each module waits while its plugin is still active (a dashboard notice names the plugins still running); deactivate the plugins and the theme takes over. Credits and licences are in `LICENSES.txt`.
 
 | Module | From | What it does | Settings |
 |---|---|---|---|
