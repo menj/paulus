@@ -27,7 +27,8 @@ body::before, body::after, .paulus-header::after, .paulus-footer::before { displ
 .paulus-prose a { color: #000 !important; text-decoration: none !important; }
 .paulus-prose a[href^="http"]:not([href*="apostleofdoom"])::after { content: " (" attr(href) ")"; font-size: 8pt; color: #444; word-break: break-all; }
 .paulus-single .paulus-prose > p:first-child:not(.paulus-note)::first-letter { background: none !important; color: #000 !important; border: 0 !important; padding: 0 !important; font-size: 1em !important; float: none !important; margin: 0 !important; transform: none !important; box-shadow: none !important; }
-.paulus-prose blockquote { border-left: 1.5pt solid #000 !important; background: none !important; margin: 8pt 0 10pt 0 !important; padding: 2pt 0 2pt 10pt !important; page-break-inside: avoid; break-inside: avoid; color: #000 !important; }
+.paulus-prose blockquote::before { display: none !important; }
+.paulus-prose blockquote { border-top: 0 !important; border-bottom: 0 !important; border-left: 1.5pt solid #000 !important; background: none !important; margin: 8pt 0 10pt 0 !important; padding: 2pt 0 2pt 10pt !important; page-break-inside: avoid; break-inside: avoid; color: #000 !important; }
 .paulus-prose blockquote p { color: #000 !important; font-size: 10.5pt !important; }
 .paulus-prose blockquote.scripture .greek { border-bottom: 0.5pt solid #888 !important; color: #000 !important; }
 .paulus-prose .v { color: #444 !important; }

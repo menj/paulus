@@ -80,7 +80,14 @@ function paulus_fields() {
 		'reading'    => array(
 			'label'  => __( 'Reading', 'paulus' ),
 			'fields' => array(
-				'read_progress' => array( __( 'Reading progress bar across the top of articles', 'paulus' ), 'checkbox' ),
+				'read_progress' => array( __( 'Reading progress bar', 'paulus' ), 'checkbox' ),
+				'read_progress_posts'   => array( __( 'Show the bar on articles', 'paulus' ), 'checkbox' ),
+				'read_progress_journal' => array( __( 'Show the bar on Journal entries', 'paulus' ), 'checkbox' ),
+				'read_progress_pages'   => array( __( 'Show the bar on pages (Answers, Questions, the reference pages and the rest)', 'paulus' ), 'checkbox' ),
+				'read_progress_position' => array( __( 'Bar position', 'paulus' ), 'select', array( 'top' => __( 'Top of the screen', 'paulus' ), 'bottom' => __( 'Bottom of the screen', 'paulus' ) ) ),
+				'read_progress_height'   => array( __( 'Bar height in pixels (1 to 12)', 'paulus' ), 'number', array( 1, 12 ) ),
+				'read_progress_fg'       => array( __( 'Bar colour (a hex code such as #7a2e1a; leave empty to follow the colour scheme)', 'paulus' ), 'color' ),
+				'read_progress_bg'       => array( __( 'Track colour behind the bar (a hex code; leave empty to follow the colour scheme)', 'paulus' ), 'color' ),
 				'read_keys'     => array( __( 'Arrow keys move to the previous and next article in the reading order', 'paulus' ), 'checkbox' ),
 				'read_memory'   => array( __( 'Offer to resume a long article or page where the reader left off (kept in the reader\'s browser only)', 'paulus' ), 'checkbox' ),
 				'read_copy'     => array( __( 'Copy-link button in the share row', 'paulus' ), 'checkbox' ),
@@ -198,6 +205,18 @@ function paulus_sanitize_options( $input ) {
 					break;
 				case 'checkbox':
 					$clean[ $key ] = empty( $value ) ? 0 : 1;
+					break;
+				case 'select':
+					$choices       = isset( $def[2] ) && is_array( $def[2] ) ? $def[2] : array();
+					$clean[ $key ] = array_key_exists( $value, $choices ) ? $value : (string) paulus_defaults()[ $key ];
+					break;
+				case 'number':
+					$range         = isset( $def[2] ) && is_array( $def[2] ) ? $def[2] : array( 0, 100 );
+					$clean[ $key ] = max( (int) $range[0], min( (int) $range[1], (int) $value ) );
+					break;
+				case 'color':
+					$hex           = sanitize_hex_color( trim( (string) $value ) );
+					$clean[ $key ] = $hex ? $hex : '';
 					break;
 				case 'scheme':
 					$clean[ $key ] = array_key_exists( $value, paulus_schemes() ) ? $value : 'ochre';

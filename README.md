@@ -395,14 +395,20 @@ All fonts are bundled in `assets/fonts/` as WOFF2 and declared in `assets/css/fo
 | Sabon Next LT | Body text and the menu |
 | EB Garamond | Quotations, footnotes and the book synopsis, plus the ʿ, ʾ and dotted transliteration letters Sabon Next lacks |
 | Special Elite | Labels: chapter numbers, breadcrumbs, bylines, data labels, timeline dates, footer credit |
-| Arslan Wessam | Arabic script (style A for regular, style B for bold) |
+| KFGQPC Hafs Uthmanic Script | Quranic verses in Arabic, and nothing else (class `quran`) |
+| Dubidam Arabic | Hadiths in Arabic, and nothing else (class `hadith`), in regular weight; the light and bold cuts are bundled for any text set at those weights |
+| Arslan Wessam | All other Arabic script (the default for every `lang="ar"` element), and the fallback beneath the other two (style A for regular, style B for bold) |
 
-The free edition of Dubidam replaces its digits and most punctuation with a watermark. Its `@font-face` rules therefore cover letters only, and digits and punctuation in headings come from EB Garamond.
+The free edition of Dubidam replaces its digits and most punctuation with a watermark. Its `@font-face` rules therefore cover letters only, and digits and punctuation in headings come from EB Garamond. The free edition of Dubidam Arabic does the same to Arabic-Indic digits, the Arabic semicolon and question mark, quotation marks and dashes, so its rules list only the letters and marks it draws properly (96 characters); everything else in a hadith comes from Arslan Wessam. A Quranic verse is marked `<p class="arabic quran" lang="ar" dir="rtl">` and a hadith `class="arabic hadith"` (or `<span class="hadith" lang="ar">` inline).
 
 ### Licensing
+
+The theme's own code is GPL v2 or later. The bundled fonts, illustrations and photographs are not covered by that licence and keep their own: each file's licence is listed below and in `licenses/`. A licence belongs to its owner and cannot be changed by the theme, so none of the fonts is relicensed.
 
 EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License 2.0) are free for web use; their licences ship in `licenses/`. Check the others before the site goes public:
 
 - **Sabon Next LT** is a Monotype font. A desktop license does not cover web embedding; a web font license is required.
 - **Dubidam** is the free personal-use edition from NamelaType. A site that sells a book needs the commercial license, which also removes the watermarked glyphs.
+- **KFGQPC Hafs Uthmanic Script** belongs to the King Fahd Glorious Quran Printing Complex and is free of cost to use, copy and distribute, but its licence forbids selling, modifying, altering or reproducing it; the full text is in `licenses/kfgqpc-hafs-uthmanic-script.txt`. The bundled WOFF2 is the supplied TrueType re-encoded without changing a glyph (only the digital-signature table, which WOFF2 cannot hold, is left out).
+- **Dubidam Arabic** is the free personal-use edition from NamelaType (the font names say "FREE PERSONAL USE"), supplied by the site owner in three weights. The same licence point applies as for Dubidam: a site that sells a book needs the commercial license, which also removes the watermarked glyphs. See `licenses/dubidam-arabic.txt`.
 - **Arslan Wessam** is distributed through Dev-Point.com with no license file. Its embedding flag permits web use, but confirm the terms with the author.

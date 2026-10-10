@@ -2,6 +2,44 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.27] - 2026-10-10
+
+### Changed
+- Arabic script is now set in three fonts by what it is: Quranic verses in KFGQPC Hafs Uthmanic Script (the Mushaf script of the King Fahd Glorious Quran Printing Complex), hadiths in Dubidam Arabic, and everything else in Arabic in Arslan Wessam. The 16 Quranic verses (the measure; borrowings from the rabbis, part 2; the religion of Paul today; the verdict; the flesh, part 2; the Quran as witness, parts 1 and 2) carry the class `quran`; the 5 hadith passages (the hadith qudsi and the report of the prison called Būlus among them) carry `hadith`. The earlier choice of Dubidam Arabic as the default for all Arabic is withdrawn, and the families are in `theme.json` as `quran`, `hadith` and `arabic`.
+- Quotations no longer set emphasised words (transliterations, titles) in italics.
+- The KFGQPC font is bundled as WOFF2 (107 KB, from 298 KB). Every glyph outline, advance width and character-map entry was compared with the supplied TrueType file and is identical; the font's digital-signature table is left out, which WOFF2 cannot carry. Its licence (free to use, copy and distribute; no selling, modifying or altering) is reproduced in `licenses/kfgqpc-hafs-uthmanic-script.txt`. Every other bundled font was already WOFF2.
+- Licences: the README and readme.txt now say that the theme's code is GPL v2 or later and that the bundled fonts, illustrations and photographs keep the licences of their owners. A licence belongs to its owner, so none of them is relicensed.
+
+## [2.62.26] - 2026-10-10
+
+### Changed
+- Arabic script is set in Dubidam Arabic, in the light, regular and bold cuts supplied by the author (`assets/fonts/dubidam-arabic-*.woff2`), with Arslan Wessam beneath it. Text and quotations use the regular cut (the page body is set at weight 300, so Arabic is pinned to 400 for legibility), and bold Arabic the bold. The free edition replaces Arabic-Indic digits, the Arabic semicolon and question mark, quotation marks and dashes with a watermark, so the font's `unicode-range` lists only the 96 letters and marks it draws properly; digits, punctuation and the characters it lacks (the ﷺ ligature, some Quranic marks, 56 uses in the text) come from Arslan Wessam. Licence note in `licenses/dubidam-arabic.txt` and the README: the free edition is for personal use, and a public site that sells a book needs NamelaType's commercial licence.
+
+## [2.62.25] - 2026-10-10
+
+### Changed
+- Quotations are redrawn in the theme's own language: a tablet with a double rule above and below, a wash of the scheme's surface colour, an oxblood opening mark in Cinzel, and the quoted words in roman Garamond, left-aligned at the full measure. A quotation with a reference sets it in the label face, in capitals, after a dash, on the right. Scripture blocks (the Greek over the English, with the accent rule) are unchanged. In print a quotation keeps the plain left rule.
+- No italics where a passage has to be read: quotations, the editor's note on Martin's notes, the book blurb and subtitle, the teaser subtitle, the 404 line, the empty Journal message and the login tagline are set in roman. Emphasis and titles marked in the text itself keep theirs.
+
+## [2.62.24] - 2026-10-10
+
+### Fixed
+Findings from the CodeAnt reviews of the earlier pull requests, each checked against the code first.
+- The quotation style added for "Paul of Tarsus at a glance" applied to every classless blockquote on the site, which would have shrunk and right-aligned the last paragraph of any one-paragraph quotation (Akhtar's, Akyol's). It now applies only to a quotation marked `paulus-quote`.
+- The section addresses in the structured data used the wrong anchors for articles and Journal entries (the rail's `s-` ids) and for pages without ids. They now come from the headings the page really renders, and a heading with no address is listed without one. Checked on 88 pages: every address resolves.
+- A Journal entry or article that names "James" (the son of Zebedee, say) no longer links to James, the brother of Jesus; the pattern now needs "the brother", "the Lord's brother" or "the Just".
+- The 404 page no longer lists a page that is a draft or private.
+- The structure sync's lock was a transient checked and then set in two steps, so two simultaneous administrator requests could both run it and create a page twice. The lock is now claimed atomically (adding an option fails if it exists) and a lock over a minute old is taken over.
+- Sites that never recorded a content hash for a changed text (churches, glossary, Martin's notes, the Questions and glance pages and Akyol's article) now still refresh: the earlier shipped texts are listed in `prior_hashes`.
+- "Paul of Tarsus at a glance" cited Acts 21:39 for his birth; Acts 22:3 says he was born in Tarsus, and 21:39 only names it as his city. The ivory plaque of the sixth or seventh century was said to be "a century or two" before the medallion of about 1100; it is five centuries.
+- The front page's questions section now links to the Questions page as well as the Answers. The 2.62.20 note that the Questions page was linked from the front-page cards was wrong: the cards belong to the Site map page.
+
+## [2.62.23] - 2026-10-10
+
+### Added
+- The honorific after the name of ʿĪsā ibn Maryam is shown in calligraphy (ʿalayhi al-salām, "peace be upon him"), from the author's artwork (`assets/images/alayhi-al-salam.webp`). It is drawn as a mask in the colour of the text, so it follows every colour scheme and prints. The words stay in the stored text and in the page, hidden from the eye and open to screen readers, search engines and copying; a browser that cannot draw the mask shows them as written. It replaces "(ʿalayhi al-salām, peace be upon him)" and "(ʿalayhi al-salām)" straight after his name at render time (`inc/honorific.php`); other names that take the phrase, such as Ādam and Mūsā, keep the words.
+- Reading progress options on Theme Options, Reading: which pages show the bar (articles, Journal entries, pages), its position (top or bottom of the screen), its height (1 to 12 pixels) and its colour and track colour (hex codes; left empty they follow the colour scheme). The bar is chosen on the server, so a page that should not have it never loads it. Defaults keep the old behaviour: articles and Journal entries, at the top, 3 pixels, scheme colours.
+
 ## [2.62.22] - 2026-10-10
 
 ### Added
@@ -29,7 +67,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.62.20] - 2026-10-10
 
 ### Added
-- A Questions page, "Questions about Paul of Tarsus" (`/questions/`): 21 short answers to the questions people search for most (who Paul was, Saul and Paul, the name's meaning, birth and appearance, marriage, Jew and Pharisee, Roman citizen, meeting Jesus, the Twelve, who taught him, what he did before his call, Damascus, his death, the founder of Christianity, why he mattered, his arrests, the letters, his teaching, whether he was real, Islam, his wrongs). Each links to the full evidence; the page has its own index, anchors and FAQPage markup like Answers, and is linked from the front-page cards and the 404 page. Chosen from the Semrush question export (708 questions, folded into 21 intents); the full keyword list is classified in `docs/keyword-map.csv` (2,170 keywords: cluster, where each is used, 258 marked irrelevant with the reason: places, schools and parishes, feast days and patronage, films, study aids, other languages and names).
+- A Questions page, "Questions about Paul of Tarsus" (`/questions/`): 21 short answers to the questions people search for most (who Paul was, Saul and Paul, the name's meaning, birth and appearance, marriage, Jew and Pharisee, Roman citizen, meeting Jesus, the Twelve, who taught him, what he did before his call, Damascus, his death, the founder of Christianity, why he mattered, his arrests, the letters, his teaching, whether he was real, Islam, his wrongs). Each links to the full evidence; the page has its own index, anchors and FAQPage markup like Answers, and is linked from the Site map cards and the 404 page. Chosen from the Semrush question export (708 questions, folded into 21 intents); the full keyword list is classified in `docs/keyword-map.csv` (2,170 keywords: cluster, where each is used, 258 marked irrelevant with the reason: places, schools and parishes, feast days and patronage, films, study aids, other languages and names).
 - Structured data across the site: every section heading as a WebPageElement with its anchor; each footnote as a linked CreativeWork citation; the people, places and works a page names (ʿĪsā ibn Maryam, Muḥammad ﷺ, Peter, James, Barnabas, Gamaliel, Stephen, Luke, Clement, Eusebius, Nero, the cities of Paul's journeys, his letters, the Gospels, the Quran, the Torah and the Tanakh) as `mentions`, each linked to its Wikipedia page; the Quiz on the study guide no longer carries a property schema.org does not allow on it. Checked on 88 pages against the current schema.org vocabulary: no unknown types or properties, no dangling references.
 - The end of Dale B. Martin's notes is marked: after the last heading ("E. Why does Luke not seem to know Paul's letters?") a centred ellipsis and an editor's note, set in a ruled panel with its own label, say that the notes stop there and link to this site's answer. Marked as editorial, apart from his text.
 - A Journal entry, "Did Paul ever meet Jesus?" (about 450 words, dated 10 October 2026): Paul never met Jesus in his life on earth, and the one meeting he claims, after the crucifixion, has no witness but himself. It cites 1 Corinthians 9:1 and 15:5–8, Galatians 1:11–19, 2 Corinthians 5:16, and Acts 1:21–22, 9:7, 22:9 and 26:12–18, and links to the Damascus road, the three accounts compared, and "A self-appointed apostle". Content version 2.62.20.

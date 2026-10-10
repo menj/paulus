@@ -15,11 +15,37 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.22',
+	'content_version' => '2.62.27',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
+		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		'appendices.html#r27' => '5d7e049d70cae1199cdab1d8ea3e01d5',
+		'c01-the-measure.html#r27' => '0d89722500455b6324a93388c22ad6b2',
+		'c07-borrowings-from-the-rabbis-2.html#r27' => 'c9077ba6161b969847847d67c0d970c4',
+		'c09-the-religion-of-paul-today.html#r27' => 'fbd97d8b533218710bfd22b927c01785',
+		'c10-no-prophet-between-2.html#r27' => '8252bf117ff08abc319e55edd62de178',
+		'c10-no-prophet-between.html#r27' => '1949e133b879d646d11d304920035b5f',
+		'c10-the-early-islamic-record.html#r27' => 'c4df02a1ca662d26a907f20221dfe791',
+		'c11-the-verdict.html#r27' => 'b574ffb995e9edb2525d207c62a87434',
+		'c13-the-flesh-2.html#r27' => '4f9c9c7bb2270466dfe1ea479ce6cc10',
+		'c15-the-quran-as-witness-2.html#r27' => '3c99b99ff2385bac30fbf26fdd1c6131',
+		'c15-the-quran-as-witness.html#r27' => '96d8867900d0b7887b907a0eeec59b49',
+		'c10-from-ibn-hazm-to-al-faruqi-2.html#r0' => '8bdf6383175d3ba2fa99eb98205cea57',
+		'churches.html#r0' => '26ec943b333392a583527214de3c5930',
+		'churches.html#r1' => '83b19d12229574c004b7a7f8097eb825',
+		'churches.html#r2' => 'e293f6ef98f63110dcde2211c6d84f33',
+		'dale-b-martin-luke-versus-paul.html#r0' => 'a854ff913f7b390c59954a3cbd3b4e69',
+		'dale-b-martin-luke-versus-paul.html#r1' => 'ac3f5f4f6cc5c904de6f6738f745f113',
+		'dale-b-martin-luke-versus-paul.html#r2' => 'c4830680d5e7c88afad0a5690eb7ca68',
+		'glossary.html#r0' => 'd0e5c3cd896c61356d7dffad12156a37',
+		'journal-dale-b-martin-notes.html#r0' => '4db8865e22981eeced7129548689738d',
+		'paul-at-a-glance.html#r1' => '7f45404267dc4865c8ff352350e79f3e',
+		'paul-at-a-glance.html#r2' => '6508444b178eb05cc4cd19f2facab1be',
+		'paul-at-a-glance.html#r3' => 'bbd9f2d4565d366773b394f1d3a226cf',
+		'questions.html#r1' => '6ed9de0b680508d7113dd8aa2b6a3d51',
+		'sources.html#r0' => 'e54ad2ac17ddc5b8a31230d5ffca1974',
 		'00-crossroads.html' => '9500be7461418ec3db0e9605fce1d9fd',
 		'01-who-was-paul.html' => 'ffb32c455a62da4c8383244ba3a599d6',
 		'02-damascus-road.html' => '7bf80914a68c7ee9d7aae9269f19481e',

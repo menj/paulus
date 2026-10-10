@@ -10,7 +10,15 @@
  * Special Elite labels: chapter numbers, breadcrumbs, data labels.
  * Cinzel       Roman inscriptional capitals: site title, front-page headline,
  *              section titles, count numerals. Variable weight, OFL.
- * Arslan Wessam Arabic script, wherever it appears. Scaled up 125% to
+ * KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
+ *              Quranic verses in Arabic, and nothing else (class "quran").
+ * Dubidam Arabic Hadiths in Arabic, and nothing else (class "hadith"), in
+ *              regular weight. The free edition replaces Arabic-Indic digits,
+ *              the Arabic semicolon and question mark, quotation marks and
+ *              dashes with a watermark, so its unicode-range covers letters and
+ *              marks only; the rest comes from Arslan Wessam.
+ * Arslan Wessam All other Arabic script (the default for every lang="ar"
+ *              element), and the fallback beneath the other two. Scaled up 125% to
  *              sit level with the Latin text around it.
  */
 
@@ -94,7 +102,43 @@
 	font-display: swap;
 }
 
-/* Arabic script */
+/* Quranic verses: KFGQPC Hafs Uthmanic Script, as supplied (WOFF2 of the unmodified glyph data) */
+@font-face {
+	font-family: "KFGQPC Hafs Uthmanic Script";
+	src: url("../fonts/kfgqpc-hafs-uthmanic-script.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
+/* Hadiths: Dubidam Arabic, letters and marks only (see above) */
+@font-face {
+	font-family: "Dubidam Arabic";
+	src: url("../fonts/dubidam-arabic-light.woff2") format("woff2");
+	font-weight: 100 350;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+060C, U+0615, U+0621-063A, U+0640-0656, U+0658, U+065A, U+066B-066C, U+066E-0671, U+0679, U+067E, U+0686, U+0688, U+068A, U+068E, U+0690-0691, U+0695, U+0698, U+069C, U+069F-06A1, U+06A4-06A5, U+06A7-06A9, U+06AE-06AF, U+06B5, U+06BA, U+06BD-06BE, U+06C1-06C3, U+06C6, U+06CC, U+06CE, U+06D1-06D5, U+0762;
+}
+@font-face {
+	font-family: "Dubidam Arabic";
+	src: url("../fonts/dubidam-arabic-regular.woff2") format("woff2");
+	font-weight: 351 550;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+060C, U+0615, U+0621-063A, U+0640-0656, U+0658, U+065A, U+066B-066C, U+066E-0671, U+0679, U+067E, U+0686, U+0688, U+068A, U+068E, U+0690-0691, U+0695, U+0698, U+069C, U+069F-06A1, U+06A4-06A5, U+06A7-06A9, U+06AE-06AF, U+06B5, U+06BA, U+06BD-06BE, U+06C1-06C3, U+06C6, U+06CC, U+06CE, U+06D1-06D5, U+0762;
+}
+@font-face {
+	font-family: "Dubidam Arabic";
+	src: url("../fonts/dubidam-arabic-bold.woff2") format("woff2");
+	font-weight: 551 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+060C, U+0615, U+0621-063A, U+0640-0656, U+0658, U+065A, U+066B-066C, U+066E-0671, U+0679, U+067E, U+0686, U+0688, U+068A, U+068E, U+0690-0691, U+0695, U+0698, U+069C, U+069F-06A1, U+06A4-06A5, U+06A7-06A9, U+06AE-06AF, U+06B5, U+06BA, U+06BD-06BE, U+06C1-06C3, U+06C6, U+06CC, U+06CE, U+06D1-06D5, U+0762;
+}
+
+/* Arabic script: Arslan Wessam, for what Dubidam Arabic lacks, and as the fallback */
 @font-face {
 	font-family: "Arslan Wessam";
 	src: url("../fonts/arslan-wessam-a.woff2") format("woff2");

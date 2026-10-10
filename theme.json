@@ -132,6 +132,16 @@
 					"fontFamily": "\"Arslan Wessam\", \"EB Garamond\", serif"
 				},
 				{
+					"slug": "quran",
+					"name": "KFGQPC Hafs Uthmanic Script",
+					"fontFamily": "\"KFGQPC Hafs Uthmanic Script\", \"Arslan Wessam\", serif"
+				},
+				{
+					"slug": "hadith",
+					"name": "Dubidam Arabic",
+					"fontFamily": "\"Dubidam Arabic\", \"Arslan Wessam\", serif"
+				},
+				{
 					"slug": "manrope",
 					"name": "Body (parent alias)",
 					"fontFamily": "\"Sabon Next LT\", \"EB Garamond\", \"Arslan Wessam\", Georgia, serif"
