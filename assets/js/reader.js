@@ -104,9 +104,12 @@
 	}
 
 	/* Progress bar (articles). */
-	if ( cfg.progress && prose && document.body.classList.contains( 'single' ) ) {
+	if ( cfg.progress && prose ) {
 		var bar = document.createElement( 'div' );
-		bar.className = 'paulus-progress';
+		bar.className = 'paulus-progress' + ( 'bottom' === cfg.progressPosition ? ' paulus-progress--bottom' : '' );
+		if ( cfg.progressHeight ) { bar.style.setProperty( '--paulus-progress-height', cfg.progressHeight + 'px' ); }
+		if ( cfg.progressFg ) { bar.style.setProperty( '--paulus-progress-fg', cfg.progressFg ); }
+		if ( cfg.progressBg ) { bar.style.setProperty( '--paulus-progress-bg', cfg.progressBg ); }
 		bar.setAttribute( 'aria-hidden', 'true' );
 		bar.innerHTML = '<span></span>';
 		document.body.appendChild( bar );

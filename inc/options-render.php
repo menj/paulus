@@ -93,6 +93,20 @@ function paulus_render_field( $key, $def ) {
 		case 'checkbox':
 			printf( '<input type="hidden" name="%2$s" value="0"><label class="paulus-check"><input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s> %4$s</label>', esc_attr( $id ), esc_attr( $name ), checked( 1, (int) $value, false ), esc_html__( 'Enabled', 'paulus' ) );
 			break;
+		case 'select':
+			printf( '<select id="%s" name="%s">', esc_attr( $id ), esc_attr( $name ) );
+			foreach ( (array) ( $def[2] ?? array() ) as $val => $label ) {
+				printf( '<option value="%s" %s>%s</option>', esc_attr( $val ), selected( $value, $val, false ), esc_html( $label ) );
+			}
+			echo '</select>';
+			break;
+		case 'number':
+			$range = isset( $def[2] ) && is_array( $def[2] ) ? $def[2] : array( 0, 100 );
+			printf( '<input type="number" id="%s" name="%s" value="%s" min="%d" max="%d" step="1" class="small-text">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) $value ), (int) $range[0], (int) $range[1] );
+			break;
+		case 'color':
+			printf( '<input type="text" id="%s" name="%s" value="%s" class="regular-text code" placeholder="#7a2e1a" maxlength="7" pattern="#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?" autocomplete="off">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) $value ) );
+			break;
 		case 'scheme':
 			echo '<div class="paulus-swatches">';
 			foreach ( paulus_schemes() as $slug => $label ) {

@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.23] - 2026-10-10
+
+### Added
+- The honorific after the name of ʿĪsā ibn Maryam is shown in calligraphy (ʿalayhi al-salām, "peace be upon him"), from the author's artwork (`assets/images/alayhi-al-salam.webp`). It is drawn as a mask in the colour of the text, so it follows every colour scheme and prints. The words stay in the stored text and in the page, hidden from the eye and open to screen readers, search engines and copying; a browser that cannot draw the mask shows them as written. It replaces "(ʿalayhi al-salām, peace be upon him)" and "(ʿalayhi al-salām)" straight after his name at render time (`inc/honorific.php`); other names that take the phrase, such as Ādam and Mūsā, keep the words.
+- Reading progress options on Theme Options, Reading: which pages show the bar (articles, Journal entries, pages), its position (top or bottom of the screen), its height (1 to 12 pixels) and its colour and track colour (hex codes; left empty they follow the colour scheme). The bar is chosen on the server, so a page that should not have it never loads it. Defaults keep the old behaviour: articles and Journal entries, at the top, 3 pixels, scheme colours.
+
 ## [2.62.22] - 2026-10-10
 
 ### Added

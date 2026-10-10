@@ -496,6 +496,7 @@ require_once PAULUS_DIR . '/inc/search-permalinks.php';
 require_once PAULUS_DIR . '/inc/hide-login.php';
 require_once PAULUS_DIR . '/inc/login.php';
 require_once PAULUS_DIR . '/inc/dropins.php';
+require_once PAULUS_DIR . '/inc/honorific.php';
 require_once PAULUS_DIR . '/inc/search.php';
 
 /**
@@ -571,6 +572,29 @@ add_action( 'admin_init', 'paulus_sync_structure', 30 );
 add_action( 'template_redirect', 'paulus_sync_structure' );
 
 /**
+ * Whether the reading progress bar is shown on the page being viewed: the
+ * switch is on, and the page's kind (article, Journal entry, page) is one the
+ * owner chose on Theme Options, Reading.
+ *
+ * @return bool
+ */
+function paulus_progress_bar_shown() {
+	if ( ! paulus_option( 'read_progress' ) ) {
+		return false;
+	}
+	if ( is_singular( 'paulus_journal' ) ) {
+		return (bool) paulus_option( 'read_progress_journal' );
+	}
+	if ( is_singular( 'post' ) ) {
+		return (bool) paulus_option( 'read_progress_posts' );
+	}
+	if ( is_page() && ! is_front_page() ) {
+		return (bool) paulus_option( 'read_progress_pages' );
+	}
+	return false;
+}
+
+/**
  * Front-end assets.
  */
 function paulus_enqueue_assets() {
@@ -599,7 +623,11 @@ function paulus_enqueue_assets() {
 		wp_enqueue_script( 'paulus-reader', PAULUS_URI . '/assets/js/reader.js', array(), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
 		// The reading aids of Theme Options, Reading, with their labels.
 		$paulus_reader = array(
-			'progress' => (bool) paulus_option( 'read_progress' ),
+			'progress' => paulus_progress_bar_shown(),
+			'progressPosition' => 'bottom' === paulus_option( 'read_progress_position' ) ? 'bottom' : 'top',
+			'progressHeight'   => max( 1, min( 12, (int) paulus_option( 'read_progress_height' ) ) ),
+			'progressFg'       => (string) sanitize_hex_color( (string) paulus_option( 'read_progress_fg' ) ),
+			'progressBg'       => (string) sanitize_hex_color( (string) paulus_option( 'read_progress_bg' ) ),
 			'keys'     => (bool) paulus_option( 'read_keys' ),
 			'memory'   => (bool) paulus_option( 'read_memory' ),
 			'copy'     => (bool) paulus_option( 'read_copy' ),
