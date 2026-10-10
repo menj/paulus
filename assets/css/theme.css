@@ -9,7 +9,7 @@
  *   Body       Sabon Next LT (running text, menu)
  *   Quotations EB Garamond (quotations, footnotes, the book synopsis)
  *   Labels     Special Elite (chapter labels, breadcrumbs, data labels, dates)
- *   Arabic     Arslan Wessam
+ *   Arabic     Dubidam Arabic (Arslan Wessam for what it lacks)
  */
 body {
 	--t-radius: 6px;
@@ -255,7 +255,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose blockquote { position: relative; margin: 1.9rem 0; padding: 1.2rem 1.5rem 1.15rem 3.6rem; border: 0; border-top: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); border-bottom: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); background: color-mix(in srgb, var(--t-surface) 42%, transparent); text-align: left; font-family: var(--t-garamond); font-style: normal; font-size: 1.2rem; line-height: 1.65; max-width: none; }
 .paulus-prose blockquote::before { content: "\201C"; position: absolute; left: 0.9rem; top: 0.6rem; font-family: var(--t-roman); font-weight: 700; font-size: 3.1rem; line-height: 1; color: var(--t-accent); }
 .paulus-prose blockquote p { margin: 0 0 0.6rem; text-align: left; }
-.paulus-prose .arabic { font-family: var(--t-arabic); font-size: 1.6rem; line-height: 2; direction: rtl; text-align: center; font-style: normal; color: var(--t-accent); }
+.paulus-prose .arabic { font-family: var(--t-arabic); font-weight: 400; font-size: 1.6rem; line-height: 2; direction: rtl; text-align: center; font-style: normal; color: var(--t-accent); }
 .paulus-prose sup a { text-decoration: none; font-weight: 600; padding-inline: 0.1em; }
 .paulus-prose .footnotes { margin-top: 3.5rem; padding: 0 0 0 1.4em; font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); column-gap: var(--t-gap); }
 .paulus-prose .footnotes::before { content: "References"; display: block; column-span: all; font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2rem); color: var(--t-accent); margin: 0 0 1.25rem -1.4em; }
@@ -729,7 +729,8 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .paulus-note { text-align: center; color: var(--t-muted); font-size: 1rem; max-width: 36em; margin-inline: auto; }
 
 /* Arabic script anywhere in running text */
-:lang(ar), [lang="ar"] { font-family: var(--t-arabic); }
+:lang(ar), [lang="ar"] { font-family: var(--t-arabic); font-weight: 400; }
+:lang(ar) strong, :lang(ar) b, [lang="ar"] strong, [lang="ar"] b, .arabic strong, .arabic b { font-weight: 700; }
 
 /* The title-panel rule arrives wrapped in a paragraph by the shortcode block's
    autop; collapse the wrapper so it adds no height of its own. */

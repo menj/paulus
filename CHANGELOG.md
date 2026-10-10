@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.26] - 2026-10-10
+
+### Changed
+- Arabic script is set in Dubidam Arabic, in the light, regular and bold cuts supplied by the author (`assets/fonts/dubidam-arabic-*.woff2`), with Arslan Wessam beneath it. Text and quotations use the regular cut (the page body is set at weight 300, so Arabic is pinned to 400 for legibility), and bold Arabic the bold. The free edition replaces Arabic-Indic digits, the Arabic semicolon and question mark, quotation marks and dashes with a watermark, so the font's `unicode-range` lists only the 96 letters and marks it draws properly; digits, punctuation and the characters it lacks (the ﷺ ligature, some Quranic marks, 56 uses in the text) come from Arslan Wessam. Licence note in `licenses/dubidam-arabic.txt` and the README: the free edition is for personal use, and a public site that sells a book needs NamelaType's commercial licence.
+
 ## [2.62.25] - 2026-10-10
 
 ### Changed

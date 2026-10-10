@@ -395,9 +395,10 @@ All fonts are bundled in `assets/fonts/` as WOFF2 and declared in `assets/css/fo
 | Sabon Next LT | Body text and the menu |
 | EB Garamond | Quotations, footnotes and the book synopsis, plus the ʿ, ʾ and dotted transliteration letters Sabon Next lacks |
 | Special Elite | Labels: chapter numbers, breadcrumbs, bylines, data labels, timeline dates, footer credit |
-| Arslan Wessam | Arabic script (style A for regular, style B for bold) |
+| Dubidam Arabic | Arabic script, in light, regular and bold (the regular is used for text and quotations, the bold for bold Arabic) |
+| Arslan Wessam | Arabic script that Dubidam Arabic does not carry (the ﷺ ligature, some Quranic marks, Arabic-Indic digits and the Arabic question mark and semicolon), and the fallback beneath it (style A for regular, style B for bold) |
 
-The free edition of Dubidam replaces its digits and most punctuation with a watermark. Its `@font-face` rules therefore cover letters only, and digits and punctuation in headings come from EB Garamond.
+The free edition of Dubidam replaces its digits and most punctuation with a watermark. Its `@font-face` rules therefore cover letters only, and digits and punctuation in headings come from EB Garamond. The free edition of Dubidam Arabic does the same to Arabic-Indic digits, the Arabic semicolon and question mark, quotation marks and dashes, so its rules list only the letters and marks it draws properly (96 characters); everything else in Arabic text comes from Arslan Wessam.
 
 ### Licensing
 
@@ -405,4 +406,5 @@ EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License
 
 - **Sabon Next LT** is a Monotype font. A desktop license does not cover web embedding; a web font license is required.
 - **Dubidam** is the free personal-use edition from NamelaType. A site that sells a book needs the commercial license, which also removes the watermarked glyphs.
+- **Dubidam Arabic** is the free personal-use edition from NamelaType (the font names say "FREE PERSONAL USE"), supplied by the site owner in three weights. The same licence point applies as for Dubidam: a site that sells a book needs the commercial license, which also removes the watermarked glyphs. See `licenses/dubidam-arabic.txt`.
 - **Arslan Wessam** is distributed through Dev-Point.com with no license file. Its embedding flag permits web use, but confirm the terms with the author.
