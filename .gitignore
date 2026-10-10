@@ -1,0 +1,2 @@
+# Release builds are uploaded to WordPress, not committed.
+*.zip
