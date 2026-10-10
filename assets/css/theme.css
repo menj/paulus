@@ -834,7 +834,9 @@ h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focu
 .paulus-archive__list { margin: 0 0 1.4rem; padding-left: 1.3rem; }
 .paulus-archive__list li { margin-bottom: 0.6rem; }
 .paulus-prose .paulus-archive .paulus-archive__break { margin: 0.4rem 0 0; text-align: center; text-align-last: center; font-size: 1.6rem; letter-spacing: 0.4em; line-height: 1; color: var(--t-muted); }
-.paulus-prose .paulus-archive .paulus-archive__end { margin: 0.6rem auto 0; max-width: 34em; text-align: center; text-align-last: center; font-family: var(--t-garamond); font-size: 0.98rem; color: var(--t-muted); }
+.paulus-prose .paulus-archive .paulus-archive__end { position: relative; margin: 1.1rem auto 0; max-width: 33em; padding: 1.1rem 1.5rem 1.15rem; text-align: center; text-align-last: center; font-family: var(--t-garamond); font-size: 1.02rem; line-height: 1.55; color: var(--t-muted); border-top: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); border-bottom: 3px double color-mix(in srgb, var(--t-accent) 55%, transparent); background: color-mix(in srgb, var(--t-surface) 45%, transparent); }
+.paulus-prose .paulus-archive .paulus-archive__end p { margin: 0; text-align: center; text-align-last: center; font-style: italic; }
+.paulus-prose .paulus-archive .paulus-archive__end p.paulus-archive__end-label { margin: 0 0 0.45rem; font-family: var(--t-label); font-style: normal; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t-accent-deep); }
 .paulus-prose .paulus-archive .paulus-archive__end a { color: var(--t-accent-deep); }
 .paulus-archive__notes { margin: 2.25rem 0 0; padding: 1rem 0 0 1.3rem; border-top: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent); font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); }
 .paulus-archive__notes li { margin-bottom: 0.5rem; }
