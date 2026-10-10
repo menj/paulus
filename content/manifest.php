@@ -15,12 +15,23 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.22',
+	'content_version' => '2.62.27',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		'appendices.html#r27' => '5d7e049d70cae1199cdab1d8ea3e01d5',
+		'c01-the-measure.html#r27' => '0d89722500455b6324a93388c22ad6b2',
+		'c07-borrowings-from-the-rabbis-2.html#r27' => 'c9077ba6161b969847847d67c0d970c4',
+		'c09-the-religion-of-paul-today.html#r27' => 'fbd97d8b533218710bfd22b927c01785',
+		'c10-no-prophet-between-2.html#r27' => '8252bf117ff08abc319e55edd62de178',
+		'c10-no-prophet-between.html#r27' => '1949e133b879d646d11d304920035b5f',
+		'c10-the-early-islamic-record.html#r27' => 'c4df02a1ca662d26a907f20221dfe791',
+		'c11-the-verdict.html#r27' => 'b574ffb995e9edb2525d207c62a87434',
+		'c13-the-flesh-2.html#r27' => '4f9c9c7bb2270466dfe1ea479ce6cc10',
+		'c15-the-quran-as-witness-2.html#r27' => '3c99b99ff2385bac30fbf26fdd1c6131',
+		'c15-the-quran-as-witness.html#r27' => '96d8867900d0b7887b907a0eeec59b49',
 		'c10-from-ibn-hazm-to-al-faruqi-2.html#r0' => '8bdf6383175d3ba2fa99eb98205cea57',
 		'churches.html#r0' => '26ec943b333392a583527214de3c5930',
 		'churches.html#r1' => '83b19d12229574c004b7a7f8097eb825',

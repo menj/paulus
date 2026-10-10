@@ -99,7 +99,7 @@
 				{
 					"slug": "display",
 					"name": "Dubidam",
-					"fontFamily": "Dubidam, \"EB Garamond\", \"Dubidam Arabic\", \"Arslan Wessam\", Georgia, serif"
+					"fontFamily": "Dubidam, \"EB Garamond\", \"Arslan Wessam\", Georgia, serif"
 				},
 				{
 					"slug": "roman",
@@ -114,12 +114,12 @@
 				{
 					"slug": "body",
 					"name": "Sabon Next LT",
-					"fontFamily": "\"Sabon Next LT\", \"EB Garamond\", \"Dubidam Arabic\", \"Arslan Wessam\", Georgia, serif"
+					"fontFamily": "\"Sabon Next LT\", \"EB Garamond\", \"Arslan Wessam\", Georgia, serif"
 				},
 				{
 					"slug": "garamond",
 					"name": "EB Garamond",
-					"fontFamily": "\"EB Garamond\", \"Dubidam Arabic\", \"Arslan Wessam\", Georgia, serif"
+					"fontFamily": "\"EB Garamond\", \"Arslan Wessam\", Georgia, serif"
 				},
 				{
 					"slug": "label",
@@ -128,13 +128,23 @@
 				},
 				{
 					"slug": "arabic",
+					"name": "Arslan Wessam",
+					"fontFamily": "\"Arslan Wessam\", \"EB Garamond\", serif"
+				},
+				{
+					"slug": "quran",
+					"name": "KFGQPC Hafs Uthmanic Script",
+					"fontFamily": "\"KFGQPC Hafs Uthmanic Script\", \"Arslan Wessam\", serif"
+				},
+				{
+					"slug": "hadith",
 					"name": "Dubidam Arabic",
-					"fontFamily": "\"Dubidam Arabic\", \"Arslan Wessam\", \"EB Garamond\", serif"
+					"fontFamily": "\"Dubidam Arabic\", \"Arslan Wessam\", serif"
 				},
 				{
 					"slug": "manrope",
 					"name": "Body (parent alias)",
-					"fontFamily": "\"Sabon Next LT\", \"EB Garamond\", \"Dubidam Arabic\", \"Arslan Wessam\", Georgia, serif"
+					"fontFamily": "\"Sabon Next LT\", \"EB Garamond\", \"Arslan Wessam\", Georgia, serif"
 				},
 				{
 					"slug": "fira-code",

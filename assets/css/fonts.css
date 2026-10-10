@@ -10,14 +10,15 @@
  * Special Elite labels: chapter numbers, breadcrumbs, data labels.
  * Cinzel       Roman inscriptional capitals: site title, front-page headline,
  *              section titles, count numerals. Variable weight, OFL.
- * Dubidam Arabic Arabic script, wherever it appears, in three weights
- *              (light, regular, bold). The free edition replaces Arabic-Indic
- *              digits, the Arabic semicolon and question mark, quotation marks
- *              and dashes with a watermark, so its unicode-range covers
- *              letters and marks only; the rest, and the few letters it lacks
- *              (the ﷺ ligature, some Quranic marks), come from Arslan Wessam.
- * Arslan Wessam Arabic script that Dubidam Arabic does not carry, and the
- *              fallback beneath it. Scaled up 125% to
+ * KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
+ *              Quranic verses in Arabic, and nothing else (class "quran").
+ * Dubidam Arabic Hadiths in Arabic, and nothing else (class "hadith"), in
+ *              regular weight. The free edition replaces Arabic-Indic digits,
+ *              the Arabic semicolon and question mark, quotation marks and
+ *              dashes with a watermark, so its unicode-range covers letters and
+ *              marks only; the rest comes from Arslan Wessam.
+ * Arslan Wessam All other Arabic script (the default for every lang="ar"
+ *              element), and the fallback beneath the other two. Scaled up 125% to
  *              sit level with the Latin text around it.
  */
 
@@ -101,7 +102,17 @@
 	font-display: swap;
 }
 
-/* Arabic script: Dubidam Arabic, letters and marks only (see above) */
+/* Quranic verses: KFGQPC Hafs Uthmanic Script, as supplied (WOFF2 of the unmodified glyph data) */
+@font-face {
+	font-family: "KFGQPC Hafs Uthmanic Script";
+	src: url("../fonts/kfgqpc-hafs-uthmanic-script.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
+/* Hadiths: Dubidam Arabic, letters and marks only (see above) */
 @font-face {
 	font-family: "Dubidam Arabic";
 	src: url("../fonts/dubidam-arabic-light.woff2") format("woff2");

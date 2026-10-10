@@ -6,6 +6,8 @@ Copyright: (c) 2023 by NamelaType
 Trademark: Dubidam is a trademark of NamelaType.
 Edition:   "Dubidam Arabic FREE PERSONAL USE" (the family name in the font files)
 
+Used in: hadiths in Arabic, and nothing else (the class "hadith").
+
 Supplied to this theme by the site owner as OpenType files and converted to
 WOFF2 without other change (assets/fonts/dubidam-arabic-light.woff2,
 -regular.woff2 and -bold.woff2). The font files carry the licence line "This

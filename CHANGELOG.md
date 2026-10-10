@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.27] - 2026-10-10
+
+### Changed
+- Arabic script is now set in three fonts by what it is: Quranic verses in KFGQPC Hafs Uthmanic Script (the Mushaf script of the King Fahd Glorious Quran Printing Complex), hadiths in Dubidam Arabic, and everything else in Arabic in Arslan Wessam. The 16 Quranic verses (the measure; borrowings from the rabbis, part 2; the religion of Paul today; the verdict; the flesh, part 2; the Quran as witness, parts 1 and 2) carry the class `quran`; the 5 hadith passages (the hadith qudsi and the report of the prison called Būlus among them) carry `hadith`. The earlier choice of Dubidam Arabic as the default for all Arabic is withdrawn, and the families are in `theme.json` as `quran`, `hadith` and `arabic`.
+- Quotations no longer set emphasised words (transliterations, titles) in italics.
+- The KFGQPC font is bundled as WOFF2 (107 KB, from 298 KB). Every glyph outline, advance width and character-map entry was compared with the supplied TrueType file and is identical; the font's digital-signature table is left out, which WOFF2 cannot carry. Its licence (free to use, copy and distribute; no selling, modifying or altering) is reproduced in `licenses/kfgqpc-hafs-uthmanic-script.txt`. Every other bundled font was already WOFF2.
+- Licences: the README and readme.txt now say that the theme's code is GPL v2 or later and that the bundled fonts, illustrations and photographs keep the licences of their owners. A licence belongs to its owner, so none of them is relicensed.
+
 ## [2.62.26] - 2026-10-10
 
 ### Changed
