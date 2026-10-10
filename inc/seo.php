@@ -717,8 +717,8 @@ function paulus_schema_additions( $data ) {
 			$add[] = $list;
 		}
 	}
-	if ( is_page( 'answers' ) && ! paulus_schema_type_present( $data, array( 'FAQPage' ) ) ) {
-		$faq = paulus_faq_schema();
+	if ( is_page( array( 'answers', 'questions' ) ) && ! paulus_schema_type_present( $data, array( 'FAQPage' ) ) ) {
+		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
 		if ( $faq ) {
 			$add[] = $faq;
 		}
@@ -809,8 +809,8 @@ function paulus_webpage_schema( $website ) {
 	} elseif ( is_page( 'the-book' ) ) {
 		$node['@type']      = 'ItemPage';
 		$node['mainEntity'] = array( '@id' => get_permalink() . '#book' );
-	} elseif ( is_page( 'answers' ) ) {
-		$faq = paulus_faq_schema();
+	} elseif ( is_page( array( 'answers', 'questions' ) ) ) {
+		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
 		if ( $faq ) {
 			unset( $faq['@id'] );
 			$node = array_merge( $node, $faq, array( '@id' => $node['@id'] ) );
@@ -864,13 +864,14 @@ function paulus_itemlist_schema() {
 }
 
 /**
- * The Answers page as an FAQPage: each h2 is a question, and the paragraphs
- * under it, up to the "Full evidence" link, are its answer.
+ * The Answers or Questions page as an FAQPage: each h2 is a question, and the
+ * paragraphs under it, up to the "Full evidence" link, are its answer.
  *
+ * @param string $slug Page slug: answers (default) or questions.
  * @return array
  */
-function paulus_faq_schema() {
-	$post = get_page_by_path( 'answers' );
+function paulus_faq_schema( $slug = 'answers' ) {
+	$post = get_page_by_path( in_array( $slug, array( 'answers', 'questions' ), true ) ? $slug : 'answers' );
 	if ( ! $post ) {
 		return array();
 	}
@@ -1200,7 +1201,7 @@ function paulus_sc_sitemap() {
 	// The rest of the site: four cards, each with an icon.
 	$groups = array();
 	$pages  = array();
-	foreach ( array( 'the-verdict', 'answers', 'the-book', 'about-the-author' ) as $slug ) {
+	foreach ( array( 'the-verdict', 'answers', 'questions', 'the-book', 'about-the-author' ) as $slug ) {
 		$page = get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
 			$pages[] = $item( $page );
@@ -1257,7 +1258,7 @@ function paulus_sc_404_links() {
 	foreach ( paulus_parts() as $part ) {
 		$out .= '<li><a href="' . esc_url( get_term_link( $part ) ) . '">' . esc_html( $part->name ) . '</a></li>';
 	}
-	foreach ( array( 'answers', 'the-verdict', 'the-book', 'sitemap' ) as $slug ) {
+	foreach ( array( 'answers', 'questions', 'the-verdict', 'the-book', 'sitemap' ) as $slug ) {
 		$page = 'sitemap' === $slug ? paulus_sitemap_page() : get_page_by_path( $slug );
 		if ( $page ) {
 			$out .= '<li><a href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html( get_the_title( $page ) ) . '</a></li>';
