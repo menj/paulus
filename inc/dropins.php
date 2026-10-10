@@ -41,7 +41,8 @@ function paulus_dropin_is_ours( $path ) {
 
 /**
  * Copy the drop-ins into wp-content, when the theme, site name or addresses
- * have changed since the last copy.
+ * have changed since the last copy. Runs on any page load, so a fresh install
+ * or update needs no visit to the admin.
  */
 function paulus_install_dropins() {
 	$theme_url = (string) wp_parse_url( PAULUS_URI, PHP_URL_PATH );
@@ -66,7 +67,7 @@ function paulus_install_dropins() {
 	}
 	update_option( 'paulus_dropins_stamp', $stamp, false );
 }
-add_action( 'admin_init', 'paulus_install_dropins' );
+add_action( 'init', 'paulus_install_dropins', 20 );
 
 /**
  * Remove the drop-ins when the theme is switched off: their stylesheet goes
