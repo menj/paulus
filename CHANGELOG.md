@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.33] - 2026-10-25
+
+The theme checked, page by page on a local WordPress with the site's content, against Google's Search Engine Optimization Starter Guide and its list of the structured data Google Search supports. Every page in the XML sitemap has a title and a description of its own within the lengths Google shows, one h1, a canonical link that names itself, and alt text on every image; the 404 page answers 404; search results are not indexed; the Article, BreadcrumbList, Organization, ProfilePage and image-metadata nodes carry every property Google requires. What the check found is fixed here.
+
+### Fixed
+- The front page had no canonical link (WordPress writes one for single posts and pages only). It names itself now.
+- The second and later pages of a section (`/category/the-man/page/2/`) carried the first page's title and description, which the guide counts as duplicates. They now read "The man: Paul of Tarsus, page 2" and "Page 2. Who was Paul the apostle? ...".
+- The author archive (`/author/<name>/`) repeated the sections' listings under a second address with no description, and the users appeared in the XML sitemap. The site has one author: the archive now goes to the author's page (else the front page) with a permanent redirect, and the users are left out of the sitemap.
+- The date archives of articles (`/2026/08/`), another repeat of the listings, ask not to be indexed. The Journal's own month and year pages are untouched.
+- On a section page the chapter titles were h3 straight under the h1, a missing level in the outline. They are h2 there, and remain h3 on the front page under each section's h2.
+
 ## [2.62.32] - 2026-10-25
 
 ### Added

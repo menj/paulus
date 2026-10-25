@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.32
+Stable tag: 2.62.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.33 =
+* Checked against Google's SEO Starter Guide and its list of supported structured data: the front page gets a canonical link; the second and later pages of an archive get a title and description of their own; the author archive goes to the author's page and users leave the XML sitemap; date archives of articles are not indexed; section pages list their chapters as h2 under the h1.
 
 = 2.62.32 =
 * Links in the text to bestofislam.org and injil.help: the first mention of a phrase those sites treat at length (the Ebionites, the Islamic Dilemma, the Gospel of Thomas, Matthew 5:17, Quran 4:157, the Talmud and twenty more) links to the page there. Theme Options, Links holds the phrases and the switch.

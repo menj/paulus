@@ -225,7 +225,8 @@ function paulus_chapter_card( $post, $style = 'cards', $series_card = false ) {
 	if ( $label ) {
 		$out .= '<p class="paulus-chapter__label">' . paulus_label_markup( $label ) . '</p>';
 	}
-	$out .= '<h3 class="paulus-chapter__title"><a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></h3>';
+	$h    = in_array( $GLOBALS['paulus_card_heading'] ?? 'h3', array( 'h2', 'h3' ), true ) ? $GLOBALS['paulus_card_heading'] : 'h3';
+	$out .= '<' . $h . ' class="paulus-chapter__title"><a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></' . $h . '>';
 	if ( has_excerpt( $post ) ) {
 		$out .= '<p class="paulus-chapter__excerpt">' . esc_html( get_the_excerpt( $post ) ) . '</p>';
 	}
@@ -249,7 +250,23 @@ function paulus_chapter_card( $post, $style = 'cards', $series_card = false ) {
  * @return string
  */
 function paulus_sc_parts( $atts ) {
-	$atts  = shortcode_atts( array( 'style' => 'cards', 'part' => '' ), $atts, 'paulus_parts' );
+	$atts = shortcode_atts( array( 'style' => 'cards', 'part' => '' ), $atts, 'paulus_parts' );
+	// On a section page the chapter titles sit straight under the page's
+	// h1, so they are h2; on the front page they sit under a section's h2,
+	// so they are h3. The outline then has no missing level either way.
+	$GLOBALS['paulus_card_heading'] = 'current' === $atts['part'] ? 'h2' : 'h3';
+	$out = paulus_sc_parts_build( $atts );
+	unset( $GLOBALS['paulus_card_heading'] );
+	return $out;
+}
+
+/**
+ * The sections and their articles, built for paulus_sc_parts().
+ *
+ * @param array $atts Resolved attributes: style, part.
+ * @return string
+ */
+function paulus_sc_parts_build( $atts ) {
 	$style = in_array( $atts['style'], array( 'cards', 'text', 'counts', 'list' ), true ) ? $atts['style'] : 'cards';
 	if ( 'current' === $atts['part'] ) {
 		$term = get_queried_object();
