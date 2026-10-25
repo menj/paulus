@@ -123,13 +123,13 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 	$size = paulus_image_size( $file );
 	$size = $size ? $size : array( 1400, 1050 );
 	$full = PAULUS_URI . '/assets/images/church/' . $atts['name'] . '.avif';
-	$mid      = PAULUS_DIR . '/assets/images/church/' . $atts['name'] . '-720.webp';
+	$mid      = PAULUS_DIR . '/assets/images/church/' . $atts['name'] . '-720.avif';
 	$mid_size = file_exists( $mid ) ? paulus_image_size( $mid ) : false;
 	// The mid-size variant's own width, not an assumed 720: several of
 	// the portrait figures were resized to a fixed height instead, so
 	// their actual width differs and a hard-coded "720w" descriptor would
 	// tell the browser the wrong thing to pick from.
-	$set = $mid_size && $mid_size[0] < $size[0] ? PAULUS_URI . '/assets/images/church/' . $atts['name'] . '-720.webp ' . (int) $mid_size[0] . 'w, ' . $full . ' ' . (int) $size[0] . 'w' : '';
+	$set = $mid_size && $mid_size[0] < $size[0] ? PAULUS_URI . '/assets/images/church/' . $atts['name'] . '-720.avif ' . (int) $mid_size[0] . 'w, ' . $full . ' ' . (int) $size[0] . 'w' : '';
 	$tall = $size[1] > $size[0];
 	$lic  = $f['license_url'] ? '<a href="' . esc_url( $f['license_url'] ) . '" rel="license noopener" target="_blank">' . esc_html( $f['license'] ) . '</a>' : esc_html( $f['license'] );
 	// A figure with a source links it, named for the site it is on

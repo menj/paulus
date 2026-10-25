@@ -5,8 +5,8 @@
  */
 ( function () {
 	'use strict';
-	var sel = [ 'jpg', 'jpeg', 'png', 'webp', 'gif' ].map( function ( x ) {
-		return '.paulus-prose a[href$=".' + x + '"]';
+	var sel = [ 'jpg', 'jpeg', 'png', 'webp', 'avif', 'gif' ].map( function ( x ) {
+		return '.paulus-prose a[href$=".' + x + '" i]';
 	} ).join( ', ' );
 	document.querySelectorAll( sel ).forEach( function ( a ) {
 		var img = a.querySelector( 'img' );

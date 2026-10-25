@@ -1,9 +1,13 @@
 {
+"alayhi-al-salam.png": [
+560,
+427
+],
 "author-photo.avif": [
 1024,
 1024
 ],
-"author-portrait.webp": [
+"author-portrait.avif": [
 240,
 240
 ],
@@ -11,7 +15,7 @@
 960,
 1291
 ],
-"church/al-faruqi-portrait-720.webp": [
+"church/al-faruqi-portrait-720.avif": [
 720,
 895
 ],
@@ -19,7 +23,7 @@
 1126,
 1400
 ],
-"church/alexamenos-graffito-720.webp": [
+"church/alexamenos-graffito-720.avif": [
 720,
 843
 ],
@@ -27,7 +31,7 @@
 806,
 944
 ],
-"church/arch-of-titus-spoils-720.webp": [
+"church/arch-of-titus-spoils-720.avif": [
 720,
 478
 ],
@@ -35,7 +39,7 @@
 1400,
 930
 ],
-"church/areopagus-720.webp": [
+"church/areopagus-720.avif": [
 720,
 469
 ],
@@ -43,7 +47,7 @@
 1200,
 782
 ],
-"church/bab-kisan-720.webp": [
+"church/bab-kisan-720.avif": [
 720,
 537
 ],
@@ -51,7 +55,7 @@
 1400,
 1045
 ],
-"church/benei-hezir-720.webp": [
+"church/benei-hezir-720.avif": [
 720,
 531
 ],
@@ -59,7 +63,7 @@
 1400,
 1032
 ],
-"church/birmingham-quran-720.webp": [
+"church/birmingham-quran-720.avif": [
 720,
 469
 ],
@@ -67,7 +71,7 @@
 1400,
 911
 ],
-"church/bloemaert-rock-720.webp": [
+"church/bloemaert-rock-720.avif": [
 720,
 533
 ],
@@ -79,7 +83,7 @@
 520,
 557
 ],
-"church/bukhari-ms-720.webp": [
+"church/bukhari-ms-720.avif": [
 720,
 414
 ],
@@ -87,7 +91,7 @@
 1192,
 686
 ],
-"church/byzantine-medallion-720.webp": [
+"church/byzantine-medallion-720.avif": [
 720,
 576
 ],
@@ -95,7 +99,7 @@
 1400,
 1120
 ],
-"church/caravaggio-conversion-720.webp": [
+"church/caravaggio-conversion-720.avif": [
 720,
 946
 ],
@@ -103,7 +107,7 @@
 1065,
 1400
 ],
-"church/caravaggio-odescalchi-720.webp": [
+"church/caravaggio-odescalchi-720.avif": [
 720,
 886
 ],
@@ -111,7 +115,7 @@
 731,
 900
 ],
-"church/catacomb-christ-peter-paul-720.webp": [
+"church/catacomb-christ-peter-paul-720.avif": [
 720,
 828
 ],
@@ -119,7 +123,7 @@
 1200,
 1380
 ],
-"church/celsus-library-720.webp": [
+"church/celsus-library-720.avif": [
 720,
 558
 ],
@@ -127,7 +131,7 @@
 1400,
 1085
 ],
-"church/codex-alexandrinus-720.webp": [
+"church/codex-alexandrinus-720.avif": [
 720,
 927
 ],
@@ -135,7 +139,7 @@
 1087,
 1400
 ],
-"church/cordoba-mosque-720.webp": [
+"church/cordoba-mosque-720.avif": [
 720,
 540
 ],
@@ -143,7 +147,7 @@
 1400,
 1050
 ],
-"church/corinth-apollo-720.webp": [
+"church/corinth-apollo-720.avif": [
 720,
 480
 ],
@@ -151,7 +155,7 @@
 1400,
 933
 ],
-"church/dale-b-martin-720.webp": [
+"church/dale-b-martin-720.avif": [
 720,
 900
 ],
@@ -159,15 +163,15 @@
 804,
 1005
 ],
-"church/dome-of-the-rock-720.webp": [
-710,
-1000
+"church/dome-of-the-rock-720.avif": [
+720,
+1014
 ],
 "church/dome-of-the-rock.avif": [
 994,
 1400
 ],
-"church/el-greco-peter-paul-720.webp": [
+"church/el-greco-peter-paul-720.avif": [
 720,
 843
 ],
@@ -179,7 +183,7 @@
 704,
 1045
 ],
-"church/etchmiadzin-thecla-720.webp": [
+"church/etchmiadzin-thecla-720.avif": [
 720,
 441
 ],
@@ -187,15 +191,15 @@
 1100,
 674
 ],
-"church/faruqi-grave-720.webp": [
+"church/faruqi-grave-720.avif": [
 720,
-512
+513
 ],
 "church/faruqi-grave.avif": [
 1100,
 783
 ],
-"church/faruqi-portrait-720.webp": [
+"church/faruqi-portrait-720.avif": [
 720,
 899
 ],
@@ -203,7 +207,7 @@
 1121,
 1400
 ],
-"church/fernandez-san-pablo-valladolid-720.webp": [
+"church/fernandez-san-pablo-valladolid-720.avif": [
 720,
 960
 ],
@@ -211,7 +215,7 @@
 1000,
 1334
 ],
-"church/grotto-rabat-malta-720.webp": [
+"church/grotto-rabat-malta-720.avif": [
 720,
 540
 ],
@@ -219,7 +223,7 @@
 1000,
 750
 ],
-"church/guercino-hagar-720.webp": [
+"church/guercino-hagar-720.avif": [
 720,
 534
 ],
@@ -227,7 +231,7 @@
 960,
 712
 ],
-"church/habib-neccar-720.webp": [
+"church/habib-neccar-720.avif": [
 720,
 540
 ],
@@ -235,7 +239,7 @@
 1400,
 1050
 ],
-"church/herodium-720.webp": [
+"church/herodium-720.avif": [
 720,
 540
 ],
@@ -243,7 +247,7 @@
 1400,
 1050
 ],
-"church/isaiah-scroll-720.webp": [
+"church/isaiah-scroll-720.avif": [
 720,
 819
 ],
@@ -255,7 +259,7 @@
 500,
 1219
 ],
-"church/judaea-diploma-720.webp": [
+"church/judaea-diploma-720.avif": [
 720,
 465
 ],
@@ -267,7 +271,7 @@
 683,
 1024
 ],
-"church/kufa-1915-720.webp": [
+"church/kufa-1915-720.avif": [
 720,
 566
 ],
@@ -275,7 +279,7 @@
 783,
 616
 ],
-"church/la-hyre-malta-720.webp": [
+"church/la-hyre-malta-720.avif": [
 720,
 464
 ],
@@ -283,9 +287,9 @@
 960,
 618
 ],
-"church/lateran-ciborium-720.webp": [
-660,
-1000
+"church/lateran-ciborium-720.avif": [
+720,
+1091
 ],
 "church/lateran-ciborium.avif": [
 924,
@@ -295,7 +299,7 @@
 496,
 700
 ],
-"church/malacca-st-pauls-720.webp": [
+"church/malacca-st-pauls-720.avif": [
 720,
 480
 ],
@@ -303,7 +307,7 @@
 1400,
 933
 ],
-"church/map-journeys-720.webp": [
+"church/map-journeys-720.avif": [
 720,
 472
 ],
@@ -311,7 +315,7 @@
 1400,
 917
 ],
-"church/marcion-woodcut-720.webp": [
+"church/marcion-woodcut-720.avif": [
 720,
 932
 ],
@@ -319,7 +323,7 @@
 871,
 1127
 ],
-"church/met-saint-paul-werve-720.webp": [
+"church/met-saint-paul-werve-720.avif": [
 720,
 960
 ],
@@ -327,7 +331,7 @@
 1050,
 1400
 ],
-"church/minaret-isa-720.webp": [
+"church/minaret-isa-720.avif": [
 720,
 960
 ],
@@ -335,7 +339,7 @@
 1050,
 1400
 ],
-"church/molineri-martyrdom-720.webp": [
+"church/molineri-martyrdom-720.avif": [
 720,
 543
 ],
@@ -343,7 +347,7 @@
 1024,
 772
 ],
-"church/monnot-lateran-statue-720.webp": [
+"church/monnot-lateran-statue-720.avif": [
 720,
 1091
 ],
@@ -351,7 +355,7 @@
 924,
 1400
 ],
-"church/munich-talmud-720.webp": [
+"church/munich-talmud-720.avif": [
 720,
 926
 ],
@@ -359,15 +363,15 @@
 1089,
 1400
 ],
-"church/nag-hammadi-720.webp": [
-569,
-1000
+"church/nag-hammadi-720.avif": [
+720,
+1265
 ],
 "church/nag-hammadi.avif": [
 797,
 1400
 ],
-"church/nero-bust-720.webp": [
+"church/nero-bust-720.avif": [
 720,
 960
 ],
@@ -375,7 +379,7 @@
 1050,
 1400
 ],
-"church/nga-daddi-saint-paul-720.webp": [
+"church/nga-daddi-saint-paul-720.avif": [
 720,
 1864
 ],
@@ -383,7 +387,7 @@
 1000,
 2589
 ],
-"church/nicaea-icon-720.webp": [
+"church/nicaea-icon-720.avif": [
 720,
 919
 ],
@@ -391,7 +395,7 @@
 1097,
 1400
 ],
-"church/papyrus-46-720.webp": [
+"church/papyrus-46-720.avif": [
 720,
 508
 ],
@@ -399,15 +403,15 @@
 1400,
 987
 ],
-"church/parmigianino-conversion-720.webp": [
-523,
-720
+"church/parmigianino-conversion-720.avif": [
+720,
+991
 ],
 "church/parmigianino-conversion.avif": [
 744,
 1024
 ],
-"church/paul-before-felix-720.webp": [
+"church/paul-before-felix-720.avif": [
 720,
 583
 ],
@@ -415,7 +419,7 @@
 1400,
 1134
 ],
-"church/paul-halo-2023-720.webp": [
+"church/paul-halo-2023-720.avif": [
 720,
 540
 ],
@@ -423,7 +427,7 @@
 1400,
 1050
 ],
-"church/pella-ruins-720.webp": [
+"church/pella-ruins-720.avif": [
 720,
 540
 ],
@@ -431,7 +435,7 @@
 1400,
 1050
 ],
-"church/penang-st-george-720.webp": [
+"church/penang-st-george-720.avif": [
 720,
 540
 ],
@@ -439,7 +443,7 @@
 1280,
 960
 ],
-"church/poussin-ecstasy-720.webp": [
+"church/poussin-ecstasy-720.avif": [
 720,
 935
 ],
@@ -447,7 +451,7 @@
 1078,
 1400
 ],
-"church/raphael-athens-720.webp": [
+"church/raphael-athens-720.avif": [
 720,
 559
 ],
@@ -455,7 +459,7 @@
 1024,
 795
 ],
-"church/raphael-elymas-720.webp": [
+"church/raphael-elymas-720.avif": [
 720,
 560
 ],
@@ -463,7 +467,7 @@
 1200,
 933
 ],
-"church/raphael-lystra-720.webp": [
+"church/raphael-lystra-720.avif": [
 720,
 457
 ],
@@ -471,7 +475,7 @@
 1400,
 889
 ],
-"church/reader-family-signing-720.webp": [
+"church/reader-family-signing-720.avif": [
 720,
 405
 ],
@@ -479,7 +483,7 @@
 866,
 487
 ],
-"church/reader-with-copy-720.webp": [
+"church/reader-with-copy-720.avif": [
 720,
 771
 ],
@@ -487,7 +491,7 @@
 1307,
 1400
 ],
-"church/rembrandt-moses-720.webp": [
+"church/rembrandt-moses-720.avif": [
 720,
 898
 ],
@@ -495,7 +499,7 @@
 1122,
 1400
 ],
-"church/rembrandt-prison-720.webp": [
+"church/rembrandt-prison-720.avif": [
 720,
 847
 ],
@@ -503,15 +507,15 @@
 1190,
 1400
 ],
-"church/rembrandt-self-paul-720.webp": [
-666,
-1000
+"church/rembrandt-self-paul-720.avif": [
+720,
+1080
 ],
 "church/rembrandt-self-paul.avif": [
 933,
 1400
 ],
-"church/rembrandt-stephen-720.webp": [
+"church/rembrandt-stephen-720.avif": [
 720,
 518
 ],
@@ -519,7 +523,7 @@
 1400,
 1008
 ],
-"church/saint-paul-scroll-and-sword-720.webp": [
+"church/saint-paul-scroll-and-sword-720.avif": [
 720,
 960
 ],
@@ -527,7 +531,7 @@
 960,
 1280
 ],
-"church/simonet-beheading-720.webp": [
+"church/simonet-beheading-720.avif": [
 720,
 444
 ],
@@ -535,7 +539,7 @@
 1400,
 863
 ],
-"church/sinaiticus-720.webp": [
+"church/sinaiticus-720.avif": [
 720,
 707
 ],
@@ -543,7 +547,7 @@
 760,
 746
 ],
-"church/spong-2006-720.webp": [
+"church/spong-2006-720.avif": [
 720,
 480
 ],
@@ -551,7 +555,7 @@
 800,
 533
 ],
-"church/straight-street-720.webp": [
+"church/straight-street-720.avif": [
 720,
 986
 ],
@@ -559,7 +563,7 @@
 1022,
 1400
 ],
-"church/tadolini-statue-720.webp": [
+"church/tadolini-statue-720.avif": [
 720,
 480
 ],
@@ -567,7 +571,7 @@
 1400,
 933
 ],
-"church/tarsus-cleopatra-gate-720.webp": [
+"church/tarsus-cleopatra-gate-720.avif": [
 720,
 540
 ],
@@ -575,7 +579,7 @@
 1400,
 1050
 ],
-"church/temple-model-720.webp": [
+"church/temple-model-720.avif": [
 720,
 413
 ],
@@ -583,7 +587,7 @@
 1400,
 804
 ],
-"church/tomb-of-paul-720.webp": [
+"church/tomb-of-paul-720.avif": [
 720,
 579
 ],
@@ -591,7 +595,7 @@
 1400,
 1125
 ],
-"church/traditio-legis-720.webp": [
+"church/traditio-legis-720.avif": [
 720,
 480
 ],
@@ -599,7 +603,7 @@
 1400,
 933
 ],
-"church/tre-fontane-beheading-720.webp": [
+"church/tre-fontane-beheading-720.avif": [
 720,
 743
 ],
@@ -607,7 +611,7 @@
 1357,
 1400
 ],
-"church/tughrul-rey-720.webp": [
+"church/tughrul-rey-720.avif": [
 720,
 540
 ],
@@ -615,7 +619,7 @@
 1024,
 768
 ],
-"church/umayyad-interior-720.webp": [
+"church/umayyad-interior-720.avif": [
 720,
 478
 ],
@@ -623,13 +627,21 @@
 1400,
 929
 ],
-"church/valentin-paul-writing-720.webp": [
+"church/valentin-paul-writing-720.avif": [
 720,
 530
 ],
 "church/valentin-paul-writing.avif": [
 1400,
 1030
+],
+"lanat-allah.avif": [
+900,
+304
+],
+"lanat-allah.png": [
+900,
+304
 ],
 "met-diploma.avif": [
 1024,
@@ -807,11 +819,11 @@
 1024,
 1024
 ],
-"paul-portrait-cutout-480.webp": [
+"paul-portrait-cutout-480.avif": [
 480,
 511
 ],
-"paul-portrait-cutout-720.webp": [
+"paul-portrait-cutout-720.avif": [
 720,
 766
 ],
@@ -851,7 +863,7 @@
 1024,
 1024
 ],
-"site-icon-96.webp": [
+"site-icon-96.avif": [
 96,
 96
 ]

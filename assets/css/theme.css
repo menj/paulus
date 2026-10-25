@@ -20,6 +20,7 @@ body {
 	--t-muted: var(--wp--preset--color--muted);
 	--t-accent: var(--wp--preset--color--accent);
 	--t-accent-deep: var(--wp--preset--color--accent-deep, var(--wp--preset--color--accent));
+	--t-rubric: var(--paulus-rubric, #b0291c);
 	--t-on-accent: var(--wp--preset--color--on-accent);
 	--t-gold: var(--wp--preset--color--gold);
 	--t-rule: var(--wp--preset--color--rule);
@@ -231,7 +232,6 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 
 body.paulus-scheme-ochre .paulus-hero-panel { background-image: none; border-bottom: 2px solid var(--t-rule); }
 body.paulus-scheme-ochre .paulus-hero-panel__title { color: var(--t-ink); }
-body.paulus-scheme-ochre .paulus-hero-panel__meta a { color: var(--t-accent); }
 
 /* Article and page bodies */
 .paulus-single, .paulus-page, .paulus-archive { padding-top: clamp(2.5rem, 5vw, 4rem); }
@@ -314,7 +314,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .paulus-table th { font-family: var(--t-label); font-weight: 400; font-size: 0.8rem; color: var(--t-accent); background: color-mix(in srgb, var(--t-accent) 6%, transparent); }
 .paulus-prose .paulus-table-wrap { overflow-x: auto; }
 .paulus-prose ol > li { margin-bottom: 0.9rem; }
-.paulus-chapter__parts { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent); margin: 0.4rem 0 0; }
+.paulus-chapter__parts { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent-deep); margin: 0.4rem 0 0; }
 
 /* Series: the other parts, listed under the byline in the title panel */
 .paulus-hero-panel__series { margin-top: 1rem; }
@@ -1174,13 +1174,34 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 	.paulus-honorific {
 		display: inline-block;
 		position: relative;
-		width: 2.62em;
-		height: 2em;
-		margin: -0.65em 0.05em -0.6em 0.12em;
-		vertical-align: -0.62em;
+		/* Set like a glyph of the text: its foot at the depth of the
+		 * descenders (0.3em below the baseline), its top just above the
+		 * capitals, in the image's own proportions. It fits inside the
+		 * line, so it needs no negative margins and leaves the line
+		 * spacing as it is. */
+		width: 1.64em;
+		height: 1.25em;
+		margin: 0 0.08em 0 0.14em;
+		vertical-align: -0.3em;
 		background-color: currentColor;
-		-webkit-mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
-		mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
+		/* PNG first, for a browser that draws masks but cannot read AVIF
+		 * (Safari before 16.4, iOS 15); image-set() then gives every
+		 * browser that knows its type() the smaller AVIF. */
+		-webkit-mask: url("../images/alayhi-al-salam.png") center / contain no-repeat;
+		mask: url("../images/alayhi-al-salam.png") center / contain no-repeat;
+		-webkit-mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.png") type("image/png"));
+		mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.png") type("image/png"));
+	}
+	/* The curse after the name of Paul ([paulus_lanah]): set like the
+	 * honorific, at the same height, in its own wider proportions, and in
+	 * rubric red, as a manuscript sets apart such a formula. */
+	.paulus-lanah {
+		width: 3.7em;
+		background-color: var(--t-rubric);
+		-webkit-mask-image: url("../images/lanat-allah.png");
+		mask-image: url("../images/lanat-allah.png");
+		-webkit-mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.png") type("image/png"));
+		mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.png") type("image/png"));
 	}
 }
 @supports not ((mask-image: url("x.png")) or (-webkit-mask-image: url("x.png"))) {

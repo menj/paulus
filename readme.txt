@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.39
+Stable tag: 2.62.40
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,13 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.40 =
+* Faster pages: every image is AVIF (the WebP copies removed), EB Garamond is split so a page downloads only the characters it shows, and the main image and fonts are preloaded.
+* Security headers, on by default under Theme Options, Login.
+* The curse "laʿnat Allāh" in rubric-red calligraphy after the name of Paul, at the close of the Verdict and of the classical assessment in chapter 10.
+* Contrast of two small labels in the ochre scheme.
+* The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam is set like a letter of the text: it sits on the baseline, stands no taller than the capitals, and no longer reaches into the lines above and below.
 
 = 2.62.39 =
 * Every text the theme writes into the database is named by its JSON file, in the manifest, in the files themselves and in the records each site keeps of them. No HTML or text file is ever read to fill the database; a name of any other kind is refused.

@@ -59,8 +59,15 @@ function paulus_sc_hero() {
 			</p>
 		</div>
 		<figure class="paulus-hero__figure">
-			<?php $hero_src = paulus_hero_image_url( paulus_option( 'hero_image' ) ); $hero_set = paulus_hero_srcset( $hero_src ); ?>
-			<img src="<?php echo esc_url( $hero_src ); ?>"<?php if ( $hero_set ) : ?> srcset="<?php echo esc_attr( $hero_set ); ?>" sizes="(max-width: 700px) 92vw, (max-width: 1024px) 50vw, 640px"<?php endif; ?> alt="<?php echo esc_attr( paulus_image_alts()[ paulus_option( 'hero_image' ) ] ?? '' ); ?>" width="962" height="1024" fetchpriority="high" decoding="async">
+			<?php
+			$hero_src = paulus_hero_image_url( paulus_option( 'hero_image' ) );
+			$hero_set = paulus_hero_srcset( $hero_src );
+			// The chosen image's own dimensions, so the space reserved for
+			// it has its proportions and nothing moves as it loads.
+			$hero_dim = paulus_image_size( PAULUS_DIR . '/assets/images/' . basename( (string) wp_parse_url( $hero_src, PHP_URL_PATH ) ) );
+			$hero_dim = $hero_dim ? $hero_dim : array( 962, 1024 );
+			?>
+			<img src="<?php echo esc_url( $hero_src ); ?>"<?php if ( $hero_set ) : ?> srcset="<?php echo esc_attr( $hero_set ); ?>" sizes="<?php echo esc_attr( paulus_hero_sizes() ); ?>"<?php endif; ?> alt="<?php echo esc_attr( paulus_image_alts()[ paulus_option( 'hero_image' ) ] ?? '' ); ?>" width="<?php echo (int) $hero_dim[0]; ?>" height="<?php echo (int) $hero_dim[1]; ?>" fetchpriority="high" decoding="async">
 		</figure>
 	</section>
 	<?php

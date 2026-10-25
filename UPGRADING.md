@@ -36,6 +36,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.39 to 2.62.40
+
+- **Security headers** are on by default (Theme Options, Login). If the site is shown inside a frame on another site, or your host already sends these headers, switch them off there. The HTTPS header tells browsers to use HTTPS for a year, so leave it on only if the site stays on HTTPS.
+- **Images and fonts:** the WebP images and the single-file EB Garamond fonts are replaced. Upload the zip as a whole theme; over FTP, the old WebP files are removed by the weekly clean-up.
+
 ### 2.62.38 to 2.62.39
 
 - **Nothing to do.** The texts are now named by their `.json` files everywhere. On the first page load after the update the theme renames its own records of them once, so your edited articles stay protected and the dashboard's list of kept edits still works. The texts themselves are unchanged.
@@ -71,7 +76,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 - **New pages and entries.** The sync adds `/questions/` and `/paul-at-a-glance/` (structure version 2.62.22) and the Journal entry "Did Paul ever meet Jesus?". Texts you edited by hand are kept: an unedited article or page refreshes where it still matches a shipped version, and `prior_hashes` now lists the earlier shipped texts of the files changed since 2.62.17, so a site that never recorded a hash still refreshes. The articles that hold Arabic carry new `quran` and `hadith` classes, and the Akyol section and the new figures come in the same way.
 - **Sync lock.** The structure sync now claims its lock with an option (`paulus_sync_lock`) instead of a transient, so two simultaneous administrator requests cannot both run it; a lock over a minute old is taken over. Nothing to do unless a sync ever stops with a lock still set, in which case delete that option.
 - **Images.** `assets/files.json` is written for the current version again, so the weekly clean-up of images a release no longer ships works; it lists every image in `assets/images`, `assets/images/church` and `assets/social`. Add any image you place there by hand to the list, or it is removed.
-- **Fonts and styles.** New files: `dubidam-arabic-*.woff2` and `kfgqpc-hafs-uthmanic-script.woff2` in `assets/fonts/`, and the calligraphy `assets/images/alayhi-al-salam.webp`. Clear caches so visitors fetch the new `theme.css` (the stylesheet address carries the version).
+- **Fonts and styles.** New files: `dubidam-arabic-*.woff2` and `kfgqpc-hafs-uthmanic-script.woff2` in `assets/fonts/`, and the calligraphy `assets/images/alayhi-al-salam.avif`. Clear caches so visitors fetch the new `theme.css` (the stylesheet address carries the version).
 - **Reading progress.** New options on Theme Options, Reading: which pages show the bar, its position, height and colours. The defaults keep the old behaviour.
 - **Licences.** The `licenses/` folder is gone; `LICENSES.md` at the root replaces it.
 
