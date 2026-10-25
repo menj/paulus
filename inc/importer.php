@@ -40,10 +40,12 @@ function paulus_manifest() {
  * a record between this reading and saving it, and the sync runs it first
  * under its own lock, so no sync ever reads the records by the old names.
  * It is marked done only once the saved records read back with no old name
- * left; until then every request tries again.
+ * left; until then every request by an administrator tries again. Only the
+ * sync and the dashboard read these records, both an administrator's, so a
+ * visitor's request never takes the lock or writes anything here.
  */
 function paulus_migrate_text_names() {
-	if ( 'json' === get_option( 'paulus_text_names' ) || ! paulus_sync_lock() ) {
+	if ( 'json' === get_option( 'paulus_text_names' ) || ! current_user_can( 'edit_theme_options' ) || ! paulus_sync_lock() ) {
 		return;
 	}
 	try {
@@ -63,9 +65,10 @@ function paulus_rename_text_records() {
 	if ( 'json' === get_option( 'paulus_text_names' ) ) {
 		return true;
 	}
-	// Read what is saved now, not what this request may have cached.
-	wp_cache_delete( 'paulus_content_hashes', 'options' );
-	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	// Read what is saved now, not what this request may have cached. On a
+	// site where either record was ever stored autoloaded it sits in the
+	// alloptions cache, which is cleared too.
+	paulus_forget_text_records();
 	$old    = '/\.html$/';
 	$known  = (array) get_option( 'paulus_content_hashes', array() );
 	$hashes = array();
@@ -87,8 +90,7 @@ function paulus_rename_text_records() {
 
 	// update_option() reports false both for a failed write and for an
 	// unchanged value, so the result is judged by reading it back.
-	wp_cache_delete( 'paulus_content_hashes', 'options' );
-	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	paulus_forget_text_records();
 	$left = preg_grep( $old, array_map( 'strval', array_keys( (array) get_option( 'paulus_content_hashes', array() ) ) ) );
 	foreach ( (array) get_option( 'paulus_kept_edits', array() ) as $row ) {
 		if ( is_array( $row ) && preg_match( $old, (string) ( $row['file'] ?? '' ) ) ) {
@@ -100,6 +102,15 @@ function paulus_rename_text_records() {
 	}
 	update_option( 'paulus_text_names', 'json', true );
 	return true;
+}
+
+/**
+ * Drop this request's cached copies of the two text records.
+ */
+function paulus_forget_text_records() {
+	wp_cache_delete( 'paulus_content_hashes', 'options' );
+	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
 }
 
 /**

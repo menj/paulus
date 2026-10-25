@@ -582,7 +582,7 @@ function paulus_sync_run( $target ) {
 	if ( ! paulus_sync_lock() ) {
 		return null;
 	}
-	paulus_sync_note( 'articles and pages' );
+	paulus_sync_note( 'text records' );
 	// A fatal error PHP cannot catch (the time limit, memory) is recorded
 	// with the stage reached, for the dashboard.
 	register_shutdown_function( static function () {
@@ -596,7 +596,13 @@ function paulus_sync_run( $target ) {
 	try {
 		// The records the install reads must be under the .json names; if
 		// the rename cannot be saved, the pass is a failure and is retried.
-		$result = paulus_rename_text_records() ? paulus_run_install() : false;
+		if ( paulus_rename_text_records() ) {
+			paulus_sync_note( 'articles and pages' );
+			$result = paulus_run_install();
+		} else {
+			$result = false;
+			paulus_sync_note( 'text records', 'failed', __( 'The records of the shipped texts could not be saved under their new names; this is tried again on the next page load.', 'paulus' ) );
+		}
 	} catch ( Throwable $e ) {
 		$result = false;
 		$s      = get_option( 'paulus_sync_status' );
