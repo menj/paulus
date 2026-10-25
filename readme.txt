@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.39
+Stable tag: 2.62.40
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.40 =
+* The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam is sized to its line: it no longer reaches into the lines above and below.
 
 = 2.62.39 =
 * Every text the theme writes into the database is named by its JSON file, in the manifest, in the files themselves and in the records each site keeps of them. No HTML or text file is ever read to fill the database; a name of any other kind is refused.

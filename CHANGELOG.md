@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.40] - 2026-10-25
+
+### Fixed
+- The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam (`.paulus-honorific` in `theme.css`) was drawn two text-heights tall, so its strokes ran into the lines above and below. It is now one and a half text-heights (1.97em by 1.5em, the image's own proportions), centred on the line, and stays clear of its neighbours at every width; the line spacing is unchanged.
+
 ## [2.62.39] - 2026-10-25
 
 ### Changed
