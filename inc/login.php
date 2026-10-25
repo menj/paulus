@@ -33,6 +33,45 @@ function paulus_application_passwords_available( $available ) {
 add_filter( 'wp_is_application_passwords_available', 'paulus_application_passwords_available' );
 
 /**
+ * Security headers for the site's pages, unless switched off under Theme
+ * Options, Login. Each one only narrows what a browser allows and none
+ * limits the site's own scripts, so Google's tag and the plugins keep
+ * working:
+ *
+ * - frame-ancestors 'self' and X-Frame-Options: no other site may show the
+ *   pages in a frame (clickjacking); the site itself still may, as the
+ *   Customizer does.
+ * - Cross-Origin-Opener-Policy: a page opened from the site, or that opens
+ *   it, gets no handle on its window; pop-ups such as a share dialog still
+ *   open.
+ * - Strict-Transport-Security, sent only over HTTPS: for a year the browser
+ *   reaches the site only over HTTPS. Subdomains are left out.
+ * - X-Content-Type-Options and Referrer-Policy: no guessing of file types,
+ *   and only the site's address, never the page, sent to other sites.
+ *
+ * The list can be changed with the paulus_security_headers filter.
+ */
+function paulus_send_security_headers() {
+	if ( ! paulus_option( 'security_headers' ) || headers_sent() || is_admin() ) {
+		return;
+	}
+	$headers = array(
+		'Content-Security-Policy'    => "frame-ancestors 'self'",
+		'X-Frame-Options'            => 'SAMEORIGIN',
+		'Cross-Origin-Opener-Policy' => 'same-origin-allow-popups',
+		'X-Content-Type-Options'     => 'nosniff',
+		'Referrer-Policy'            => 'strict-origin-when-cross-origin',
+	);
+	if ( is_ssl() ) {
+		$headers['Strict-Transport-Security'] = 'max-age=31536000';
+	}
+	foreach ( (array) apply_filters( 'paulus_security_headers', $headers ) as $name => $value ) {
+		header( $name . ': ' . $value );
+	}
+}
+add_action( 'send_headers', 'paulus_send_security_headers' );
+
+/**
  * The image above the login form: the address set on Theme Options, then
  * wp-content/login-logo.png, then the chosen portrait (a medallion).
  *

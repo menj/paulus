@@ -515,11 +515,66 @@ require_once PAULUS_DIR . '/inc/links.php';
  * browser fetches them alongside the stylesheets instead of after them.
  */
 function paulus_preload_fonts() {
-	foreach ( array( 'sabon-next-lt-regular', 'dubidam-bold', 'cinzel' ) as $font ) {
+	// EB Garamond's main files (regular and semibold, without Greek): the
+	// title panel's standfirst and the transliteration letters are set in
+	// them, and found only through fonts.css they arrived late enough to
+	// move the text as they swapped in.
+	foreach ( array( 'sabon-next-lt-regular', 'eb-garamond-regular', 'eb-garamond-semibold', 'dubidam-bold', 'cinzel' ) as $font ) {
 		printf( '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n", esc_url( PAULUS_URI . '/assets/fonts/' . $font . '.woff2' ) );
 	}
 }
 add_action( 'wp_head', 'paulus_preload_fonts', 1 );
+
+/**
+ * The sizes attribute of the front page's portrait.
+ *
+ * @return string
+ */
+function paulus_hero_sizes() {
+	return '(max-width: 700px) 92vw, (max-width: 1024px) 50vw, 640px';
+}
+
+/**
+ * The sizes attribute of the image in a title panel: the full width on a
+ * narrow screen, where the image stands above the text, and half the panel
+ * beside it.
+ *
+ * @return string
+ */
+function paulus_panel_image_sizes() {
+	return '(max-width: 860px) 100vw, 50vw';
+}
+
+/**
+ * Preload the page's largest image, the one that decides when the page
+ * looks loaded: the portrait on the front page, the featured image in an
+ * article's or a page's title panel. Named in the head, it is fetched at
+ * once instead of after the stylesheets, with the same srcset and sizes as
+ * the image itself, so the browser picks the same file.
+ */
+function paulus_preload_lead_image() {
+	if ( is_front_page() ) {
+		$src   = paulus_hero_image_url( paulus_option( 'hero_image' ) );
+		$set   = paulus_hero_srcset( $src );
+		$sizes = paulus_hero_sizes();
+	} elseif ( is_singular() && has_post_thumbnail() ) {
+		$id    = get_post_thumbnail_id();
+		$src   = wp_get_attachment_image_url( $id, 'large' );
+		$set   = wp_get_attachment_image_srcset( $id, 'large' );
+		$sizes = paulus_panel_image_sizes();
+	} else {
+		return;
+	}
+	if ( ! $src ) {
+		return;
+	}
+	printf(
+		'<link rel="preload" as="image" href="%s"%s fetchpriority="high">' . "\n",
+		esc_url( $src ),
+		$set ? ' imagesrcset="' . esc_attr( $set ) . '" imagesizes="' . esc_attr( $sizes ) . '"' : ''
+	);
+}
+add_action( 'wp_head', 'paulus_preload_lead_image', 1 );
 
 /**
  * Claim the structure sync. add_option() cannot add an option that exists, so
@@ -667,7 +722,7 @@ function paulus_enqueue_assets() {
 	}
 	wp_enqueue_style( 'paulus-print', PAULUS_URI . '/assets/css/print.css', array( 'paulus-theme' ), PAULUS_VERSION, 'print' );
 	$paulus_content = is_singular() ? (string) get_post_field( 'post_content', get_queried_object_id() ) : '';
-	if ( $paulus_content && ( has_shortcode( $paulus_content, 'paulus_figure' ) || preg_match( '#<a[^>]+href="[^"]+\.(?:jpe?g|png|webp|gif)"[^>]*>\s*<img#i', $paulus_content ) ) ) {
+	if ( $paulus_content && ( has_shortcode( $paulus_content, 'paulus_figure' ) || preg_match( '#<a[^>]+href="[^"]+\.(?:jpe?g|png|webp|avif|gif)"[^>]*>\s*<img#i', $paulus_content ) ) ) {
 		wp_enqueue_style( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/css/lightbox.min.css', array(), '2.12.0' );
 		wp_enqueue_style( 'paulus-lightbox', PAULUS_URI . '/assets/css/lightbox.css', array( 'lightbox2' ), PAULUS_VERSION );
 		wp_enqueue_script( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/js/lightbox.min.js', array( 'jquery' ), '2.12.0', array( 'strategy' => 'defer', 'in_footer' => true ) );

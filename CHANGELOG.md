@@ -4,7 +4,19 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ## [2.62.40] - 2026-10-25
 
+### Changed
+- Every image the theme shows is AVIF, the smaller widths included. The 75 figure copies at 720 px, the hero cutout at 480 and 720 px, the author's portrait, the 96-pixel icon and the honorific calligraphy were WebP; each is now AVIF, the 720-pixel copies made afresh from their full-size AVIF rather than from the WebP, and the WebP files are removed. Together they go from 5,712 KB to 4,506 KB; the heaviest gain most (the Daddi panel 286 KB to 154 KB, the catacomb fresco 172 KB to 136 KB). `figures.php`, `paulus_hero_srcset()`, the author card, the footer icon, the site-map thumbnails and the calligraphy mask point to the AVIF files; `sizes.json` and `files.json` list them, so the weekly clean-up removes the old WebP files from a site updated over FTP.
+- EB Garamond's three faces are split by script (`assets/fonts/eb-garamond-<face>.woff2`, `-greek`, `-extra`, each with its `unicode-range` in `fonts.css`). The main file holds the characters the theme's texts and templates use plus the rest of standard Latin; a page fetches the Greek and the rest only when it shows them. Each page's EB Garamond download falls from 106–116 KB a face to 62–69 KB. The outlines are unchanged; the SIL Open Font License allows the subsetting.
+- The page's largest image is preloaded from the head (`paulus_preload_lead_image()`): the portrait on the front page, the featured image in a title panel, with the image's own `srcset` and `sizes`, so the browser fetches it at once instead of after the stylesheets (PageSpeed measured a 2.1–2.5 s delay before it started).
+- The title panel's featured image is given its true `sizes` (`(max-width: 860px) 100vw, 50vw`), not WordPress's default of up to 1,024 px, so a phone downloads the copy it shows.
+- EB Garamond regular and semibold are preloaded with the other fonts. Found only through `fonts.css`, the semibold arrived late enough to move the title panel's standfirst as it swapped in (a layout shift of 0.078 on mobile).
+- Linked images in AVIF open in the lightbox like JPEG, PNG and WebP.
+
+### Added
+- Security headers, on by default (Theme Options, Login): `Content-Security-Policy: frame-ancestors 'self'` and `X-Frame-Options: SAMEORIGIN` (no framing by other sites), `Cross-Origin-Opener-Policy: same-origin-allow-popups`, `Strict-Transport-Security: max-age=31536000` over HTTPS only (subdomains left out), `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin`. None limits the site's own scripts, so Google's tag and the plugins keep working. The list can be changed with the `paulus_security_headers` filter.
+
 ### Fixed
+- Contrast in the ochre scheme: the "In 4 parts" note on the chapter cards (3.36:1) and the breadcrumb links over the title panel (4.35:1) were set in the lighter accent; both take the deeper accent (4.52:1 and 5.85:1), as in every other scheme.
 - The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam (`.paulus-honorific` in `theme.css`) was drawn two text-heights tall, so its strokes ran into the lines above and below. Its box was also pulled down by negative margins, so it hung half below the baseline. It is now set like a glyph of the text: 1.64em by 1.25em (the image's own proportions), its foot at the depth of the descenders (`vertical-align: -0.3em`), its top just above the capitals, with no negative margins. It stays inside its line at every width, and the line spacing is unchanged.
 
 ## [2.62.39] - 2026-10-25

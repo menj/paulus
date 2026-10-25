@@ -5,7 +5,7 @@
  */
 ( function () {
 	'use strict';
-	var sel = [ 'jpg', 'jpeg', 'png', 'webp', 'gif' ].map( function ( x ) {
+	var sel = [ 'jpg', 'jpeg', 'png', 'webp', 'avif', 'gif' ].map( function ( x ) {
 		return '.paulus-prose a[href$=".' + x + '"]';
 	} ).join( ', ' );
 	document.querySelectorAll( sel ).forEach( function ( a ) {

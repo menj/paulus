@@ -4,7 +4,7 @@
  *
  * Wherever the text gives "ʿalayhi al-salām" (peace be upon him) straight
  * after his name, the page shows the calligraphy of the phrase
- * (assets/images/alayhi-al-salam.webp, drawn as a mask in the colour of the
+ * (assets/images/alayhi-al-salam.avif, drawn as a mask in the colour of the
  * text, so it follows every colour scheme and prints). The words stay in the
  * stored text and in the page, hidden from the eye and open to screen
  * readers, search engines and a copy and paste; where a browser cannot draw

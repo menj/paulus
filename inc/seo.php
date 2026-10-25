@@ -1299,8 +1299,8 @@ function paulus_sc_sitemap() {
 		}
 		// Two pages carry no featured image: the author's page shows the
 		// author's portrait, the book's page its cover.
-		if ( ! $url && 'about-the-author' === $post->post_name && file_exists( PAULUS_DIR . '/assets/images/author-portrait.webp' ) ) {
-			$url = PAULUS_URI . '/assets/images/author-portrait.webp';
+		if ( ! $url && 'about-the-author' === $post->post_name && file_exists( PAULUS_DIR . '/assets/images/author-portrait.avif' ) ) {
+			$url = PAULUS_URI . '/assets/images/author-portrait.avif';
 		}
 		if ( ! $url && 'the-book' === $post->post_name ) {
 			$url = paulus_image_url( 'book-cover' );

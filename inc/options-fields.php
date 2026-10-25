@@ -109,6 +109,7 @@ function paulus_fields() {
 				'login_tagline'  => array( __( 'Line under the site name', 'paulus' ), 'text' ),
 				'login_greek'    => array( __( 'Greek inscription above the form: ΕΙΣΕΛΘΑΤΕ, "enter", Matthew 7:13', 'paulus' ), 'checkbox' ),
 				'login_app_passwords' => array( __( 'Application passwords (per-application passwords for the REST API and XML-RPC, under Users, Profile; off by default, so no such password can be made or used)', 'paulus' ), 'checkbox' ),
+				'security_headers'    => array( __( 'Security headers on every page: no framing by other sites, a separate browsing context from pages it opens, HTTPS only for a year once visited over HTTPS, no guessing of file types, and only the site\'s address sent with links to other sites', 'paulus' ), 'checkbox' ),
 			),
 		),
 		'links'      => array(

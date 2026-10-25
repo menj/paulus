@@ -802,7 +802,7 @@ function paulus_sc_footer_brand() {
 	// The site icon beside the name: the one set in the Customizer, else
 	// the bundled icon. Decorative, and outside the link: only the wordmark
 	// is linked.
-	$icon  = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.webp';
+	$icon  = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.avif';
 	$out .= '<p class="paulus-footer-brand__mark"><img class="paulus-footer-brand__icon" src="' . esc_url( $icon ) . '" alt="" width="48" height="48" loading="lazy" decoding="async"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
 	// The site description: the Theme Options footer description, or, when
 	// that is empty, the tagline from Settings, General. The publisher
@@ -998,7 +998,7 @@ function paulus_sc_page_hero() {
 			$crumbs[] = array( get_the_title( $post ), '' );
 		}
 		if ( has_post_thumbnail( $post ) ) {
-			$image = get_the_post_thumbnail( $post, 'large', array( 'alt' => '', 'fetchpriority' => 'high' ) );
+			$image = get_the_post_thumbnail( $post, 'large', array( 'alt' => '', 'fetchpriority' => 'high', 'sizes' => paulus_panel_image_sizes() ) );
 		}
 	}
 	if ( '' === $title ) {
@@ -1149,7 +1149,7 @@ function paulus_author_card( $placement = 'footer' ) {
  * @return string
  */
 function paulus_author_portrait_url() {
-	return file_exists( PAULUS_DIR . '/assets/images/author-portrait.webp' ) ? PAULUS_URI . '/assets/images/author-portrait.webp' : '';
+	return file_exists( PAULUS_DIR . '/assets/images/author-portrait.avif' ) ? PAULUS_URI . '/assets/images/author-portrait.avif' : '';
 }
 
 /**

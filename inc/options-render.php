@@ -151,7 +151,7 @@ function paulus_options_page() {
 	?>
 	<?php
 	$scheme = array_key_exists( paulus_option( 'scheme' ), paulus_schemes() ) ? paulus_option( 'scheme' ) : 'ochre';
-	$icon   = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.webp';
+	$icon   = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.avif';
 	?>
 	<div class="wrap paulus-wrap paulus-wrap--<?php echo esc_attr( $scheme ); ?>">
 		<header class="paulus-masthead">

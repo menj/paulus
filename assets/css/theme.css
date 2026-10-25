@@ -231,7 +231,6 @@ body.home .paulus-site-title a { color: var(--t-muted); }
 
 body.paulus-scheme-ochre .paulus-hero-panel { background-image: none; border-bottom: 2px solid var(--t-rule); }
 body.paulus-scheme-ochre .paulus-hero-panel__title { color: var(--t-ink); }
-body.paulus-scheme-ochre .paulus-hero-panel__meta a { color: var(--t-accent); }
 
 /* Article and page bodies */
 .paulus-single, .paulus-page, .paulus-archive { padding-top: clamp(2.5rem, 5vw, 4rem); }
@@ -314,7 +313,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .paulus-table th { font-family: var(--t-label); font-weight: 400; font-size: 0.8rem; color: var(--t-accent); background: color-mix(in srgb, var(--t-accent) 6%, transparent); }
 .paulus-prose .paulus-table-wrap { overflow-x: auto; }
 .paulus-prose ol > li { margin-bottom: 0.9rem; }
-.paulus-chapter__parts { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent); margin: 0.4rem 0 0; }
+.paulus-chapter__parts { font-family: var(--t-label); font-size: 0.78rem; color: var(--t-accent-deep); margin: 0.4rem 0 0; }
 
 /* Series: the other parts, listed under the byline in the title panel */
 .paulus-hero-panel__series { margin-top: 1rem; }
@@ -1184,8 +1183,8 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 		margin: 0 0.08em 0 0.14em;
 		vertical-align: -0.3em;
 		background-color: currentColor;
-		-webkit-mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
-		mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
+		-webkit-mask: url("../images/alayhi-al-salam.avif") center / contain no-repeat;
+		mask: url("../images/alayhi-al-salam.avif") center / contain no-repeat;
 	}
 }
 @supports not ((mask-image: url("x.png")) or (-webkit-mask-image: url("x.png"))) {

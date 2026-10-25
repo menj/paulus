@@ -36,6 +36,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.39 to 2.62.40
+
+- **Security headers** are on by default (Theme Options, Login). If the site is shown inside a frame on another site, or your host already sends these headers, switch them off there. The HTTPS header tells browsers to use HTTPS for a year, so leave it on only if the site stays on HTTPS.
+- **Images and fonts:** the WebP images and the single-file EB Garamond fonts are replaced. Upload the zip as a whole theme; over FTP, the old WebP files are removed by the weekly clean-up.
+
 ### 2.62.38 to 2.62.39
 
 - **Nothing to do.** The texts are now named by their `.json` files everywhere. On the first page load after the update the theme renames its own records of them once, so your edited articles stay protected and the dashboard's list of kept edits still works. The texts themselves are unchanged.

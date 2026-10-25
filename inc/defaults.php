@@ -85,6 +85,7 @@ function paulus_defaults() {
 		'login_tagline'    => 'Authors and editors only.',
 		'login_greek'      => 1,
 		'login_app_passwords' => 0,
+		'security_headers' => 1,
 		'text_links'       => 1,
 		'text_links_max'   => 8,
 		'text_links_map'   => "Islamic Dilemma | https://injil.help/the-islamic-dilemma/\nEbionites | https://injil.help/paul/ebionites/\nEbionite | https://injil.help/paul/ebionites/\nNazarenes | https://injil.help/paul/ebionites/\nGospel of Thomas | https://injil.help/gospels/thomas/\nSynoptic Gospels | https://injil.help/gospels/synoptic-problem/\nsynoptic problem | https://injil.help/gospels/synoptic-problem/\nGospel of Mark | https://injil.help/gospels/mark/\nGospel of Matthew | https://injil.help/gospels/matthew/\nGospel of Luke | https://injil.help/gospels/luke/\nGospel of John | https://injil.help/gospels/john/\nfalse apostles | https://injil.help/paul/false-apostles/\nJerusalem church | https://injil.help/paul/james/\nseven letters | https://injil.help/paul/seven-letters/\nundisputed letters | https://injil.help/paul/seven-letters/\ntable from heaven | https://injil.help/quran/table/\nInjīl | https://injil.help/\nMatthew 5:17 | https://bestofislam.org/paul-and-the-law/\n4:157 | https://bestofislam.org/crucifixion-quran/\ncrucifixion | https://bestofislam.org/crucifixion-quran/\nSon of God | https://bestofislam.org/jesus-not-god/\nTrinity | https://bestofislam.org/jesus-not-god/\nDome of the Rock | https://bestofislam.org/dome-inscriptions/\nTalmud | https://bestofislam.org/talmud-midrash-apocrypha-borrowing/\nmidrash | https://bestofislam.org/talmud-midrash-apocrypha-borrowing/\nPapyrus 46 | https://bestofislam.org/manuscript-transmission/\n2 Peter | https://bestofislam.org/second-peter/\nIbn Isḥāq | https://bestofislam.org/sira-ibn-ishaq-hisham-tabari/",
@@ -153,8 +154,8 @@ function paulus_hero_image_url( $slug ) {
 
 /**
  * srcset for a hero image: the 480 and 720 widths, when they exist beside the
- * full file: the full file is AVIF, the smaller widths WebP (name-480.webp,
- * name-720.webp).
+ * full file: all AVIF (name-480.avif,
+ * name-720.avif).
  *
  * @param string $url Full-size image URL.
  * @return string srcset attribute value, or empty.
@@ -166,7 +167,7 @@ function paulus_hero_srcset( $url ) {
 	}
 	$set = array();
 	foreach ( array( 480, 720 ) as $w ) {
-		$name = $m[1] . '-' . $w . '.webp';
+		$name = $m[1] . '-' . $w . '.avif';
 		if ( file_exists( PAULUS_DIR . '/assets/images/' . $name ) ) {
 			$set[] = PAULUS_URI . '/assets/images/' . $name . ' ' . $w . 'w';
 		}
