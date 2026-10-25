@@ -39,13 +39,14 @@ function paulus_manifest() {
  * It runs under the sync lock, so a sync in another request can never write
  * a record between this reading and saving it, and the sync runs it first
  * under its own lock, so no sync ever reads the records by the old names.
- * It is marked done only once the saved records read back with no old name
- * left; until then every request by an administrator tries again. Only the
- * sync and the dashboard read these records, both an administrator's, so a
- * visitor's request never takes the lock or writes anything here.
+ * Whether it is needed is judged from the records themselves, never from a
+ * flag: a site rolled back to 2.62.38 writes the old names again, and they
+ * are renamed when it is updated once more. Only the sync and the dashboard
+ * read these records, both an administrator's, so a visitor's request never
+ * reads them here, takes the lock or writes anything.
  */
 function paulus_migrate_text_names() {
-	if ( 'json' === get_option( 'paulus_text_names' ) || ! current_user_can( 'edit_theme_options' ) || ! paulus_sync_lock() ) {
+	if ( ! current_user_can( 'edit_theme_options' ) || paulus_text_records_renamed() || ! paulus_sync_lock() ) {
 		return;
 	}
 	try {
@@ -62,13 +63,13 @@ add_action( 'init', 'paulus_migrate_text_names', 1 );
  * @return bool Whether the records are under the .json names.
  */
 function paulus_rename_text_records() {
-	if ( 'json' === get_option( 'paulus_text_names' ) ) {
-		return true;
-	}
 	// Read what is saved now, not what this request may have cached. On a
 	// site where either record was ever stored autoloaded it sits in the
 	// alloptions cache, which is cleared too.
 	paulus_forget_text_records();
+	if ( paulus_text_records_renamed() ) {
+		return true;
+	}
 	$old    = '/\.html$/';
 	$known  = (array) get_option( 'paulus_content_hashes', array() );
 	$hashes = array();
@@ -91,16 +92,25 @@ function paulus_rename_text_records() {
 	// update_option() reports false both for a failed write and for an
 	// unchanged value, so the result is judged by reading it back.
 	paulus_forget_text_records();
-	$left = preg_grep( $old, array_map( 'strval', array_keys( (array) get_option( 'paulus_content_hashes', array() ) ) ) );
-	foreach ( (array) get_option( 'paulus_kept_edits', array() ) as $row ) {
-		if ( is_array( $row ) && preg_match( $old, (string) ( $row['file'] ?? '' ) ) ) {
-			$left[] = $row['file'];
+	return paulus_text_records_renamed();
+}
+
+/**
+ * Whether no record of the shipped texts is left under an old .html name.
+ *
+ * @return bool
+ */
+function paulus_text_records_renamed() {
+	foreach ( array_keys( (array) get_option( 'paulus_content_hashes', array() ) ) as $name ) {
+		if ( preg_match( '/\.html$/', (string) $name ) ) {
+			return false;
 		}
 	}
-	if ( $left ) {
-		return false;
+	foreach ( (array) get_option( 'paulus_kept_edits', array() ) as $row ) {
+		if ( is_array( $row ) && preg_match( '/\.html$/', (string) ( $row['file'] ?? '' ) ) ) {
+			return false;
+		}
 	}
-	update_option( 'paulus_text_names', 'json', true );
 	return true;
 }
 
@@ -1513,7 +1523,9 @@ add_action( 'admin_post_paulus_kept_edit', static function () {
 	$row  = $kept[ $id ] ?? null;
 	$done = '';
 	if ( $row && 'theme' === $choice ) {
-		$new = paulus_content_file( $row['file'] );
+		// A row not yet renamed (a sync held the lock when this request
+		// began) names the same text by its earlier .html name.
+		$new = paulus_content_file( preg_replace( '/\.html$/', '.json', (string) $row['file'] ) );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $id, 'post_content' => $new ) );
 			unset( $kept[ $id ] );
