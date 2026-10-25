@@ -52,6 +52,12 @@ function paulus_maintenance_bypass() {
 	}
 	$slug = sanitize_title_with_dashes( (string) get_option( 'whl_page', '' ) );
 	$path = trim( (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ), '/' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	// On a site in a subfolder (example.com/blog/) the address begins with
+	// that folder; the login address is compared with what follows it.
+	$home = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+	if ( '' !== $home && 0 === strpos( $path . '/', $home . '/' ) ) {
+		$path = trim( substr( $path, strlen( $home ) ), '/' );
+	}
 	return '' !== $slug && ( $slug === $path || isset( $_GET[ $slug ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 }
 
