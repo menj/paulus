@@ -39,7 +39,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.62.29 to 2.62.31
 
 - **Application passwords** are off from 2.62.30. A site that uses one (a mobile app, a publishing tool, a connector) must switch them back on under Appearance, Theme Options, Login, or that tool is refused at the REST API and XML-RPC until it does.
-- **Error pages** are now written when an administrator opens an admin page, not on a visitor's page load. After updating, open the dashboard once so the pages carry the new version.
+- **Error pages** are now written when an administrator opens an admin page, not on a visitor's page load. After updating, open the dashboard once so the pages carry the new version; on a network, only the main site writes them, so open its dashboard. A write that fails (wp-content not writable) is tried again on the next admin page load.
 - **Search base.** If clean search addresses returned a page not found on your site, the first admin page load after the update rebuilds the rewrite rules.
 - Nothing else to do: the other changes of 2.62.31 are fixes with no new options or files.
 
