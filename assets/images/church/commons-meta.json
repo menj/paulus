@@ -462,5 +462,29 @@
   "license_url": "",
   "artist": "Unknown illuminator, abbey of Saint-Bertin, Saint-Omer, c. 1200; Koninklijke Bibliotheek, The Hague, 76 F 5, fol. 29r",
   "note": "Not from Wikimedia Commons. A faithful reproduction of a medieval manuscript page, public domain under Article 14 of Directive (EU) 2019/790."
+ },
+ "reader-family-signing": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
+ },
+ "book-in-hand": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
+ },
+ "reader-with-copy": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
  }
 }

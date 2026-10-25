@@ -22,6 +22,7 @@ return array(
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
 		'c05-adapting-the-message.html#r38' => 'c2c573481f5690176e92ebf2b7a9a3c0',
+		'the-book.html#r38' => '70b495dc8066705de8d6662b2e268883',
 		'c09-the-failed-prophet.html#r38' => 'ec97ce506f5b40f59e669996eaaee528',
 		'c09-the-failed-prophet-2.html#r38' => 'c0c2e62c1811bf920501259caf1f4d9b',
 		'churches.html#r38' => 'ad8e91feb73307fec290f686082e6403',
