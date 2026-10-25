@@ -368,5 +368,5 @@ add_action( 'admin_notices', static function () {
 	if ( ! $post || 'contact' !== $post->post_name || ! file_exists( PAULUS_DIR . '/templates/page-contact.html' ) ) {
 		return;
 	}
-	echo '<div class="notice notice-info"><p><strong>Paulus:</strong> ' . esc_html__( 'this page shows the text built into the theme (content/articles/legal-contact.html), whatever is written here. Change that file to change the page.', 'paulus' ) . '</p></div>';
+	echo '<div class="notice notice-info"><p><strong>Paulus:</strong> ' . esc_html__( 'this page shows the text built into the theme (content/articles/legal-contact.json), whatever is written here. Change that file to change the page.', 'paulus' ) . '</p></div>';
 } );

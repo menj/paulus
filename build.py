@@ -1,4 +1,5 @@
-"""Build content/articles/*.html from content/src/*.txt.
+"""Build content/articles/*.json from content/src/*.txt (one JSON file per text,
+as inc/importer.php paulus_content_file() reads them).
 Syntax in source:
   {{kjv:Acts 8:1-3}}            -> blockquote with KJV text (fetched live, cached) + footnote "Acts 8:1–3 (KJV)."
   [[fn: footnote text]]         -> numbered footnote marker; text collected at end
@@ -6,7 +7,7 @@ Syntax in source:
   ## Heading                    -> <h2>
   blank line separates paragraphs; lines starting with '>' are blockquote paragraphs
 """
-import re,sys,json,os,urllib.request,urllib.parse,html
+import re,sys,json,os,urllib.request,urllib.parse,html,hashlib
 BASE=os.path.dirname(os.path.abspath(__file__))
 CACHE=os.path.join(BASE,'kjv-cache.json')
 cache=json.load(open(CACHE,encoding='utf-8')) if os.path.exists(CACHE) else {}
@@ -130,7 +131,11 @@ def build(src,dst,prefix):
             for chunk in split_para(' '.join(b.split('\n'))): out.append('<p>'+chunk+'</p>')
     if notes:
         out.append('<ol class="footnotes">'+''.join(f'<li id="fn{prefix}-{i+1}">{n} <a href="#ref{prefix}-{i+1}" aria-label="Back to text">↩</a></li>' for i,n in enumerate(notes))+'</ol>')
-    open(dst,'w',encoding='utf-8').write(linkify('\n\n'.join(out))+'\n')
+    text=linkify('\n\n'.join(out))+'\n'
+    name=os.path.basename(dst)[:-5]+'.html'
+    doc={'name':name,'format':'wordpress-post-content','md5':hashlib.md5(text.encode('utf-8')).hexdigest(),'content':text}
+    with open(dst,'w',encoding='utf-8') as f:
+        json.dump(doc,f,ensure_ascii=False,indent=1); f.write('\n')
     return len(notes)
 if __name__=='__main__':
     import glob
@@ -141,5 +146,5 @@ if __name__=='__main__':
         sys.exit(f'No source files found in {src_dir} — check the checkout path.')
     for src in files:
         name=os.path.basename(src)[:-4]
-        n=build(src,os.path.join(out_dir,f'{name}.html'),name.split('-')[0])
+        n=build(src,os.path.join(out_dir,f'{name}.json'),name.split('-')[0])
         print(name,n,'notes')

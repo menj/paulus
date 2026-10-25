@@ -9,7 +9,11 @@ All notable changes to this theme are documented here. The format follows [Keep 
   - Raphael, *Saint Paul Preaching in Athens* (1515), tapestry cartoon, Royal Collection, on loan to the Victoria and Albert Museum. Public domain. In "Adapting the message to the pagans", beside the Areopagus.
   - Enrique Simonet, *The Beheading of Saint Paul* (1887), Málaga Cathedral. Public domain. In "A death the scriptures never record", after the Tre Fontane relief and the tomb.
   - Pierre-Étienne Monnot, statue of Paul in the nave of the Basilica of Saint John Lateran, photographed by Jastrow, CC BY 2.5. In "Paul in the churches", beside the Lateran ciborium.
+- A fourth: Giovanni Antonio Molineri, *The Martyrdom of Saint Paul* (about 1620), Galleria Sabauda, Turin, public domain, found on Commons by its perceptual fingerprint (the file supplied matches it at 5 of 256). In "Paul in the churches", beside the Tre Fontane relief.
 - `assets/images/church/` holds each at up to 1400 pixels (AVIF) and 720 (WebP), recorded in `sizes.json`, `files.json` and `commons-meta.json`. The content version moves to 2.62.38, so the three articles take the new figures on every site where they were never edited by hand (their earlier shipped texts are in `prior_hashes` as `#r38`); an edited copy is kept and listed on the dashboard.
+
+### Changed
+- The texts the installer writes into the database ship as JSON, one file per text in `content/articles/` (`name`, `format`, `md5`, `content`), and the `.html` files are removed. `paulus_content_file()`, the only reader, accepts only a plain name, opens only that name's `.json` file, and refuses one that is malformed, misnamed, of another format or not matching its MD5. Each text is byte for byte what it was (all 80 checked), so the hashes every site keeps still tell an edited article from an untouched one, and the manifest keeps the texts' first names for that reason. `build.py` writes JSON. The format does not by itself make the content safer, since the same markup is stored either way; what guards the database is that only an administrator runs the installer and only named files inside the theme are read, and the JSON adds a structure and a checksum that a damaged or altered file fails.
 
 ## [2.62.37] - 2026-10-25
 

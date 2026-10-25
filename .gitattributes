@@ -5,7 +5,7 @@
 #
 #   git archive --format=zip --prefix=paulus/ -o paulus-$(sed -n 's/^Version:\s*//p' style.css).zip HEAD
 #
-# The installed theme keeps content/articles (the installer reads them),
+# The installed theme keeps content/articles (the JSON texts the installer reads),
 # assets/docs (the Martin notes are served to visitors), README.md and
 # UPGRADING.md (the owner reads them on the site).
 build.py        export-ignore

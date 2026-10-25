@@ -27,14 +27,44 @@ function paulus_manifest() {
 }
 
 /**
- * Read a bundled content file.
+ * Read a bundled content file: the text an article, page or Journal entry
+ * is installed with.
  *
- * @param string $file File name in content/articles/.
- * @return string
+ * The texts ship as JSON, one file each in content/articles/, holding the
+ * text with its name, its format and its MD5:
+ *
+ *     { "name": "c05-adapting-the-message.html",
+ *       "format": "wordpress-post-content",
+ *       "md5": "…", "content": "…" }
+ *
+ * The manifest still names each text by its original name (…html), since
+ * the hashes that tell an edited article from an untouched one are keyed by
+ * it on every site; that name is mapped to its .json file here. Only a
+ * plain name is accepted (letters, digits and hyphens), the file must be
+ * well-formed JSON of that format, name itself, and match its MD5. Anything
+ * else is refused and nothing is installed from it.
+ *
+ * @param string $file Text name, as the manifest gives it.
+ * @return string The text, or '' when there is none or it fails a check.
  */
 function paulus_content_file( $file ) {
-	$path = PAULUS_DIR . '/content/articles/' . basename( $file );
-	return file_exists( $path ) ? (string) file_get_contents( $path ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$name = basename( (string) $file );
+	$stem = preg_replace( '/\.(html?|json)$/', '', $name );
+	if ( ! preg_match( '/^[a-z0-9][a-z0-9-]*$/', $stem ) ) {
+		return '';
+	}
+	static $cache = array();
+	if ( isset( $cache[ $stem ] ) ) {
+		return $cache[ $stem ];
+	}
+	$path = PAULUS_DIR . '/content/articles/' . $stem . '.json';
+	$doc  = is_readable( $path ) ? json_decode( (string) file_get_contents( $path ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$ok   = is_array( $doc )
+		&& 'wordpress-post-content' === ( $doc['format'] ?? '' )
+		&& $stem === preg_replace( '/\.(html?|json)$/', '', (string) ( $doc['name'] ?? '' ) )
+		&& is_string( $doc['content'] ?? null )
+		&& md5( $doc['content'] ) === ( $doc['md5'] ?? '' );
+	return $cache[ $stem ] = $ok ? $doc['content'] : '';
 }
 
 /**
