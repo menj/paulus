@@ -268,11 +268,26 @@ function paulus_incidents( $limit = 200 ) {
  */
 function paulus_trim_incidents() {
 	$file = WP_CONTENT_DIR . '/paulus-incidents.log.php';
-	if ( is_file( $file ) && filesize( $file ) > 204800 && is_writable( $file ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
-		$lines = array_slice( (array) file( $file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES ), -500 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-		$lines = array_values( array_filter( $lines, static fn( $l ) => 0 !== strpos( $l, '<?php' ) ) );
-		file_put_contents( $file, "<?php exit; ?>\n" . implode( "\n", $lines ) . "\n", LOCK_EX ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( ! is_file( $file ) || filesize( $file ) <= 204800 || ! is_writable( $file ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
+		return;
 	}
+	// Read and rewritten under one lock on one handle: the error page appends
+	// with LOCK_EX, so an incident recorded meanwhile waits and lands after
+	// the rewrite instead of being lost with a stale copy.
+	$fh = fopen( $file, 'r+' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( ! $fh ) {
+		return;
+	}
+	if ( flock( $fh, LOCK_EX ) ) {
+		$lines = preg_split( '/\R/', (string) stream_get_contents( $fh ), -1, PREG_SPLIT_NO_EMPTY );
+		$lines = array_slice( array_values( array_filter( $lines, static fn( $l ) => 0 !== strpos( $l, '<?php' ) ) ), -500 );
+		ftruncate( $fh, 0 );
+		rewind( $fh );
+		fwrite( $fh, "<?php exit; ?>\n" . implode( "\n", $lines ) . "\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		fflush( $fh );
+		flock( $fh, LOCK_UN );
+	}
+	fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 }
 
 /**
@@ -411,8 +426,14 @@ function paulus_error_watch() {
 	$state = (array) get_option( 'paulus_error_watch', array() );
 	$since = (int) ( $state['checked'] ?? ( time() - HOUR_IN_SECONDS ) );
 	$new   = paulus_new_fatals( $since );
-	$state['checked'] = time();
-	if ( $new['count'] && paulus_option( 'error_alerts' ) && time() - (int) ( $state['mailed'] ?? 0 ) > 6 * HOUR_IN_SECONDS ) {
+	$now   = time();
+	// The mark moves on only once the errors since it are dealt with: none
+	// came, alerts are off, or the email went. An email held back by the
+	// six-hour limit, or one that failed, leaves the mark where it was, so
+	// those errors are in the next email.
+	if ( ! $new['count'] || ! paulus_option( 'error_alerts' ) ) {
+		$state['checked'] = $now;
+	} elseif ( $now - (int) ( $state['mailed'] ?? 0 ) > 6 * HOUR_IN_SECONDS ) {
 		$site = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
 		/* translators: 1: site name, 2: number of errors. */
 		$subject = sprintf( __( '[%1$s] %2$d new fatal errors on the site', 'paulus' ), $site, $new['count'] );
@@ -422,9 +443,11 @@ function paulus_error_watch() {
 			home_url( '/' )
 		) . implode( "\n", $new['lines'] ) . "\n\n" . __( 'The dashboard shows the details:', 'paulus' ) . ' ' . admin_url() . "\n" . __( 'These emails can be switched off under Appearance, Theme Options, Maintenance.', 'paulus' );
 		if ( wp_mail( get_option( 'admin_email' ), $subject, $body ) ) {
-			$state['mailed'] = time();
+			$state['mailed']  = $now;
+			$state['checked'] = $now;
 		}
 	}
+	$state['checked'] = $state['checked'] ?? $since;
 	update_option( 'paulus_error_watch', $state, false );
 }
 add_action( 'paulus_error_watch', 'paulus_error_watch' );
