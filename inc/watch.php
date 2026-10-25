@@ -540,7 +540,10 @@ function paulus_remove_tree( $root ) {
 		if ( $f->isDir() && ! $f->isLink() ) {
 			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
 		} else {
-			@chmod( $f->getPathname(), 0644 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions -- git's pack files are read-only.
+			if ( ! $f->isLink() ) {
+				// git's pack files are read-only. chmod follows links, so a link is left as it is.
+				@chmod( $f->getPathname(), 0644 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
+			}
 			wp_delete_file( $f->getPathname() );
 			$gone += file_exists( $f->getPathname() ) || is_link( $f->getPathname() ) ? 0 : 1;
 		}
