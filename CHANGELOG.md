@@ -2,6 +2,34 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.41] - 2026-10-25
+
+From the site's own logs: the PHP error logs (3 to 25 October), the access logs over HTTPS and HTTP (25 September to 25 October) and the FTP logs, 750,790 lines in all, each classified (none left over). What they showed, and what changed:
+
+### Added
+- **Maintenance mode** (Theme Options, Maintenance). It is the file `.paulus-maintenance` in the site's folder (`paulus_maintenance_flag()`): the checkbox makes and deletes it, and a file made or deleted by FTP sets the checkbox on the next admin page. While it exists, visitors get the maintenance page with `503` and `Retry-After: 300`; anyone signed in (the login cookie), the login screen and the hidden login address, the admin, cron, AJAX and the command line pass. The check is the first thing `functions.php` does, before any other theme file loads. The admin bar shows "Maintenance mode is on" while it is.
+- **A web-server safety net** for maintenance: a block at the top of `.htaccess` (between `# BEGIN Paulus maintenance` and `# END`), written by `paulus_install_htaccess()` on Apache and LiteSpeed when the file is writable, and removed when the theme is switched off. It serves the static `wp-content/paulus-maintenance.html` with `503` while the flag file exists, without PHP, so maintenance holds while WordPress itself is uploaded file by file (on 10 October a core upload by FTP, 3,343 files, left WordPress unable to start for about an hour, from 11:50 to 12:50 local time, and nothing could answer: the logs show 260 fatal errors and 101 warnings from missing WordPress files). It acts only on the request as it arrived (`%{ENV:REDIRECT_STATUS}` empty), so WordPress's own rewrite to `index.php` and the error page's internal fetch pass. Tested on Apache 2.4 with WordPress broken and working: the page, its stylesheet, the login screen, the hidden login, the admin and signed-in users pass; everything else is 503.
+- **A guard against half-uploaded themes.** `functions.php` checks that every file in `inc/` is there before loading any (`paulus_theme_files()`), and loads each through `paulus_require()` inside a `try`, so a file not yet uploaded or half written (a `ParseError`) gives the maintenance page instead of a fatal error, for visitors and the admin alike; the login screen, cron and AJAX go on without the theme. The logs had 15 such fatal errors (24 entries with their warnings) on 9 and 25 October, during uploads of 1,150 to 2,200 files that took 12 to 22 minutes each.
+- **The error watch** (`inc/watch.php`): the PHP error page now records each incident in `wp-content/paulus-incidents.log.php` (it begins with an `exit`, so it cannot be read over the web; kept under 256 KB). A dashboard panel, "Errors and maintenance", shows maintenance, the safety net, the error pages, the errors visitors met in the last 14 days, and the server's PHP error log for the last 7 days, grouped by message, with what raised each (this theme, a named plugin, WordPress, the database) and, for the messages this site has logged, what it means and what to do. An hourly check emails the administration address when new fatal errors appear, at most once in six hours (Theme Options, Maintenance).
+- **Retired files removed.** An FTP upload copies files but deletes none, so what 2.62.38 and 2.62.39 removed (the `.html` and `.txt` content sources, `content/src/`, `build.py`, `sblgnt/`, `__pycache__/`) stayed on the server, and the uploads of 25 October were still sending `build.py`. `paulus_cleanup_retired_files()` removes exactly those paths, inside the theme folder, once per version and weekly.
+
+### Changed
+- **The PHP error page** tells an upload in progress from an error: a file missing or half written in the theme or in WordPress is answered `503` with "Back shortly" and a refresh; anything else `500` as before.
+- **The error pages keep their look while the theme is uploaded:** they use a copy of their stylesheet in `wp-content/paulus-error-page.css` (the logs show `fonts.css` and `error-page.css` missing during uploads), and the drop-ins are written again whenever one is missing, not only when the version changes (a deleted drop-in was never restored).
+- **`?author=N` no longer reveals login names.** The theme's redirect of author archives to the author's page runs before WordPress's `redirect_canonical`, which first sent `?author=N` to `/author/<login>/` (401 such probes in the logs). No author archive renders, so Rank Math's author snippet no longer warns there (17 warnings).
+
+### Fixed
+- **The endless `/?j=<number>` addresses.** From 25 September the site was asked for 488,274 of them, 488,057 by Googlebot (its own addresses, 66.249.x), up to 128,156 a day, 80% of all requests to the site in late September, each a full render of the home page; the theme never made such links. They are sent to `/` with a `301` before WordPress queries the database (`paulus_fold_query_trap()`).
+- **Old image addresses** (`.webp` before 2.62.40, `.jpg` before that) that still have an AVIF are sent to it with a `301`, so they keep their place in image search.
+- **Spam from the domain's earlier life** answers `410 Gone` when WordPress finds nothing: gambling addresses in several languages (`casino`, `pokies`, `gokkasten`, `speelautomaten`, `hracich automatech`, `spielbanken` and others, 2,527 requests), dated addresses (`/2025/12/19/…`, 1,026 requests; this site has never used dates in its addresses) and WordPress's `sample-page` and `hello-world`.
+
+### Not the theme's, for the owner
+- **Rank Math's Analytics table is missing** (`rank_math_analytics_objects`, 137 database errors, from post saves during the sync and from page views): switch Rank Math's Analytics module off and on, or recreate its tables under Status & Tools, Database Tools.
+- **Installing a theme from the dashboard is refused** (`theme-install.php` answered 500 38 times; most likely `DISALLOW_FILE_MODS` in `wp-config.php` or a security plugin), which is why updates go by FTP.
+- **`wp-login.php` is open and brute-forced** (11,287 login attempts in October, 7,093 of them from three addresses in 91.92.243.x): set the hidden login address (Settings, Permalinks, "Login address").
+- **`edit.php?post_type=shop_order`** (WooCommerce orders) answered 500 15 times: a link to WooCommerce, which is not active.
+- **Compression and cache lifetimes** are still off on the server (see 2.62.40).
+
 ## [2.62.40] - 2026-10-25
 
 ### Changed

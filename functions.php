@@ -12,6 +12,118 @@ define( 'PAULUS_VERSION', (string) wp_get_theme( basename( __DIR__ ) )->get( 'Ve
 define( 'PAULUS_DIR', get_stylesheet_directory() );
 define( 'PAULUS_URI', get_stylesheet_directory_uri() );
 
+/*
+ * Maintenance, and a theme caught half uploaded.
+ *
+ * Both are decided here, before any other file of the theme is read, so
+ * they work when the rest of the theme cannot load. The maintenance page is
+ * the static copy in wp-content (paulus-maintenance.html, written with the
+ * error-page drop-ins), sent with 503 and Retry-After, so search engines
+ * keep the pages they have and come back.
+ */
+
+/**
+ * The file whose presence turns maintenance on: in the site's folder, so it
+ * can be made or deleted by FTP when WordPress itself is down. The same file
+ * drives the .htaccess rule that serves the page without PHP.
+ *
+ * @return string
+ */
+function paulus_maintenance_flag() {
+	return ABSPATH . '.paulus-maintenance';
+}
+
+/**
+ * Whether this request passes through maintenance: a signed-in user (going
+ * by the login cookie, as the .htaccess rule does), the login screen and the
+ * hidden login address, the admin, cron, AJAX and the command line (a
+ * server's cron running wp-cron.php, WP-CLI).
+ *
+ * @return bool
+ */
+function paulus_maintenance_bypass() {
+	if ( is_admin() || wp_doing_cron() || wp_doing_ajax() || 'cli' === PHP_SAPI || 'wp-login.php' === ( $GLOBALS['pagenow'] ?? '' ) ) {
+		return true;
+	}
+	foreach ( array_keys( $_COOKIE ) as $name ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		if ( 0 === strpos( (string) $name, 'wordpress_logged_in_' ) ) {
+			return true;
+		}
+	}
+	$slug = sanitize_title_with_dashes( (string) get_option( 'whl_page', '' ) );
+	$path = trim( (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ), '/' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	return '' !== $slug && ( $slug === $path || isset( $_GET[ $slug ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+}
+
+/**
+ * Send the maintenance page and stop.
+ */
+function paulus_serve_maintenance() {
+	if ( ! headers_sent() ) {
+		status_header( 503 );
+		header( 'Retry-After: 300' );
+		header( 'Cache-Control: no-store, max-age=0' );
+		header( 'Content-Type: text/html; charset=utf-8' );
+	}
+	$page = WP_CONTENT_DIR . '/paulus-maintenance.html';
+	if ( is_readable( $page ) ) {
+		readfile( $page ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	} else {
+		echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="60"><title>Back shortly</title></head><body><h1>Back shortly</h1><p>The site is being updated. Please try again in a few minutes.</p></body></html>';
+	}
+	exit;
+}
+
+if ( file_exists( paulus_maintenance_flag() ) && ! paulus_maintenance_bypass() ) {
+	paulus_serve_maintenance();
+}
+
+/**
+ * The theme's PHP files, in the order they load.
+ *
+ * @return string[]
+ */
+function paulus_theme_files() {
+	return array( 'defaults', 'options-fields', 'options-render', 'shortcodes', 'structure', 'importer', 'seo', 'figures', 'media', 'charts', 'dashboard', 'journal', 'schema-deep', 'unlist', 'search-permalinks', 'hide-login', 'login', 'dropins', 'honorific', 'search', 'links', 'watch' );
+}
+
+/**
+ * A theme uploaded file by file (by FTP) is incomplete for minutes: a file
+ * not yet there, or there but half written. Requiring it would end the
+ * request in a fatal error, for every visitor. Instead every file is checked
+ * first and each is loaded inside a try, so a half-written one (a ParseError)
+ * is caught; while anything is wrong, visitors and the admin get the
+ * maintenance page and the theme stops loading. The login screen, cron and
+ * AJAX go on without the theme. What was wrong is kept for the error log.
+ *
+ * @param string $name File name in inc/, without .php.
+ * @return bool Whether it loaded.
+ */
+function paulus_require( $name ) {
+	$path = PAULUS_DIR . '/inc/' . $name . '.php';
+	try {
+		if ( ! is_readable( $path ) ) {
+			throw new RuntimeException( 'inc/' . $name . '.php is missing' );
+		}
+		require_once $path;
+		return true;
+	} catch ( Throwable $e ) {
+		error_log( 'Paulus: the theme is incomplete or being uploaded (' . $e->getMessage() . '); the maintenance page is shown until it is whole.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		if ( ! wp_doing_cron() && ! wp_doing_ajax() && 'wp-login.php' !== ( $GLOBALS['pagenow'] ?? '' ) && 'cli' !== PHP_SAPI ) {
+			paulus_serve_maintenance();
+		}
+		return false;
+	}
+}
+
+foreach ( paulus_theme_files() as $paulus_file ) {
+	if ( ! is_readable( PAULUS_DIR . '/inc/' . $paulus_file . '.php' ) ) {
+		paulus_require( $paulus_file );
+		return;
+	}
+}
+unset( $paulus_file );
+
 /**
  * Warn if the parent is missing or older than the version Paulus is built against.
  */
@@ -145,7 +257,9 @@ function paulus_ustrtolower( $s ) {
 	return function_exists( 'mb_strtolower' ) ? mb_strtolower( $s ) : strtolower( (string) $s );
 }
 
-require_once PAULUS_DIR . '/inc/defaults.php';
+if ( ! paulus_require( 'defaults' ) ) {
+	return;
+}
 
 /**
  * One-time upgrade: sites that saved Theme Options before 1.2.3 stored an
@@ -487,28 +601,15 @@ function paulus_run_upgrades() {
 	paulus_upgrade_26217();
 }
 add_action( 'admin_init', 'paulus_run_upgrades' );
-require_once PAULUS_DIR . '/inc/options-fields.php';
-require_once PAULUS_DIR . '/inc/options-render.php';
-require_once PAULUS_DIR . '/inc/shortcodes.php';
-require_once PAULUS_DIR . '/inc/structure.php';
-require_once PAULUS_DIR . '/inc/importer.php';
-require_once PAULUS_DIR . '/inc/seo.php';
-require_once PAULUS_DIR . '/inc/figures.php';
-require_once PAULUS_DIR . '/inc/media.php';
-require_once PAULUS_DIR . '/inc/charts.php';
-require_once PAULUS_DIR . '/inc/dashboard.php';
-require_once PAULUS_DIR . '/inc/journal.php';
-require_once PAULUS_DIR . '/inc/schema-deep.php';
-// Built in from three GPL plugins (see LICENSES.md and the README): each uses
-// the plugin's own settings and stands down while the plugin is active.
-require_once PAULUS_DIR . '/inc/unlist.php';
-require_once PAULUS_DIR . '/inc/search-permalinks.php';
-require_once PAULUS_DIR . '/inc/hide-login.php';
-require_once PAULUS_DIR . '/inc/login.php';
-require_once PAULUS_DIR . '/inc/dropins.php';
-require_once PAULUS_DIR . '/inc/honorific.php';
-require_once PAULUS_DIR . '/inc/search.php';
-require_once PAULUS_DIR . '/inc/links.php';
+// Built in from three GPL plugins (see LICENSES.md and the README): unlist,
+// search-permalinks and hide-login each use the plugin's own settings and
+// stand down while the plugin is active.
+foreach ( array_slice( paulus_theme_files(), 1 ) as $paulus_file ) {
+	if ( ! paulus_require( $paulus_file ) ) {
+		return;
+	}
+}
+unset( $paulus_file );
 
 /**
  * Preload the three fonts every page paints with above the fold, so the

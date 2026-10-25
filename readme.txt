@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.40
+Stable tag: 2.62.41
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,12 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.41 =
+* Maintenance mode (Theme Options, Maintenance): visitors see the "Back shortly" page with a 503 while anyone signed in sees the site. It holds even while WordPress itself is being uploaded, through a rule the theme writes into .htaccess, and it can be ended by deleting one file by FTP.
+* A theme caught half uploaded shows the maintenance page instead of a fatal error, and an error during an upload is answered as maintenance, not as a crash.
+* Errors and maintenance on the dashboard: the errors visitors met, the PHP error log of the week grouped with what each means, and an email when new fatal errors appear.
+* Files earlier releases retired are removed from the server; the old spam addresses answer 410 Gone; the endless /?j= addresses Google crawled go to the home page; old image addresses go to their AVIF; ?author=N no longer reveals login names.
 
 = 2.62.40 =
 * Faster pages: every image is AVIF (the WebP copies removed), EB Garamond is split so a page downloads only the characters it shows, and the main image and fonts are preloaded.

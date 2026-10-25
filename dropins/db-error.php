@@ -16,7 +16,7 @@ if ( ! headers_sent() ) {
 <meta http-equiv="refresh" content="60">
 <title>Temporarily unavailable | {{SITE_NAME}}</title>
 <link rel="stylesheet" href="{{THEME_URL}}/assets/css/fonts.css">
-<link rel="stylesheet" href="{{THEME_URL}}/assets/css/error-page.css">
+<link rel="stylesheet" href="{{CONTENT_URL}}/paulus-error-page.css">
 </head>
 <body>
 <main role="main">
