@@ -18,8 +18,7 @@ def kjv(ref):
             d=json.load(r)
     except (OSError,ValueError) as e:
         sys.exit(f'Could not fetch {ref} from bible-api.com ({e}); add it to {CACHE} or retry with a network connection.')
-    # The fetched text is data from another site: escaped before it is set in HTML.
-    verses=[(v['verse'],html.escape(' '.join(v['text'].split()),quote=False)) for v in d['verses']]
+    verses=[(v['verse'],' '.join(v['text'].split())) for v in d['verses']]
     cache[ref]=verses
     with open(CACHE,'w',encoding='utf-8') as f: json.dump(cache,f,ensure_ascii=False)
     return verses
@@ -91,7 +90,9 @@ def build(src,dst,prefix):
         return f'<sup><a href="#fn{prefix}-{n}" id="ref{prefix}-{n}">{n}</a></sup>'
     def kj(ref):
         ref=ref.strip(); vs=kjv(ref)
-        body=' '.join(f'<span class="v">{n}</span>{tx}' for n,tx in vs)
+        # The fetched text is data from another site: escaped as it is set in
+        # HTML, so a cache written before this check is covered as well.
+        body=' '.join(f'<span class="v">{n}</span>{html.escape(tx,quote=False)}' for n,tx in vs)
         gk=greek(ref)
         if gk:
             gbody=' '.join(f'<span class="v">{n}</span>{tx}' for n,tx in gk)

@@ -859,13 +859,16 @@ function paulus_webpage_schema( $website ) {
 	// An archive (a section, the Journal, a date) is a page of its own, not
 	// the first post in its loop, so its address and name are the archive's.
 	if ( is_search() ) {
-		$url  = home_url( '/?s=' . rawurlencode( get_search_query( false ) ) );
+		// The same address as the canonical: the clean one where the site
+		// uses clean search addresses.
+		$url  = get_search_link();
 		$name = sprintf( /* translators: %s: search terms. */ __( 'Search results for “%s”', 'paulus' ), get_search_query( false ) );
 	} elseif ( is_front_page() ) {
 		$url  = home_url( '/' );
 		$name = get_bloginfo( 'name' );
 	} elseif ( is_category() ) {
-		$url  = get_term_link( get_queried_object() );
+		// With the page number, as the canonical carries it.
+		$url  = paulus_archive_url();
 		$name = single_cat_title( '', false );
 	} elseif ( is_archive() ) {
 		$url  = paulus_archive_url();

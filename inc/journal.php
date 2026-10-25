@@ -83,13 +83,16 @@ add_filter( 'query_vars', 'paulus_journal_query_vars' );
  *
  * @param int $post_id Post ID.
  */
-function paulus_journal_months_clear( $post_id ) {
-	if ( 'paulus_journal' === get_post_type( $post_id ) ) {
+function paulus_journal_months_clear( $post_id, $post = null ) {
+	// On deleted_post the row is already gone, so the type is read from the
+	// post object the hook passes, not looked up by ID.
+	$type = $post instanceof WP_Post ? $post->post_type : get_post_type( $post_id );
+	if ( 'paulus_journal' === $type ) {
 		delete_transient( 'paulus_journal_months' );
 	}
 }
-add_action( 'save_post_paulus_journal', 'paulus_journal_months_clear' );
-add_action( 'deleted_post', 'paulus_journal_months_clear' );
+add_action( 'save_post_paulus_journal', 'paulus_journal_months_clear', 10, 2 );
+add_action( 'deleted_post', 'paulus_journal_months_clear', 10, 2 );
 add_action( 'trashed_post', 'paulus_journal_months_clear' );
 add_action( 'untrashed_post', 'paulus_journal_months_clear' );
 

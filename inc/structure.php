@@ -51,9 +51,12 @@ function paulus_chapters( $term_id = 0 ) {
 	// A single article view asks for this list from five places (the hero,
 	// the rail, the series list, the reading order, the related articles),
 	// so the result is kept for the rest of the request.
+	// The reading navigation of an unlisted article lifts the unlisting
+	// filter for one call, so the two states are kept apart.
 	static $cache = array();
-	if ( isset( $cache[ (int) $term_id ] ) ) {
-		return $cache[ (int) $term_id ];
+	$key = (int) $term_id . ( function_exists( 'paulus_unlist_query' ) && has_action( 'pre_get_posts', 'paulus_unlist_query' ) ? ':listed' : ':all' );
+	if ( isset( $cache[ $key ] ) ) {
+		return $cache[ $key ];
 	}
 	$args = array(
 		'post_type'      => 'post',
@@ -75,8 +78,8 @@ function paulus_chapters( $term_id = 0 ) {
 	if ( $term_id ) {
 		$args['cat'] = (int) $term_id;
 	}
-	$cache[ (int) $term_id ] = get_posts( $args );
-	return $cache[ (int) $term_id ];
+	$cache[ $key ] = get_posts( $args );
+	return $cache[ $key ];
 }
 
 /**

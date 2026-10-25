@@ -242,11 +242,6 @@ function paulus_sanitize_options( $input ) {
 }
 
 /**
- * Allowed markup for footer badges: links and images, nothing else.
- *
- * @return array
- */
-/**
  * Allowed markup in the author bio: links and light emphasis, nothing else.
  *
  * @return array
@@ -260,6 +255,11 @@ function paulus_bio_kses() {
 	);
 }
 
+/**
+ * Allowed markup for footer badges: links and images, nothing else.
+ *
+ * @return array
+ */
 function paulus_badge_kses() {
 	return array(
 		'a'   => array( 'href' => true, 'title' => true, 'rel' => true, 'target' => true ),

@@ -60,6 +60,14 @@ function paulus_search_highlight( $text ) {
 	// (the previous approach) let a term such as "quot" or "amp" split an
 	// entity, and replacing per term in a loop let a term such as "mark"
 	// match inside the <mark> tags an earlier replacement had inserted.
+	// Longer terms first: with "Paul" before "Paulus", the alternation
+	// would stop at "Paul" and mark only part of the longer word.
+	usort(
+		$terms,
+		static function ( $a, $b ) {
+			return paulus_ulen( $b ) <=> paulus_ulen( $a );
+		}
+	);
 	$alternatives = array_map(
 		static function ( $t ) {
 			return preg_quote( $t, '/' );

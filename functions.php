@@ -135,6 +135,16 @@ function paulus_ustrtoupper( $s ) {
 	return function_exists( 'mb_strtoupper' ) ? mb_strtoupper( $s ) : strtoupper( (string) $s );
 }
 
+/**
+ * mb_strtolower() with the same fallback.
+ *
+ * @param string $s String.
+ * @return string
+ */
+function paulus_ustrtolower( $s ) {
+	return function_exists( 'mb_strtolower' ) ? mb_strtolower( $s ) : strtolower( (string) $s );
+}
+
 require_once PAULUS_DIR . '/inc/defaults.php';
 
 /**
