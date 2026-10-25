@@ -32,6 +32,9 @@ Findings of a review of the whole codebase, each checked against the code before
 ### Removed
 - `paulus_redirect_old_page_slugs()`, unhooked since redirects were left to the site owner.
 
+### Changed
+- `screenshot.png` is captured again from this release, at 1200 by 900 (rendered at double resolution and scaled down) from WordPress 7.1.3 with the site's content installed by the theme's own installer, composed as before: the header and the hero only, the hero given the frame's height beneath the header, its text starting close under the header's border and the portrait, at 665 pixels, standing on the lower border. The site itself is unchanged.
+
 ## [2.62.30] - 2026-10-25
 
 ### Added
