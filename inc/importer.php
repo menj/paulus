@@ -27,29 +27,62 @@ function paulus_manifest() {
 }
 
 /**
+ * One-time rename of the stored text names, from 2.62.39.
+ *
+ * Until 2.62.38 the manifest named each text by its earlier .html name, and
+ * the records that tell an edited article from an untouched one were keyed
+ * by it: the shipped hashes (paulus_content_hashes) and the list of hand
+ * edits kept (paulus_kept_edits). The texts are named by their .json files
+ * now, so those keys are renamed once, before anything reads them, and
+ * every article keeps its protection.
+ */
+function paulus_migrate_text_names() {
+	if ( 'json' === get_option( 'paulus_text_names' ) ) {
+		return;
+	}
+	$rename = static function ( $name ) {
+		return preg_replace( '/\.html$/', '.json', (string) $name );
+	};
+	$known = array();
+	foreach ( (array) get_option( 'paulus_content_hashes', array() ) as $name => $entry ) {
+		$known[ $rename( $name ) ] = $entry;
+	}
+	update_option( 'paulus_content_hashes', $known, false );
+	$kept = (array) get_option( 'paulus_kept_edits', array() );
+	foreach ( $kept as $id => $row ) {
+		if ( is_array( $row ) && isset( $row['file'] ) ) {
+			$kept[ $id ]['file'] = $rename( $row['file'] );
+		}
+	}
+	update_option( 'paulus_kept_edits', $kept, false );
+	update_option( 'paulus_text_names', 'json', true );
+}
+add_action( 'init', 'paulus_migrate_text_names', 1 );
+
+/**
  * Read a bundled content file: the text an article, page or Journal entry
  * is installed with.
  *
  * The texts ship as JSON, one file each in content/articles/, holding the
  * text with its name, its format and its MD5:
  *
- *     { "name": "c05-adapting-the-message.html",
+ *     { "name": "c05-adapting-the-message.json",
  *       "format": "wordpress-post-content",
  *       "md5": "…", "content": "…" }
  *
- * The manifest still names each text by its original name (…html), since
- * the hashes that tell an edited article from an untouched one are keyed by
- * it on every site; that name is mapped to its .json file here. Only a
- * plain name is accepted (letters, digits and hyphens), the file must be
- * well-formed JSON of that format, name itself, and match its MD5. Anything
- * else is refused and nothing is installed from it.
+ * The manifest names each text by its file (c05-adapting-the-message.json).
+ * Only a plain name is accepted, letters, digits and hyphens, with or
+ * without its .json ending; any other ending, a path or a stray character
+ * is refused. The file must be well-formed JSON of that format, name
+ * itself, and match its MD5. Anything else is refused and nothing is
+ * installed from it. No other format is ever read for the database.
  *
  * @param string $file Text name, as the manifest gives it.
  * @return string The text, or '' when there is none or it fails a check.
  */
 function paulus_content_file( $file ) {
-	$ext  = '/\.(html?|json)$/';
-	$stem = preg_replace( $ext, '', basename( (string) $file ) );
+	$ext  = '/\.json$/';
+	$stem = preg_replace( $ext, '', (string) $file );
 	if ( ! preg_match( '/^[a-z0-9][a-z0-9-]*$/', $stem ) ) {
 		return '';
 	}
@@ -1396,15 +1429,15 @@ function paulus_kept_edits_pending() {
 /**
  * Whether an article was divided, so that a later part now opens with
  * sections its old text still holds: its file has a numbered successor
- * (name-2.html) among the theme's articles.
+ * (name-2.json) among the theme's articles.
  *
  * @param string $file Article file.
  * @return bool
  */
 function paulus_is_divided( $file ) {
-	$base = preg_replace( '/\.html$/', '', (string) $file );
+	$base = preg_replace( '/\.json$/', '', (string) $file );
 	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $item ) {
-		if ( ( $base . '-2.html' ) === ( $item['file'] ?? '' ) ) {
+		if ( ( $base . '-2.json' ) === ( $item['file'] ?? '' ) ) {
 			return true;
 		}
 	}

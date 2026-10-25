@@ -344,6 +344,10 @@ add_shortcode( 'paulus_email', 'paulus_sc_email' );
 function paulus_sc_theme_page( $atts ) {
 	$atts = shortcode_atts( array( 'file' => '' ), $atts, 'paulus_theme_page' );
 	$file = sanitize_file_name( basename( (string) $atts['file'] ) );
+	// A Contact template customised in the Site Editor before 2.62.39 keeps
+	// the text's earlier name (legal-contact.html) in the database; it names
+	// the same text, which is read from its .json file like every other.
+	$file = preg_replace( '/\.html$/', '.json', $file );
 	// Rendered here, after the_content has run, so it drops its own review notes.
 	$html = '' !== $file ? paulus_strip_review_notes( paulus_content_file( $file ) ) : '';
 	if ( '' === trim( $html ) ) {

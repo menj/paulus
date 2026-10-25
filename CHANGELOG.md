@@ -2,6 +2,23 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.39] - 2026-10-25
+
+### Changed
+- Every text the theme writes into the database is named by its JSON file. The manifest named each text by its earlier `.html` name (`'file' => 'churches.html'`), and so did the `name` field inside each file, the earlier-hash keys in `prior_hashes`, three one-time upgrades in `functions.php`, the check for articles in two parts (`paulus_is_divided()`) and the Contact template's `[paulus_theme_page file="…"]`. All now use the `.json` name (`'file' => 'churches.json'`); the texts themselves are unchanged, byte for byte, with the same MD5.
+- `paulus_content_file()` accepts only a plain name, with or without `.json`. A name ending in `.html`, `.txt` or anything else, or holding a path, is refused, and nothing is read. JSON is the only format ever read to fill the database.
+
+### Added
+- `paulus_migrate_text_names()` renames, once, the records each site keeps under the old names: the shipped hashes (`paulus_content_hashes`) and the hand edits kept (`paulus_kept_edits`). It runs on `init` before anything reads them and is recorded in `paulus_text_names`, so every article keeps its edit protection and the dashboard's list of kept edits still opens the right text.
+- A Contact template customised in the Site Editor before this release keeps `file="legal-contact.html"` in the database; the shortcode maps that name to `legal-contact.json`.
+
+### Checked
+- All 80 files: valid JSON, exactly the keys `name`, `format`, `md5`, `content`, each named for itself, each MD5 matching, valid UTF-8; the manifest lists exactly these 80, and its 435 earlier-hash keys all name `.json` files.
+- An upgrade from 2.62.38 (keys under the old names, one article edited by hand): all 80 keys renamed, no unedited article rewritten, the edit kept and listed, and restored from the theme's text by its new name.
+- A new site, populated from an empty database: all 80 texts installed, each exactly equal to its file.
+
+The block templates in `templates/` and `parts/` stay `.html`: WordPress reads a block theme's templates only from `.html` files and renders them from disk; the theme never writes them into the database.
+
 ## [2.62.38] - 2026-10-25
 
 ### Added

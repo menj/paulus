@@ -213,7 +213,7 @@ function paulus_upgrade_150() {
 	}
 	$page = get_page_by_path( 'the-book' );
 	if ( $page && '0898d6473163a9dc911372ecfd2cb5f2' === md5( $page->post_content ) ) {
-		$new = paulus_content_file( 'the-book.html' );
+		$new = paulus_content_file( 'the-book.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $page->ID, 'post_content' => $new ) );
 		}
@@ -279,14 +279,14 @@ function paulus_upgrade_200() {
 	}
 	$post = get_page_by_path( 'the-foundations-of-pauline-doctrine', OBJECT, 'post' );
 	if ( $post && '0a549bd2d8351ddaff1a8c2dbfb02ab9' === md5( $post->post_content ) ) {
-		$new = paulus_content_file( '04-foundations-of-pauline-doctrine.html' );
+		$new = paulus_content_file( '04-foundations-of-pauline-doctrine.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		}
 	}
 	$post = get_page_by_path( 'an-epistle-to-the-churches-of-paul', OBJECT, 'post' );
 	if ( $post && 'c9709b5a7b978e4ff6946cb112389324' === md5( $post->post_content ) ) {
-		$new = paulus_content_file( '11-epistle.html' );
+		$new = paulus_content_file( '11-epistle.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		}
