@@ -4,8 +4,7 @@
  *
  * Each chart is plain HTML (labelled bars with their values written out), so
  * it takes the active colour scheme, reads well in print and screen readers,
- * and needs no script. Articles place one with {{chart:name}}, which build.py
- * turns into [paulus_chart id="name"].
+ * and needs no script. Articles place one with [paulus_chart id="name"].
  *
  * @package Paulus
  */

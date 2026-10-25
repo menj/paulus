@@ -422,6 +422,11 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .paulus-figure figcaption { font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.45; color: var(--t-muted); margin-top: 0.6rem; text-align: left; }
 .paulus-prose .paulus-figure__credit { display: block; font-family: var(--t-label); font-size: 0.72rem; color: var(--t-accent-deep); margin-top: 0.3rem; }
 .paulus-prose .paulus-figure__credit a { color: inherit; }
+/* Readers' photos on the book page: the first across the column, the rest in pairs. */
+.paulus-prose .paulus-readers { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; margin: 2.25rem 0; }
+.paulus-prose .paulus-readers .paulus-figure { margin: 0; }
+.paulus-prose .paulus-readers .paulus-figure:first-of-type { grid-column: 1 / -1; }
+@media (max-width: 640px) { .paulus-prose .paulus-readers { grid-template-columns: 1fr; } }
 
 /* The same rule for every other image in the text, including images added in
    the editor: the frame is the image, with no empty space around it. */

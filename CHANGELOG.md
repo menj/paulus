@@ -2,6 +2,34 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.38] - 2026-10-25
+
+### Added
+- Three figures, each identified on Wikimedia Commons (the files supplied match the Commons files pixel for pixel), checked against every image the theme ships by perceptual fingerprint so none repeats an existing one, and credited by the theme's own figure caption:
+  - Raphael, *Saint Paul Preaching in Athens* (1515), tapestry cartoon, Royal Collection, on loan to the Victoria and Albert Museum. Public domain. In "Adapting the message to the pagans", beside the Areopagus.
+  - Enrique Simonet, *The Beheading of Saint Paul* (1887), Málaga Cathedral. Public domain. In "A death the scriptures never record", after the Tre Fontane relief and the tomb.
+  - Pierre-Étienne Monnot, statue of Paul in the nave of the Basilica of Saint John Lateran, photographed by Jastrow, CC BY 2.5. In "Paul in the churches", beside the Lateran ciborium.
+- A fourth: Giovanni Antonio Molineri, *The Martyrdom of Saint Paul* (about 1620), Galleria Sabauda, Turin, public domain, found on Commons by its perceptual fingerprint (the file supplied matches it at 5 of 256). In "Paul in the churches", beside the Tre Fontane relief.
+- A fifth: the beheading of Paul in the Saint-Bertin picture book of the saints, Saint-Omer, about 1200 (The Hague, Koninklijke Bibliotheek, 76 F 5, fol. 29r), public domain, from the copy the owner found on PICRYL; it is not on Commons. In "The failed prophet", after "beheaded in Rome", the first figure in that article. A faithful photograph of a medieval page carries no new copyright (Article 14 of the EU copyright directive of 2019, law in the Netherlands since 2020), so it is credited as public domain, with the library and shelfmark.
+- The book page has a section "The book in readers' hands", before the catalogue record: three of the author's photographs (a family of readers at a signing, a reader with his copy, the book in hand), credited "MENJ, All rights reserved" like his other own work. They sit in a grid (`.paulus-readers` in `theme.css`): the first across the column, the other two side by side, one column on a phone. The selfie was mirrored by the phone camera, so the cover read backwards; it is flipped back. Each is cropped to its subject (the sofa ends and the table clutter, the clock and monitor behind the book, the restaurant ceiling), the pair below to one shape so their tops and bottoms align, with a light contrast, colour and sharpening pass.
+- `assets/images/church/` holds each at up to 1400 pixels (AVIF) and 720 (WebP), recorded in `sizes.json`, `files.json` and `commons-meta.json`. The content version moves to 2.62.38, so the five texts take the new figures on every site where they were never edited by hand (their earlier shipped texts are in `prior_hashes` as `#r38`); an edited copy is kept and listed on the dashboard.
+
+### Changed
+- The texts the installer writes into the database ship as JSON, one file per text in `content/articles/` (`name`, `format`, `md5`, `content`), and the `.html` files are removed. `paulus_content_file()`, the only reader, accepts only a plain name, opens only that name's `.json` file, and refuses one that is malformed, misnamed, of another format or not matching its MD5. Each text is byte for byte what it was (all 80 checked), so the hashes every site keeps still tell an edited article from an untouched one, and the manifest keeps the texts' first names for that reason. `build.py` writes JSON.
+- The chapter sources move from `content/src/*.txt` to `content/src/*.json` too (`name`, `format: "paulus-article-source"`, `md5`, `source`), each byte for byte the text it was, and the `.txt` files are removed; `build.py` reads them and refuses one whose format or MD5 does not hold. Twenty Arabic passages in ten sources lacked the `quran` or `hadith` class their articles had carried since 2.62.27 (the class was added to the built text only), so a rebuild would have dropped it; the sources now carry it, and rebuilt articles match the shipped ones.
+- The chapter drafts (`content/src/`), the script that built the articles from them (`build.py`) and the Greek text it quoted from (`sblgnt/`) are removed from the theme. The site never read them; the articles it installs are complete in `content/articles/`, and are edited there from now on. All three are in the repository's history at commit `aaefa32`. The credit the Greek text's licence (CC BY 4.0) requires, which only `sblgnt/LICENSE` carried, is now in `LICENSES.md`, under Scripture.
+- The format does not by itself make the content safer, since the same markup is stored either way; what guards the database is that only an administrator runs the installer and only named files inside the theme are read, and the JSON adds a structure and a checksum that a damaged or altered file fails.
+
+### Fixed
+- A bundled text that fails to load (missing, malformed or not matching its MD5) is no longer inserted as an empty article or page, or written over the WordPress privacy draft or an empty Contact page. The sync reports the failure and runs again on the next admin load, and the article is created once its file is sound.
+- The "Review before publishing" notes in the legal pages stay in the editor but are removed from the published page, its feed and its REST rendering, so they never appear in the page source.
+
+## [2.62.37] - 2026-10-25
+
+### Fixed
+- Pressing Install or update site structure (Theme Options, Content, or the install notice) showed no notice afterwards. The handler sends a press from the front page's prompt back to the front page, and judged where a press came from by checking that the referring address began with the full admin address. But `wp_get_referer()` prefers the nonce field's `_wp_http_referer`, a bare path (`/wp-admin/themes.php?page=paulus-options`) that never begins with `https://…/wp-admin/`, so every press in the admin was taken for a front-page one and sent back without its result. The check now compares paths: a press in the admin lands on Theme Options, Content, with the notice; a press on the front page still returns there.
+- When nothing new was installed, the notice now reads "The site is up to date: nothing new to install. Sections, reading order and page hierarchy were checked." The result is removed from the address after the page loads, so a refresh does not show the notice again.
+
 ## [2.62.36] - 2026-10-25
 
 ### Fixed: Rank Math

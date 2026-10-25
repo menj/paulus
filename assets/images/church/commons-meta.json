@@ -27,6 +27,27 @@
   "license_url": "https://creativecommons.org/licenses/by/4.0",
   "artist": "ywpark2003 Prof. Yong Woo Park"
  },
+ "simonet-beheading": {
+  "title": "File:Decapitación de San Pablo - Simonet - 1887.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Decapitaci%C3%B3n_de_San_Pablo_-_Simonet_-_1887.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "artist": "Enrique Simonet"
+ },
+ "raphael-athens": {
+  "title": "File:V&A - Raphael, St Paul Preaching in Athens (1515).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:V%26A_-_Raphael,_St_Paul_Preaching_in_Athens_(1515).jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "artist": "Raphael"
+ },
+ "monnot-lateran-statue": {
+  "title": "File:Paulus San Giovanni in Laterano 2006-09-07.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Paulus_San_Giovanni_in_Laterano_2006-09-07.jpg",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "artist": "Jastrow"
+ },
  "tomb-of-paul": {
   "title": "File:St. Paul's Tomb.jpg",
   "page": "https://commons.wikimedia.org/wiki/File:St._Paul%27s_Tomb.jpg",
@@ -426,5 +447,44 @@
   "license_url": "",
   "artist": "Unknown photographer",
   "note": "Supplied by the site owner; not from Wikimedia Commons."
+ },
+ "molineri-martyrdom": {
+  "title": "File:Giovanni Antonio Molineri - Martyrdom of St Paul.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Giovanni_Antonio_Molineri_-_Martyrdom_of_St_Paul.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "artist": "Giovanni Antonio Molineri"
+ },
+ "kb-bertin-beheading": {
+  "title": "The martyrdom of St. Paul; he is beheaded",
+  "page": "https://picryl.com/media/the-martyrdom-of-st-paul-he-is-beheaded-a94243",
+  "license": "Public domain",
+  "license_url": "",
+  "artist": "Unknown illuminator, abbey of Saint-Bertin, Saint-Omer, c. 1200; Koninklijke Bibliotheek, The Hague, 76 F 5, fol. 29r",
+  "note": "Not from Wikimedia Commons. A faithful reproduction of a medieval manuscript page, public domain under Article 14 of Directive (EU) 2019/790."
+ },
+ "reader-family-signing": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
+ },
+ "book-in-hand": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
+ },
+ "reader-with-copy": {
+  "title": "",
+  "page": "",
+  "license": "All rights reserved",
+  "license_url": "",
+  "artist": "MENJ",
+  "note": "The author's own photograph of the book and its readers; not from Wikimedia Commons."
  }
 }

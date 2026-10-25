@@ -23,7 +23,7 @@ The sync writes the theme's text and settings only where the site still holds so
 | Category, menu order, page template | Each still matches what the site last received |
 | Featured image | It is one the theme installed; an image set by hand is kept |
 
-To find which of your pages kept hand-edited text, compare them with the files in `content/articles/`.
+To find which of your pages kept hand-edited text, compare them with the `content` of the files in `content/articles/` (JSON from 2.62.38).
 
 ## Templates customised in the Site Editor
 
@@ -35,6 +35,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 | 404 | 2.32.0 | Heading and first paragraph replaced by `[paulus_404_quip]` and a plain paragraph |
 
 ## Notes by version
+
+### 2.62.37 to 2.62.38
+
+- **Content files are JSON.** The texts in `content/articles/` are now `.json` files, and the `.html` files are gone. Upload the new zip as a whole theme (Appearance, Themes, Add New, replace), not over the old folder by FTP: an FTP copy leaves the old `.html` files behind. They are harmless, since nothing reads them, but you can delete them. Your articles are not touched: each text is byte for byte what it was, so an unedited article is still recognised as unedited.
+- **Build files removed.** `content/src/`, `build.py` and `sblgnt/` are no longer in the theme. The site never read them, so nothing changes on it; an FTP copy over the old folder leaves them behind, and they can be deleted.
+- **Five new figures, and three photographs on the book page,** reach the articles that hold them on the first admin page load.
 
 ### 2.62.35 to 2.62.36
 

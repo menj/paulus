@@ -27,14 +27,44 @@ function paulus_manifest() {
 }
 
 /**
- * Read a bundled content file.
+ * Read a bundled content file: the text an article, page or Journal entry
+ * is installed with.
  *
- * @param string $file File name in content/articles/.
- * @return string
+ * The texts ship as JSON, one file each in content/articles/, holding the
+ * text with its name, its format and its MD5:
+ *
+ *     { "name": "c05-adapting-the-message.html",
+ *       "format": "wordpress-post-content",
+ *       "md5": "…", "content": "…" }
+ *
+ * The manifest still names each text by its original name (…html), since
+ * the hashes that tell an edited article from an untouched one are keyed by
+ * it on every site; that name is mapped to its .json file here. Only a
+ * plain name is accepted (letters, digits and hyphens), the file must be
+ * well-formed JSON of that format, name itself, and match its MD5. Anything
+ * else is refused and nothing is installed from it.
+ *
+ * @param string $file Text name, as the manifest gives it.
+ * @return string The text, or '' when there is none or it fails a check.
  */
 function paulus_content_file( $file ) {
-	$path = PAULUS_DIR . '/content/articles/' . basename( $file );
-	return file_exists( $path ) ? (string) file_get_contents( $path ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$ext  = '/\.(html?|json)$/';
+	$stem = preg_replace( $ext, '', basename( (string) $file ) );
+	if ( ! preg_match( '/^[a-z0-9][a-z0-9-]*$/', $stem ) ) {
+		return '';
+	}
+	static $cache = array();
+	if ( isset( $cache[ $stem ] ) ) {
+		return $cache[ $stem ];
+	}
+	$path = PAULUS_DIR . '/content/articles/' . $stem . '.json';
+	$doc  = is_readable( $path ) ? json_decode( (string) file_get_contents( $path ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$ok   = is_array( $doc )
+		&& 'wordpress-post-content' === ( $doc['format'] ?? '' )
+		&& $stem === preg_replace( $ext, '', (string) ( $doc['name'] ?? '' ) )
+		&& is_string( $doc['content'] ?? null )
+		&& md5( $doc['content'] ) === ( $doc['md5'] ?? '' );
+	return $cache[ $stem ] = $ok ? $doc['content'] : '';
 }
 
 /**
@@ -427,17 +457,42 @@ function paulus_handle_import() {
 	// the whole pass again.
 	$created = paulus_sync_run( (string) ( paulus_manifest()['content_version'] ?? '' ) );
 
-	$back = wp_get_referer();
-	if ( $back && 0 !== strpos( $back, admin_url() ) ) {
+	// null: another request holds the lock and is running the sync now.
+	$flag = null === $created ? 'busy' : ( false === $created ? 'partial' : (string) $created );
+
+	// A press on the front page's prompt goes back to the front page, which
+	// then shows the installed content. Any press in the admin comes to
+	// Theme Options, Content, with the result for the notice. The page it
+	// came from is judged by its path: wp_get_referer() prefers the nonce
+	// field's _wp_http_referer, a bare path such as /wp-admin/themes.php,
+	// which never begins with the full admin address, so comparing it with
+	// admin_url() (as before) sent every admin press back to where it came
+	// from, without the result, and no notice was ever shown.
+	$back       = (string) wp_get_referer();
+	$back_path  = (string) wp_parse_url( $back, PHP_URL_PATH );
+	$admin_path = (string) wp_parse_url( admin_url( '/' ), PHP_URL_PATH );
+	if ( '' !== $back && '' !== $back_path && 0 !== strpos( trailingslashit( $back_path ), $admin_path ) ) {
 		wp_safe_redirect( $back );
 		exit;
 	}
-	// null: another request holds the lock and is running the sync now.
-	$flag = null === $created ? 'busy' : ( false === $created ? 'partial' : (string) $created );
 	wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&paulus_imported=' . $flag . '#content' ) );
 	exit;
 }
 add_action( 'admin_post_paulus_import', 'paulus_handle_import' );
+
+/**
+ * The result in the address is read once: WordPress takes it out of the
+ * address bar after the page loads, so a refresh does not show the notice
+ * again.
+ *
+ * @param string[] $args Query arguments WordPress removes.
+ * @return string[]
+ */
+function paulus_importer_removable_args( $args ) {
+	$args[] = 'paulus_imported';
+	return $args;
+}
+add_filter( 'removable_query_args', 'paulus_importer_removable_args' );
 
 /**
  * Create or update the whole structure. Used by the install button and by
@@ -488,6 +543,13 @@ function paulus_run_install() {
 			}
 		}
 		if ( ! $post ) {
+			// A bundled text that fails to load is never inserted empty: the
+			// sync reports a failure and runs again.
+			$content = paulus_content_file( $item['file'] );
+			if ( '' === $content ) {
+				$failed = true;
+				continue;
+			}
 			$id = wp_insert_post(
 				array(
 					'post_type'     => 'post',
@@ -495,7 +557,7 @@ function paulus_run_install() {
 					'post_name'     => $item['slug'],
 					'post_title'    => $item['title'],
 					'post_excerpt'  => $item['excerpt'],
-					'post_content'  => paulus_content_file( $item['file'] ),
+					'post_content'  => $content,
 					'post_date'     => get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $date ) ),
 					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $date ),
 				)
@@ -618,7 +680,8 @@ function paulus_run_install() {
 			// page stays a draft for the owner to review); a privacy page the
 			// owner has written or published is never touched.
 			if ( 'privacy-policy' === $item['slug'] && 'draft' === $page->post_status
-				&& false !== strpos( $page->post_content, 'privacy-policy-tutorial' ) ) {
+				&& false !== strpos( $page->post_content, 'privacy-policy-tutorial' )
+				&& '' !== paulus_content_file( $item['file'] ) ) {
 				wp_update_post(
 					array(
 						'ID'           => $page->ID,
@@ -647,7 +710,7 @@ function paulus_run_install() {
 				// Empty means nothing at all: block comments and blank paragraphs
 				// only. A shortcode, a form block or any text counts as the owner's.
 				$bare = preg_replace( '#<p>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', preg_replace( '/<!--.*?-->/s', '', (string) $page->post_content ) );
-				if ( '' === trim( (string) $bare ) ) {
+				if ( '' === trim( (string) $bare ) && '' !== paulus_content_file( $item['file'] ) ) {
 					wp_update_post( array( 'ID' => $page->ID, 'post_content' => paulus_content_file( $item['file'] ) ) );
 					if ( '' === get_post_field( 'post_excerpt', $page->ID ) && paulus_excerpt_unclaimed( $item ) ) {
 						wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
@@ -694,6 +757,11 @@ function paulus_run_install() {
 			}
 			continue;
 		}
+		$content = empty( $item['file'] ) ? '' : paulus_content_file( $item['file'] );
+		if ( ! empty( $item['file'] ) && '' === $content ) {
+			$failed = true;
+			continue;
+		}
 		$id = wp_insert_post(
 			array(
 				'post_type'     => 'page',
@@ -702,7 +770,7 @@ function paulus_run_install() {
 				'post_name'     => $item['slug'],
 				'post_title'    => $item['title'],
 				'post_excerpt'  => $item['excerpt'],
-				'post_content'  => paulus_content_file( $item['file'] ),
+				'post_content'  => $content,
 				'post_parent'   => $parent_id,
 				'menu_order'    => $item['order'],
 				'page_template' => $item['template'] ?? '',
@@ -786,7 +854,7 @@ function paulus_importer_notice() {
 			$n
 				/* translators: %d: number of items created. */
 				? sprintf( _n( '%d item installed. Site structure updated.', '%d items installed. Site structure updated.', $n, 'paulus' ), $n )
-				: __( 'All starter content already exists. Parts, reading order and page hierarchy were checked and updated.', 'paulus' )
+				: __( 'The site is up to date: nothing new to install. Sections, reading order and page hierarchy were checked.', 'paulus' )
 		)
 	);
 }

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.36
+Stable tag: 2.62.38
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsu
 
 == Description ==
 
-Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and sixty licensed photographs, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
+Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and eighty-five licensed photographs and reproductions, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
 
 == Installation ==
 
@@ -36,6 +36,14 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.38 =
+* Five new figures, each credited and licensed: Raphael's Saint Paul Preaching in Athens, Enrique Simonet's The Beheading of Saint Paul, Giovanni Antonio Molineri's The Martyrdom of Saint Paul, Pierre-Étienne Monnot's statue of Paul in the Lateran, and the beheading of Paul from the Saint-Bertin picture book (Koninklijke Bibliotheek, The Hague).
+* The book page has a section of photographs of the book and its readers. The articles refresh on sites where they were never edited.
+* The content texts are JSON files with a checksum, in place of HTML files. The chapter drafts, the build script and the Greek text it read are removed: the site never used them.
+
+= 2.62.37 =
+* Install or update site structure shows its result again. Every press in the admin was sent back without it, so no notice appeared.
 
 = 2.62.36 =
 * Rank Math: the theme covers a page itself while Rank Math is installed but not yet set up, keeps a title or description set in Rank Math's own box, carries its robots choices through Rank Math's filter, keeps the redirected author archive out of Rank Math's author sitemap, and recognises Rank Math's author node. Tested against Rank Math 1.0.279.
