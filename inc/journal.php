@@ -62,6 +62,22 @@ function paulus_journal_register() {
 add_action( 'init', 'paulus_journal_register' );
 
 /**
+ * The year and month are query variables WordPress must know, or it drops
+ * them when it reads the address: add_rewrite_tag() registers a variable
+ * only when it is given no query of its own, and the tags above carry one.
+ * Without this, every year and month address showed the whole Journal.
+ *
+ * @param string[] $vars Public query variables.
+ * @return string[]
+ */
+function paulus_journal_query_vars( $vars ) {
+	$vars[] = 'journal_year';
+	$vars[] = 'journal_monthnum';
+	return $vars;
+}
+add_filter( 'query_vars', 'paulus_journal_query_vars' );
+
+/**
  * The month index on the Journal page is cached; a saved, trashed or deleted
  * entry clears it.
  *

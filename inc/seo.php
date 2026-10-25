@@ -280,6 +280,9 @@ function paulus_archive_url() {
 	$url = '';
 	if ( is_category() || is_tag() || is_tax() ) {
 		$url = get_term_link( get_queried_object() );
+	} elseif ( is_post_type_archive( 'paulus_journal' ) && get_query_var( 'journal_year' ) && function_exists( 'paulus_journal_url' ) ) {
+		// A year or month of the Journal is a page of its own.
+		$url = paulus_journal_url( (int) get_query_var( 'journal_year' ), (int) get_query_var( 'journal_monthnum' ) );
 	} elseif ( is_post_type_archive() ) {
 		$url = get_post_type_archive_link( (string) get_query_var( 'post_type' ) );
 	} elseif ( is_author() ) {

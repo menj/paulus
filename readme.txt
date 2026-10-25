@@ -38,7 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.62.33 =
-* Checked against Google's SEO Starter Guide and its list of supported structured data: the front page gets a canonical link; the second and later pages of an archive get a title and description of their own; the author archive goes to the author's page and users leave the XML sitemap; date archives of articles are not indexed; section pages list their chapters as h2 under the h1.
+* Checked against Google's SEO Starter Guide and its list of supported structured data: the front page gets a canonical link; the second and later pages of an archive get a title and description of their own; the author archive goes to the author's page and users leave the XML sitemap; date archives of articles are not indexed; section pages list their chapters as h2 under the h1; the Journal's year and month pages show their own entries again, with their own title, description and canonical.
 
 = 2.62.32 =
 * Links in the text to bestofislam.org and injil.help: the first mention of a phrase those sites treat at length (the Ebionites, the Islamic Dilemma, the Gospel of Thomas, Matthew 5:17, Quran 4:157, the Talmud and twenty more) links to the page there. Theme Options, Links holds the phrases and the switch.

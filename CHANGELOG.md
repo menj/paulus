@@ -12,6 +12,7 @@ The theme checked, page by page on a local WordPress with the site's content, ag
 - The author archive (`/author/<name>/`) repeated the sections' listings under a second address with no description, and the users appeared in the XML sitemap. The site has one author: the archive now goes to the author's page (else the front page) with a permanent redirect, and the users are left out of the sitemap.
 - The date archives of articles (`/2026/08/`), another repeat of the listings, ask not to be indexed. The Journal's own month and year pages are untouched.
 - On a section page the chapter titles were h3 straight under the h1, a missing level in the outline. They are h2 there, and remain h3 on the front page under each section's h2.
+- The Journal's year and month pages (`/journal/2026/`, `/journal/2026/09/`) showed the whole Journal under the Journal page's title, description and canonical: `add_rewrite_tag()` registers a query variable only when it is given no query of its own, and the theme's date tags carried one, so WordPress dropped `journal_year` and `journal_monthnum` on reading the address. The two are registered as query variables now; a year or month page lists its own entries, is titled "Journal: September 2026", describes that period and names its own address as canonical.
 
 ## [2.62.32] - 2026-10-25
 
