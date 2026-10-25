@@ -38,7 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.62.40 =
-* The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam is sized to its line: it no longer reaches into the lines above and below.
+* The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam is set like a letter of the text: it sits on the baseline, stands no taller than the capitals, and no longer reaches into the lines above and below.
 
 = 2.62.39 =
 * Every text the theme writes into the database is named by its JSON file, in the manifest, in the files themselves and in the records each site keeps of them. No HTML or text file is ever read to fill the database; a name of any other kind is refused.

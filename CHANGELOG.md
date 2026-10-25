@@ -5,7 +5,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.62.40] - 2026-10-25
 
 ### Fixed
-- The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam (`.paulus-honorific` in `theme.css`) was drawn two text-heights tall, so its strokes ran into the lines above and below. It is now one and a half text-heights (1.97em by 1.5em, the image's own proportions), centred on the line, and stays clear of its neighbours at every width; the line spacing is unchanged.
+- The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam (`.paulus-honorific` in `theme.css`) was drawn two text-heights tall, so its strokes ran into the lines above and below. Its box was also pulled down by negative margins, so it hung half below the baseline. It is now set like a glyph of the text: 1.64em by 1.25em (the image's own proportions), its foot at the depth of the descenders (`vertical-align: -0.3em`), its top just above the capitals, with no negative margins. It stays inside its line at every width, and the line spacing is unchanged.
 
 ## [2.62.39] - 2026-10-25
 
