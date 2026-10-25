@@ -112,6 +112,13 @@ function paulus_fields() {
 				'security_headers'    => array( __( 'Security headers on every page: no framing by other sites, a separate browsing context from pages it opens, HTTPS only for a year once visited over HTTPS, no guessing of file types, and only the site\'s address sent with links to other sites', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'upkeep'     => array(
+			'label'  => __( 'Maintenance', 'paulus' ),
+			'fields' => array(
+				'maintenance_mode' => array( __( 'Maintenance mode: visitors see the "Back shortly" page (503, so search engines keep the pages and return), while anyone signed in sees the site. Switch it on before uploading the theme or WordPress by FTP and off when done; it is the file .paulus-maintenance in the site\'s folder, so deleting that file by FTP also ends it', 'paulus' ), 'checkbox' ),
+				'error_alerts'     => array( __( 'Email the site\'s administration address when new fatal errors appear (checked hourly, at most one email in six hours)', 'paulus' ), 'checkbox' ),
+			),
+		),
 		'links'      => array(
 			'label'  => __( 'Links', 'paulus' ),
 			'fields' => array(

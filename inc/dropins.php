@@ -28,6 +28,21 @@ function paulus_dropin_files() {
 }
 
 /**
+ * The files written beside the drop-ins: the stylesheet the error pages use,
+ * copied out of the theme so they keep their look while the theme folder is
+ * being uploaded, and the maintenance page as static HTML, which the web
+ * server and the theme's maintenance mode serve without running WordPress.
+ *
+ * @return array<string,string> Target file name => source file in the theme.
+ */
+function paulus_dropin_extras() {
+	return array(
+		'paulus-error-page.css'   => 'assets/css/error-page.css',
+		'paulus-maintenance.html' => 'dropins/maintenance.php',
+	);
+}
+
+/**
  * Whether a file in wp-content was written by this theme (or is a copy the
  * Abrahamic theme wrote and marked safe to delete).
  *
@@ -36,7 +51,7 @@ function paulus_dropin_files() {
  */
 function paulus_dropin_is_ours( $path ) {
 	$head = (string) file_get_contents( $path, false, null, 0, 300 );
-	return false !== strpos( $head, 'Paulus error page drop-in' ) || false !== strpos( $head, 'Written by the Abrahamic theme' );
+	return false !== strpos( $head, 'Paulus error page drop-in' ) || false !== strpos( $head, 'Paulus: the standalone error pages' ) || false !== strpos( $head, 'Written by the Abrahamic theme' );
 }
 
 /**
@@ -58,22 +73,41 @@ function paulus_install_dropins() {
 		'{{SITE_NAME}}' => esc_html( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ),
 		'{{THEME_URL}}' => esc_attr( $theme_url ),
 		'{{HOME_URL}}'  => esc_attr( '' !== $home_url ? $home_url : '/' ),
+		'{{CONTENT_URL}}' => esc_attr( untrailingslashit( (string) wp_parse_url( content_url( '/' ), PHP_URL_PATH ) ) ),
 	);
 	$stamp     = md5( wp_json_encode( $tokens ) );
-	if ( get_option( 'paulus_dropins_stamp' ) === $stamp ) {
+	$files     = array();
+	foreach ( paulus_dropin_files() as $file ) {
+		$files[ $file ] = 'dropins/' . $file;
+	}
+	$files += paulus_dropin_extras();
+	// Written again when anything they carry has changed, and whenever one
+	// of them has gone missing (deleted by hand, or never written because
+	// wp-content was not writable at the time).
+	$all_there = true;
+	foreach ( array_keys( $files ) as $file ) {
+		$all_there = $all_there && file_exists( WP_CONTENT_DIR . '/' . $file );
+	}
+	if ( get_option( 'paulus_dropins_stamp' ) === $stamp && $all_there ) {
 		return;
 	}
 	$done = true;
-	foreach ( paulus_dropin_files() as $file ) {
-		$source = PAULUS_DIR . '/dropins/' . $file;
+	foreach ( $files as $file => $from ) {
+		$source = PAULUS_DIR . '/' . $from;
 		$target = WP_CONTENT_DIR . '/' . $file;
 		if ( ! is_readable( $source ) || ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) ) {
 			continue;
 		}
+		$text = strtr( (string) file_get_contents( $source ), $tokens ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( 'paulus-maintenance.html' === $file ) {
+			// The static page is the maintenance drop-in without its PHP: the
+			// status and headers come from whatever serves it.
+			$text = "<!-- Paulus error page drop-in " . PAULUS_VERSION . ". Written by the Paulus theme; safe to delete. -->\n" . ltrim( (string) preg_replace( '/^<\?php.*?\?>/s', '', $text ) );
+		}
 		// Written to a temporary name first and moved into place, so a page
 		// WordPress reads mid-write is never half a file.
 		$tmp = $target . '.' . uniqid( 'paulus-', true ) . '.tmp';
-		if ( false === file_put_contents( $tmp, strtr( (string) file_get_contents( $source ), $tokens ) ) || ! rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( false === file_put_contents( $tmp, $text ) || ! rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
 			$done = false;
 			if ( file_exists( $tmp ) ) {
 				unlink( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions
@@ -97,7 +131,7 @@ function paulus_remove_dropins() {
 		delete_option( 'paulus_dropins_stamp' );
 		return;
 	}
-	foreach ( paulus_dropin_files() as $file ) {
+	foreach ( array_merge( paulus_dropin_files(), array_keys( paulus_dropin_extras() ) ) as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
 		if ( file_exists( $target ) && paulus_dropin_is_ours( $target ) ) {
 			unlink( $target ); // phpcs:ignore WordPress.WP.AlternativeFunctions

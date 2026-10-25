@@ -36,6 +36,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.40 to 2.62.41
+
+- **Uploading by FTP.** Switch on Maintenance mode first (Appearance, Theme Options, Maintenance), upload, then switch it off. Upload the contents of the release zip, not a copy of the repository: the zip leaves out the files the site does not need. While maintenance is on, visitors see "Back shortly" and you, signed in, see the site. If the admin is unreachable, delete the file `.paulus-maintenance` in the site's folder by FTP to end it.
+- **Updating WordPress itself.** Prefer Dashboard, Updates, which takes seconds. If it must go by FTP, switch on Maintenance mode first: the rule the theme writes into `.htaccess` keeps the maintenance page up while WordPress cannot run.
+- **New in wp-content:** `paulus-maintenance.html`, `paulus-error-page.css` and, after the first error, `paulus-incidents.log.php`. All are the theme's and go when it is switched off, except the incident log.
+
 ### 2.62.39 to 2.62.40
 
 - **Security headers** are on by default (Theme Options, Login). If the site is shown inside a frame on another site, or your host already sends these headers, switch them off there. The HTTPS header tells browsers to use HTTPS for a year, so leave it on only if the site stays on HTTPS.

@@ -421,7 +421,11 @@ function paulus_author_archive_redirect() {
 	wp_safe_redirect( $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' ), 301 );
 	exit;
 }
-add_action( 'template_redirect', 'paulus_author_archive_redirect' );
+// Before redirect_canonical (priority 10), which would first send ?author=N
+// on to /author/<login>/, telling anyone who asks the login name of each
+// user; it also leaves no author archive for Rank Math's author snippet,
+// which warns there when author archives are switched off in its settings.
+add_action( 'template_redirect', 'paulus_author_archive_redirect', 1 );
 add_filter( 'wp_sitemaps_add_provider', static function ( $provider, $name ) {
 	return 'users' === $name ? false : $provider;
 }, 10, 2 );
