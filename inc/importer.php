@@ -35,29 +35,72 @@ function paulus_manifest() {
  * edits kept (paulus_kept_edits). The texts are named by their .json files
  * now, so those keys are renamed once, before anything reads them, and
  * every article keeps its protection.
+ *
+ * It runs under the sync lock, so a sync in another request can never write
+ * a record between this reading and saving it, and the sync runs it first
+ * under its own lock, so no sync ever reads the records by the old names.
+ * It is marked done only once the saved records read back with no old name
+ * left; until then every request tries again.
  */
 function paulus_migrate_text_names() {
-	if ( 'json' === get_option( 'paulus_text_names' ) ) {
+	if ( 'json' === get_option( 'paulus_text_names' ) || ! paulus_sync_lock() ) {
 		return;
 	}
-	$rename = static function ( $name ) {
-		return preg_replace( '/\.html$/', '.json', (string) $name );
-	};
-	$known = array();
-	foreach ( (array) get_option( 'paulus_content_hashes', array() ) as $name => $entry ) {
-		$known[ $rename( $name ) ] = $entry;
+	try {
+		paulus_rename_text_records();
+	} finally {
+		delete_option( 'paulus_sync_lock' );
 	}
-	update_option( 'paulus_content_hashes', $known, false );
+}
+add_action( 'init', 'paulus_migrate_text_names', 1 );
+
+/**
+ * The rename itself, for a caller that holds the sync lock.
+ *
+ * @return bool Whether the records are under the .json names.
+ */
+function paulus_rename_text_records() {
+	if ( 'json' === get_option( 'paulus_text_names' ) ) {
+		return true;
+	}
+	// Read what is saved now, not what this request may have cached.
+	wp_cache_delete( 'paulus_content_hashes', 'options' );
+	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	$old    = '/\.html$/';
+	$known  = (array) get_option( 'paulus_content_hashes', array() );
+	$hashes = array();
+	foreach ( $known as $name => $entry ) {
+		$new = preg_replace( $old, '.json', (string) $name );
+		// A record already under the new name is the later one.
+		if ( $new === $name || ! isset( $known[ $new ] ) ) {
+			$hashes[ $new ] = $entry;
+		}
+	}
 	$kept = (array) get_option( 'paulus_kept_edits', array() );
 	foreach ( $kept as $id => $row ) {
 		if ( is_array( $row ) && isset( $row['file'] ) ) {
-			$kept[ $id ]['file'] = $rename( $row['file'] );
+			$kept[ $id ]['file'] = preg_replace( $old, '.json', (string) $row['file'] );
 		}
 	}
+	update_option( 'paulus_content_hashes', $hashes, false );
 	update_option( 'paulus_kept_edits', $kept, false );
+
+	// update_option() reports false both for a failed write and for an
+	// unchanged value, so the result is judged by reading it back.
+	wp_cache_delete( 'paulus_content_hashes', 'options' );
+	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	$left = preg_grep( $old, array_map( 'strval', array_keys( (array) get_option( 'paulus_content_hashes', array() ) ) ) );
+	foreach ( (array) get_option( 'paulus_kept_edits', array() ) as $row ) {
+		if ( is_array( $row ) && preg_match( $old, (string) ( $row['file'] ?? '' ) ) ) {
+			$left[] = $row['file'];
+		}
+	}
+	if ( $left ) {
+		return false;
+	}
 	update_option( 'paulus_text_names', 'json', true );
+	return true;
 }
-add_action( 'init', 'paulus_migrate_text_names', 1 );
 
 /**
  * Read a bundled content file: the text an article, page or Journal entry

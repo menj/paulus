@@ -594,7 +594,9 @@ function paulus_sync_run( $target ) {
 		}
 	} );
 	try {
-		$result = paulus_run_install();
+		// The records the install reads must be under the .json names; if
+		// the rename cannot be saved, the pass is a failure and is retried.
+		$result = paulus_rename_text_records() ? paulus_run_install() : false;
 	} catch ( Throwable $e ) {
 		$result = false;
 		$s      = get_option( 'paulus_sync_status' );
