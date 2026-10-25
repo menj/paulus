@@ -395,6 +395,24 @@ function paulus_install_navigation( $parts ) {
 }
 
 /**
+ * Whether a page's empty summary may take the theme's: the manifest gives
+ * one, and no baseline for the summary has been recorded yet. Once one has,
+ * paulus_refresh_unedited() decides, so a summary the owner blanked on
+ * purpose stays blank, on the Contact page as on every other.
+ *
+ * @param array $item Manifest entry.
+ * @return bool
+ */
+function paulus_excerpt_unclaimed( $item ) {
+	if ( empty( $item['excerpt'] ) ) {
+		return false;
+	}
+	$known = (array) get_option( 'paulus_content_hashes', array() );
+	$entry = $known[ basename( (string) ( $item['file'] ?? '' ) ) ] ?? array();
+	return ! is_array( $entry ) || ! array_key_exists( 'excerpt', $entry );
+}
+
+/**
  * Handle the install request.
  */
 function paulus_handle_import() {
@@ -408,16 +426,14 @@ function paulus_handle_import() {
 	// create the same articles twice, and the next page load does not run
 	// the whole pass again.
 	$created = paulus_sync_run( (string) ( paulus_manifest()['content_version'] ?? '' ) );
-	if ( null === $created ) {
-		$created = 0;
-	}
 
 	$back = wp_get_referer();
 	if ( $back && 0 !== strpos( $back, admin_url() ) ) {
 		wp_safe_redirect( $back );
 		exit;
 	}
-	$flag = false === $created ? 'partial' : (string) $created;
+	// null: another request holds the lock and is running the sync now.
+	$flag = null === $created ? 'busy' : ( false === $created ? 'partial' : (string) $created );
 	wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&paulus_imported=' . $flag . '#content' ) );
 	exit;
 }
@@ -616,13 +632,9 @@ function paulus_run_install() {
 			// An empty summary takes the theme's, but only until a baseline
 			// for it is recorded: from then on paulus_refresh_unedited()
 			// decides, so a summary the owner blanked on purpose stays blank.
-			if ( '' === $page->post_excerpt && ! empty( $item['excerpt'] ) ) {
-				$known = (array) get_option( 'paulus_content_hashes', array() );
-				$entry = $known[ basename( (string) ( $item['file'] ?? '' ) ) ] ?? array();
-				if ( ! is_array( $entry ) || ! array_key_exists( 'excerpt', $entry ) ) {
-					wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
-					$page = get_post( $page->ID );
-				}
+			if ( '' === $page->post_excerpt && paulus_excerpt_unclaimed( $item ) ) {
+				wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
+				$page = get_post( $page->ID );
 			}
 			paulus_sync_search_fields( $page->ID, $item );
 			paulus_refresh_unedited( $page, $item );
@@ -637,7 +649,7 @@ function paulus_run_install() {
 				$bare = preg_replace( '#<p>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', preg_replace( '/<!--.*?-->/s', '', (string) $page->post_content ) );
 				if ( '' === trim( (string) $bare ) ) {
 					wp_update_post( array( 'ID' => $page->ID, 'post_content' => paulus_content_file( $item['file'] ) ) );
-					if ( '' === get_post_field( 'post_excerpt', $page->ID ) && ! empty( $item['excerpt'] ) ) {
+					if ( '' === get_post_field( 'post_excerpt', $page->ID ) && paulus_excerpt_unclaimed( $item ) ) {
 						wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
 					}
 				}
@@ -757,6 +769,13 @@ function paulus_importer_notice() {
 		printf(
 			'<div class="notice notice-error"><p>%s</p></div>',
 			esc_html__( 'Some items could not be installed. The site structure was not marked complete, so this will be retried the next time the structure is installed or updated.', 'paulus' )
+		);
+		return;
+	}
+	if ( 'busy' === $raw ) {
+		printf(
+			'<div class="notice notice-warning"><p>%s</p></div>',
+			esc_html__( 'The structure is being installed by another request at this moment. Nothing was done here; open the dashboard in a minute to see the result.', 'paulus' )
 		);
 		return;
 	}

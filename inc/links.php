@@ -65,10 +65,24 @@ function paulus_text_links_filter( $content ) {
 	// Where no link may be made: inside these elements, at any depth. A
 	// paragraph class marks the Arabic and Greek blocks; the footnotes are a
 	// list with its own class.
-	$skip_tags = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
+	$skip_tags = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'q', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
 	$skip_class = '/\bclass="[^"]*\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
 
-	$pieces = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+	// One pattern of every phrase, longest first, and the address each
+	// phrase (lower-cased) leads to.
+	$phrases   = wp_list_pluck( $links, 'phrase' );
+	$by_phrase = array();
+	foreach ( $links as $link ) {
+		$by_phrase[ paulus_ustrtolower( $link['phrase'] ) ] = $link['url'];
+	}
+	usort(
+		$phrases,
+		static function ( $a, $b ) {
+			return paulus_ulen( $b ) <=> paulus_ulen( $a );
+		}
+	);
+	$pattern = '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( static function ( $p ) { return preg_quote( $p, '/' ); }, $phrases ) ) . ')(?![\p{L}\p{N}])/iu';
+	$pieces  = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
 	if ( false === $pieces ) {
 		return $content;
 	}
@@ -102,33 +116,26 @@ function paulus_text_links_filter( $content ) {
 			$out .= $piece;
 			continue;
 		}
-		foreach ( $links as $link ) {
-			if ( $made >= $max ) {
-				break;
-			}
-			if ( isset( $done[ $link['url'] ] ) || 0 === strpos( $here, $link['url'] ) ) {
-				continue;
-			}
-			// A whole phrase: no letter or digit on either side, so "Ebionites"
-			// does not match inside "Ebionitism" and "church" not inside
-			// "Islamicjerusalem church". The text is plain here, so no tag or
-			// entity can be cut by the match.
-			$pattern = '/(?<![\p{L}\p{N}])' . preg_quote( $link['phrase'], '/' ) . '(?![\p{L}\p{N}])/iu';
-			$linked  = preg_replace_callback(
-				$pattern,
-				static function ( $m ) use ( $link ) {
-					return '<a class="paulus-xlink" href="' . esc_url( $link['url'] ) . '" rel="noopener">' . $m[0] . '</a>';
-				},
-				$piece,
-				1,
-				$count
-			);
-			if ( $count ) {
-				$piece               = $linked;
-				$done[ $link['url'] ] = true;
+		// The text is walked in its own order, every phrase at once, so the
+		// first mention on the page is the one linked whatever the order of
+		// the list; a longer phrase is tried before a shorter one it begins
+		// with. A whole phrase: no letter or digit on either side, so
+		// "Ebionites" does not match inside "Ebionitism" and "church" not
+		// inside "Islamicjerusalem church". The text is plain here, so no tag
+		// or entity can be cut by the match.
+		$piece = preg_replace_callback(
+			$pattern,
+			static function ( $m ) use ( $by_phrase, $here, &$done, &$made, $max ) {
+				$url = $by_phrase[ paulus_ustrtolower( $m[0] ) ] ?? '';
+				if ( '' === $url || $made >= $max || isset( $done[ $url ] ) || 0 === strpos( $here, $url ) ) {
+					return $m[0];
+				}
+				$done[ $url ] = true;
 				++$made;
-			}
-		}
+				return '<a class="paulus-xlink" href="' . esc_url( $url ) . '" rel="noopener">' . $m[0] . '</a>';
+			},
+			$piece
+		);
 		$out .= $piece;
 	}
 	return $out;

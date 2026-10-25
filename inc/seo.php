@@ -184,7 +184,15 @@ function paulus_seo_title() {
 		return $site;
 	}
 	$room = PAULUS_TITLE_MAX - paulus_ulen( $sep . $site );
-	return paulus_fit( $part, max( 10, $room ) ) . $sep . $site;
+	$part = paulus_fit( $part, max( 10, $room ) );
+	// The second and later pages of an archive are pages of their own and
+	// say so, rather than repeating the first page's title.
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	if ( $paged > 1 && ! is_singular() ) {
+		/* translators: 1: page title, 2: page number. */
+		$part = sprintf( __( '%1$s, page %2$d', 'paulus' ), $part, $paged );
+	}
+	return $part . $sep . $site;
 }
 add_filter( 'pre_get_document_title', 'paulus_seo_title', 99 );
 
@@ -219,6 +227,11 @@ function paulus_meta_description() {
 		if ( ! $meta ) {
 			$meta = wp_strip_all_tags( term_description( $term ) );
 		}
+	}
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	if ( '' !== (string) $meta && $paged > 1 && ! is_singular() ) {
+		/* translators: 1: page number, 2: the description. */
+		$meta = sprintf( __( 'Page %1$d. %2$s', 'paulus' ), $paged, $meta );
 	}
 	return paulus_fit( $meta, PAULUS_META_MAX );
 }
@@ -267,6 +280,9 @@ function paulus_archive_url() {
 	$url = '';
 	if ( is_category() || is_tag() || is_tax() ) {
 		$url = get_term_link( get_queried_object() );
+	} elseif ( is_post_type_archive( 'paulus_journal' ) && get_query_var( 'journal_year' ) && function_exists( 'paulus_journal_url' ) ) {
+		// A year or month of the Journal is a page of its own.
+		$url = paulus_journal_url( (int) get_query_var( 'journal_year' ), (int) get_query_var( 'journal_monthnum' ) );
 	} elseif ( is_post_type_archive() ) {
 		$url = get_post_type_archive_link( (string) get_query_var( 'post_type' ) );
 	} elseif ( is_author() ) {
@@ -332,12 +348,36 @@ function paulus_canonical_link() {
 	if ( paulus_seo_plugin_active() || is_singular() ) {
 		return;
 	}
-	$url = is_search() ? get_search_link() : paulus_archive_url();
+	$url = is_front_page() ? home_url( '/' ) : ( is_search() ? get_search_link() : paulus_archive_url() );
 	if ( $url && ! is_wp_error( $url ) ) {
 		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $url ) );
 	}
 }
 add_action( 'wp_head', 'paulus_canonical_link', 5 );
+
+/**
+ * The site has one author, so WordPress's author archive would only repeat
+ * the sections' listings under a second address. It sends the visitor to
+ * the author's page (else the front page), permanently; the users are left
+ * out of the XML sitemap; and the date archives of articles, which repeat
+ * the listings too, ask not to be indexed (the Journal's own month and
+ * year pages, with descriptions of their own, are not date archives).
+ */
+function paulus_author_archive_redirect() {
+	if ( ! is_author() ) {
+		return;
+	}
+	$about = get_page_by_path( 'about-the-author' );
+	wp_safe_redirect( $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' ), 301 );
+	exit;
+}
+add_action( 'template_redirect', 'paulus_author_archive_redirect' );
+add_filter( 'wp_sitemaps_add_provider', static function ( $provider, $name ) {
+	return 'users' === $name ? false : $provider;
+}, 10, 2 );
+add_filter( 'wp_robots', static function ( $robots ) {
+	return is_date() && ! is_post_type_archive( 'paulus_journal' ) ? wp_robots_no_robots( $robots ) : $robots;
+} );
 
 /**
  * Structured data: breadcrumbs on articles, the book on its page.
@@ -819,13 +859,16 @@ function paulus_webpage_schema( $website ) {
 	// An archive (a section, the Journal, a date) is a page of its own, not
 	// the first post in its loop, so its address and name are the archive's.
 	if ( is_search() ) {
-		$url  = home_url( '/?s=' . rawurlencode( get_search_query( false ) ) );
+		// The same address as the canonical: the clean one where the site
+		// uses clean search addresses.
+		$url  = get_search_link();
 		$name = sprintf( /* translators: %s: search terms. */ __( 'Search results for “%s”', 'paulus' ), get_search_query( false ) );
 	} elseif ( is_front_page() ) {
 		$url  = home_url( '/' );
 		$name = get_bloginfo( 'name' );
 	} elseif ( is_category() ) {
-		$url  = get_term_link( get_queried_object() );
+		// With the page number, as the canonical carries it.
+		$url  = paulus_archive_url();
 		$name = single_cat_title( '', false );
 	} elseif ( is_archive() ) {
 		$url  = paulus_archive_url();
@@ -982,8 +1025,11 @@ function paulus_figure_images_schema() {
 		$f   = $figs[ $row[1] ];
 		$url = PAULUS_URI . '/assets/images/church/' . $row[1] . '.avif';
 		$lic = $f['license_url'] ? $f['license_url'] : ( 'Public domain' === $f['license'] ? 'https://creativecommons.org/publicdomain/mark/1.0/' : '' );
+		// A photograph of a place or an object is a Photograph as well as an
+		// image; a reproduction of a work of art is an image of that work.
+		$form = function_exists( 'paulus_schema_artform' ) ? paulus_schema_artform( $f['alt'] ) : '';
 		$img = array(
-			'@type'              => 'ImageObject',
+			'@type'              => '' === $form ? array( 'ImageObject', 'Photograph' ) : 'ImageObject',
 			'@id'                => $url . '#image',
 			'contentUrl'         => $url,
 			'url'                => $url,
@@ -997,8 +1043,15 @@ function paulus_figure_images_schema() {
 		// Unknown painters and scribes get no creator; museums and firms are
 		// organisations, everyone else a person.
 		if ( ! preg_match( '/^Unknown/i', $f['author'] ) ) {
-			$org            = preg_match( '/Museum|Company|Library|Gallery/i', $f['author'] );
-			$img['creator'] = array( '@type' => $org ? 'Organization' : 'Person', 'name' => preg_replace( '/^Photograph:\s*/', '', $f['author'] ) );
+			$kind = 'Person';
+			if ( preg_match( '/Museum|Gallery/i', $f['author'] ) ) {
+				$kind = 'Museum';
+			} elseif ( preg_match( '/Library/i', $f['author'] ) ) {
+				$kind = 'Library';
+			} elseif ( preg_match( '/Company/i', $f['author'] ) ) {
+				$kind = 'Organization';
+			}
+			$img['creator'] = array( '@type' => $kind, 'name' => preg_replace( '/^Photograph:\s*/', '', $f['author'] ) );
 		}
 		if ( $lic ) {
 			$img['license'] = $lic;
