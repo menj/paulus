@@ -200,7 +200,14 @@ function paulus_seo_title() {
 	/* translators: %d: page number. */
 	$suffix = $paged > 1 && ! is_singular() ? sprintf( __( ', page %d', 'paulus' ), $paged ) : '';
 	$room   = PAULUS_TITLE_MAX - paulus_ulen( $sep . $site ) - paulus_ulen( $suffix );
-	return paulus_fit( $part, max( 10, $room ) ) . $suffix . $sep . $site;
+	// A site name so long that it leaves the page under ten characters gives
+	// way: the page's own title (and page number) within the limit matters
+	// more than the site name, and the limit always holds.
+	if ( $room < 10 ) {
+		$room = PAULUS_TITLE_MAX - paulus_ulen( $suffix );
+		return paulus_fit( $part, max( 1, $room ) ) . $suffix;
+	}
+	return paulus_fit( $part, $room ) . $suffix . $sep . $site;
 }
 add_filter( 'pre_get_document_title', 'paulus_seo_title', 99 );
 

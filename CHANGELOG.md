@@ -21,6 +21,8 @@ Each checked against the code and the rendered page first.
 - The page number of an archive's later pages counts inside the 50-character title limit; the title is fitted around it.
 - The second and later pages of search results name their own address as canonical and in the page node.
 - Without mbstring, a phrase in the text links matched in accented capitals still finds its address.
+- Two lines of the text-link list for the same phrase in different capitals lead to the first one's address either way; before, the capitals could change the destination.
+- A site name so long that it would leave a page's title under ten characters gives way in the title, so the 50-character limit holds on every page, later pages included.
 
 ## [2.62.35] - 2026-10-25
 

@@ -73,7 +73,12 @@ function paulus_text_links_filter( $content ) {
 	$phrases   = wp_list_pluck( $links, 'phrase' );
 	$by_phrase = array();
 	foreach ( $links as $link ) {
-		$by_phrase[ paulus_ustrtolower( $link['phrase'] ) ] = $link['url'];
+		// The first line for a phrase wins, as it does in the phrase-by-phrase
+		// lookup below, so capitals never change where a phrase leads.
+		$key = paulus_ustrtolower( $link['phrase'] );
+		if ( ! isset( $by_phrase[ $key ] ) ) {
+			$by_phrase[ $key ] = $link['url'];
+		}
 	}
 	usort(
 		$phrases,
