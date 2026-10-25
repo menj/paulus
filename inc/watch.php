@@ -527,34 +527,73 @@ add_action( 'wp_dashboard_setup', static function () {
  *
  * @return int Files removed.
  */
+// Removes a folder inside the theme and everything in it. Links are removed,
+// never followed, and nothing outside the theme folder is touched.
+function paulus_remove_tree( $root ) {
+	$theme = realpath( PAULUS_DIR ) . DIRECTORY_SEPARATOR;
+	if ( ! is_dir( $root ) || is_link( $root ) || 0 !== strpos( realpath( $root ), $theme ) ) {
+		return 0;
+	}
+	$gone = 0;
+	$it   = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
+	foreach ( $it as $f ) {
+		if ( $f->isDir() && ! $f->isLink() ) {
+			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
+		} else {
+			@chmod( $f->getPathname(), 0644 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions -- git's pack files are read-only.
+			wp_delete_file( $f->getPathname() );
+			$gone += file_exists( $f->getPathname() ) || is_link( $f->getPathname() ) ? 0 : 1;
+		}
+	}
+	@rmdir( $root ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
+	return $gone;
+}
+
+// Hidden files and folders at the top of the theme folder: the repository's
+// `.git`, `.github`, `.gitignore` and `.gitattributes`, and editor folders
+// (`.vscode`, `.idea`, `.claude`), which an upload of a working copy carries
+// and the web server may serve. Server files that may belong to the host
+// stay. A local or development site keeps them, so a theme run from a
+// working copy keeps its repository; so does `define( 'PAULUS_KEEP_DOTFILES', true );`.
+function paulus_hidden_entries() {
+	if ( ( defined( 'PAULUS_KEEP_DOTFILES' ) && PAULUS_KEEP_DOTFILES )
+		|| in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) ) {
+		return array();
+	}
+	$keep = array( '.', '..', '.htaccess', '.user.ini', '.well-known' );
+	$list = array();
+	foreach ( (array) scandir( PAULUS_DIR ) as $name ) {
+		if ( is_string( $name ) && '.' === substr( $name, 0, 1 ) && ! in_array( $name, $keep, true ) ) {
+			$list[] = PAULUS_DIR . '/' . $name;
+		}
+	}
+	return $list;
+}
+
 function paulus_cleanup_retired_files() {
 	$gone  = 0;
 	$paths = array_merge(
 		array( PAULUS_DIR . '/build.py' ),
 		(array) glob( PAULUS_DIR . '/content/articles/*.{html,htm,txt}', GLOB_BRACE )
 	);
-	foreach ( array( 'content/src', 'sblgnt', '__pycache__' ) as $dir ) {
-		$root = PAULUS_DIR . '/' . $dir;
-		if ( is_dir( $root ) ) {
-			$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
-			foreach ( $it as $f ) {
-				if ( $f->isDir() ) {
-					@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
-				} else {
-					$paths[] = $f->getPathname();
-				}
-			}
+	$dirs = array( PAULUS_DIR . '/content/src', PAULUS_DIR . '/sblgnt', PAULUS_DIR . '/__pycache__' );
+	foreach ( paulus_hidden_entries() as $path ) {
+		if ( is_dir( $path ) && ! is_link( $path ) ) {
+			$dirs[] = $path;
+		} else {
+			$paths[] = $path;
 		}
+	}
+	foreach ( $dirs as $dir ) {
+		$gone += paulus_remove_tree( $dir );
 	}
 	foreach ( $paths as $path ) {
-		if ( is_file( $path ) && 0 === strpos( realpath( $path ), realpath( PAULUS_DIR ) . DIRECTORY_SEPARATOR ) ) {
+		if ( is_link( $path ) ) {
+			wp_delete_file( $path );
+			$gone += is_link( $path ) ? 0 : 1;
+		} elseif ( is_file( $path ) && 0 === strpos( realpath( $path ), realpath( PAULUS_DIR ) . DIRECTORY_SEPARATOR ) ) {
 			wp_delete_file( $path );
 			$gone += file_exists( $path ) ? 0 : 1;
-		}
-	}
-	foreach ( array( 'content/src', 'sblgnt', '__pycache__' ) as $dir ) {
-		if ( is_dir( PAULUS_DIR . '/' . $dir ) ) {
-			@rmdir( PAULUS_DIR . '/' . $dir ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
 		}
 	}
 	return $gone;
@@ -572,6 +611,12 @@ add_action( 'admin_init', static function () {
 	}
 } );
 add_action( 'paulus_image_housekeeping', 'paulus_cleanup_retired_files', 20 );
+add_action( 'after_switch_theme', static function () {
+	$gone = paulus_cleanup_retired_files();
+	if ( $gone ) {
+		error_log( 'Paulus: removed ' . $gone . ' retired and hidden files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+	}
+} );
 
 /*
  * Addresses that should not be answered with a page.

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.41
+Stable tag: 2.62.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.42 =
+* Hidden files and folders an upload of the repository carries (.git, .github, .gitignore and the like) are removed from the theme folder when the theme is activated, once per version and weekly.
 
 = 2.62.41 =
 * Maintenance mode (Theme Options, Maintenance): visitors see the "Back shortly" page with a 503 while anyone signed in sees the site. It holds even while WordPress itself is being uploaded, through a rule the theme writes into .htaccess, and it can be ended by deleting one file by FTP.
