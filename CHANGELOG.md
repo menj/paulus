@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.37] - 2026-10-25
+
+### Fixed
+- Pressing Install or update site structure (Theme Options, Content, or the install notice) showed no notice afterwards. The handler sends a press from the front page's prompt back to the front page, and judged where a press came from by checking that the referring address began with the full admin address. But `wp_get_referer()` prefers the nonce field's `_wp_http_referer`, a bare path (`/wp-admin/themes.php?page=paulus-options`) that never begins with `https://…/wp-admin/`, so every press in the admin was taken for a front-page one and sent back without its result. The check now compares paths: a press in the admin lands on Theme Options, Content, with the notice; a press on the front page still returns there.
+- When nothing new was installed, the notice now reads "The site is up to date: nothing new to install. Sections, reading order and page hierarchy were checked." The result is removed from the address after the page loads, so a refresh does not show the notice again.
+
 ## [2.62.36] - 2026-10-25
 
 ### Fixed: Rank Math

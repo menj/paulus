@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.36
+Stable tag: 2.62.37
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.37 =
+* Install or update site structure shows its result again. Every press in the admin was sent back without it, so no notice appeared.
 
 = 2.62.36 =
 * Rank Math: the theme covers a page itself while Rank Math is installed but not yet set up, keeps a title or description set in Rank Math's own box, carries its robots choices through Rank Math's filter, keeps the redirected author archive out of Rank Math's author sitemap, and recognises Rank Math's author node. Tested against Rank Math 1.0.279.

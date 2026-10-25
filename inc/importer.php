@@ -427,17 +427,42 @@ function paulus_handle_import() {
 	// the whole pass again.
 	$created = paulus_sync_run( (string) ( paulus_manifest()['content_version'] ?? '' ) );
 
-	$back = wp_get_referer();
-	if ( $back && 0 !== strpos( $back, admin_url() ) ) {
+	// null: another request holds the lock and is running the sync now.
+	$flag = null === $created ? 'busy' : ( false === $created ? 'partial' : (string) $created );
+
+	// A press on the front page's prompt goes back to the front page, which
+	// then shows the installed content. Any press in the admin comes to
+	// Theme Options, Content, with the result for the notice. The page it
+	// came from is judged by its path: wp_get_referer() prefers the nonce
+	// field's _wp_http_referer, a bare path such as /wp-admin/themes.php,
+	// which never begins with the full admin address, so comparing it with
+	// admin_url() (as before) sent every admin press back to where it came
+	// from, without the result, and no notice was ever shown.
+	$back       = (string) wp_get_referer();
+	$back_path  = (string) wp_parse_url( $back, PHP_URL_PATH );
+	$admin_path = (string) wp_parse_url( admin_url( '/' ), PHP_URL_PATH );
+	if ( '' !== $back && '' !== $back_path && 0 !== strpos( trailingslashit( $back_path ), $admin_path ) ) {
 		wp_safe_redirect( $back );
 		exit;
 	}
-	// null: another request holds the lock and is running the sync now.
-	$flag = null === $created ? 'busy' : ( false === $created ? 'partial' : (string) $created );
 	wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&paulus_imported=' . $flag . '#content' ) );
 	exit;
 }
 add_action( 'admin_post_paulus_import', 'paulus_handle_import' );
+
+/**
+ * The result in the address is read once: WordPress takes it out of the
+ * address bar after the page loads, so a refresh does not show the notice
+ * again.
+ *
+ * @param string[] $args Query arguments WordPress removes.
+ * @return string[]
+ */
+function paulus_importer_removable_args( $args ) {
+	$args[] = 'paulus_imported';
+	return $args;
+}
+add_filter( 'removable_query_args', 'paulus_importer_removable_args' );
 
 /**
  * Create or update the whole structure. Used by the install button and by
@@ -786,7 +811,7 @@ function paulus_importer_notice() {
 			$n
 				/* translators: %d: number of items created. */
 				? sprintf( _n( '%d item installed. Site structure updated.', '%d items installed. Site structure updated.', $n, 'paulus' ), $n )
-				: __( 'All starter content already exists. Parts, reading order and page hierarchy were checked and updated.', 'paulus' )
+				: __( 'The site is up to date: nothing new to install. Sections, reading order and page hierarchy were checked.', 'paulus' )
 		)
 	);
 }
