@@ -1633,6 +1633,7 @@ add_filter( 'the_content', 'paulus_section_ids', 7 );
  * @return string
  */
 function paulus_strip_review_notes( $content ) {
+	$content = (string) $content;
 	if ( false === strpos( $content, '<!-- Review before publishing' ) ) {
 		return $content;
 	}

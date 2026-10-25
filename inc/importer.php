@@ -48,8 +48,8 @@ function paulus_manifest() {
  * @return string The text, or '' when there is none or it fails a check.
  */
 function paulus_content_file( $file ) {
-	$name = basename( (string) $file );
-	$stem = preg_replace( '/\.(html?|json)$/', '', $name );
+	$ext  = '/\.(html?|json)$/';
+	$stem = preg_replace( $ext, '', basename( (string) $file ) );
 	if ( ! preg_match( '/^[a-z0-9][a-z0-9-]*$/', $stem ) ) {
 		return '';
 	}
@@ -61,7 +61,7 @@ function paulus_content_file( $file ) {
 	$doc  = is_readable( $path ) ? json_decode( (string) file_get_contents( $path ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
 	$ok   = is_array( $doc )
 		&& 'wordpress-post-content' === ( $doc['format'] ?? '' )
-		&& $stem === preg_replace( '/\.(html?|json)$/', '', (string) ( $doc['name'] ?? '' ) )
+		&& $stem === preg_replace( $ext, '', (string) ( $doc['name'] ?? '' ) )
 		&& is_string( $doc['content'] ?? null )
 		&& md5( $doc['content'] ) === ( $doc['md5'] ?? '' );
 	return $cache[ $stem ] = $ok ? $doc['content'] : '';

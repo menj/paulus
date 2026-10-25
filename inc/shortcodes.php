@@ -344,7 +344,8 @@ add_shortcode( 'paulus_email', 'paulus_sc_email' );
 function paulus_sc_theme_page( $atts ) {
 	$atts = shortcode_atts( array( 'file' => '' ), $atts, 'paulus_theme_page' );
 	$file = sanitize_file_name( basename( (string) $atts['file'] ) );
-	$html = '' !== $file ? paulus_content_file( $file ) : '';
+	// Rendered here, after the_content has run, so it drops its own review notes.
+	$html = '' !== $file ? paulus_strip_review_notes( paulus_content_file( $file ) ) : '';
 	if ( '' === trim( $html ) ) {
 		return '';
 	}
