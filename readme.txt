@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.34
+Stable tag: 2.62.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.35 =
+* The release zip leaves out what the running theme never reads (the chapter sources, the build script, the Greek text, the keyword research, the changelog): about 2.6 MB less, through export-ignore rules that git archive and GitHub's Download ZIP both follow.
 
 = 2.62.34 =
 * Structured data in every kind schema.org has for what the pages hold: cities, countries and provinces; paintings, sculptures, drawings, manuscripts and maps; photographs, and the churches, mosques and landmarks they show; the book's chapters, with each article drawn from its chapter; the Greek and Arabic quotations; tables; the side rail; read and buy actions; the timeline's events with their places and dates; the sources by kind; the 2023 edition; forty more people, works, places, groups and councils as linked entities.

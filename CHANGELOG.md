@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.35] - 2026-10-25
+
+### Changed
+- The release zip leaves out what the running theme never reads: `content/src/` (the chapter sources), `build.py`, `sblgnt/` (the Greek text the build quotes from), `docs/` (the keyword research), `CHANGELOG.md` and git's own files, about 2.6 MB. `.gitattributes` marks them `export-ignore`, which `git archive` and GitHub's "Download ZIP" both honour, so a zip made either way installs only what the site uses: `content/articles/` (the installer reads them), `assets/docs/` (the Martin notes are served), README.md and UPGRADING.md (the owner reads them beside the theme). Nothing is deleted from an installed theme, and nothing changes for a site that already has the files: a theme must not edit its own folder, and a later upload would put them back.
+
 ## [2.62.34] - 2026-10-25
 
 ### Added
