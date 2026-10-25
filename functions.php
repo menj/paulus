@@ -498,7 +498,6 @@ require_once PAULUS_DIR . '/inc/login.php';
 require_once PAULUS_DIR . '/inc/dropins.php';
 require_once PAULUS_DIR . '/inc/honorific.php';
 require_once PAULUS_DIR . '/inc/search.php';
-require_once PAULUS_DIR . '/inc/companions.php';
 
 /**
  * Preload the three fonts every page paints with above the fold, so the

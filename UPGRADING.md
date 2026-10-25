@@ -36,10 +36,6 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
-### 2.62.31 to 2.62.32
-
-- **Companion sites.** Articles, entries and pages now end with a "Further reading elsewhere" band of links to bestofislam.org and injil.help, the footer and the author card name the two sites, and the Sitemap page lists them. All of it is on by default; the switches and the lists are on the new Companions tab of Theme Options. Nothing to do unless you would rather not link them.
-
 ### 2.62.29 to 2.62.31
 
 - **Application passwords** are off from 2.62.30. A site that uses one (a mobile app, a publishing tool, a connector) must switch them back on under Appearance, Theme Options, Login, or that tool is refused at the REST API and XML-RPC until it does.

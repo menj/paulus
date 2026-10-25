@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.32
+Stable tag: 2.62.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,9 +36,6 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
-
-= 2.62.32 =
-* Companion sites: Best of Islam (bestofislam.org) and The Rightly-Guided Injil (injil.help) are linked from a "Further reading elsewhere" band after articles, entries and pages, from the footer, the author card and the Sitemap page, and in the structured data. Theme Options, Companions holds the sites and the page-by-page links.
 
 = 2.62.31 =
 * Security: the private login address could be reached through a posted password form; the drop-in error pages are written only when an administrator loads an admin page; the login and search settings on Permalinks check the user's capability.

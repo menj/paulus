@@ -52,7 +52,6 @@
 	width: 100%; max-width: 620px; padding: 9px 12px; border: 1px solid #d8ccb8; border-radius: 8px; background: var(--pa-field); color: var(--pa-ink); font-size: 14px; line-height: 1.5; box-shadow: none;
 }
 .paulus-panel textarea { min-height: 96px; }
-#paulus-companion_links { min-height: 320px; }
 .paulus-panel textarea.code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
 .paulus-panel input:focus, .paulus-panel textarea:focus { border-color: var(--pa-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pa-accent) 22%, transparent); outline: 0; }
 
