@@ -535,7 +535,13 @@ function paulus_remove_tree( $root ) {
 		return 0;
 	}
 	$gone = 0;
-	$it   = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
+	// A folder that cannot be opened is skipped (CATCH_GET_CHILD), and one
+	// that cannot be listed at all ends the walk, never the admin page.
+	try {
+		$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST, RecursiveIteratorIterator::CATCH_GET_CHILD );
+	} catch ( UnexpectedValueException $e ) {
+		return 0;
+	}
 	foreach ( $it as $f ) {
 		if ( $f->isDir() && ! $f->isLink() ) {
 			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
