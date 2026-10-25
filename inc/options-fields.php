@@ -108,6 +108,7 @@ function paulus_fields() {
 				'login_logo_url' => array( __( 'Logo image address, in place of the medallion (leave empty for the medallion; a file named login-logo.png in wp-content is used when this is empty)', 'paulus' ), 'url' ),
 				'login_tagline'  => array( __( 'Line under the site name', 'paulus' ), 'text' ),
 				'login_greek'    => array( __( 'Greek inscription above the form: ΕΙΣΕΛΘΑΤΕ, "enter", Matthew 7:13', 'paulus' ), 'checkbox' ),
+				'login_app_passwords' => array( __( 'Application passwords (per-application passwords for the REST API and XML-RPC, under Users, Profile; off by default, so no such password can be made or used)', 'paulus' ), 'checkbox' ),
 			),
 		),
 		'journal'    => array(

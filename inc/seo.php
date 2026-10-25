@@ -158,7 +158,7 @@ function paulus_title_part() {
 	}
 	if ( is_search() ) {
 		/* translators: %s: search terms. */
-		return sprintf( __( 'Search: %s', 'paulus' ), get_search_query( false ) );
+		return sprintf( __( 'Search: %s', 'paulus' ), wp_strip_all_tags( get_search_query( false ) ) );
 	}
 	if ( is_404() ) {
 		return __( 'Page not found', 'paulus' );

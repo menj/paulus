@@ -19,6 +19,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Application passwords are off unless switched on under Theme Options,
+ * Login. With them off WordPress neither shows the section on the profile
+ * screen nor accepts an existing application password at the REST API or
+ * XML-RPC, so the only way in is the login form.
+ *
+ * @param bool $available Whether WordPress would offer them.
+ * @return bool
+ */
+function paulus_application_passwords_available( $available ) {
+	return paulus_option( 'login_app_passwords' ) ? $available : false;
+}
+add_filter( 'wp_is_application_passwords_available', 'paulus_application_passwords_available' );
+
+/**
  * The image above the login form: the address set on Theme Options, then
  * wp-content/login-logo.png, then the chosen portrait (a medallion).
  *

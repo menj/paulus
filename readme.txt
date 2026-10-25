@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.29
+Stable tag: 2.62.30
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.30 =
+* Application passwords are off by default; a switch on Theme Options, Login turns them back on.
+* The search results title no longer carries markup from the search terms.
 
 = 2.62.29 =
 * Documentation brought up to date (README, UPGRADING, this file, CHANGELOG). The licence file is one flowing document, LICENSES.md.

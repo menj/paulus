@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.30] - 2026-10-25
+
+### Added
+- Application passwords (the per-application passwords WordPress offers under Users, Profile for the REST API and XML-RPC) are off by default: the theme answers `wp_is_application_passwords_available` with false, so the section is not shown and an existing application password is not accepted. A switch on Theme Options, Login turns them back on (option `login_app_passwords`).
+
+### Fixed
+- The `<title>` of the search results page took the search terms as typed. Through `pre_get_document_title` that text bypasses the escaping WordPress applies to its own title, so a search for markup was printed as markup. The terms are stripped of tags first.
+
 ## [2.62.29] - 2026-10-10
 
 ### Changed
