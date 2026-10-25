@@ -11,7 +11,7 @@ Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsu
 
 == Description ==
 
-Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and eighty-one licensed photographs and reproductions, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
+Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and eighty-two licensed photographs and reproductions, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
 
 == Installation ==
 
@@ -38,7 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.62.38 =
-* Four new figures, each credited and licensed: Raphael's Saint Paul Preaching in Athens, Enrique Simonet's The Beheading of Saint Paul, Giovanni Antonio Molineri's The Martyrdom of Saint Paul, and Pierre-Étienne Monnot's statue of Paul in the Lateran. The articles refresh on sites where they were never edited.
+* Five new figures, each credited and licensed: Raphael's Saint Paul Preaching in Athens, Enrique Simonet's The Beheading of Saint Paul, Giovanni Antonio Molineri's The Martyrdom of Saint Paul, Pierre-Étienne Monnot's statue of Paul in the Lateran, and the beheading of Paul from the Saint-Bertin picture book (Koninklijke Bibliotheek, The Hague). The articles refresh on sites where they were never edited.
 * The content texts are JSON files with a checksum, in place of HTML files. The chapter drafts, the build script and the Greek text it read are removed: the site never used them.
 
 = 2.62.37 =
