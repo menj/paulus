@@ -39,6 +39,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.62.37 to 2.62.38
 
 - **Content files are JSON.** The texts in `content/articles/` are now `.json` files, and the `.html` files are gone. Upload the new zip as a whole theme (Appearance, Themes, Add New, replace), not over the old folder by FTP: an FTP copy leaves the old `.html` files behind. They are harmless, since nothing reads them, but you can delete them. Your articles are not touched: each text is byte for byte what it was, so an unedited article is still recognised as unedited.
+- **Build files removed.** `content/src/`, `build.py` and `sblgnt/` are no longer in the theme. The site never read them, so nothing changes on it; an FTP copy over the old folder leaves them behind, and they can be deleted.
 - **Four new figures** reach the articles that hold them on the first admin page load.
 
 ### 2.62.35 to 2.62.36

@@ -1,6 +1,5 @@
-# Files the running theme never reads: the chapter sources (JSON drafts) and the script
-# that builds them, the Greek text the build quotes from, the keyword
-# research, and the repository's own housekeeping. `git archive` leaves
+# Files the running theme never reads: the keyword research and the
+# repository's own housekeeping. `git archive` leaves
 # them out of a release zip (so does GitHub's "Download ZIP"):
 #
 #   git archive --format=zip --prefix=paulus/ -o paulus-$(sed -n 's/^Version:\s*//p' style.css).zip HEAD
@@ -8,9 +7,6 @@
 # The installed theme keeps content/articles (the JSON texts the installer reads),
 # assets/docs (the Martin notes are served to visitors), README.md and
 # UPGRADING.md (the owner reads them on the site).
-build.py        export-ignore
-content/src/    export-ignore
-sblgnt/         export-ignore
 docs/           export-ignore
 CHANGELOG.md    export-ignore
 .gitignore      export-ignore

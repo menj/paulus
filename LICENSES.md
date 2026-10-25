@@ -18,6 +18,10 @@ The Arabic script is set in three fonts by what it is. Quranic verses use KFGQPC
 
 Two typefaces are not free for a public site. Sabon Next LT is a Monotype font whose desktop licence does not cover web embedding, so a web font licence is required. Dubidam and Dubidam Arabic are NamelaType's free personal-use editions (copyright 2023 NamelaType, designed by Nur Syamsi and Bustanul Arifin); they replace digits and most punctuation with a watermark, so the theme asks them for letters only, and a site that sells a book needs the commercial licence, which also removes the watermark. Because the site is public, visitors download these fonts, so this point stands even though the theme itself is never shared.
 
+## Scripture
+
+The Greek of the New Testament passages quoted in the articles is from the SBL Greek New Testament (SBLGNT), edited by Michael W. Holmes, copyright 2010 Society of Biblical Literature and Logos Bible Software, used under the Creative Commons Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/); the textual apparatus sigla were removed. The English beneath it is the King James Version, in the public domain outside the United Kingdom. Qurʾānic verses are quoted in Arabic with English renderings following Saheeh International, as the Sources page states.
+
 ## Icons
 
 The social and platform icons come from the Minimalist Social & Platform Icons Pack, released under the GPL; 36 of its icons began as public-domain (CC0) marks and the rest are simple glyphs redrawn from each brand's own logo. Two are the exception: the LinkedIn and Scribd icons come from Font Awesome Free (CC BY 4.0), whose attribution is a condition of the licence. The credit to use wherever those two icons appear is "Icons by Font Awesome (fontawesome.com), CC BY 4.0". The brand names and logos remain trademarks of their owners, and the icons are used only to link to the author's own profiles.

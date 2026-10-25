@@ -39,7 +39,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 
 = 2.62.38 =
 * Four new figures, each credited and licensed: Raphael's Saint Paul Preaching in Athens, Enrique Simonet's The Beheading of Saint Paul, Giovanni Antonio Molineri's The Martyrdom of Saint Paul, and Pierre-Étienne Monnot's statue of Paul in the Lateran. The articles refresh on sites where they were never edited.
-* The content texts and their chapter sources are JSON files with a checksum, in place of HTML and .txt files.
+* The content texts are JSON files with a checksum, in place of HTML files. The chapter drafts, the build script and the Greek text it read are removed: the site never used them.
 
 = 2.62.37 =
 * Install or update site structure shows its result again. Every press in the admin was sent back without it, so no notice appeared.
