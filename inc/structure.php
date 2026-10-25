@@ -48,6 +48,13 @@ function paulus_parts() {
  * @return WP_Post[]
  */
 function paulus_chapters( $term_id = 0 ) {
+	// A single article view asks for this list from five places (the hero,
+	// the rail, the series list, the reading order, the related articles),
+	// so the result is kept for the rest of the request.
+	static $cache = array();
+	if ( isset( $cache[ (int) $term_id ] ) ) {
+		return $cache[ (int) $term_id ];
+	}
 	$args = array(
 		'post_type'      => 'post',
 		'post_status'    => 'publish',
@@ -68,7 +75,8 @@ function paulus_chapters( $term_id = 0 ) {
 	if ( $term_id ) {
 		$args['cat'] = (int) $term_id;
 	}
-	return get_posts( $args );
+	$cache[ (int) $term_id ] = get_posts( $args );
+	return $cache[ (int) $term_id ];
 }
 
 /**
@@ -759,48 +767,6 @@ add_shortcode( 'paulus_footer_social', 'paulus_sc_footer_social' );
 function paulus_sitemap_page() {
 	return get_page_by_path( 'sitemap' ) ?: get_page_by_path( 'site-map' );
 }
-
-/**
- * Permanent redirects from page addresses that changed in a release,
- * listed in the manifest as 'was_slug'. WordPress keeps old slugs and
- * redirects them for posts, but not for pages, so without this any link
- * or search listing pointing at the old address would find a 404.
- */
-function paulus_redirect_old_page_slugs() {
-	if ( ! is_404() ) {
-		return;
-	}
-	$request = trim( (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ), '/' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
-	$base    = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
-	if ( '' !== $base && 0 === strpos( $request, $base . '/' ) ) {
-		$request = substr( $request, strlen( $base ) + 1 );
-	}
-	foreach ( paulus_manifest()['pages'] as $item ) {
-		// A page moved to a new parent: its old address under the old parent.
-		if ( ! empty( $item['was_parent'] ) && $request === $item['was_parent'] . '/' . $item['slug'] ) {
-			$page = get_page_by_path( ( $item['parent'] ?? '' ) . '/' . $item['slug'] );
-			if ( $page && 'publish' === $page->post_status ) {
-				wp_safe_redirect( get_permalink( $page ), 301 );
-				exit;
-			}
-		}
-		if ( empty( $item['was_slug'] ) ) {
-			continue;
-		}
-		$prefix = ! empty( $item['parent'] ) ? $item['parent'] . '/' : '';
-		if ( $request !== $prefix . $item['was_slug'] ) {
-			continue;
-		}
-		$page = get_page_by_path( $prefix . $item['slug'] );
-		if ( $page && 'publish' === $page->post_status ) {
-			wp_safe_redirect( get_permalink( $page ), 301 );
-			exit;
-		}
-	}
-}
-// Redirects are left to the site owner: the theme renames addresses and
-// does not redirect old ones.
-// add_action( 'template_redirect', 'paulus_redirect_old_page_slugs', 1 );
 
 /**
  * Footer brand block: the wordmark and a line about the site.
@@ -1666,7 +1632,9 @@ function paulus_answers_navigation( $content ) {
 			$mark  = '<a class="paulus-anchor" href="#' . esc_attr( $h[1] ) . '" aria-label="' . esc_attr__( 'Link to this question', 'paulus' ) . '">#</a>';
 			$lead  = $first ? '' : $back;
 			$first = false;
-			return $lead . '<h2 id="' . $h[1] . '"' . $h[2] . '>' . $h[3] . ' ' . $mark . '</h2>';
+			// The heading's own id and attributes come from the stored content;
+			// they go back out through the same allowlist the editor applies.
+			return $lead . wp_kses_post( '<h2 id="' . esc_attr( $h[1] ) . '"' . $h[2] . '>' ) . $h[3] . ' ' . $mark . '</h2>';
 		},
 		$content
 	);

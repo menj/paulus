@@ -80,9 +80,20 @@ function paulus_unlist_query( $q ) {
 		return;
 	}
 	$ids = paulus_unlisted_ids();
-	if ( $ids ) {
-		$q->set( 'post__not_in', array_values( array_unique( array_merge( (array) $q->get( 'post__not_in' ), $ids ) ) ) );
+	if ( ! $ids ) {
+		return;
 	}
+	// WP_Query ignores post__not_in whenever post__in is given (a REST
+	// request with ?include=, a theme list), so unlisted items are taken
+	// out of post__in itself; an emptied list asks for a post that cannot
+	// exist, rather than for every post.
+	$in = array_filter( array_map( 'intval', (array) $q->get( 'post__in' ) ) );
+	if ( $in ) {
+		$in = array_values( array_diff( $in, $ids ) );
+		$q->set( 'post__in', $in ? $in : array( 0 ) );
+		return;
+	}
+	$q->set( 'post__not_in', array_values( array_unique( array_merge( (array) $q->get( 'post__not_in' ), $ids ) ) ) );
 }
 add_action( 'pre_get_posts', 'paulus_unlist_query' );
 

@@ -9,13 +9,20 @@ Syntax in source:
 import re,sys,json,os,urllib.request,urllib.parse,html
 BASE=os.path.dirname(os.path.abspath(__file__))
 CACHE=os.path.join(BASE,'kjv-cache.json')
-cache=json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+cache=json.load(open(CACHE,encoding='utf-8')) if os.path.exists(CACHE) else {}
 def kjv(ref):
     if ref in cache: return cache[ref]
     u='https://bible-api.com/'+urllib.parse.quote(ref)+'?translation=kjv'
-    d=json.load(urllib.request.urlopen(u,timeout=30))
-    verses=[(v['verse'],' '.join(v['text'].split())) for v in d['verses']]
-    cache[ref]=verses; json.dump(cache,open(CACHE,'w')); return verses
+    try:
+        with urllib.request.urlopen(u,timeout=30) as r:
+            d=json.load(r)
+    except (OSError,ValueError) as e:
+        sys.exit(f'Could not fetch {ref} from bible-api.com ({e}); add it to {CACHE} or retry with a network connection.')
+    # The fetched text is data from another site: escaped before it is set in HTML.
+    verses=[(v['verse'],html.escape(' '.join(v['text'].split()),quote=False)) for v in d['verses']]
+    cache[ref]=verses
+    with open(CACHE,'w',encoding='utf-8') as f: json.dump(cache,f,ensure_ascii=False)
+    return verses
 ABBR=('cf.','c.','St.','pp.','p.','vol.','no.','ed.','trans.','e.g.','i.e.','al.','Dr.','Mr.','Rev.','ibid.','op. cit.','fol.','fols.','v.','vv.','viz.','ch.')
 def split_para(t, maxn=3):
     # sentence boundaries: . ? ! followed by space and a capital/quote/ʿ; avoid abbreviations and markup
@@ -58,14 +65,14 @@ def greek(ref):
     return out
 URL_RE = re.compile(r'https?://[^\s<>"\']+')
 
-def linkify(html):
+def linkify(markup):
     """Wrap every bare web address in a link. Addresses already inside a tag
     (an href or src) or inside a link's text are left alone; trailing
     sentence punctuation stays outside the link."""
     out, pos = [], 0
-    for m in re.finditer(r'<a\b[^>]*>.*?</a>|<[^>]+>', html, flags=re.S):
-        out.append(_link_text(html[pos:m.start()])); out.append(m.group(0)); pos = m.end()
-    out.append(_link_text(html[pos:]))
+    for m in re.finditer(r'<a\b[^>]*>.*?</a>|<[^>]+>', markup, flags=re.S):
+        out.append(_link_text(markup[pos:m.start()])); out.append(m.group(0)); pos = m.end()
+    out.append(_link_text(markup[pos:]))
     return ''.join(out)
 
 def _link_text(text):
@@ -77,7 +84,7 @@ def _link_text(text):
     return URL_RE.sub(rep, text)
 
 def build(src,dst,prefix):
-    t=open(src).read()
+    t=open(src,encoding='utf-8').read()
     notes=[]
     def fn(ref_text):
         notes.append(ref_text.strip()); n=len(notes)
@@ -114,7 +121,7 @@ def build(src,dst,prefix):
         elif b.startswith('>>'): out.append(f'<blockquote class="scripture"><p>{b[2:].strip()}</p></blockquote>')
         elif b.startswith('>'):
             paras=[re.sub(r'^>\s?','',l) for l in b.split('\n')]
-            out.append('<blockquote>'+''.join(f'<p>{p}</p>' for p in ' '.join(paras).split('\n')) +'</blockquote>') if False else out.append('<blockquote><p>'+' '.join(paras)+'</p></blockquote>')
+            out.append('<blockquote><p>'+' '.join(paras)+'</p></blockquote>')
         elif b.startswith('<!--fig-->'): out.append(b[len('<!--fig-->'):])
         elif b.startswith('<table'): out.append('<div class="paulus-table-wrap">'+b+'</div>')
         elif b.startswith('<'): out.append(b)
@@ -122,7 +129,7 @@ def build(src,dst,prefix):
             for chunk in split_para(' '.join(b.split('\n'))): out.append('<p>'+chunk+'</p>')
     if notes:
         out.append('<ol class="footnotes">'+''.join(f'<li id="fn{prefix}-{i+1}">{n} <a href="#ref{prefix}-{i+1}" aria-label="Back to text">↩</a></li>' for i,n in enumerate(notes))+'</ol>')
-    open(dst,'w').write(linkify('\n\n'.join(out))+'\n')
+    open(dst,'w',encoding='utf-8').write(linkify('\n\n'.join(out))+'\n')
     return len(notes)
 if __name__=='__main__':
     import glob

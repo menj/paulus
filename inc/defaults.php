@@ -84,6 +84,7 @@ function paulus_defaults() {
 		'login_logo_url'   => '',
 		'login_tagline'    => 'Authors and editors only.',
 		'login_greek'      => 1,
+		'login_app_passwords' => 0,
 		'journal_title'    => 'Journal',
 		'journal_intro'    => 'Replies to missionary claims, notes on new sources and news of the book, dated as they are written.',
 		'journal_meta'     => 'Dated replies to missionary claims, notes on new sources and news on the case against Paul of Tarsus. Read the latest entry.',
@@ -117,10 +118,15 @@ function paulus_defaults() {
  * @return mixed
  */
 function paulus_option( $key ) {
-	$opts     = get_option( 'paulus_options', array() );
-	$defaults = paulus_defaults();
+	// Read dozens of times a page; the defaults (eighty translated strings)
+	// are built once a request, not once a read.
+	static $defaults = null;
+	$opts = get_option( 'paulus_options', array() );
 	if ( is_array( $opts ) && array_key_exists( $key, $opts ) ) {
 		return $opts[ $key ];
+	}
+	if ( null === $defaults ) {
+		$defaults = paulus_defaults();
 	}
 	return $defaults[ $key ] ?? '';
 }

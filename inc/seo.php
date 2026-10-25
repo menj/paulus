@@ -158,7 +158,7 @@ function paulus_title_part() {
 	}
 	if ( is_search() ) {
 		/* translators: %s: search terms. */
-		return sprintf( __( 'Search: %s', 'paulus' ), get_search_query( false ) );
+		return sprintf( __( 'Search: %s', 'paulus' ), wp_strip_all_tags( get_search_query( false ) ) );
 	}
 	if ( is_404() ) {
 		return __( 'Page not found', 'paulus' );
@@ -257,6 +257,40 @@ foreach ( array( 'rank_math/frontend/description', 'rank_math/opengraph/facebook
 unset( $paulus_hook );
 
 /**
+ * The address of the archive being viewed, with its page number: a section
+ * (category), the Journal (post type archive), a tag or term, an author, a
+ * date. Empty on any other view.
+ *
+ * @return string
+ */
+function paulus_archive_url() {
+	$url = '';
+	if ( is_category() || is_tag() || is_tax() ) {
+		$url = get_term_link( get_queried_object() );
+	} elseif ( is_post_type_archive() ) {
+		$url = get_post_type_archive_link( (string) get_query_var( 'post_type' ) );
+	} elseif ( is_author() ) {
+		$url = get_author_posts_url( (int) get_query_var( 'author' ) );
+	} elseif ( is_day() ) {
+		$url = get_day_link( (int) get_query_var( 'year' ), (int) get_query_var( 'monthnum' ), (int) get_query_var( 'day' ) );
+	} elseif ( is_month() ) {
+		$url = get_month_link( (int) get_query_var( 'year' ), (int) get_query_var( 'monthnum' ) );
+	} elseif ( is_year() ) {
+		$url = get_year_link( (int) get_query_var( 'year' ) );
+	}
+	if ( ! is_string( $url ) || '' === $url ) {
+		return '';
+	}
+	// The second and later pages are addresses of their own; a canonical
+	// that always named the first page would hide them from search engines.
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	if ( $paged > 1 ) {
+		$url = get_pagenum_link( $paged );
+	}
+	return $url;
+}
+
+/**
  * Head tags: description, Open Graph, Twitter card, canonical is WP's own.
  */
 function paulus_head_meta() {
@@ -265,7 +299,7 @@ function paulus_head_meta() {
 	}
 	$desc  = paulus_meta_description();
 	$title = wp_get_document_title();
-	$url   = is_front_page() ? home_url( '/' ) : ( is_singular() ? get_permalink() : ( is_category() ? get_term_link( get_queried_object() ) : '' ) );
+	$url   = is_front_page() ? home_url( '/' ) : ( is_singular() ? get_permalink() : paulus_archive_url() );
 	$image = is_singular() && has_post_thumbnail() ? get_the_post_thumbnail_url( null, 'large' ) : paulus_image_url( 'paul-portrait' );
 	// Link previews take the JPEG copy: social networks do not show AVIF.
 	$image = paulus_social_for_url( $image ) ? paulus_social_for_url( $image ) : paulus_social_image_url( 'paul-portrait' );
@@ -298,12 +332,7 @@ function paulus_canonical_link() {
 	if ( paulus_seo_plugin_active() || is_singular() ) {
 		return;
 	}
-	$url = '';
-	if ( is_category() ) {
-		$url = get_term_link( get_queried_object() );
-	} elseif ( is_search() ) {
-		$url = get_search_link();
-	}
+	$url = is_search() ? get_search_link() : paulus_archive_url();
 	if ( $url && ! is_wp_error( $url ) ) {
 		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $url ) );
 	}
@@ -787,8 +816,27 @@ function paulus_webpage_schema( $website ) {
 	if ( is_single() || is_404() ) {
 		return array();
 	}
-	$url  = is_search() ? home_url( '/?s=' . rawurlencode( get_search_query( false ) ) ) : ( is_category() ? get_term_link( get_queried_object() ) : ( is_front_page() ? home_url( '/' ) : get_permalink() ) );
-	$name = is_search() ? sprintf( /* translators: %s: search terms. */ __( 'Search results for “%s”', 'paulus' ), get_search_query( false ) ) : ( is_category() ? single_cat_title( '', false ) : ( is_front_page() ? get_bloginfo( 'name' ) : get_the_title() ) );
+	// An archive (a section, the Journal, a date) is a page of its own, not
+	// the first post in its loop, so its address and name are the archive's.
+	if ( is_search() ) {
+		$url  = home_url( '/?s=' . rawurlencode( get_search_query( false ) ) );
+		$name = sprintf( /* translators: %s: search terms. */ __( 'Search results for “%s”', 'paulus' ), get_search_query( false ) );
+	} elseif ( is_front_page() ) {
+		$url  = home_url( '/' );
+		$name = get_bloginfo( 'name' );
+	} elseif ( is_category() ) {
+		$url  = get_term_link( get_queried_object() );
+		$name = single_cat_title( '', false );
+	} elseif ( is_archive() ) {
+		$url  = paulus_archive_url();
+		$name = paulus_title_part();
+		if ( '' === $url ) {
+			$url = home_url( '/' );
+		}
+	} else {
+		$url  = get_permalink();
+		$name = get_the_title();
+	}
 	$node = array(
 		'@type'      => 'WebPage',
 		'@id'        => $url . '#webpage',
@@ -980,7 +1028,8 @@ function paulus_rank_math_json_ld( $data ) {
 	// connect_schema_entities() only rewrites entries whose key starts with
 	// "schema-" (or "richSnippet"), so a paulus_* key is passed through
 	// untouched instead of being folded into its own entity graph.
-	foreach ( paulus_schema_additions( is_array( $data ) ? $data : array() ) as $i => $entity ) {
+	$data = is_array( $data ) ? $data : array();
+	foreach ( paulus_schema_additions( $data ) as $i => $entity ) {
 		$data[ 'paulus_' . $i ] = $entity;
 	}
 	// Deepen Rank Math's own nodes and the theme's, and add the components
@@ -1063,6 +1112,10 @@ function paulus_meta_box_html( $post ) {
  * @param int $post_id Post ID.
  */
 function paulus_meta_save( $post_id ) {
+	// Autosaves and revisions carry no meta box of their own.
+	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+		return;
+	}
 	if ( ! isset( $_POST['paulus_meta_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['paulus_meta_nonce'] ), 'paulus_meta' ) || ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}

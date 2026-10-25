@@ -448,6 +448,13 @@ function paulus_schema_sections( $content, $base ) {
  * @return array
  */
 function paulus_schema_mentions( $content ) {
+	// Asked for the same text twice a page (the page node and the article
+	// node); the fifty regular expressions over the whole text run once.
+	static $cache = array();
+	$key = md5( (string) $content );
+	if ( isset( $cache[ $key ] ) ) {
+		return $cache[ $key ];
+	}
 	$text = paulus_schema_text( $content );
 	$out  = array();
 	foreach ( paulus_schema_entities() as $e ) {
@@ -455,6 +462,7 @@ function paulus_schema_mentions( $content ) {
 			$out[] = array( '@id' => $e['@id'] );
 		}
 	}
+	$cache[ $key ] = $out;
 	return $out;
 }
 
@@ -1143,32 +1151,40 @@ function paulus_schema_deepen( $nodes ) {
 		}
 	}
 	// Page elements and components, then every site entity the graph now
-	// refers to, each as a node of its own.
+	// refers to, each as a node of its own. The deepened graph is encoded
+	// once for all the lookups below; only the short list of added nodes,
+	// which grows as they are found, is encoded again.
 	$extra = array_merge( paulus_schema_page_elements(), array_map( 'paulus_schema_deepen_node', paulus_schema_component_nodes() ) );
+	$json  = (string) wp_json_encode( $nodes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+	$refers = static function ( $id ) use ( $json, &$extra ) {
+		return false !== strpos( $json, '"' . $id . '"' ) || paulus_schema_refers( $extra, $id );
+	};
 	foreach ( paulus_schema_entities() as $entity ) {
 		unset( $entity['__re'] );
-		if ( paulus_schema_refers( array( $nodes, $extra ), $entity['@id'] ) ) {
+		if ( $refers( $entity['@id'] ) ) {
 			$extra[] = $entity;
 		}
 	}
-	if ( paulus_schema_refers( array( $nodes, $extra ), paulus_sid( 'book' ) ) && ! isset( $ids[ paulus_sid( 'book' ) ] ) ) {
+	if ( $refers( paulus_sid( 'book' ) ) && ! isset( $ids[ paulus_sid( 'book' ) ] ) ) {
 		$extra[] = paulus_schema_book_ref();
 	}
 	// The author and publisher, where no node on the page describes them.
-	if ( empty( $GLOBALS['paulus_sd_ids']['author'] ) && ! isset( $ids[ paulus_sid( 'author' ) ] ) && paulus_schema_refers( array( $nodes, $extra ), paulus_sid( 'author' ) ) ) {
+	if ( empty( $GLOBALS['paulus_sd_ids']['author'] ) && ! isset( $ids[ paulus_sid( 'author' ) ] ) && $refers( paulus_sid( 'author' ) ) ) {
 		$extra[] = paulus_schema_deepen_node( array( '@id' => paulus_sid( 'author' ) ) + paulus_person_schema() );
 	}
-	if ( empty( $GLOBALS['paulus_sd_ids']['publisher'] ) && ! isset( $ids[ paulus_sid( 'publisher' ) ] ) && paulus_schema_refers( array( $nodes, $extra ), paulus_sid( 'publisher' ) ) ) {
+	if ( empty( $GLOBALS['paulus_sd_ids']['publisher'] ) && ! isset( $ids[ paulus_sid( 'publisher' ) ] ) && $refers( paulus_sid( 'publisher' ) ) ) {
 		$extra[] = paulus_schema_deepen_node( array( '@id' => paulus_sid( 'publisher' ) ) + paulus_org_schema() );
 	}
 	// Nodes on other pages that this page points to: named, with their address.
-	if ( function_exists( 'paulus_journal_url' ) && paulus_schema_refers( array( $nodes, $extra ), paulus_journal_url() . '#blog' ) && ! is_post_type_archive( 'paulus_journal' ) ) {
+	if ( function_exists( 'paulus_journal_url' ) && $refers( paulus_journal_url() . '#blog' ) && ! is_post_type_archive( 'paulus_journal' ) ) {
 		$extra[] = array( '@type' => 'Blog', '@id' => paulus_journal_url() . '#blog', 'name' => (string) paulus_option( 'journal_title' ), 'url' => paulus_journal_url() );
 	}
 	$archive = get_page_by_path( 'appendices/dale-b-martin-luke-versus-paul' );
-	if ( $archive && ! is_page( $archive->ID ) && paulus_schema_refers( array( $nodes, $extra ), get_permalink( $archive ) . '#manuscript' ) ) {
+	if ( $archive && ! is_page( $archive->ID ) && $refers( get_permalink( $archive ) . '#manuscript' ) ) {
 		$extra[] = array( '@type' => 'Manuscript', '@id' => get_permalink( $archive ) . '#manuscript', 'name' => '“Luke” versus Paul', 'author' => array( '@id' => paulus_sid( 'dale-b-martin' ) ), 'url' => get_permalink( $archive ) );
-		if ( ! paulus_schema_refers( array( $nodes, $extra ), paulus_sid( 'dale-b-martin' ) . '"' ) ) {
+		// Martin's own node follows unless the graph describes him already
+		// (the entity loop above adds it when the text names him).
+		if ( ! isset( $ids[ paulus_sid( 'dale-b-martin' ) ] ) && ! paulus_schema_refers( $extra, paulus_sid( 'dale-b-martin' ) ) ) {
 			$extra[] = array_diff_key( paulus_schema_entities()['martin'], array( '__re' => 1 ) );
 		}
 	}

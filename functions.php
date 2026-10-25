@@ -548,12 +548,28 @@ function paulus_sync_structure() {
 	if ( ! paulus_is_installed() ) {
 		return;
 	}
+	paulus_sync_run( $target );
+}
+add_action( 'admin_init', 'paulus_sync_structure', 30 );
+add_action( 'template_redirect', 'paulus_sync_structure' );
+
+/**
+ * Run one pass of the installer under the lock, and record the content
+ * version it reached. Shared by the automatic sync above and the Install
+ * or update button on Theme Options, so the two can never run at once and
+ * a pass started by the button counts as done like any other.
+ *
+ * @param string $target The manifest's content version.
+ * @return int|false|null Items created, false when a step failed, null
+ *                        when another request holds the lock.
+ */
+function paulus_sync_run( $target ) {
 	// A mutex: this can run on both admin_init and template_redirect, so two
 	// requests landing close together must not both run the sync. Adding an
 	// option that already exists fails, which makes the claim atomic; a lock
 	// older than a minute belongs to a request that died, and is taken over.
 	if ( ! paulus_sync_lock() ) {
-		return;
+		return null;
 	}
 	paulus_sync_note( 'articles and pages' );
 	// A fatal error PHP cannot catch (the time limit, memory) is recorded
@@ -578,7 +594,9 @@ function paulus_sync_structure() {
 	// partial failure (a wp_insert_post error, say) is retried on the
 	// next page load rather than being marked done.
 	if ( false !== $result ) {
-		update_option( 'paulus_content_version', $target, false );
+		if ( '' !== $target ) {
+			update_option( 'paulus_content_version', $target, false );
+		}
 		paulus_sync_note( 'finished', 'done' );
 	} else {
 		$s = get_option( 'paulus_sync_status' );
@@ -586,9 +604,8 @@ function paulus_sync_structure() {
 			paulus_sync_note( (string) $s['stage'], 'failed', __( 'A step reported an error; it is tried again on the next page load.', 'paulus' ) );
 		}
 	}
+	return $result;
 }
-add_action( 'admin_init', 'paulus_sync_structure', 30 );
-add_action( 'template_redirect', 'paulus_sync_structure' );
 
 /**
  * Whether the reading progress bar is shown on the page being viewed: the

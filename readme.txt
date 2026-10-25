@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.29
+Stable tag: 2.62.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsu
 
 == Description ==
 
-Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, bundled fonts, illustrations and sixty licensed photographs, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
+Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and sixty licensed photographs, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
 
 == Installation ==
 
@@ -36,6 +36,15 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.31 =
+* Security: the private login address could be reached through a posted password form; the drop-in error pages are written only when an administrator loads an admin page; the login and search settings on Permalinks check the user's capability.
+* Fixes: Install or update runs under the sync lock and counts as a pass; the first install keeps a site title already chosen; archives get the right address in the structured data, canonical and og:url, page numbers included; unlisted posts stay out of REST requests that name them; search highlighting no longer breaks entities; the search redirect keeps the page number.
+* Performance: the reading-order query, the structured-data lookups and the option defaults run once a request; the Journal month index is cached.
+
+= 2.62.30 =
+* Application passwords are off by default; a switch on Theme Options, Login turns them back on.
+* The search results title no longer carries markup from the search terms.
 
 = 2.62.29 =
 * Documentation brought up to date (README, UPGRADING, this file, CHANGELOG). The licence file is one flowing document, LICENSES.md.

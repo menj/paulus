@@ -136,7 +136,7 @@ function paulus_dashboard_render() {
 				if ( $paulus_cv === $paulus_tv ) {
 					/* translators: %s: content version. */
 					echo esc_html( sprintf( __( 'Up to date (content %s).', 'paulus' ), $paulus_tv ) );
-				} elseif ( is_array( $paulus_sync ) && 'pending' === $paulus_sync['state'] ) {
+				} elseif ( is_array( $paulus_sync ) && 'pending' === ( $paulus_sync['state'] ?? '' ) ) {
 					$paulus_left = 0;
 					$paulus_map  = get_option( 'paulus_attachments', array() );
 					foreach ( array_merge( array_keys( paulus_images() ), array( 'book-cover' ) ) as $paulus_slug ) {
@@ -147,8 +147,8 @@ function paulus_dashboard_render() {
 					}
 					/* translators: %d: images still to import or convert. */
 					echo esc_html( sprintf( _n( 'In progress: %d image still to import or convert. Each admin page you open continues it.', 'In progress: %d images still to import or convert. Each admin page you open continues it.', $paulus_left, 'paulus' ), $paulus_left ) );
-				} elseif ( is_array( $paulus_sync ) && 'failed' === $paulus_sync['state'] ) {
-					echo '<strong>' . esc_html__( 'Stopped.', 'paulus' ) . '</strong> ' . esc_html( sprintf( /* translators: 1: stage, 2: time, 3: message. */ __( 'At %1$s, %2$s: %3$s', 'paulus' ), $paulus_sync['stage'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $paulus_sync['time'] ), $paulus_sync['message'] ) );
+				} elseif ( is_array( $paulus_sync ) && 'failed' === ( $paulus_sync['state'] ?? '' ) ) {
+					echo '<strong>' . esc_html__( 'Stopped.', 'paulus' ) . '</strong> ' . esc_html( sprintf( /* translators: 1: stage, 2: time, 3: message. */ __( 'At %1$s, %2$s: %3$s', 'paulus' ), (string) ( $paulus_sync['stage'] ?? '' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) ( $paulus_sync['time'] ?? 0 ) ), (string) ( $paulus_sync['message'] ?? '' ) ) );
 				} else {
 					/* translators: 1: installed content version, 2: this theme's. */
 					echo esc_html( sprintf( __( 'Waiting: content %1$s installed, %2$s to come. It runs on the next page you open while logged in.', 'paulus' ), '' !== $paulus_cv ? $paulus_cv : '–', $paulus_tv ) );

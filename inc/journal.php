@@ -62,6 +62,22 @@ function paulus_journal_register() {
 add_action( 'init', 'paulus_journal_register' );
 
 /**
+ * The month index on the Journal page is cached; a saved, trashed or deleted
+ * entry clears it.
+ *
+ * @param int $post_id Post ID.
+ */
+function paulus_journal_months_clear( $post_id ) {
+	if ( 'paulus_journal' === get_post_type( $post_id ) ) {
+		delete_transient( 'paulus_journal_months' );
+	}
+}
+add_action( 'save_post_paulus_journal', 'paulus_journal_months_clear' );
+add_action( 'deleted_post', 'paulus_journal_months_clear' );
+add_action( 'trashed_post', 'paulus_journal_months_clear' );
+add_action( 'untrashed_post', 'paulus_journal_months_clear' );
+
+/**
  * Refresh the address rules once after each theme update, so the Journal's
  * addresses work without a visit to Settings, Permalinks.
  */
@@ -173,7 +189,12 @@ function paulus_sc_journal_list() {
 		$out .= '<p class="paulus-journal__empty">' . esc_html( paulus_journal_period() ? __( 'No entries for this period.', 'paulus' ) : __( 'The first entries are on their way.', 'paulus' ) ) . '</p>';
 	}
 	// The months that have entries, newest first.
-	$months = $wpdb->get_results( $wpdb->prepare( "SELECT YEAR(post_date) AS y, MONTH(post_date) AS m, COUNT(*) AS n FROM {$wpdb->posts} WHERE post_type = %s AND post_status = 'publish' GROUP BY y, m ORDER BY y DESC, m DESC", 'paulus_journal' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	// Kept for a day, and dropped whenever an entry is saved or removed.
+	$months = get_transient( 'paulus_journal_months' );
+	if ( ! is_array( $months ) ) {
+		$months = $wpdb->get_results( $wpdb->prepare( "SELECT YEAR(post_date) AS y, MONTH(post_date) AS m, COUNT(*) AS n FROM {$wpdb->posts} WHERE post_type = %s AND post_status = 'publish' GROUP BY y, m ORDER BY y DESC, m DESC", 'paulus_journal' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		set_transient( 'paulus_journal_months', is_array( $months ) ? $months : array(), DAY_IN_SECONDS );
+	}
 	if ( $months ) {
 		$years = array();
 		foreach ( $months as $row ) {

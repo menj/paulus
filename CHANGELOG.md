@@ -2,6 +2,47 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.31] - 2026-10-25
+
+Findings of a review of the whole codebase, each checked against the code before it was changed.
+
+### Security
+- The private login address (`inc/hide-login.php`) let a request through when the address said `action=postpass` and a password was posted, without looking at the posted action. wp-login.php reads the action from the merged request, where a posted value wins, so a POST to the public wp-login.php carrying `action=login` reached the login handler, and the form it drew named the private address. The posted action, when there is one, must now be `postpass` too.
+- The error-page drop-ins (`inc/dropins.php`) were written into wp-content on any page load, a visitor's included. They are written when an administrator loads an admin page, through a temporary file moved into place, and a failed write is tried again rather than recorded as done. On a network only the main site writes or removes them.
+- The login address and the search base on Settings, Permalinks are saved only for a user who may manage options, in addition to the nonce.
+- wp-login.php is recognised whatever its capitals, for servers with case-insensitive file systems.
+- The Answers index escapes the heading ids it rebuilds, and the login page escapes the site name in its heading.
+
+### Fixed
+- Install or update on Theme Options, Content runs under the same lock as the automatic sync and records the content version it reached, so a press of the button during a sync in another tab cannot create the articles twice, and the next page load does not run the whole pass again.
+- The first install no longer replaces a site title chosen before the theme arrived; only an empty title, or the WordPress installer's own, takes the theme's.
+- A page summary the owner blanked stays blank once a baseline for it is recorded; before, it was refilled from the manifest on every sync.
+- The header menu is still recognised as the theme's, and so rebuilt, after the Journal has been renamed.
+- The structured data, canonical link and og:url of an archive name the archive itself, page number included: the Journal page, a date or author archive and the later pages of a section were described as the first post in their loop, or as page one.
+- Unlisted posts stay out of a request that names posts (`post__in`, a REST request with `include=`), where WordPress ignores `post__not_in`.
+- Search highlighting matches the plain text and escapes each piece, so a term such as "quot" or "amp" no longer splits an entity into visible junk. The result numbering follows the query's page size.
+- A search sent to its clean address keeps its other query variables, so the second page of results stays the second page. A search base whose rewrite rules were never built (the option imported from the plugin) has them built on the next admin page load.
+- The redirect to the private login address with its closing slash keeps the percent-encoding of `redirect_to` and `login`.
+- Rank Math's structured-data filter is handled when it passes something other than an array; the search title and description are not saved on autosaves and revisions; the dashboard reads the sync status without notices.
+- `build.py` reads and writes its files as UTF-8 whatever the locale, escapes the Bible text it fetches before setting it in HTML, stops with a message when the fetch fails, and loses a dead expression.
+
+### Performance
+- The reading-order query (`paulus_chapters()`), asked for from five places on an article, runs once a request. The structured-data pass encodes the graph once for its lookups instead of once per entity, and the entity mentions of a text are found once. Option reads no longer rebuild the defaults each time. The Journal's month index is cached for a day and cleared when an entry is saved or removed.
+
+### Removed
+- `paulus_redirect_old_page_slugs()`, unhooked since redirects were left to the site owner.
+
+### Changed
+- `screenshot.png` is captured again from this release, at 1200 by 900 (rendered at double resolution and scaled down) from WordPress 7.1.3 with the site's content installed by the theme's own installer, composed as before: the header and the hero only, the hero given the frame's height beneath the header, its text starting close under the header's border and the portrait, at 665 pixels, standing on the lower border. The site itself is unchanged.
+
+## [2.62.30] - 2026-10-25
+
+### Added
+- Application passwords (the per-application passwords WordPress offers under Users, Profile for the REST API and XML-RPC) are off by default: the theme answers `wp_is_application_passwords_available` with false, so the section is not shown and an existing application password is not accepted. A switch on Theme Options, Login turns them back on (option `login_app_passwords`).
+
+### Fixed
+- The `<title>` of the search results page took the search terms as typed. Through `pre_get_document_title` that text bypasses the escaping WordPress applies to its own title, so a search for markup was printed as markup. The terms are stripped of tags first.
+
 ## [2.62.29] - 2026-10-10
 
 ### Changed
