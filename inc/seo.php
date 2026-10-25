@@ -23,7 +23,17 @@ function paulus_seo_plugin_active() {
  * @return bool
  */
 function paulus_rank_math_active() {
-	return class_exists( 'RankMath' );
+	if ( ! class_exists( 'RankMath' ) ) {
+		return false;
+	}
+	// Rank Math keeps its whole front end off (no title, description,
+	// robots, Open Graph or schema) until its setup wizard is completed or
+	// skipped. While it is in that state the theme does not stand down for
+	// it, or the page would carry none of these at all.
+	if ( class_exists( '\\RankMath\\Helper' ) && method_exists( '\\RankMath\\Helper', 'is_invalid_registration' ) && \RankMath\Helper::is_invalid_registration() ) {
+		return false;
+	}
+	return true;
 }
 
 /**
@@ -183,16 +193,21 @@ function paulus_seo_title() {
 	if ( '' === $part || $part === $site ) {
 		return $site;
 	}
-	$room = PAULUS_TITLE_MAX - paulus_ulen( $sep . $site );
-	$part = paulus_fit( $part, max( 10, $room ) );
 	// The second and later pages of an archive are pages of their own and
-	// say so, rather than repeating the first page's title.
-	$paged = max( 1, (int) get_query_var( 'paged' ) );
-	if ( $paged > 1 && ! is_singular() ) {
-		/* translators: 1: page title, 2: page number. */
-		$part = sprintf( __( '%1$s, page %2$d', 'paulus' ), $part, $paged );
+	// say so, rather than repeating the first page's title. The page number
+	// counts toward the limit, so the title is fitted around it.
+	$paged  = max( 1, (int) get_query_var( 'paged' ) );
+	/* translators: %d: page number. */
+	$suffix = $paged > 1 && ! is_singular() ? sprintf( __( ', page %d', 'paulus' ), $paged ) : '';
+	$room   = PAULUS_TITLE_MAX - paulus_ulen( $sep . $site ) - paulus_ulen( $suffix );
+	// A site name so long that it leaves the page under ten characters gives
+	// way: the page's own title (and page number) within the limit matters
+	// more than the site name, and the limit always holds.
+	if ( $room < 10 ) {
+		$room = PAULUS_TITLE_MAX - paulus_ulen( $suffix );
+		return paulus_fit( $part, max( 1, $room ) ) . $suffix;
 	}
-	return $part . $sep . $site;
+	return paulus_fit( $part, $room ) . $suffix . $sep . $site;
 }
 add_filter( 'pre_get_document_title', 'paulus_seo_title', 99 );
 
@@ -245,7 +260,31 @@ function paulus_meta_description() {
  * @return string
  */
 function paulus_plugin_title( $value ) {
-	return is_admin() ? $value : paulus_seo_title();
+	if ( is_admin() || '' !== paulus_rank_math_own( 'rank_math_title' ) ) {
+		return $value;
+	}
+	return paulus_seo_title();
+}
+
+/**
+ * A title or description the owner set in Rank Math's own box for the post,
+ * page or section being viewed, or ''. Rank Math stores them as
+ * rank_math_title and rank_math_description, on the post or the term.
+ *
+ * @param string $key Rank Math's meta key.
+ * @return string
+ */
+function paulus_rank_math_own( $key ) {
+	if ( ! paulus_rank_math_active() ) {
+		return '';
+	}
+	if ( is_singular() ) {
+		return trim( (string) get_post_meta( get_queried_object_id(), $key, true ) );
+	}
+	if ( is_category() || is_tag() || is_tax() ) {
+		return trim( (string) get_term_meta( get_queried_object_id(), $key, true ) );
+	}
+	return '';
 }
 
 /**
@@ -255,7 +294,7 @@ function paulus_plugin_title( $value ) {
  * @return string
  */
 function paulus_plugin_description( $value ) {
-	if ( is_admin() ) {
+	if ( is_admin() || '' !== paulus_rank_math_own( 'rank_math_description' ) ) {
 		return $value;
 	}
 	$desc = paulus_meta_description();
@@ -344,11 +383,22 @@ add_action( 'wp_head', 'paulus_head_meta', 5 );
  * isn't a substitute (a canonical link, not an Open Graph property, is
  * what tells search engines which URL is authoritative).
  */
+/**
+ * The address of the search results being viewed, with the page number from
+ * the second page on (the clean address where the site uses one).
+ *
+ * @return string
+ */
+function paulus_search_url() {
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	return $paged > 1 ? get_pagenum_link( $paged ) : get_search_link();
+}
+
 function paulus_canonical_link() {
 	if ( paulus_seo_plugin_active() || is_singular() ) {
 		return;
 	}
-	$url = is_front_page() ? home_url( '/' ) : ( is_search() ? get_search_link() : paulus_archive_url() );
+	$url = is_front_page() ? home_url( '/' ) : ( is_search() ? paulus_search_url() : paulus_archive_url() );
 	if ( $url && ! is_wp_error( $url ) ) {
 		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $url ) );
 	}
@@ -377,6 +427,20 @@ add_filter( 'wp_sitemaps_add_provider', static function ( $provider, $name ) {
 }, 10, 2 );
 add_filter( 'wp_robots', static function ( $robots ) {
 	return is_date() && ! is_post_type_archive( 'paulus_journal' ) ? wp_robots_no_robots( $robots ) : $robots;
+} );
+// Rank Math removes every wp_robots filter on the front end, so the same
+// choice goes through its own robots filter too.
+add_filter( 'rank_math/frontend/robots', static function ( $robots ) {
+	if ( is_date() && ! is_post_type_archive( 'paulus_journal' ) ) {
+		$robots['index'] = 'noindex';
+	}
+	return $robots;
+} );
+// The author archive redirects to the author's page, so Rank Math's author
+// sitemap, if switched on, lists no one: a user query for ID 0 matches none.
+add_filter( 'rank_math/sitemap/author/query', static function ( $args ) {
+	$args['include'] = array( 0 );
+	return $args;
 } );
 
 /**
@@ -861,7 +925,7 @@ function paulus_webpage_schema( $website ) {
 	if ( is_search() ) {
 		// The same address as the canonical: the clean one where the site
 		// uses clean search addresses.
-		$url  = get_search_link();
+		$url  = paulus_search_url();
 		$name = sprintf( /* translators: %s: search terms. */ __( 'Search results for “%s”', 'paulus' ), get_search_query( false ) );
 	} elseif ( is_front_page() ) {
 		$url  = home_url( '/' );
@@ -1042,7 +1106,7 @@ function paulus_figure_images_schema() {
 		}
 		// Unknown painters and scribes get no creator; museums and firms are
 		// organisations, everyone else a person.
-		if ( ! preg_match( '/^Unknown/i', $f['author'] ) ) {
+		if ( ! preg_match( '/\\bunknown\\b/i', $f['author'] ) ) {
 			$kind = 'Person';
 			if ( preg_match( '/Museum|Gallery/i', $f['author'] ) ) {
 				$kind = 'Museum';

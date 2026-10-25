@@ -2,6 +2,28 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.36] - 2026-10-25
+
+### Fixed: Rank Math
+Tested on a local WordPress 7.1.3 against Rank Math 1.0.279, reading its source for each hook the theme uses. With Rank Math set up, every page carries one title, one description, one canonical, one robots tag and one JSON-LD graph (Rank Math's, with the theme's nodes merged in through `rank_math/json_ld`), and the theme's titles, descriptions and page numbers reach Rank Math's tags through its own filters.
+- Rank Math keeps its whole front end off (no title, description, robots, Open Graph or schema) until its setup wizard is completed or skipped, but the theme stood down whenever the plugin's class existed. A site with Rank Math installed and not yet set up had no description, no preview tags and no structured data at all. `paulus_rank_math_active()` now asks Rank Math whether its registration is valid, so the theme covers the page until Rank Math does.
+- A title or description the owner set in Rank Math's own box for a post, page or section (`rank_math_title`, `rank_math_description`) is kept; the theme supplies its own only where none is set. Before, the theme's replaced it.
+- Rank Math removes every `wp_robots` filter on the front end, so the theme's `noindex` on date archives of articles was lost under it. The same choice now also goes through `rank_math/frontend/robots`. (Rank Math's default redirects date archives to the front page; the filter matters when that setting is off.)
+- The author archive redirects to the author's page, so Rank Math's author sitemap, if switched on, now lists no one (`rank_math/sitemap/author/query`), instead of a redirecting address.
+- Rank Math names its author node after the WordPress user and gives it the author archive's address. The theme matched the author only by the book author's name, so it missed the node and added a second Person for the same author. The node is now recognised by its address, its `url` becomes the author's page, and the theme's references point to it: one author per graph.
+
+### Fixed: the CodeAnt nitpicks of the last pull request
+Each checked against the code and the rendered page first.
+- `numberOfChapters` is not a schema.org property; it is gone. The book still lists its chapters as `hasPart`.
+- The timeline's events take their place from the first place the entry names, not the first in the list (the first journey is Cyprus, not Antioch), and a range such as "c. 5–10 CE" gives `startDate` 0005 and `endDate` 0010 rather than 0010 alone.
+- A manuscript among the sources (a "manuscript", "MS", codex or papyrus) is a `Manuscript`, not a `Book`.
+- A photographer or maker recorded as unknown in any wording ("Photographer unknown") is left unnamed, not published as a Person.
+- The page number of an archive's later pages counts inside the 50-character title limit; the title is fitted around it.
+- The second and later pages of search results name their own address as canonical and in the page node.
+- Without mbstring, a phrase in the text links matched in accented capitals still finds its address.
+- Two lines of the text-link list for the same phrase in different capitals lead to the first one's address either way; before, the capitals could change the destination.
+- A site name so long that it would leave a page's title under ten characters gives way in the title, so the 50-character limit holds on every page, later pages included.
+
 ## [2.62.35] - 2026-10-25
 
 ### Changed
@@ -14,7 +36,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
   - Places by their kind: the cities (Tarsus, Damascus, Jerusalem, Rome, Antioch, Corinth, Ephesus, Philippi, Thessalonica, Athens, Caesarea, Lystra, Kufa, Córdoba) are `City`, Galatia, Cilicia, Macedonia and Syria `AdministrativeArea`, Cyprus, Egypt, Malta and Malaysia `Country`.
   - Works of art by their kind: a painting or fresco is a `Painting`, a statue, bust or relief a `Sculpture`, a cartoon a `Drawing`, a codex, papyrus or scroll a `Manuscript`, the map a `Map`; the rest stay `VisualArtwork` with the form named. Sixteen known works and manuscripts (Caravaggio's and Parmigianino's conversions, Rembrandt's prison and self-portrait, Raphael's cartoons, Papyrus 46, Codex Sinaiticus and Alexandrinus, the Isaiah Scroll, the Nag Hammadi library, the Birmingham Qurʾān, the Alexamenos graffito, the Arch of Titus) carry their Wikipedia page as `sameAs`.
   - Photographs: a figure that photographs a place or an object is an `ImageObject` and a `Photograph`; a museum that supplied one is a `Museum`, a library a `Library`. The places photographed are nodes of their own kind, each with the photograph as its `photo` and its Wikipedia page: `Church` (Saint Paul Outside the Walls, the Lateran, Tre Fontane, Saint Paul's Grotto, Santa Costanza, Etchmiadzin, St Paul's in Malacca, St George's in Penang), `Mosque` (the Umayyad Mosque, Habib-i Neccar, the Great Mosque of Kufa), `PlaceOfWorship` (the Dome of the Rock, the Mosque–Cathedral of Córdoba), `LandmarksOrHistoricalBuildings` (Cleopatra's Gate, the Street called Straight, Bab Kisan, the Temple of Apollo, the Library of Celsus, Saint Peter's Square, the catacombs, Pella, the Tomb of Benei Hezir, Herodium, the Arch of Titus, the Areopagus, the Tughrul Tower), a `Cemetery` and a `Museum`.
-  - The book's chapters: a `Chapter` node for each chapter the articles are drawn from, numbered from the articles' source files; the book page lists them as `hasPart` with `numberOfChapters`, and every article names its chapter beside the book in `isBasedOn`.
+  - The book's chapters: a `Chapter` node for each chapter the articles are drawn from, numbered from the articles' source files; the book page lists them as `hasPart`, and every article names its chapter beside the book in `isBasedOn`.
   - Quotations in their languages: the Greek of each scripture block as a `Quotation` in `grc` based on the SBL Greek New Testament, the Qurʾān in Arabic based on the Qurʾān, the hadith reports in Arabic.
   - Tables (`Table`, named by their column heads), the article's side rail (`WPSideBar`, with its sections), a `ReadAction` on every article and a `BuyAction` on the book, the Journal's year and month pages with `temporalCoverage`, the gallery page with its images as `associatedMedia`.
   - The timeline: each event with its `location` where the entry names a place the site knows, its `startDate`, and the list's `temporalCoverage`; the study guide with its `EducationalAudience`, language and what it `teaches`; the sources by kind (`Book`, `ScholarlyArticle`, `WebPage`, `Photograph`); the 2023 edition as a `Book` edition (`bookEdition`, `exampleOfWork` the book, published 30 July 2023) and the page's main entity.

@@ -73,7 +73,12 @@ function paulus_text_links_filter( $content ) {
 	$phrases   = wp_list_pluck( $links, 'phrase' );
 	$by_phrase = array();
 	foreach ( $links as $link ) {
-		$by_phrase[ paulus_ustrtolower( $link['phrase'] ) ] = $link['url'];
+		// The first line for a phrase wins, as it does in the phrase-by-phrase
+		// lookup below, so capitals never change where a phrase leads.
+		$key = paulus_ustrtolower( $link['phrase'] );
+		if ( ! isset( $by_phrase[ $key ] ) ) {
+			$by_phrase[ $key ] = $link['url'];
+		}
 	}
 	usort(
 		$phrases,
@@ -125,8 +130,18 @@ function paulus_text_links_filter( $content ) {
 		// or entity can be cut by the match.
 		$piece = preg_replace_callback(
 			$pattern,
-			static function ( $m ) use ( $by_phrase, $here, &$done, &$made, $max ) {
+			static function ( $m ) use ( $by_phrase, $links, $here, &$done, &$made, $max ) {
 				$url = $by_phrase[ paulus_ustrtolower( $m[0] ) ] ?? '';
+				// Without mbstring only ASCII letters are lowered, so a match
+				// with an accented capital is looked up phrase by phrase.
+				if ( '' === $url ) {
+					foreach ( $links as $l ) {
+						if ( preg_match( '/^' . preg_quote( $l['phrase'], '/' ) . '$/iu', $m[0] ) ) {
+							$url = $l['url'];
+							break;
+						}
+					}
+				}
 				if ( '' === $url || $made >= $max || isset( $done[ $url ] ) || 0 === strpos( $here, $url ) ) {
 					return $m[0];
 				}
