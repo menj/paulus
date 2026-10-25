@@ -20,6 +20,10 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - The chapter drafts (`content/src/`), the script that built the articles from them (`build.py`) and the Greek text it quoted from (`sblgnt/`) are removed from the theme. The site never read them; the articles it installs are complete in `content/articles/`, and are edited there from now on. All three are in the repository's history at commit `aaefa32`. The credit the Greek text's licence (CC BY 4.0) requires, which only `sblgnt/LICENSE` carried, is now in `LICENSES.md`, under Scripture.
 - The format does not by itself make the content safer, since the same markup is stored either way; what guards the database is that only an administrator runs the installer and only named files inside the theme are read, and the JSON adds a structure and a checksum that a damaged or altered file fails.
 
+### Fixed
+- A bundled text that fails to load (missing, malformed or not matching its MD5) is no longer inserted as an empty article or page, or written over the WordPress privacy draft or an empty Contact page. The sync reports the failure and runs again on the next admin load, and the article is created once its file is sound.
+- The "Review before publishing" notes in the legal pages stay in the editor but are removed from the published page, its feed and its REST rendering, so they never appear in the page source.
+
 ## [2.62.37] - 2026-10-25
 
 ### Fixed

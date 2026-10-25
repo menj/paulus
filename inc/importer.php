@@ -543,6 +543,13 @@ function paulus_run_install() {
 			}
 		}
 		if ( ! $post ) {
+			// A bundled text that fails to load is never inserted empty: the
+			// sync reports a failure and runs again.
+			$content = paulus_content_file( $item['file'] );
+			if ( '' === $content ) {
+				$failed = true;
+				continue;
+			}
 			$id = wp_insert_post(
 				array(
 					'post_type'     => 'post',
@@ -550,7 +557,7 @@ function paulus_run_install() {
 					'post_name'     => $item['slug'],
 					'post_title'    => $item['title'],
 					'post_excerpt'  => $item['excerpt'],
-					'post_content'  => paulus_content_file( $item['file'] ),
+					'post_content'  => $content,
 					'post_date'     => get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $date ) ),
 					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $date ),
 				)
@@ -673,7 +680,8 @@ function paulus_run_install() {
 			// page stays a draft for the owner to review); a privacy page the
 			// owner has written or published is never touched.
 			if ( 'privacy-policy' === $item['slug'] && 'draft' === $page->post_status
-				&& false !== strpos( $page->post_content, 'privacy-policy-tutorial' ) ) {
+				&& false !== strpos( $page->post_content, 'privacy-policy-tutorial' )
+				&& '' !== paulus_content_file( $item['file'] ) ) {
 				wp_update_post(
 					array(
 						'ID'           => $page->ID,
@@ -702,7 +710,7 @@ function paulus_run_install() {
 				// Empty means nothing at all: block comments and blank paragraphs
 				// only. A shortcode, a form block or any text counts as the owner's.
 				$bare = preg_replace( '#<p>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', preg_replace( '/<!--.*?-->/s', '', (string) $page->post_content ) );
-				if ( '' === trim( (string) $bare ) ) {
+				if ( '' === trim( (string) $bare ) && '' !== paulus_content_file( $item['file'] ) ) {
 					wp_update_post( array( 'ID' => $page->ID, 'post_content' => paulus_content_file( $item['file'] ) ) );
 					if ( '' === get_post_field( 'post_excerpt', $page->ID ) && paulus_excerpt_unclaimed( $item ) ) {
 						wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
@@ -749,6 +757,11 @@ function paulus_run_install() {
 			}
 			continue;
 		}
+		$content = empty( $item['file'] ) ? '' : paulus_content_file( $item['file'] );
+		if ( ! empty( $item['file'] ) && '' === $content ) {
+			$failed = true;
+			continue;
+		}
 		$id = wp_insert_post(
 			array(
 				'post_type'     => 'page',
@@ -757,7 +770,7 @@ function paulus_run_install() {
 				'post_name'     => $item['slug'],
 				'post_title'    => $item['title'],
 				'post_excerpt'  => $item['excerpt'],
-				'post_content'  => paulus_content_file( $item['file'] ),
+				'post_content'  => $content,
 				'post_parent'   => $parent_id,
 				'menu_order'    => $item['order'],
 				'page_template' => $item['template'] ?? '',

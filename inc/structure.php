@@ -1623,6 +1623,24 @@ function paulus_section_ids( $content ) {
 add_filter( 'the_content', 'paulus_section_ids', 7 );
 
 /**
+ * Drop the owner's review notes from the published page.
+ *
+ * The legal pages ship with an HTML comment, "Review before publishing: ...",
+ * for the owner to read in the editor. It stays in the stored text, but the
+ * page, its feed and its REST rendering never show it in their source.
+ *
+ * @param string $content Post content.
+ * @return string
+ */
+function paulus_strip_review_notes( $content ) {
+	if ( false === strpos( $content, '<!-- Review before publishing' ) ) {
+		return $content;
+	}
+	return preg_replace( '/<!-- Review before publishing.*?-->\s*/s', '', $content );
+}
+add_filter( 'the_content', 'paulus_strip_review_notes', 1 );
+
+/**
  * The Answers page: an index of its questions under the introduction, a
  * link mark on each question heading for readers to share, and a way back
  * to the index after each answer. Built from the headings as the page
