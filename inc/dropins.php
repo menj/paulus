@@ -41,10 +41,16 @@ function paulus_dropin_is_ours( $path ) {
 
 /**
  * Copy the drop-ins into wp-content, when the theme, site name or addresses
- * have changed since the last copy. Runs on any page load, so a fresh install
- * or update needs no visit to the admin.
+ * have changed since the last copy. Runs when an administrator loads an
+ * admin page, never for a visitor: a write into wp-content belongs to the
+ * owner, and two anonymous requests must not write the same file at once.
+ * On a network the wp-content folder is shared, so only the main site
+ * writes the pages, with its own name and address.
  */
 function paulus_install_dropins() {
+	if ( ! is_admin() || wp_doing_ajax() || ! current_user_can( 'edit_theme_options' ) || ( is_multisite() && ! is_main_site() ) ) {
+		return;
+	}
 	$theme_url = (string) wp_parse_url( PAULUS_URI, PHP_URL_PATH );
 	$home_url  = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 	$tokens    = array(
@@ -57,15 +63,28 @@ function paulus_install_dropins() {
 	if ( get_option( 'paulus_dropins_stamp' ) === $stamp ) {
 		return;
 	}
+	$done = true;
 	foreach ( paulus_dropin_files() as $file ) {
 		$source = PAULUS_DIR . '/dropins/' . $file;
 		$target = WP_CONTENT_DIR . '/' . $file;
 		if ( ! is_readable( $source ) || ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) ) {
 			continue;
 		}
-		file_put_contents( $target, strtr( (string) file_get_contents( $source ), $tokens ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		// Written to a temporary name first and moved into place, so a page
+		// WordPress reads mid-write is never half a file.
+		$tmp = $target . '.paulus-tmp';
+		if ( false === file_put_contents( $tmp, strtr( (string) file_get_contents( $source ), $tokens ) ) || ! rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
+			$done = false;
+			if ( file_exists( $tmp ) ) {
+				unlink( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			}
+		}
 	}
-	update_option( 'paulus_dropins_stamp', $stamp, false );
+	// A failed write (wp-content not writable) is tried again on the next
+	// admin page load rather than recorded as done.
+	if ( $done ) {
+		update_option( 'paulus_dropins_stamp', $stamp, false );
+	}
 }
 add_action( 'init', 'paulus_install_dropins', 20 );
 
@@ -74,6 +93,10 @@ add_action( 'init', 'paulus_install_dropins', 20 );
  * with it.
  */
 function paulus_remove_dropins() {
+	if ( is_multisite() && ! is_main_site() ) {
+		delete_option( 'paulus_dropins_stamp' );
+		return;
+	}
 	foreach ( paulus_dropin_files() as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
 		if ( file_exists( $target ) && paulus_dropin_is_ours( $target ) ) {

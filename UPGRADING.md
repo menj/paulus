@@ -36,6 +36,13 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.29 to 2.62.31
+
+- **Application passwords** are off from 2.62.30. A site that uses one (a mobile app, a publishing tool, a connector) must switch them back on under Appearance, Theme Options, Login, or that tool is refused at the REST API and XML-RPC until it does.
+- **Error pages** are now written when an administrator opens an admin page, not on a visitor's page load. After updating, open the dashboard once so the pages carry the new version.
+- **Search base.** If clean search addresses returned a page not found on your site, the first admin page load after the update rebuilds the rewrite rules.
+- Nothing else to do: the other changes of 2.62.31 are fixes with no new options or files.
+
 ### 2.62.18 to 2.62.29
 
 - **Error pages.** The first page load after the update copies `maintenance.php`, `db-error.php` and `php-error.php` into `wp-content/`. A file with one of those names that the theme did not write is left alone; one written by Paulus (or by the Abrahamic theme, whose files say they are safe to delete) is replaced. Switching to another theme removes them.

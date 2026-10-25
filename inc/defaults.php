@@ -118,10 +118,15 @@ function paulus_defaults() {
  * @return mixed
  */
 function paulus_option( $key ) {
-	$opts     = get_option( 'paulus_options', array() );
-	$defaults = paulus_defaults();
+	// Read dozens of times a page; the defaults (eighty translated strings)
+	// are built once a request, not once a read.
+	static $defaults = null;
+	$opts = get_option( 'paulus_options', array() );
 	if ( is_array( $opts ) && array_key_exists( $key, $opts ) ) {
 		return $opts[ $key ];
+	}
+	if ( null === $defaults ) {
+		$defaults = paulus_defaults();
 	}
 	return $defaults[ $key ] ?? '';
 }

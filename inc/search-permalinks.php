@@ -35,6 +35,26 @@ add_action( 'init', static function () {
 }, 1 );
 
 /**
+ * A base that the saved rewrite rules do not know (the option imported
+ * from the plugin, say, with the rules never flushed since) would send
+ * every clean search address to a page not found. The rules are rebuilt
+ * once, on an admin page load, when the base has no rule of its own.
+ */
+add_action( 'admin_init', static function () {
+	$rules = get_option( 'rewrite_rules' );
+	if ( ! get_option( 'permalink_structure' ) || ! is_array( $rules ) || ! $rules ) {
+		return;
+	}
+	$prefix = paulus_search_base() . '/';
+	foreach ( array_keys( $rules ) as $rule ) {
+		if ( 0 === strpos( (string) $rule, $prefix ) ) {
+			return;
+		}
+	}
+	flush_rewrite_rules( false );
+} );
+
+/**
  * A search made by the form (/?s=term) goes to its clean address.
  */
 add_action( 'template_redirect', static function () {
@@ -50,7 +70,19 @@ add_action( 'template_redirect', static function () {
 	if ( '' === trim( $query ) ) {
 		return;
 	}
-	wp_safe_redirect( get_search_link( $query ), 301 );
+	// Every other query variable (the page number, an ordering) travels
+	// with the terms, so ?s=paul&paged=2 lands on the second page.
+	$url  = get_search_link( $query );
+	$args = array();
+	foreach ( wp_unslash( $_GET ) as $key => $value ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( 's' !== $key && is_scalar( $value ) ) {
+			$args[ sanitize_key( $key ) ] = sanitize_text_field( (string) $value );
+		}
+	}
+	if ( $args ) {
+		$url = add_query_arg( $args, $url );
+	}
+	wp_safe_redirect( $url, 301 );
 	exit;
 } );
 
@@ -58,7 +90,7 @@ add_action( 'template_redirect', static function () {
  * The setting, on Settings, Permalinks, beside WordPress's own bases.
  */
 add_action( 'load-options-permalink.php', static function () {
-	if ( isset( $_POST['wpseosearch_base'] ) ) {
+	if ( isset( $_POST['wpseosearch_base'] ) && current_user_can( 'manage_options' ) ) {
 		check_admin_referer( 'update-permalink' );
 		$base = sanitize_key( wp_unslash( $_POST['wpseosearch_base'] ) );
 		update_option( 'wpseosearch_base', '' !== $base ? $base : 'search' );

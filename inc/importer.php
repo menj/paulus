@@ -328,10 +328,15 @@ function paulus_install_navigation( $parts ) {
 		// added. Compared without regard to capitals.
 		$names  = wp_list_pluck( paulus_manifest()['parts'], 'name' );
 		$sets   = array();
+		// The Journal link carried the title at the time; a Journal renamed
+		// since still has to be recognised, so the default title counts too.
+		$journal_titles = array_unique( array( (string) paulus_option( 'journal_title' ), (string) paulus_defaults()['journal_title'] ) );
 		foreach ( array( 'The Verdict', 'Answers' ) as $fourth ) {
 			$base   = array_merge( $names, array( $fourth, 'The book' ) );
 			$sets[] = $base;
-			$sets[] = array_merge( $base, array( (string) paulus_option( 'journal_title' ) ) );
+			foreach ( $journal_titles as $journal_title ) {
+				$sets[] = array_merge( $base, array( $journal_title ) );
+			}
 		}
 		$norm   = static function ( $list ) {
 			$list = array_map( 'strtolower', $list );
@@ -398,7 +403,14 @@ function paulus_handle_import() {
 	}
 	check_admin_referer( 'paulus_import' );
 
-	$created = paulus_run_install();
+	// Under the same lock as the automatic sync, and recorded as a pass of
+	// it, so a press of the button while a sync runs in another tab cannot
+	// create the same articles twice, and the next page load does not run
+	// the whole pass again.
+	$created = paulus_sync_run( (string) ( paulus_manifest()['content_version'] ?? '' ) );
+	if ( null === $created ) {
+		$created = 0;
+	}
 
 	$back = wp_get_referer();
 	if ( $back && 0 !== strpos( $back, admin_url() ) ) {
@@ -422,11 +434,15 @@ function paulus_run_install() {
 	$failed   = false;
 	$manifest = paulus_manifest();
 
-	// Name the site on the first run only, so a later rename in
-	// Settings, General is never overwritten.
+	// Name the site on the first run only, and only where it carries no
+	// name of its own yet (empty, or the one the WordPress installer puts
+	// in), so a title chosen before the theme arrived is kept.
 	if ( ! get_option( 'paulus_site_named' ) ) {
 		$defaults = paulus_defaults();
-		update_option( 'blogname', $defaults['site_name'] );
+		$blogname = trim( (string) get_option( 'blogname' ) );
+		if ( '' === $blogname || in_array( $blogname, array( 'WordPress', 'My Blog', 'My WordPress' ), true ) ) {
+			update_option( 'blogname', $defaults['site_name'] );
+		}
 		$tagline = (string) get_option( 'blogdescription' );
 		if ( '' === $tagline || 'Just another WordPress site' === $tagline ) {
 			update_option( 'blogdescription', $defaults['site_tagline'] );
@@ -597,8 +613,16 @@ function paulus_run_install() {
 				);
 				$page = get_post( $page->ID );
 			}
-			if ( '' === $page->post_excerpt ) {
-				wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
+			// An empty summary takes the theme's, but only until a baseline
+			// for it is recorded: from then on paulus_refresh_unedited()
+			// decides, so a summary the owner blanked on purpose stays blank.
+			if ( '' === $page->post_excerpt && ! empty( $item['excerpt'] ) ) {
+				$known = (array) get_option( 'paulus_content_hashes', array() );
+				$entry = $known[ basename( (string) ( $item['file'] ?? '' ) ) ] ?? array();
+				if ( ! is_array( $entry ) || ! array_key_exists( 'excerpt', $entry ) ) {
+					wp_update_post( array( 'ID' => $page->ID, 'post_excerpt' => $item['excerpt'] ) );
+					$page = get_post( $page->ID );
+				}
 			}
 			paulus_sync_search_fields( $page->ID, $item );
 			paulus_refresh_unedited( $page, $item );

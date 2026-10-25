@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.30
+Stable tag: 2.62.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,11 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.31 =
+* Security: the private login address could be reached through a posted password form; the drop-in error pages are written only when an administrator loads an admin page; the login and search settings on Permalinks check the user's capability.
+* Fixes: Install or update runs under the sync lock and counts as a pass; the first install keeps a site title already chosen; archives get the right address in the structured data, canonical and og:url, page numbers included; unlisted posts stay out of REST requests that name them; search highlighting no longer breaks entities; the search redirect keeps the page number.
+* Performance: the reading-order query, the structured-data lookups and the option defaults run once a request; the Journal month index is cached.
 
 = 2.62.30 =
 * Application passwords are off by default; a switch on Theme Options, Login turns them back on.

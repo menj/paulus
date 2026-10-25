@@ -262,7 +262,7 @@ Two pages exist to answer what people search for. `/questions/` (`content/articl
 
 ## Error pages
 
-WordPress shows its plain screens when it cannot load the theme. `dropins/maintenance.php`, `db-error.php` and `php-error.php` replace them with pages in the site's dress: parchment ground between two meander bands, a card with the accent on its upper edge, the site's faces, in the ochre scheme or the ink scheme on dark displays (`assets/css/error-page.css`). They need nothing from the database. `inc/dropins.php` copies them into `wp-content/` on the first page load after an install or update, filling in the site name, the home address and the address of the theme's stylesheets; a file there that the theme did not write is left alone, and switching themes removes them. The maintenance and database pages reload every minute.
+WordPress shows its plain screens when it cannot load the theme. `dropins/maintenance.php`, `db-error.php` and `php-error.php` replace them with pages in the site's dress: parchment ground between two meander bands, a card with the accent on its upper edge, the site's faces, in the ochre scheme or the ink scheme on dark displays (`assets/css/error-page.css`). They need nothing from the database. `inc/dropins.php` copies them into `wp-content/` the first time an administrator opens an admin page after an install or update (on a network, the main site's administrator), filling in the site name, the home address and the address of the theme's stylesheets; a file there that the theme did not write is left alone, and switching themes removes them. The maintenance and database pages reload every minute.
 
 ## Quotations, italics, the honorific and Arabic script
 

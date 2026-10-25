@@ -90,7 +90,7 @@ add_filter( 'login_headerurl', static function () {
 	return home_url( '/' );
 } );
 add_filter( 'login_headertext', static function () {
-	return get_bloginfo( 'name' );
+	return esc_html( get_bloginfo( 'name' ) );
 } );
 
 /**

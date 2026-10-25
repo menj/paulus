@@ -100,14 +100,14 @@ if ( '' !== paulus_login_slug() ) {
 		$request = wp_parse_url( $uri );
 		$path    = isset( $request['path'] ) ? untrailingslashit( $request['path'] ) : '';
 		$slug    = paulus_login_slug();
-		if ( ( false !== strpos( $uri, 'wp-login.php' ) || site_url( 'wp-login', 'relative' ) === $path ) && ! is_admin() ) {
+		if ( ( false !== stripos( $uri, 'wp-login.php' ) || site_url( 'wp-login', 'relative' ) === $path ) && ! is_admin() ) {
 			$GLOBALS['paulus_login_blocked'] = true;
 			$_SERVER['REQUEST_URI']          = paulus_login_slashed( '/' . str_repeat( '-/', 10 ) );
 			$pagenow                         = 'index.php'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		} elseif ( home_url( $slug, 'relative' ) === $path || ( ! get_option( 'permalink_structure' ) && isset( $_GET[ $slug ] ) && empty( $_GET[ $slug ] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$_SERVER['SCRIPT_NAME'] = $slug;
 			$pagenow                = 'wp-login.php'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
-		} elseif ( ( false !== strpos( $uri, 'wp-register.php' ) || site_url( 'wp-register', 'relative' ) === $path ) && ! is_admin() ) {
+		} elseif ( ( false !== stripos( $uri, 'wp-register.php' ) || site_url( 'wp-register', 'relative' ) === $path ) && ! is_admin() ) {
 			$GLOBALS['paulus_login_blocked'] = true;
 			$_SERVER['REQUEST_URI']          = paulus_login_slashed( '/' . str_repeat( '-/', 10 ) );
 			$pagenow                         = 'index.php'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
@@ -126,7 +126,12 @@ if ( '' !== paulus_login_slug() ) {
 		$request = wp_parse_url( rawurldecode( (string) ( $_SERVER['REQUEST_URI'] ?? '' ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		$path    = $request['path'] ?? '';
 		// Posting a password for a protected post goes through untouched.
-		if ( isset( $_GET['action'] ) && 'postpass' === $_GET['action'] && isset( $_POST['post_password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		// wp-login.php reads the action from $_REQUEST, where a posted
+		// value overrides the one in the address, so the posted action,
+		// when there is one, must be postpass as well: otherwise a POST to
+		// wp-login.php?action=postpass carrying action=login would reach
+		// the login handler at the public address.
+		if ( isset( $_GET['action'], $_POST['post_password'] ) && 'postpass' === $_GET['action'] && 'postpass' === ( $_POST['action'] ?? 'postpass' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 		$admin_path = wp_parse_url( admin_url( 'options.php' ), PHP_URL_PATH );
@@ -141,7 +146,10 @@ if ( '' !== paulus_login_slug() ) {
 		}
 		// The private address without its closing slash: add it.
 		if ( 'wp-login.php' === $pagenow && '' !== $path && paulus_login_slashed( $path ) !== $path && get_option( 'permalink_structure' ) ) {
-			wp_safe_redirect( paulus_login_slashed( paulus_login_url() ) . ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '' ) );
+			// The query string is carried over as it is: wp_safe_redirect()
+			// sanitises the address, and keeps the percent-encoding that
+			// sanitize_text_field() would strip from redirect_to and login.
+			wp_safe_redirect( paulus_login_slashed( paulus_login_url() ) . ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . wp_unslash( $_SERVER['QUERY_STRING'] ) : '' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			exit;
 		}
 		// wp-login.php itself: the site's page not found, drawn by the theme.
@@ -175,7 +183,13 @@ if ( '' !== paulus_login_slug() ) {
 	 * @return string
 	 */
 	function paulus_login_filter_url( $url, $scheme = null ) {
-		if ( false !== strpos( $url, 'wp-login.php?action=postpass' ) || false === strpos( $url, 'wp-login.php' ) || false !== strpos( (string) wp_get_referer(), 'wp-login.php' ) ) {
+		// The referer does not change within a request; read it once rather
+		// than on each of the hundreds of site_url() calls an admin page makes.
+		static $from_login = null;
+		if ( null === $from_login ) {
+			$from_login = false !== strpos( (string) wp_get_referer(), 'wp-login.php' );
+		}
+		if ( false !== strpos( $url, 'wp-login.php?action=postpass' ) || false === strpos( $url, 'wp-login.php' ) || $from_login ) {
 			return $url;
 		}
 		if ( is_ssl() ) {
@@ -231,7 +245,7 @@ if ( '' !== paulus_login_slug() ) {
  * The settings, on Settings, Permalinks, with the site's other addresses.
  */
 add_action( 'load-options-permalink.php', static function () {
-	if ( isset( $_POST['whl_page'] ) ) {
+	if ( isset( $_POST['whl_page'] ) && current_user_can( 'manage_options' ) ) {
 		check_admin_referer( 'update-permalink' );
 		$page     = sanitize_title_with_dashes( wp_unslash( $_POST['whl_page'] ) );
 		$redirect = sanitize_title_with_dashes( wp_unslash( $_POST['whl_redirect_admin'] ?? '' ) );

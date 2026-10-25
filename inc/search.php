@@ -45,7 +45,7 @@ add_shortcode( 'paulus_search_form', function () { return paulus_search_form( 'p
  * @return string Escaped HTML with <mark>.
  */
 function paulus_search_highlight( $text ) {
-	$text  = esc_html( $text );
+	$text  = (string) $text;
 	$terms = array_filter(
 		preg_split( '/\s+/u', trim( get_search_query( false ) ) ),
 		static function ( $t ) {
@@ -53,21 +53,28 @@ function paulus_search_highlight( $text ) {
 		}
 	);
 	if ( ! $terms ) {
-		return $text;
+		return esc_html( $text );
 	}
-	// One combined pattern, applied in a single pass over the original
-	// text: replacing per term in a loop (the previous approach) reruns
-	// each later term's regex over the OUTPUT of the earlier ones, so a
-	// term such as "mark" can match the literal word inside the <mark>
-	// tags a previous replacement just inserted, corrupting the markup.
+	// One combined pattern, applied in a single pass over the plain text,
+	// which is then escaped piece by piece: matching escaped text instead
+	// (the previous approach) let a term such as "quot" or "amp" split an
+	// entity, and replacing per term in a loop let a term such as "mark"
+	// match inside the <mark> tags an earlier replacement had inserted.
 	$alternatives = array_map(
 		static function ( $t ) {
-			return preg_quote( esc_html( $t ), '/' );
+			return preg_quote( $t, '/' );
 		},
 		$terms
 	);
-	$pattern = '/(' . implode( '|', $alternatives ) . ')/iu';
-	return preg_replace( $pattern, '<mark>$1</mark>', $text );
+	$pieces = preg_split( '/(' . implode( '|', $alternatives ) . ')/iu', $text, -1, PREG_SPLIT_DELIM_CAPTURE );
+	if ( false === $pieces ) {
+		return esc_html( $text );
+	}
+	$out = '';
+	foreach ( $pieces as $i => $piece ) {
+		$out .= $i % 2 ? '<mark>' . esc_html( $piece ) . '</mark>' : esc_html( $piece );
+	}
+	return $out;
 }
 
 /**
@@ -113,7 +120,10 @@ function paulus_sc_search_results() {
 	}
 	$out .= '<ol class="paulus-results__list">';
 	$paged = max( 1, (int) get_query_var( 'paged' ) );
-	$i     = ( $paged - 1 ) * 20;
+	// Twenty a page, as paulus_search_scope() sets, unless a filter has
+	// changed the page size: the numbering follows the query.
+	$per   = (int) ( isset( $GLOBALS['wp_query'] ) ? $GLOBALS['wp_query']->get( 'posts_per_page' ) : 0 );
+	$i     = ( $paged - 1 ) * ( $per > 0 ? $per : 20 );
 	while ( have_posts() ) {
 		the_post();
 		$i++;
