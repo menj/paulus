@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.38
+Stable tag: 2.62.39
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.39 =
+* Every text the theme writes into the database is named by its JSON file, in the manifest, in the files themselves and in the records each site keeps of them. No HTML or text file is ever read to fill the database; a name of any other kind is refused.
+* The records that tell an edited article from an untouched one are renamed once, on the first page load after the update, so every article keeps its protection.
 
 = 2.62.38 =
 * Five new figures, each credited and licensed: Raphael's Saint Paul Preaching in Athens, Enrique Simonet's The Beheading of Saint Paul, Giovanni Antonio Molineri's The Martyrdom of Saint Paul, Pierre-Étienne Monnot's statue of Paul in the Lateran, and the beheading of Paul from the Saint-Bertin picture book (Koninklijke Bibliotheek, The Hague).

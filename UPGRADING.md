@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.38 to 2.62.39
+
+- **Nothing to do.** The texts are now named by their `.json` files everywhere. On the first page load after the update the theme renames its own records of them once, so your edited articles stay protected and the dashboard's list of kept edits still works. The texts themselves are unchanged.
+
 ### 2.62.37 to 2.62.38
 
 - **Content files are JSON.** The texts in `content/articles/` are now `.json` files, and the `.html` files are gone. Upload the new zip as a whole theme (Appearance, Themes, Add New, replace), not over the old folder by FTP: an FTP copy leaves the old `.html` files behind. They are harmless, since nothing reads them, but you can delete them. Your articles are not touched: each text is byte for byte what it was, so an unedited article is still recognised as unedited.

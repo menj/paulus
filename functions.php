@@ -213,7 +213,7 @@ function paulus_upgrade_150() {
 	}
 	$page = get_page_by_path( 'the-book' );
 	if ( $page && '0898d6473163a9dc911372ecfd2cb5f2' === md5( $page->post_content ) ) {
-		$new = paulus_content_file( 'the-book.html' );
+		$new = paulus_content_file( 'the-book.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $page->ID, 'post_content' => $new ) );
 		}
@@ -279,14 +279,14 @@ function paulus_upgrade_200() {
 	}
 	$post = get_page_by_path( 'the-foundations-of-pauline-doctrine', OBJECT, 'post' );
 	if ( $post && '0a549bd2d8351ddaff1a8c2dbfb02ab9' === md5( $post->post_content ) ) {
-		$new = paulus_content_file( '04-foundations-of-pauline-doctrine.html' );
+		$new = paulus_content_file( '04-foundations-of-pauline-doctrine.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		}
 	}
 	$post = get_page_by_path( 'an-epistle-to-the-churches-of-paul', OBJECT, 'post' );
 	if ( $post && 'c9709b5a7b978e4ff6946cb112389324' === md5( $post->post_content ) ) {
-		$new = paulus_content_file( '11-epistle.html' );
+		$new = paulus_content_file( '11-epistle.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		}
@@ -582,7 +582,7 @@ function paulus_sync_run( $target ) {
 	if ( ! paulus_sync_lock() ) {
 		return null;
 	}
-	paulus_sync_note( 'articles and pages' );
+	paulus_sync_note( 'text records' );
 	// A fatal error PHP cannot catch (the time limit, memory) is recorded
 	// with the stage reached, for the dashboard.
 	register_shutdown_function( static function () {
@@ -594,7 +594,15 @@ function paulus_sync_run( $target ) {
 		}
 	} );
 	try {
-		$result = paulus_run_install();
+		// The records the install reads must be under the .json names; if
+		// the rename cannot be saved, the pass is a failure and is retried.
+		if ( paulus_rename_text_records() ) {
+			paulus_sync_note( 'articles and pages' );
+			$result = paulus_run_install();
+		} else {
+			$result = false;
+			paulus_sync_note( 'text records', 'failed', __( 'The records of the shipped texts could not be saved under their new names; this is tried again on the next page load.', 'paulus' ) );
+		}
 	} catch ( Throwable $e ) {
 		$result = false;
 		$s      = get_option( 'paulus_sync_status' );

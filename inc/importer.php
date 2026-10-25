@@ -27,29 +27,126 @@ function paulus_manifest() {
 }
 
 /**
+ * One-time rename of the stored text names, from 2.62.39.
+ *
+ * Until 2.62.38 the manifest named each text by its earlier .html name, and
+ * the records that tell an edited article from an untouched one were keyed
+ * by it: the shipped hashes (paulus_content_hashes) and the list of hand
+ * edits kept (paulus_kept_edits). The texts are named by their .json files
+ * now, so those keys are renamed once, before anything reads them, and
+ * every article keeps its protection.
+ *
+ * It runs under the sync lock, so a sync in another request can never write
+ * a record between this reading and saving it, and the sync runs it first
+ * under its own lock, so no sync ever reads the records by the old names.
+ * Whether it is needed is judged from the records themselves, never from a
+ * flag: a site rolled back to 2.62.38 writes the old names again, and they
+ * are renamed when it is updated once more. Only the sync and the dashboard
+ * read these records, both an administrator's, so a visitor's request never
+ * reads them here, takes the lock or writes anything.
+ */
+function paulus_migrate_text_names() {
+	if ( ! current_user_can( 'edit_theme_options' ) || paulus_text_records_renamed() || ! paulus_sync_lock() ) {
+		return;
+	}
+	try {
+		paulus_rename_text_records();
+	} finally {
+		delete_option( 'paulus_sync_lock' );
+	}
+}
+add_action( 'init', 'paulus_migrate_text_names', 1 );
+
+/**
+ * The rename itself, for a caller that holds the sync lock.
+ *
+ * @return bool Whether the records are under the .json names.
+ */
+function paulus_rename_text_records() {
+	// Read what is saved now, not what this request may have cached. On a
+	// site where either record was ever stored autoloaded it sits in the
+	// alloptions cache, which is cleared too.
+	paulus_forget_text_records();
+	if ( paulus_text_records_renamed() ) {
+		return true;
+	}
+	$old    = '/\.html$/';
+	$known  = (array) get_option( 'paulus_content_hashes', array() );
+	$hashes = array();
+	foreach ( $known as $name => $entry ) {
+		$new = preg_replace( $old, '.json', (string) $name );
+		// A record already under the new name is the later one.
+		if ( $new === $name || ! isset( $known[ $new ] ) ) {
+			$hashes[ $new ] = $entry;
+		}
+	}
+	$kept = (array) get_option( 'paulus_kept_edits', array() );
+	foreach ( $kept as $id => $row ) {
+		if ( is_array( $row ) && isset( $row['file'] ) ) {
+			$kept[ $id ]['file'] = preg_replace( $old, '.json', (string) $row['file'] );
+		}
+	}
+	update_option( 'paulus_content_hashes', $hashes, false );
+	update_option( 'paulus_kept_edits', $kept, false );
+
+	// update_option() reports false both for a failed write and for an
+	// unchanged value, so the result is judged by reading it back.
+	paulus_forget_text_records();
+	return paulus_text_records_renamed();
+}
+
+/**
+ * Whether no record of the shipped texts is left under an old .html name.
+ *
+ * @return bool
+ */
+function paulus_text_records_renamed() {
+	foreach ( array_keys( (array) get_option( 'paulus_content_hashes', array() ) ) as $name ) {
+		if ( preg_match( '/\.html$/', (string) $name ) ) {
+			return false;
+		}
+	}
+	foreach ( (array) get_option( 'paulus_kept_edits', array() ) as $row ) {
+		if ( is_array( $row ) && preg_match( '/\.html$/', (string) ( $row['file'] ?? '' ) ) ) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Drop this request's cached copies of the two text records.
+ */
+function paulus_forget_text_records() {
+	wp_cache_delete( 'paulus_content_hashes', 'options' );
+	wp_cache_delete( 'paulus_kept_edits', 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
+}
+
+/**
  * Read a bundled content file: the text an article, page or Journal entry
  * is installed with.
  *
  * The texts ship as JSON, one file each in content/articles/, holding the
  * text with its name, its format and its MD5:
  *
- *     { "name": "c05-adapting-the-message.html",
+ *     { "name": "c05-adapting-the-message.json",
  *       "format": "wordpress-post-content",
  *       "md5": "…", "content": "…" }
  *
- * The manifest still names each text by its original name (…html), since
- * the hashes that tell an edited article from an untouched one are keyed by
- * it on every site; that name is mapped to its .json file here. Only a
- * plain name is accepted (letters, digits and hyphens), the file must be
- * well-formed JSON of that format, name itself, and match its MD5. Anything
- * else is refused and nothing is installed from it.
+ * The manifest names each text by its file (c05-adapting-the-message.json).
+ * Only a plain name is accepted, letters, digits and hyphens, with or
+ * without its .json ending; any other ending, a path or a stray character
+ * is refused. The file must be well-formed JSON of that format, name
+ * itself, and match its MD5. Anything else is refused and nothing is
+ * installed from it. No other format is ever read for the database.
  *
  * @param string $file Text name, as the manifest gives it.
  * @return string The text, or '' when there is none or it fails a check.
  */
 function paulus_content_file( $file ) {
-	$ext  = '/\.(html?|json)$/';
-	$stem = preg_replace( $ext, '', basename( (string) $file ) );
+	$ext  = '/\.json$/';
+	$stem = preg_replace( $ext, '', (string) $file );
 	if ( ! preg_match( '/^[a-z0-9][a-z0-9-]*$/', $stem ) ) {
 		return '';
 	}
@@ -1396,15 +1493,15 @@ function paulus_kept_edits_pending() {
 /**
  * Whether an article was divided, so that a later part now opens with
  * sections its old text still holds: its file has a numbered successor
- * (name-2.html) among the theme's articles.
+ * (name-2.json) among the theme's articles.
  *
  * @param string $file Article file.
  * @return bool
  */
 function paulus_is_divided( $file ) {
-	$base = preg_replace( '/\.html$/', '', (string) $file );
+	$base = preg_replace( '/\.json$/', '', (string) $file );
 	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $item ) {
-		if ( ( $base . '-2.html' ) === ( $item['file'] ?? '' ) ) {
+		if ( ( $base . '-2.json' ) === ( $item['file'] ?? '' ) ) {
 			return true;
 		}
 	}
@@ -1426,7 +1523,9 @@ add_action( 'admin_post_paulus_kept_edit', static function () {
 	$row  = $kept[ $id ] ?? null;
 	$done = '';
 	if ( $row && 'theme' === $choice ) {
-		$new = paulus_content_file( $row['file'] );
+		// A row not yet renamed (a sync held the lock when this request
+		// began) names the same text by its earlier .html name.
+		$new = paulus_content_file( preg_replace( '/\.html$/', '.json', (string) $row['file'] ) );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $id, 'post_content' => $new ) );
 			unset( $kept[ $id ] );
