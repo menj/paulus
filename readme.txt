@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.62.31
+Stable tag: 2.62.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.62.32 =
+* Links in the text to bestofislam.org and injil.help: the first mention of a phrase those sites treat at length (the Ebionites, the Islamic Dilemma, the Gospel of Thomas, Matthew 5:17, Quran 4:157, the Talmud and twenty more) links to the page there. Theme Options, Links holds the phrases and the switch.
 
 = 2.62.31 =
 * Security: the private login address could be reached through a posted password form; the drop-in error pages are written only when an administrator loads an admin page; the login and search settings on Permalinks check the user's capability.
