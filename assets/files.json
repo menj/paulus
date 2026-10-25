@@ -1,5 +1,5 @@
 {
- "version": "2.62.29",
+ "version": "2.62.38",
  "files": [
   "assets/images/alayhi-al-salam.webp",
   "assets/images/author-photo.avif",
@@ -84,6 +84,8 @@
   "assets/images/church/met-saint-paul-werve.avif",
   "assets/images/church/minaret-isa-720.webp",
   "assets/images/church/minaret-isa.avif",
+  "assets/images/church/monnot-lateran-statue-720.webp",
+  "assets/images/church/monnot-lateran-statue.avif",
   "assets/images/church/munich-talmud-720.webp",
   "assets/images/church/munich-talmud.avif",
   "assets/images/church/nag-hammadi-720.webp",
@@ -108,6 +110,8 @@
   "assets/images/church/penang-st-george.avif",
   "assets/images/church/poussin-ecstasy-720.webp",
   "assets/images/church/poussin-ecstasy.avif",
+  "assets/images/church/raphael-athens-720.webp",
+  "assets/images/church/raphael-athens.avif",
   "assets/images/church/raphael-elymas-720.webp",
   "assets/images/church/raphael-elymas.avif",
   "assets/images/church/raphael-lystra-720.webp",
@@ -122,6 +126,8 @@
   "assets/images/church/rembrandt-stephen.avif",
   "assets/images/church/saint-paul-scroll-and-sword-720.webp",
   "assets/images/church/saint-paul-scroll-and-sword.avif",
+  "assets/images/church/simonet-beheading-720.webp",
+  "assets/images/church/simonet-beheading.avif",
   "assets/images/church/sinaiticus-720.webp",
   "assets/images/church/sinaiticus.avif",
   "assets/images/church/spong-2006-720.webp",

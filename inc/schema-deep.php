@@ -1506,6 +1506,7 @@ function paulus_schema_figure_places() {
 		'celsus-library'        => array( $lm, 'Library of Celsus, Ephesus', 'Library_of_Celsus' ),
 		'tomb-of-paul'          => array( 'Church', 'Basilica of Saint Paul Outside the Walls, Rome', 'Basilica_of_Saint_Paul_Outside_the_Walls' ),
 		'lateran-ciborium'      => array( 'Church', 'Archbasilica of Saint John Lateran, Rome', 'Archbasilica_of_Saint_John_Lateran' ),
+		'monnot-lateran-statue' => array( 'Church', 'Archbasilica of Saint John Lateran, Rome', 'Archbasilica_of_Saint_John_Lateran' ),
 		'tadolini-statue'       => array( $lm, 'Saint Peter’s Square, Rome', 'St._Peter%27s_Square' ),
 		'tre-fontane-beheading' => array( 'Church', 'Abbey of Tre Fontane, Rome', 'Tre_Fontane_Abbey' ),
 		'grotto-rabat-malta'    => array( 'Church', 'Saint Paul’s Grotto, Rabat, Malta', 'St._Paul%27s_Grotto' ),

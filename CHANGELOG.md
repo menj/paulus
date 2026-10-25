@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.38] - 2026-10-25
+
+### Added
+- Three figures, each identified on Wikimedia Commons (the files supplied match the Commons files pixel for pixel), checked against every image the theme ships by perceptual fingerprint so none repeats an existing one, and credited by the theme's own figure caption:
+  - Raphael, *Saint Paul Preaching in Athens* (1515), tapestry cartoon, Royal Collection, on loan to the Victoria and Albert Museum. Public domain. In "Adapting the message to the pagans", beside the Areopagus.
+  - Enrique Simonet, *The Beheading of Saint Paul* (1887), Málaga Cathedral. Public domain. In "A death the scriptures never record", after the Tre Fontane relief and the tomb.
+  - Pierre-Étienne Monnot, statue of Paul in the nave of the Basilica of Saint John Lateran, photographed by Jastrow, CC BY 2.5. In "Paul in the churches", beside the Lateran ciborium.
+- `assets/images/church/` holds each at up to 1400 pixels (AVIF) and 720 (WebP), recorded in `sizes.json`, `files.json` and `commons-meta.json`. The content version moves to 2.62.38, so the three articles take the new figures on every site where they were never edited by hand (their earlier shipped texts are in `prior_hashes` as `#r38`); an edited copy is kept and listed on the dashboard.
+
 ## [2.62.37] - 2026-10-25
 
 ### Fixed

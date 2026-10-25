@@ -15,12 +15,15 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.27',
+	'content_version' => '2.62.38',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		'c05-adapting-the-message.html#r38' => 'c2c573481f5690176e92ebf2b7a9a3c0',
+		'c09-the-failed-prophet-2.html#r38' => 'c0c2e62c1811bf920501259caf1f4d9b',
+		'churches.html#r38' => 'ad8e91feb73307fec290f686082e6403',
 		'appendices.html#r27' => '5d7e049d70cae1199cdab1d8ea3e01d5',
 		'c01-the-measure.html#r27' => '0d89722500455b6324a93388c22ad6b2',
 		'c07-borrowings-from-the-rabbis-2.html#r27' => 'c9077ba6161b969847847d67c0d970c4',
