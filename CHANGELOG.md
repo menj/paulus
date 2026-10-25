@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.32] - 2026-10-25
+
+### Added
+- Companion sites. The author's other sites on the same ground, Best of Islam (bestofislam.org) and The Rightly-Guided Injil (injil.help), are now linked throughout (`inc/companions.php`, Theme Options, Companions):
+  - A band, "Further reading elsewhere", after every article, Journal entry and page (`[paulus_companions]`, in `single.html`, `single-paulus_journal.html` and `page.html`), with up to three links to the pages there that take the same question further, each naming its site: the Damascus road to "Acts against Galatians", the seven doctrines to "Paul of Tarsus against Jesus" and the crucifixion in the Quran, the Qurʾān as witness to "Jesus in the Qurʾān" and "Where is the Injil?", the glossary to both glossaries, and so on for every article and page, 119 links in all. The list is a field, one link per line as `key | label | address`, where the key is a slug, `section:<slug>` for every article of a section, or `*` for an article or entry without links of its own; a page shows only its own.
+  - A line in the footer brand block under the site description, "Companion sites: Best of Islam and The Rightly-Guided Injil", and a line in the author card after the biography, "Also by the author", each its own switch.
+  - A group on the Sitemap page, last, with each site and its line.
+  - The structured data: the sites join the author's `sameAs`, and a page node names its further-reading links as `relatedLink`. Two new filters, `paulus_person_schema` and `paulus_webpage_schema`, carry them in.
+  - The sites themselves are a field, one per line as `name | address | one line about the site`, so a third site, or none, is a matter of editing it.
+  - Options `companion_sites`, `companion_links`, `companion_reading`, `companion_footer`, `companion_author`; the three switches are on by default.
+
 ## [2.62.31] - 2026-10-25
 
 Findings of a review of the whole codebase, each checked against the code before it was changed.

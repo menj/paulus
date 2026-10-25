@@ -814,6 +814,9 @@ function paulus_sc_footer_brand() {
 	if ( $text ) {
 		$out .= '<p class="paulus-footer-brand__blurb">' . $text . '</p>';
 	}
+	if ( function_exists( 'paulus_companion_footer_html' ) ) {
+		$out .= paulus_companion_footer_html();
+	}
 	$out .= paulus_sc_footer_social();
 	return $out . '</div>';
 }
@@ -1113,6 +1116,10 @@ function paulus_author_card( $placement = 'footer' ) {
 	$about = get_page_by_path( 'about-the-author' );
 	if ( $about && 'publish' === $about->post_status && ! is_page( $about->ID ) ) {
 		$out .= '<p class="paulus-author__more"><a href="' . esc_url( get_permalink( $about ) ) . '">' . esc_html__( 'More about the author', 'paulus' ) . '</a></p>';
+	}
+	// The author's other sites, after the biography.
+	if ( function_exists( 'paulus_companion_author_html' ) ) {
+		$out .= paulus_companion_author_html();
 	}
 	if ( $books ) {
 		$out .= '<details class="paulus-author__books"><summary>'

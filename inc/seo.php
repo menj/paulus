@@ -456,7 +456,13 @@ function paulus_person_schema() {
 		// The bio may contain links; schema.org wants plain text.
 		$person['description'] = wp_strip_all_tags( paulus_option( 'author_bio' ) );
 	}
-	return $person;
+	/**
+	 * The author node, before it joins the graph (the companion sites add
+	 * their addresses to sameAs).
+	 *
+	 * @param array $person Person node.
+	 */
+	return apply_filters( 'paulus_person_schema', $person );
 }
 
 /**
@@ -866,7 +872,13 @@ function paulus_webpage_schema( $website ) {
 	} elseif ( is_front_page() ) {
 		$node['about'] = array( '@type' => 'Person', 'name' => 'Paul of Tarsus' );
 	}
-	return $node;
+	/**
+	 * The page node, before it joins the graph (the companion links are
+	 * named as relatedLink).
+	 *
+	 * @param array $node WebPage node.
+	 */
+	return apply_filters( 'paulus_webpage_schema', $node );
 }
 
 /**
@@ -1282,6 +1294,13 @@ function paulus_sc_sitemap() {
 				$items[] = $item( $e, get_the_date( 'j F Y', $e ) );
 			}
 			$groups[] = array( 'quill', (string) paulus_option( 'journal_title' ), paulus_journal_url(), $items, 'journal' );
+		}
+	}
+	// The companion sites, last: the author's other sites, each with its line.
+	if ( function_exists( 'paulus_companion_sitemap_items' ) ) {
+		$items = paulus_companion_sitemap_items();
+		if ( $items ) {
+			$groups[] = array( 'link', __( 'Companion sites', 'paulus' ), '', $items, '' );
 		}
 	}
 	if ( $groups ) {

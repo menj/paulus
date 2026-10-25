@@ -572,6 +572,10 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-footer-brand__mark a:hover { color: var(--t-accent); }
 .paulus-footer-brand__icon { box-sizing: border-box; width: 3rem; height: 3rem; padding: 3px; border-radius: 50%; background: var(--t-accent); box-shadow: 0 2px 6px rgba(31, 26, 20, 0.2); object-fit: cover; vertical-align: middle; margin: -0.2em 0.75rem 0 0; }
 .paulus-footer-brand__blurb { font-family: var(--t-garamond); font-size: 1.05rem; line-height: 1.6; color: var(--t-ink); margin: 0; }
+/* The companion sites, under the description, set like it. */
+.paulus-footer-brand__companions { font-family: var(--t-garamond); font-size: 1.05rem; line-height: 1.6; color: var(--t-ink); margin: 0.5rem 0 0; }
+.paulus-footer-brand__companions a { color: inherit; text-decoration: underline; text-decoration-color: var(--t-accent); text-underline-offset: 0.2em; }
+.paulus-footer-brand__companions a:hover { color: var(--t-accent-deep); }
 .paulus-social { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; list-style: none; margin: 1.25rem 0 0; padding: 0; }
 .paulus-social li { flex: none; margin: 0; }
 .paulus-social a { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; width: 2rem; min-width: 2rem; height: 2rem; border: 1px solid var(--t-rule); border-radius: 50%; color: var(--t-accent-deep); text-decoration: none; font-size: 0.75rem; }
@@ -1145,6 +1149,12 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 /* The author card's link to the full biography, in the label face. */
 .paulus-author__more { margin: 0.6rem 0 0; font-family: var(--t-label); font-size: 0.85rem; }
 .paulus-author__more a { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+.paulus-author__sites { margin: 0.4rem 0 0; font-family: var(--t-label); font-size: 0.85rem; }
+.paulus-author__sites a { color: var(--t-accent-deep); text-decoration: underline; text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+/* Further reading on the companion sites: the related-articles list, with
+ * the site named after each link. */
+.paulus-companions li span::before { content: "\2014\00a0"; }
+.paulus-sm__desc { display: block; color: var(--t-muted); font-size: 0.95rem; }
 
 /* The counts overview: the article that frames the counts, set above them. */
 .paulus-part__first { text-align: center; margin: -0.5rem auto 2rem; font-size: 1.05rem; }

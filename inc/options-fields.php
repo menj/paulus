@@ -111,6 +111,16 @@ function paulus_fields() {
 				'login_app_passwords' => array( __( 'Application passwords (per-application passwords for the REST API and XML-RPC, under Users, Profile; off by default, so no such password can be made or used)', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'companions' => array(
+			'label'  => __( 'Companions', 'paulus' ),
+			'fields' => array(
+				'companion_sites'   => array( __( 'Companion sites, one per line: Name | address | one line about the site', 'paulus' ), 'textarea' ),
+				'companion_reading' => array( __( '"Further reading elsewhere" after articles, Journal entries and pages: up to three links from the list below', 'paulus' ), 'checkbox' ),
+				'companion_footer'  => array( __( 'Name the companion sites in the footer, under the site description', 'paulus' ), 'checkbox' ),
+				'companion_author'  => array( __( 'Name the companion sites in the author card, as the author\'s other sites', 'paulus' ), 'checkbox' ),
+				'companion_links'   => array( __( 'Further reading, one link per line: key | label | address. The key is the slug of an article, entry or page; "section:the-charges" for every article of a section; "*" for any page without links of its own. A page shows its own links, else its section\'s, else the general ones, three at most.', 'paulus' ), 'textarea' ),
+			),
+		),
 		'journal'    => array(
 			'label'  => __( 'Journal', 'paulus' ),
 			'fields' => array(
