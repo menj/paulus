@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.62.32] - 2026-10-25
+
+### Added
+- Links in the text to the author's other sites, bestofislam.org and injil.help (`inc/links.php`, Theme Options, Links). Where an article, a Journal entry or a page names a thing those sites treat at length, the first mention in the running text links to the page there: the Ebionites and the Nazarenes to injil.help's page on the Ebionites, the Islamic Dilemma to its answer, the Gospel of Thomas and each of the four gospels to their pages, the Synoptic Gospels to the synoptic problem, the false apostles, the Jerusalem church, the seven letters, the table from heaven and the Injīl likewise; Matthew 5:17 to Best of Islam's "Paul and the Law", Quran 4:157 and the crucifixion to "The crucifixion and the Quran", the Son of God and the Trinity to "Why Muslims believe that Jesus is not God", the Talmud and midrash to the borrowing claims, Papyrus 46 to manuscript transmission, 2 Peter to the page on 2 Peter, Ibn Isḥāq to the Sira, the Dome of the Rock to its inscriptions. Twenty-eight phrases, one per line as `phrase | address`, in a field the owner can edit.
+- The links are made as the text renders, so every article carries them, an edited one included, and the stored text is untouched. A phrase is matched whole, capitals aside, in the running text only: never inside a link, a heading, a quotation, a caption, a footnote, a reference mark, a table, Arabic or Greek, or a tag. Each address is linked once a page, at the first mention of any of its phrases, up to eight a page (a setting). A page never links to itself. Options `text_links` (on), `text_links_max` (8), `text_links_map`.
+
 ## [2.62.31] - 2026-10-25
 
 Findings of a review of the whole codebase, each checked against the code before it was changed.

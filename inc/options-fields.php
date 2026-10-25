@@ -111,6 +111,14 @@ function paulus_fields() {
 				'login_app_passwords' => array( __( 'Application passwords (per-application passwords for the REST API and XML-RPC, under Users, Profile; off by default, so no such password can be made or used)', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'links'      => array(
+			'label'  => __( 'Links', 'paulus' ),
+			'fields' => array(
+				'text_links'     => array( __( 'Link the first mention of each phrase below, in the text of articles, Journal entries and pages, to the page on bestofislam.org or injil.help that treats it', 'paulus' ), 'checkbox' ),
+				'text_links_max' => array( __( 'Links of this kind on one page, at most (1 to 20)', 'paulus' ), 'number', array( 1, 20 ) ),
+				'text_links_map' => array( __( 'Phrases and their addresses, one per line: phrase | address. A phrase is matched whole, capitals aside, in the running text only (never in a heading, a quotation, a caption, a footnote or an existing link); each address is linked once a page, at the first mention of any of its phrases.', 'paulus' ), 'textarea' ),
+			),
+		),
 		'journal'    => array(
 			'label'  => __( 'Journal', 'paulus' ),
 			'fields' => array(

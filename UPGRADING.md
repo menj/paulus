@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.31 to 2.62.32
+
+- **Links in the text.** The first mention of twenty-eight phrases (the Ebionites, the Islamic Dilemma, Matthew 5:17, the Talmud and the rest) in an article, an entry or a page now links to the page on bestofislam.org or injil.help that treats it. On by default; the switch, the limit and the phrases are on the new Links tab of Theme Options. The stored text is not changed.
+
 ### 2.62.29 to 2.62.31
 
 - **Application passwords** are off from 2.62.30. A site that uses one (a mobile app, a publishing tool, a connector) must switch them back on under Appearance, Theme Options, Login, or that tool is refused at the REST API and XML-RPC until it does.
