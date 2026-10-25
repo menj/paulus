@@ -1186,6 +1186,13 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 		-webkit-mask: url("../images/alayhi-al-salam.avif") center / contain no-repeat;
 		mask: url("../images/alayhi-al-salam.avif") center / contain no-repeat;
 	}
+	/* The curse after the name of Paul ([paulus_lanah]): set like the
+	 * honorific, at the same height, in its own wider proportions. */
+	.paulus-lanah {
+		width: 3.7em;
+		-webkit-mask-image: url("../images/lanat-allah.avif");
+		mask-image: url("../images/lanat-allah.avif");
+	}
 }
 @supports not ((mask-image: url("x.png")) or (-webkit-mask-image: url("x.png"))) {
 	.paulus-honorific__text { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
