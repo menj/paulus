@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.35 to 2.62.36
+
+- **Rank Math.** A title or description you typed into Rank Math's own box for a post, page or section now shows; before, the theme's replaced it. Clear Rank Math's field on any page where you want the theme's text back. Nothing else to do.
+
 ### 2.62.32 to 2.62.33
 
 - **Author archive.** `/author/<name>/` now redirects permanently to the About the Author page. If you had linked it anywhere, link the author's page instead. Nothing else to do: the other changes are head tags and heading levels.

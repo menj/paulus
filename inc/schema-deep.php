@@ -716,18 +716,27 @@ function paulus_schema_component_nodes() {
 				'description' => $when . ': ' . $what,
 				'about'       => array( '@id' => paulus_sid( 'paul-of-tarsus' ) ),
 			);
-			// The place of the event, where the entry names one the site knows.
+			// The place of the event: the first place the entry names that the
+			// site knows, by its position in the text, not the order of the list.
+			$first = null;
 			foreach ( paulus_schema_named_things() as $key => $t ) {
-				if ( in_array( $t[0], array( 'City', 'Country', 'AdministrativeArea', 'Place' ), true ) && preg_match( $t[5], $what ) ) {
-					$event['location'] = array( '@id' => paulus_sid( $key ) );
-					break;
+				if ( in_array( $t[0], array( 'City', 'Country', 'AdministrativeArea', 'Place' ), true ) && preg_match( $t[5], $what, $pm, PREG_OFFSET_CAPTURE ) && ( null === $first || $pm[0][1] < $first[1] ) ) {
+					$first = array( $key, $pm[0][1] );
 				}
 			}
-			$years = preg_match_all( '/\b(\d{1,3}) CE\b/', $when, $y ) ? array_map( 'intval', $y[1] ) : array();
+			if ( $first ) {
+				$event['location'] = array( '@id' => paulus_sid( $first[0] ) );
+			}
+			// The years: every number in a date given in the Common Era, so a
+			// range such as "c. 5–10 CE" gives its start and its end.
+			$years = false !== strpos( $when, 'CE' ) && preg_match_all( '/\b(\d{1,4})\b/', $when, $y ) ? array_map( 'intval', $y[1] ) : array();
 			if ( $years ) {
 				$event['startDate'] = sprintf( '%04d', min( $years ) );
-				$all_years[]        = min( $years );
-				$all_years[]        = max( $years );
+				if ( max( $years ) > min( $years ) ) {
+					$event['endDate'] = sprintf( '%04d', max( $years ) );
+				}
+				$all_years[] = min( $years );
+				$all_years[] = max( $years );
 			}
 			$items[] = array( '@type' => 'ListItem', 'position' => $i + 1, 'item' => $event );
 		}
@@ -802,6 +811,8 @@ function paulus_schema_component_nodes() {
 				// title in quotation marks is an article, the rest are books.
 				if ( false !== stripos( $genre, 'Photograph' ) ) {
 					$type = 'Photograph';
+				} elseif ( preg_match( '/\\bMS\\.? ?\\d|\\bmanuscript\\b|\\bcodex\\b|\\bpapyrus\\b/i', $text ) ) {
+					$type = 'Manuscript';
 				} elseif ( preg_match( '#https?://#', $text ) ) {
 					$type = 'WebPage';
 				} elseif ( preg_match( '/[“"].+[”"]/u', $text ) ) {
@@ -1070,12 +1081,20 @@ function paulus_schema_deepen_node( $node ) {
 		return $node;
 	}
 
-	// The author: the same person on every page, with profiles.
-	if ( paulus_node_is( $node, array( 'Person' ) ) && ( $node['name'] ?? '' ) === $author && function_exists( 'paulus_person_schema' ) ) {
+	// The author: the same person on every page, with profiles. Rank Math's
+	// author node is recognised by its identifier (see paulus_schema_deepen).
+	$is_author = ( $node['name'] ?? '' ) === $author || ( ! empty( $node['@id'] ) && ( $GLOBALS['paulus_sd_ids']['author'] ?? '' ) === $node['@id'] );
+	if ( paulus_node_is( $node, array( 'Person' ) ) && $is_author && function_exists( 'paulus_person_schema' ) ) {
 		foreach ( paulus_person_schema() as $k => $v ) {
 			if ( '@type' !== $k ) {
 				$node = paulus_node_default( $node, $k, $v );
 			}
+		}
+		// Rank Math gives the author the address of the author archive, which
+		// the theme redirects to the author's page: the node takes that page.
+		if ( ! empty( $node['url'] ) && paulus_is_author_archive_url( $node['url'] ) ) {
+			$about       = get_page_by_path( 'about-the-author' );
+			$node['url'] = $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' );
 		}
 		$node = paulus_node_default( $node, 'knowsLanguage', array( 'ms', 'en' ) );
 		return paulus_node_default( $node, 'knowsAbout', array( $paul, 'Christian origins', 'Islamic apologetics' ) );
@@ -1246,7 +1265,6 @@ function paulus_schema_deepen_node( $node ) {
 			$node = paulus_node_default( $node, 'hasPart', array_map( static function ( $c ) {
 				return array( '@id' => paulus_sid( 'book' ) . '-chapter-' . $c['position'] );
 			}, array_values( $chapters ) ) );
-			$node = paulus_node_default( $node, 'numberOfChapters', count( $chapters ) );
 		}
 		return $node;
 	}
@@ -1317,7 +1335,11 @@ function paulus_schema_deepen( $nodes ) {
 		if ( ! is_array( $node ) || empty( $node['@id'] ) ) {
 			continue;
 		}
-		if ( paulus_node_is( $node, array( 'Person' ) ) && ( $node['name'] ?? '' ) === (string) paulus_option( 'book_author' ) && empty( $GLOBALS['paulus_sd_ids']['author'] ) ) {
+		// The author is known by name, or, in Rank Math's graph, by the
+		// address it gives its author node (the author archive), since Rank
+		// Math names that node after the WordPress user, not the book's author.
+		if ( paulus_node_is( $node, array( 'Person' ) ) && empty( $GLOBALS['paulus_sd_ids']['author'] )
+			&& ( ( $node['name'] ?? '' ) === (string) paulus_option( 'book_author' ) || paulus_is_author_archive_url( $node['@id'] ) || paulus_is_author_archive_url( $node['url'] ?? '' ) ) ) {
 			$GLOBALS['paulus_sd_ids']['author'] = $node['@id'];
 		}
 		if ( paulus_node_is( $node, array( 'Organization' ) ) && ( $node['name'] ?? '' ) === (string) paulus_option( 'pub_name' ) && empty( $GLOBALS['paulus_sd_ids']['publisher'] ) ) {
@@ -1674,4 +1696,19 @@ function paulus_schema_chapter_of( $post_id ) {
 		}
 	}
 	return null;
+}
+
+/**
+ * Whether an address is an author archive, which the theme redirects to the
+ * author's page (paulus_author_archive_redirect).
+ *
+ * @param mixed $url Address.
+ * @return bool
+ */
+function paulus_is_author_archive_url( $url ) {
+	if ( ! is_string( $url ) || '' === $url || 0 !== strpos( $url, home_url( '/' ) ) ) {
+		return false;
+	}
+	$base = isset( $GLOBALS['wp_rewrite'] ) && $GLOBALS['wp_rewrite']->author_base ? $GLOBALS['wp_rewrite']->author_base : 'author';
+	return false !== strpos( $url, '/' . $base . '/' ) || false !== strpos( $url, '?author=' );
 }
