@@ -1025,8 +1025,11 @@ function paulus_figure_images_schema() {
 		$f   = $figs[ $row[1] ];
 		$url = PAULUS_URI . '/assets/images/church/' . $row[1] . '.avif';
 		$lic = $f['license_url'] ? $f['license_url'] : ( 'Public domain' === $f['license'] ? 'https://creativecommons.org/publicdomain/mark/1.0/' : '' );
+		// A photograph of a place or an object is a Photograph as well as an
+		// image; a reproduction of a work of art is an image of that work.
+		$form = function_exists( 'paulus_schema_artform' ) ? paulus_schema_artform( $f['alt'] ) : '';
 		$img = array(
-			'@type'              => 'ImageObject',
+			'@type'              => '' === $form ? array( 'ImageObject', 'Photograph' ) : 'ImageObject',
 			'@id'                => $url . '#image',
 			'contentUrl'         => $url,
 			'url'                => $url,
@@ -1040,8 +1043,15 @@ function paulus_figure_images_schema() {
 		// Unknown painters and scribes get no creator; museums and firms are
 		// organisations, everyone else a person.
 		if ( ! preg_match( '/^Unknown/i', $f['author'] ) ) {
-			$org            = preg_match( '/Museum|Company|Library|Gallery/i', $f['author'] );
-			$img['creator'] = array( '@type' => $org ? 'Organization' : 'Person', 'name' => preg_replace( '/^Photograph:\s*/', '', $f['author'] ) );
+			$kind = 'Person';
+			if ( preg_match( '/Museum|Gallery/i', $f['author'] ) ) {
+				$kind = 'Museum';
+			} elseif ( preg_match( '/Library/i', $f['author'] ) ) {
+				$kind = 'Library';
+			} elseif ( preg_match( '/Company/i', $f['author'] ) ) {
+				$kind = 'Organization';
+			}
+			$img['creator'] = array( '@type' => $kind, 'name' => preg_replace( '/^Photograph:\s*/', '', $f['author'] ) );
 		}
 		if ( $lic ) {
 			$img['license'] = $lic;
