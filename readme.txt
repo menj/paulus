@@ -38,6 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.62.42 =
+* The author's structured data names his Malay Wikipedia article, LinkedIn profile and blog (sameAs), on every page; more can be added under Theme Options, Book, "Other pages about the author".
 * Hidden files and folders an upload of the repository carries (.git, .github, .gitignore and the like) are removed from the theme folder when the theme is activated, once per version and weekly.
 
 = 2.62.41 =

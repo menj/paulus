@@ -543,7 +543,10 @@ function paulus_person_schema() {
 	} elseif ( paulus_option( 'author_url' ) ) {
 		$person['url'] = paulus_option( 'author_url' );
 	}
-	$same = array();
+	// The pages about the author listed in Theme Options come first, then
+	// the author's own sites.
+	$same = preg_split( '/\s+/', trim( (string) paulus_option( 'author_same_as' ) ), -1, PREG_SPLIT_NO_EMPTY );
+	$same = array_filter( array_map( 'esc_url_raw', $same ) );
 	foreach ( array( 'author_home', 'author_url', 'author_youtube' ) as $paulus_key ) {
 		if ( paulus_option( $paulus_key ) ) {
 			$same[] = paulus_option( $paulus_key );
@@ -555,7 +558,16 @@ function paulus_person_schema() {
 		$same[] = $profile[2];
 	}
 	if ( $same ) {
-		$person['sameAs'] = array_values( array_unique( $same ) );
+		// One entry per address: https://menj.blog and https://menj.blog/ are the same page.
+		$seen = array();
+		foreach ( $same as $i => $paulus_url ) {
+			$paulus_key = untrailingslashit( strtolower( $paulus_url ) );
+			if ( isset( $seen[ $paulus_key ] ) ) {
+				unset( $same[ $i ] );
+			}
+			$seen[ $paulus_key ] = true;
+		}
+		$person['sameAs'] = array_values( $same );
 	}
 	if ( function_exists( 'paulus_author_portrait_url' ) && paulus_author_portrait_url() ) {
 		$person['image'] = paulus_author_portrait_url();

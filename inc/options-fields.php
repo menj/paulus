@@ -30,6 +30,7 @@ function paulus_fields() {
 				'author_bio'       => array( __( 'About the author (shown above the footer on every page; links allowed)', 'paulus' ), 'bio' ),
 				'author_youtube'   => array( __( 'Author YouTube channel (optional link in the author card)', 'paulus' ), 'url' ),
 				'social_links'     => array( __( 'Social profiles, one URL per line (the platform is detected from the address)', 'paulus' ), 'textarea' ),
+				'author_same_as'   => array( __( 'Other pages about the author, one URL per line (structured data only: sameAs)', 'paulus' ), 'textarea' ),
 				'author_books'     => array( __( 'Other books by the author, one per line: Title (Publisher, Year)', 'paulus' ), 'textarea' ),
 				'book_language'    => array( __( 'Language', 'paulus' ), 'text' ),
 				'book_isbn'        => array( __( 'ISBN', 'paulus' ), 'text' ),

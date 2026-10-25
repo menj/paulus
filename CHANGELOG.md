@@ -4,6 +4,12 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ## [2.62.42] - 2026-10-25
 
+### Added
+- **The author's `sameAs`** names his Malay Wikipedia article (`https://ms.wikipedia.org/wiki/Mohd_Elfie_Nieshaem_Juferi`), his LinkedIn profile (`https://my.linkedin.com/in/mohd-elfie-nieshaem-bin-juferi`) and his blog (`https://menj.blog/`), ahead of the apologetics site and the YouTube channel. They are a new field, Theme Options, Book, "Other pages about the author" (`author_same_as`, one URL per line), shown only in the structured data. Addresses that differ only by a final slash are listed once.
+
+### Fixed
+- **The author's profiles reached only the home page.** On every other page the author is Rank Math's node for the WordPress user, which already has a `sameAs` (the website field of the user's profile, usually this site), and the theme only filled what was empty, so the profiles never joined it. The lists are now merged, the site's own address dropped. Checked on the home page, an article, the author's page and two section pages: each lists all five.
+
 ### Changed
 - **Hidden files and folders are removed from the theme folder** when the theme is activated, and with the retired files once per version and weekly: everything at the top of the folder whose name begins with a dot (`.git`, `.github`, `.gitignore`, `.gitattributes`, `.vscode`, `.idea`, `.claude`, `.DS_Store`), which an upload of a working copy carries and the web server may serve (a public `.git` gives away the whole repository). `.htaccess`, `.user.ini` and `.well-known` stay, since they may be the host's. Links are removed, never followed, and nothing outside the theme folder is touched (`paulus_remove_tree()`). A site whose environment type is `local` or `development`, or that sets `PAULUS_KEEP_DOTFILES`, keeps them, so a theme run from a working copy keeps its repository. Tested on a copy of the theme with a full `.git` (its read-only pack files included), `.github`, `.vscode`, `.DS_Store`, a link to a file outside the site and a folder holding a link to the repository: 47 files removed, `.htaccess` and the linked targets intact; nothing removed in a development environment or with the constant.
 

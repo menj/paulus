@@ -1085,10 +1085,24 @@ function paulus_schema_deepen_node( $node ) {
 	// author node is recognised by its identifier (see paulus_schema_deepen).
 	$is_author = ( $node['name'] ?? '' ) === $author || ( ! empty( $node['@id'] ) && ( $GLOBALS['paulus_sd_ids']['author'] ?? '' ) === $node['@id'] );
 	if ( paulus_node_is( $node, array( 'Person' ) ) && $is_author && function_exists( 'paulus_person_schema' ) ) {
-		foreach ( paulus_person_schema() as $k => $v ) {
+		$person = paulus_person_schema();
+		foreach ( $person as $k => $v ) {
 			if ( '@type' !== $k ) {
 				$node = paulus_node_default( $node, $k, $v );
 			}
+		}
+		// Rank Math fills sameAs from the user's profile (the website field,
+		// often this site itself), which would keep the author's profiles out:
+		// the two lists are merged, the site's own address dropped.
+		if ( ! empty( $person['sameAs'] ) ) {
+			$same = array();
+			foreach ( array_merge( $person['sameAs'], (array) ( $node['sameAs'] ?? array() ) ) as $paulus_url ) {
+				$paulus_key = untrailingslashit( strtolower( (string) $paulus_url ) );
+				if ( '' !== $paulus_key && untrailingslashit( strtolower( home_url( '/' ) ) ) !== $paulus_key && ! isset( $same[ $paulus_key ] ) ) {
+					$same[ $paulus_key ] = $paulus_url;
+				}
+			}
+			$node['sameAs'] = array_values( $same );
 		}
 		// Rank Math gives the author the address of the author archive, which
 		// the theme redirects to the author's page: the node takes that page.
