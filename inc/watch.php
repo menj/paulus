@@ -106,11 +106,15 @@ function paulus_htaccess_lines() {
 	// A login slug is letters, digits, hyphens and underscores (WordPress's
 	// sanitize_title_with_dashes), none of which needs escaping; escaped
 	// with preg_quote, the hyphen became "\-", which Apache did not match.
+	$query = array();
 	if ( preg_match( '/^[a-z0-9_-]+$/', $slug ) ) {
 		$open[] = $slug . '/?$';
+		// Without pretty permalinks the login address is ?slug, in the query
+		// string, which %{REQUEST_URI} does not include.
+		$query[] = 'RewriteCond %{QUERY_STRING} !(^|&)' . $slug . '(=|&|$)';
 	}
 	$content = (string) wp_parse_url( content_url( '/' ), PHP_URL_PATH );
-	return array(
+	return array_merge( array(
 		'Written by the Paulus theme. Inactive unless the file .paulus-maintenance',
 		'exists in the site\'s folder (Theme Options, Maintenance); delete that',
 		'file to end maintenance. Visitors then get the maintenance page from the',
@@ -124,11 +128,12 @@ function paulus_htaccess_lines() {
 		'RewriteCond %{ENV:REDIRECT_STATUS} ^$',
 		'RewriteCond "' . paulus_maintenance_flag() . '" -f',
 		'RewriteCond %{REQUEST_URI} !^' . $quote( $base ) . '(' . implode( '|', $open ) . ')',
+	), $query, array(
 		'RewriteCond %{HTTP_COOKIE} !wordpress_logged_in_ [NC]',
 		'RewriteRule ^ - [R=503,L]',
 		'</IfModule>',
 		'ErrorDocument 503 ' . trailingslashit( $content ) . 'paulus-maintenance.html',
-	);
+	) );
 }
 
 /**
