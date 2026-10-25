@@ -1,4 +1,4 @@
-# Files the running theme never reads: the chapter sources and the script
+# Files the running theme never reads: the chapter sources (JSON drafts) and the script
 # that builds them, the Greek text the build quotes from, the keyword
 # research, and the repository's own housekeeping. `git archive` leaves
 # them out of a release zip (so does GitHub's "Download ZIP"):

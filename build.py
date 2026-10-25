@@ -1,4 +1,4 @@
-"""Build content/articles/*.json from content/src/*.txt (one JSON file per text,
+"""Build content/articles/*.json from content/src/*.json (one JSON file per text,
 as inc/importer.php paulus_content_file() reads them).
 Syntax in source:
   {{kjv:Acts 8:1-3}}            -> blockquote with KJV text (fetched live, cached) + footnote "Acts 8:1–3 (KJV)."
@@ -84,7 +84,10 @@ def _link_text(text):
     return URL_RE.sub(rep, text)
 
 def build(src,dst,prefix):
-    t=open(src,encoding='utf-8').read()
+    doc=json.load(open(src,encoding='utf-8'))
+    t=doc.get('source') if isinstance(doc,dict) and doc.get('format')=='paulus-article-source' else None
+    if not isinstance(t,str) or hashlib.md5(t.encode('utf-8')).hexdigest()!=doc.get('md5'):
+        sys.exit(f'{src}: not a valid article source (format, or md5 does not match the text).')
     notes=[]
     def fn(ref_text):
         notes.append(ref_text.strip()); n=len(notes)
@@ -141,10 +144,10 @@ if __name__=='__main__':
     import glob
     src_dir=os.path.join(BASE,'content','src')
     out_dir=os.path.join(BASE,'content','articles')
-    files=sorted(glob.glob(os.path.join(src_dir,'*.txt')))
+    files=sorted(glob.glob(os.path.join(src_dir,'*.json')))
     if not files:
         sys.exit(f'No source files found in {src_dir} — check the checkout path.')
     for src in files:
-        name=os.path.basename(src)[:-4]
+        name=os.path.splitext(os.path.basename(src))[0]
         n=build(src,os.path.join(out_dir,f'{name}.json'),name.split('-')[0])
         print(name,n,'notes')
