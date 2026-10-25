@@ -175,7 +175,8 @@ function paulus_hero_srcset( $url ) {
 	if ( ! $set ) {
 		return '';
 	}
-	$set[] = $url . ' 962w';
+	$full  = paulus_image_size( PAULUS_DIR . '/assets/images/' . $file );
+	$set[] = $url . ' ' . ( $full ? (int) $full[0] : 962 ) . 'w';
 	return implode( ', ', $set );
 }
 
