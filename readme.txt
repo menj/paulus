@@ -40,7 +40,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 = 2.62.40 =
 * Faster pages: every image is AVIF (the WebP copies removed), EB Garamond is split so a page downloads only the characters it shows, and the main image and fonts are preloaded.
 * Security headers, on by default under Theme Options, Login.
-* The curse "laʿnat Allāh" in calligraphy after the name of Paul, at the close of the Verdict and of the classical assessment in chapter 10.
+* The curse "laʿnat Allāh" in rubric-red calligraphy after the name of Paul, at the close of the Verdict and of the classical assessment in chapter 10.
 * Contrast of two small labels in the ochre scheme.
 * The calligraphy of "ʿalayhi al-salām" after the name of ʿĪsā ibn Maryam is set like a letter of the text: it sits on the baseline, stands no taller than the capitals, and no longer reaches into the lines above and below.
 

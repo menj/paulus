@@ -8,8 +8,13 @@
  * accent    headings, buttons    on-accent text on accent
  * gold      rules and diamonds   rule      hairlines
  * panel     article title panel  on-panel  text on the panel
+ * rubric    the red of a manuscript rubric, for the curse after Paul's
+ *           name: a vermilion on the light grounds, a deep crimson on
+ *           ochre and a light vermilion on the dark ones, each at 4.5:1 or
+ *           more against its page ground
  */
 body.paulus-scheme-vellum {
+	--paulus-rubric: #b0291c;
 	--wp--preset--color--base: #fbf7eb;
 	--wp--preset--color--surface: #ffffff;
 	--wp--preset--color--contrast: #232629;
@@ -22,6 +27,7 @@ body.paulus-scheme-vellum {
 	--wp--preset--color--on-panel: #ffffff;
 }
 body.paulus-scheme-ochre {
+	--paulus-rubric: #680b06;
 	--wp--preset--color--accent-deep: #5c1f10;
 	--wp--preset--color--base: #b8955f;
 	--wp--preset--color--surface: #b8955f;
@@ -35,6 +41,7 @@ body.paulus-scheme-ochre {
 	--wp--preset--color--on-panel: #1f1a14;
 }
 body.paulus-scheme-oxblood {
+	--paulus-rubric: #f2785a;
 	--wp--preset--color--base: #4a1a10;
 	--wp--preset--color--surface: #3b140c;
 	--wp--preset--color--contrast: #f1e2c4;
@@ -47,6 +54,7 @@ body.paulus-scheme-oxblood {
 	--wp--preset--color--on-panel: #f1e2c4;
 }
 body.paulus-scheme-ink {
+	--paulus-rubric: #f2785a;
 	--wp--preset--color--base: #1b1714;
 	--wp--preset--color--surface: #14110f;
 	--wp--preset--color--contrast: #ede3d1;
@@ -59,6 +67,7 @@ body.paulus-scheme-ink {
 	--wp--preset--color--on-panel: #ede3d1;
 }
 body.paulus-scheme-paper {
+	--paulus-rubric: #b0291c;
 	--wp--preset--color--base: #f3eee4;
 	--wp--preset--color--surface: #ffffff;
 	--wp--preset--color--contrast: #1f1a14;
@@ -71,6 +80,7 @@ body.paulus-scheme-paper {
 	--wp--preset--color--on-panel: #fbf6ec;
 }
 body.paulus-scheme-graphite {
+	--paulus-rubric: #f2785a;
 	--wp--preset--color--base: #2e3033;
 	--wp--preset--color--surface: #25272a;
 	--wp--preset--color--contrast: #ecebe6;

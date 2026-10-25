@@ -20,6 +20,7 @@ body {
 	--t-muted: var(--wp--preset--color--muted);
 	--t-accent: var(--wp--preset--color--accent);
 	--t-accent-deep: var(--wp--preset--color--accent-deep, var(--wp--preset--color--accent));
+	--t-rubric: var(--paulus-rubric, #b0291c);
 	--t-on-accent: var(--wp--preset--color--on-accent);
 	--t-gold: var(--wp--preset--color--gold);
 	--t-rule: var(--wp--preset--color--rule);
@@ -1187,9 +1188,11 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 		mask: url("../images/alayhi-al-salam.avif") center / contain no-repeat;
 	}
 	/* The curse after the name of Paul ([paulus_lanah]): set like the
-	 * honorific, at the same height, in its own wider proportions. */
+	 * honorific, at the same height, in its own wider proportions, and in
+	 * rubric red, as a manuscript sets apart such a formula. */
 	.paulus-lanah {
 		width: 3.7em;
+		background-color: var(--t-rubric);
 		-webkit-mask-image: url("../images/lanat-allah.avif");
 		mask-image: url("../images/lanat-allah.avif");
 	}
