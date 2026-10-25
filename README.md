@@ -371,7 +371,7 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 
 ## Image formats
 
-Every image the theme shows is AVIF, at every width; link previews are JPEG, and the logo and icon PNG. No WebP file is shipped.
+Every image the theme shows is AVIF, at every width; link previews are JPEG, and the logo and icon PNG. No WebP file is shipped. The two calligraphy masks also keep a PNG, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`).
 
 | Images | Format | Where |
 |---|---|---|

@@ -2,6 +2,7 @@
  "version": "2.62.40",
  "files": [
   "assets/images/alayhi-al-salam.avif",
+  "assets/images/alayhi-al-salam.png",
   "assets/images/author-photo.avif",
   "assets/images/author-portrait.avif",
   "assets/images/book-cover.avif",
@@ -161,6 +162,7 @@
   "assets/images/church/valentin-paul-writing-720.avif",
   "assets/images/church/valentin-paul-writing.avif",
   "assets/images/lanat-allah.avif",
+  "assets/images/lanat-allah.png",
   "assets/images/met-diploma.avif",
   "assets/images/met-inkwell-stylus.avif",
   "assets/images/met-papyrus-letter.avif",
