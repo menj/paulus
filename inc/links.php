@@ -262,7 +262,9 @@ function paulus_text_links_filter( $content ) {
 							break;
 						}
 					}
-				} elseif ( ! $void && '/' !== substr( $piece, -2, 1 ) && ( in_array( $tag, $skip_tags, true ) || preg_match( $skip_class, $piece ) || preg_match( $skip_lang, $piece ) ) ) {
+				} elseif ( ! $void && '/' !== substr( $piece, -2, 1 ) && ( $stack || in_array( $tag, $skip_tags, true ) || preg_match( $skip_class, $piece ) || preg_match( $skip_lang, $piece ) ) ) {
+					// Inside a skip region every element is tracked, so a nested
+					// element of the same name cannot close the region early.
 					$stack[] = $tag;
 				}
 			}

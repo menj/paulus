@@ -13,6 +13,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ### Changed
 - **The Links tab is now Contextual links.** Its field of phrases (`text_links_map`) is empty by default and holds only the site's own lines, read before the shared map so they win; a line may give a path on this site or an address on one of the network's sites, and any other site is refused. The 28 default lines are in the map (the "Injīl" line, which led to injil.help's home page, now leads to Best of Islam's page on where the Injīl is; the bare "4:157" gives way to "Quran 4:157"). A site that saved the old default untouched has it emptied once (`paulus_upgrade_2630()`); edited lines are kept.
 - **One new link to a paragraph or list item at most**, and none on the front page, in a feed or in an excerpt. Hebrew and Syriac (`lang`) join Arabic and Greek as text that is never linked.
+- **A region where no link may go now ends only at its own closing tag.** Before, a nested element of the same name (a `div` inside the footnotes `div`) closed the region early and the text after it could be linked; every element inside a skip region is now tracked.
 - **The links carry the class `paulus-ctx-link`** (with `paulus-ctx-link--sister` for the other sites) in place of `paulus-xlink`; no stylesheet used the old class.
 
 ### Removed
