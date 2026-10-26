@@ -25,6 +25,7 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /answers/                          Short answers to common missionary claims, each linked to its article
 /questions/                        Short answers to the questions people search for most (who Paul was, whether he met Jesus, how he died), each linked to its article
 /paul-at-a-glance/                 The story, ten facts, names, journeys, letters, legacy, quotations and pictures on one page
+/islamic-dilemma/                  The "Islamic dilemma" answered from Paul's role, with the network's other pieces on it
 /journal/                          Dated entries by the author, each with its own address
 /the-verdict/                      The epilogue in full
 /reference/                        Timeline, glossary, study guide, sources, Paul in the churches

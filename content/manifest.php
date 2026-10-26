@@ -1558,6 +1558,16 @@ return array(
 			'order'     => 7,
 		),
 		array(
+			'slug'      => 'islamic-dilemma',
+			'meta'      => 'The Islamic dilemma takes the Gospel to be the New Testament, mostly Paul\'s letters. The Qurʾān\'s Injīl is not his. Read on.',
+			'title'     => 'The Islamic dilemma and the letters of Paul',
+			'seo_title' => 'The Islamic dilemma and Paul',
+			'excerpt'   => 'The Islamic dilemma says the Qurʾān confirms a Gospel that either refutes it or was corrupted. The Injīl it confirms was given to ʿĪsā ibn Maryam; the book the argument puts in its place is a canon in which Paul has the largest share.',
+			'file'      => 'islamic-dilemma.json',
+			'image'     => 'paul-horned-mirror',
+			'order'     => 8,
+		),
+		array(
 			'slug'    => 'the-verdict',
 			'meta'      => 'A faith without deeds became a faith that could bless empire. Why rejecting Paul is a moral duty, argued to its conclusion.',
 			'title'   => 'The Verdict',

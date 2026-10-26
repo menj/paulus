@@ -1407,7 +1407,7 @@ function paulus_sc_sitemap() {
 	// The rest of the site: four cards, each with an icon.
 	$groups = array();
 	$pages  = array();
-	foreach ( array( 'the-verdict', 'answers', 'questions', 'paul-at-a-glance', 'the-book', 'about-the-author' ) as $slug ) {
+	foreach ( array( 'the-verdict', 'answers', 'questions', 'paul-at-a-glance', 'islamic-dilemma', 'the-book', 'about-the-author' ) as $slug ) {
 		$page = get_page_by_path( $slug );
 		if ( $page && 'publish' === $page->post_status ) {
 			$pages[] = $item( $page );

@@ -4,6 +4,9 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ## [2.63.4] - 2026-10-26
 
+### Added
+- **"The Islamic dilemma and the letters of Paul"** (`/islamic-dilemma/`, `islamic-dilemma.json`), a page answering the apologists' "Islamic dilemma" from Paul's role: the Injīl the Qurʾān confirms was given to ʿĪsā ibn Maryam, while the book the argument puts in its place is a canon in which Paul's letters lead. It covers what Tawrāh and Injīl mean in the Qurʾān, *muhaymin* in 5:48, *taḥrīf al-maʿnā* and *al-lafẓ*, "the People of the Gospel" in 5:47 and 5:68, and 10:94, from al-Ṭabarī (Shākir ed.), Ibn Kathīr (al-Salāmah ed.) and Ibn Ḥazm's *al-Fiṣal*, each footnote giving the print reference and its shamela.ws page. Verses checked against api.quran.com; the Bible in the KJV, verbatim, with the SBLGNT for Galatians 1:11–12. It ends with "The Islamic dilemma across the network", a box linking the six sister pieces (`.paulus-network` in theme.css), and is listed on the Sitemap with The Verdict and the book.
+
 ### Fixed
 - **A living person is no longer named or characterised** in "Malaysia and Southeast Asia". The complaint to the MCMC is described without the preacher's name or the unsourced "right-wing" and "openly insults Islam"; the footnote says the complaint is unpublished.
 - **The Būlus hadith is quoted and graded as al-Tirmidhī gives it** ("The early Islamic record"): «يُحْشَرُ المُتَكَبِّرُونَ…» in place of «يُحشر الجبارون…», from Jāmiʿ al-Tirmidhī 2492 (Shākir ed., 4:655, shamela.ws/book/1435/4295); al-Albānī's grading (*ḥasan*) and al-Tirmidhī's («هَذَا حَدِيثٌ حَسَنٌ») replace "*ḥasan ṣaḥīḥ* by the scholars of hadith". The unverified "Musnad Aḥmad, vol. 6, p. 232" is removed, and the hadith is introduced as al-Tirmidhī's.
