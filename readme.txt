@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.63.5
+Stable tag: 2.63.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.63.6 =
+* Links to "The Islamic dilemma and the letters of Paul" from The Verdict, The Injīl and the letters, and a new teaser on the front page.
 
 = 2.63.5 =
 * The calligraphic honorific and the curse after the name of Paul now show in forced-colours (high-contrast) mode.

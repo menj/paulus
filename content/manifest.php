@@ -15,12 +15,15 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.63.4',
+	'content_version' => '2.63.6',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		// Texts as shipped in 2.63.5, before the links to /islamic-dilemma/.
+		'c11-the-verdict.json#r63.6' => 'd44ad68bcd5d3a157a541cb053e8c989',
+		'c15-the-quran-as-witness-2.json#r63.6' => '3b8744cd34c8e0f2b23a20be38cc60d8',
 		'c12-malaysia-and-southeast-asia.json#r63.4' => '5a7cf3e1979f5de70d022bd075950f03',
 		'c10-the-early-islamic-record.json#r63.4' => 'd04fddf63fb22aacc06ad9bedb3352f7',
 		'c09-the-failed-prophet-2.json#r63.4' => '476b7703395b1147812419c7a7e9a160',

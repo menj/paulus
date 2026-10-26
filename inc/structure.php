@@ -469,6 +469,27 @@ function paulus_sc_answers_teaser( $atts ) {
 add_shortcode( 'paulus_answers_teaser', 'paulus_sc_answers_teaser' );
 
 /**
+ * Front-page teaser for "The Islamic dilemma and the letters of Paul": a
+ * kicker, the title, one line, and a pill link to the page, resolved by its
+ * slug. Prints nothing when the page is missing or unpublished.
+ *
+ * @return string
+ */
+function paulus_sc_dilemma_teaser() {
+	$page = get_page_by_path( 'islamic-dilemma' );
+	if ( ! $page || 'publish' !== $page->post_status ) {
+		return '';
+	}
+	return '<aside class="paulus-dilemma" aria-labelledby="paulus-dilemma-heading">'
+		. '<p class="paulus-dilemma__kicker">' . esc_html__( 'The missionaries\' argument', 'paulus' ) . '</p>'
+		. '<h2 class="paulus-dilemma__title" id="paulus-dilemma-heading">' . esc_html__( 'The Islamic dilemma', 'paulus' ) . '</h2>'
+		. '<p class="paulus-dilemma__text">' . esc_html__( 'The Qurʾān confirms the Injīl given to ʿĪsā ibn Maryam, and the book the argument puts in its place is a canon led by the letters of Paul.', 'paulus' ) . '</p>'
+		. '<p class="paulus-dilemma__more"><a class="paulus-dilemma__pill" href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html__( 'Read the answer', 'paulus' ) . ' <span aria-hidden="true">→</span></a></p>'
+		. '</aside>';
+}
+add_shortcode( 'paulus_dilemma_teaser', 'paulus_sc_dilemma_teaser' );
+
+/**
  * Child pages of the current page with their summaries.
  *
  * @return string

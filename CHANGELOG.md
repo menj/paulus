@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.6] - 2026-10-26
+
+### Added
+- **Front-page teaser for "The Islamic dilemma and the letters of Paul"**: `[paulus_dilemma_teaser]` (`inc/structure.php`) prints a kicker, the title, one line and a pill link to the page, resolved by its slug (`islamic-dilemma`); it prints nothing if the page is missing or unpublished. It sits after `[paulus_answers_teaser]` in `templates/front-page.html`, styled by `.paulus-dilemma` in `assets/css/theme.css` (the theme radius and a pill link).
+- **Body links to the page**: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third horn), each with `[paulus_link slug="islamic-dilemma"]`.
+
+### Changed
+- Content version 2.63.6, with the 2.63.5 hashes of the two edited files in `prior_hashes` (`#r63.6`), so untouched copies on existing sites are refreshed and hand-edited ones left alone.
+
+### Note
+- The theme does not copy or sync templates into the database: WordPress renders `templates/front-page.html` from disk. A site that has customised the front-page template in the Site Editor holds its own copy (a `wp_template` post), which overrides the file; that site will not show the teaser until the customisation is cleared (Appearance → Editor → Templates → Front Page → Reset) or `[paulus_dilemma_teaser]` is added to it by hand.
+
 ## [2.63.5] - 2026-10-26
 
 ### Fixed
