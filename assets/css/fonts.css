@@ -161,9 +161,9 @@
 
 /* Quranic verses: KFGQPC HAFS Uthmanic Script, served as a WOFF2 conversion
    of the supplied TrueType file, not subset, by the owner's decision of
-   2026-10-26 although its licence forbids altering it. No unicode-range and no preload: the file is fetched only on a
-   page that has a verse, and the whole verse, spaces and ayah marks
-   included, is set in the one face. */
+   2026-10-26 although its licence forbids altering it. No unicode-range
+   and no preload: the file is fetched only on a page that has a verse, and
+   the whole verse, spaces and ayah marks included, is set in the one face. */
 @font-face {
 	font-family: "KFGQPC HAFS Uthmanic Script";
 	src: url("../fonts/kfgqpc-hafs-uthmanic-script.woff2") format("woff2");

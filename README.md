@@ -63,7 +63,7 @@ Defaults live in `paulus_defaults()` in `inc/defaults.php`. The fields themselve
 paulus/
   assets/css/     theme.css, schemes.css, ornament.css, fonts.css, print.css, admin.css
   assets/js/      admin.js, lightbox-init.js (editor images into the lightbox), reader.js (section marking in the article rail), print.js (Print and Save as PDF), vendor/html2pdf.bundle.min.js (0.14.0, MIT)
-  assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC HAFS Uthmanic Script, as TrueType)
+  assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC HAFS Uthmanic Script)
   assets/icons/   share marks from the Minimalist Social Icons pack (facebook, x, whatsapp, telegram), the theme's email, print and search marks, a Save as PDF mark (a page with a folded corner and a download arrow, drawn in the text colour like the rest), and social/ with the full pack (45 platforms) for the footer
   assets/images/  cover, publisher logo, author portrait, seven illustrations and their variants, site icon
   LICENSES.md     the theme's licence and what is bundled with it, in one document
