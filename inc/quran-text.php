@@ -45,10 +45,16 @@ function paulus_quran_verses_filter( $content ) {
 	if ( false === strpos( $content, 'quran' ) ) {
 		return $content;
 	}
+	// A mapped element is marked, so a second pass over the same text (an
+	// excerpt or a feed that filters it again) cannot map its rounded zeros
+	// to sukun.
 	return (string) preg_replace_callback(
-		'#(<(p|span|div)\b[^>]*\bclass="[^"]*\bquran\b[^"]*"[^>]*>)(.*?)(</\2>)#su',
+		'#(<(p|span|div)\b[^>]*\bclass="[^"]*\bquran\b[^"]*"[^>]*)(>)(.*?)(</\2>)#su',
 		static function ( $m ) {
-			return $m[1] . paulus_quran_text_for_font( $m[3] ) . $m[4];
+			if ( false !== strpos( $m[1], 'data-quran-encoding=' ) ) {
+				return $m[0];
+			}
+			return $m[1] . ' data-quran-encoding="kfgqpc"' . $m[3] . paulus_quran_text_for_font( $m[4] ) . $m[5];
 		},
 		$content
 	);
