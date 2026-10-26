@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.1] - 2026-10-26
+
+### Changed
+- **Quranic verses are set in the supplied KFGQPC HAFS Uthmanic Script file, unmodified.** The font's licence forbids modifying or altering it, so the WOFF2 re-encoding (107 KB, without the digital-signature table) is replaced by the signed TrueType file as supplied (298 KB), byte for byte, with its licence text beside it in `assets/fonts/kfgqpc-hafs-uthmanic-script-LICENSE.txt`. The face still applies to Quranic verses in Arabic and nothing else (class `quran`); hadiths stay in Dubidam Arabic and every other Arabic passage in Arslan Wessam. The face has no `unicode-range` and no preload, so the file is fetched only on a page with a verse.
+- The family is named "KFGQPC HAFS Uthmanic Script", as in the font itself, in `fonts.css` and `theme.json` (CSS family names ignore capitals, so nothing else changes).
+- A verse paragraph's line height is 2.2 (was 2.35), measured against the face's stacked marks.
+
+### Removed
+- `assets/fonts/kfgqpc-hafs-uthmanic-script.woff2`.
+
 ## [2.63.0] - 2026-10-26
 
 ### Added

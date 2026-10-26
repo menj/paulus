@@ -10,8 +10,9 @@
  * Special Elite labels: chapter numbers, breadcrumbs, data labels.
  * Cinzel       Roman inscriptional capitals: site title, front-page headline,
  *              section titles, count numerals. Variable weight, OFL.
- * KFGQPC Hafs Uthmanic Script (King Fahd Glorious Quran Printing Complex)
+ * KFGQPC HAFS Uthmanic Script (King Fahd Glorious Quran Printing Complex)
  *              Quranic verses in Arabic, and nothing else (class "quran").
+ *              The supplied TrueType file, unmodified.
  * Dubidam Arabic Hadiths in Arabic, and nothing else (class "hadith"), in
  *              regular weight. The free edition replaces Arabic-Indic digits,
  *              the Arabic semicolon and question mark, quotation marks and
@@ -157,14 +158,17 @@
 	font-display: swap;
 }
 
-/* Quranic verses: KFGQPC Hafs Uthmanic Script, as supplied (WOFF2 of the unmodified glyph data) */
+/* Quranic verses: KFGQPC HAFS Uthmanic Script, the supplied TrueType file
+   served unmodified (its licence forbids altering it, so no WOFF2 and no
+   subset). No unicode-range and no preload: the file is fetched only on a
+   page that has a verse, and the whole verse, spaces and ayah marks
+   included, is set in the one face. */
 @font-face {
-	font-family: "KFGQPC Hafs Uthmanic Script";
-	src: url("../fonts/kfgqpc-hafs-uthmanic-script.woff2") format("woff2");
-	font-weight: 100 900;
+	font-family: "KFGQPC HAFS Uthmanic Script";
+	src: url("../fonts/kfgqpc-hafs-uthmanic-script.ttf") format("truetype");
+	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
-	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
 }
 
 /* Hadiths: Dubidam Arabic, letters and marks only (see above) */

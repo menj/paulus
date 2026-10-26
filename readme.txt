@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.63.0
+Stable tag: 2.63.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,12 +30,15 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * Special Elite: Apache License 2.0.
 * Sabon Next LT: Monotype commercial font; a web font licence is required.
 * Dubidam and Dubidam Arabic: NamelaType, free personal-use edition; a commercial licence is required for a public site that sells a book. See LICENSES.md.
-* KFGQPC Hafs Uthmanic Script: King Fahd Glorious Quran Printing Complex, free of cost to use, copy and distribute, not to be sold or modified. See LICENSES.md.
+* KFGQPC HAFS Uthmanic Script: King Fahd Glorious Quran Printing Complex, distributed unmodified under its licence (free of cost to use, copy and distribute, not to be sold or modified). Licence text in assets/fonts/kfgqpc-hafs-uthmanic-script-LICENSE.txt.
 * Arslan Wessam: distributed through Dev-Point.com with no licence file.
 * Photographs and images: the licence stated in each figure's credit line (Wikimedia Commons, The Met, the National Gallery of Art, Yale University Art Gallery); see LICENSES.md.
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.63.1 =
+* Quranic verses are set in the supplied KFGQPC HAFS Uthmanic Script TrueType file, unmodified, as its licence requires (the WOFF2 re-encoding is gone). Hadiths and other Arabic keep their fonts.
 
 = 2.63.0 =
 * Contextual links: the first mention of a subject in the running text links to the article or page that treats it, on this site or on one of the author's six other sites (Best of Islam, The Injil, Abrahamic Religions, Compelling Evidence, Murtadd, Lailatulqadar), always an inner page. The phrases come from a map shared by the seven themes; Theme Options, Contextual links, switches each kind on or off, limits them a page (four here, three elsewhere), adds lines of the site's own and lists pages that get none.

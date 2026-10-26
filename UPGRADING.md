@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.63.0 to 2.63.1
+
+- **Font file swapped.** `assets/fonts/kfgqpc-hafs-uthmanic-script.woff2` is replaced by `kfgqpc-hafs-uthmanic-script.ttf` and its licence text. An upload over the old folder leaves the WOFF2 behind; nothing reads it, and it can be deleted by FTP. Clear caches so visitors fetch the new `fonts.css`.
+
 ### 2.62.41 to 2.62.42
 
 - **Hidden files go.** On activation, and on the first admin page after the update, the theme deletes the hidden files and folders at the top of its folder (`.git`, `.github`, `.gitignore` and the like). If you run the theme from a git working copy on a live site, add `define( 'PAULUS_KEEP_DOTFILES', true );` to `wp-config.php` first; a site set to `WP_ENVIRONMENT_TYPE` `local` or `development` keeps them without it.

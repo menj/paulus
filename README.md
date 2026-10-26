@@ -63,7 +63,7 @@ Defaults live in `paulus_defaults()` in `inc/defaults.php`. The fields themselve
 paulus/
   assets/css/     theme.css, schemes.css, ornament.css, fonts.css, print.css, admin.css
   assets/js/      admin.js, lightbox-init.js (editor images into the lightbox), reader.js (section marking in the article rail), print.js (Print and Save as PDF), vendor/html2pdf.bundle.min.js (0.14.0, MIT)
-  assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC Hafs Uthmanic Script)
+  assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC HAFS Uthmanic Script, as TrueType)
   assets/icons/   share marks from the Minimalist Social Icons pack (facebook, x, whatsapp, telegram), the theme's email, print and search marks, a Save as PDF mark (a page with a folded corner and a download arrow, drawn in the text colour like the rest), and social/ with the full pack (45 platforms) for the footer
   assets/images/  cover, publisher logo, author portrait, seven illustrations and their variants, site icon
   LICENSES.md     the theme's licence and what is bundled with it, in one document
@@ -301,7 +301,7 @@ After the name of ʿĪsā ibn Maryam the written honorific ("ʿalayhi al-salām,
 
 Twice, and only where the text places it, the name of Paul is followed by the curse "laʿnat Allāh" (the curse of God) in calligraphy: at the close of the Verdict, and where the chapter on the Islamic view of Paul sums up the classical assessment ("Ibn Ḥazm and al-Thaʿlabī"). It is the shortcode `[paulus_lanah]` (`inc/honorific.php`), drawn like the honorific as a mask from `assets/images/lanat-allah.avif`, in rubric red (`--t-rubric`, set per scheme in `schemes.css` at 4.5:1 or more against the page), set in Arslan Wessam, at the same height. It is never added automatically; the words stay in the page for screen readers and a copy and paste, and excerpts and search snippets leave it out. It is kept out of titles, headings, descriptions, structured data, link previews, the Answers and Questions pages, quotations, footnotes and the archive of Martin's notes.
 
-Arabic script is set in three fonts by what it is: a Quranic verse is marked `<p class="arabic quran" lang="ar" dir="rtl">` and set in KFGQPC Hafs Uthmanic Script; a hadith is marked `class="arabic hadith"` (or `<span class="hadith" lang="ar">` inline) and set in Dubidam Arabic; everything else in Arabic is set in Arslan Wessam, the default for every `lang="ar"` element. The families are in `theme.json` as `quran`, `hadith` and `arabic`.
+Arabic script is set in three fonts by what it is: a Quranic verse is marked `<p class="arabic quran" lang="ar" dir="rtl">` and set in KFGQPC HAFS Uthmanic Script; a hadith is marked `class="arabic hadith"` (or `<span class="hadith" lang="ar">` inline) and set in Dubidam Arabic; everything else in Arabic is set in Arslan Wessam, the default for every `lang="ar"` element. The families are in `theme.json` as `quran`, `hadith` and `arabic`.
 
 ## The footer bar and the site's legal pages
 
@@ -459,7 +459,7 @@ All fonts are bundled in `assets/fonts/` as WOFF2 and declared in `assets/css/fo
 | Sabon Next LT | Body text and the menu |
 | EB Garamond | Quotations, footnotes and the book synopsis, plus the ʿ, ʾ and dotted transliteration letters Sabon Next lacks. Each face is three files: `eb-garamond-<face>.woff2` (the characters the site writes and the rest of standard Latin, 62–69 KB), `-greek` (13–17 KB) and `-extra` (everything else the font draws, 39–44 KB), each with its `unicode-range`, so a page downloads only what it uses |
 | Special Elite | Labels: chapter numbers, breadcrumbs, bylines, data labels, timeline dates, footer credit |
-| KFGQPC Hafs Uthmanic Script | Quranic verses in Arabic, and nothing else (class `quran`) |
+| KFGQPC HAFS Uthmanic Script | Quranic verses in Arabic, and nothing else (class `quran`) |
 | Dubidam Arabic | Hadiths in Arabic, and nothing else (class `hadith`), in regular weight; the light and bold cuts are bundled for any text set at those weights |
 | Arslan Wessam | All other Arabic script (the default for every `lang="ar"` element), and the fallback beneath the other two (style A for regular, style B for bold) |
 
@@ -473,6 +473,6 @@ EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License
 
 - **Sabon Next LT** is a Monotype font. A desktop license does not cover web embedding; a web font license is required.
 - **Dubidam** is the free personal-use edition from NamelaType. A site that sells a book needs the commercial license, which also removes the watermarked glyphs.
-- **KFGQPC Hafs Uthmanic Script** belongs to the King Fahd Glorious Quran Printing Complex and is free of cost to use, copy and distribute, but its licence forbids selling, modifying, altering or reproducing it; the full text is in `LICENSES.md`. The bundled WOFF2 is the supplied TrueType re-encoded without changing a glyph (only the digital-signature table, which WOFF2 cannot hold, is left out).
+- **KFGQPC HAFS Uthmanic Script**, King Fahd Glorious Quran Printing Complex, distributed unmodified under its licence. It is free of cost to use, copy and distribute, but its licence forbids selling, modifying, altering or reproducing it, so the theme ships the supplied TrueType file byte for byte (no WOFF2, no subset). The full text is beside it in `assets/fonts/kfgqpc-hafs-uthmanic-script-LICENSE.txt`.
 - **Dubidam Arabic** is the free personal-use edition from NamelaType (the font names say "FREE PERSONAL USE"), supplied by the site owner in three weights. The same licence point applies as for Dubidam: a site that sells a book needs the commercial license, which also removes the watermarked glyphs. See `LICENSES.md`.
 - **Arslan Wessam** is distributed through Dev-Point.com with no license file. Its embedding flag permits web use, but confirm the terms with the author.
