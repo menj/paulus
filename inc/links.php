@@ -83,6 +83,35 @@ function paulus_ctx_map() {
 }
 
 /**
+ * Whether a saved field of phrases is the 28-line default of 2.62 and
+ * earlier, untouched. Those lines are now in the shared map; read as
+ * overrides they would win over it (the "Injīl" line led to injil.help's home
+ * page), so until the 2.63.0 upgrade empties the field on the first admin
+ * visit, the field is read as empty.
+ *
+ * @param string $saved Saved field.
+ * @return bool
+ */
+function paulus_ctx_is_retired_default( $saved ) {
+	return 'a75cf3f68b96b86ff8d264166fdf69d4' === md5( trim( str_replace( "\r\n", "\n", (string) $saved ) ) );
+}
+
+/**
+ * An address on this site from a path, which may already carry the folder
+ * WordPress is installed in ("/blog/the-man/" under home "/blog").
+ *
+ * @param string $path Path.
+ * @return string
+ */
+function paulus_ctx_own_url( $path ) {
+	$base = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+	if ( '' !== $base && ( $path === $base || 0 === strpos( $path, $base . '/' ) ) ) {
+		$path = substr( $path, strlen( $base ) );
+	}
+	return home_url( '' === $path ? '/' : $path );
+}
+
+/**
  * Every phrase with its address and kind ("own" for this site, "sister" for
  * the others), the lines on Theme Options first. A line's address is a path
  * on this site ("/the-man/the-damascus-road/"), or an address on this site or
@@ -108,14 +137,15 @@ function paulus_text_links() {
 	$own_base = isset( $map['sites'][ $own ] ) ? paulus_ctx_host( $map['sites'][ $own ] ) : '';
 
 	$entries = array();
-	foreach ( preg_split( '/\R/u', (string) paulus_option( 'text_links_map' ) ) as $line ) {
+	$saved = (string) paulus_option( 'text_links_map' );
+	foreach ( paulus_ctx_is_retired_default( $saved ) ? array() : preg_split( '/\R/u', $saved ) as $line ) {
 		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
 		if ( count( $parts ) < 2 || '' === $parts[0] || '' === $parts[1] ) {
 			continue;
 		}
 		$addr = $parts[1];
 		if ( '/' === $addr[0] && '/' !== ( $addr[1] ?? '' ) ) {
-			$entries[] = array( 'phrase' => $parts[0], 'url' => home_url( $addr ), 'kind' => 'own' );
+			$entries[] = array( 'phrase' => $parts[0], 'url' => paulus_ctx_own_url( $addr ), 'kind' => 'own' );
 			continue;
 		}
 		if ( ! preg_match( '#^https?://#i', $addr ) ) {
@@ -124,7 +154,7 @@ function paulus_text_links() {
 		$host = paulus_ctx_host( $addr );
 		if ( $host === $home || ( '' !== $own_base && $host === $own_base ) ) {
 			$path  = (string) wp_parse_url( $addr, PHP_URL_PATH );
-			$entries[] = array( 'phrase' => $parts[0], 'url' => home_url( '' === $path ? '/' : $path ), 'kind' => 'own' );
+			$entries[] = array( 'phrase' => $parts[0], 'url' => paulus_ctx_own_url( $path ), 'kind' => 'own' );
 		} elseif ( isset( $sister[ $host ] ) ) {
 			$entries[] = array( 'phrase' => $parts[0], 'url' => $addr, 'kind' => 'sister' );
 		}
@@ -233,8 +263,8 @@ function paulus_text_links_filter( $content ) {
 	// paragraph class marks the Arabic and Greek blocks; the footnotes are a
 	// list with its own class; a lang attribute marks the other scripts.
 	$skip_tags  = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'q', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
-	$skip_class = '/\bclass="[^"]*\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
-	$skip_lang  = '/\blang="(?:ar|he|el|grc|syr)(?:-[^"]*)?"/i';
+	$skip_class = '/\bclass=["\'][^"\']*\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
+	$skip_lang  = '/\blang=(["\']?)(?:ar|he|el|grc|syr)(?:-[a-z0-9-]*)?\1(?=[\s\/>])/i';
 
 	$pieces = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
 	if ( false === $pieces ) {
@@ -250,15 +280,16 @@ function paulus_text_links_filter( $content ) {
 			if ( preg_match( '#^<(/?)([a-zA-Z][a-zA-Z0-9]*)#', $piece, $m ) ) {
 				$tag     = strtolower( $m[2] );
 				$closing = '/' === $m[1];
-				$void    = in_array( $tag, array( 'br', 'img', 'hr', 'wbr', 'input', 'source', 'meta', 'link' ), true );
+				$void    = in_array( $tag, array( 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr' ), true );
 				if ( 'p' === $tag || 'li' === $tag ) {
 					$used = false;
 				}
 				if ( $closing ) {
-					// Close the innermost matching element on the stack.
+					// Close the innermost matching element on the stack, and any
+					// element left open inside it, as a browser does.
 					for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
 						if ( $stack[ $i ] === $tag ) {
-							array_splice( $stack, $i, 1 );
+							array_splice( $stack, $i );
 							break;
 						}
 					}

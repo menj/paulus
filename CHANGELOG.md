@@ -7,6 +7,12 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ### Changed
 - **The Quranic face is served as a WOFF2 conversion** (`assets/fonts/kfgqpc-hafs-uthmanic-script.woff2`, 107 KB) in place of the supplied TrueType file (298 KB, removed). The owner chose on 2026-10-26 to serve a WOFF2 conversion of the KFGQPC HAFS Uthmanic Script (107 KB, from 298 KB), accepting that the KFGQPC licence forbids modifying the font. The conversion is lossless for glyphs, cmap and OpenType layout; the digital signature (DSIG) is dropped. Recorded in LICENSES.md and the README credits.
 
+### Fixed
+- **The retired default of phrases no longer wins before the upgrade runs.** The 2.63.0 upgrade empties an untouched copy of the old 28-line field, but only on the first wp-admin visit by an editor; until then the field was read as overrides, so "Injīl" still led to injil.help's home page. The contextual links now read that exact field as empty (`paulus_ctx_is_retired_default()`, the same check the upgrade uses).
+- **An own-site line that already carries the install folder** ("/blog/the-man/" or a full address under home "/blog") no longer doubles it to "/blog/blog/the-man/" (`paulus_ctx_own_url()`).
+- **Single-quoted and unquoted `class` and `lang` attributes** now mark a region where no link is made, as double-quoted ones did.
+- **A void element inside a region where no link is made** (`embed`, `col`, `area`, `track`, `param`, `base`) no longer keeps the region open to the end of the page; closing an element also closes any element left open inside it.
+
 ## [2.63.2] - 2026-10-26
 
 ### Fixed

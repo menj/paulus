@@ -565,8 +565,7 @@ function paulus_upgrade_2630() {
 	}
 	$opts = get_option( 'paulus_options' );
 	if ( is_array( $opts ) ) {
-		$saved = trim( str_replace( "\r\n", "\n", (string) ( $opts['text_links_map'] ?? '' ) ) );
-		if ( 'a75cf3f68b96b86ff8d264166fdf69d4' === md5( $saved ) ) {
+		if ( paulus_ctx_is_retired_default( $opts['text_links_map'] ?? '' ) ) {
 			$opts['text_links_map'] = '';
 		}
 		unset( $opts['text_links_max'] );
