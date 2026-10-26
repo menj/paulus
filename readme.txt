@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.63.1
+Stable tag: 2.63.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.63.2 =
+* Quranic verses render with their Madani marks in the KFGQPC face: the verse text (Tanzil encoding) is mapped to the font's own encoding as it renders, so a sukun no longer shows as a round circle and a silent letter no longer shows a stray ornament. The stored text is unchanged.
 
 = 2.63.1 =
 * Quranic verses are set in the supplied KFGQPC HAFS Uthmanic Script TrueType file, unmodified, as its licence requires (the WOFF2 re-encoding is gone). Hadiths and other Arabic keep their fonts.

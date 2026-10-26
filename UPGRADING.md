@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.63.1 to 2.63.2
+
+- **New file** `inc/quran-text.php`. Upload the whole theme folder; a partial upload without it shows the maintenance page until the file is there. No setting changes.
+
 ### 2.63.0 to 2.63.1
 
 - **Font file swapped.** `assets/fonts/kfgqpc-hafs-uthmanic-script.woff2` is replaced by `kfgqpc-hafs-uthmanic-script.ttf` and its licence text. An upload over the old folder leaves the WOFF2 behind; nothing reads it, and it can be deleted by FTP. Clear caches so visitors fetch the new `fonts.css`.

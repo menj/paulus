@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.2] - 2026-10-26
+
+### Fixed
+- **Quranic verses render with their Madani marks.** The sixteen verses in the articles follow the Tanzil encoding (sukun U+0652, the small rounded zero over a silent letter U+06DF). The KFGQPC face follows the Complex's own encoding (Madani sukun U+06E1, rounded zero U+0652) and draws U+06DF as a spacing ornament, so every sukun showed as a round circle and eight verses carried a stray dotted circle. `inc/quran-text.php` maps the text of each element with class `quran` as it renders (`the_content` at 6); the stored text is untouched, a verse already in the Complex's encoding is left alone, and hadiths and other Arabic are never touched. The same fix ships in Abrahamic 2.84.0.
+
 ## [2.63.1] - 2026-10-26
 
 ### Changed
