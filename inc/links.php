@@ -176,13 +176,65 @@ function paulus_text_links() {
 	$out  = array();
 	$seen = array();
 	foreach ( $entries as $entry ) {
-		$key = paulus_ustrtolower( paulus_ctx_apostrophes( $entry['phrase'] ) );
+		$key = paulus_ctx_key( $entry['phrase'] );
 		if ( ! isset( $seen[ $key ] ) ) {
 			$seen[ $key ] = true;
 			$out[]        = $entry;
 		}
 	}
 	return $cache = $out;
+}
+
+/**
+ * The field of extra phrases as saved. sanitize_textarea_field() strips every
+ * percent-encoded octet, so "/the-man/%D8%A7/" was saved as "/the-man//";
+ * here the phrase is cleaned as text and the address as an address.
+ *
+ * @param string $text Submitted field.
+ * @return string
+ */
+function paulus_ctx_sanitize_phrases( $text ) {
+	$out = array();
+	foreach ( preg_split( '/\r\n|\r|\n/', (string) $text ) as $line ) {
+		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
+		if ( count( $parts ) < 2 ) {
+			$line = sanitize_text_field( $line );
+			if ( '' !== $line ) {
+				$out[] = $line;
+			}
+			continue;
+		}
+		$addr = $parts[1];
+		if ( '' !== $addr && '/' === $addr[0] && '/' !== ( $addr[1] ?? '' ) ) {
+			// A path: letters outside ASCII encoded, then only URL path characters.
+			$addr = preg_replace_callback( '/[\x80-\xFF]/', static function ( $m ) { return rawurlencode( $m[0] ); }, $addr );
+			$addr = preg_replace( '#[^A-Za-z0-9\-._~%!$&\'()*+,;=:@/]#', '', $addr );
+		} elseif ( preg_match( '#^https?://#i', $addr ) ) {
+			$addr = esc_url_raw( $addr );
+		} else {
+			$addr = sanitize_text_field( $addr );
+		}
+		$out[] = sanitize_text_field( $parts[0] ) . ' | ' . $addr;
+	}
+	return implode( "\n", $out );
+}
+
+/**
+ * The field of excluded slugs as saved: each one as WordPress stores a slug,
+ * so a percent-encoded (non-ASCII) slug keeps its octets.
+ *
+ * @param string $text Submitted field.
+ * @return string
+ */
+function paulus_ctx_sanitize_slugs( $text ) {
+	$out = array();
+	foreach ( preg_split( '/[\s,]+/', (string) $text, -1, PREG_SPLIT_NO_EMPTY ) as $slug ) {
+		$slug = sanitize_title( $slug );
+		if ( '' !== $slug ) {
+			$out[] = $slug;
+		}
+	}
+	return implode( "\n", $out );
 }
 
 /**
@@ -198,22 +250,127 @@ function paulus_ctx_apostrophes( $text ) {
 }
 
 /**
- * The pattern for one phrase, any form of apostrophe matching any other.
+ * The key a phrase or a match is looked up by: apostrophes made alike, every
+ * run of spaces (a non-breaking one too, as a character or an entity) one
+ * space, and lower case.
  *
- * @param string $phrase Phrase.
+ * @param string $text Phrase or matched text.
  * @return string
  */
-function paulus_ctx_phrase_pattern( $phrase ) {
-	return str_replace( "'", "(?:'|\u{2019}|\u{2018}|\u{02BC}|&\#8217;|&\#8216;|&\#0?39;|&rsquo;|&lsquo;|&apos;)", preg_quote( paulus_ctx_apostrophes( $phrase ), '/' ) );
+function paulus_ctx_key( $text ) {
+	$text = str_replace( array( '&nbsp;', '&#160;', '&#xA0;', '&#xa0;', "\u{00A0}" ), ' ', paulus_ctx_apostrophes( $text ) );
+	return paulus_ustrtolower( (string) preg_replace( '/\s+/', ' ', trim( $text ) ) );
+}
+
+/**
+ * Any form of apostrophe, and any run of spaces (a non-breaking one included,
+ * as a character or an entity), as pattern fragments.
+ *
+ * @return array{0:string,1:string}
+ */
+function paulus_ctx_fragments() {
+	return array(
+		"(?:'|\u{2019}|\u{2018}|\u{02BC}|&\#8217;|&\#8216;|&\#0?39;|&rsquo;|&lsquo;|&apos;)",
+		'(?:\s|&nbsp;|&\#160;|&\#x[aA]0;|\x{00A0})+',
+	);
+}
+
+/**
+ * The pattern for one phrase: any form of apostrophe matches any other, and a
+ * space matches any run of spaces. With $named the two are written as calls
+ * to the subpatterns q and s that paulus_ctx_compiled() defines once, which
+ * keeps a pattern of hundreds of phrases within PCRE's size limit.
+ *
+ * @param string $phrase Phrase.
+ * @param bool   $named  Refer to the defined subpatterns.
+ * @return string
+ */
+function paulus_ctx_phrase_pattern( $phrase, $named = false ) {
+	$quoted = preg_quote( (string) preg_replace( '/\s+/', ' ', trim( paulus_ctx_apostrophes( $phrase ) ) ), '/' );
+	return str_replace( array( "'", ' ' ), $named ? array( '(?&q)', '(?&s)' ) : paulus_ctx_fragments(), $quoted );
+}
+
+/**
+ * One pattern of the given phrases, longest first, whole phrases only.
+ *
+ * @param string[] $phrases Phrases, longest first.
+ * @return string
+ */
+function paulus_ctx_pattern_of( $phrases ) {
+	list( $q, $s ) = paulus_ctx_fragments();
+	$alts = array();
+	foreach ( $phrases as $phrase ) {
+		$alts[] = paulus_ctx_phrase_pattern( $phrase, true );
+	}
+	return '/(?(DEFINE)(?<q>' . $q . ')(?<s>' . $s . '))(?<![\p{L}\p{N}])(?:' . implode( '|', $alts ) . ')(?![\p{L}\p{N}])/iu';
+}
+
+/**
+ * The phrases as patterns that each compile: one while it fits PCRE's size
+ * limit, halves of the list where it does not. A phrase that will not compile
+ * on its own is left out.
+ *
+ * @param string[] $phrases Phrases, longest first.
+ * @return string[]
+ */
+function paulus_ctx_patterns_of( $phrases ) {
+	if ( ! $phrases ) {
+		return array();
+	}
+	$pattern = paulus_ctx_pattern_of( $phrases );
+	if ( false !== @preg_match( $pattern, '' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		return array( $pattern );
+	}
+	if ( 1 === count( $phrases ) ) {
+		error_log( 'Paulus: a contextual-link phrase does not compile and is left out: ' . $phrases[0] ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		return array();
+	}
+	$half = (int) ceil( count( $phrases ) / 2 );
+	return array_merge( paulus_ctx_patterns_of( array_slice( $phrases, 0, $half ) ), paulus_ctx_patterns_of( array_slice( $phrases, $half ) ) );
+}
+
+/**
+ * Replace every match of the patterns in a run of text, as one pattern of
+ * them all would: walked in the text's order, the leftmost match first and,
+ * at the same place, the longest. Null when a pattern fails on the text
+ * (invalid UTF-8), so the caller keeps the text as it was.
+ *
+ * @param string[] $patterns Patterns.
+ * @param string   $text     Text.
+ * @param callable $replace  Gets the matched text, returns its replacement.
+ * @return string|null
+ */
+function paulus_ctx_replace( $patterns, $text, $replace ) {
+	$out = '';
+	$pos = 0;
+	$len = strlen( $text );
+	while ( $pos < $len ) {
+		$best = null;
+		foreach ( $patterns as $pattern ) {
+			$found = preg_match( $pattern, $text, $m, PREG_OFFSET_CAPTURE, $pos );
+			if ( false === $found ) {
+				return null;
+			}
+			if ( $found && ( null === $best || $m[0][1] < $best[1] || ( $m[0][1] === $best[1] && strlen( $m[0][0] ) > strlen( $best[0] ) ) ) ) {
+				$best = $m[0];
+			}
+		}
+		if ( null === $best ) {
+			break;
+		}
+		$out .= substr( $text, $pos, $best[1] - $pos ) . $replace( $best[0] );
+		$pos  = $best[1] + max( 1, strlen( $best[0] ) );
+	}
+	return $out . substr( $text, $pos );
 }
 
 /**
  * The entries of the kinds switched on, the lower-cased phrase to its entry,
- * and one pattern of every phrase, longest first. Built once a request.
+ * and the patterns of every phrase, longest first. Built once a request.
  *
  * @param bool $own    Links to this site.
  * @param bool $sister Links to the other sites.
- * @return array{0:array,1:array<string,array>,2:string}
+ * @return array{0:array,1:array<string,array>,2:string[]}
  */
 function paulus_ctx_compiled( $own, $sister ) {
 	static $cache = array();
@@ -230,7 +387,7 @@ function paulus_ctx_compiled( $own, $sister ) {
 	$by_phrase = array();
 	$phrases   = array();
 	foreach ( $links as $entry ) {
-		$by_phrase[ paulus_ustrtolower( paulus_ctx_apostrophes( $entry['phrase'] ) ) ] = $entry;
+		$by_phrase[ paulus_ctx_key( $entry['phrase'] ) ] = $entry;
 		$phrases[] = $entry['phrase'];
 	}
 	usort(
@@ -239,14 +396,9 @@ function paulus_ctx_compiled( $own, $sister ) {
 			return paulus_ulen( $b ) <=> paulus_ulen( $a );
 		}
 	);
-	$pattern = $phrases ? '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( 'paulus_ctx_phrase_pattern', $phrases ) ) . ')(?![\p{L}\p{N}])/iu' : '';
-	// A pattern past PCRE's size limit (thousands of extra lines on the tab)
-	// does not compile; no links are made then, and the text is untouched.
-	if ( '' !== $pattern && false === @preg_match( $pattern, '' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors
-		error_log( 'Paulus: the contextual-link phrases make a pattern too large to compile; no contextual links are made until the list is shortened.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-		$pattern = '';
-	}
-	return $cache[ $key ] = array( $links, $by_phrase, $pattern );
+	// A list past PCRE's size limit (many extra lines on the tab) is split
+	// into patterns that each compile, matched together.
+	return $cache[ $key ] = array( $links, $by_phrase, paulus_ctx_patterns_of( $phrases ) );
 }
 
 /**
@@ -278,8 +430,8 @@ function paulus_text_links_filter( $content ) {
 	if ( ! apply_filters( 'paulus_contextual_links_enabled', true, $post ) ) {
 		return $content;
 	}
-	list( $links, $by_phrase, $pattern ) = paulus_ctx_compiled( $caps['own'] > 0, $caps['sister'] > 0 );
-	if ( '' === $pattern ) {
+	list( $links, $by_phrase, $patterns ) = paulus_ctx_compiled( $caps['own'] > 0, $caps['sister'] > 0 );
+	if ( ! $patterns ) {
 		return $content;
 	}
 	$here = paulus_ctx_path( (string) get_permalink() );
@@ -299,6 +451,9 @@ function paulus_text_links_filter( $content ) {
 		return $content;
 	}
 	$stack = array(); // Open elements that forbid links, by tag name.
+	$li    = 0;       // Open list items: a paragraph inside one shares its link.
+	$lists = array(); // The list-item depth at each open list, so a list item
+	                  // left unclosed ("<li>a<li>b</ul>") ends with its list.
 	$out   = '';
 	foreach ( $pieces as $piece ) {
 		if ( '' === $piece ) {
@@ -309,7 +464,18 @@ function paulus_text_links_filter( $content ) {
 				$tag     = strtolower( $m[2] );
 				$closing = '/' === $m[1];
 				$void    = in_array( $tag, array( 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr' ), true );
-				if ( 'p' === $tag || 'li' === $tag ) {
+				// One new link to a list item, however many paragraphs it holds,
+				// and one to each paragraph outside a list item.
+				if ( 'ul' === $tag || 'ol' === $tag ) {
+					if ( $closing ) {
+						$li = (int) array_pop( $lists );
+					} else {
+						$lists[] = $li;
+					}
+				} elseif ( 'li' === $tag ) {
+					$li   = $closing ? max( 0, $li - 1 ) : $li + 1;
+					$used = false;
+				} elseif ( 'p' === $tag && 0 === $li ) {
 					$used = false;
 				}
 				if ( $closing ) {
@@ -340,10 +506,12 @@ function paulus_text_links_filter( $content ) {
 		// with. A whole phrase: no letter or digit on either side, so
 		// "Ebionites" does not match inside "Ebionitism". The text is plain
 		// here, so no tag or entity can be cut by the match.
-		$linked = preg_replace_callback(
-			$pattern,
-			static function ( $m ) use ( $by_phrase, $links, $here, $caps, &$done, &$made, &$used ) {
-				$entry = $by_phrase[ paulus_ustrtolower( paulus_ctx_apostrophes( $m[0] ) ) ] ?? null;
+		$linked = paulus_ctx_replace(
+			$patterns,
+			$piece,
+			static function ( $found ) use ( $by_phrase, $links, $here, $caps, &$done, &$made, &$used ) {
+				$m     = array( $found );
+				$entry = $by_phrase[ paulus_ctx_key( $m[0] ) ] ?? null;
 				// Without mbstring only ASCII letters are lowered, so a match
 				// with an accented capital is looked up phrase by phrase.
 				if ( null === $entry ) {
@@ -367,11 +535,10 @@ function paulus_text_links_filter( $content ) {
 					return '<a class="paulus-ctx-link paulus-ctx-link--sister" href="' . esc_url( $entry['url'] ) . '" rel="noopener">' . $m[0] . '</a>';
 				}
 				return '<a class="paulus-ctx-link" href="' . esc_url( $entry['url'] ) . '">' . $m[0] . '</a>';
-			},
-			$piece
+			}
 		);
-		// On invalid UTF-8 the /u pattern fails and returns null: the piece
-		// is kept as it was rather than dropped.
+		// On invalid UTF-8 the /u patterns fail and the result is null: the
+		// piece is kept as it was rather than dropped.
 		$out .= null === $linked ? $piece : $linked;
 	}
 	return $out;

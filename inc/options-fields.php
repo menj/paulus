@@ -210,7 +210,13 @@ function paulus_sanitize_options( $input ) {
 			$value = $input[ $key ];
 			switch ( $def[1] ) {
 				case 'textarea':
-					$clean[ $key ] = sanitize_textarea_field( $value );
+					if ( 'text_links_map' === $key ) {
+						$clean[ $key ] = paulus_ctx_sanitize_phrases( $value );
+					} elseif ( 'ctx_exclude' === $key ) {
+						$clean[ $key ] = paulus_ctx_sanitize_slugs( $value );
+					} else {
+						$clean[ $key ] = sanitize_textarea_field( $value );
+					}
 					break;
 				case 'html':
 					$clean[ $key ] = wp_kses( $value, paulus_badge_kses() );
