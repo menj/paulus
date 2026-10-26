@@ -552,6 +552,29 @@ function paulus_upgrade_26217() {
 	update_option( 'paulus_db_version', '2.62.17', false );
 }
 /**
+ * One-time upgrade to 2.63.0: the phrases of the Links tab now come from the
+ * shared map (inc/data/network-links.json). A site that saved the tab holds
+ * the old 28-line default, which would shadow the map (the "Injīl" line led
+ * to injil.help's home page); it is emptied when it is still that default,
+ * and kept as the site's own lines when it was edited. The single limit
+ * text_links_max gives way to ctx_own_max and ctx_sister_max.
+ */
+function paulus_upgrade_2630() {
+	if ( version_compare( (string) get_option( 'paulus_db_version', '0' ), '2.63.0', '>=' ) ) {
+		return;
+	}
+	$opts = get_option( 'paulus_options' );
+	if ( is_array( $opts ) ) {
+		$saved = trim( str_replace( "\r\n", "\n", (string) ( $opts['text_links_map'] ?? '' ) ) );
+		if ( 'a75cf3f68b96b86ff8d264166fdf69d4' === md5( $saved ) ) {
+			$opts['text_links_map'] = '';
+		}
+		unset( $opts['text_links_max'] );
+		update_option( 'paulus_options', $opts );
+	}
+	update_option( 'paulus_db_version', '2.63.0', false );
+}
+/**
  * One-time repair to 2.33.5: the structure sync of 2.30.0 to 2.33.4 saved the
  * options record through a sanitiser that blanked every field it was not
  * given, emptying fields a site had never saved itself. Restore the footer
@@ -605,6 +628,7 @@ function paulus_run_upgrades() {
 	paulus_upgrade_2191();
 	paulus_upgrade_2335();
 	paulus_upgrade_26217();
+	paulus_upgrade_2630();
 }
 add_action( 'admin_init', 'paulus_run_upgrades' );
 // Built in from three GPL plugins (see LICENSES.md and the README): unlist,

@@ -121,11 +121,14 @@ function paulus_fields() {
 			),
 		),
 		'links'      => array(
-			'label'  => __( 'Links', 'paulus' ),
+			'label'  => __( 'Contextual links', 'paulus' ),
 			'fields' => array(
-				'text_links'     => array( __( 'Link the first mention of each phrase below, in the text of articles, Journal entries and pages, to the page on bestofislam.org or injil.help that treats it', 'paulus' ), 'checkbox' ),
-				'text_links_max' => array( __( 'Links of this kind on one page, at most (1 to 20)', 'paulus' ), 'number', array( 1, 20 ) ),
-				'text_links_map' => array( __( 'Phrases and their addresses, one per line: phrase | address. A phrase is matched whole, capitals aside, in the running text only (never in a heading, a quotation, a caption, a footnote or an existing link); each address is linked once a page, at the first mention of any of its phrases.', 'paulus' ), 'textarea' ),
+				'ctx_own'        => array( __( 'Link the first mention of a subject in the text of articles, Journal entries and pages to the article or page on this site that treats it', 'paulus' ), 'checkbox' ),
+				'ctx_own_max'    => array( __( 'Links to this site on one page, at most (0 to 15)', 'paulus' ), 'number', array( 0, 15 ) ),
+				'text_links'     => array( __( 'Link the first mention of a subject to the page on one of the author\'s other sites that treats it (Best of Islam, The Injil, Abrahamic Religions, Compelling Evidence, Murtadd, Lailatulqadar)', 'paulus' ), 'checkbox' ),
+				'ctx_sister_max' => array( __( 'Links to the other sites on one page, at most (0 to 10)', 'paulus' ), 'number', array( 0, 10 ) ),
+				'text_links_map' => array( __( 'More phrases, one per line: phrase | address. The address is a path on this site (/the-man/the-damascus-road/) or an address on one of the other sites; these lines are read before the theme\'s own list (inc/data/network-links.json), so they add to it and win over it. A phrase is matched whole, capitals aside, in the running text only (never in a heading, a quotation, a caption, a footnote or an existing link); each address is linked once a page, at the first mention of any of its phrases, and a paragraph takes one new link at most.', 'paulus' ), 'textarea' ),
+				'ctx_exclude'    => array( __( 'Pages and articles that never get these links: their slugs, one per line', 'paulus' ), 'textarea' ),
 			),
 		),
 		'journal'    => array(

@@ -1,19 +1,28 @@
 <?php
 /**
- * Links in the text to the author's other sites, bestofislam.org and
- * injil.help: where an article, an entry or a page names a thing those
- * sites treat at length (the Ebionites, the Islamic Dilemma, the Gospel of
- * Thomas, Matthew 5:17, Quran 4:157, the Talmud), the first mention in the
- * running text links to the page there. The links are made as the text
- * renders, so every article carries them, an edited one included, and the
- * stored text is untouched. The phrases and their addresses are a field on
- * Theme Options, Links, one per line: "phrase | address".
+ * Contextual links in the text: where an article, a Journal entry or a page
+ * names a thing this site or one of the author's other sites treats at
+ * length, the first mention in the running text links to that page. Pages
+ * here link to the article on Paul's conversion or the Jerusalem Council;
+ * pages there to the Ebionites on injil.help, Quran 4:157 on bestofislam.org,
+ * the Council of Nicaea on abrahamic-religions.com, and so on.
  *
- * A phrase is matched whole, without regard to capitals, in the running
- * text only: never inside a link, a heading, a quotation, a caption, a
- * footnote, a reference mark, Arabic or Greek, or any tag. Each address is
- * linked once a page, at the first mention of any of its phrases, up to the
- * number set on the same tab.
+ * The phrases come from inc/data/network-links.json, one file shared by the
+ * seven themes of the network and identical in each: every entry names the
+ * site that owns the page, its path there and the phrases that lead to it.
+ * Entries for this site become links to home_url( path ), so a staging copy
+ * links to itself; entries for the others go to that site's address. The
+ * lines on Theme Options, Contextual links ("phrase | address") are read
+ * first, so they add to the file and win over it.
+ *
+ * The links are made as the text renders, so every article carries them, an
+ * edited one included, and the stored text is untouched. A phrase is matched
+ * whole, without regard to capitals, in the running text only: never inside a
+ * link, a heading, a quotation, a caption, a footnote, a reference mark, a
+ * table, Arabic, Hebrew, Syriac or Greek, or any tag. Each address is linked
+ * once a page, at the first mention of any of its phrases, at most one new
+ * link to a paragraph or list item, and never to the page itself; links to
+ * this site and to the others each have their own limit.
  *
  * @package Paulus
  */
@@ -21,25 +30,165 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The phrases and their addresses, from the option: "phrase | address" per
- * line, in the order given. Several phrases may share an address.
+ * This site's key in the shared map.
  *
- * @return array<int,array{phrase:string,url:string}>
+ * @return string
+ */
+function paulus_ctx_site_key() {
+	return 'paulus';
+}
+
+/**
+ * Lower-case host of an address, without "www.".
+ *
+ * @param string $url Address.
+ * @return string
+ */
+function paulus_ctx_host( $url ) {
+	$host = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
+	return 0 === strpos( $host, 'www.' ) ? substr( $host, 4 ) : $host;
+}
+
+/**
+ * A path compared the same way whatever its capitals, query or final slash.
+ *
+ * @param string $url Address or path.
+ * @return string
+ */
+function paulus_ctx_path( $url ) {
+	$path = (string) wp_parse_url( $url, PHP_URL_PATH );
+	return strtolower( '/' . trim( $path, '/' ) );
+}
+
+/**
+ * The shared map, decoded once a request.
+ *
+ * @return array{sites:array<string,string>,links:array}
+ */
+function paulus_ctx_map() {
+	static $map = null;
+	if ( null === $map ) {
+		$file = PAULUS_DIR . '/inc/data/network-links.json';
+		$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+		$data = is_array( $data ) ? $data : array();
+		$map  = apply_filters(
+			'paulus_contextual_links_map',
+			array(
+				'sites' => isset( $data['sites'] ) && is_array( $data['sites'] ) ? $data['sites'] : array(),
+				'links' => isset( $data['links'] ) && is_array( $data['links'] ) ? $data['links'] : array(),
+			)
+		);
+	}
+	return $map;
+}
+
+/**
+ * Every phrase with its address and kind ("own" for this site, "sister" for
+ * the others), the lines on Theme Options first. A line's address is a path
+ * on this site ("/the-man/the-damascus-road/"), or an address on this site or
+ * on one of the sites the map names; any other site is refused. The first
+ * entry for a phrase wins, capitals aside.
+ *
+ * @return array<int,array{phrase:string,url:string,kind:string}>
  */
 function paulus_text_links() {
 	static $cache = null;
 	if ( null !== $cache ) {
 		return $cache;
 	}
-	$out = array();
+	$map    = paulus_ctx_map();
+	$own    = paulus_ctx_site_key();
+	$home   = paulus_ctx_host( home_url( '/' ) );
+	$sister = array();
+	foreach ( $map['sites'] as $key => $base ) {
+		if ( $key !== $own && is_string( $base ) && '' !== $base ) {
+			$sister[ paulus_ctx_host( $base ) ] = true;
+		}
+	}
+	$own_base = isset( $map['sites'][ $own ] ) ? paulus_ctx_host( $map['sites'][ $own ] ) : '';
+
+	$entries = array();
 	foreach ( preg_split( '/\R/u', (string) paulus_option( 'text_links_map' ) ) as $line ) {
 		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
-		if ( count( $parts ) < 2 || '' === $parts[0] || ! preg_match( '#^https?://#i', $parts[1] ) ) {
+		if ( count( $parts ) < 2 || '' === $parts[0] || '' === $parts[1] ) {
 			continue;
 		}
-		$out[] = array( 'phrase' => $parts[0], 'url' => $parts[1] );
+		$addr = $parts[1];
+		if ( '/' === $addr[0] && '/' !== ( $addr[1] ?? '' ) ) {
+			$entries[] = array( 'phrase' => $parts[0], 'url' => home_url( $addr ), 'kind' => 'own' );
+			continue;
+		}
+		if ( ! preg_match( '#^https?://#i', $addr ) ) {
+			continue;
+		}
+		$host = paulus_ctx_host( $addr );
+		if ( $host === $home || ( '' !== $own_base && $host === $own_base ) ) {
+			$path  = (string) wp_parse_url( $addr, PHP_URL_PATH );
+			$entries[] = array( 'phrase' => $parts[0], 'url' => home_url( '' === $path ? '/' : $path ), 'kind' => 'own' );
+		} elseif ( isset( $sister[ $host ] ) ) {
+			$entries[] = array( 'phrase' => $parts[0], 'url' => $addr, 'kind' => 'sister' );
+		}
+	}
+	foreach ( $map['links'] as $link ) {
+		if ( empty( $link['site'] ) || empty( $link['path'] ) || empty( $link['phrases'] ) || ! isset( $map['sites'][ $link['site'] ] ) ) {
+			continue;
+		}
+		$kind = $link['site'] === $own ? 'own' : 'sister';
+		$url  = 'own' === $kind ? home_url( $link['path'] ) : untrailingslashit( $map['sites'][ $link['site'] ] ) . $link['path'];
+		foreach ( (array) $link['phrases'] as $phrase ) {
+			$phrase = trim( (string) $phrase );
+			if ( '' !== $phrase ) {
+				$entries[] = array( 'phrase' => $phrase, 'url' => $url, 'kind' => $kind );
+			}
+		}
+	}
+
+	$out  = array();
+	$seen = array();
+	foreach ( $entries as $entry ) {
+		$key = paulus_ustrtolower( $entry['phrase'] );
+		if ( ! isset( $seen[ $key ] ) ) {
+			$seen[ $key ] = true;
+			$out[]        = $entry;
+		}
 	}
 	return $cache = $out;
+}
+
+/**
+ * The entries of the kinds switched on, the lower-cased phrase to its entry,
+ * and one pattern of every phrase, longest first. Built once a request.
+ *
+ * @param bool $own    Links to this site.
+ * @param bool $sister Links to the other sites.
+ * @return array{0:array,1:array<string,array>,2:string}
+ */
+function paulus_ctx_compiled( $own, $sister ) {
+	static $cache = array();
+	$key = ( $own ? 'o' : '' ) . ( $sister ? 's' : '' );
+	if ( isset( $cache[ $key ] ) ) {
+		return $cache[ $key ];
+	}
+	$links = array();
+	foreach ( paulus_text_links() as $entry ) {
+		if ( ( 'own' === $entry['kind'] && $own ) || ( 'sister' === $entry['kind'] && $sister ) ) {
+			$links[] = $entry;
+		}
+	}
+	$by_phrase = array();
+	$phrases   = array();
+	foreach ( $links as $entry ) {
+		$by_phrase[ paulus_ustrtolower( $entry['phrase'] ) ] = $entry;
+		$phrases[] = $entry['phrase'];
+	}
+	usort(
+		$phrases,
+		static function ( $a, $b ) {
+			return paulus_ulen( $b ) <=> paulus_ulen( $a );
+		}
+	);
+	$pattern = $phrases ? '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( static function ( $p ) { return preg_quote( $p, '/' ); }, $phrases ) ) . ')(?![\p{L}\p{N}])/iu' : '';
+	return $cache[ $key ] = array( $links, $by_phrase, $pattern );
 }
 
 /**
@@ -49,45 +198,45 @@ function paulus_text_links() {
  * @return string
  */
 function paulus_text_links_filter( $content ) {
-	if ( ! paulus_option( 'text_links' ) || is_admin() || ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+	// The block templates render the main post inside the loop (WordPress
+	// 6.4 and later, which the parent theme requires), so in_the_loop() keeps
+	// the links out of any other post's text a page may show.
+	if ( is_admin() || is_feed() || ! is_singular() || is_front_page() || ! in_the_loop() || ! is_main_query() || doing_filter( 'get_the_excerpt' ) ) {
 		return $content;
 	}
-	$links = paulus_text_links();
-	$max   = max( 1, min( 20, (int) paulus_option( 'text_links_max' ) ) );
-	if ( ! $links || false === strpos( $content, '<' ) ) {
+	$own_on    = (bool) paulus_option( 'ctx_own' );
+	$sister_on = (bool) paulus_option( 'text_links' );
+	$caps      = array(
+		'own'    => $own_on ? max( 0, min( 15, (int) paulus_option( 'ctx_own_max' ) ) ) : 0,
+		'sister' => $sister_on ? max( 0, min( 10, (int) paulus_option( 'ctx_sister_max' ) ) ) : 0,
+	);
+	if ( ( ! $caps['own'] && ! $caps['sister'] ) || false === strpos( $content, '<' ) ) {
 		return $content;
 	}
-	// Each address once a page, and never to the page itself.
-	$here = (string) get_permalink();
+	$post = get_post();
+	if ( $post && in_array( $post->post_name, preg_split( '/[\s,]+/', strtolower( (string) paulus_option( 'ctx_exclude' ) ), -1, PREG_SPLIT_NO_EMPTY ), true ) ) {
+		return $content;
+	}
+	if ( ! apply_filters( 'paulus_contextual_links_enabled', true, $post ) ) {
+		return $content;
+	}
+	list( $links, $by_phrase, $pattern ) = paulus_ctx_compiled( $caps['own'] > 0, $caps['sister'] > 0 );
+	if ( '' === $pattern ) {
+		return $content;
+	}
+	$here = paulus_ctx_path( (string) get_permalink() );
 	$done = array();
-	$made = 0;
+	$made = array( 'own' => 0, 'sister' => 0 );
+	$used = false; // A link already added in the current paragraph or list item.
 
 	// Where no link may be made: inside these elements, at any depth. A
 	// paragraph class marks the Arabic and Greek blocks; the footnotes are a
-	// list with its own class.
-	$skip_tags = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'q', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
+	// list with its own class; a lang attribute marks the other scripts.
+	$skip_tags  = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'q', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
 	$skip_class = '/\bclass="[^"]*\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
+	$skip_lang  = '/\blang="(?:ar|he|el|grc|syr)(?:-[^"]*)?"/i';
 
-	// One pattern of every phrase, longest first, and the address each
-	// phrase (lower-cased) leads to.
-	$phrases   = wp_list_pluck( $links, 'phrase' );
-	$by_phrase = array();
-	foreach ( $links as $link ) {
-		// The first line for a phrase wins, as it does in the phrase-by-phrase
-		// lookup below, so capitals never change where a phrase leads.
-		$key = paulus_ustrtolower( $link['phrase'] );
-		if ( ! isset( $by_phrase[ $key ] ) ) {
-			$by_phrase[ $key ] = $link['url'];
-		}
-	}
-	usort(
-		$phrases,
-		static function ( $a, $b ) {
-			return paulus_ulen( $b ) <=> paulus_ulen( $a );
-		}
-	);
-	$pattern = '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( static function ( $p ) { return preg_quote( $p, '/' ); }, $phrases ) ) . ')(?![\p{L}\p{N}])/iu';
-	$pieces  = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$pieces = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
 	if ( false === $pieces ) {
 		return $content;
 	}
@@ -102,6 +251,9 @@ function paulus_text_links_filter( $content ) {
 				$tag     = strtolower( $m[2] );
 				$closing = '/' === $m[1];
 				$void    = in_array( $tag, array( 'br', 'img', 'hr', 'wbr', 'input', 'source', 'meta', 'link' ), true );
+				if ( 'p' === $tag || 'li' === $tag ) {
+					$used = false;
+				}
 				if ( $closing ) {
 					// Close the innermost matching element on the stack.
 					for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
@@ -110,14 +262,14 @@ function paulus_text_links_filter( $content ) {
 							break;
 						}
 					}
-				} elseif ( ! $void && '/' !== substr( $piece, -2, 1 ) && ( in_array( $tag, $skip_tags, true ) || preg_match( $skip_class, $piece ) ) ) {
+				} elseif ( ! $void && '/' !== substr( $piece, -2, 1 ) && ( in_array( $tag, $skip_tags, true ) || preg_match( $skip_class, $piece ) || preg_match( $skip_lang, $piece ) ) ) {
 					$stack[] = $tag;
 				}
 			}
 			$out .= $piece;
 			continue;
 		}
-		if ( $stack || $made >= $max || '' === trim( $piece ) ) {
+		if ( $stack || $used || ( $made['own'] >= $caps['own'] && $made['sister'] >= $caps['sister'] ) || '' === trim( $piece ) ) {
 			$out .= $piece;
 			continue;
 		}
@@ -125,29 +277,35 @@ function paulus_text_links_filter( $content ) {
 		// first mention on the page is the one linked whatever the order of
 		// the list; a longer phrase is tried before a shorter one it begins
 		// with. A whole phrase: no letter or digit on either side, so
-		// "Ebionites" does not match inside "Ebionitism" and "church" not
-		// inside "Islamicjerusalem church". The text is plain here, so no tag
-		// or entity can be cut by the match.
+		// "Ebionites" does not match inside "Ebionitism". The text is plain
+		// here, so no tag or entity can be cut by the match.
 		$piece = preg_replace_callback(
 			$pattern,
-			static function ( $m ) use ( $by_phrase, $links, $here, &$done, &$made, $max ) {
-				$url = $by_phrase[ paulus_ustrtolower( $m[0] ) ] ?? '';
+			static function ( $m ) use ( $by_phrase, $links, $here, $caps, &$done, &$made, &$used ) {
+				$entry = $by_phrase[ paulus_ustrtolower( $m[0] ) ] ?? null;
 				// Without mbstring only ASCII letters are lowered, so a match
 				// with an accented capital is looked up phrase by phrase.
-				if ( '' === $url ) {
+				if ( null === $entry ) {
 					foreach ( $links as $l ) {
 						if ( preg_match( '/^' . preg_quote( $l['phrase'], '/' ) . '$/iu', $m[0] ) ) {
-							$url = $l['url'];
+							$entry = $l;
 							break;
 						}
 					}
 				}
-				if ( '' === $url || $made >= $max || isset( $done[ $url ] ) || 0 === strpos( $here, $url ) ) {
+				if ( null === $entry || $used || isset( $done[ $entry['url'] ] ) || $made[ $entry['kind'] ] >= $caps[ $entry['kind'] ] ) {
 					return $m[0];
 				}
-				$done[ $url ] = true;
-				++$made;
-				return '<a class="paulus-xlink" href="' . esc_url( $url ) . '" rel="noopener">' . $m[0] . '</a>';
+				if ( 'own' === $entry['kind'] && paulus_ctx_path( $entry['url'] ) === $here ) {
+					return $m[0];
+				}
+				$done[ $entry['url'] ] = true;
+				++$made[ $entry['kind'] ];
+				$used = true;
+				if ( 'sister' === $entry['kind'] ) {
+					return '<a class="paulus-ctx-link paulus-ctx-link--sister" href="' . esc_url( $entry['url'] ) . '" rel="noopener">' . $m[0] . '</a>';
+				}
+				return '<a class="paulus-ctx-link" href="' . esc_url( $entry['url'] ) . '">' . $m[0] . '</a>';
 			},
 			$piece
 		);

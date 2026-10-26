@@ -2,6 +2,22 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.0] - 2026-10-26
+
+### Added
+- **Contextual links to this site's own articles and pages**, alongside those to the author's other sites: the first mention of the Damascus road, the Jerusalem Council, James the Just, justification by faith and some sixty other subjects in the running text links to the article here that treats it (`home_url( path )`, so a staging copy links to itself). Theme Options, Contextual links: on (`ctx_own`), at most four a page (`ctx_own_max`, 0 to 15).
+- **Links to all six other sites of the network**, no longer two: Abrahamic Religions, Compelling Evidence, Murtadd and Lailatulqadar join Best of Islam and The Injil, always to an inner page that treats the subject. At most three a page (`ctx_sister_max`, 0 to 10).
+- **`inc/data/network-links.json`**, the phrase map shared by the seven themes and identical in each: 404 inner pages and 913 phrases, each path checked against the theme that owns it, each phrase in one entry only. Filters `paulus_contextual_links_map` and `paulus_contextual_links_enabled`.
+- **Excluded pages** (`ctx_exclude`): slugs, one per line, that never get these links.
+
+### Changed
+- **The Links tab is now Contextual links.** Its field of phrases (`text_links_map`) is empty by default and holds only the site's own lines, read before the shared map so they win; a line may give a path on this site or an address on one of the network's sites, and any other site is refused. The 28 default lines are in the map (the "Injīl" line, which led to injil.help's home page, now leads to Best of Islam's page on where the Injīl is; the bare "4:157" gives way to "Quran 4:157"). A site that saved the old default untouched has it emptied once (`paulus_upgrade_2630()`); edited lines are kept.
+- **One new link to a paragraph or list item at most**, and none on the front page, in a feed or in an excerpt. Hebrew and Syriac (`lang`) join Arabic and Greek as text that is never linked.
+- **The links carry the class `paulus-ctx-link`** (with `paulus-ctx-link--sister` for the other sites) in place of `paulus-xlink`; no stylesheet used the old class.
+
+### Removed
+- `text_links_max` (one limit for all links), replaced by the two limits above.
+
 ## [2.62.42] - 2026-10-25
 
 ### Added
