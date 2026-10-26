@@ -532,6 +532,34 @@ function paulus_org_schema() {
 }
 
 /**
+ * A sameAs list with one entry per page, the first spelling kept: the
+ * scheme and host are compared without case and the final slash is
+ * ignored (https://menj.blog and https://menj.blog/ are one page), while
+ * the path keeps its case. This site's own address is dropped: sameAs
+ * names other pages about the same thing.
+ *
+ * @param array $urls Addresses.
+ * @return array
+ */
+function paulus_same_as( $urls ) {
+	$key  = static function ( $url ) {
+		$url = untrailingslashit( trim( (string) $url ) );
+		return preg_replace_callback( '#^[a-z][a-z0-9+.-]*://[^/?\#]*#i', static function ( $m ) {
+			return strtolower( $m[0] );
+		}, $url );
+	};
+	$home = $key( home_url( '/' ) );
+	$list = array();
+	foreach ( $urls as $url ) {
+		$k = $key( $url );
+		if ( '' !== $k && $home !== $k && ! isset( $list[ $k ] ) ) {
+			$list[ $k ] = $url;
+		}
+	}
+	return array_values( $list );
+}
+
+/**
  * Person: the author, shared by every article and the book.
  *
  * @return array
@@ -543,7 +571,10 @@ function paulus_person_schema() {
 	} elseif ( paulus_option( 'author_url' ) ) {
 		$person['url'] = paulus_option( 'author_url' );
 	}
-	$same = array();
+	// The pages about the author listed in Theme Options come first, then
+	// the author's own sites.
+	$same = preg_split( '/\s+/', trim( (string) paulus_option( 'author_same_as' ) ), -1, PREG_SPLIT_NO_EMPTY );
+	$same = array_filter( array_map( 'esc_url_raw', $same ) );
 	foreach ( array( 'author_home', 'author_url', 'author_youtube' ) as $paulus_key ) {
 		if ( paulus_option( $paulus_key ) ) {
 			$same[] = paulus_option( $paulus_key );
@@ -554,8 +585,9 @@ function paulus_person_schema() {
 	foreach ( paulus_social_profiles() as $profile ) {
 		$same[] = $profile[2];
 	}
+	$same = paulus_same_as( $same );
 	if ( $same ) {
-		$person['sameAs'] = array_values( array_unique( $same ) );
+		$person['sameAs'] = $same;
 	}
 	if ( function_exists( 'paulus_author_portrait_url' ) && paulus_author_portrait_url() ) {
 		$person['image'] = paulus_author_portrait_url();

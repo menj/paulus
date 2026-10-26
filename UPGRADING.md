@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.62.41 to 2.62.42
+
+- **Hidden files go.** On activation, and on the first admin page after the update, the theme deletes the hidden files and folders at the top of its folder (`.git`, `.github`, `.gitignore` and the like). If you run the theme from a git working copy on a live site, add `define( 'PAULUS_KEEP_DOTFILES', true );` to `wp-config.php` first; a site set to `WP_ENVIRONMENT_TYPE` `local` or `development` keeps them without it.
+
 ### 2.62.40 to 2.62.41
 
 - **Uploading by FTP.** Switch on Maintenance mode first (Appearance, Theme Options, Maintenance), upload, then switch it off. Upload the contents of the release zip, not a copy of the repository: the zip leaves out the files the site does not need. While maintenance is on, visitors see "Back shortly" and you, signed in, see the site. If the admin is unreachable, delete the file `.paulus-maintenance` in the site's folder by FTP to end it.
