@@ -15,12 +15,16 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.62.40',
+	'content_version' => '2.63.4',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		'c12-malaysia-and-southeast-asia.json#r63.4' => '5a7cf3e1979f5de70d022bd075950f03',
+		'c10-the-early-islamic-record.json#r63.4' => 'd04fddf63fb22aacc06ad9bedb3352f7',
+		'c09-the-failed-prophet-2.json#r63.4' => '476b7703395b1147812419c7a7e9a160',
+		'c11-the-verdict.json#r63.4' => '939f19a49879432055ed49c7b5e632cc',
 		'c11-the-verdict.json#r40' => '538f88ce87f822dbe4544405b5294a57',
 		'c10-from-ibn-hazm-to-al-faruqi.json#r40' => 'e93797212f58c1b4b1ff5e95fbf26307',
 		'c05-adapting-the-message.json#r38' => 'c2c573481f5690176e92ebf2b7a9a3c0',

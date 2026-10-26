@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.4] - 2026-10-26
+
+### Fixed
+- **A living person is no longer named or characterised** in "Malaysia and Southeast Asia". The complaint to the MCMC is described without the preacher's name or the unsourced "right-wing" and "openly insults Islam"; the footnote says the complaint is unpublished.
+- **The Būlus hadith is quoted and graded as al-Tirmidhī gives it** ("The early Islamic record"): «يُحْشَرُ المُتَكَبِّرُونَ…» in place of «يُحشر الجبارون…», from Jāmiʿ al-Tirmidhī 2492 (Shākir ed., 4:655, shamela.ws/book/1435/4295); al-Albānī's grading (*ḥasan*) and al-Tirmidhī's («هَذَا حَدِيثٌ حَسَنٌ») replace "*ḥasan ṣaḥīḥ* by the scholars of hadith". The unverified "Musnad Aḥmad, vol. 6, p. 232" is removed, and the hadith is introduced as al-Tirmidhī's.
+- **Eutychus is brought away alive** ("The failed prophet", part 2), as Acts 20:10–12 says; "no resurrection … too weary to go on living" is gone.
+- **1 Clement 5**: ancient readers already took it as Paul's martyrdom; Raymond Brown is no longer called the first.
+- **"The verdict"**: the New Testament books were *written* in Greek (not "manuscripts exist only in Greek"); the 2 Corinthians 11:14 and 12:7 footnote no longer suggests the verses say Paul's teaching came from Satan, which is marked as the site's judgment; the Trinity sentence now speaks of the foundations of the later creed defined at Nicaea (325) and Constantinople (381).
+- Content version 2.63.4, with the earlier hashes of the four files in `prior_hashes`, so untouched copies on existing sites are refreshed.
+
 ## [2.63.3] - 2026-10-26
 
 ### Changed

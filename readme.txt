@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.63.3
+Stable tag: 2.63.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.63.4 =
+* Corrections of fact in four articles: the Būlus hadith quoted and graded as in al-Tirmidhī, Eutychus brought away alive, the New Testament books written in Greek, 1 Clement, the Trinity creeds, the 2 Corinthians footnote, and a living person no longer named in the Malaysia article.
 
 = 2.63.3 =
 * Quranic verses are set in a WOFF2 conversion of the KFGQPC HAFS Uthmanic Script file (107 KB, from 298 KB), by the owner's decision, accepting that the font's licence forbids modifying it.
