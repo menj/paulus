@@ -2,6 +2,61 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.3] - 2026-10-26
+
+### Changed
+- **The Quranic face is served as a WOFF2 conversion** (`assets/fonts/kfgqpc-hafs-uthmanic-script.woff2`, 107 KB) in place of the supplied TrueType file (298 KB, removed). The owner chose on 2026-10-26 to serve a WOFF2 conversion of the KFGQPC HAFS Uthmanic Script (107 KB, from 298 KB), accepting that the KFGQPC licence forbids modifying the font. The conversion is lossless for glyphs, cmap and OpenType layout; the digital signature (DSIG) is dropped. Recorded in LICENSES.md and the README credits.
+
+### Fixed
+- **The retired default of phrases no longer wins before the upgrade runs.** The 2.63.0 upgrade empties an untouched copy of the old 28-line field, but only on the first wp-admin visit by an editor; until then the field was read as overrides, so "Injīl" still led to injil.help's home page. The contextual links now read that exact field as empty (`paulus_ctx_is_retired_default()`, the same check the upgrade uses).
+- **An own-site line that already carries the install folder** ("/blog/the-man/" or a full address under home "/blog") no longer doubles it to "/blog/blog/the-man/" (`paulus_ctx_own_url()`).
+- **Single-quoted and unquoted `class` and `lang` attributes** now mark a region where no link is made, as double-quoted ones did.
+- **A void element inside a region where no link is made** (`embed`, `col`, `area`, `track`, `param`, `base`) no longer keeps the region open to the end of the page; closing an element also closes any element left open inside it.
+- **A post with one invalid UTF-8 byte is no longer emptied.** The verse mapping (`inc/quran-text.php`) ran a `/u` pattern over the whole content and returned its null result, so a post naming the Quran with a stray byte anywhere rendered blank; the pattern is now byte-wise and a failure returns the content as it came. The contextual links likewise keep a paragraph whose bytes the `/u` pattern refuses, where before its text was dropped.
+- **A phrase list too large to compile no longer blanks the text, nor switches the links off.** Thousands of extra lines on the Contextual links tab could push the pattern past PCRE's size limit. The apostrophe and space forms are now defined once in the pattern and called by name (`(?&q)`, `(?&s)`), which keeps the shared map in one pattern of about 19 KB; a longer list is split into patterns that each compile (`paulus_ctx_patterns_of()`) and matched together in the text's order, the leftmost match first and the longest at the same place (`paulus_ctx_replace()`), so the output is the same as one pattern's. A single phrase that will not compile is left out and named in the error log.
+- **One malformed line no longer drops the whole Contextual links field.** The lines are split without the `/u` flag, so an invalid byte in one line leaves the others in force.
+- **Unquoted `class` attributes** (`<p class=greek>`) now mark a region where no link is made, as the entry above already said.
+- **A `>` inside a quoted attribute value** (`title="see > Paul of Tarsus"`) no longer ends the tag early, so no link is written into the attribute.
+- **The Mushaf face is applied only to mapped verses** (`.quran[data-quran-encoding="kfgqpc"]`). In the block editor, where the mapping does not run, the stored Tanzil text showed round sukun and stray circles in that face; it now stays in Arslan Wessam there, and every verse on the site is mapped and set in the Mushaf face as before.
+- **Phrases with an apostrophe link on the live page.** wptexturize (10) runs before the links (15) and writes "Mark's gospel" as "Mark&#8217;s gospel", so a phrase with an apostrophe never matched the rendered text. Every form of apostrophe (straight, curly, modifier letter, or an entity) now matches every other, in the pattern and in the lookup (`paulus_ctx_apostrophes()`, `paulus_ctx_phrase_pattern()`).
+- **Contextual links no longer depend on the loop.** The filter linked only inside `in_the_loop()`, so a block template that renders the post content outside the loop would get no links at all. It now checks that the text being filtered is the queried post (`get_the_ID()` against `get_queried_object_id()`), which also keeps another post's text shown on the same page unlinked.
+- **A phrase with a space matches a non-breaking space.** "Paul&nbsp;of Tarsus", "Paul&#160;of Tarsus" or a U+00A0 between the words never matched "Paul of Tarsus"; a space in a phrase now matches any run of spaces, and the lookup reads them all as one space (`paulus_ctx_key()`).
+- **A phrase passed by no longer hides one that overlaps it.** When a match could not be linked (its page already linked, the page itself, a limit reached, or the paragraph's link taken), the pattern had already consumed its text, so an overlapping phrase was never tried: in "Peter and Paul of Tarsus", with "Peter and Paul" already linked, "Paul of Tarsus" stayed plain. The search now starts again one character after a match it passes by (`paulus_ctx_replace()`); a phrase wholly inside the match passed by stays unlinked, so "Barnabas" in "Gospel of Barnabas" never links. The 78 bodies in `content/articles` render the same as before.
+- **One new link to a list item, however many paragraphs it holds.** A `<p>` inside an `<li>` reset the paragraph's allowance, so a list item of two paragraphs could take two links; a paragraph inside a list item now shares the item's one link. A list item left unclosed ends with its list.
+- **Percent-encoded addresses and slugs survive a save.** `sanitize_textarea_field()` strips every `%XX` octet, so a line "phrase | /the-man/%D8%A7/" was saved as "/the-man//" and linked to a broken address, and a non-ASCII slug in Excluded pages never matched. The two fields are now cleaned line by line (`paulus_ctx_sanitize_phrases()`: the phrase as text, a path to URL path characters with non-ASCII letters encoded, a full address through `esc_url_raw()`; `paulus_ctx_sanitize_slugs()`: each slug through `sanitize_title()`, as WordPress stores it).
+
+## [2.63.2] - 2026-10-26
+
+### Fixed
+- **Quranic verses render with their Madani marks.** The sixteen verses in the articles follow the Tanzil encoding (sukun U+0652, the small rounded zero over a silent letter U+06DF). The KFGQPC face follows the Complex's own encoding (Madani sukun U+06E1, rounded zero U+0652) and draws U+06DF as a spacing ornament, so every sukun showed as a round circle and eight verses carried a stray dotted circle. `inc/quran-text.php` maps the text of each element with class `quran` as it renders (`the_content` at 6); the stored text is untouched, a verse already in the Complex's encoding is left alone, a mapped element carries `data-quran-encoding="kfgqpc"` and is skipped on any second pass (so a verse with a rounded zero and no sukun cannot have its zeros mapped to sukun), and hadiths and other Arabic are never touched. The same fix ships in Abrahamic 2.84.0.
+
+## [2.63.1] - 2026-10-26
+
+### Changed
+- **Quranic verses are set in the supplied KFGQPC HAFS Uthmanic Script file, unmodified.** The font's licence forbids modifying or altering it, so the WOFF2 re-encoding (107 KB, without the digital-signature table) is replaced by the signed TrueType file as supplied (298 KB), byte for byte, with its licence text beside it in `assets/fonts/kfgqpc-hafs-uthmanic-script-LICENSE.txt`. The face still applies to Quranic verses in Arabic and nothing else (class `quran`); hadiths stay in Dubidam Arabic and every other Arabic passage in Arslan Wessam. The face has no `unicode-range` and no preload, so the file is fetched only on a page with a verse.
+- The family is named "KFGQPC HAFS Uthmanic Script", as in the font itself, in `fonts.css` and `theme.json` (CSS family names ignore capitals, so nothing else changes).
+- A verse paragraph's line height is 2.2 (was 2.35), measured against the face's stacked marks.
+
+### Removed
+- `assets/fonts/kfgqpc-hafs-uthmanic-script.woff2`.
+
+## [2.63.0] - 2026-10-26
+
+### Added
+- **Contextual links to this site's own articles and pages**, alongside those to the author's other sites: the first mention of the Damascus road, the Jerusalem Council, James the Just, justification by faith and some sixty other subjects in the running text links to the article here that treats it (`home_url( path )`, so a staging copy links to itself). Theme Options, Contextual links: on (`ctx_own`), at most four a page (`ctx_own_max`, 0 to 15).
+- **Links to all six other sites of the network**, no longer two: Abrahamic Religions, Compelling Evidence, Murtadd and Lailatulqadar join Best of Islam and The Injil, always to an inner page that treats the subject. At most three a page (`ctx_sister_max`, 0 to 10).
+- **`inc/data/network-links.json`**, the phrase map shared by the seven themes and identical in each: 404 inner pages and 913 phrases, each path checked against the theme that owns it, each phrase in one entry only. Filters `paulus_contextual_links_map` and `paulus_contextual_links_enabled`.
+- **Excluded pages** (`ctx_exclude`): slugs, one per line, that never get these links.
+
+### Changed
+- **The Links tab is now Contextual links.** Its field of phrases (`text_links_map`) is empty by default and holds only the site's own lines, read before the shared map so they win; a line may give a path on this site or an address on one of the network's sites, and any other site is refused. The 28 default lines are in the map (the "Injīl" line, which led to injil.help's home page, now leads to Best of Islam's page on where the Injīl is; the bare "4:157" gives way to "Quran 4:157"). A site that saved the old default untouched has it emptied once (`paulus_upgrade_2630()`); edited lines are kept.
+- **One new link to a paragraph or list item at most**, and none on the front page, in a feed or in an excerpt. Hebrew and Syriac (`lang`) join Arabic and Greek as text that is never linked.
+- **A region where no link may go now ends only at its own closing tag.** Before, a nested element of the same name (a `div` inside the footnotes `div`) closed the region early and the text after it could be linked; every element inside a skip region is now tracked.
+- **The links carry the class `paulus-ctx-link`** (with `paulus-ctx-link--sister` for the other sites) in place of `paulus-xlink`; no stylesheet used the old class.
+
+### Removed
+- `text_links_max` (one limit for all links), replaced by the two limits above.
+
 ## [2.62.42] - 2026-10-25
 
 ### Added

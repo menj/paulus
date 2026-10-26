@@ -9,7 +9,7 @@
  *   Body       Sabon Next LT (running text, menu)
  *   Quotations EB Garamond (quotations, footnotes, the book synopsis)
  *   Labels     Special Elite (chapter labels, breadcrumbs, data labels, dates)
- *   Arabic     Arslan Wessam; Quranic verses in KFGQPC Hafs Uthmanic Script;
+ *   Arabic     Arslan Wessam; Quranic verses in KFGQPC HAFS Uthmanic Script;
  *              hadiths in Dubidam Arabic
  */
 body {
@@ -740,9 +740,12 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 /* Arabic script anywhere in running text */
 :lang(ar), [lang="ar"] { font-family: var(--t-arabic); font-weight: 400; }
 /* Quranic verses in the Mushaf script; hadiths in Dubidam Arabic; all other Arabic stays in Arslan Wessam. */
-.quran:lang(ar), .quran[lang="ar"], .paulus-prose .arabic.quran { font-family: var(--t-quran); font-weight: 400; }
+/* The Mushaf face only on verses inc/quran-text.php has mapped to its encoding
+   (data-quran-encoding); unmapped Tanzil text, as in the block editor, would
+   show round sukun and stray circles in it, so it stays in Arslan Wessam. */
+.quran[data-quran-encoding="kfgqpc"]:lang(ar), .quran[data-quran-encoding="kfgqpc"][lang="ar"], .paulus-prose .arabic.quran[data-quran-encoding="kfgqpc"] { font-family: var(--t-quran); font-weight: 400; }
 .hadith:lang(ar), .hadith[lang="ar"], .paulus-prose .arabic.hadith { font-family: var(--t-hadith); font-weight: 400; }
-.paulus-prose .arabic.quran { font-size: 1.7rem; line-height: 2.35; }
+.paulus-prose .arabic.quran { font-size: 1.7rem; line-height: 2.2; letter-spacing: 0; }
 :lang(ar) strong, :lang(ar) b, [lang="ar"] strong, [lang="ar"] b, .arabic strong, .arabic b { font-weight: 700; }
 
 /* The title-panel rule arrives wrapped in a paragraph by the shortcode block's
