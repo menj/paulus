@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.3] - 2026-10-26
+
+### Changed
+- **The Quranic face is served as a WOFF2 conversion** (`assets/fonts/kfgqpc-hafs-uthmanic-script.woff2`, 107 KB) in place of the supplied TrueType file (298 KB, removed). The owner chose on 2026-10-26 to serve a WOFF2 conversion of the KFGQPC HAFS Uthmanic Script (107 KB, from 298 KB), accepting that the KFGQPC licence forbids modifying the font. The conversion is lossless for glyphs, cmap and OpenType layout; the digital signature (DSIG) is dropped. Recorded in LICENSES.md and the README credits.
+
 ## [2.63.2] - 2026-10-26
 
 ### Fixed

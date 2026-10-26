@@ -12,7 +12,8 @@
  *              section titles, count numerals. Variable weight, OFL.
  * KFGQPC HAFS Uthmanic Script (King Fahd Glorious Quran Printing Complex)
  *              Quranic verses in Arabic, and nothing else (class "quran").
- *              The supplied TrueType file, unmodified.
+ *              A WOFF2 conversion of the supplied TrueType file, by the
+ *              owner's decision of 2026-10-26 (LICENSES.md).
  * Dubidam Arabic Hadiths in Arabic, and nothing else (class "hadith"), in
  *              regular weight. The free edition replaces Arabic-Indic digits,
  *              the Arabic semicolon and question mark, quotation marks and
@@ -158,14 +159,14 @@
 	font-display: swap;
 }
 
-/* Quranic verses: KFGQPC HAFS Uthmanic Script, the supplied TrueType file
-   served unmodified (its licence forbids altering it, so no WOFF2 and no
-   subset). No unicode-range and no preload: the file is fetched only on a
+/* Quranic verses: KFGQPC HAFS Uthmanic Script, served as a WOFF2 conversion
+   of the supplied TrueType file, not subset, by the owner's decision of
+   2026-10-26 although its licence forbids altering it. No unicode-range and no preload: the file is fetched only on a
    page that has a verse, and the whole verse, spaces and ayah marks
    included, is set in the one face. */
 @font-face {
 	font-family: "KFGQPC HAFS Uthmanic Script";
-	src: url("../fonts/kfgqpc-hafs-uthmanic-script.ttf") format("truetype");
+	src: url("../fonts/kfgqpc-hafs-uthmanic-script.woff2") format("woff2");
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
