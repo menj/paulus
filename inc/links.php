@@ -250,10 +250,10 @@ function paulus_ctx_compiled( $own, $sister ) {
  * @return string
  */
 function paulus_text_links_filter( $content ) {
-	// The block templates render the main post inside the loop (WordPress
-	// 6.4 and later, which the parent theme requires), so in_the_loop() keeps
-	// the links out of any other post's text a page may show.
-	if ( is_admin() || is_feed() || ! is_singular() || is_front_page() || ! in_the_loop() || ! is_main_query() || doing_filter( 'get_the_excerpt' ) ) {
+	// Only the queried post is linked, never another post's text a page may
+	// show. The check is the queried object, not in_the_loop(), so the links
+	// do not depend on whether a block template enters the loop.
+	if ( is_admin() || is_feed() || ! is_singular() || is_front_page() || ! is_main_query() || doing_filter( 'get_the_excerpt' ) || (int) get_the_ID() !== (int) get_queried_object_id() ) {
 		return $content;
 	}
 	$own_on    = (bool) paulus_option( 'ctx_own' );
