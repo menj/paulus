@@ -330,20 +330,26 @@ function paulus_ctx_patterns_of( $phrases ) {
 }
 
 /**
- * Replace every match of the patterns in a run of text, as one pattern of
- * them all would: walked in the text's order, the leftmost match first and,
- * at the same place, the longest. Null when a pattern fails on the text
- * (invalid UTF-8), so the caller keeps the text as it was.
+ * Link the matches of the patterns in a run of text, walked in the text's
+ * order: the leftmost match first and, at the same place, the longest. The
+ * callback returns the replacement, or null to pass the match by; a match
+ * passed by does not hide a phrase that overlaps it ("Peter and Paul of
+ * Tarsus", where "Peter and Paul" is already linked, still links "Paul of
+ * Tarsus"), but a phrase wholly inside it stays unlinked ("Barnabas" in
+ * "Gospel of Barnabas"). Null when a pattern fails on the text (invalid
+ * UTF-8), so the caller keeps the text as it was.
  *
  * @param string[] $patterns Patterns.
  * @param string   $text     Text.
- * @param callable $replace  Gets the matched text, returns its replacement.
+ * @param callable $replace  Gets the matched text, returns its replacement or null.
  * @return string|null
  */
 function paulus_ctx_replace( $patterns, $text, $replace ) {
-	$out = '';
-	$pos = 0;
-	$len = strlen( $text );
+	$out    = '';
+	$copied = 0; // Bytes of $text already written to $out.
+	$pos    = 0; // Where the next search starts.
+	$passed = 0; // End of the furthest match passed by.
+	$len    = strlen( $text );
 	while ( $pos < $len ) {
 		$best = null;
 		foreach ( $patterns as $pattern ) {
@@ -358,10 +364,21 @@ function paulus_ctx_replace( $patterns, $text, $replace ) {
 		if ( null === $best ) {
 			break;
 		}
-		$out .= substr( $text, $pos, $best[1] - $pos ) . $replace( $best[0] );
-		$pos  = $best[1] + max( 1, strlen( $best[0] ) );
+		$start = $best[1];
+		$end   = $start + strlen( $best[0] );
+		$with  = $end > $passed ? $replace( $best[0] ) : null;
+		if ( null === $with ) {
+			// Pass it by and search again from its next character.
+			$passed = max( $passed, $end );
+			$byte   = ord( $text[ $start ] );
+			$pos    = $start + ( $byte >= 0xF0 ? 4 : ( $byte >= 0xE0 ? 3 : ( $byte >= 0xC0 ? 2 : 1 ) ) );
+			continue;
+		}
+		$out   .= substr( $text, $copied, $start - $copied ) . $with;
+		$copied = $end;
+		$pos    = $end;
 	}
-	return $out . substr( $text, $pos );
+	return $out . substr( $text, $copied );
 }
 
 /**
@@ -523,10 +540,10 @@ function paulus_text_links_filter( $content ) {
 					}
 				}
 				if ( null === $entry || $used || isset( $done[ $entry['url'] ] ) || $made[ $entry['kind'] ] >= $caps[ $entry['kind'] ] ) {
-					return $m[0];
+					return null;
 				}
 				if ( 'own' === $entry['kind'] && paulus_ctx_path( $entry['url'] ) === $here ) {
-					return $m[0];
+					return null;
 				}
 				$done[ $entry['url'] ] = true;
 				++$made[ $entry['kind'] ];
