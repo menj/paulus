@@ -1217,3 +1217,6 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 	.paulus-honorific__text { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
 }
 @media print { .paulus-honorific { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+/* Forced colours: the system would paint the masked background in Canvas,
+ * so the calligraphy would vanish; draw it in the text colour instead. */
+@media (forced-colors: active) { .paulus-honorific { forced-color-adjust: none; background-color: CanvasText; } }

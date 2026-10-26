@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.63.5] - 2026-10-26
+
+### Fixed
+- **Forced colours.** In forced-colours (high-contrast) mode the system paints a masked background in `Canvas`, so the calligraphic honorific and the curse after the name of Paul (`[paulus_lanah]`) could vanish. `.paulus-honorific`, which both carry, is now drawn in `CanvasText` there (`assets/css/theme.css`).
+
+### Checked
+- The two placements of `[paulus_lanah]` were checked against the network policy (by hand, rare, only after Paul of Tarsus, never in titles, excerpts, descriptions, menus, alt text, structured data or quotations): the closing sentence of the Verdict (`c11-the-verdict.json`) and the summing up of the classical Islamic assessment (`c10-from-ibn-hazm-to-al-faruqi.json`). Both are in the site's own prose, outside quotations; no title, excerpt or other field carries the shortcode. They are unchanged, and every article's MD5 still matches.
+- Font licence: the calligraphy (`assets/images/lanat-allah.avif` and `.png`) is drawn from Dubidam Arabic (NamelaType), whose metadata names a free personal-use licence. A web licence is the site owner's to hold.
+
 ## [2.63.4] - 2026-10-26
 
 ### Added
