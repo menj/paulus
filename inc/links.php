@@ -176,13 +176,35 @@ function paulus_text_links() {
 	$out  = array();
 	$seen = array();
 	foreach ( $entries as $entry ) {
-		$key = paulus_ustrtolower( $entry['phrase'] );
+		$key = paulus_ustrtolower( paulus_ctx_apostrophes( $entry['phrase'] ) );
 		if ( ! isset( $seen[ $key ] ) ) {
 			$seen[ $key ] = true;
 			$out[]        = $entry;
 		}
 	}
 	return $cache = $out;
+}
+
+/**
+ * A phrase or a match with every apostrophe written as "'". wptexturize (10)
+ * runs before the links (15) and writes "Mark's" as "Mark&#8217;s", so the
+ * text and the map are compared with their apostrophes made alike.
+ *
+ * @param string $text Phrase or matched text.
+ * @return string
+ */
+function paulus_ctx_apostrophes( $text ) {
+	return str_replace( array( '&#8217;', '&#8216;', '&#039;', '&#39;', '&rsquo;', '&lsquo;', '&apos;', "\u{2019}", "\u{2018}", "\u{02BC}" ), "'", $text );
+}
+
+/**
+ * The pattern for one phrase, any form of apostrophe matching any other.
+ *
+ * @param string $phrase Phrase.
+ * @return string
+ */
+function paulus_ctx_phrase_pattern( $phrase ) {
+	return str_replace( "'", "(?:'|\u{2019}|\u{2018}|\u{02BC}|&\#8217;|&\#8216;|&\#0?39;|&rsquo;|&lsquo;|&apos;)", preg_quote( paulus_ctx_apostrophes( $phrase ), '/' ) );
 }
 
 /**
@@ -208,7 +230,7 @@ function paulus_ctx_compiled( $own, $sister ) {
 	$by_phrase = array();
 	$phrases   = array();
 	foreach ( $links as $entry ) {
-		$by_phrase[ paulus_ustrtolower( $entry['phrase'] ) ] = $entry;
+		$by_phrase[ paulus_ustrtolower( paulus_ctx_apostrophes( $entry['phrase'] ) ) ] = $entry;
 		$phrases[] = $entry['phrase'];
 	}
 	usort(
@@ -217,7 +239,7 @@ function paulus_ctx_compiled( $own, $sister ) {
 			return paulus_ulen( $b ) <=> paulus_ulen( $a );
 		}
 	);
-	$pattern = $phrases ? '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( static function ( $p ) { return preg_quote( $p, '/' ); }, $phrases ) ) . ')(?![\p{L}\p{N}])/iu' : '';
+	$pattern = $phrases ? '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( 'paulus_ctx_phrase_pattern', $phrases ) ) . ')(?![\p{L}\p{N}])/iu' : '';
 	return $cache[ $key ] = array( $links, $by_phrase, $pattern );
 }
 
@@ -315,12 +337,12 @@ function paulus_text_links_filter( $content ) {
 		$piece = preg_replace_callback(
 			$pattern,
 			static function ( $m ) use ( $by_phrase, $links, $here, $caps, &$done, &$made, &$used ) {
-				$entry = $by_phrase[ paulus_ustrtolower( $m[0] ) ] ?? null;
+				$entry = $by_phrase[ paulus_ustrtolower( paulus_ctx_apostrophes( $m[0] ) ) ] ?? null;
 				// Without mbstring only ASCII letters are lowered, so a match
 				// with an accented capital is looked up phrase by phrase.
 				if ( null === $entry ) {
 					foreach ( $links as $l ) {
-						if ( preg_match( '/^' . preg_quote( $l['phrase'], '/' ) . '$/iu', $m[0] ) ) {
+						if ( preg_match( '/^' . paulus_ctx_phrase_pattern( $l['phrase'] ) . '$/iu', $m[0] ) ) {
 							$entry = $l;
 							break;
 						}

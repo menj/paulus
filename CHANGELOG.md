@@ -12,6 +12,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - **An own-site line that already carries the install folder** ("/blog/the-man/" or a full address under home "/blog") no longer doubles it to "/blog/blog/the-man/" (`paulus_ctx_own_url()`).
 - **Single-quoted and unquoted `class` and `lang` attributes** now mark a region where no link is made, as double-quoted ones did.
 - **A void element inside a region where no link is made** (`embed`, `col`, `area`, `track`, `param`, `base`) no longer keeps the region open to the end of the page; closing an element also closes any element left open inside it.
+- **Phrases with an apostrophe link on the live page.** wptexturize (10) runs before the links (15) and writes "Mark's gospel" as "Mark&#8217;s gospel", so a phrase with an apostrophe never matched the rendered text. Every form of apostrophe (straight, curly, modifier letter, or an entity) now matches every other, in the pattern and in the lookup (`paulus_ctx_apostrophes()`, `paulus_ctx_phrase_pattern()`).
 
 ## [2.63.2] - 2026-10-26
 
