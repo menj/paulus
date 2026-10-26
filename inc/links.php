@@ -138,7 +138,7 @@ function paulus_text_links() {
 
 	$entries = array();
 	$saved = (string) paulus_option( 'text_links_map' );
-	foreach ( paulus_ctx_is_retired_default( $saved ) ? array() : preg_split( '/\R/u', $saved ) as $line ) {
+	foreach ( paulus_ctx_is_retired_default( $saved ) ? array() : preg_split( '/\r\n|\r|\n/', $saved ) as $line ) {
 		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
 		if ( count( $parts ) < 2 || '' === $parts[0] || '' === $parts[1] ) {
 			continue;
@@ -240,6 +240,12 @@ function paulus_ctx_compiled( $own, $sister ) {
 		}
 	);
 	$pattern = $phrases ? '/(?<![\p{L}\p{N}])(?:' . implode( '|', array_map( 'paulus_ctx_phrase_pattern', $phrases ) ) . ')(?![\p{L}\p{N}])/iu' : '';
+	// A pattern past PCRE's size limit (thousands of extra lines on the tab)
+	// does not compile; no links are made then, and the text is untouched.
+	if ( '' !== $pattern && false === @preg_match( $pattern, '' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		error_log( 'Paulus: the contextual-link phrases make a pattern too large to compile; no contextual links are made until the list is shortened.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		$pattern = '';
+	}
 	return $cache[ $key ] = array( $links, $by_phrase, $pattern );
 }
 
@@ -285,10 +291,10 @@ function paulus_text_links_filter( $content ) {
 	// paragraph class marks the Arabic and Greek blocks; the footnotes are a
 	// list with its own class; a lang attribute marks the other scripts.
 	$skip_tags  = array( 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'q', 'figcaption', 'figure', 'sup', 'sub', 'code', 'pre', 'cite', 'script', 'style', 'nav', 'table', 'button', 'label', 'select', 'textarea', 'summary' );
-	$skip_class = '/\bclass=["\'][^"\']*\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
+	$skip_class = '/\bclass=(?:["\'][^"\']*)?\b(?:footnotes|quran|hadith|arabic|greek|paulus-contents|paulus-faq-index|paulus-alpha|paulus-honorific|paulus-anchor|paulus-figure|paulus-chart)\b/';
 	$skip_lang  = '/\blang=(["\']?)(?:ar|he|el|grc|syr)(?:-[a-z0-9-]*)?\1(?=[\s\/>])/i';
 
-	$pieces = preg_split( '/(<[^>]+>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$pieces = preg_split( '/(<(?:[^>"\']|"[^"]*"|\'[^\']*\')*>)/', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
 	if ( false === $pieces ) {
 		return $content;
 	}
@@ -334,7 +340,7 @@ function paulus_text_links_filter( $content ) {
 		// with. A whole phrase: no letter or digit on either side, so
 		// "Ebionites" does not match inside "Ebionitism". The text is plain
 		// here, so no tag or entity can be cut by the match.
-		$piece = preg_replace_callback(
+		$linked = preg_replace_callback(
 			$pattern,
 			static function ( $m ) use ( $by_phrase, $links, $here, $caps, &$done, &$made, &$used ) {
 				$entry = $by_phrase[ paulus_ustrtolower( paulus_ctx_apostrophes( $m[0] ) ) ] ?? null;
@@ -364,7 +370,9 @@ function paulus_text_links_filter( $content ) {
 			},
 			$piece
 		);
-		$out .= $piece;
+		// On invalid UTF-8 the /u pattern fails and returns null: the piece
+		// is kept as it was rather than dropped.
+		$out .= null === $linked ? $piece : $linked;
 	}
 	return $out;
 }

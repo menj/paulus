@@ -48,8 +48,11 @@ function paulus_quran_verses_filter( $content ) {
 	// A mapped element is marked, so a second pass over the same text (an
 	// excerpt or a feed that filters it again) cannot map its rounded zeros
 	// to sukun.
-	return (string) preg_replace_callback(
-		'#(<(p|span|div)\b[^>]*\bclass="[^"]*\bquran\b[^"]*"[^>]*)(>)(.*?)(</\2>)#su',
+	// The pattern is byte-wise (no /u): its delimiters are ASCII and strtr()
+	// maps bytes, so a stray invalid byte elsewhere in the post neither stops
+	// the mapping nor, through a null result, empties the content.
+	$mapped = preg_replace_callback(
+		'#(<(p|span|div)\b[^>]*\bclass="[^"]*\bquran\b[^"]*"[^>]*)(>)(.*?)(</\2>)#s',
 		static function ( $m ) {
 			if ( false !== strpos( $m[1], 'data-quran-encoding=' ) ) {
 				return $m[0];
@@ -58,5 +61,6 @@ function paulus_quran_verses_filter( $content ) {
 		},
 		$content
 	);
+	return null === $mapped ? $content : $mapped;
 }
 add_filter( 'the_content', 'paulus_quran_verses_filter', 6 );
