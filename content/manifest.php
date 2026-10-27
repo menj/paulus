@@ -15,12 +15,23 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.64.0',
+	'content_version' => '2.64.0.1',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
+		// Texts as shipped in 2.64.0, before the house-style prose revision.
+		'apostle-to-the-gentiles.json#r64.1' => '115c1bdddc3bffedbb154bb687260beb',
+		'c03-a-self-appointed-apostle.json#r64.1' => '9fbdafaf01f13e7fcb78c83625708f82',
+		'c09-the-church-that-followed-paul.json#r64.1' => '53b66d94e74bf61f942666e333b9d524',
+		'c09-the-failed-prophet-2.json#r64.1' => '047a2a25561cb11216a3a69c819851a1',
+		'c11-the-verdict.json#r64.1' => '9b1a5227cf76e61b278de84f568ba3d2',
+		'islamic-dilemma.json#r64.1' => 'eded389ea8c3e5babdd0680ffffb214e',
+		'meaning-of-the-name-paul.json#r64.1' => 'c0ae448a4967c8cd0a7dee25b4d176c8',
+		'pauls-missionary-journeys.json#r64.1' => '3a9cddb82e40075a927fc3f3e027dfa7',
+		'saul-in-the-bible.json#r64.1' => '88b982412e5e6f62e63499d5becb208a',
+		'was-paul-married.json#r64.1' => 'ccb5c68ce8d421bb0cba633762e0ed35',
 		// Texts as shipped in 2.63.6, before the keyword pass of 2.64.0.
 		'c09-the-church-that-followed-paul.json#r64' => '3db27d927bf24bc8634f78c241650ebc',
 		'c02-who-was-paul.json#r64' => '461e97b65829051882443461f6d9c477',
@@ -481,6 +492,8 @@ return array(
 	// that still matches one of these was never edited by hand and is
 	// refreshed from the current manifest.
 	'prior_meta' => array(
+		'Who was the founder of Christianity? Not ʿĪsā ibn Maryam but Paul: the first books, the Gentile mission, the doctrines. Read on.',
+		'The Islamic dilemma takes the Gospel to be the New Testament, mostly Paul\'s letters. The Qurʾān\'s Injīl is not his. Read on.',
 		'Paul of Tarsus: a face for every audience',
 		'Saul the persecutor: Stephen and the church',
 		'Paul\'s conversion on the Damascus road',
@@ -1265,7 +1278,7 @@ return array(
 		),
 		array(
 			'slug'      => 'paul-the-father-of-a-new-religion',
-			'meta'      => 'Who was the founder of Christianity? Not ʿĪsā ibn Maryam but Paul: the first books, the Gentile mission, the doctrines. Read on.',
+			'meta'      => 'Who was the founder of Christianity? The evidence points to Paul: the first books, the Gentile mission, the doctrines. Read on.',
 			'title'     => 'Was Paul the founder of Christianity?',
 			'seo_title' => 'Founder of Christianity: Paul?',
 			'label'     => 'Count·VI',
@@ -1598,7 +1611,7 @@ return array(
 		),
 		array(
 			'slug'      => 'islamic-dilemma',
-			'meta'      => 'The Islamic dilemma takes the Gospel to be the New Testament, mostly Paul\'s letters. The Qurʾān\'s Injīl is not his. Read on.',
+			'meta'      => 'The Islamic dilemma takes the Gospel to be the New Testament, mostly Paul\'s letters. The Qurʾān\'s Injīl went to ʿĪsā. Read on.',
 			'title'     => 'The Islamic dilemma and the letters of Paul',
 			'seo_title' => 'The Islamic dilemma and Paul',
 			'excerpt'   => 'The Islamic dilemma says the Qurʾān confirms a Gospel that either refutes it or was corrupted. The Injīl it confirms was given to ʿĪsā ibn Maryam; the book the argument puts in its place is a canon in which Paul has the largest share.',

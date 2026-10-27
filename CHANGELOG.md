@@ -5,7 +5,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.64.0] - 2026-10-27
 
 ### Added
-- **Five new pages**, each the single owner of its keyword in `docs/keyword-map.csv`, quoting the KJV verbatim (checked verse by verse against the KJV text; Greek from the SBLGNT), with Qurʾān verses checked against api.quran.com and Arabic sources from shamela.ws:
+- Five new pages, each the single owner of its keyword in `docs/keyword-map.csv`, quoting the KJV verbatim (checked verse by verse against the KJV text; Greek from the SBLGNT), with Qurʾān verses checked against api.quran.com and Arabic sources from shamela.ws:
   - `/meaning-of-the-name-paul/` ("what does paul mean"): Latin *Paulus*, Hebrew Shaʾul, Acts 13:9, the Arabic Būlus and the Tirmidhī hadith (al-Albānī: *ḥasan*).
   - `/saul-in-the-bible/` ("saul in the bible"): King Saul and Saul of Tarsus told apart, Acts 13:21–22, Ṭālūt in al-Baqarah 2:247 with Ibn Kathīr.
   - `/pauls-missionary-journeys/` ("apostle paul preaching"): the three journeys and the voyage to Rome, where Acts and the letters differ, and Ibn Kathīr on the Antioch reading of Yā Sīn 36:13–14.
@@ -19,23 +19,24 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - Every search title now fits the 32-character limit (nine shortened), and every changed description is 120 to 130 characters. The previous values are in `prior_meta`.
 - `docs/keyword-map.csv` gains `owner_site`, `owner_page` and `role`: each keyword has one owner, each owner page one primary, and the Questions page owns none.
 - Content version 2.64.0, with the 2.63.6 hashes of the nine edited files in `prior_hashes` (`#r64`).
+- Prose revised to the house style. Content version 2.64.0.1, with the earlier 2.64.0 hashes of the ten revised files in `prior_hashes` (`#r64.1`).
 
 ## [2.63.6] - 2026-10-26
 
 ### Added
-- **Front-page teaser for "The Islamic dilemma and the letters of Paul"**: `[paulus_dilemma_teaser]` (`inc/structure.php`) prints a kicker, the title, one line and a pill link to the page, resolved by its slug (`islamic-dilemma`); it prints nothing if the page is missing or unpublished. It sits after `[paulus_answers_teaser]` in `templates/front-page.html`, styled by `.paulus-dilemma` in `assets/css/theme.css` (the theme radius and a pill link).
-- **Body links to the page**: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third horn), each with `[paulus_link slug="islamic-dilemma"]`.
+- A front-page teaser for "The Islamic dilemma and the letters of Paul": `[paulus_dilemma_teaser]` (`inc/structure.php`) prints a kicker, the title, one line and a pill link to the page, resolved by its slug (`islamic-dilemma`); it prints nothing if the page is missing or unpublished. It sits after `[paulus_answers_teaser]` in `templates/front-page.html`, styled by `.paulus-dilemma` in `assets/css/theme.css` (the theme radius and a pill link).
+- The page is linked from two articles: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third horn), each with `[paulus_link slug="islamic-dilemma"]`.
 
 ### Changed
 - Content version 2.63.6, with the 2.63.5 hashes of the two edited files in `prior_hashes` (`#r63.6`), so untouched copies on existing sites are refreshed and hand-edited ones left alone.
 
 ### Note
-- The theme does not copy or sync templates into the database: WordPress renders `templates/front-page.html` from disk. A site that has customised the front-page template in the Site Editor holds its own copy (a `wp_template` post), which overrides the file; that site will not show the teaser until the customisation is cleared (Appearance → Editor → Templates → Front Page → Reset) or `[paulus_dilemma_teaser]` is added to it by hand.
+- WordPress renders `templates/front-page.html` from disk, and the theme copies or syncs no template into the database. A site that has customised the front-page template in the Site Editor holds its own copy (a `wp_template` post), which overrides the file; that site will not show the teaser until the customisation is cleared (Appearance → Editor → Templates → Front Page → Reset) or `[paulus_dilemma_teaser]` is added to it by hand.
 
 ## [2.63.5] - 2026-10-26
 
 ### Fixed
-- **Forced colours.** In forced-colours (high-contrast) mode the system paints a masked background in `Canvas`, so the calligraphic honorific and the curse after the name of Paul (`[paulus_lanah]`) could vanish. `.paulus-honorific`, which both carry, is now drawn in `CanvasText` there (`assets/css/theme.css`).
+- In forced-colours (high-contrast) mode the system paints a masked background in `Canvas`, so the calligraphic honorific and the curse after the name of Paul (`[paulus_lanah]`) could vanish. `.paulus-honorific`, which both carry, is now drawn in `CanvasText` there (`assets/css/theme.css`).
 
 ### Checked
 - The two placements of `[paulus_lanah]` were checked against the network policy (by hand, rare, only after Paul of Tarsus, never in titles, excerpts, descriptions, menus, alt text, structured data or quotations): the closing sentence of the Verdict (`c11-the-verdict.json`) and the summing up of the classical Islamic assessment (`c10-from-ibn-hazm-to-al-faruqi.json`). Both are in the site's own prose, outside quotations; no title, excerpt or other field carries the shortcode. They are unchanged, and every article's MD5 still matches.
@@ -44,14 +45,14 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.63.4] - 2026-10-26
 
 ### Added
-- **"The Islamic dilemma and the letters of Paul"** (`/islamic-dilemma/`, `islamic-dilemma.json`), a page answering the apologists' "Islamic dilemma" from Paul's role: the Injīl the Qurʾān confirms was given to ʿĪsā ibn Maryam, while the book the argument puts in its place is a canon in which Paul's letters lead. It covers what Tawrāh and Injīl mean in the Qurʾān, *muhaymin* in 5:48, *taḥrīf al-maʿnā* and *al-lafẓ*, "the People of the Gospel" in 5:47 and 5:68, and 10:94, from al-Ṭabarī (Shākir ed.), Ibn Kathīr (al-Salāmah ed.) and Ibn Ḥazm's *al-Fiṣal*, each footnote giving the print reference and its shamela.ws page. Verses checked against api.quran.com; the Bible in the KJV, verbatim, with the SBLGNT for Galatians 1:11–12. It ends with "The Islamic dilemma across the network", a box linking the six sister pieces (`.paulus-network` in theme.css), and is listed on the Sitemap with The Verdict and the book.
+- "The Islamic dilemma and the letters of Paul" (`/islamic-dilemma/`, `islamic-dilemma.json`), a page answering the apologists' "Islamic dilemma" from Paul's role: the Injīl the Qurʾān confirms was given to ʿĪsā ibn Maryam, while the book the argument puts in its place is a canon in which Paul's letters lead. It covers what Tawrāh and Injīl mean in the Qurʾān, *muhaymin* in 5:48, *taḥrīf al-maʿnā* and *al-lafẓ*, "the People of the Gospel" in 5:47 and 5:68, and 10:94, from al-Ṭabarī (Shākir ed.), Ibn Kathīr (al-Salāmah ed.) and Ibn Ḥazm's *al-Fiṣal*, each footnote giving the print reference and its shamela.ws page. Verses checked against api.quran.com; the Bible in the KJV, verbatim, with the SBLGNT for Galatians 1:11–12. It ends with "The Islamic dilemma across the network", a box linking the six sister pieces (`.paulus-network` in theme.css), and is listed on the Sitemap with The Verdict and the book.
 
 ### Fixed
-- **A living person is no longer named or characterised** in "Malaysia and Southeast Asia". The complaint to the MCMC is described without the preacher's name or the unsourced "right-wing" and "openly insults Islam"; the footnote says the complaint is unpublished.
-- **The Būlus hadith is quoted and graded as al-Tirmidhī gives it** ("The early Islamic record"): «يُحْشَرُ المُتَكَبِّرُونَ…» in place of «يُحشر الجبارون…», from Jāmiʿ al-Tirmidhī 2492 (Shākir ed., 4:655, shamela.ws/book/1435/4295); al-Albānī's grading (*ḥasan*) and al-Tirmidhī's («هَذَا حَدِيثٌ حَسَنٌ») replace "*ḥasan ṣaḥīḥ* by the scholars of hadith". The unverified "Musnad Aḥmad, vol. 6, p. 232" is removed, and the hadith is introduced as al-Tirmidhī's.
-- **Eutychus is brought away alive** ("The failed prophet", part 2), as Acts 20:10–12 says; "no resurrection … too weary to go on living" is gone.
-- **1 Clement 5**: ancient readers already took it as Paul's martyrdom; Raymond Brown is no longer called the first.
-- **"The verdict"**: the New Testament books were *written* in Greek (not "manuscripts exist only in Greek"); the 2 Corinthians 11:14 and 12:7 footnote no longer suggests the verses say Paul's teaching came from Satan, which is marked as the site's judgment; the Trinity sentence now speaks of the foundations of the later creed defined at Nicaea (325) and Constantinople (381).
+- A living person is no longer named or characterised in "Malaysia and Southeast Asia". The complaint to the MCMC is described without the preacher's name or the unsourced "right-wing" and "openly insults Islam"; the footnote says the complaint is unpublished.
+- The Būlus hadith is quoted and graded as al-Tirmidhī gives it ("The early Islamic record"): «يُحْشَرُ المُتَكَبِّرُونَ…» in place of «يُحشر الجبارون…», from Jāmiʿ al-Tirmidhī 2492 (Shākir ed., 4:655, shamela.ws/book/1435/4295); al-Albānī's grading (*ḥasan*) and al-Tirmidhī's («هَذَا حَدِيثٌ حَسَنٌ») replace "*ḥasan ṣaḥīḥ* by the scholars of hadith". The unverified "Musnad Aḥmad, vol. 6, p. 232" is removed, and the hadith is introduced as al-Tirmidhī's.
+- Eutychus is brought away alive ("The failed prophet", part 2), as Acts 20:10–12 says; "no resurrection … too weary to go on living" is gone.
+- The article on 1 Clement 5 now says ancient readers already took it as Paul's martyrdom; Raymond Brown is no longer called the first.
+- In "The verdict", the New Testament books were *written* in Greek, where the text had said "manuscripts exist only in Greek"; the 2 Corinthians 11:14 and 12:7 footnote no longer suggests the verses say Paul's teaching came from Satan, which is marked as the site's judgment; the Trinity sentence now speaks of the foundations of the later creed defined at Nicaea (325) and Constantinople (381).
 - Content version 2.63.4, with the earlier hashes of the four files in `prior_hashes`, so untouched copies on existing sites are refreshed.
 
 ## [2.63.3] - 2026-10-26
