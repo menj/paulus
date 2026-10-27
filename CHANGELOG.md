@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.64.2] - 2026-10-27
+
+### Changed
+- Subject terms restored where a coverage pass found an article silent on its own subject: "Paul in Islam" in No prophet between me and ʿĪsā ibn Maryam, the question "Was Paul a prophet?" in The failed prophet, and Tarsus as the city the Bible gives as Paul's own (Acts 21:39) in Tarsus, and a persona for every audience. No fact or figure changed.
+- Content version 2.64.2, with the 2.64.1 hashes of the three edited files in `prior_hashes` (`#r64.3`), so unedited copies refresh on update.
+
 ## [2.64.1] - 2026-10-27
 
 ### Changed

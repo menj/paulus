@@ -15,11 +15,15 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.64.1',
+	'content_version' => '2.64.2',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
+		// Texts as shipped in 2.64.1, before the subject-term pass of 2.64.2.
+		'c10-no-prophet-between.json#r64.3' => '605f279bb1e76ea132f789e7a6b1dbcf',
+		'c09-the-failed-prophet.json#r64.3' => 'cd30df3044e83e842e900a8929895898',
+		'c02-who-was-paul-2.json#r64.3' => '8d470f906edd74f6d806d4452cc92f5e',
 		// Text as shipped in 2.64.0, with the 2.63.4 rewording of the MCMC complaint.
 		'c12-malaysia-and-southeast-asia.json#r64.2' => 'cc8f3da10b1cb51fa1eb30b68b896baf',
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
