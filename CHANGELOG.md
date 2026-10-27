@@ -2,6 +2,30 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.0] - 2026-10-27
+
+### Added
+- A Security tab on Theme Options (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `assets/css/security.css`), ported from the Abrahamic theme 2.87.0 after the October 2026 attack on abrahamic-religions.com (XML-RPC password guessing from 701 addresses under forged "Jetpack by WordPress.com" user agents, a correct password found, then a casino post every 18 to 20 minutes through `wp.newPost`). Four switches, all on by default (`sec_xmlrpc_off`, `sec_rest_lock`, `sec_spam_gate`, `sec_gone` in `paulus_options`):
+  - XML-RPC off: `xmlrpc.php` answers 403, counted per day rather than logged per request, with forged Jetpack agents counted apart; on Apache a "Block xmlrpc.php" section in `.htaccess`, the marker shared with the sister themes, kept in step with the switch and removed on a switch to another theme.
+  - REST changes (POST, PUT, PATCH, DELETE) while logged in only from a cookie session with a valid `wp_rest` nonce. Anonymous requests and all reads are unchanged; the block editor, the media modal and Rank Math send the nonce. The theme registers no REST routes or front-end AJAX of its own. Prefixes can be allowed with the `paulus_sec_rest_allow` filter.
+  - Spam gate: an article, page or Journal entry that reads as gambling spam, or that is published from outside the editor (XML-RPC, REST without a cookie session), is saved as Pending and logged. Content the theme ships (the slugs of `content/manifest.php`, by post type) is exempt.
+  - 410 Gone on the address of spam moved to the trash from the tab.
+- Passwords sent through XML-RPC are refused even with XML-RPC back on, with an admin notice to change the password. Failed logins are counted by account name over a day, with a notice at ten or more on a real account.
+- Tools: a batch scan (100 at a time) with a move to the trash (never a permanent delete; each item is scored again first), deletion of empty spam categories on request (never a section the theme ships, nor the default category), "Revoke all application passwords" and "Log out all sessions".
+- Reports: administrator accounts with last login, sessions and application passwords; attacks per day; accounts being guessed; posts per day and burst publishing; shipped content with gambling links; and the security log (200 entries).
+- `PAULUS_SECURITY_LOCK`: `define( 'PAULUS_SECURITY_LOCK', false );` in `wp-config.php` turns the XML-RPC and REST locks off without changing the options.
+- `tests/security-detector-test.php`: every post, page, Journal entry, section and content file the theme ships scores zero, and every sample of the attack is caught. Run `php tests/security-detector-test.php`.
+- Two actions on the options screen, `paulus_options_panel_after` (inside a tab, after its fields) and `paulus_options_after_form`.
+
+### Changed
+- Application passwords keep their existing switch under Theme Options, Login (off by default); the Security tab states its setting and adds no second switch. The hidden login address and the security headers are unchanged.
+
+## [2.64.2] - 2026-10-27
+
+### Changed
+- Subject terms restored where a coverage pass found an article silent on its own subject: "Paul in Islam" in No prophet between me and ʿĪsā ibn Maryam, the question "Was Paul a prophet?" in The failed prophet, and Tarsus as the city the Bible gives as Paul's own (Acts 21:39) in Tarsus, and a persona for every audience. No fact or figure changed.
+- Content version 2.64.2, with the 2.64.1 hashes of the three edited files in `prior_hashes` (`#r64.3`), so unedited copies refresh on update.
+
 ## [2.64.1] - 2026-10-27
 
 ### Changed

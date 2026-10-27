@@ -185,10 +185,22 @@ function paulus_options_page() {
 							</tr>
 						<?php endforeach; ?>
 					</table>
+					<?php
+					/**
+					 * After a tab's fields, inside the form (the Security tab adds its notes here).
+					 *
+					 * @param string $tab_id Tab.
+					 */
+					do_action( 'paulus_options_panel_after', $tab_id );
+					?>
 				</section>
 			<?php $first = false; endforeach; ?>
 			<div class="paulus-save"><?php submit_button( __( 'Save changes', 'paulus' ), 'primary paulus-button', 'submit', false ); ?></div>
 		</form>
+		<?php
+		/** After the options form, outside it (the Security tab's tools, which carry forms of their own). */
+		do_action( 'paulus_options_after_form' );
+		?>
 
 		<section class="paulus-panel" role="tabpanel" id="panel-content" aria-labelledby="tab-content" hidden>
 			<?php paulus_importer_panel(); ?>
