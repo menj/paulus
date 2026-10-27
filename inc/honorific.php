@@ -59,9 +59,11 @@ add_filter( 'the_content', 'paulus_honorific_filter', 12 );
  * [paulus_lanah] The curse "laʿnat Allāh" (the curse of God) after the name
  * of Paul, in calligraphy (assets/images/lanat-allah.avif, drawn as a mask
  * like the honorific, set in Arslan Wessam). It is never added on its own:
- * it appears only where the text places the shortcode, which is twice, at
- * the close of the Verdict and of the classical Islamic assessment in the
- * chapter on the Islamic view of Paul. The words stay in the page for
+ * it appears only where the text places the shortcode, and only where the
+ * site gives its own verdict on Paul: at the close of the Verdict, of the
+ * classical Islamic assessment in the chapter on the Islamic view of Paul,
+ * of "Saul in the Bible" and of "The apostle to the Gentiles". Never in a
+ * title, heading, excerpt, description or quotation. The words stay in the page for
  * screen readers and a copy and paste; excerpts and search snippets, which
  * strip shortcodes, leave it out.
  *
