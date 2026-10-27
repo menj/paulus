@@ -2,6 +2,24 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.64.0] - 2026-10-27
+
+### Added
+- **Five new pages**, each the single owner of its keyword in `docs/keyword-map.csv`, quoting the KJV verbatim (checked verse by verse against the KJV text; Greek from the SBLGNT), with Qurʾān verses checked against api.quran.com and Arabic sources from shamela.ws:
+  - `/meaning-of-the-name-paul/` ("what does paul mean"): Latin *Paulus*, Hebrew Shaʾul, Acts 13:9, the Arabic Būlus and the Tirmidhī hadith (al-Albānī: *ḥasan*).
+  - `/saul-in-the-bible/` ("saul in the bible"): King Saul and Saul of Tarsus told apart, Acts 13:21–22, Ṭālūt in al-Baqarah 2:247 with Ibn Kathīr.
+  - `/pauls-missionary-journeys/` ("apostle paul preaching"): the three journeys and the voyage to Rome, where Acts and the letters differ, and Ibn Kathīr on the Antioch reading of Yā Sīn 36:13–14.
+  - `/was-paul-married/` ("was paul married"): 1 Corinthians 7 and 9, Clement of Alexandria in Eusebius, Sanhedrin 36b, al-Raʿd 13:38, al-Ḥadīd 57:27 and Ibn Mājah 1846 (al-Albānī: *ḥasan*).
+  - `/apostle-to-the-gentiles/` ("apostle to the gentiles"): Romans 11:13, Galatians 2:7–9, Peter in Acts 15:7, Matthew 15:24, Āl ʿImrān 3:49 and al-Bukhārī 335.
+- A Sitemap group, "Questions about Paul, answered", for the five pages (`inc/seo.php`).
+
+### Changed
+- Search titles, titles (H1) and descriptions retargeted on "Was Paul the founder of Christianity?" (`paul-the-father-of-a-new-religion`), "Who was Paul of Tarsus in the Bible?", "How did Paul die? A death the scriptures never record", "Was Paul an apostle? A self-appointed one", "Did Paul ever meet Jesus?" and "The Roman: name and tongue". New sections: a short answer and "Did Paul create Christianity?"; "Was Paul a Pharisee? Was Paul Jewish?"; the early sources and "How old was Paul when he died?", facts first; "Was Paul one of the twelve?"; a questions block on the Journal entry, whose quotations of 1 Corinthians 15:8, 9:1, 2 Corinthians 5:16 and Acts 1:21–22 now follow the KJV exactly.
+- The Questions page is a hub: one short answer per question, each linking to the article that owns the topic, with its headings no longer phrased as those articles' primary keywords. Its quotations follow the KJV.
+- Every search title now fits the 32-character limit (nine shortened), and every changed description is 120 to 130 characters. The previous values are in `prior_meta`.
+- `docs/keyword-map.csv` gains `owner_site`, `owner_page` and `role`: each keyword has one owner, each owner page one primary, and the Questions page owns none.
+- Content version 2.64.0, with the 2.63.6 hashes of the nine edited files in `prior_hashes` (`#r64`).
+
 ## [2.63.6] - 2026-10-26
 
 ### Added

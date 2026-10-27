@@ -1416,6 +1416,17 @@ function paulus_sc_sitemap() {
 	if ( $pages ) {
 		$groups[] = array( 'scales', __( 'The Verdict and the book', 'paulus' ), '', $pages, '' );
 	}
+	// The short pages that each answer one question about Paul.
+	$answers = array();
+	foreach ( array( 'meaning-of-the-name-paul', 'saul-in-the-bible', 'pauls-missionary-journeys', 'was-paul-married', 'apostle-to-the-gentiles' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			$answers[] = $item( $page );
+		}
+	}
+	if ( $answers ) {
+		$groups[] = array( 'search', __( 'Questions about Paul, answered', 'paulus' ), '', $answers, '' );
+	}
 	foreach ( array( 'reference' => 'book-open', 'appendices' => 'paperclip' ) as $slug => $icon ) {
 		$parent = get_page_by_path( $slug );
 		if ( ! $parent || 'publish' !== $parent->post_status ) {

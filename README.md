@@ -23,9 +23,14 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /category/the-charges/             Count·I (1), Count·II (2), Count·III (3), Count·IV (2), Count·V (3), Count·VI (3)
 /category/the-witnesses/           The early church, The brother, The Islamic tradition (3 parts), The revelation, Testimony, The region
 /answers/                          Short answers to common missionary claims, each linked to its article
-/questions/                        Short answers to the questions people search for most (who Paul was, whether he met Jesus, how he died), each linked to its article
+/questions/                        A hub of short answers to the questions people search for most, each linked to the article that owns the topic
 /paul-at-a-glance/                 The story, ten facts, names, journeys, letters, legacy, quotations and pictures on one page
 /islamic-dilemma/                  The "Islamic dilemma" answered from Paul's role, with the network's other pieces on it
+/meaning-of-the-name-paul/         What the names Paul (Latin Paulus, "small") and Saul (Shaʾul, "asked for") mean, and the Arabic Būlus
+/saul-in-the-bible/                King Saul and Saul of Tarsus told apart, with Ṭālūt in the Qurʾān
+/pauls-missionary-journeys/        The three journeys of Acts and the voyage to Rome, and where Paul's letters differ
+/was-paul-married/                 What Paul says of his own state, the arguments, and his teaching on marriage
+/apostle-to-the-gentiles/          Who gave Paul the title, Peter and the Gentiles in Acts, and the mission of ʿĪsā ibn Maryam to Israel
 /journal/                          Dated entries by the author, each with its own address
 /the-verdict/                      The epilogue in full
 /reference/                        Timeline, glossary, study guide, sources, Paul in the churches

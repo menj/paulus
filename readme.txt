@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.63.6
+Stable tag: 2.64.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.64.0 =
+* Five new pages: the meaning of the name Paul, Saul in the Bible, Paul's missionary journeys, Was Paul married?, and the apostle to the Gentiles.
+* Search titles, headings and descriptions retargeted on six articles, with facts-first openings on Paul's death and the founder of Christianity; the Questions page is now a hub of short answers.
 
 = 2.63.6 =
 * Links to "The Islamic dilemma and the letters of Paul" from The Verdict, The Injīl and the letters, and a new teaser on the front page.
