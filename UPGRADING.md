@@ -36,6 +36,20 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.64.2 to 2.65.0
+
+- **New files** `inc/security.php`, `inc/security-detector.php`, `assets/js/security.js` and `assets/css/security.css`. Upload the whole theme folder; a partial upload without them shows the maintenance page until they are there.
+- **The Security tab is on by default.** XML-RPC and REST changes from outside a logged-in browser stop at once. Application passwords keep their own switch under the Login tab, off unless you turned it on.
+- **Owner checklist**, after the October 2026 attack on the sister site:
+  1. Change the password of every administrator to a long random one used nowhere else, then Log Out Everywhere Else (Users, Profile), or press "Log out all sessions" on the Security tab.
+  2. Create a new administrator whose name is not the site name, log in as it, and delete the old account, attributing its content to the new one.
+  3. Press "Revoke all application passwords".
+  4. Check Plugins for anything not installed by you (auto-posting, AI writers, remote management) and remove it. Check Users for unknown accounts.
+  5. Run the spam scan, select the results, move them to the trash, then delete the empty spam categories.
+  6. Purge any page cache, then resubmit the sitemap in Google Search Console.
+  7. Nothing to do at the server: on Apache the theme writes a "Block xmlrpc.php" section into `.htaccess` itself, repairs it hourly from the admin, and removes it when XML-RPC is switched back on or the site moves to a theme outside the sister themes. Jetpack needs XML-RPC; if Jetpack is ever used, switch "Turn off XML-RPC" off.
+- If a lock breaks a tool you rely on, `define( 'PAULUS_SECURITY_LOCK', false );` in `wp-config.php` turns the XML-RPC and REST locks off without changing the options.
+
 ### 2.63.2 to 2.63.3
 
 - **Font file swapped back to WOFF2.** `assets/fonts/kfgqpc-hafs-uthmanic-script.ttf` is replaced by `kfgqpc-hafs-uthmanic-script.woff2`. An upload over the old folder leaves the TTF behind; nothing reads it, and it can be deleted by FTP. Clear caches so visitors fetch the new `fonts.css`.
