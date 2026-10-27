@@ -406,7 +406,7 @@ function paulus_upgrade_200() {
 	}
 	$post = get_page_by_path( 'an-epistle-to-the-churches-of-paul', OBJECT, 'post' );
 	if ( $post && 'c9709b5a7b978e4ff6946cb112389324' === md5( $post->post_content ) ) {
-		$new = paulus_content_file( 'an-epistle-to-the-churches-of-paul.json' );
+		$new = paulus_content_file( '11-epistle.json' );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $post->ID, 'post_content' => $new ) );
 		}

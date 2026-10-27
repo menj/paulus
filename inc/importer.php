@@ -130,11 +130,11 @@ function paulus_forget_text_records() {
  * The texts ship as JSON, one file each in content/articles/, holding the
  * text with its name, its format and its MD5:
  *
- *     { "name": "the-foundations-of-pauline-doctrine.json",
+ *     { "name": "c05-adapting-the-message.json",
  *       "format": "wordpress-post-content",
  *       "md5": "…", "content": "…" }
  *
- * The manifest names each text by its file (the-foundations-of-pauline-doctrine.json).
+ * The manifest names each text by its file (c05-adapting-the-message.json).
  * Only a plain name is accepted, letters, digits and hyphens, with or
  * without its .json ending; any other ending, a path or a stray character
  * is refused. The file must be well-formed JSON of that format, name
@@ -535,7 +535,7 @@ function paulus_excerpt_unclaimed( $item ) {
 		return false;
 	}
 	$known = (array) get_option( 'paulus_content_hashes', array() );
-	$entry = paulus_known_entry( $known, $item );
+	$entry = $known[ basename( (string) ( $item['file'] ?? '' ) ) ] ?? array();
 	return ! is_array( $entry ) || ! array_key_exists( 'excerpt', $entry );
 }
 
@@ -1119,69 +1119,6 @@ function paulus_fallback_icon() {
 add_action( 'wp_head', 'paulus_fallback_icon', 1 );
 
 /**
- * The names a manifest entry's text has had: its current file first, then
- * each former name in 'was', which is a single name or a list of them.
- *
- * @param array $item Manifest entry.
- * @return string[]
- */
-function paulus_item_file_names( $item ) {
-	$names = array();
-	if ( ! empty( $item['file'] ) ) {
-		$names[] = basename( (string) $item['file'] );
-	}
-	if ( ! empty( $item['was'] ) ) {
-		foreach ( (array) $item['was'] as $former ) {
-			if ( is_string( $former ) && '' !== $former ) {
-				$names[] = basename( $former );
-			}
-		}
-	}
-	return array_values( array_unique( $names ) );
-}
-
-/**
- * The recorded baseline for an entry's text: under its current file name,
- * or, on a site last synced before a rename, under the newest former name.
- *
- * @param array $known The paulus_content_hashes option.
- * @param array $item  Manifest entry.
- * @return array|string
- */
-function paulus_known_entry( $known, $item ) {
-	$names = paulus_item_file_names( $item );
-	if ( $names && isset( $known[ $names[0] ] ) ) {
-		return $known[ $names[0] ];
-	}
-	foreach ( array_reverse( array_slice( $names, 1 ) ) as $former ) {
-		if ( isset( $known[ $former ] ) ) {
-			return $known[ $former ];
-		}
-	}
-	return array();
-}
-
-/**
- * The manifest entry whose text is the given file, by its current or a
- * former name.
- *
- * @param string $file File name.
- * @return array|null
- */
-function paulus_manifest_item_for_file( $file ) {
-	$file     = basename( (string) $file );
-	$manifest = paulus_manifest();
-	foreach ( array( 'posts', 'pages', 'journal' ) as $group ) {
-		foreach ( (array) ( $manifest[ $group ] ?? array() ) as $item ) {
-			if ( is_array( $item ) && in_array( $file, paulus_item_file_names( $item ), true ) ) {
-				return $item;
-			}
-		}
-	}
-	return null;
-}
-
-/**
  * Refresh a post's text from the shipped file when the post was never edited
  * by hand: its content still matches the file as shipped in an earlier
  * release (prior_hashes in the manifest) or the hash recorded when this site
@@ -1203,7 +1140,7 @@ function paulus_refresh_unedited( $post, $item ) {
 	}
 	$current = md5( $post->post_content );
 	$known   = (array) get_option( 'paulus_content_hashes', array() );
-	$entry   = paulus_known_entry( $known, $item );
+	$entry   = $known[ $file ] ?? array();
 	// Back-compat: earlier releases stored a bare content-hash string
 	// instead of an array with content/title/excerpt baselines.
 	if ( is_string( $entry ) ) {
@@ -1211,7 +1148,10 @@ function paulus_refresh_unedited( $post, $item ) {
 	}
 
 	$prior = array();
-	$names = paulus_item_file_names( $item );
+	$names = array( $file );
+	if ( ! empty( $item['was'] ) ) {
+		$names[] = basename( $item['was'] );
+	}
 	foreach ( (array) ( paulus_manifest()['prior_hashes'] ?? array() ) as $key => $hash ) {
 		foreach ( $names as $name ) {
 			if ( $name === $key || 0 === strpos( $key, $name . '#' ) ) {
@@ -1219,11 +1159,9 @@ function paulus_refresh_unedited( $post, $item ) {
 			}
 		}
 	}
-	foreach ( array_slice( $names, 1 ) as $former ) {
-		if ( isset( $known[ $former ] ) ) {
-			$was_entry = $known[ $former ];
-			$prior[]   = is_string( $was_entry ) ? $was_entry : ( $was_entry['content'] ?? null );
-		}
+	if ( ! empty( $item['was'] ) && isset( $known[ basename( $item['was'] ) ] ) ) {
+		$was_entry = $known[ basename( $item['was'] ) ];
+		$prior[]   = is_string( $was_entry ) ? $was_entry : ( $was_entry['content'] ?? null );
 	}
 	$prior = array_filter( $prior );
 
@@ -1554,15 +1492,20 @@ function paulus_kept_edits_pending() {
 
 /**
  * Whether an article was divided, so that a later part now opens with
- * sections its old text still holds: its manifest entry is marked
- * 'divided'. A file may be named by its current or a former name.
+ * sections its old text still holds: its file has a numbered successor
+ * (name-2.json) among the theme's articles.
  *
  * @param string $file Article file.
  * @return bool
  */
 function paulus_is_divided( $file ) {
-	$item = paulus_manifest_item_for_file( $file );
-	return $item && ! empty( $item['divided'] );
+	$base = preg_replace( '/\.json$/', '', (string) $file );
+	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $item ) {
+		if ( ( $base . '-2.json' ) === ( $item['file'] ?? '' ) ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /**
@@ -1582,10 +1525,7 @@ add_action( 'admin_post_paulus_kept_edit', static function () {
 	if ( $row && 'theme' === $choice ) {
 		// A row not yet renamed (a sync held the lock when this request
 		// began) names the same text by its earlier .html name.
-		$new  = preg_replace( '/\.html$/', '.json', (string) $row['file'] );
-		$item = paulus_manifest_item_for_file( $new );
-		// A row recorded under a file's former name reads the renamed file.
-		$new = paulus_content_file( $item ? $item['file'] : $new );
+		$new = paulus_content_file( preg_replace( '/\.html$/', '.json', (string) $row['file'] ) );
 		if ( '' !== $new ) {
 			wp_update_post( array( 'ID' => $id, 'post_content' => $new ) );
 			unset( $kept[ $id ] );

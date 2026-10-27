@@ -372,7 +372,7 @@ Theme Options, Login: the portrait in the medallion (any bundled portrait; the c
 ## Editorial foundation (internal: not stated on the site)
 
 The site, and the English book on Paul it will ground, rest on the thought of Isma'il Raji al Faruqi (1921–1986). That foundation is implicit.
-- The site states its principles as its own, grounded in the Qurʾān and the Sunnah, and never presents al Faruqi as its framework. "The measure" (`the-measure`), the first article of The Charges, names no scholar.
+- The site states its principles as its own, grounded in the Qurʾān and the Sunnah, and never presents al Faruqi as its framework. "The measure" (`c01-the-measure`), the first article of The Charges, names no scholar.
 - Al Faruqi is quoted and cited only as a scholar among others, where his arguments bear on a point (Modern voices, Seven doctrines, "Lord" before the Spirit, Women, slaves and Caesar). His works are listed under "Muslim scholarship" on the Sources page.
 - His distinctive coinages (peccatism, metareligion, *epochē*, Christianism) are not used in the site's own voice. Where the site needs the idea, it uses plain terms.
 
