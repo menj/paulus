@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.64.1] - 2026-10-27
+
+### Changed
+- Malaysia and Southeast Asia: the paragraph on the March 2025 MCMC complaint is back to the owner's original wording, naming the Impact Evangelism channel and Johnny P. MacAllister, with footnote 4 as first written. Unedited copies refresh on update.
+
 ## [2.64.0] - 2026-10-27
 
 ### Added
