@@ -50,7 +50,7 @@ function paulus_dashboard_edited() {
 		if ( '' === $shipped || md5( $post->post_content ) === md5( $shipped ) ) {
 			continue;
 		}
-		$entry = $known[ basename( $item['file'] ) ] ?? array();
+		$entry = paulus_known_entry( $known, $item );
 		$base  = is_string( $entry ) ? $entry : ( $entry['content'] ?? '' );
 		// Matching the recorded baseline means the page is simply awaiting
 		// a refresh; anything else is a hand edit the sync will protect.

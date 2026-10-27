@@ -1651,9 +1651,9 @@ function paulus_schema_source_quotations( $content, $base ) {
 }
 
 /**
- * The chapters of the book, as the manifest records them: each article's
- * source file is named for its chapter (c05-…), so a chapter is known by
- * number and by the articles drawn from it.
+ * The chapters of the book, as the manifest records them: each article
+ * drawn from a chapter carries its number in 'chapter', so a chapter is
+ * known by number and by the articles drawn from it.
  *
  * @return array<int,array{position:int,name:string,slugs:string[]}>
  */
@@ -1664,10 +1664,10 @@ function paulus_schema_chapters() {
 	}
 	$chapters = array();
 	foreach ( (array) ( paulus_manifest()['posts'] ?? array() ) as $post ) {
-		if ( empty( $post['file'] ) || ! preg_match( '/^c(\d\d)-/', (string) $post['file'], $m ) ) {
+		if ( empty( $post['chapter'] ) ) {
 			continue;
 		}
-		$n = (int) $m[1];
+		$n = (int) $post['chapter'];
 		if ( ! isset( $chapters[ $n ] ) ) {
 			$chapters[ $n ] = array( 'position' => $n, 'name' => (string) ( $post['series_title'] ?? $post['title'] ?? '' ), 'slugs' => array() );
 		}

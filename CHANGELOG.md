@@ -2,6 +2,73 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.0] - 2026-10-27
+
+### Changed
+- Every article file in `content/articles/` with a numeric prefix (such as `c09-` or `00-`) or a numbered suffix (such as `-2`) now carries the article's own WordPress slug as its name. Fifty-seven files were renamed with `git mv`. No article text, slug, address or title changed, and the `name` and `md5` fields inside each file match the new name and the unchanged content:
+  - `c02-who-was-paul.json` is now `who-was-paul-of-tarsus.json`
+  - `c02-who-was-paul-2.json` is now `tarsus-and-a-persona-for-every-audience.json`
+  - `c14-the-roman.json` is now `the-roman.json`
+  - `c14-the-roman-2.json` is now `the-citizenship-and-the-appeal-to-caesar.json`
+  - `c03-saul-the-persecutor.json` is now `saul-the-persecutor.json`
+  - `c03-the-damascus-road.json` is now `the-damascus-road.json`
+  - `c03-the-damascus-road-2.json` is now `the-three-accounts-compared.json`
+  - `c03-a-self-appointed-apostle.json` is now `a-self-appointed-apostle.json`
+  - `c03-a-self-appointed-apostle-2.json` is now `curses-for-dissenters.json`
+  - `c14-the-purse.json` is now `the-purse.json`
+  - `c08-the-persecutor-and-his-guilt.json` is now `a-psychological-portrait-of-paul.json`
+  - `c08-ego-epilepsy-and-narcissism.json` is now `ego-epilepsy-and-narcissism.json`
+  - `c13-lies-curses-and-guile.json` is now `the-character-of-paul.json`
+  - `c13-women-slaves-and-caesar.json` is now `women-slaves-and-caesar.json`
+  - `c13-the-flesh.json` is now `the-flesh.json`
+  - `c13-the-flesh-2.json` is now `the-fruit-at-corinth.json`
+  - `c01-the-measure.json` is now `the-measure.json`
+  - `00-crossroads.json` is now `at-the-crossroads-of-the-message.json`
+  - `c04-the-jerusalem-council.json` is now `paul-against-the-disciples.json`
+  - `c04-the-jerusalem-council-2.json` is now `the-parting-with-barnabas.json`
+  - `c04-by-their-fruits.json` is now `by-their-fruits.json`
+  - `c04-by-their-fruits-2.json` is now `them-which-say-they-are-apostles.json`
+  - `c05-adapting-the-message.json` is now `the-foundations-of-pauline-doctrine.json`
+  - `c05-seven-doctrines.json` is now `seven-doctrines.json`
+  - `c05-seven-doctrines-2.json` is now `seven-doctrines-the-law-and-the-covenant.json`
+  - `c05-the-letters-of-a-man.json` is now `the-letters-of-a-man.json`
+  - `c05-the-letters-of-a-man-2.json` is now `the-greek-body-and-the-jewish-bed.json`
+  - `c07-witnesses-and-angels.json` is now `revelation-or-borrowing.json`
+  - `c07-witnesses-and-angels-2.json` is now `lord-before-the-spirit.json`
+  - `c07-borrowings-from-the-rabbis.json` is now `borrowings-from-the-rabbis.json`
+  - `c07-borrowings-from-the-rabbis-2.json` is now `suffering-that-atones.json`
+  - `c06-owning-the-new-testament.json` is now `paul-and-the-new-testament.json`
+  - `c06-owning-the-new-testament-2.json` is now `letters-that-contradict-themselves.json`
+  - `c06-the-gospels-and-the-new-covenant.json` is now `the-gospels-and-the-new-covenant.json`
+  - `c06-the-gospels-and-the-new-covenant-2.json` is now `justification-by-faith.json`
+  - `c06-twisting-the-scriptures.json` is now `twisting-the-scriptures.json`
+  - `c06-twisting-the-scriptures-2.json` is now `typology.json`
+  - `c06-twisting-the-scriptures-3.json` is now `the-tanakh-rewritten.json`
+  - `c09-the-church-that-followed-paul.json` is now `paul-the-father-of-a-new-religion.json`
+  - `c09-the-church-that-followed-paul-2.json` is now `what-the-romans-saw.json`
+  - `c09-the-failed-prophet.json` is now `the-failed-prophet.json`
+  - `c09-the-failed-prophet-2.json` is now `a-death-the-scriptures-never-record.json`
+  - `c09-the-religion-of-paul-today.json` is now `the-religion-of-paul-today.json`
+  - `c12-malaysia-and-southeast-asia.json` is now `malaysia-and-southeast-asia.json`
+  - `c15-james-the-brother.json` is now `james-the-brother.json`
+  - `12-first-witnesses.json` is now `the-first-witnesses.json`
+  - `c15-the-quran-as-witness.json` is now `the-quran-as-witness.json`
+  - `c15-the-quran-as-witness-2.json` is now `the-injil-and-the-letters.json`
+  - `c10-no-prophet-between.json` is now `paul-in-the-islamic-tradition.json`
+  - `c10-no-prophet-between-2.json` is now `pauls-own-titles.json`
+  - `c10-the-early-islamic-record.json` is now `the-early-islamic-record.json`
+  - `c10-the-early-islamic-record-2.json` is now `from-khushaysh-to-al-shahrastani.json`
+  - `c10-from-ibn-hazm-to-al-faruqi.json` is now `ibn-hazm-and-al-thalabi.json`
+  - `c10-from-ibn-hazm-to-al-faruqi-2.json` is now `modern-voices-from-al-kairanawi-to-akhtar.json`
+  - `c16-the-hostile-witnesses.json` is now `the-hostile-witnesses.json`
+  - `11-epistle.json` is now `an-epistle-to-the-churches-of-paul.json`
+  - `c11-the-verdict.json` is now `the-verdict.json`
+- Each renamed entry in `content/manifest.php` records its former name in `was`. Where an entry already had a former name, `was` now holds a list of every former name, oldest first.
+- The `prior_hashes` keys of the renamed files use the new names. The hash values are the same.
+- The chapter number that the old `cNN-` prefix carried is now the manifest key `chapter`, which the book schema reads (`inc/schema-deep.php`). The divided-article check that looked for a `-2` file now reads the manifest key `divided`.
+- The importer accepts `was` as one name or a list (`paulus_item_file_names()`), and finds the recorded baseline of a renamed text under its former name (`paulus_known_entry()`), so a site last synced before this release still recognises its unedited articles, and their titles and summaries, and refreshes them. A kept hand edit recorded under a former name still opens the renamed file. A single string in `was` works exactly as before.
+- Content version 2.65.0.
+
 ## [2.64.2] - 2026-10-27
 
 ### Changed
