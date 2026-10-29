@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.64.2] - 2026-10-29
+
+### Changed
+- The Islamic dilemma and the letters of Paul, and The Qurʾān as witness to the letters (part 2), name the parts of the Islamic dilemma its claims ("the second claim of the Islamic dilemma", "a third claim it never states"), the term the sister sites use. Unedited copies refresh on update; the 2.64.1 texts are in `prior_hashes`.
+
+### Added
+- `FARUQI.md` sets out the Faruqian core, al-tawḥīd as al-Fārūqī set it out in *Al Tawhid: Its Implications for Thought and Life*, which every site in the network rests on. `CLAUDE.md` points contributors to it first. Both stay out of the release archive.
+
 ## [2.64.1] - 2026-10-27
 
 ### Changed
@@ -30,7 +38,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Added
 - A front-page teaser for "The Islamic dilemma and the letters of Paul": `[paulus_dilemma_teaser]` (`inc/structure.php`) prints a kicker, the title, one line and a pill link to the page, resolved by its slug (`islamic-dilemma`); it prints nothing if the page is missing or unpublished. It sits after `[paulus_answers_teaser]` in `templates/front-page.html`, styled by `.paulus-dilemma` in `assets/css/theme.css` (the theme radius and a pill link).
-- The page is linked from two articles: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third horn), each with `[paulus_link slug="islamic-dilemma"]`.
+- The page is linked from two articles: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third claim), each with `[paulus_link slug="islamic-dilemma"]`.
 
 ### Changed
 - Content version 2.63.6, with the 2.63.5 hashes of the two edited files in `prior_hashes` (`#r63.6`), so untouched copies on existing sites are refreshed and hand-edited ones left alone.
