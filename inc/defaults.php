@@ -187,66 +187,31 @@ function paulus_hero_srcset( $url ) {
 }
 
 /**
+ * The image registry in content/images.json: "labels" (slug => title),
+ * "alts" (slug => alt text) and "figures" (slug => alt, author, licence,
+ * licence URL and source). Data only, read with json_decode(); a missing or
+ * malformed file gives empty lists.
+ *
+ * @param string $part labels, alts or figures.
+ * @return array
+ */
+function paulus_images_data( $part ) {
+	static $data = null;
+	if ( null === $data ) {
+		$file = PAULUS_DIR . '/content/images.json';
+		$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+		$data = is_array( $data ) ? $data : array();
+	}
+	return isset( $data[ $part ] ) && is_array( $data[ $part ] ) ? $data[ $part ] : array();
+}
+
+/**
  * Bundled images: slug => label.
  *
  * @return array<string,string>
  */
 function paulus_images() {
-	return array(
-		'paul-portrait' => __( 'Portrait (cover art)', 'paulus' ),
-		'paul-halo-2023' => __( 'Giuseppe Franchi, Saint Paul (the 2023 edition)', 'paulus' ),
-		'met-ring-key' => __( 'Roman ring key (The Met)', 'paulus' ),
-		'met-diploma' => __( 'Roman military diploma (The Met)', 'paulus' ),
-		'met-tiberius-ring' => __( 'Ring with a portrait of Tiberius (The Met)', 'paulus' ),
-		'met-papyrus-letter' => __( 'Greek papyrus letter (The Met)', 'paulus' ),
-		'met-inkwell-stylus' => __( 'Roman inkwell and stylus (The Met)', 'paulus' ),
-		'author-photo' => __( 'The author (photograph)', 'paulus' ),
-		'paul-portrait-face' => __( 'Portrait (cover art), close-up', 'paulus' ),
-		'paul-portrait-hands' => __( 'Portrait (cover art), hands and scroll', 'paulus' ),
-		'paul-portrait-ink' => __( 'Portrait (cover art), ink duotone', 'paulus' ),
-		'paul-portrait-oxblood' => __( 'Portrait (cover art), oxblood duotone', 'paulus' ),
-		'paul-portrait-mirror' => __( 'Portrait (cover art), mirrored', 'paulus' ),
-		'paul-portrait-stone' => __( 'Portrait (cover art), limestone duotone', 'paulus' ),
-		'paul-portrait-mirror-stone' => __( 'Portrait (cover art), mirrored, limestone duotone', 'paulus' ),
-		'paul-gladius-painted' => __( 'Portrait with gladius, painted rendering', 'paulus' ),
-		'paul-bastard-stone' => __( 'Cap lettered BASTARD, limestone duotone', 'paulus' ),
-		'paul-horned-stone' => __( 'Horned figure, limestone duotone', 'paulus' ),
-		'paul-decayed' => __( 'Decayed saint', 'paulus' ),
-		'paul-decayed-face' => __( 'Decayed saint, close-up', 'paulus' ),
-		'paul-decayed-hands' => __( 'Decayed saint, hands and scroll', 'paulus' ),
-		'paul-decayed-ink' => __( 'Decayed saint, ink duotone', 'paulus' ),
-		'paul-decayed-oxblood' => __( 'Decayed saint, oxblood duotone', 'paulus' ),
-		'paul-decayed-mirror' => __( 'Decayed saint, mirrored', 'paulus' ),
-		'paul-decayed-stone' => __( 'Decayed saint, limestone duotone', 'paulus' ),
-		'paul-horned' => __( 'Horned', 'paulus' ),
-		'paul-horned-face' => __( 'Horned, close-up', 'paulus' ),
-		'paul-horned-hands' => __( 'Horned, hands and scroll', 'paulus' ),
-		'paul-horned-ink' => __( 'Horned, ink duotone', 'paulus' ),
-		'paul-horned-oxblood' => __( 'Horned, oxblood duotone', 'paulus' ),
-		'paul-horned-mirror' => __( 'Horned, mirrored', 'paulus' ),
-		'paul-dunce' => __( 'Dunce', 'paulus' ),
-		'paul-dunce-face' => __( 'Dunce, close-up', 'paulus' ),
-		'paul-dunce-hands' => __( 'Dunce, hands and scroll', 'paulus' ),
-		'paul-dunce-ink' => __( 'Dunce, ink duotone', 'paulus' ),
-		'paul-dunce-oxblood' => __( 'Dunce, oxblood duotone', 'paulus' ),
-		'paul-bastard' => __( 'Bastard cap', 'paulus' ),
-		'paul-bastard-face' => __( 'Bastard cap, close-up', 'paulus' ),
-		'paul-bastard-hands' => __( 'Bastard cap, hands and scroll', 'paulus' ),
-		'paul-bastard-ink' => __( 'Bastard cap, ink duotone', 'paulus' ),
-		'paul-bastard-oxblood' => __( 'Bastard cap, oxblood duotone', 'paulus' ),
-		'paul-horned-bastard' => __( 'Horned, bastard cap', 'paulus' ),
-		'paul-horned-bastard-face' => __( 'Horned, bastard cap, close-up', 'paulus' ),
-		'paul-horned-bastard-hands' => __( 'Horned, bastard cap, hands and scroll', 'paulus' ),
-		'paul-horned-bastard-ink' => __( 'Horned, bastard cap, ink duotone', 'paulus' ),
-		'paul-horned-bastard-oxblood' => __( 'Horned, bastard cap, oxblood duotone', 'paulus' ),
-		'paul-horned-bastard-stone' => __( 'Horned, bastard cap, limestone duotone', 'paulus' ),
-		'paul-horned-grin-stone' => __( 'Horned, grinning, limestone duotone', 'paulus' ),
-		'paul-horned-grin' => __( 'Horned, grinning', 'paulus' ),
-		'paul-horned-grin-face' => __( 'Horned, grinning, close-up', 'paulus' ),
-		'paul-horned-grin-hands' => __( 'Horned, grinning, hands and scroll', 'paulus' ),
-		'paul-horned-grin-ink' => __( 'Horned, grinning, ink duotone', 'paulus' ),
-		'paul-horned-grin-oxblood' => __( 'Horned, grinning, oxblood duotone', 'paulus' ),
-	);
+	return paulus_images_data( 'labels' );
 }
 
 /**
@@ -255,61 +220,7 @@ function paulus_images() {
  * @return array<string,string>
  */
 function paulus_image_alts() {
-	return array(
-		'met-ring-key' => __( 'Roman bronze ring key, a small key worn on the finger, third or fourth century CE', 'paulus' ),
-		'met-diploma' => __( 'Roman bronze military diploma of about 149 CE, a tablet engraved in Latin with the grant of Antoninus Pius', 'paulus' ),
-		'met-tiberius-ring' => __( 'Roman gold ring set with a carnelian intaglio portrait of the emperor Tiberius, 14 to 37 CE', 'paulus' ),
-		'met-papyrus-letter' => __( 'Papyrus letter written in Greek, from Roman Egypt, early third century CE', 'paulus' ),
-		'met-inkwell-stylus' => __( 'Roman terracotta inkwell, first or second century CE', 'paulus' ),
-		'author-photo' => __( 'Photograph of Mohd Elfie Nieshaem Juferi', 'paulus' ),
-		'paul-portrait' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross', 'paulus' ),
-		'paul-portrait-face' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, close-up of the face', 'paulus' ),
-		'paul-portrait-hands' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, close-up of the hands and scroll', 'paulus' ),
-		'paul-portrait-ink' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, in dark ink duotone', 'paulus' ),
-		'paul-portrait-oxblood' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, in oxblood duotone', 'paulus' ),
-		'paul-portrait-mirror' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, mirrored', 'paulus' ),
-		'paul-portrait-stone' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross, in limestone duotone', 'paulus' ),
-		'paul-portrait-mirror-stone' => __( 'Engraved portrait of Paul of Tarsus, bearded, in a robe, holding a Roman short sword (gladius) and a scroll before a cross, mirrored, in limestone duotone', 'paulus' ),
-		'paul-gladius-painted' => __( 'Painted portrait of Paul of Tarsus, bearded, in a red robe, holding a Roman short sword (gladius) and a scroll before a red cross', 'paulus' ),
-		'paul-bastard-stone' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in limestone duotone', 'paulus' ),
-		'paul-horned-stone' => __( 'Paul of Tarsus drawn as a horned figure in a robe, holding a sword and a scroll, in limestone duotone', 'paulus' ),
-		'paul-decayed' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll', 'paulus' ),
-		'paul-decayed-face' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, close-up of the face', 'paulus' ),
-		'paul-decayed-hands' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-decayed-ink' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, in dark ink duotone', 'paulus' ),
-		'paul-decayed-oxblood' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, in oxblood duotone', 'paulus' ),
-		'paul-decayed-mirror' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, mirrored', 'paulus' ),
-		'paul-decayed-stone' => __( 'Paul of Tarsus as a weathered saint with a cracked halo, holding a sword and a decaying scroll, in limestone duotone', 'paulus' ),
-		'paul-horned' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll', 'paulus' ),
-		'paul-horned-face' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll, close-up of the face', 'paulus' ),
-		'paul-horned-hands' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-horned-ink' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll, in dark ink duotone', 'paulus' ),
-		'paul-horned-oxblood' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll, in oxblood duotone', 'paulus' ),
-		'paul-horned-mirror' => __( 'Paul of Tarsus drawn as a horned, red-skinned figure in a robe, holding a sword and a scroll, mirrored', 'paulus' ),
-		'paul-dunce' => __( 'Paul of Tarsus in a dunce cap, holding a toy water pistol and a scroll', 'paulus' ),
-		'paul-dunce-face' => __( 'Paul of Tarsus in a dunce cap, holding a toy water pistol and a scroll, close-up of the face', 'paulus' ),
-		'paul-dunce-hands' => __( 'Paul of Tarsus in a dunce cap, holding a toy water pistol and a scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-dunce-ink' => __( 'Paul of Tarsus in a dunce cap, holding a toy water pistol and a scroll, in dark ink duotone', 'paulus' ),
-		'paul-dunce-oxblood' => __( 'Paul of Tarsus in a dunce cap, holding a toy water pistol and a scroll, in oxblood duotone', 'paulus' ),
-		'paul-bastard' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll', 'paulus' ),
-		'paul-bastard-face' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the face', 'paulus' ),
-		'paul-bastard-hands' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-bastard-ink' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in dark ink duotone', 'paulus' ),
-		'paul-bastard-oxblood' => __( 'Paul of Tarsus in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in oxblood duotone', 'paulus' ),
-		'paul-horned-bastard' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll', 'paulus' ),
-		'paul-horned-bastard-face' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the face', 'paulus' ),
-		'paul-horned-bastard-hands' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-horned-bastard-ink' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in dark ink duotone', 'paulus' ),
-		'paul-horned-bastard-oxblood' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in oxblood duotone', 'paulus' ),
-		'paul-horned-bastard-stone' => __( 'Paul of Tarsus as a horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in limestone duotone', 'paulus' ),
-		'paul-horned-grin-stone' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in limestone duotone', 'paulus' ),
-		'paul-horned-grin' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll', 'paulus' ),
-		'paul-horned-grin-face' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the face', 'paulus' ),
-		'paul-horned-grin-hands' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the hands and scroll', 'paulus' ),
-		'paul-horned-grin-ink' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in dark ink duotone', 'paulus' ),
-		'paul-horned-grin-oxblood' => __( 'Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in oxblood duotone', 'paulus' ),
-		'book-cover'    => __( 'Front cover of Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi', 'paulus' ),
-	);
+	return paulus_images_data( 'alts' );
 }
 
 /**

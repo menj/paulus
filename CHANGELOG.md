@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.64.3] - 2026-10-29
+
+### Changed
+- Seed data is JSON throughout. `content/manifest.php` becomes `content/manifest.json`, and the image titles, alt text and figure credits move out of `paulus_images()`, `paulus_image_alts()` (`inc/defaults.php`) and `paulus_figures()` (`inc/figures.php`) into `content/images.json`. The files are read with `json_decode()` and never executed; a missing or malformed file loads as empty, so the installer creates nothing instead of failing. The decoded data is identical to the old arrays, so `content_version` stays at 2.64.2 and nothing on a live site changes.
+
 ## [2.64.2] - 2026-10-29
 
 ### Changed
