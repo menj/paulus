@@ -197,12 +197,16 @@ function paulus_hero_srcset( $url ) {
  */
 function paulus_images_data( $part ) {
 	static $data = null;
-	if ( null === $data ) {
+	$read = $data;
+	if ( null === $read ) {
 		$file = PAULUS_DIR . '/content/images.json';
-		$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
-		$data = is_array( $data ) ? $data : array();
+		$read = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+		$read = is_array( $read ) ? $read : array();
+		if ( $read ) {
+			$data = $read; // A failed read is not cached, so the next figure tries again.
+		}
 	}
-	return isset( $data[ $part ] ) && is_array( $data[ $part ] ) ? $data[ $part ] : array();
+	return isset( $read[ $part ] ) && is_array( $read[ $part ] ) ? $read[ $part ] : array();
 }
 
 /**

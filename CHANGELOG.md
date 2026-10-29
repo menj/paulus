@@ -6,6 +6,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Changed
 - Seed data is JSON throughout. `content/manifest.php` becomes `content/manifest.json`, and the image titles, alt text and figure credits move out of `paulus_images()`, `paulus_image_alts()` (`inc/defaults.php`) and `paulus_figures()` (`inc/figures.php`) into `content/images.json`. The files are read with `json_decode()` and never executed; a missing or malformed file loads as empty, so the installer creates nothing instead of failing. The decoded data is identical to the old arrays, so `content_version` stays at 2.64.2 and nothing on a live site changes.
+- `paulus_manifest()` always returns `parts`, `posts` and `pages` as arrays, even when the file holds something else there, so a damaged manifest cannot stop the installer with a type error. Neither reader caches a failed read, so a later call in the same request tries the file again.
 
 ## [2.64.2] - 2026-10-29
 
