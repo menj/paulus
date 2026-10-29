@@ -15,11 +15,14 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.64.1',
+	'content_version' => '2.64.2',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
 	'prior_hashes' => array(
+		// Texts as shipped in 2.64.1, before the two parts of the Islamic dilemma were named its claims.
+		'c15-the-quran-as-witness-2.json#r64.3' => 'bb55347d4ce5db0e6e89d7ce188f2c8e',
+		'islamic-dilemma.json#r64.3' => '10f29a873675ab23ef05629b7854bb28',
 		// Text as shipped in 2.64.0, with the 2.63.4 rewording of the MCMC complaint.
 		'c12-malaysia-and-southeast-asia.json#r64.2' => 'cc8f3da10b1cb51fa1eb30b68b896baf',
 		// Earlier shipped texts of the files changed since 2.62.17, for sites that never recorded a hash.
