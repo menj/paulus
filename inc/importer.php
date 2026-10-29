@@ -2,7 +2,7 @@
 /**
  * Starter content installer.
  *
- * Builds the site architecture from content/manifest.php: the sections as
+ * Builds the site architecture from content/manifest.json: the sections as
  * categories, the articles as posts in reading order, the standalone pages
  * and the primary navigation menu. Idempotent: existing items
  * keep their content; only their structural data (part, order, parent) is
@@ -14,16 +14,31 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Manifest of bundled content.
+ * Manifest of bundled content, from content/manifest.json.
+ *
+ * The manifest is data: it is read and decoded, never executed. A file that
+ * is missing (briefly, while an update unpacks) or is not valid JSON loads as
+ * an empty manifest, so the installer creates nothing instead of failing;
+ * parts, posts and pages are always arrays, even if the file says otherwise.
  *
  * @return array
  */
 function paulus_manifest() {
 	static $manifest = null;
-	if ( null === $manifest ) {
-		$manifest = require PAULUS_DIR . '/content/manifest.php';
+	if ( null !== $manifest ) {
+		return $manifest;
 	}
-	return $manifest;
+	$file = PAULUS_DIR . '/content/manifest.json';
+	$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$data = is_array( $data ) ? $data : array();
+	// The lists the installer walks are always lists, whatever the file holds.
+	foreach ( array( 'parts', 'posts', 'pages' ) as $key ) {
+		$data[ $key ] = isset( $data[ $key ] ) && is_array( $data[ $key ] ) ? $data[ $key ] : array();
+	}
+	if ( $data['posts'] ) {
+		$manifest = $data; // A failed read is not cached, so a later call in this request tries again.
+	}
+	return $data;
 }
 
 /**
