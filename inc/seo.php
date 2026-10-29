@@ -1427,6 +1427,17 @@ function paulus_sc_sitemap() {
 	if ( $answers ) {
 		$groups[] = array( 'search', __( 'Questions about Paul, answered', 'paulus' ), '', $answers, '' );
 	}
+	// The pages that set the teaching of ʿĪsā beside Paul's, and the invitation.
+	$message = array();
+	foreach ( array( 'original-sin', 'jesus-in-his-own-words', 'the-prayer-jesus-taught', 'an-invitation-to-christians' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			$message[] = $item( $page );
+		}
+	}
+	if ( $message ) {
+		$groups[] = array( 'book-open', __( 'The message of ʿĪsā, without Paul', 'paulus' ), '', $message, '' );
+	}
 	foreach ( array( 'reference' => 'book-open', 'appendices' => 'paperclip' ) as $slug => $icon ) {
 		$parent = get_page_by_path( $slug );
 		if ( ! $parent || 'publish' !== $parent->post_status ) {

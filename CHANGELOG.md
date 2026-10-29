@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.0] - 2026-10-29
+
+### Added
+- **Four new pages** answering the "sin", "identity in Christ" and "prayer to accept Jesus" pages of the missionary site islamicdilemma.com, each over 1,600 words, quoting the KJV verbatim (checked verse by verse against the KJV text), Qurʾān verses checked against api.quran.com (Saheeh International), and hadith in the Arabic of Ṣaḥīḥ al-Bukhārī:
+  - `/original-sin/`: Romans 5:12 and Augustine's *in quo*, Deuteronomy 24:16 and Ezekiel 18, the prodigal son and the publican, the little child of Matthew 18, graded sins (Matthew 23:23; John 19:11), al-Baqarah 2:37, Ṭā Hā 20:121–122, al-Najm 53:38, al-Zumar 39:53, al-Bukhārī 1385, and al Faruqi on man's innocence and the image of God (*Al Tawhid*, pp. 23, 67, 70).
+  - `/jesus-in-his-own-words/`: the Shema as the first commandment (Mark 12:28–30), "Why callest thou me good?", John 17:3, John 20:17, Mark 13:32, Acts 2:22, set beside Philippians 2:6 and Colossians 1:15–16, with Maryam 19:30, al-Māʾidah 5:116–117 and al Faruqi on Semitic titles (*Al Tawhid*, p. 22).
+  - `/the-prayer-jesus-taught/`: the Lord's Prayer (Matthew 6:9–13), Gethsemane, "Lord, Lord" (Matthew 7:21) against Romans 10:9, the origin of the sinner's prayer, and al-Fātiḥah side by side.
+  - `/an-invitation-to-christians/`: a gentle invitation built on the *fiṭrah* as Isma'il Raji al Faruqi explains it (*Al Tawhid*, pp. 7, 23–24, 47–48, 67, 77, 123): al-Rūm 30:30, al-Bukhārī 1359, what Islam shares with Christians (Āl ʿImrān 3:84; al-Māʾidah 5:82–83), *tawḥīd* and the open door of *tawbah* (Āl ʿImrān 3:64; al-Māʾidah 5:74), no compulsion (al-Baqarah 2:256), and al-Bukhārī 3435 on the testimony of faith.
+- A Sitemap group, "The message of ʿĪsā, without Paul", for the four pages (`inc/seo.php`).
+
+### Changed
+- Content version 2.65.0.
+
 ## [2.64.1] - 2026-10-27
 
 ### Changed

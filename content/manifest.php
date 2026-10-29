@@ -15,7 +15,7 @@ return array(
 	// Sections. The site is organized as a case file: the man, the charges
 	// against him, and the witnesses, followed by standalone pages.
 	'nav_version' => 7,
-	'content_version' => '2.64.1',
+	'content_version' => '2.65.0',
 	// MD5 of each content file as shipped in earlier releases. A post whose
 	// text still matches one of these was never edited by hand and is safe
 	// to refresh from the current file.
@@ -1670,6 +1670,46 @@ return array(
 			'file'      => 'apostle-to-the-gentiles.json',
 			'image'     => 'paul-bastard',
 			'order'     => 13,
+		),
+		array(
+			'slug'      => 'original-sin',
+			'meta'      => 'Original sin comes from Paul\'s letter to the Romans, not from ʿĪsā. What the prophets, the Gospels and the Qurʾān teach. Read on.',
+			'title'     => 'Original sin: what ʿĪsā taught and what Paul added',
+			'seo_title' => 'Original sin and Paul',
+			'excerpt'   => 'Original sin rests on one sentence of Paul\'s, as Augustine read it. What the Torah and Ezekiel said of inherited guilt, what ʿĪsā taught about sin and forgiveness, and what the Qurʾān says of Ādam and of every soul after him.',
+			'file'      => 'original-sin.json',
+			'image'     => 'paul-decayed-face',
+			'order'     => 14,
+		),
+		array(
+			'slug'      => 'jesus-in-his-own-words',
+			'meta'      => 'What ʿĪsā said of God and of himself: one Lord, none good but God, my God and your God. Then what Paul said of him. Read on.',
+			'title'     => 'Who is Christ? ʿĪsā ibn Maryam in his own words',
+			'seo_title' => 'Jesus in his own words',
+			'excerpt'   => 'What ʿĪsā ibn Maryam said about God and about himself in the Gospels the churches accept, set beside what Paul said about him, and beside the ʿĪsā of the Qurʾān.',
+			'file'      => 'jesus-in-his-own-words.json',
+			'image'     => 'paul-portrait-mirror',
+			'order'     => 15,
+		),
+		array(
+			'slug'      => 'the-prayer-jesus-taught',
+			'meta'      => 'The prayer ʿĪsā taught asks God alone for forgiveness, with no cross and no mediator. Set beside Paul\'s creed and al-Fātiḥah.',
+			'title'     => 'The prayer ʿĪsā taught, and the prayer Paul taught',
+			'seo_title' => 'The prayer Jesus taught',
+			'excerpt'   => 'The prayer ʿĪsā gave his disciples, how he himself prayed, the confession Paul made the condition of salvation, where the sinner\'s prayer comes from, and the prayer that opens the Qurʾān.',
+			'file'      => 'the-prayer-jesus-taught.json',
+			'image'     => 'paul-portrait-hands',
+			'order'     => 16,
+		),
+		array(
+			'slug'      => 'an-invitation-to-christians',
+			'meta'      => 'Every person is born upon the fiṭrah, knowing the one God. What Islam shares with Christians and the one thing it asks. Read on.',
+			'title'     => 'An invitation to the Christian reader',
+			'seo_title' => 'An invitation to Christians',
+			'excerpt'   => 'A page for the Christian reader: the fiṭrah every person is born with, as Ismaʿil Raji al Faruqi explained it, what Islam shares with Christians, the one thing it asks, and where to begin, with no compulsion and no hurry.',
+			'file'      => 'an-invitation-to-christians.json',
+			'image'     => 'met-papyrus-letter',
+			'order'     => 17,
 		),
 		array(
 			'slug'    => 'the-verdict',
