@@ -42,7 +42,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.65.4 to 2.65.5
 
-- **One phrase changed in each of three articles** (Tarsus and a persona for every audience; The failed prophet; No prophet between me and ʿĪsā ibn Maryam). Unedited copies refresh on the first page load as an administrator; a copy edited by hand keeps its text. Clear caches afterwards.
+- **A short addition to each of three articles**: one phrase in two of them and one added sentence in The failed prophet (Tarsus and a persona for every audience; The failed prophet; No prophet between me and ʿĪsā ibn Maryam). Unedited copies refresh on the first page load as an administrator; a copy edited by hand keeps its text. Clear caches afterwards.
 
 ### 2.65.3 to 2.65.4
 

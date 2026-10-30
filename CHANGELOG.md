@@ -18,7 +18,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.65.5] - 2026-10-30
 
 ### Changed
-- A coverage check (TF*IDF over 80 items) found three articles silent on their own subject term, so each gets a one-phrase edit and no fact changes: *Tarsus, and a persona for every audience* names Tarsus as "the city the Bible gives as his own (Acts 21:39)"; *The failed prophet* adds "Was Paul a prophet? His own prediction is the test."; *No prophet between me and ʿĪsā ibn Maryam* reads "the authoritative view of Paul in Islam", so that "Islam" appears as its keyword does. Adapted from the coverage commit of the earlier branch `claude/cool-lovelace-qwhkqo` (menj/paulus#23), rebased onto the JSON manifest and the current content version.
+- A coverage check (TF*IDF over 80 items) found three articles silent on their own subject term, so each gets a short addition, a phrase in two and one sentence in the third, and no fact changes: *Tarsus, and a persona for every audience* names Tarsus as "the city the Bible gives as his own (Acts 21:39)"; *The failed prophet* adds "Was Paul a prophet? His own prediction is the test."; *No prophet between me and ʿĪsā ibn Maryam* reads "the authoritative view of Paul in Islam", so that "Islam" appears as its keyword does. Adapted from the coverage commit of the earlier branch `claude/cool-lovelace-qwhkqo` (menj/paulus#23), rebased onto the JSON manifest and the current content version.
 - Content version 2.65.5, with the 2.65.4 hashes of the three edited files in `prior_hashes` (`#r65.5`), so unedited copies refresh on update.
 
 ## [2.65.4] - 2026-10-30
