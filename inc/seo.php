@@ -1355,7 +1355,7 @@ function paulus_sc_sitemap() {
 			. '<span class="paulus-sm__title">' . ( $tip ? paulus_greek_label( $key, $title ) : $title ) . '</span></span></a>';
 	};
 
-	$out = '<div class="paulus-sm alignwide"><section class="paulus-sm__case" aria-labelledby="paulus-sm-case"><h2 class="paulus-sm__heading" id="paulus-sm-case">' . esc_html__( 'The case', 'paulus' ) . '</h2>';
+	$out = '<div class="paulus-sm alignwide"><section class="paulus-sm__case" aria-labelledby="paulus-sm-case"><h2 class="paulus-sm__heading" id="paulus-sm-case">' . esc_html__( 'The Case', 'paulus' ) . '</h2>';
 	$images = array();
 	foreach ( (array) ( paulus_manifest()['parts'] ?? array() ) as $p ) {
 		if ( ! empty( $p['slug'] ) && ! empty( $p['image'] ) ) {
@@ -1436,7 +1436,7 @@ function paulus_sc_sitemap() {
 		}
 	}
 	if ( $message ) {
-		$groups[] = array( 'book-open', __( 'The message of ʿĪsā, without Paul', 'paulus' ), '', $message, '' );
+		$groups[] = array( 'book-open', __( 'The Precedent', 'paulus' ), '', $message, '' );
 	}
 	foreach ( array( 'reference' => 'book-open', 'appendices' => 'paperclip' ) as $slug => $icon ) {
 		$parent = get_page_by_path( $slug );

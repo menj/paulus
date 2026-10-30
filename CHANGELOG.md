@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.3] - 2026-10-30
+
+### Changed
+- The footer column "The message of ʿĪsā" and the Sitemap group "The message of ʿĪsā, without Paul" are renamed "The Precedent", a short name in the case-file register of the other footer headings: what ʿĪsā taught before Paul (`inc/structure.php`, `inc/seo.php`).
+- "The case" reads "The Case" in the footer and as the Sitemap's heading, in the title case of The Verdict and The Precedent.
+
 ## [2.65.2] - 2026-10-30
 
 ### Added
