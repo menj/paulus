@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.4] - 2026-10-30
+
+### Changed
+- Three of the pages added in 2.65.0 draw on Isma'il R. al Faruqi's *Christian Ethics* (McGill University Press, 1967), only where it treats Paul or what followed from him, with quotations checked against the supplied transcription and page numbers taken from the printed pagination (scan page minus 13, matching the pages the site already cites):
+  - `/an-invitation-to-christians/`: the Apostolic Fathers on the newborn child (p. 207), the synoptic Gospels and the doctrine of inherited sin (p. 203), Paul's idea "dormant" until Augustine (p. 208), the faith of ʿĪsā as the surviving "cornerstone" (p. 310), and a new section, "A brother in the same cause", from the Epilogue (pp. 312–313) and Hendrik Kraemer's preface (p. ix). Its "Talk to a Muslim" step now links the author's YouTube channel, [The Muslim Apologist](https://www.youtube.com/@TheMuslimApologist).
+  - `/original-sin/`: a new section, "How the doctrine grew: Genesis, Paul and Augustine" (pp. 201–208), conceding al Faruqi's point that Paul's letters do not directly teach an original guilt, and the Qurʾān's Ādam as "the father of the Prophets" (p. 202).
+  - `/jesus-in-his-own-words/`: Luke's "son of God" for Ādam set against Paul's "image of the invisible God" for ʿĪsā (p. 158; Luke 3:38), and, from al Faruqi's *Divine Transcendence and Its Expression* (ABIM, 1983), his judgement that Paul misread the disciples' "Lord" and, with John, made "sonship" metaphysical. That transcription carries no page numbers, so the note cites part II, section C.1.
+- The author's YouTube channel is linked at https://www.youtube.com/@TheMuslimApologist everywhere: the `author_youtube` default and the link in the default author note (`inc/defaults.php`), the About the author page (its 2.65.1 hash in `prior_hashes`, `#r65.4`) and the invitation page. A one-time upgrade (`paulus_upgrade_2654()` in `functions.php`) moves a site's saved channel field and author-note link to the new address where they still hold an address the theme shipped; an address the owner entered is kept.
+- Content version 2.65.4, with the 2.65.1 hashes of the three edited files in `prior_hashes` (`#r65.4`), so unedited copies refresh on update.
+
 ## [2.65.3] - 2026-10-30
 
 ### Changed

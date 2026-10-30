@@ -65,11 +65,11 @@ function paulus_defaults() {
 		'image_license_page' => '',
 		'author_home'      => 'https://menj.blog',
 		'author_url'       => 'https://bismikaallahuma.org',
-		'author_youtube'   => 'https://themuslimapologist.online',
+		'author_youtube'   => 'https://www.youtube.com/@TheMuslimApologist',
 		'social_links'     => '',
 		'author_same_as'   => "https://ms.wikipedia.org/wiki/Mohd_Elfie_Nieshaem_Juferi\nhttps://my.linkedin.com/in/mohd-elfie-nieshaem-bin-juferi\nhttps://menj.blog/",
 		'author_books'     => "Buddhism: A Muslim Primer (Jahabersa, 2005)\nWhen Apostates Become Shaykhs…: A Systematic Analysis of Their Dominant Ideas on the World Wide Web (Jahabersa, 2006)\nDua Dasawarsa: Sebuah Kumpulan Puisi 2005–2025 (Langgam Fikir, 2025)\nPolis Raja Di Malaysia: Power, Corruption & Control in Malaysia’s Police Force (Langgam Fikir, 2026)",
-		'author_bio'       => 'Mohd Elfie Nieshaem Juferi is a Muslim apologist and an award-winning Malay-language author. He runs the apologetics site <a href="https://bismikaallahuma.org">Bismika Allahuma</a> and the YouTube channel <a href="https://themuslimapologist.online">The Muslim Apologist</a>, and publishes his work through <a href="https://langgamfikir.my">Langgam Fikir</a>.',
+		'author_bio'       => 'Mohd Elfie Nieshaem Juferi is a Muslim apologist and an award-winning Malay-language author. He runs the apologetics site <a href="https://bismikaallahuma.org">Bismika Allahuma</a> and the YouTube channel <a href="https://www.youtube.com/@TheMuslimApologist">The Muslim Apologist</a>, and publishes his work through <a href="https://langgamfikir.my">Langgam Fikir</a>.',
 		'book_blurb'       => 'Adakah benar ajaran-ajaran agama Kristian pada hari ini berasal daripada Nabi Isa a.s., atau sebenarnya hasil manipulasi teologi oleh seorang Yahudi bernama Paulus dari Tarsus?',
 		// Publisher.
 		'pub_name'         => 'Langgam Fikir',
