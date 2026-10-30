@@ -38,7 +38,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.65.2 to 2.65.3
 
-- **Renamed footer column.** The footer column and Sitemap group added in 2.65.0 and 2.65.2 now read "The precedent". Nothing to do but clear caches.
+- **Renamed footer column.** The footer column and Sitemap group added in 2.65.0 and 2.65.2 now read "The Precedent", and "The case" reads "The Case" in the footer and the Sitemap. Nothing to do but clear caches.
 
 ### 2.65.1 to 2.65.2
 

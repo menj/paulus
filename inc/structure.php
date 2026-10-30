@@ -677,8 +677,8 @@ function paulus_sc_footer_nav() {
 		}
 	}
 	$columns = array(
-		array( __( 'The case', 'paulus' ), '', $case ),
-		array( __( 'The precedent', 'paulus' ), '', $message ),
+		array( __( 'The Case', 'paulus' ), '', $case ),
+		array( __( 'The Precedent', 'paulus' ), '', $message ),
 		array( __( 'Reference', 'paulus' ), $parent ? get_permalink( $parent ) : '', $reference ),
 		array( __( 'Appendices', 'paulus' ), $app_parent ? get_permalink( $app_parent ) : '', $appendices ),
 	);

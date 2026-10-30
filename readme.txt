@@ -38,7 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.65.3 =
-* The footer column and Sitemap group for the four pages of 2.65.0 are now called "The precedent".
+* The footer column and Sitemap group for the four pages of 2.65.0 are now called "The Precedent", and the footer and Sitemap name "The Case" in title case beside it.
 
 = 2.65.2 =
 * A footer column, "The message of ʿĪsā", links the four pages added in 2.65.0.
