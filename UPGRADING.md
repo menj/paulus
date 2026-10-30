@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.1 to 2.65.2
+
+- **New footer column.** "The message of ʿĪsā" appears in the footer as soon as the theme is uploaded, because the footer menu is built from the site structure; no menu needs editing and the header menu does not change. Clear caches.
+
 ### 2.65.0 to 2.65.1
 
 - **Link fix in four pages.** Unedited copies of Was Paul married?, The apostle to the Gentiles, Paul's missionary journeys and The Islamic dilemma and the letters of Paul refresh on the first page load as an administrator. A copy edited by hand keeps its text; change `#s-two-pauls` to `#s-two-pauls-the-man-and-the-canon` in it yourself.
