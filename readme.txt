@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.1
+Stable tag: 2.65.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.65.2 =
+* A footer column, "The message of ʿĪsā", links the four pages added in 2.65.0.
 
 = 2.65.1 =
 * Four links to the "Two Pauls" section of How Paul came to own the New Testament now open at that section.

@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.2] - 2026-10-30
+
+### Added
+- A footer column, "The message of ʿĪsā", between "The case" and "Reference", linking the four pages added in 2.65.0 under short labels: Original sin, ʿĪsā in his own words, The prayer ʿĪsā taught, An invitation (`paulus_sc_footer_nav()` in `inc/structure.php`). Each link shows only while its page is published. The header menu is unchanged, by the owner's choice.
+
 ## [2.65.1] - 2026-10-30
 
 ### Fixed

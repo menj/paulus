@@ -620,7 +620,8 @@ add_shortcode( 'paulus_article_nav', 'paulus_sc_article_nav' );
 
 
 /**
- * Footer menu: the case in reading order, and the reference pages.
+ * Footer menu: the case in reading order, the message of ʿĪsā, and the
+ * reference pages.
  * Built from the site structure, so it follows new sections and pages
  * without editing a menu.
  *
@@ -661,8 +662,23 @@ function paulus_sc_footer_nav() {
 			$appendices[] = array( $label, get_permalink( $child ) );
 		}
 	}
+	// The pages that set the teaching of ʿĪsā beside Paul's, ending with the
+	// invitation, under short labels.
+	$message = array();
+	foreach ( array(
+		'original-sin'                => __( 'Original sin', 'paulus' ),
+		'jesus-in-his-own-words'      => __( 'ʿĪsā in his own words', 'paulus' ),
+		'the-prayer-jesus-taught'     => __( 'The prayer ʿĪsā taught', 'paulus' ),
+		'an-invitation-to-christians' => __( 'An invitation', 'paulus' ),
+	) as $slug => $label ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			$message[] = array( $label, get_permalink( $page ) );
+		}
+	}
 	$columns = array(
 		array( __( 'The case', 'paulus' ), '', $case ),
+		array( __( 'The message of ʿĪsā', 'paulus' ), '', $message ),
 		array( __( 'Reference', 'paulus' ), $parent ? get_permalink( $parent ) : '', $reference ),
 		array( __( 'Appendices', 'paulus' ), $app_parent ? get_permalink( $app_parent ) : '', $appendices ),
 	);
