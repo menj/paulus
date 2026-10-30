@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.2 to 2.65.3
+
+- **Renamed footer column.** The footer column and Sitemap group added in 2.65.0 and 2.65.2 now read "The precedent". Nothing to do but clear caches.
+
 ### 2.65.1 to 2.65.2
 
 - **New footer column.** "The message of ʿĪsā" appears in the footer as soon as the theme is uploaded, because the footer menu is built from the site structure; no menu needs editing and the header menu does not change. Clear caches.

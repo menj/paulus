@@ -620,8 +620,8 @@ add_shortcode( 'paulus_article_nav', 'paulus_sc_article_nav' );
 
 
 /**
- * Footer menu: the case in reading order, the message of ʿĪsā, and the
- * reference pages.
+ * Footer menu: the case in reading order, the precedent (the teaching of
+ * ʿĪsā before Paul), and the reference pages.
  * Built from the site structure, so it follows new sections and pages
  * without editing a menu.
  *
@@ -678,7 +678,7 @@ function paulus_sc_footer_nav() {
 	}
 	$columns = array(
 		array( __( 'The case', 'paulus' ), '', $case ),
-		array( __( 'The message of ʿĪsā', 'paulus' ), '', $message ),
+		array( __( 'The precedent', 'paulus' ), '', $message ),
 		array( __( 'Reference', 'paulus' ), $parent ? get_permalink( $parent ) : '', $reference ),
 		array( __( 'Appendices', 'paulus' ), $app_parent ? get_permalink( $app_parent ) : '', $appendices ),
 	);

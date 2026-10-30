@@ -1436,7 +1436,7 @@ function paulus_sc_sitemap() {
 		}
 	}
 	if ( $message ) {
-		$groups[] = array( 'book-open', __( 'The message of ʿĪsā, without Paul', 'paulus' ), '', $message, '' );
+		$groups[] = array( 'book-open', __( 'The precedent', 'paulus' ), '', $message, '' );
 	}
 	foreach ( array( 'reference' => 'book-open', 'appendices' => 'paperclip' ) as $slug => $icon ) {
 		$parent = get_page_by_path( $slug );
