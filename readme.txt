@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.3
+Stable tag: 2.65.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.65.4 =
+* The invitation to the Christian reader, Original sin and ʿĪsā in his own words draw on al Faruqi's Christian Ethics where it treats Paul and what followed from him.
 
 = 2.65.3 =
 * The footer column and Sitemap group for the four pages of 2.65.0 are now called "The Precedent", and the footer and Sitemap name "The Case" in title case beside it.

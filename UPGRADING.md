@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.3 to 2.65.4
+
+- **Text added to three pages.** Unedited copies of An invitation to the Christian reader, Original sin and Who is Christ? refresh on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content). A copy edited by hand keeps its text. Clear caches afterwards.
+
 ### 2.65.2 to 2.65.3
 
 - **Renamed footer column.** The footer column and Sitemap group added in 2.65.0 and 2.65.2 now read "The Precedent", and "The case" reads "The Case" in the footer and the Sitemap. Nothing to do but clear caches.

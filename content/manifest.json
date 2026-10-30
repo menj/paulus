@@ -1,7 +1,10 @@
 {
 	"nav_version": 7,
-	"content_version": "2.65.1",
+	"content_version": "2.65.4",
 	"prior_hashes": {
+		"original-sin.json#r65.4": "4cadc1be000f92432459968b31bf2749",
+		"jesus-in-his-own-words.json#r65.4": "fc27aa4d29b4f8b454660a817fe1e230",
+		"an-invitation-to-christians.json#r65.4": "321011e0d11a02a332b25059547d4dd6",
 		"apostle-to-the-gentiles.json#r65.1": "0a6ad1546d2f4866b1f13654d743071e",
 		"islamic-dilemma.json#r65.1": "4f8536cd1a94cc2a76943cbf3119ff11",
 		"pauls-missionary-journeys.json#r65.1": "8f82ae0aa21d024014df3d6f9432577b",
