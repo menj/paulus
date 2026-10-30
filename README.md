@@ -31,6 +31,10 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /pauls-missionary-journeys/        The three journeys of Acts and the voyage to Rome, and where Paul's letters differ
 /was-paul-married/                 What Paul says of his own state, the arguments, and his teaching on marriage
 /apostle-to-the-gentiles/          Who gave Paul the title, Peter and the Gentiles in Acts, and the mission of ʿĪsā ibn Maryam to Israel
+/original-sin/                     Original sin from Romans 5:12, against Ezekiel 18, the teaching of ʿĪsā and the Qurʾān
+/jesus-in-his-own-words/           What ʿĪsā said of God and himself in the Gospels, set beside what Paul said of him
+/the-prayer-jesus-taught/          The Lord's Prayer, how ʿĪsā prayed, Paul's confession, and al-Fātiḥah
+/an-invitation-to-christians/      A gentle invitation to the Christian reader, built on the fiṭrah as al Faruqi explains it
 /journal/                          Dated entries by the author, each with its own address
 /the-verdict/                      The epilogue in full
 /reference/                        Timeline, glossary, study guide, sources, Paul in the churches

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.64.3
+Stable tag: 2.65.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.65.0 =
+* Four new pages setting the teaching of ʿĪsā beside Paul's: original sin, ʿĪsā in his own words, the prayer ʿĪsā taught, and an invitation to the Christian reader built on al Faruqi's account of the fiṭrah.
 
 = 2.64.0 =
 * Five new pages: the meaning of the name Paul, Saul in the Bible, Paul's missionary journeys, Was Paul married?, and the apostle to the Gentiles.
