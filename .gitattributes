@@ -11,3 +11,5 @@ docs/           export-ignore
 CHANGELOG.md    export-ignore
 .gitignore      export-ignore
 .gitattributes  export-ignore
+FARUQI.md       export-ignore
+CLAUDE.md       export-ignore

@@ -80,7 +80,7 @@ paulus/
   docs/           keyword-map.csv: every keyword from the Semrush research, its cluster, and where it is worked into the site
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
-  content/        manifest.php, articles/ (the texts the installer writes, JSON)
+  content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
   inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, dashboard, links (to the author's other sites, in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
@@ -273,7 +273,7 @@ Addresses carry the date: an entry at `/journal/2026/09/slug/` (year and month o
 
 The Journal page (`archive-paulus_journal.html`) lists entries ten to a page with date, title and excerpt, then an archive of the months that have entries (cached for a day, and refreshed when an entry is saved or removed), then the feed; its title panel carries the Greek inscription ΓΡΑΦΩ ("I write", 1 John 2:1). An entry (`single-paulus_journal.html`) shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, and a band with the older and newer entries (which the arrow keys follow) and the way back to the Journal. Entries appear in site search. Theme Options, Journal, holds the title, the introduction and the search description; year and month pages have their own descriptions within 120 to 130 characters.
 
-The theme can ship entries: those listed under `journal` in `content/manifest.php` (text in `content/articles/`, a featured image from the illustrations, a date, a search title and description) are created once, on the first sync after they appear, and their slugs recorded in `paulus_journal_shipped`, so an entry the owner edits keeps the edits and one the owner deletes is not made again. The first, "Dale B. Martin's notes on Luke and Paul, published", is dated 24 September 2026 and carries `paul-gladius-painted.jpg`.
+The theme can ship entries: those listed under `journal` in `content/manifest.json` (text in `content/articles/`, a featured image from the illustrations, a date, a search title and description) are created once, on the first sync after they appear, and their slugs recorded in `paulus_journal_shipped`, so an entry the owner edits keeps the edits and one the owner deletes is not made again. The first, "Dale B. Martin's notes on Luke and Paul, published", is dated 24 September 2026 and carries `paul-gladius-painted.jpg`.
 
 The Journal has its own block in the header, set apart from the menu (`[paulus_journal_canton]` in `parts/header.html`, between the menu and the search): an outlined companion to the book button, the same shape, height and lettering, with a quill mark and the word Journal, and a dot while the latest entry is under a fortnight old. Below 1200 pixels it takes a round form matching the search button, and it stays in view on phones when the menu collapses. It appears once the Journal has a published entry, and it is marked as current on Journal pages. A header part customised in the Site Editor keeps its own layout; add the shortcode there to show the canton. The header menu is rebuilt for it only while it still holds exactly the links the theme placed there (a Journal link under either the current title or the default one counts); a menu edited in the Site Editor is kept, and the dashboard widget then asks for the link to be added by hand.
 
@@ -428,12 +428,13 @@ Each fact has one file of record. When two places disagree, this file wins and t
 | Fact | File of record | Notes |
 | --- | --- | --- |
 | Theme version | `style.css` header | `PAULUS_VERSION` reads it (`functions.php`); mirror it to `readme.txt` (Stable tag), the zip name in this README and `CHANGELOG.md` |
-| Content version | `content/manifest.php`, `content_version` | Raise it with any change to shipped content, so the structure sync runs |
-| Reading order, sections, counts and series | `content/manifest.php`, `posts` (array order) | Position in the array sets the reading order; `label`, `series`, `series_title`, `part_no` and `parts` set the counts |
+| Content version | `content/manifest.json`, `content_version` | Raise it with any change to shipped content, so the structure sync runs |
+| Reading order, sections, counts and series | `content/manifest.json`, `posts` (array order) | Position in the array sets the reading order; `label`, `series`, `series_title`, `part_no` and `parts` set the counts |
 | Article and page text | `content/articles/*.json` | Edit the `content` string, then set `md5` to the MD5 of the new text, or the file is refused. The archive of Martin's notes is verbatim and is never edited |
-| Earlier shipped texts | `content/manifest.php`, `prior_hashes` and `prior_meta` | Record the old hash or description whenever shipped content changes |
+| Earlier shipped texts | `content/manifest.json`, `prior_hashes` and `prior_meta` | Record the old hash or description whenever shipped content changes |
 | Theme Options fields and defaults | `inc/options-fields.php`, `inc/defaults.php` | |
-| Figures and their licences | `inc/figures.php`, `assets/images/church/commons-meta.json` | |
+| Figures and their licences | `content/images.json` (`figures`), `assets/images/church/commons-meta.json` | |
+| Image titles and alt text | `content/images.json` (`labels`, `alts`) | |
 | Charts | `inc/charts.php` | |
 | Koine Greek inscriptions | `paulus_greek_marks()` in `inc/structure.php` | |
 

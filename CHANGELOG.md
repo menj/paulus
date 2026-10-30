@@ -2,7 +2,7 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [2.65.0] - 2026-10-29
+## [2.65.0] - 2026-10-30
 
 ### Added
 - **Four new pages** answering the "sin", "identity in Christ" and "prayer to accept Jesus" pages of the missionary site islamicdilemma.com, each over 1,600 words, quoting the KJV verbatim (checked verse by verse against the KJV text), Qurʾān verses checked against api.quran.com (Saheeh International), and hadith in the Arabic of Ṣaḥīḥ al-Bukhārī:
@@ -11,10 +11,23 @@ All notable changes to this theme are documented here. The format follows [Keep 
   - `/the-prayer-jesus-taught/`: the Lord's Prayer (Matthew 6:9–13), Gethsemane, "Lord, Lord" (Matthew 7:21) against Romans 10:9, the origin of the sinner's prayer, and al-Fātiḥah side by side.
   - `/an-invitation-to-christians/`: a gentle invitation built on the *fiṭrah* as Isma'il Raji al Faruqi explains it (*Al Tawhid*, pp. 7, 23–24, 47–48, 67, 77, 123): al-Rūm 30:30, al-Bukhārī 1359, what Islam shares with Christians (Āl ʿImrān 3:84; al-Māʾidah 5:82–83), *tawḥīd* and the open door of *tawbah* (Āl ʿImrān 3:64; al-Māʾidah 5:74), no compulsion (al-Baqarah 2:256), and al-Bukhārī 3435 on the testimony of faith.
 - A Sitemap group, "The message of ʿĪsā, without Paul", for the four pages (`inc/seo.php`).
-- The "Two Pauls" links on two of the new pages use the section id the article actually renders, `s-two-pauls-the-man-and-the-canon`.
 
 ### Changed
-- Content version 2.65.0.
+- Content version 2.65.0 in `content/manifest.json`.
+
+## [2.64.3] - 2026-10-29
+
+### Changed
+- Seed data is JSON throughout. `content/manifest.php` becomes `content/manifest.json`, and the image titles, alt text and figure credits move out of `paulus_images()`, `paulus_image_alts()` (`inc/defaults.php`) and `paulus_figures()` (`inc/figures.php`) into `content/images.json`. The files are read with `json_decode()` and never executed; a missing or malformed file loads as empty, so the installer creates nothing instead of failing. The decoded data is identical to the old arrays, so `content_version` stays at 2.64.2 and nothing on a live site changes.
+- `paulus_manifest()` always returns `parts`, `posts` and `pages` as arrays, even when the file holds something else there, so a damaged manifest cannot stop the installer with a type error. Neither reader caches a failed read, so a later call in the same request tries the file again.
+
+## [2.64.2] - 2026-10-29
+
+### Changed
+- The Islamic dilemma and the letters of Paul, and The Qurʾān as witness to the letters (part 2), name the parts of the Islamic dilemma its claims ("the second claim of the Islamic dilemma", "a third claim it never states"), the term the sister sites use. Unedited copies refresh on update; the 2.64.1 texts are in `prior_hashes`.
+
+### Added
+- `FARUQI.md` sets out the Faruqian core, al-tawḥīd as al-Fārūqī set it out in *Al Tawhid: Its Implications for Thought and Life*, which every site in the network rests on. `CLAUDE.md` points contributors to it first. Both stay out of the release archive.
 
 ## [2.64.1] - 2026-10-27
 
@@ -44,7 +57,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Added
 - A front-page teaser for "The Islamic dilemma and the letters of Paul": `[paulus_dilemma_teaser]` (`inc/structure.php`) prints a kicker, the title, one line and a pill link to the page, resolved by its slug (`islamic-dilemma`); it prints nothing if the page is missing or unpublished. It sits after `[paulus_answers_teaser]` in `templates/front-page.html`, styled by `.paulus-dilemma` in `assets/css/theme.css` (the theme radius and a pill link).
-- The page is linked from two articles: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third horn), each with `[paulus_link slug="islamic-dilemma"]`.
+- The page is linked from two articles: one sentence in "The Verdict" (`c11-the-verdict.json`, after the Injīl that came from God) and one in "The Injīl and the letters" (`c15-the-quran-as-witness-2.json`, after the dilemma's third claim), each with `[paulus_link slug="islamic-dilemma"]`.
 
 ### Changed
 - Content version 2.63.6, with the 2.63.5 hashes of the two edited files in `prior_hashes` (`#r63.6`), so untouched copies on existing sites are refreshed and hand-edited ones left alone.
