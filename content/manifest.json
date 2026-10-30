@@ -1,7 +1,11 @@
 {
 	"nav_version": 7,
-	"content_version": "2.65.0",
+	"content_version": "2.65.1",
 	"prior_hashes": {
+		"apostle-to-the-gentiles.json#r65.1": "0a6ad1546d2f4866b1f13654d743071e",
+		"islamic-dilemma.json#r65.1": "4f8536cd1a94cc2a76943cbf3119ff11",
+		"pauls-missionary-journeys.json#r65.1": "8f82ae0aa21d024014df3d6f9432577b",
+		"was-paul-married.json#r65.1": "b0bd60aabf183eb9631c3c158b653e08",
 		"c15-the-quran-as-witness-2.json#r64.3": "bb55347d4ce5db0e6e89d7ce188f2c8e",
 		"islamic-dilemma.json#r64.3": "10f29a873675ab23ef05629b7854bb28",
 		"c12-malaysia-and-southeast-asia.json#r64.2": "cc8f3da10b1cb51fa1eb30b68b896baf",

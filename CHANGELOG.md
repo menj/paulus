@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.1] - 2026-10-30
+
+### Fixed
+- Was Paul married?, The apostle to the Gentiles, Paul's missionary journeys and The Islamic dilemma and the letters of Paul linked to `#s-two-pauls`, an id no heading renders; the section id is `s-two-pauls-the-man-and-the-canon`. Every other anchored `[paulus_link]` in the content was checked against the ids its target renders.
+- Content version 2.65.1, with the 2.65.0 hashes of the four edited files in `prior_hashes` (`#r65.1`), so unedited copies refresh on update.
+
 ## [2.65.0] - 2026-10-30
 
 ### Added
