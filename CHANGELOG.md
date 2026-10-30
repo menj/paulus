@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.5] - 2026-10-30
+
+### Changed
+- Added a short methodological passage to “The measure”, paraphrasing Ismaʿil Raji al Faruqi's foreword to Akbar S. Ahmed's *Toward Islamic Anthropology*: consistency, evidence, moral responsibility and openness to correction. The new source note identifies the foreword's author and opening paragraphs; existing footnotes are renumbered in reading order.
+- Advanced the content version and retained the previous article hash so the installer refreshes shipped text while preserving hand edits. Updated the theme version and archive instructions.
+
 ## [2.65.4] - 2026-10-30
 
 ### Changed

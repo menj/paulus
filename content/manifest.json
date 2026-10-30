@@ -1,7 +1,8 @@
 {
 	"nav_version": 7,
-	"content_version": "2.65.4",
+	"content_version": "2.65.5",
 	"prior_hashes": {
+		"c01-the-measure.json#r65.5": "ef7671a714f8802ec3a198a5f4974d47",
 		"about-the-author.json#r65.4": "a36f078869949b57c63963292ddf35c6",
 		"original-sin.json#r65.4": "4cadc1be000f92432459968b31bf2749",
 		"jesus-in-his-own-words.json#r65.4": "fc27aa4d29b4f8b454660a817fe1e230",

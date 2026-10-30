@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.4
+Stable tag: 2.65.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.65.5 =
+A sourced methodological addition to The measure, from al Faruqi's foreword to Toward Islamic Anthropology. Content sync preserves hand edits.
 
 = 2.65.4 =
 * The author's YouTube channel is linked at https://www.youtube.com/@TheMuslimApologist throughout, including saved settings that still hold the old address.

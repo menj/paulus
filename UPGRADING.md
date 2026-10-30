@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.4 to 2.65.5
+
+The measure gains a short passage on evaluating evidence and correcting human judgments, with a source note to al Faruqi's foreword to *Toward Islamic Anthropology*. The content version advances to 2.65.5. The sync updates this article only where its text still matches a shipped version; hand-edited text stays in place.
+
 ### 2.65.3 to 2.65.4
 
 - **Text added to three pages.** Unedited copies of An invitation to the Christian reader, Original sin, Who is Christ? and About the author refresh on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content). A copy edited by hand keeps its text. Clear caches afterwards.
