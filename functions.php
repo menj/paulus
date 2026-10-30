@@ -574,6 +574,33 @@ function paulus_upgrade_2630() {
 	update_option( 'paulus_db_version', '2.63.0', false );
 }
 /**
+ * One-time upgrade to 2.65.4: the author's YouTube channel is linked at its
+ * handle address. The channel field and the link in the author note change
+ * only where they still hold an address the theme shipped; an address the
+ * owner entered is kept.
+ */
+function paulus_upgrade_2654() {
+	if ( version_compare( (string) get_option( 'paulus_db_version', '0' ), '2.65.4', '>=' ) ) {
+		return;
+	}
+	$opts = get_option( 'paulus_options' );
+	if ( is_array( $opts ) ) {
+		$new = paulus_defaults()['author_youtube'];
+		$old = array( 'https://themuslimapologist.online', 'https://themuslimapologist.online/', 'https://www.youtube.com/TheMuslimApologist/videos' );
+		if ( in_array( (string) ( $opts['author_youtube'] ?? '' ), $old, true ) ) {
+			$opts['author_youtube'] = $new;
+		}
+		if ( isset( $opts['author_bio'] ) ) {
+			foreach ( $old as $url ) {
+				$opts['author_bio'] = str_replace( 'href="' . $url . '"', 'href="' . $new . '"', (string) $opts['author_bio'] );
+			}
+		}
+		update_option( 'paulus_options', $opts );
+	}
+	update_option( 'paulus_db_version', '2.65.4', false );
+}
+
+/**
  * One-time repair to 2.33.5: the structure sync of 2.30.0 to 2.33.4 saved the
  * options record through a sanitiser that blanked every field it was not
  * given, emptying fields a site had never saved itself. Restore the footer
@@ -628,6 +655,7 @@ function paulus_run_upgrades() {
 	paulus_upgrade_2335();
 	paulus_upgrade_26217();
 	paulus_upgrade_2630();
+	paulus_upgrade_2654();
 }
 add_action( 'admin_init', 'paulus_run_upgrades' );
 // Built in from three GPL plugins (see LICENSES.md and the README): unlist,

@@ -38,7 +38,8 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.65.3 to 2.65.4
 
-- **Text added to three pages.** Unedited copies of An invitation to the Christian reader, Original sin and Who is Christ? refresh on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content). A copy edited by hand keeps its text. Clear caches afterwards.
+- **Text added to three pages.** Unedited copies of An invitation to the Christian reader, Original sin, Who is Christ? and About the author refresh on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content). A copy edited by hand keeps its text. Clear caches afterwards.
+- **YouTube address.** The About the author page refreshes the same way. On the first admin page load, Theme Options' author YouTube field and the link in the author note change to https://www.youtube.com/@TheMuslimApologist if they still hold an address the theme shipped (`themuslimapologist.online` or `youtube.com/TheMuslimApologist/videos`). If you typed your own address there, it is kept; check Theme Options, Book, afterwards.
 
 ### 2.65.2 to 2.65.3
 

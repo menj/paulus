@@ -38,6 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.65.4 =
+* The author's YouTube channel is linked at https://www.youtube.com/@TheMuslimApologist throughout, including saved settings that still hold the old address.
 * The invitation to the Christian reader, Original sin and ʿĪsā in his own words draw on al Faruqi's Christian Ethics where it treats Paul and what followed from him.
 
 = 2.65.3 =
