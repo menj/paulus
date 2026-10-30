@@ -11,6 +11,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
   - `/the-prayer-jesus-taught/`: the Lord's Prayer (Matthew 6:9–13), Gethsemane, "Lord, Lord" (Matthew 7:21) against Romans 10:9, the origin of the sinner's prayer, and al-Fātiḥah side by side.
   - `/an-invitation-to-christians/`: a gentle invitation built on the *fiṭrah* as Isma'il Raji al Faruqi explains it (*Al Tawhid*, pp. 7, 23–24, 47–48, 67, 77, 123): al-Rūm 30:30, al-Bukhārī 1359, what Islam shares with Christians (Āl ʿImrān 3:84; al-Māʾidah 5:82–83), *tawḥīd* and the open door of *tawbah* (Āl ʿImrān 3:64; al-Māʾidah 5:74), no compulsion (al-Baqarah 2:256), and al-Bukhārī 3435 on the testimony of faith.
 - A Sitemap group, "The message of ʿĪsā, without Paul", for the four pages (`inc/seo.php`).
+- The "Two Pauls" links on two of the new pages use the section id the article actually renders, `s-two-pauls-the-man-and-the-canon`.
 
 ### Changed
 - Content version 2.65.0.
