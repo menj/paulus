@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.0 to 2.65.1
+
+- **Link fix in four pages.** Unedited copies of Was Paul married?, The apostle to the Gentiles, Paul's missionary journeys and The Islamic dilemma and the letters of Paul refresh on the first page load as an administrator. A copy edited by hand keeps its text; change `#s-two-pauls` to `#s-two-pauls-the-man-and-the-canon` in it yourself.
+
 ### 2.64.1 to 2.65.0
 
 - **Four new pages** (`original-sin`, `jesus-in-his-own-words`, `the-prayer-jesus-taught`, `an-invitation-to-christians`), created by the structure sync on the first page load as an administrator, with their featured images. They appear in the Sitemap under "The message of ʿĪsā, without Paul". No existing text changes, and no menu changes: link them from a menu by hand if you want them there. Clear caches afterwards.
