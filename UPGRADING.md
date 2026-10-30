@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.5 to 2.65.6
+
+- **New featured images** on four pages. They change on the first page load as an administrator (or Install or update under Appearance, Theme Options, Content), on any page whose current featured image is one the theme installed; one you chose by hand is kept. Four new images go into the media library. Clear caches afterwards.
+
 ### 2.65.4 to 2.65.5
 
 - **One phrase changed in each of three articles** (Tarsus and a persona for every audience; The failed prophet; No prophet between me and ʿĪsā ibn Maryam). Unedited copies refresh on the first page load as an administrator; a copy edited by hand keeps its text. Clear caches afterwards.

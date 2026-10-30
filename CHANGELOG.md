@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.65.6] - 2026-10-30
+
+### Added
+- A photograph as the featured image of each page added in 2.65.0, chosen so that none shows a prophet, a saint or any figure meant for devotion (`FARUQI.md`, "Design and art"). Each is cropped square at 1024 pixels, in AVIF with a JPEG copy for link previews, and recorded in `content/images.json` (label, alt text, and a figure entry for its credit), `assets/images/sizes.json` and `assets/files.json`:
+  - `photo-newborn-hand` for Original sin: a baby's hand gripping an adult's finger, black and white (Alexander Grigorian, Pexels). The fiṭrah and the child born innocent.
+  - `photo-carpenters-tools` for Who is Christ?: an old cabinet of hand planes and chisels (hrohmann, Pixabay). The trade ʿĪsā is named for in Mark 6:3.
+  - `photo-dawn-tree` for The prayer ʿĪsā taught: a lone tree in morning mist (Thomas P, Pexels). "A solitary place" at dawn (Mark 1:35).
+  - `photo-open-doorway` for An invitation to the Christian reader: an open door onto a sunlit courtyard (travelers_tw, Pexels). The open door of *tawbah*.
+- `LICENSES.md` lists the Pexels and Pixabay licences.
+
+### Changed
+- Content version 2.65.6. The sync swaps each page's featured image where the theme installed the one it holds; an image chosen by hand is kept.
+
 ## [2.65.5] - 2026-10-30
 
 ### Changed
