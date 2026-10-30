@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.4 to 2.65.5
+
+- **One phrase changed in each of three articles** (Tarsus and a persona for every audience; The failed prophet; No prophet between me and ʿĪsā ibn Maryam). Unedited copies refresh on the first page load as an administrator; a copy edited by hand keeps its text. Clear caches afterwards.
+
 ### 2.65.3 to 2.65.4
 
 - **Text added to three pages.** Unedited copies of An invitation to the Christian reader, Original sin, Who is Christ? and About the author refresh on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content). A copy edited by hand keeps its text. Clear caches afterwards.
