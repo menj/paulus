@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.4
+Stable tag: 2.65.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,12 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.65.6 =
+* Photographs for the four pages added in 2.65.0: a baby's hand holding an adult's finger, an old cabinet of planes and chisels, a lone tree in morning mist, and an open doorway onto a sunlit courtyard.
+
+= 2.65.5 =
+* Three articles name their own subject: Tarsus as the city the Bible gives as Paul's own, "Was Paul a prophet?", and "the authoritative view of Paul in Islam".
 
 = 2.65.4 =
 * The author's YouTube channel is linked at https://www.youtube.com/@TheMuslimApologist throughout, including saved settings that still hold the old address.

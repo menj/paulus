@@ -52,7 +52,11 @@
 		"paul-horned-grin-face": "Horned, grinning, close-up",
 		"paul-horned-grin-hands": "Horned, grinning, hands and scroll",
 		"paul-horned-grin-ink": "Horned, grinning, ink duotone",
-		"paul-horned-grin-oxblood": "Horned, grinning, oxblood duotone"
+		"paul-horned-grin-oxblood": "Horned, grinning, oxblood duotone",
+		"photo-newborn-hand": "Baby's hand holding an adult's finger (Alexander Grigorian, Pexels)",
+		"photo-carpenters-tools": "Old wooden cabinet of planes and chisels (hrohmann, Pixabay)",
+		"photo-dawn-tree": "A lone tree in a misty field at dawn (Thomas P, Pexels)",
+		"photo-open-doorway": "An open doorway onto a sunlit courtyard (travelers_tw, Pexels)"
 	},
 	"alts": {
 		"met-ring-key": "Roman bronze ring key, a small key worn on the finger, third or fourth century CE",
@@ -107,7 +111,11 @@
 		"paul-horned-grin-hands": "Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, close-up of the hands and scroll",
 		"paul-horned-grin-ink": "Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in dark ink duotone",
 		"paul-horned-grin-oxblood": "Paul of Tarsus as a grinning horned figure in a conical cap lettered BASTARD, holding a toy water pistol and a scroll, in oxblood duotone",
-		"book-cover": "Front cover of Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi"
+		"book-cover": "Front cover of Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi",
+		"photo-newborn-hand": "Black and white photograph of a baby's small hand gripping the finger of an adult's hand",
+		"photo-carpenters-tools": "Old wooden cabinet holding hand planes and a row of wood chisels",
+		"photo-dawn-tree": "A lone bare tree standing in a misty green field at dawn",
+		"photo-open-doorway": "A dark hallway with an open wooden door onto a sunlit courtyard, with sandals and a mat on the tiles outside"
 	},
 	"figures": {
 		"met-ring-key": {
@@ -705,6 +713,34 @@
 			"license": "Public domain",
 			"license_url": "",
 			"source": ""
+		},
+		"photo-newborn-hand": {
+			"alt": "Black and white photograph of a baby's small hand gripping the finger of an adult's hand",
+			"author": "Alexander Grigorian",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/hand-of-a-baby-and-a-person-10895786/"
+		},
+		"photo-carpenters-tools": {
+			"alt": "Old wooden cabinet holding hand planes and a row of wood chisels",
+			"author": "hrohmann",
+			"license": "Pixabay Content License",
+			"license_url": "https://pixabay.com/service/license-summary/",
+			"source": "https://pixabay.com/photos/wood-woodworking-tool-tool-cabinet-2566642/"
+		},
+		"photo-dawn-tree": {
+			"alt": "A lone bare tree standing in a misty green field at dawn",
+			"author": "Thomas P",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/tree-in-a-foggy-field-19544769/"
+		},
+		"photo-open-doorway": {
+			"alt": "A dark hallway with an open wooden door onto a sunlit courtyard, with sandals and a mat on the tiles outside",
+			"author": "travelers_tw",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/open-doorway-with-sunlit-exterior-view-28908752/"
 		}
 	}
 }

@@ -1,7 +1,10 @@
 {
 	"nav_version": 7,
-	"content_version": "2.65.4",
+	"content_version": "2.65.6",
 	"prior_hashes": {
+		"c02-who-was-paul-2.json#r65.5": "8d470f906edd74f6d806d4452cc92f5e",
+		"c09-the-failed-prophet.json#r65.5": "cd30df3044e83e842e900a8929895898",
+		"c10-no-prophet-between.json#r65.5": "605f279bb1e76ea132f789e7a6b1dbcf",
 		"about-the-author.json#r65.4": "a36f078869949b57c63963292ddf35c6",
 		"original-sin.json#r65.4": "4cadc1be000f92432459968b31bf2749",
 		"jesus-in-his-own-words.json#r65.4": "fc27aa4d29b4f8b454660a817fe1e230",
@@ -1657,7 +1660,7 @@
 			"seo_title": "Original sin and Paul",
 			"excerpt": "Original sin rests on one sentence of Paul's, as Augustine read it. What the Torah and Ezekiel said of inherited guilt, what ʿĪsā taught about sin and forgiveness, and what the Qurʾān says of Ādam and of every soul after him.",
 			"file": "original-sin.json",
-			"image": "paul-decayed-face",
+			"image": "photo-newborn-hand",
 			"order": 14
 		},
 		{
@@ -1667,7 +1670,7 @@
 			"seo_title": "Jesus in his own words",
 			"excerpt": "What ʿĪsā ibn Maryam said about God and about himself in the Gospels the churches accept, set beside what Paul said about him, and beside the ʿĪsā of the Qurʾān.",
 			"file": "jesus-in-his-own-words.json",
-			"image": "paul-portrait-mirror",
+			"image": "photo-carpenters-tools",
 			"order": 15
 		},
 		{
@@ -1677,7 +1680,7 @@
 			"seo_title": "The prayer Jesus taught",
 			"excerpt": "The prayer ʿĪsā gave his disciples, how he himself prayed, the confession Paul made the condition of salvation, where the sinner's prayer comes from, and the prayer that opens the Qurʾān.",
 			"file": "the-prayer-jesus-taught.json",
-			"image": "paul-portrait-hands",
+			"image": "photo-dawn-tree",
 			"order": 16
 		},
 		{
@@ -1687,7 +1690,7 @@
 			"seo_title": "An invitation to Christians",
 			"excerpt": "A page for the Christian reader: the fiṭrah every person is born with, as Ismaʿil Raji al Faruqi explained it, what Islam shares with Christians, the one thing it asks, and where to begin, with no compulsion and no hurry.",
 			"file": "an-invitation-to-christians.json",
-			"image": "met-papyrus-letter",
+			"image": "photo-open-doorway",
 			"order": 17
 		},
 		{
