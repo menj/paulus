@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.4",
+	"content_version": "2.66.5",
 	"prior_hashes": {
+		"c05-seven-doctrines-2.json#r66.5": "147775923aac00dd5e4922eedba02744",
+		"c14-the-purse.json#r66.5": "0f7569780f299fabf3b5dafe06ea3fca",
+		"c04-the-jerusalem-council.json#r66.5": "8d34db792a7e4165c524344c66470e7b",
+		"c13-lies-curses-and-guile.json#r66.5": "ff72f4135f0eb58dfdf5cd08ca1baeb8",
+		"c06-twisting-the-scriptures-3.json#r66.5": "a85431b96b0bfa003798446d7bcaf16c",
+		"c08-ego-epilepsy-and-narcissism.json#r66.5": "6fb74b60af3818a7407a9922a33627df",
+		"c03-the-damascus-road-2.json#r66.5": "a2d28606773f4786b1b458b7fd6a1a02",
+		"c03-a-self-appointed-apostle.json#r66.5": "1350d4a2376359743e338773e229aabb",
+		"c02-who-was-paul.json#r66.5": "1a0f247154623b105c43ec3e0f64fb0f",
+		"c09-the-church-that-followed-paul-2.json#r66.5": "0d8a4a695d6b98f0b5bf9629d7e5b1b5",
 		"why-luke-does-not-know-pauls-letters.json#r66.4": "388dc1bd110bd313d281761e7136b407",
 		"c16-the-hostile-witnesses.json#r66.4": "5d5803a343bfbf50129c0b419abde244",
 		"c13-the-flesh.json#r66.4": "539d6c628d70c0bf0f52d540bcbeee0f",

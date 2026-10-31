@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.5] - 2026-10-31
+
+### Added
+- Twenty photographs as inline figures, two more in each of ten articles that had one: What the Romans saw, Who was Paul of Tarsus?, A self-appointed apostle, The three accounts compared, Ego, epilepsy and narcissism, The Tanakh rewritten, The character of Paul, Paul against the disciples, The purse, and Seven doctrines: the law and the covenant. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person. A figure goes only after a paragraph outside any quotation, list or footnote block, and clear of another figure.
+- Content version 2.66.5, with each edited article's 2.66.4 hash in `prior_hashes` (`#r66.5`).
+
 ## [2.66.4] - 2026-10-31
 
 ### Added
