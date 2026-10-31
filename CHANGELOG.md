@@ -8,6 +8,15 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - A Security tab on Theme Options (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `assets/css/security.css`), merged from `claude/cool-lovelace-qwhkqo` (written as 2.65.0 there): XML-RPC off, REST changes only from a cookie session with a valid nonce, a spam gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports. Switches `sec_xmlrpc_off`, `sec_rest_lock`, `sec_spam_gate`, `sec_gone`, all on by default; `PAULUS_SECURITY_LOCK` in `wp-config.php` turns the locks off. Shipped content is identified from `content/manifest.json`. `php tests/security-detector-test.php` checks the detector.
 - Neutral in-content contextual links (`inc/contextual-links.php`, with admin CSS and JS), merged from `claude/stoic-wozniak-cxgu25`.
 
+## [2.66.1] - 2026-10-31
+
+### Added
+- Thirty photographs, three inline figures in each of ten articles that had none: Paul's missionary journeys, The apostle to the Gentiles, Saul in the Bible, The meaning of the name Paul, The Islamic dilemma, The Greek body and the Jewish bed (`c05-the-letters-of-a-man-2.json`), Original sin, ʿĪsā in his own words, The prayer ʿĪsā taught and An invitation to the Christian reader. Each is placed after the first paragraph under a heading, never beside one, with a caption that names the place or the verse it recalls, alt text describing the picture, and a credit line (author, licence, source) from `content/images.json`. Chosen from Wikimedia Commons (CC BY, CC BY-SA, public domain), Pexels and Pixabay; none shows a prophet, a saint or any figure meant for devotion (`FARUQI.md`, "Design and art"). Stored as AVIF at up to 1,400 pixels with a 720-pixel copy, in `assets/images/church/`.
+
+### Changed
+- Every image the theme ships is AVIF or WebP (the lightbox library's own icons excepted). Link previews (`assets/social/<slug>.webp`, quality 78), the honorific masks, the publisher logo, the site icon and `screenshot.webp` move from JPEG and PNG to WebP; the code and CSS that named the old files follow. Some link-preview crawlers read WebP less reliably than JPEG, so check a shared link after updating.
+- Content version 2.66.1, with the 2.66.0 hash of each edited article in `prior_hashes` (`#r66.1`), so unedited copies refresh and hand edits stay.
+
 ## [2.66.0 content] - 2026-10-31
 
 ### Changed

@@ -884,14 +884,14 @@
 		},
 		"kufic-quran-folio-abbasid": {
 			"alt": "A folio from an Abbasid Qurʾān in Kufic script, eighth to ninth century",
-			"author": "Unknown in Abbasid dynasty",
+			"author": "Unknown (Abbasid scribe)",
 			"license": "Public domain",
 			"license_url": "",
 			"source": "https://commons.wikimedia.org/wiki/File:Folio_from_a_Koran_(8th-9th_century).jpg"
 		},
 		"kufic-quran-folio-egypt": {
 			"alt": "An Abbasid Qurʾān folio from Egypt written in Kufic script",
-			"author": "Unknown",
+			"author": "Unknown (Abbasid scribe)",
 			"license": "Public domain",
 			"license_url": "",
 			"source": "https://commons.wikimedia.org/wiki/File:Abbasid_Koran_folio_from_Egypt.jpg"
@@ -909,6 +909,48 @@
 			"license": "Pexels License",
 			"license_url": "https://www.pexels.com/license/",
 			"source": "https://www.pexels.com/photo/golden-gate-in-jerusalem-18516299/"
+		},
+		"greek-black-figure-vase": {
+			"alt": "An ancient Greek black-figure vase painted with a winged horse, displayed in a museum",
+			"author": "Alper Murat KİRPİK",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-greek-black-figure-vase-on-display-31476388/"
+		},
+		"western-wall-stonework": {
+			"alt": "Close-up of the large dressed stones of the Western Wall in Jerusalem",
+			"author": "Сокіл Sokil",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/historic-western-wall-in-jerusalem-close-up-38539864/"
+		},
+		"roman-silver-coins": {
+			"alt": "Close-up of ancient Roman silver coins with engraved portraits",
+			"author": "Thomas K.",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-denar-coins-15954089/"
+		},
+		"israel-arid-hills": {
+			"alt": "Rugged arid hills under a clear blue sky in Israel",
+			"author": "Duc Tinh Ngo",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/stunning-desert-landscape-in-israel-30187309/"
+		},
+		"northern-israel-hills": {
+			"alt": "An aerial view of hills and villages in the north of Israel",
+			"author": "Samir Smier",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/aerial-view-of-north-district-landscape-with-hills-30067993/"
+		},
+		"delphi-theatre": {
+			"alt": "The ancient Greek theatre at Delphi on its mountain slope",
+			"author": "Konstantinos Livadas",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/view-of-the-ancient-theatre-of-the-oracle-of-delphi-in-greece-27001314/"
 		}
 	}
 }

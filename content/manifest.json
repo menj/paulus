@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.0",
+	"content_version": "2.66.1",
 	"prior_hashes": {
+		"an-invitation-to-christians.json#r66.1": "bf34ffa4df3181cfe48b33471c0e0c25",
+		"the-prayer-jesus-taught.json#r66.1": "40df6fcef4f09976a72c2f925f2a51c7",
+		"jesus-in-his-own-words.json#r66.1": "17a3ae179448cebd890c92c57300e9b9",
+		"original-sin.json#r66.1": "2d9f7a93e734e85bb786ca6e3059ecc2",
+		"c05-the-letters-of-a-man-2.json#r66.1": "9547189ddcb41384b0dbcda1103f4bff",
+		"islamic-dilemma.json#r66.1": "b777445c31f3ecd0ab0c49319117649b",
+		"meaning-of-the-name-paul.json#r66.1": "66c09a6d88214941d683f12441858056",
+		"saul-in-the-bible.json#r66.1": "1a071eb87c1df50cd927218560039247",
+		"apostle-to-the-gentiles.json#r66.1": "59f1f34de32662728e1c2ad7a320e533",
+		"pauls-missionary-journeys.json#r66.1": "e60997d32267cfff0a8f55c76543bf40",
 		"c01-the-measure.json#r66.0": "ef7671a714f8802ec3a198a5f4974d47",
 		"c02-who-was-paul-2.json#r65.5": "8d470f906edd74f6d806d4452cc92f5e",
 		"c09-the-failed-prophet.json#r65.5": "cd30df3044e83e842e900a8929895898",
