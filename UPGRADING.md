@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.66.1 to 2.66.2
+
+- Upload the whole theme folder: ten more articles need the new files in `assets/images/church/`. The sync refreshes them where they still match a shipped text; hand-edited text stays.
+
 ### 2.66.0 to 2.66.1
 
 - **Upload the whole theme folder.** The old `assets/social/*.jpg`, the four PNGs in `assets/images/` and `screenshot.png` are replaced by WebP files, and ten articles gain figures that need the new files in `assets/images/church/`. The sync refreshes the ten articles where they still match a shipped text; hand-edited text stays.

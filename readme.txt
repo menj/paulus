@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.66.1
+Stable tag: 2.66.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.66.2 =
+* Thirty more photographs, three in each of ten more articles, captioned with the place or the verse each recalls.
 
 = 2.66.1 =
 * Thirty new photographs, three in each of ten articles, with captions that name the place or the verse. All images in the theme are now AVIF or WebP.

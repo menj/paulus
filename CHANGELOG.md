@@ -8,6 +8,12 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - A Security tab on Theme Options (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `assets/css/security.css`), merged from `claude/cool-lovelace-qwhkqo` (written as 2.65.0 there): XML-RPC off, REST changes only from a cookie session with a valid nonce, a spam gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports. Switches `sec_xmlrpc_off`, `sec_rest_lock`, `sec_spam_gate`, `sec_gone`, all on by default; `PAULUS_SECURITY_LOCK` in `wp-config.php` turns the locks off. Shipped content is identified from `content/manifest.json`. `php tests/security-detector-test.php` checks the detector.
 - Neutral in-content contextual links (`inc/contextual-links.php`, with admin CSS and JS), merged from `claude/stoic-wozniak-cxgu25`.
 
+## [2.66.2] - 2026-10-31
+
+### Added
+- Thirty photographs, three inline figures in each of ten more articles: The Roman, Was Paul married?, The parting with Barnabas (`c04-the-jerusalem-council-2.json`), Paul's own titles (`c10-no-prophet-between-2.json`), Suffering that atones (`c07-borrowings-from-the-rabbis-2.json`), Justification by faith (`c06-the-gospels-and-the-new-covenant-2.json`), Twisting the Scriptures, The Injil and the letters (`c15-the-quran-as-witness-2.json`), Lord before the Spirit (`c07-witnesses-and-angels-2.json`) and The measure. All from Pexels (Pexels License); the alt text is the photograph's own description, the caption ties it to a verse or to the argument, and none shows a person. Where an article has no headings a figure goes only after a paragraph outside any quotation, list or footnote block and before another paragraph.
+- Content version 2.66.2, with each edited article's 2.66.1 hash in `prior_hashes` (`#r66.2`).
+
 ## [2.66.1] - 2026-10-31
 
 ### Added

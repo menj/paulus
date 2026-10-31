@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.1",
+	"content_version": "2.66.2",
 	"prior_hashes": {
+		"c01-the-measure.json#r66.2": "b66b0e8e7c645b5194cbae1ce343e1a2",
+		"c07-witnesses-and-angels-2.json#r66.2": "adc162ed6d8bb5b6a2d324768d86760e",
+		"c15-the-quran-as-witness-2.json#r66.2": "f7577e743b334acd6b2106cbb45c6791",
+		"c06-twisting-the-scriptures.json#r66.2": "8ed9c98174a856dfd79fd3e60b0835b5",
+		"c06-the-gospels-and-the-new-covenant-2.json#r66.2": "7f053200b204a8602e30b77999465a4b",
+		"c07-borrowings-from-the-rabbis-2.json#r66.2": "1b1ac6a9402e1bc502017e567e20f2d0",
+		"c10-no-prophet-between-2.json#r66.2": "cf6939d16e863f26a6d5eb5eccaad012",
+		"c04-the-jerusalem-council-2.json#r66.2": "dae764213e4cd70d755be24a3460ef61",
+		"was-paul-married.json#r66.2": "3532eaea69e53b226e2fa95c5cf0b818",
+		"c14-the-roman.json#r66.2": "13648644e29e8ca0db71b8ac6b8eeaf6",
 		"an-invitation-to-christians.json#r66.1": "bf34ffa4df3181cfe48b33471c0e0c25",
 		"the-prayer-jesus-taught.json#r66.1": "40df6fcef4f09976a72c2f925f2a51c7",
 		"jesus-in-his-own-words.json#r66.1": "17a3ae179448cebd890c92c57300e9b9",
