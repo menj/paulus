@@ -8,6 +8,7 @@
 # assets/docs (the Martin notes are served to visitors), README.md and
 # UPGRADING.md (the owner reads them on the site).
 docs/           export-ignore
+tests/          export-ignore
 CHANGELOG.md    export-ignore
 .gitignore      export-ignore
 .gitattributes  export-ignore

@@ -741,6 +741,426 @@
 			"license": "Pexels License",
 			"license_url": "https://www.pexels.com/license/",
 			"source": "https://www.pexels.com/photo/open-doorway-with-sunlit-exterior-view-28908752/"
+		},
+		"galilee-green-hills": {
+			"alt": "Grassy slopes above Lake Tiberias, the Sea of Galilee, with distant hills under a pale sky",
+			"author": "Haley Black",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/grass-field-2102652/"
+		},
+		"twisted-olive-tree": {
+			"alt": "A gnarled ancient olive tree with a twisted trunk in bright Mediterranean sunlight",
+			"author": "Erika Tálas",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-olive-tree-in-mediterranean-landscape-39307554/"
+		},
+		"open-bible-lit": {
+			"alt": "An open Bible lying on a wooden table in soft light",
+			"author": "Roman Ziomka",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/an-opened-bible-lying-on-a-wooden-background-15382606/"
+		},
+		"jerusalem-olive-trees": {
+			"alt": "A view over Jerusalem with old stone buildings and olive trees in the foreground",
+			"author": "Сокіл Sokil",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/scenic-view-of-jerusalem-s-historic-landscape-40426494/"
+		},
+		"galilee-lake-view": {
+			"alt": "A wide view of the Sea of Galilee surrounded by hills",
+			"author": "Elyasaf  Eyal",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/brown-mountain-under-the-blue-sky-9359347/"
+		},
+		"open-bible-rustic": {
+			"alt": "A Bible opened on a rustic wooden table in dramatic side light",
+			"author": "Roman Ziomka",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/an-opened-bible-with-a-stick-with-thorns-lying-on-a-wooden-background-15382607/"
+		},
+		"figs-on-branch": {
+			"alt": "Green figs growing on a fig tree branch in sunlight",
+			"author": "ROMAN ODINTSOV",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/green-round-fruit-hanging-on-the-tree-branch-8180466/"
+		},
+		"cracked-earth": {
+			"alt": "Dry cracked earth with sparse water in a barren landscape",
+			"author": "Quang Nguyen Vinh",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/arid-landscape-with-cracked-earth-and-mountains-30174268/"
+		},
+		"desert-footprints": {
+			"alt": "A line of footprints crossing vast desert sand dunes under a clear sky",
+			"author": "Petr Ganaj",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/footprints-on-the-sand-8601124/"
+		},
+		"book-lit-dark": {
+			"alt": "An open book lit by a dim light on a dark wooden table",
+			"author": "night of the light",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/open-book-in-low-light-on-wooden-table-28426413/"
+		},
+		"galilee-green-fields": {
+			"alt": "Green grass fields and hills above the Sea of Galilee",
+			"author": "Haley Black",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/rocky-mountain-near-green-grass-field-2102651/"
+		},
+		"rippled-dunes-footprints": {
+			"alt": "Gentle footprints leading across rippled sand dunes in a quiet desert",
+			"author": "Alexander Mass",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/footprints-on-sandy-dune-in-desert-landscape-30032405/"
+		},
+		"roman-inscription-ephesus": {
+			"alt": "A Latin inscription carved into a stone wall at Ephesus in Turkey",
+			"author": "cuma tanık",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-roman-inscription-in-ephesus-turkiye-39039648/"
+		},
+		"perge-colonnaded-street": {
+			"alt": "A row of weathered marble columns lining the paved main street of the ancient city of Perge in southern Turkey",
+			"author": "Bernard Gagnon",
+			"license": "CC BY-SA 3.0",
+			"license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+			"source": "https://commons.wikimedia.org/wiki/File:Colonnade,_Perge_01.jpg"
+		},
+		"via-egnatia-philippi": {
+			"alt": "A stretch of the Roman Via Egnatia, paved with large stone slabs, at the ruins of Philippi in Macedonia",
+			"author": "Carole Raddato from FRANKFURT, Germany",
+			"license": "CC BY-SA 2.0",
+			"license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+			"source": "https://commons.wikimedia.org/wiki/File:The_Via_Egnatia,_Philippi_(7272908636).jpg"
+		},
+		"antioch-aqueduct": {
+			"alt": "The surviving arches of a Roman aqueduct near Antakya, the ancient Antioch on the Orontes",
+			"author": "Carole Raddato from FRANKFURT, Germany",
+			"license": "CC BY-SA 2.0",
+			"license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+			"source": "https://commons.wikimedia.org/wiki/File:Trajan_Hadrian%27s_aqueduct_today,_Antioch_on_the_Orontes,_Antakya,_Turkey_(35431303353).jpg"
+		},
+		"antakya-antioch": {
+			"alt": "The modern city of Antakya, on the site of ancient Antioch in Syria, seen across its rooftops",
+			"author": "Maarten Sepp",
+			"license": "CC BY-SA 4.0",
+			"license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+			"source": "https://commons.wikimedia.org/wiki/File:Antakya_-_2011-04-10.jpg"
+		},
+		"tell-el-ful-gibeah": {
+			"alt": "An early twentieth-century photograph of Tell el-Ful, the hill north of Jerusalem identified with Gibeah of Saul",
+			"author": "Matson Collection",
+			"license": "Public domain",
+			"license_url": "",
+			"source": "https://commons.wikimedia.org/wiki/File:Tell_el-Ful_battlefield_etc._Tell_el-Ful_LOC_matpc.05995.jpg"
+		},
+		"appian-way-rome": {
+			"alt": "The ancient paving stones of the Appian Way, the Roman road into Rome, lined with pines",
+			"author": "Livioandronico2013",
+			"license": "CC BY-SA 4.0",
+			"license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+			"source": "https://commons.wikimedia.org/wiki/File:Appian_Way.jpg"
+		},
+		"roman-forum-ruins": {
+			"alt": "The ruined columns and stones of the Roman Forum under a clear blue sky",
+			"author": "Valentin Ivantsov",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-roman-ruins-in-sunlit-afternoon-33595404/"
+		},
+		"kufic-quran-folio-abbasid": {
+			"alt": "A folio from an Abbasid Qurʾān in Kufic script, eighth to ninth century",
+			"author": "Unknown (Abbasid scribe)",
+			"license": "Public domain",
+			"license_url": "",
+			"source": "https://commons.wikimedia.org/wiki/File:Folio_from_a_Koran_(8th-9th_century).jpg"
+		},
+		"kufic-quran-folio-egypt": {
+			"alt": "An Abbasid Qurʾān folio from Egypt written in Kufic script",
+			"author": "Unknown (Abbasid scribe)",
+			"license": "Public domain",
+			"license_url": "",
+			"source": "https://commons.wikimedia.org/wiki/File:Abbasid_Koran_folio_from_Egypt.jpg"
+		},
+		"open-quran-stand": {
+			"alt": "An open Qurʾān resting on a traditional wooden stand",
+			"author": "MATAQ Darul Ulum",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/a-quran-on-a-wooden-table-10336482/"
+		},
+		"jerusalem-old-city-walls": {
+			"alt": "The ancient stone walls of Jerusalem under a clear blue sky",
+			"author": "Ayşe",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/golden-gate-in-jerusalem-18516299/"
+		},
+		"greek-black-figure-vase": {
+			"alt": "An ancient Greek black-figure vase painted with a winged horse, displayed in a museum",
+			"author": "Alper Murat KİRPİK",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-greek-black-figure-vase-on-display-31476388/"
+		},
+		"western-wall-stonework": {
+			"alt": "Close-up of the large dressed stones of the Western Wall in Jerusalem",
+			"author": "Сокіл Sokil",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/historic-western-wall-in-jerusalem-close-up-38539864/"
+		},
+		"roman-silver-coins": {
+			"alt": "Close-up of ancient Roman silver coins with engraved portraits",
+			"author": "Thomas K.",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-denar-coins-15954089/"
+		},
+		"israel-arid-hills": {
+			"alt": "Rugged arid hills under a clear blue sky in Israel",
+			"author": "Duc Tinh Ngo",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/stunning-desert-landscape-in-israel-30187309/"
+		},
+		"northern-israel-hills": {
+			"alt": "An aerial view of hills and villages in the north of Israel",
+			"author": "Samir Smier",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/aerial-view-of-north-district-landscape-with-hills-30067993/"
+		},
+		"delphi-theatre": {
+			"alt": "The ancient Greek theatre at Delphi on its mountain slope",
+			"author": "Konstantinos Livadas",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/view-of-the-ancient-theatre-of-the-oracle-of-delphi-in-greece-27001314/"
+		},
+		"roman-aqueduct-ruins-21430822": {
+			"alt": "View of an ancient Roman aqueduct in a lush green park at sunset",
+			"author": "lorenzo marino",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/park-of-aqueducts-in-italy-21430822/"
+		},
+		"colosseum-arches-rome-14836534": {
+			"alt": "Close-up view of the iconic Colosseum in Rome, highlighting ancient Roman architecture",
+			"author": "Efrem  Efre",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/the-colosseum-in-rome-14836534/"
+		},
+		"ancient-roman-paved-road-32876367": {
+			"alt": "Explore the remnants of an ancient Roman road lined with stone columns under a clear sky",
+			"author": "Nuh Erkan",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-roman-road-with-stone-columns-in-ruins-32876367/"
+		},
+		"wedding-rings-old-book-29721490": {
+			"alt": "Golden wedding rings resting on an open Bible, symbolizing love and faith",
+			"author": "Audu Samson",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/golden-wedding-rings-on-open-bible-page-29721490/"
+		},
+		"papyrus-scroll-writing-15850552": {
+			"alt": "Close-up view of an ancient papyrus scroll, showcasing historic scripts, in a dimly lit museum setting",
+			"author": "Ayşenaz  Bilgin",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-of-historic-antique-papyrus-in-museum-15850552/"
+		},
+		"fork-in-the-road-path-22775934": {
+			"alt": "Picturesque park scene with a forked path and signpost, inviting exploration",
+			"author": "Han-Chieh Lee",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/sidewalk-in-park-22775934/"
+		},
+		"ancient-harbour-sailing-boats-mediterranean-30174771": {
+			"alt": "Boats docked in Valletta Harbor, Malta, under a vibrant sunset sky",
+			"author": "Tom Fisk",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/scenic-view-of-valletta-harbor-in-malta-30174771/"
+		},
+		"cyprus-coast-rocky-sea-34672073": {
+			"alt": "Explore the breathtaking sea caves along the rocky coastline of Cyprus, capturing nature's beauty",
+			"author": "Olha Maltseva",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/stunning-sea-caves-on-cyprus-coastline-34672073/"
+		},
+		"carved-stone-inscription-ancient-23938509": {
+			"alt": "Close-up of ancient ruins with stone columns and weathered inscriptions",
+			"author": "Ekrem KÖSE",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/inscription-carved-on-the-wall-in-ancient-ruins-23938509/"
+		},
+		"parchment-scroll-wax-seal-5425649": {
+			"alt": "Close-up of a vintage wax seal on a rustic paper envelope with a black sealing stamp",
+			"author": "Anna Tarazevich",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-photo-of-a-stamp-on-a-paper-5425649/"
+		},
+		"quill-pen-ink-manuscript-12944758": {
+			"alt": "Close-up of an antique book and vintage pen on a rustic wooden table, evoking a sense of history and nostalgia",
+			"author": "Atlantic Ambience",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/old-book-beside-an-ink-pen-12944758/"
+		},
+		"stormy-sea-waves-28320730": {
+			"alt": "Captivating view of a stormy sea under dark clouds, showcasing powerful ocean waves",
+			"author": "Cedé Joey",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/nordic-ocean-in-storm-28320730/"
+		},
+		"old-ledger-account-book-12983110": {
+			"alt": "An open ledger book showing yellowing pages and handwritten entries, symbolizing the passage of time",
+			"author": "Strange Happenings",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/open-book-in-close-up-shot-12983110/"
+		},
+		"balance-scale-weights-19869123": {
+			"alt": "Close-up of vintage metal weights on a kitchen scale in black and white",
+			"author": "El Jundi",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/stone-items-with-hooks-19869123/"
+		},
+		"twisted-rope-15546847": {
+			"alt": "Macro view of a twisted rope highlighting its intricate strands and texture",
+			"author": "cnrdmroglu",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/rope-in-close-up-15546847/"
+		},
+		"torn-pages-old-book-38430711": {
+			"alt": "A collection of aged, open books with partially torn pages create a nostalgic atmosphere",
+			"author": "Sóc Năng Động",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/vintage-open-books-with-torn-pages-38430711/"
+		},
+		"old-manuscript-pages-13207104": {
+			"alt": "Close-up of an antique book page with cursive writing and aged paper texture",
+			"author": "Putra Kusuma",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/cursive-writing-on-paper-13207104/"
+		},
+		"ancient-papyrus-fragment-36505438": {
+			"alt": "A piece of ancient Egyptian papyrus on display in a Giza museum, illuminated by soft natural light",
+			"author": "Alexey K.",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/ancient-egyptian-papyrus-display-in-giza-museum-36505438/"
+		},
+		"sunrise-over-hills-18319865": {
+			"alt": "Golden sunset over silhouetted hills creates a tranquil view",
+			"author": "Orhan Pergel",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/sunset-among-hills-18319865/"
+		},
+		"rays-of-light-through-clouds-40340600": {
+			"alt": "Sunlight breaks through storm clouds over the Black Sea in Batumi, Georgia, creating a dramatic coastal seascape",
+			"author": "Alexander Gluschenko",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/dramatic-clouds-and-sunbeams-over-black-sea-40340600/"
+		},
+		"candle-flame-dark-2563040": {
+			"alt": "Close-up of two burning candles illuminating the dark ambiance",
+			"author": "Andre Moura",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/two-lit-candles-2563040/"
+		},
+		"wind-blowing-dust-desert-5976943": {
+			"alt": "Close-up of dust cloud forming in rocky desert landscape with mountain backdrop",
+			"author": "Tima Miroshnichenko",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-shot-of-sand-dust-from-drifting-5976943/"
+		},
+		"brass-weights-balance-13208025": {
+			"alt": "Retro brass kitchen balance scale with symmetry displayed on wooden shelf",
+			"author": "Diana ✨",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/vintage-brass-scale-on-a-wooden-shelf-13208025/"
+		},
+		"rusty-iron-chains-36688932": {
+			"alt": "Detailed shot of interconnected rusty metal chains displaying texture and decay",
+			"author": "PIC MATTI",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-of-rusty-metal-chains-in-detail-36688932/"
+		},
+		"thorn-branch-thorns-37176612": {
+			"alt": "Detailed view of a thorny branch with fresh green buds signaling new growth",
+			"author": "Osman İçli",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-of-thorny-branch-with-budding-leaves-37176612/"
+		},
+		"old-brass-key-33388008": {
+			"alt": "A collection of vintage brass keys displayed in a scattered arrangement on a dark surface",
+			"author": "Magda Ehlers",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/vintage-style-brass-key-collection-on-display-33388008/"
+		},
+		"brass-compass-old-map-14436272": {
+			"alt": "A vintage brass compass rests on an antique map with a nautical rope, evoking exploration and discovery",
+			"author": "Ylanite Koppens",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/compass-on-a-map-14436272/"
+		},
+		"ancient-stone-wall-straight-blocks-34309998": {
+			"alt": "Detailed view of a rustic stone wall with varied textures and colors",
+			"author": "Tahir Xəlfəquliyev",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/close-up-of-rustic-stone-wall-texture-34309998/"
+		},
+		"jerusalem-old-city-stone-alley-empty-4199520": {
+			"alt": "A scenic view of a stone alley in Jerusalem's Old City, showcasing historic architecture and cultural ambiance",
+			"author": "Mikołaj Kołodziejczyk",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/an-empty-alley-4199520/"
+		},
+		"burnt-edges-old-paper-5856851": {
+			"alt": "A burnt paper sheet with text lies on grass illuminated by soft sunlight",
+			"author": "Lenny Löwenstern",
+			"license": "Pexels License",
+			"license_url": "https://www.pexels.com/license/",
+			"source": "https://www.pexels.com/photo/a-burnt-paper-on-the-grass-5856851/"
 		}
 	}
 }

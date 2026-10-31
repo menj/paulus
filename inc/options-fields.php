@@ -113,6 +113,15 @@ function paulus_fields() {
 				'security_headers'    => array( __( 'Security headers on every page: no framing by other sites, a separate browsing context from pages it opens, HTTPS only for a year once visited over HTTPS, no guessing of file types, and only the site\'s address sent with links to other sites', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'security'   => array(
+			'label'  => __( 'Security', 'paulus' ),
+			'fields' => array(
+				'sec_xmlrpc_off' => array( __( 'Turn off XML-RPC: xmlrpc.php answers 403 and the pingback header goes. On Apache the theme also blocks it in .htaccess, and removes that block when this is switched off. The Jetpack plugin and old mobile apps need XML-RPC', 'paulus' ), 'checkbox' ),
+				'sec_rest_lock'  => array( __( 'Allow REST API changes only from a logged-in browser: a request that creates, changes or deletes content while logged in must come from a browser session on this site with a valid nonce. Basic authentication and passwords sent in a header are refused. Reading through the API, and anything a visitor sends without logging in, are unchanged', 'paulus' ), 'checkbox' ),
+				'sec_spam_gate'  => array( __( 'Hold suspected gambling spam as Pending: an article, page or Journal entry whose title, address or text reads as casino or betting spam, or that is published from outside the editor, is saved as Pending, never published, and logged below. Content the theme ships is exempt', 'paulus' ), 'checkbox' ),
+				'sec_gone'       => array( __( 'Answer 410 Gone on the address of removed spam: search engines drop a 410 address faster than a 404 one. Only addresses of spam moved to the trash from this tab are affected', 'paulus' ), 'checkbox' ),
+			),
+		),
 		'upkeep'     => array(
 			'label'  => __( 'Maintenance', 'paulus' ),
 			'fields' => array(

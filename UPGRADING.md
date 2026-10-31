@@ -36,6 +36,26 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.7 to 2.66.3
+
+- **Upload the whole theme folder.** This release combines the 2.66.x work (the Security tab, the contextual links and sixty new photographs; see below) with the 2.65.x releases of `main`. Read the three notes below, 2.66.1 to 2.66.2, 2.66.0 to 2.66.1 and 2.65.6 to 2.66.0, before updating: the Security tab is on by default and changes how XML-RPC and the REST API answer.
+- The articles that gained photographs refresh on the first page load as an administrator, where they still match a shipped text. Clear caches afterwards.
+
+### 2.66.1 to 2.66.2
+
+- Upload the whole theme folder: ten more articles need the new files in `assets/images/church/`. The sync refreshes them where they still match a shipped text; hand-edited text stays.
+
+### 2.66.0 to 2.66.1
+
+- **Upload the whole theme folder.** The old `assets/social/*.jpg`, the four PNGs in `assets/images/` and `screenshot.png` are replaced by WebP files, and ten articles gain figures that need the new files in `assets/images/church/`. The sync refreshes the ten articles where they still match a shipped text; hand-edited text stays.
+- A site that set its own image address to a `.jpg` link preview or `site-icon.png` of the theme should point to the `.webp` file.
+
+### 2.65.6 to 2.66.0
+
+- **New files** `inc/security.php`, `inc/security-detector.php`, `inc/contextual-links.php` and their `assets/css` and `assets/js` files. Upload the whole theme folder; a partial upload shows the maintenance page until they are there.
+- **The Security tab is on by default.** XML-RPC and REST changes from outside a logged-in browser stop at once. If a lock breaks a tool you rely on, `define( 'PAULUS_SECURITY_LOCK', false );` in `wp-config.php` turns the XML-RPC and REST locks off without changing the options.
+- After updating, change every administrator password, press "Log out all sessions" and "Revoke all application passwords" on the Security tab, and run the spam scan.
+
 ### 2.65.6 to 2.65.7
 
 - **A short passage added to "The measure"**, with a source note to al Faruqi's foreword to *Toward Islamic Anthropology*. An unedited copy refreshes on the first page load as an administrator (or press Install or update under Appearance, Theme Options, Content); hand-edited text stays. Clear caches afterwards.

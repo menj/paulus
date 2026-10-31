@@ -1,0 +1,31 @@
+/* Paulus Theme Options: Security tab. Uses the --pa-* tokens of admin.css,
+ * so the tools follow the site's colour scheme like the rest of the screen. */
+.paulus-sec-notes { padding: 4px 0 14px; border-top: 1px solid var(--pa-rule); }
+.paulus-help { margin: 10px 0 0; color: var(--pa-muted); font-size: 13px; line-height: 1.55; }
+.paulus-help--key { padding: 8px 12px; border-left: 3px solid var(--pa-accent); border-radius: 0 8px 8px 0; background: var(--pa-field); color: var(--pa-ink); }
+.paulus-sec { margin-top: 18px; padding: 8px 28px 24px; background: var(--pa-card); border: 1px solid var(--pa-rule); border-radius: 14px; box-shadow: 0 10px 30px -22px rgba(31, 26, 20, 0.45); color: var(--pa-ink); }
+.paulus-sec[hidden] { display: none; }
+.paulus-sec h2 { margin: 28px 0 8px; font-family: "Cinzel", Georgia, serif; font-size: 18px; letter-spacing: 0.04em; color: var(--pa-ink); }
+.paulus-sec h3 { margin: 22px 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pa-muted); }
+.paulus-sec > .notice { margin: 16px 0 0; }
+.paulus-sec-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+.paulus-sec-bar .paulus-tools-form, .paulus-sec .paulus-tools-form { margin: 0; }
+.paulus-sec .button { border-radius: 999px; }
+.paulus-sec .button-primary { background: var(--pa-accent); border-color: var(--pa-accent); color: var(--pa-accent-ink); }
+.paulus-sec .button-primary:hover, .paulus-sec .button-primary:focus { background: color-mix(in srgb, var(--pa-accent) 85%, #000); border-color: color-mix(in srgb, var(--pa-accent) 85%, #000); color: var(--pa-accent-ink); }
+.paulus-sec .button.delete { color: #8a2c14; border-color: #d8b4a8; }
+.paulus-sec-status { color: var(--pa-muted); font-size: 13px; }
+.paulus-sec-scroll { max-height: 420px; overflow: auto; border: 1px solid var(--pa-rule); border-radius: 10px; }
+.paulus-sec-scroll--tall { max-height: 560px; }
+.paulus-sec-table { border: 0; }
+.paulus-sec-table td, .paulus-sec-table th { vertical-align: top; }
+.paulus-sec-links { display: flex; gap: 10px; margin-top: 4px; font-size: 12px; }
+.paulus-sec-links a { color: var(--pa-accent); }
+.paulus-sec-reason { display: inline-block; margin: 0 4px 4px 0; padding: 1px 8px; border-radius: 999px; background: var(--pa-field); border: 1px solid var(--pa-rule); color: var(--pa-ink); font-size: 11px; line-height: 18px; }
+.paulus-sec-list { margin: 8px 0 12px 18px; list-style: disc; }
+.paulus-sec-list li { margin: 2px 0; }
+.paulus-sec input[type="checkbox"] { accent-color: var(--pa-accent); }
+@media (max-width: 782px) {
+	.paulus-sec { padding: 4px 16px 18px; }
+	.paulus-sec-bar { flex-direction: column; align-items: stretch; }
+}

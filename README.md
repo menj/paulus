@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.65.7) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.65.7.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`) and the changelog, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.66.3) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.66.3.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`) and the changelog, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -407,7 +407,7 @@ Every image the theme shows is AVIF, at every width; link previews are JPEG, and
 | Hero cutout (1,024 px, transparent) | AVIF, with its transparency | `assets/images/paul-portrait-cutout.avif` |
 | Smaller widths: figures at 720 px, the hero at 480 and 720 px (transparent); the author's portrait (240 px); the 96-pixel icon; the honorific calligraphy (a mask) | AVIF, quality 60 (the icon 80, the calligraphy 90) | beside their full-size files, in `srcset`; each 720-pixel copy is made from its full-size AVIF |
 | Publisher logo, site icon | PNG | required as PNG or JPEG by structured data and home-screen icons |
-| Link previews (Open Graph, X) | JPEG, quality 75, 1,024 px | `assets/social/<slug>.jpg`: social networks do not show AVIF |
+| Link previews (Open Graph, X) | WebP, quality 78, 1,024 px | `assets/social/<slug>.webp`: social networks do not show AVIF |
 
 `paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its JPEG copy, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).
 
