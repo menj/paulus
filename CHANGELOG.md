@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.6] - 2026-10-31
+
+### Added
+- Nineteen photographs as inline figures in ten articles that had one: Tarsus and a persona for every audience, The Damascus road (one, since the text is nearly all quotation), Women, slaves and Caesar, By their fruits, Them which say they are apostles, The Gospels and the new covenant, Typology, James the brother, From Khushaysh to al-Shahrastani, and Ibn Ḥazm and al-Thaʿlabī. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person.
+- Content version 2.66.6, with each edited article's 2.66.5 hash in `prior_hashes` (`#r66.6`).
+
 ## [2.66.5] - 2026-10-31
 
 ### Added

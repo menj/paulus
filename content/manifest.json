@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.5",
+	"content_version": "2.66.6",
 	"prior_hashes": {
+		"c02-who-was-paul-2.json#r66.6": "2961f04550a0f8c1a2d944ed82f8a3a2",
+		"c10-from-ibn-hazm-to-al-faruqi.json#r66.6": "aee091ad06954280db7aa4689c3af6e6",
+		"c10-the-early-islamic-record-2.json#r66.6": "4020eecb5dfd848d91a72a3e15df82f5",
+		"c15-james-the-brother.json#r66.6": "fda614bbaa547866c6bcc71d8eb6c5ae",
+		"c06-twisting-the-scriptures-2.json#r66.6": "b79a79667d0e2721a794eb15a8e6bcab",
+		"c06-the-gospels-and-the-new-covenant.json#r66.6": "e87d44753762d2f635c9a7b69657183a",
+		"c04-by-their-fruits-2.json#r66.6": "116071e7f95d7c2738cb22746f83ebe3",
+		"c04-by-their-fruits.json#r66.6": "2a31967b08d2004569fdc17f56eb7460",
+		"c13-women-slaves-and-caesar.json#r66.6": "25191fd5227ca5db63517a8e9e000d44",
+		"c03-the-damascus-road.json#r66.6": "443413a58f948fcf926562e090b89030",
 		"c05-seven-doctrines-2.json#r66.5": "147775923aac00dd5e4922eedba02744",
 		"c14-the-purse.json#r66.5": "0f7569780f299fabf3b5dafe06ea3fca",
 		"c04-the-jerusalem-council.json#r66.5": "8d34db792a7e4165c524344c66470e7b",
