@@ -1,7 +1,8 @@
 {
 	"nav_version": 7,
-	"content_version": "2.65.6",
+	"content_version": "2.65.7",
 	"prior_hashes": {
+		"c01-the-measure.json#r65.7": "ef7671a714f8802ec3a198a5f4974d47",
 		"c02-who-was-paul-2.json#r65.5": "8d470f906edd74f6d806d4452cc92f5e",
 		"c09-the-failed-prophet.json#r65.5": "cd30df3044e83e842e900a8929895898",
 		"c10-no-prophet-between.json#r65.5": "605f279bb1e76ea132f789e7a6b1dbcf",
