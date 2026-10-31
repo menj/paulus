@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.0] - 2026-10-31
+
+### Added
+- A Security tab on Theme Options (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `assets/css/security.css`), merged from `claude/cool-lovelace-qwhkqo` (written as 2.65.0 there): XML-RPC off, REST changes only from a cookie session with a valid nonce, a spam gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports. Switches `sec_xmlrpc_off`, `sec_rest_lock`, `sec_spam_gate`, `sec_gone`, all on by default; `PAULUS_SECURITY_LOCK` in `wp-config.php` turns the locks off. Shipped content is identified from `content/manifest.json`. `php tests/security-detector-test.php` checks the detector.
+- Neutral in-content contextual links (`inc/contextual-links.php`, with admin CSS and JS), merged from `claude/stoic-wozniak-cxgu25`.
+
 ## [2.65.6] - 2026-10-30
 
 ### Added

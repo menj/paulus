@@ -36,6 +36,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.65.6 to 2.66.0
+
+- **New files** `inc/security.php`, `inc/security-detector.php`, `inc/contextual-links.php` and their `assets/css` and `assets/js` files. Upload the whole theme folder; a partial upload shows the maintenance page until they are there.
+- **The Security tab is on by default.** XML-RPC and REST changes from outside a logged-in browser stop at once. If a lock breaks a tool you rely on, `define( 'PAULUS_SECURITY_LOCK', false );` in `wp-config.php` turns the XML-RPC and REST locks off without changing the options.
+- After updating, change every administrator password, press "Log out all sessions" and "Revoke all application passwords" on the Security tab, and run the spam scan.
+
 ### 2.65.5 to 2.65.6
 
 - **New featured images** on four pages. They change on the first page load as an administrator (or Install or update under Appearance, Theme Options, Content), on any page whose current featured image is one the theme installed; one you chose by hand is kept. Four new images go into the media library. Clear caches afterwards.

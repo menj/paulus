@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.6
+Stable tag: 2.66.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.66.0 =
+* A Security tab on Theme Options: XML-RPC off, REST changes only from a logged-in browser, a gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports of attacks, logins and posting.
+* Neutral in-content contextual links, set under Theme Options.
 
 = 2.65.6 =
 * Photographs for the four pages added in 2.65.0: a baby's hand holding an adult's finger, an old cabinet of planes and chisels, a lone tree in morning mist, and an open doorway onto a sunlit courtyard.
