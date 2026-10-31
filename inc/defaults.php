@@ -87,6 +87,10 @@ function paulus_defaults() {
 		'login_greek'      => 1,
 		'login_app_passwords' => 0,
 		'security_headers' => 1,
+		'sec_xmlrpc_off'   => 1,
+		'sec_rest_lock'    => 1,
+		'sec_spam_gate'    => 1,
+		'sec_gone'         => 1,
 		'maintenance_mode' => 0,
 		'error_alerts'     => 1,
 		'ctx_own'          => 1,
@@ -241,15 +245,15 @@ function paulus_image_url( $slug ) {
 }
 
 /**
- * A JPEG copy of an illustration for link previews (Open Graph, X), where
- * AVIF is not shown: assets/social/<slug>.jpg.
+ * A WebP copy of an illustration for link previews (Open Graph, X), where
+ * AVIF is not shown: assets/social/<slug>.webp.
  *
  * @param string $slug Image slug.
  * @return string URL, or empty when there is no copy.
  */
 function paulus_social_image_url( $slug ) {
 	$slug = sanitize_file_name( (string) $slug );
-	return file_exists( PAULUS_DIR . '/assets/social/' . $slug . '.jpg' ) ? PAULUS_URI . '/assets/social/' . $slug . '.jpg' : '';
+	return file_exists( PAULUS_DIR . '/assets/social/' . $slug . '.webp' ) ? PAULUS_URI . '/assets/social/' . $slug . '.webp' : '';
 }
 
 /**

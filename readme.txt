@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.65.7
+Stable tag: 2.66.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,20 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.66.3 =
+* The branches combined: the Security tab and contextual links, sixty new photographs, and the passage in The measure, brought level with the 2.65.x releases of main.
+
+= 2.66.2 =
+* Thirty more photographs, three in each of ten more articles, captioned with the place or the verse each recalls.
+
+= 2.66.1 =
+* Thirty new photographs, three in each of ten articles, with captions that name the place or the verse. All images in the theme are now AVIF or WebP.
+
+= 2.66.0 =
+* A sourced methodological passage in The measure, from al Faruqi's foreword to Toward Islamic Anthropology.
+* A Security tab on Theme Options: XML-RPC off, REST changes only from a logged-in browser, a gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports of attacks, logins and posting.
+* Neutral in-content contextual links, set under Theme Options.
 
 = 2.65.7 =
 * A sourced methodological addition to The measure, from al Faruqi's foreword to Toward Islamic Anthropology. Content sync preserves hand edits.
