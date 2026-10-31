@@ -38,6 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.66.0 =
+* A sourced methodological passage in The measure, from al Faruqi's foreword to Toward Islamic Anthropology.
 * A Security tab on Theme Options: XML-RPC off, REST changes only from a logged-in browser, a gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports of attacks, logins and posting.
 * Neutral in-content contextual links, set under Theme Options.
 

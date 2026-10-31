@@ -8,6 +8,11 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - A Security tab on Theme Options (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `assets/css/security.css`), merged from `claude/cool-lovelace-qwhkqo` (written as 2.65.0 there): XML-RPC off, REST changes only from a cookie session with a valid nonce, a spam gate that holds gambling spam and remote posts as Pending, a spam scan with a move to the trash, 410 Gone for removed spam, and reports. Switches `sec_xmlrpc_off`, `sec_rest_lock`, `sec_spam_gate`, `sec_gone`, all on by default; `PAULUS_SECURITY_LOCK` in `wp-config.php` turns the locks off. Shipped content is identified from `content/manifest.json`. `php tests/security-detector-test.php` checks the detector.
 - Neutral in-content contextual links (`inc/contextual-links.php`, with admin CSS and JS), merged from `claude/stoic-wozniak-cxgu25`.
 
+## [2.66.0 content] - 2026-10-31
+
+### Changed
+- *The measure* gains a short methodological passage paraphrasing al Faruqi's foreword to Akbar S. Ahmed's *Toward Islamic Anthropology* (consistency, evidence, moral responsibility, openness to correction), with a source note; footnotes renumbered in reading order. Merged from `codex/faruqi-methodology-2.65.5`. Content version 2.66.0, with the previous hash in `prior_hashes` (`#r66.0`), so unedited copies refresh and hand edits stay.
+
 ## [2.65.6] - 2026-10-30
 
 ### Added
