@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.4] - 2026-10-31
+
+### Added
+- Twenty-five photographs as inline figures in ten more articles: three each in The flesh, Letters that contradict themselves (`c06-owning-the-new-testament-2.json`), Why Luke does not know Paul's letters, The hostile witnesses and Curses for dissenters (`c03-a-self-appointed-apostle-2.json`), and two more each in The failed prophet, Seven doctrines, The first witnesses, The Qurʾān as witness (`c15-the-quran-as-witness.json`) and Revelation or borrowing (`c07-witnesses-and-angels.json`). All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and the alt text is the photograph's own description. A figure goes only after a paragraph outside any quotation, list or footnote block, and never within 700 characters of another figure.
+- Content version 2.66.4, with each edited article's 2.66.3 hash in `prior_hashes` (`#r66.4`).
+
 ## [2.66.3] - 2026-10-31
 
 ### Changed

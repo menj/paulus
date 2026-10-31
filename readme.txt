@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.66.3
+Stable tag: 2.66.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.66.4 =
+* Twenty-five more photographs in ten more articles, captioned with the verse or the point each recalls.
 
 = 2.66.3 =
 * The branches combined: the Security tab and contextual links, sixty new photographs, and the passage in The measure, brought level with the 2.65.x releases of main.

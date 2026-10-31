@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.3",
+	"content_version": "2.66.4",
 	"prior_hashes": {
+		"why-luke-does-not-know-pauls-letters.json#r66.4": "388dc1bd110bd313d281761e7136b407",
+		"c16-the-hostile-witnesses.json#r66.4": "5d5803a343bfbf50129c0b419abde244",
+		"c13-the-flesh.json#r66.4": "539d6c628d70c0bf0f52d540bcbeee0f",
+		"c09-the-failed-prophet.json#r66.4": "f5f527161997d74c486c65110c6bdde4",
+		"c06-owning-the-new-testament-2.json#r66.4": "cec10cc4177de9f225bb4e16350bcdb5",
+		"c05-seven-doctrines.json#r66.4": "2344cd44e4dbb3878e30e503343bf220",
+		"c03-a-self-appointed-apostle-2.json#r66.4": "3f993fd952df215ed9615a1bbbcedce7",
+		"12-first-witnesses.json#r66.4": "9983c9a685ad85ce915b01ce62825a0d",
+		"c07-witnesses-and-angels.json#r66.4": "2cc69166eb753b1b2814fc2c52071937",
+		"c15-the-quran-as-witness.json#r66.4": "60130bd03ef65c2a32bb932ce26dec63",
 		"c01-the-measure.json#r66.2": "b66b0e8e7c645b5194cbae1ce343e1a2",
 		"c07-witnesses-and-angels-2.json#r66.2": "adc162ed6d8bb5b6a2d324768d86760e",
 		"c15-the-quran-as-witness-2.json#r66.2": "f7577e743b334acd6b2106cbb45c6791",
