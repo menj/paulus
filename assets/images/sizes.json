@@ -1,5 +1,5 @@
 {
-"alayhi-al-salam.png": [
+"alayhi-al-salam.webp": [
 560,
 427
 ],
@@ -30,6 +30,30 @@
 "church/alexamenos-graffito.avif": [
 806,
 944
+],
+"church/antakya-antioch-720.avif": [
+720,
+540
+],
+"church/antakya-antioch.avif": [
+1400,
+1050
+],
+"church/antioch-aqueduct-720.avif": [
+720,
+477
+],
+"church/antioch-aqueduct.avif": [
+1400,
+928
+],
+"church/appian-way-rome-720.avif": [
+720,
+479
+],
+"church/appian-way-rome.avif": [
+1400,
+931
 ],
 "church/arch-of-titus-spoils-720.avif": [
 720,
@@ -82,6 +106,14 @@
 "church/book-in-hand.avif": [
 520,
 557
+],
+"church/book-lit-dark-720.avif": [
+720,
+1080
+],
+"church/book-lit-dark.avif": [
+867,
+1300
 ],
 "church/bukhari-ms-720.avif": [
 720,
@@ -155,6 +187,14 @@
 1400,
 933
 ],
+"church/cracked-earth-720.avif": [
+720,
+480
+],
+"church/cracked-earth.avif": [
+1400,
+933
+],
 "church/dale-b-martin-720.avif": [
 720,
 900
@@ -162,6 +202,14 @@
 "church/dale-b-martin.avif": [
 804,
 1005
+],
+"church/desert-footprints-720.avif": [
+720,
+720
+],
+"church/desert-footprints.avif": [
+1300,
+1300
 ],
 "church/dome-of-the-rock-720.avif": [
 720,
@@ -215,6 +263,38 @@
 1000,
 1334
 ],
+"church/figs-on-branch-720.avif": [
+720,
+480
+],
+"church/figs-on-branch.avif": [
+1400,
+933
+],
+"church/galilee-green-fields-720.avif": [
+720,
+480
+],
+"church/galilee-green-fields.avif": [
+1400,
+933
+],
+"church/galilee-green-hills-720.avif": [
+720,
+480
+],
+"church/galilee-green-hills.avif": [
+1400,
+933
+],
+"church/galilee-lake-view-720.avif": [
+720,
+480
+],
+"church/galilee-lake-view.avif": [
+1400,
+933
+],
 "church/grotto-rabat-malta-720.avif": [
 720,
 540
@@ -259,6 +339,22 @@
 500,
 1219
 ],
+"church/jerusalem-old-city-walls-720.avif": [
+720,
+960
+],
+"church/jerusalem-old-city-walls.avif": [
+975,
+1300
+],
+"church/jerusalem-olive-trees-720.avif": [
+720,
+480
+],
+"church/jerusalem-olive-trees.avif": [
+1400,
+934
+],
 "church/judaea-diploma-720.avif": [
 720,
 465
@@ -278,6 +374,22 @@
 "church/kufa-1915.avif": [
 783,
 616
+],
+"church/kufic-quran-folio-abbasid-720.avif": [
+720,
+501
+],
+"church/kufic-quran-folio-abbasid.avif": [
+1400,
+974
+],
+"church/kufic-quran-folio-egypt-720.avif": [
+720,
+551
+],
+"church/kufic-quran-folio-egypt.avif": [
+1400,
+1071
 ],
 "church/la-hyre-malta-720.avif": [
 720,
@@ -395,6 +507,30 @@
 1097,
 1400
 ],
+"church/open-bible-lit-720.avif": [
+720,
+960
+],
+"church/open-bible-lit.avif": [
+975,
+1300
+],
+"church/open-bible-rustic-720.avif": [
+720,
+960
+],
+"church/open-bible-rustic.avif": [
+975,
+1300
+],
+"church/open-quran-stand-720.avif": [
+720,
+481
+],
+"church/open-quran-stand.avif": [
+1400,
+935
+],
 "church/papyrus-46-720.avif": [
 720,
 508
@@ -442,6 +578,14 @@
 "church/penang-st-george.avif": [
 1280,
 960
+],
+"church/perge-colonnaded-street-720.avif": [
+720,
+488
+],
+"church/perge-colonnaded-street.avif": [
+1400,
+949
 ],
 "church/poussin-ecstasy-720.avif": [
 720,
@@ -523,6 +667,30 @@
 1400,
 1008
 ],
+"church/rippled-dunes-footprints-720.avif": [
+720,
+1080
+],
+"church/rippled-dunes-footprints.avif": [
+867,
+1300
+],
+"church/roman-forum-ruins-720.avif": [
+720,
+480
+],
+"church/roman-forum-ruins.avif": [
+1400,
+933
+],
+"church/roman-inscription-ephesus-720.avif": [
+720,
+540
+],
+"church/roman-inscription-ephesus.avif": [
+1400,
+1050
+],
 "church/saint-paul-scroll-and-sword-720.avif": [
 720,
 960
@@ -579,6 +747,14 @@
 1400,
 1050
 ],
+"church/tell-el-ful-gibeah-720.avif": [
+720,
+549
+],
+"church/tell-el-ful-gibeah.avif": [
+1400,
+1068
+],
 "church/temple-model-720.avif": [
 720,
 413
@@ -619,6 +795,14 @@
 1024,
 768
 ],
+"church/twisted-olive-tree-720.avif": [
+720,
+960
+],
+"church/twisted-olive-tree.avif": [
+975,
+1300
+],
 "church/umayyad-interior-720.avif": [
 720,
 478
@@ -635,11 +819,19 @@
 1400,
 1030
 ],
+"church/via-egnatia-philippi-720.avif": [
+720,
+540
+],
+"church/via-egnatia-philippi.avif": [
+1400,
+1050
+],
 "lanat-allah.avif": [
 900,
 304
 ],
-"lanat-allah.png": [
+"lanat-allah.webp": [
 900,
 304
 ],

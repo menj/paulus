@@ -1205,10 +1205,10 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 		/* PNG first, for a browser that draws masks but cannot read AVIF
 		 * (Safari before 16.4, iOS 15); image-set() then gives every
 		 * browser that knows its type() the smaller AVIF. */
-		-webkit-mask: url("../images/alayhi-al-salam.png") center / contain no-repeat;
-		mask: url("../images/alayhi-al-salam.png") center / contain no-repeat;
-		-webkit-mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.png") type("image/png"));
-		mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.png") type("image/png"));
+		-webkit-mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
+		mask: url("../images/alayhi-al-salam.webp") center / contain no-repeat;
+		-webkit-mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.webp") type("image/webp"));
+		mask-image: image-set(url("../images/alayhi-al-salam.avif") type("image/avif"), url("../images/alayhi-al-salam.webp") type("image/webp"));
 	}
 	/* The curse after the name of Paul ([paulus_lanah]): set like the
 	 * honorific, at the same height, in its own wider proportions, and in
@@ -1216,10 +1216,10 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 	.paulus-lanah {
 		width: 3.7em;
 		background-color: var(--t-rubric);
-		-webkit-mask-image: url("../images/lanat-allah.png");
-		mask-image: url("../images/lanat-allah.png");
-		-webkit-mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.png") type("image/png"));
-		mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.png") type("image/png"));
+		-webkit-mask-image: url("../images/lanat-allah.webp");
+		mask-image: url("../images/lanat-allah.webp");
+		-webkit-mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.webp") type("image/webp"));
+		mask-image: image-set(url("../images/lanat-allah.avif") type("image/avif"), url("../images/lanat-allah.webp") type("image/webp"));
 	}
 }
 @supports not ((mask-image: url("x.png")) or (-webkit-mask-image: url("x.png"))) {

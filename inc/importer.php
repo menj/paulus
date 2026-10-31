@@ -1095,17 +1095,17 @@ function paulus_install_site_icon() {
 	if ( get_option( 'site_icon' ) ) {
 		return;
 	}
-	$source = PAULUS_DIR . '/assets/images/site-icon.png';
+	$source = PAULUS_DIR . '/assets/images/site-icon.webp';
 	if ( ! file_exists( $source ) ) {
 		return;
 	}
-	$upload = wp_upload_bits( 'apostle-of-doom-icon.png', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$upload = wp_upload_bits( 'apostle-of-doom-icon.webp', null, file_get_contents( $source ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 	if ( ! empty( $upload['error'] ) ) {
 		return;
 	}
 	$id = wp_insert_attachment(
 		array(
-			'post_mime_type' => 'image/png',
+			'post_mime_type' => 'image/webp',
 			'post_title'     => __( 'Site icon', 'paulus' ),
 			'post_status'    => 'inherit',
 		),
@@ -1128,8 +1128,8 @@ function paulus_fallback_icon() {
 	if ( has_site_icon() ) {
 		return;
 	}
-	$url = PAULUS_URI . '/assets/images/site-icon.png';
-	printf( '<link rel="icon" href="%1$s" sizes="512x512"><link rel="apple-touch-icon" href="%1$s">' . "\n", esc_url( $url ) );
+	$url = PAULUS_URI . '/assets/images/site-icon.webp';
+	printf( '<link rel="icon" href="%1$s" sizes="512x512" type="image/webp"><link rel="apple-touch-icon" href="%1$s">' . "\n", esc_url( $url ) );
 }
 add_action( 'wp_head', 'paulus_fallback_icon', 1 );
 

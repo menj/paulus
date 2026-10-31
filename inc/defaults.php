@@ -245,15 +245,15 @@ function paulus_image_url( $slug ) {
 }
 
 /**
- * A JPEG copy of an illustration for link previews (Open Graph, X), where
- * AVIF is not shown: assets/social/<slug>.jpg.
+ * A WebP copy of an illustration for link previews (Open Graph, X), where
+ * AVIF is not shown: assets/social/<slug>.webp.
  *
  * @param string $slug Image slug.
  * @return string URL, or empty when there is no copy.
  */
 function paulus_social_image_url( $slug ) {
 	$slug = sanitize_file_name( (string) $slug );
-	return file_exists( PAULUS_DIR . '/assets/social/' . $slug . '.jpg' ) ? PAULUS_URI . '/assets/social/' . $slug . '.jpg' : '';
+	return file_exists( PAULUS_DIR . '/assets/social/' . $slug . '.webp' ) ? PAULUS_URI . '/assets/social/' . $slug . '.webp' : '';
 }
 
 /**

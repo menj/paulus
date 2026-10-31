@@ -514,7 +514,7 @@ function paulus_org_schema() {
 		// organisation logo here, and a cover is a different thing.
 		'logo'  => array(
 			'@type'  => 'ImageObject',
-			'url'    => PAULUS_URI . '/assets/images/publisher-logo.png',
+			'url'    => PAULUS_URI . '/assets/images/publisher-logo.webp',
 			'width'  => 500,
 			'height' => 500,
 		),
@@ -1533,7 +1533,7 @@ function paulus_sc_404_quip() {
 add_shortcode( 'paulus_404_quip', 'paulus_sc_404_quip' );
 
 /**
- * Rank Math's link previews (Facebook, X) take the JPEG copy of a featured
+ * Rank Math's link previews (Facebook, X) take the WebP copy of a featured
  * image of the theme's, since social networks do not show AVIF.
  */
 foreach ( array( 'facebook', 'twitter' ) as $paulus_network ) {
@@ -1544,7 +1544,7 @@ foreach ( array( 'facebook', 'twitter' ) as $paulus_network ) {
 			$path                   = PAULUS_DIR . '/assets/social/' . basename( (string) wp_parse_url( $social, PHP_URL_PATH ) );
 			$size                   = @getimagesize( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 			$attachment['url']      = $social;
-			$attachment['type']     = 'image/jpeg';
+			$attachment['type']     = 'image/webp';
 			$attachment['width']    = $size ? $size[0] : ( $attachment['width'] ?? '' );
 			$attachment['height']   = $size ? $size[1] : ( $attachment['height'] ?? '' );
 			unset( $attachment['secure_url'] );
