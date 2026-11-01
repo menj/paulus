@@ -1,7 +1,9 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.8",
+	"content_version": "2.67.0",
 	"prior_hashes": {
+		"sources.json#r67.0": "a1b9bee709ee8385795f7d3b7aca4994",
+		"journal-paul-pharisee-or-sadducee.json#r67.0": "ca061a0eb743f588feae6b4d692d1274",
 		"11-epistle.json#r66.7": "cd15b96430b7b6882cfaf397afe581fc",
 		"00-crossroads.json#r66.7": "bdfc2fa7a3b780c297a0fbebb1caae2b",
 		"c07-borrowings-from-the-rabbis.json#r66.7": "8d3cd6f0cec4a3f56afb9542f2557ef0",
@@ -1629,6 +1631,36 @@
 			"file": "journal-paul-pharisee-or-sadducee.json",
 			"image": "paul-decayed-oxblood",
 			"date": "2026-11-01 09:00:00"
+		},
+		{
+			"slug": "paul-in-prison",
+			"title": "Paul in prison: Philippi, Caesarea and Rome",
+			"seo_title": "Paul in prison: Philippi to Rome",
+			"meta": "Paul in prison: a night at Philippi, two years at Caesarea, two at Rome. What Acts says, what the letters add, and what is missing. Read on.",
+			"excerpt": "Acts names three stretches in custody and ends without a verdict. What the book records, what Paul's letters add, and where the count fails.",
+			"file": "journal-paul-in-prison.json",
+			"image": "paul-decayed-stone",
+			"date": "2026-11-08 09:00:00"
+		},
+		{
+			"slug": "what-paul-never-said-about-jesus",
+			"title": "What did Paul never say about ʿĪsā?",
+			"seo_title": "What Paul never said of ʿĪsā",
+			"meta": "What did Paul never say about Jesus? His seven letters hold no parable, no healing and no sermon, and few sayings. What they leave out.",
+			"excerpt": "In his seven letters Paul gives no parable, no healing and no sermon, and quotes the Lord a handful of times. A look at what he left out.",
+			"file": "journal-what-paul-never-said-about-jesus.json",
+			"image": "paul-portrait-mirror",
+			"date": "2026-11-22 09:00:00"
+		},
+		{
+			"slug": "did-paul-study-under-gamaliel",
+			"title": "Did Paul really study under Gamaliel?",
+			"seo_title": "Did Paul study under Gamaliel?",
+			"meta": "Did Paul study under Gamaliel? Only Acts says so, and Paul's own letters sit uneasily beside it. What the evidence allows. Read on.",
+			"excerpt": "Only Acts says Paul sat at Gamaliel's feet. His letters name no teacher and put him unknown to the churches of Judea. What can be said.",
+			"file": "journal-paul-and-gamaliel.json",
+			"image": "paul-bastard-stone",
+			"date": "2026-12-06 09:00:00"
 		}
 	],
 	"pages": [

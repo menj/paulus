@@ -273,6 +273,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .footnotes { margin-top: 3.5rem; padding: 0 0 0 1.4em; font-family: var(--t-garamond); font-size: 0.95rem; line-height: 1.55; color: var(--t-muted); column-gap: var(--t-gap); }
 .paulus-prose .footnotes::before { content: "References"; display: block; column-span: all; font-family: var(--t-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2rem); color: var(--t-accent); margin: 0 0 1.25rem -1.4em; }
 .paulus-prose .footnotes li { margin-bottom: 0.5rem; break-inside: avoid; }
+.paulus-prose .paulus-esv-notice { margin-top: 1.75rem; font-family: var(--t-garamond); font-size: 0.85rem; line-height: 1.5; color: var(--t-muted); }
 
 /* "Across the network": the sister sites' pieces on one subject, in a rounded box */
 .paulus-prose .paulus-network { margin: 2.5rem 0; padding: 1.1rem 1.4rem; border: 1px solid var(--t-rule); border-radius: var(--t-radius); background: var(--t-surface); }

@@ -2,6 +2,21 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.0] - 2026-11-01
+
+### Added
+- **The ESV is the standard English translation.** The Sources page declares it (the introduction, the Scripture list and the full Crossway notice), the README records the rule, and every Journal entry quotes it. Articles written earlier keep the King James Version beneath the Greek until they are converted in stages; the Sources page says so. The ESV text was taken from the ESV API (api.esv.org) and every quotation was checked word for word against it.
+- `[paulus_esv_notice]` (`inc/shortcodes.php`) prints Crossway's required notice, in one place, under every page that quotes the ESV, with a small style in `assets/css/theme.css`.
+- Three Journal entries, with dates set so WordPress holds each as scheduled until its day: "Paul in prison: Philippi, Caesarea and Rome" (8 November 2026), "What did Paul never say about ʿĪsā?" (22 November) and "Did Paul really study under Gamaliel?" (6 December). Each links to six or more existing pages, has four questions readers ask and three photographs (nine in all, from Pexels) with a caption tying each to a verse.
+
+### Changed
+- "Was Paul a Pharisee or a Sadducee?" now quotes the ESV instead of the King James Version, with its 2.66.8 hash in `prior_hashes` (`#r67.0`) so an unedited copy refreshes.
+- `[paulus_link]` now resolves Journal entries, so one entry can link to another. A link to an entry that is still scheduled or in draft shows its title as plain text instead of a dead address.
+- Content version 2.67.0, with the earlier Sources hash in `prior_hashes` (`#r67.0`).
+
+### Notes
+- Crossway allows up to 500 verses of the ESV without written permission, never half of one book and never 25% or more of a work, and forbids quoting the ESV in material released under a Creative Commons licence. Converting the existing articles (about a thousand scripture references) needs Crossway's written permission or a licence first. The API application is registered for "Social media", which may not cover a website; confirm the terms before the conversion.
+
 ## [2.66.8] - 2026-11-01
 
 ### Added

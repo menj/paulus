@@ -368,7 +368,11 @@ add_shortcode( 'paulus_parts', 'paulus_sc_parts' );
  */
 function paulus_sc_link( $atts, $content = '' ) {
 	$atts = shortcode_atts( array( 'slug' => '', 'anchor' => '' ), $atts, 'paulus_link' );
-	$post = get_page_by_path( $atts['slug'], OBJECT, array( 'post', 'page' ) );
+	$post = get_page_by_path( $atts['slug'], OBJECT, array( 'post', 'page', 'paulus_journal' ) );
+	// A scheduled or draft entry has no public address yet: leave its title as plain text.
+	if ( $post && 'publish' !== $post->post_status ) {
+		return esc_html( $content ? wp_strip_all_tags( $content ) : get_the_title( $post ) );
+	}
 	// get_page_by_path() finds a page by its full path only, so a child page
 	// (the Appendices' own pages) is not found by its slug alone: look it up
 	// by name wherever it sits.
@@ -376,7 +380,7 @@ function paulus_sc_link( $atts, $content = '' ) {
 		$found = get_posts(
 			array(
 				'name'           => sanitize_title( $atts['slug'] ),
-				'post_type'      => array( 'page', 'post' ),
+				'post_type'      => array( 'page', 'post', 'paulus_journal' ),
 				'post_status'    => 'publish',
 				'posts_per_page' => 1,
 				'no_found_rows'  => true,

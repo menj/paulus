@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.66.8
+Stable tag: 2.67.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,11 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.67.0 =
+* The English Standard Version is now the standard English translation, declared on the Sources page and used in every Journal entry. Older articles keep the King James Version until they are converted in stages.
+* Three new Journal entries, scheduled for 8 November, 22 November and 6 December 2026, each linked to the articles it draws on.
+* Journal entries can now be linked from any page.
 
 = 2.66.8 =
 * A new Journal entry, "Was Paul a Pharisee or a Sadducee?", with three photographs.
