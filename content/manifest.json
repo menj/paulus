@@ -1,7 +1,15 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.6",
+	"content_version": "2.66.7",
 	"prior_hashes": {
+		"11-epistle.json#r66.7": "cd15b96430b7b6882cfaf397afe581fc",
+		"00-crossroads.json#r66.7": "bdfc2fa7a3b780c297a0fbebb1caae2b",
+		"c07-borrowings-from-the-rabbis.json#r66.7": "8d3cd6f0cec4a3f56afb9542f2557ef0",
+		"c05-the-letters-of-a-man.json#r66.7": "daf61f42bcadc52a46e7fca89b859159",
+		"c13-the-flesh-2.json#r66.7": "f5cb48f9991972a778fa10d3d0587cc6",
+		"c08-the-persecutor-and-his-guilt.json#r66.7": "4c15bc8fd3abbe2be9e5c7892273e74a",
+		"c14-the-roman-2.json#r66.7": "4c501ec4100b26582e53d16752bc566a",
+		"c03-saul-the-persecutor.json#r66.7": "3726378b1c3254243997a60f59b76862",
 		"c02-who-was-paul-2.json#r66.6": "2961f04550a0f8c1a2d944ed82f8a3a2",
 		"c10-from-ibn-hazm-to-al-faruqi.json#r66.6": "aee091ad06954280db7aa4689c3af6e6",
 		"c10-the-early-islamic-record-2.json#r66.6": "4020eecb5dfd848d91a72a3e15df82f5",

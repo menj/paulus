@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.7] - 2026-11-01
+
+### Added
+- Ten photographs as inline figures in eight articles: two each in At the crossroads of the message and An epistle to the churches of Paul, and one each in Saul the persecutor, The citizenship and the appeal to Caesar, A psychological portrait of Paul, The fruit at Corinth, The letters of a man (`c05-the-letters-of-a-man.json`) and Borrowings from the rabbis. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person. Dale B. Martin's page and Chronology keep their single figure: their text sits wholly in quotation blocks or a list, where a figure cannot go.
+- Content version 2.66.7, with each edited article's 2.66.6 hash in `prior_hashes` (`#r66.7`).
+
 ## [2.66.6] - 2026-10-31
 
 ### Added
