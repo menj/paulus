@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.66.7
+Stable tag: 2.66.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.66.8 =
+* A new Journal entry, "Was Paul a Pharisee or a Sadducee?", with three photographs.
 
 = 2.66.7 =
 * Ten more photographs in eight more articles, captioned with the verse or the point each recalls.

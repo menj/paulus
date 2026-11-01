@@ -2,6 +2,12 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.8] - 2026-11-01
+
+### Added
+- A Journal entry, "Was Paul a Pharisee or a Sadducee?" (`journal-paul-pharisee-or-sadducee.json`, about 1,060 words, 14 footnotes, four questions readers ask), answering a group of searches the site had no page for. It sets Paul's own claim to the name (Philippians 3:5; Acts 23:6; 26:5) beside the fact that he worked for the Sadducee high priest (Acts 5:17; 9:1–2), with the Pharisee Gamaliel's counsel of restraint between them (Acts 5:34–39). All verses are in the KJV; Josephus is cited by section. Three Pexels photographs (the Qumran caves, ancient theatre seating and a rock-cut tomb) are registered in `content/images.json`. Search title "Paul: Pharisee or Sadducee?" (27 characters, within the 32 the page-title rule allows).
+- Content version 2.66.8. The entry is made once, on the first sync after the update, dated 1 November 2026; an entry the owner edits or deletes is not made again.
+
 ## [2.66.7] - 2026-11-01
 
 ### Added

@@ -1,6 +1,6 @@
 {
 	"nav_version": 7,
-	"content_version": "2.66.7",
+	"content_version": "2.66.8",
 	"prior_hashes": {
 		"11-epistle.json#r66.7": "cd15b96430b7b6882cfaf397afe581fc",
 		"00-crossroads.json#r66.7": "bdfc2fa7a3b780c297a0fbebb1caae2b",
@@ -1619,6 +1619,16 @@
 			"file": "journal-did-paul-meet-jesus.json",
 			"image": "paul-dunce-face",
 			"date": "2026-10-10 09:00:00"
+		},
+		{
+			"slug": "was-paul-a-pharisee-or-a-sadducee",
+			"title": "Was Paul a Pharisee or a Sadducee?",
+			"seo_title": "Paul: Pharisee or Sadducee?",
+			"meta": "Was Paul a Pharisee or a Sadducee? A Pharisee by his own word, yet he served the Sadducee high priest. What the sources say. Read on.",
+			"excerpt": "Paul calls himself a Pharisee in a letter and before a council. The man who claims the name spent his persecuting years working for the Sadducees.",
+			"file": "journal-paul-pharisee-or-sadducee.json",
+			"image": "paul-decayed-oxblood",
+			"date": "2026-11-01 09:00:00"
 		}
 	],
 	"pages": [
