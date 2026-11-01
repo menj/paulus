@@ -1,0 +1,82 @@
+/*
+ * Dashboard panel "Errors and maintenance" (inc/watch.php): a status strip,
+ * three figures and a short list of findings, most pressing first.
+ * Colours are variables; each colour scheme of Theme Options changes only
+ * the accent.
+ */
+.paulus-watch {
+	--pw-ink: #1d2327; --pw-muted: #646970; --pw-rule: #e6e0d2; --pw-soft: #f8f5ee;
+	--pw-ok: #2e7d4f; --pw-warn: #a8650a; --pw-bad: #b32d2e; --pw-accent: #a1430b;
+	color: var(--pw-ink); font-size: 13px; line-height: 1.5;
+}
+.paulus-watch--ochre    { --pw-accent: #7a2e1a; }
+.paulus-watch--vellum   { --pw-accent: #a1430b; }
+.paulus-watch--oxblood  { --pw-accent: #8f2f19; }
+.paulus-watch--ink      { --pw-accent: #9a6a22; }
+.paulus-watch--paper    { --pw-accent: #8a2b17; }
+.paulus-watch--graphite { --pw-accent: #8a6a36; }
+
+.paulus-watch p { margin: 0; }
+.paulus-watch h3, .paulus-watch h4 { margin: 0; padding: 0; }
+
+/* Status strip */
+.paulus-watch__status { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.paulus-watch__status li { position: relative; display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 10px 12px 10px 28px; background: var(--pw-soft); border: 1px solid var(--pw-rule); border-radius: 8px; }
+.paulus-watch__status strong { font-size: 14px; font-weight: 600; }
+.paulus-watch__label { color: var(--pw-muted); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; }
+.paulus-watch__dot { position: absolute; top: 15px; left: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--pw-muted); }
+.paulus-watch__status .is-ok .paulus-watch__dot { background: var(--pw-ok); }
+.paulus-watch__status .is-warn .paulus-watch__dot { background: var(--pw-warn); }
+.paulus-watch__status .is-bad .paulus-watch__dot { background: var(--pw-bad); }
+.paulus-watch__status .is-bad strong { color: var(--pw-bad); }
+.paulus-watch__note { margin-top: 8px; color: var(--pw-muted); }
+.paulus-watch__link { margin-top: 8px; }
+.paulus-watch__link a { color: var(--pw-accent); text-decoration: none; font-weight: 600; }
+.paulus-watch__link a:hover, .paulus-watch__link a:focus { text-decoration: underline; }
+
+/* Blocks */
+.paulus-watch__block { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--pw-rule); }
+.paulus-watch__block h3 { margin-bottom: 10px; color: var(--pw-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.paulus-watch__calm { color: var(--pw-ok); font-weight: 600; }
+.paulus-watch__plain { margin: 8px 0 0; padding: 0; list-style: none; }
+.paulus-watch__plain li { margin: 0 0 6px; }
+
+/* Three figures */
+.paulus-watch__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 14px; }
+.paulus-watch__stats div { padding: 10px 12px; border: 1px solid var(--pw-rule); border-radius: 8px; }
+.paulus-watch__stats dt { margin: 0; color: var(--pw-muted); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; }
+.paulus-watch__stats dd { margin: 2px 0 0; font-size: 24px; font-weight: 600; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.paulus-watch__stats .is-attention { border-color: var(--pw-accent); }
+.paulus-watch__stats .is-attention dd { color: var(--pw-accent); }
+.paulus-watch__stats .is-calm dd { color: var(--pw-ok); }
+
+/* Findings */
+.paulus-watch__findings { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.paulus-watch__finding { margin: 0; padding: 10px 12px 10px 14px; border: 1px solid var(--pw-rule); border-left: 3px solid var(--pw-rule); border-radius: 8px; }
+.paulus-watch__finding--action  { border-left-color: var(--pw-bad); }
+.paulus-watch__finding--unknown { border-left-color: var(--pw-warn); }
+.paulus-watch__finding--upload  { border-left-color: var(--pw-warn); }
+.paulus-watch__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.paulus-watch__count { padding: 1px 8px; background: var(--pw-soft); border-radius: 999px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.paulus-watch__title { flex: 1 1 12em; font-size: 14px; font-weight: 600; line-height: 1.35; }
+.paulus-watch__tag { padding: 0 6px; border: 1px solid var(--pw-bad); border-radius: 4px; color: var(--pw-bad); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.paulus-watch__meta { margin-top: 2px; color: var(--pw-muted); font-size: 12px; }
+.paulus-watch__text { margin-top: 6px; }
+
+/* Raw log lines, tucked away */
+.paulus-watch__lines { margin-top: 8px; }
+.paulus-watch summary { cursor: pointer; color: var(--pw-accent); font-size: 12px; }
+.paulus-watch summary:hover, .paulus-watch summary:focus { text-decoration: underline; }
+.paulus-watch__lines ul { margin: 6px 0 0; padding: 0; list-style: none; }
+.paulus-watch__lines li { margin: 0 0 6px; }
+.paulus-watch__lines code { display: block; padding: 6px 8px; overflow-wrap: anywhere; background: var(--pw-soft); border-radius: 4px; font-size: 11px; line-height: 1.45; }
+.paulus-watch__lines small { color: var(--pw-muted); }
+
+/* The harmless kinds, folded */
+.paulus-watch__quiet { margin-top: 12px; }
+.paulus-watch__quiet > summary { color: var(--pw-muted); font-size: 12px; }
+.paulus-watch__quiet > .paulus-watch__findings { margin-top: 10px; }
+
+@media (max-width: 480px) {
+	.paulus-watch__stats { grid-template-columns: 1fr; }
+}

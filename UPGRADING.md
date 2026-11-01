@@ -41,6 +41,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 - **Upload the whole theme folder.** This release combines the 2.66.x work (the Security tab, the contextual links and sixty new photographs; see below) with the 2.65.x releases of `main`. Read the three notes below, 2.66.1 to 2.66.2, 2.66.0 to 2.66.1 and 2.65.6 to 2.66.0, before updating: the Security tab is on by default and changes how XML-RPC and the REST API answer.
 - The articles that gained photographs refresh on the first page load as an administrator, where they still match a shipped text. Clear caches afterwards.
 
+### 2.67.3 to 2.67.4
+
+- Upload the whole theme folder, including the new `inc/watch-report.php` and `assets/css/watch.css`; a partial upload without the first shows the maintenance page until it is there. Nothing in the content changes.
+- The panel looks different on the dashboard; no setting is involved.
+
 ### 2.67.2 to 2.67.3
 
 - Upload the whole theme folder. Nine pages change their English quotations from the KJV to the ESV; the sync refreshes each where it still matches a shipped text, and hand-edited text stays.

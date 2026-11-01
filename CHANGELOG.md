@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.4] - 2026-11-01
+
+### Changed
+- **The dashboard panel "Errors and maintenance" is redesigned** (`inc/watch.php`, `assets/css/watch.css`). Before, it was a run of paragraphs and one long list of raw log lines. Now it has a status strip (maintenance mode, the web-server safety net, the error pages, each with a coloured dot), then "Visitors, last 14 days", then "Server log, last 7 days" with three figures (entries, fatal, need a look) and the log gathered into findings. Each finding has a count, a plain title, where it came from and when it last happened, what it means and what to do, and the raw log lines behind a "Show the log lines" toggle. Findings that need a look come first, unrecognised messages next, upload mishaps after, and the harmless kinds are folded under "Background noise". The styles are in their own stylesheet, loaded only on the dashboard, and the accent follows the colour scheme chosen in Theme Options.
+- **Related log lines are merged.** The 175 Rank Math Analytics table errors (two different messages) are one finding, and the four bot fatals are one finding of 16 hits marked harmless, where before they ran to six items. Which kind a line is comes from the raw line when it is first read, because grouping blanks the quoted values (the table name) that identify it.
+- The text explaining a known message moved to `inc/watch-report.php` (`paulus_error_hint_info()`), with a title and a level for each. `paulus_error_hint()` still returns the text, so the fatal-error email is unchanged.
+
+### Added
+- `tests/watch-report-test.php` checks the grouping against the messages the live site showed on 1 November 2026. Run `php tests/watch-report-test.php`.
+
 ## [2.67.3] - 2026-11-01
 
 ### Changed
