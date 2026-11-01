@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.67.1
+Stable tag: 2.67.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.67.2 =
+* Second stage of the move to the ESV: seven more articles now quote the English Standard Version, and the picture captions in all converted articles quote it too.
 
 = 2.67.1 =
 * First stage of the move to the ESV: six articles (The verdict, A psychological portrait of Paul, The Gospels and the new covenant, Typology, The fruit at Corinth, and Adapting the message to the pagans) now quote the English Standard Version.

@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.2] - 2026-11-01
+
+### Changed
+- **Stage 2 of the move to the ESV.** Seven more articles now quote the English Standard Version: *The Jerusalem Council* (Paul against the disciples), *An epistle to the churches of Paul*, *Why Luke does not know Paul's letters*, *An invitation to the Christian reader*, *Paul and the New Testament*, *The religion of Paul today* and *How did Paul die?*. Scripture blocks were rebuilt verse by verse from the ESV API; the quotations in the running text and the footnote glosses on Mark's Aramaic words were replaced by hand and checked word for word against the ESV text. Each page ends with the Crossway notice and its footnotes read "(ESV)".
+- In *Paul and the New Testament* the spelling follows the ESV: "Eloi, Eloi, lema sabachthani".
+- The short phrases that Bishop Spong and the ancient writers are quoted as saying (in *The religion of Paul today* and *How did Paul die?*) are left as their authors wrote them.
+- **Captions.** The picture captions added in 2.66.4 to 2.66.7 quoted the King James Version. In every article converted so far, the captions now quote the ESV as well, so no converted article mixes the two: *A psychological portrait of Paul* (Romans 7:19), *The gospels and the new covenant* (Luke 22:20), *Typology* (Colossians 2:17), *The Jerusalem Council* (Galatians 2:11) and *An epistle to the churches of Paul* (Galatians 6:11; 2 Corinthians 3:2). Captions in articles not yet converted stay in the KJV until their turn.
+- Each edited article's previous hash is in `prior_hashes` (`#r67.2`). Content version 2.67.2.
+
 ## [2.67.1] - 2026-11-01
 
 ### Changed
