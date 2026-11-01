@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.5] - 2026-11-01
+
+### Fixed
+- **Security review** (`inc/security.php`). Blocked XML-RPC requests and other attack counters now add one atomic row per key and day instead of rewriting the whole counts option on every hit; `paulus_sec_counts()` folds past days into `paulus_security_counts` when the notice or the Security tab reads it. The spam gate skips posts being moved to the Trash, so trashing no longer logs a "flagged-draft". The .htaccess state reads "unavailable" when `insert_with_markers()` fails instead of claiming the block was written.
+
 ## [2.67.4] - 2026-11-01
 
 ### Changed
