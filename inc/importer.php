@@ -613,6 +613,16 @@ add_filter( 'removable_query_args', 'paulus_importer_removable_args' );
  * @return int Number of items created.
  */
 function paulus_run_install() {
+	// The security gate exempts what this run saves and marks it as seeded.
+	return function_exists( 'paulus_sec_seed_run' ) ? paulus_sec_seed_run( 'paulus_run_install_steps' ) : paulus_run_install_steps();
+}
+
+/**
+ * The steps of paulus_run_install().
+ *
+ * @return int|false Number of items created, false when unfinished.
+ */
+function paulus_run_install_steps() {
 	$created  = 0;
 	$failed   = false;
 	$manifest = paulus_manifest();

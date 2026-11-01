@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.6] - 2026-11-01
+
+### Fixed
+- **Security review, second pass** (`inc/security.php`, `inc/security-detector.php`, `assets/js/security.js`, `inc/importer.php`, `tests/security-detector-test.php`). The spam gate exempts a post only when it carries the `_paulus_seed` marker or is saved by the theme's own seeding run (`paulus_run_install()`, now wrapped by `paulus_sec_seed_run()`, which also marks the starter items it finds); a title or slug alone no longer exempts, so a new post on a deleted starter slug is checked. Private posts are flagged but never changed to pending. WP-CLI counts as publishing from outside the editor. Past-day tally rows are deleted only if their value is unchanged since it was read, and the counts keep thirty days including today. Failed logins older than 24 hours are left out of the notice and the report, and a count whose first failure is over a day old starts again. Trashed spam reached as `/?p=ID` answers 410. The gambling patterns carry the `i` flag, so uppercase Cyrillic matches without mbstring. The "Move selected to Trash" button stays disabled while a scan or trash run is going. The reports load through AJAX when the Security tab is first shown. The detector self-test fails when the manifest or a content file is missing or not valid JSON.
+
 ## [2.67.5] - 2026-11-01
 
 ### Fixed

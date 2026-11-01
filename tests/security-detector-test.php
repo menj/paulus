@@ -24,9 +24,13 @@ if ( ! function_exists( '__' ) ) {
 require dirname( __DIR__ ) . '/inc/security-detector.php';
 
 $root     = dirname( __DIR__ );
-$manifest = json_decode( (string) file_get_contents( $root . '/content/manifest.json' ), true );
 $fail     = 0;
 $n        = 0;
+$manifest = is_readable( $root . '/content/manifest.json' ) ? json_decode( (string) file_get_contents( $root . '/content/manifest.json' ), true ) : null;
+if ( ! is_array( $manifest ) ) {
+	echo "MISSING OR INVALID: content/manifest.json\nFAILED\n";
+	exit( 1 );
+}
 
 /**
  * Body of a shipped content file.
@@ -36,12 +40,23 @@ $n        = 0;
  * @return string
  */
 function paulus_test_body( $root, $file ) {
+	global $fail;
+	if ( '' === (string) $file ) {
+		return '';
+	}
 	$path = $root . '/content/articles/' . basename( (string) $file );
-	if ( '' === (string) $file || ! is_readable( $path ) ) {
+	if ( ! is_readable( $path ) ) {
+		++$fail;
+		echo 'MISSING: content/articles/' . basename( (string) $file ) . "\n";
 		return '';
 	}
 	$json = json_decode( (string) file_get_contents( $path ), true );
-	return is_array( $json ) && isset( $json['content'] ) ? (string) $json['content'] : '';
+	if ( ! is_array( $json ) ) {
+		++$fail;
+		echo 'INVALID JSON: content/articles/' . basename( (string) $file ) . "\n";
+		return '';
+	}
+	return isset( $json['content'] ) ? (string) $json['content'] : '';
 }
 
 foreach ( array( 'posts', 'pages', 'journal' ) as $group ) {
