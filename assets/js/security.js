@@ -1,8 +1,8 @@
 /**
  * Paulus Theme Options: Security tab.
  * Shows the tools card with the tab, runs the spam scan in batches of 100,
- * moves the selected posts to the trash in batches, and confirms the
- * admin-post buttons.
+ * moves the selected posts to the trash in batches, loads the reports the
+ * first time the tab is shown, and confirms the admin-post buttons.
  */
 ( function () {
 	'use strict';
@@ -16,12 +16,26 @@
 		return;
 	}
 
+	var reports = document.getElementById( 'paulus-sec-reports' );
+	var reportsLoaded = false;
+
 	// The tools card sits outside the options form; show it with the tab.
+	// The reports are fetched only once the tab is open.
 	function sync() {
 		tools.hidden = panel.hidden;
+		if ( ! panel.hidden && reports && ! reportsLoaded ) {
+			reportsLoaded = true;
+			post( 'paulus_sec_reports', {} )
+				.then( function ( data ) {
+					reports.innerHTML = data.html;
+					reports.removeAttribute( 'aria-busy' );
+				} )
+				.catch( function ( err ) {
+					reports.textContent = err.message;
+					reports.removeAttribute( 'aria-busy' );
+				} );
+		}
 	}
-	sync();
-	new MutationObserver( sync ).observe( panel, { attributes: true, attributeFilter: [ 'hidden' ] } );
 
 	function format( text ) {
 		var args = Array.prototype.slice.call( arguments, 1 );
@@ -56,12 +70,18 @@
 			} );
 	}
 
+	sync();
+	new MutationObserver( sync ).observe( panel, { attributes: true, attributeFilter: [ 'hidden' ] } );
+
 	var scanBtn = document.getElementById( 'paulus-sec-scan' );
 	var trashBtn = document.getElementById( 'paulus-sec-trash' );
 	var status = document.getElementById( 'paulus-sec-status' );
 	var table = document.getElementById( 'paulus-sec-results' );
 	var all = document.getElementById( 'paulus-sec-all' );
 	var tbody = table ? table.querySelector( 'tbody' ) : null;
+	// True while a scan or a trash run is in progress: the trash button
+	// stays disabled whatever the checkboxes say.
+	var busy = false;
 
 	function boxes() {
 		return tbody ? Array.prototype.slice.call( tbody.querySelectorAll( 'input[type="checkbox"]' ) ) : [];
@@ -71,7 +91,7 @@
 		var picked = boxes().filter( function ( b ) {
 			return b.checked;
 		} );
-		trashBtn.disabled = ! picked.length;
+		trashBtn.disabled = busy || ! picked.length;
 		if ( all ) {
 			all.checked = picked.length > 0 && picked.length === boxes().length;
 		}
@@ -131,6 +151,7 @@
 	if ( scanBtn ) {
 		scanBtn.addEventListener( 'click', function () {
 			var found = 0;
+			busy = true;
 			tbody.textContent = '';
 			table.hidden = true;
 			scanBtn.disabled = true;
@@ -146,6 +167,7 @@
 						}
 						if ( data.done ) {
 							status.textContent = found ? format( i18n.done, data.next, found ) : i18n.none;
+							busy = false;
 							scanBtn.disabled = false;
 							refresh();
 							return;
@@ -155,7 +177,9 @@
 					} )
 					.catch( function ( err ) {
 						status.textContent = err.message;
+						busy = false;
 						scanBtn.disabled = false;
+						refresh();
 					} );
 			}
 			step( 0 );
@@ -189,6 +213,7 @@
 			var total = ids.length;
 			var moved = 0;
 			var skipped = 0;
+			busy = true;
 			trashBtn.disabled = true;
 			scanBtn.disabled = true;
 
@@ -196,6 +221,7 @@
 				var chunk = ids.splice( 0, 100 );
 				if ( ! chunk.length ) {
 					status.textContent = format( i18n.trashed, moved, skipped );
+					busy = false;
 					scanBtn.disabled = false;
 					refresh();
 					return;
@@ -215,6 +241,7 @@
 					} )
 					.catch( function ( err ) {
 						status.textContent = err.message;
+						busy = false;
 						scanBtn.disabled = false;
 						refresh();
 					} );
@@ -223,12 +250,12 @@
 		} );
 	}
 
-	// Confirm the admin-post buttons (revoke, log out, delete categories, clear log).
-	Array.prototype.forEach.call( tools.querySelectorAll( 'form[data-paulus-confirm]' ), function ( form ) {
-		form.addEventListener( 'submit', function ( e ) {
-			if ( ! window.confirm( form.getAttribute( 'data-paulus-confirm' ) ) ) {
-				e.preventDefault();
-			}
-		} );
+	// Confirm the admin-post buttons (revoke, log out, delete categories,
+	// clear log). Delegated, since the reports arrive after page load.
+	tools.addEventListener( 'submit', function ( e ) {
+		var form = e.target;
+		if ( form && form.matches && form.matches( 'form[data-paulus-confirm]' ) && ! window.confirm( form.getAttribute( 'data-paulus-confirm' ) ) ) {
+			e.preventDefault();
+		}
 	} );
 }() );

@@ -24,6 +24,7 @@ define( 'PAULUS_SEC_LOG', 'paulus_security_log' );
 define( 'PAULUS_SEC_GONE', 'paulus_security_gone' );
 define( 'PAULUS_SEC_LOG_MAX', 200 );
 define( 'PAULUS_SEC_GONE_MAX', 5000 );
+define( 'PAULUS_SEC_SEED_META', '_paulus_seed' );
 
 /**
  * Whether a Security toggle is on.
@@ -150,12 +151,13 @@ function paulus_sec_sync_htaccess( $force = false ) {
 	}
 	$want    = paulus_sec_on( 'sec_xmlrpc_off' );
 	$current = function_exists( 'extract_from_markers' ) ? extract_from_markers( $file, 'Block xmlrpc.php' ) : array();
+	$ok      = true;
 	if ( $want && $current !== paulus_sec_htaccess_lines() ) {
-		insert_with_markers( $file, 'Block xmlrpc.php', paulus_sec_htaccess_lines() );
+		$ok = insert_with_markers( $file, 'Block xmlrpc.php', paulus_sec_htaccess_lines() );
 	} elseif ( ! $want && $current ) {
-		insert_with_markers( $file, 'Block xmlrpc.php', array() );
+		$ok = insert_with_markers( $file, 'Block xmlrpc.php', array() );
 	}
-	update_option( 'paulus_security_htaccess', $want ? 'written' : 'off', false );
+	update_option( 'paulus_security_htaccess', ! $ok ? 'unavailable' : ( $want ? 'written' : 'off' ), false );
 }
 add_action( 'admin_init', 'paulus_sec_sync_htaccess' );
 add_action( 'after_switch_theme', function () { paulus_sec_sync_htaccess( true ); } );
@@ -264,21 +266,72 @@ define( 'PAULUS_SEC_COUNTS', 'paulus_security_counts' );
 define( 'PAULUS_SEC_FAILED', 'paulus_security_failed' );
 
 /**
- * Add one to today's counter for an event. Thirty days are kept.
+ * Add one to today's counter for an event. Each hit is one atomic row write
+ * (a non-autoloaded option per key and day), so a flood of blocked XML-RPC
+ * requests never reads, unserialises or rewrites the whole counts array.
+ * paulus_sec_counts() folds past days into PAULUS_SEC_COUNTS when read.
  *
  * @param string $key Event key.
  */
 function paulus_sec_count( $key ) {
+	global $wpdb;
+	$name = 'paulus_security_tally_' . sanitize_key( $key ) . '_' . gmdate( 'Ymd' );
+	$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, '1', 'off') ON DUPLICATE KEY UPDATE option_value = option_value + 1", $name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+}
+
+/**
+ * Counts for display: PAULUS_SEC_COUNTS plus the tally rows. Rows from past
+ * days are added to PAULUS_SEC_COUNTS and deleted; today's row is added to
+ * the figures returned but stays in place. Thirty days, today included,
+ * are kept.
+ *
+ * @return array date => array key => count, newest first.
+ */
+function paulus_sec_counts() {
+	global $wpdb;
 	$counts = get_option( PAULUS_SEC_COUNTS, array() );
 	$counts = is_array( $counts ) ? $counts : array();
-	$day    = gmdate( 'Y-m-d' );
-	if ( ! isset( $counts[ $day ] ) ) {
-		$counts[ $day ] = array();
-		krsort( $counts );
-		$counts = array_slice( $counts, 0, 30, true );
+	$rows   = $wpdb->get_results( "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name LIKE 'paulus\\_security\\_tally\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$today  = gmdate( 'Ymd' );
+	$oldest = gmdate( 'Y-m-d', time() - 29 * DAY_IN_SECONDS );
+	$live   = array();
+	$done   = false;
+	foreach ( (array) $rows as $row ) {
+		if ( ! preg_match( '/^paulus_security_tally_([a-z0-9_-]+)_(\d{8})$/', $row->option_name, $m ) ) {
+			continue;
+		}
+		if ( $m[2] === $today ) {
+			$live[ $m[1] ] = (int) $row->option_value;
+			continue;
+		}
+		// Delete only the value read: a late increment on this row makes
+		// the delete miss, and the row is folded on a later read instead.
+		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name = %s AND option_value = %s", $row->option_name, $row->option_value ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		wp_cache_delete( $row->option_name, 'options' );
+		if ( ! $deleted ) {
+			continue;
+		}
+		$day                     = substr( $m[2], 0, 4 ) . '-' . substr( $m[2], 4, 2 ) . '-' . substr( $m[2], 6, 2 );
+		$counts[ $day ][ $m[1] ] = ( isset( $counts[ $day ][ $m[1] ] ) ? (int) $counts[ $day ][ $m[1] ] : 0 ) + (int) $row->option_value;
+		$done                    = true;
 	}
-	$counts[ $day ][ $key ] = ( isset( $counts[ $day ][ $key ] ) ? (int) $counts[ $day ][ $key ] : 0 ) + 1;
-	update_option( PAULUS_SEC_COUNTS, $counts, false );
+	// Thirty days including today.
+	foreach ( array_keys( $counts ) as $day ) {
+		if ( strcmp( (string) $day, $oldest ) < 0 ) {
+			unset( $counts[ $day ] );
+			$done = true;
+		}
+	}
+	krsort( $counts );
+	if ( $done ) {
+		update_option( PAULUS_SEC_COUNTS, $counts, false );
+	}
+	$day = gmdate( 'Y-m-d' );
+	foreach ( $live as $key => $n ) {
+		$counts[ $day ][ $key ] = ( isset( $counts[ $day ][ $key ] ) ? (int) $counts[ $day ][ $key ] : 0 ) + $n;
+	}
+	krsort( $counts );
+	return $counts;
 }
 
 /**
@@ -297,13 +350,13 @@ function paulus_sec_fake_jetpack() {
 }
 
 /**
- * Whether this request is a remote, non-browser call: XML-RPC, or REST with
- * an application password or other header login.
+ * Whether this request is a remote, non-browser call: XML-RPC, WP-CLI, or
+ * REST with an application password or other header login.
  *
  * @return bool
  */
 function paulus_sec_is_remote() {
-	if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+	if ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 		return true;
 	}
 	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && is_user_logged_in() ) {
@@ -362,7 +415,12 @@ function paulus_sec_failed_login( $login ) {
 	if ( ! isset( $failed[ $login ] ) && count( $failed ) >= 50 ) {
 		return;
 	}
-	$row = isset( $failed[ $login ] ) ? $failed[ $login ] : array( 'n' => 0, 'first' => $now, 'last' => $now, 'ips' => array() );
+	$fresh = array( 'n' => 0, 'first' => $now, 'last' => $now, 'ips' => array() );
+	$row   = isset( $failed[ $login ] ) ? $failed[ $login ] : $fresh;
+	// Count only the last 24 hours: a run that started earlier starts again.
+	if ( $now - (int) $row['first'] > DAY_IN_SECONDS ) {
+		$row = $fresh;
+	}
 	$row['n']++;
 	$row['last'] = $now;
 	$ip          = paulus_sec_ip();
@@ -375,6 +433,24 @@ function paulus_sec_failed_login( $login ) {
 add_action( 'wp_login_failed', 'paulus_sec_failed_login' );
 
 /**
+ * Failed logins of the last 24 hours, by 'last'. Older rows stay in the
+ * option until the next failure prunes them, but are never shown.
+ *
+ * @return array account => row
+ */
+function paulus_sec_failed_recent() {
+	$failed = get_option( PAULUS_SEC_FAILED, array() );
+	$now    = time();
+	$out    = array();
+	foreach ( is_array( $failed ) ? $failed : array() as $name => $row ) {
+		if ( is_array( $row ) && $now - (int) ( $row['last'] ?? 0 ) <= DAY_IN_SECONDS && $now - (int) ( $row['first'] ?? 0 ) <= DAY_IN_SECONDS ) {
+			$out[ $name ] = $row;
+		}
+	}
+	return $out;
+}
+
+/**
  * Admin notice when an existing account is being guessed at: ten or more
  * failures in a day, or a correct password refused on the remote route.
  */
@@ -382,14 +458,14 @@ function paulus_sec_attack_notice() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
-	$failed = get_option( PAULUS_SEC_FAILED, array() );
+	$failed = paulus_sec_failed_recent();
 	$hit    = array();
-	foreach ( (array) $failed as $name => $row ) {
+	foreach ( $failed as $name => $row ) {
 		if ( (int) $row['n'] >= 10 && ( username_exists( $name ) || email_exists( $name ) ) ) {
 			$hit[] = sprintf( '%s (%d, %d)', $name, (int) $row['n'], count( (array) $row['ips'] ) );
 		}
 	}
-	$counts = get_option( PAULUS_SEC_COUNTS, array() );
+	$counts = paulus_sec_counts();
 	$today  = isset( $counts[ gmdate( 'Y-m-d' ) ]['remote-password'] ) ? (int) $counts[ gmdate( 'Y-m-d' ) ]['remote-password'] : 0;
 	if ( ! $hit && ! $today ) {
 		return;
@@ -472,8 +548,7 @@ function paulus_sec_log( $entry ) {
 
 /**
  * Slugs of what the theme ships, by post type: the articles, pages and
- * Journal entries of content/manifest.json. The structure sync identifies its
- * items by these slugs (it marks them with no meta key of its own).
+ * Journal entries of content/manifest.json.
  *
  * @return array type => slug => title
  */
@@ -495,32 +570,78 @@ function paulus_sec_seed_index() {
 }
 
 /**
- * Whether a post is content the theme ships: an existing post of the right
- * type whose slug is in the manifest, or a new one carrying both the slug and
- * the title the manifest gives it (as the structure sync inserts them).
+ * Whether the theme's own seeding run (paulus_run_install()) is under way.
  *
- * @param int    $post_id Post ID, 0 for a new post.
- * @param string $title   Title.
- * @param string $slug    Slug.
- * @param string $type    Post type.
  * @return bool
  */
-function paulus_sec_is_seeded( $post_id, $title = '', $slug = '', $type = '' ) {
-	if ( $post_id && '' === $type ) {
-		$type = (string) get_post_type( $post_id );
+function paulus_sec_seeding() {
+	return ! empty( $GLOBALS['paulus_sec_seeding'] );
+}
+
+/**
+ * Whether a post is content the theme ships: one carrying the seed marker
+ * (PAULUS_SEC_SEED_META), which only the seeding run writes. A title or slug
+ * alone never counts, so a new post on the slug of a deleted starter item is
+ * checked like any other.
+ *
+ * @param int $post_id Post ID, 0 for a new post.
+ * @return bool
+ */
+function paulus_sec_is_seeded( $post_id ) {
+	return $post_id > 0 && '' !== (string) get_post_meta( (int) $post_id, PAULUS_SEC_SEED_META, true );
+}
+
+/**
+ * Mark what the seeding run saves, and at its end the starter items it
+ * found in place (sites seeded before the marker existed). Posts the gate
+ * once held are never marked.
+ *
+ * @param int $post_id Post ID.
+ */
+function paulus_sec_mark_seed( $post_id ) {
+	$post = get_post( $post_id );
+	if ( ! paulus_sec_seeding() || ! $post || ! in_array( $post->post_type, paulus_sec_types(), true ) || 'auto-draft' === $post->post_status ) {
+		return;
 	}
 	$index = paulus_sec_seed_index();
-	$slug  = strtolower( rawurldecode( (string) $slug ) );
-	if ( ! isset( $index[ $type ][ $slug ] ) ) {
-		return false;
+	if ( isset( $index[ $post->post_type ][ $post->post_name ] ) && ! get_post_meta( $post->ID, '_paulus_spam_held', true ) ) {
+		update_post_meta( $post->ID, PAULUS_SEC_SEED_META, 1 );
 	}
-	if ( $post_id ) {
-		$post = get_post( $post_id );
-		if ( $post && $post->post_name === $slug && $post->post_type === $type ) {
-			return true;
+}
+add_action( 'wp_insert_post', 'paulus_sec_mark_seed', 2 );
+
+/**
+ * Run the seeding with the flag set, then mark the starter items in place.
+ *
+ * @param callable $run Seeding callback.
+ * @return mixed What the callback returns.
+ */
+function paulus_sec_seed_run( $run ) {
+	$GLOBALS['paulus_sec_seeding'] = ( isset( $GLOBALS['paulus_sec_seeding'] ) ? (int) $GLOBALS['paulus_sec_seeding'] : 0 ) + 1;
+	try {
+		$result = call_user_func( $run );
+		foreach ( paulus_sec_seed_index() as $type => $slugs ) {
+			if ( ! $slugs ) {
+				continue;
+			}
+			$ids = get_posts(
+				array(
+					'post_type'      => $type,
+					'post_status'    => array( 'publish', 'future', 'private', 'draft', 'pending' ),
+					'post_name__in'  => array_map( 'strval', array_keys( $slugs ) ),
+					'posts_per_page' => 500,
+					'fields'         => 'ids',
+					'no_found_rows'  => true,
+				)
+			);
+			foreach ( $ids as $id ) {
+				paulus_sec_mark_seed( (int) $id );
+			}
 		}
+		return $result;
+	} finally {
+		--$GLOBALS['paulus_sec_seeding'];
 	}
-	return $index[ $type ][ $slug ] === (string) $title;
 }
 
 /**
@@ -544,20 +665,22 @@ function paulus_sec_types() {
  * @return array
  */
 function paulus_sec_gate( $data, $postarr ) {
-	if ( ! paulus_sec_on( 'sec_spam_gate' ) || ! in_array( $data['post_type'], paulus_sec_types(), true ) ) {
+	if ( ! paulus_sec_on( 'sec_spam_gate' ) || 'trash' === $data['post_status'] || ! in_array( $data['post_type'], paulus_sec_types(), true ) ) {
 		return $data;
 	}
-	$public = in_array( $data['post_status'], array( 'publish', 'future', 'private' ), true );
+	// Private posts are never public; they may be flagged but are not held.
+	$public = in_array( $data['post_status'], array( 'publish', 'future' ), true );
 	$id     = isset( $postarr['ID'] ) ? (int) $postarr['ID'] : 0;
 	$title  = wp_unslash( $data['post_title'] );
 	$slug   = $data['post_name'];
-	if ( paulus_sec_is_seeded( $id, $title, $slug, $data['post_type'] ) ) {
+	if ( paulus_sec_seeding() || paulus_sec_is_seeded( $id ) ) {
 		return $data;
 	}
 	$verdict = paulus_spam_score( $title, $slug, wp_unslash( $data['post_content'] ) );
 	if ( ! $verdict['spam'] && $public && paulus_sec_is_remote() ) {
 		// The spam arrived through wp.newPost: anything published from
-		// outside the editor waits for review, whatever it says.
+		// outside the editor (XML-RPC, header-login REST, WP-CLI) waits for
+		// review, whatever it says. The theme's seeding run is exempt above.
 		$verdict = array( 'spam' => true, 'reasons' => array( __( 'published from outside the editor', 'paulus' ) . ' (' . paulus_sec_request_type() . ')' ) );
 	}
 	if ( ! $verdict['spam'] ) {
@@ -567,7 +690,7 @@ function paulus_sec_gate( $data, $postarr ) {
 		$data['post_status'] = 'pending';
 	}
 	$GLOBALS['paulus_sec_held'] = array(
-		'event'   => $public ? 'held' : 'flagged-draft',
+		'event'   => $public ? 'held' : ( 'private' === $data['post_status'] ? 'flagged-private' : 'flagged-draft' ),
 		'title'   => $title,
 		'reasons' => $verdict['reasons'],
 	);
@@ -621,7 +744,9 @@ function paulus_sec_path( $url ) {
 function paulus_sec_remember_gone( $post ) {
 	$gone = get_option( PAULUS_SEC_GONE, array() );
 	$gone = is_array( $gone ) ? $gone : array();
-	foreach ( array( get_permalink( $post ), home_url( '/?p=' . $post->ID ) ) as $url ) {
+	// Query permalinks (/?p=ID) have no path; they are kept by ID.
+	$gone[ '?p=' . (int) $post->ID ] = (int) $post->ID;
+	foreach ( array( get_permalink( $post ) ) as $url ) {
 		$path = paulus_sec_path( $url );
 		if ( '' !== $path ) {
 			$gone[ $path ] = (int) $post->ID;
@@ -649,7 +774,9 @@ function paulus_sec_send_gone() {
 	$uri  = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$path = paulus_sec_path( $uri );
 	$last = basename( $path );
-	if ( isset( $gone[ $path ] ) || ( '' !== $last && isset( $gone[ $last ] ) && false === strpos( $path, '/' ) ) ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public read.
+	$qid = isset( $_GET['p'] ) ? absint( $_GET['p'] ) : ( isset( $_GET['page_id'] ) ? absint( $_GET['page_id'] ) : 0 );
+	if ( ( $qid && '' === $path && isset( $gone[ '?p=' . $qid ] ) ) || isset( $gone[ $path ] ) || ( '' !== $last && isset( $gone[ $last ] ) && false === strpos( $path, '/' ) ) ) {
 		status_header( 410 );
 		nocache_headers();
 		header( 'X-Robots-Tag: noindex', true );
@@ -836,7 +963,7 @@ function paulus_sec_ajax_scan() {
 	);
 	$rows = array();
 	foreach ( $query->posts as $post ) {
-		if ( paulus_sec_is_seeded( $post->ID, $post->post_title, $post->post_name, $post->post_type ) ) {
+		if ( paulus_sec_is_seeded( $post->ID ) ) {
 			continue;
 		}
 		$verdict = paulus_spam_score( $post->post_title, $post->post_name, $post->post_content );
@@ -881,7 +1008,7 @@ function paulus_sec_ajax_trash() {
 	$skipped = array();
 	foreach ( array_filter( $ids ) as $id ) {
 		$post = get_post( $id );
-		if ( ! $post || ! in_array( $post->post_type, paulus_sec_types(), true ) || 'trash' === $post->post_status || ! current_user_can( 'delete_post', $id ) || paulus_sec_is_seeded( $id, $post->post_title, $post->post_name, $post->post_type ) ) {
+		if ( ! $post || ! in_array( $post->post_type, paulus_sec_types(), true ) || 'trash' === $post->post_status || ! current_user_can( 'delete_post', $id ) || paulus_sec_is_seeded( $id ) ) {
 			$skipped[] = $id;
 			continue;
 		}
@@ -1103,7 +1230,7 @@ function paulus_sec_tainted_seeds() {
 		)
 	);
 	foreach ( $posts as $post ) {
-		if ( ! paulus_sec_is_seeded( $post->ID, $post->post_title, $post->post_name, $post->post_type ) ) {
+		if ( ! paulus_sec_is_seeded( $post->ID ) ) {
 			continue;
 		}
 		$hosts = paulus_spam_links( $post->post_content );
@@ -1130,12 +1257,6 @@ function paulus_sec_instant_indexing() {
 function paulus_sec_render_tools() {
 	if ( ! current_user_can( 'manage_options' ) || ! paulus_is_options_screen() ) {
 		return;
-	}
-	$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-	$admins = paulus_sec_admin_rows();
-	$total  = 0;
-	foreach ( $admins as $a ) {
-		$total += count( $a['apps'] );
 	}
 	?>
 	<section class="paulus-sec" id="paulus-security-tools" aria-label="<?php esc_attr_e( 'Security tools', 'paulus' ); ?>" hidden>
@@ -1174,6 +1295,26 @@ function paulus_sec_render_tools() {
 			?>
 		</p>
 
+		<div id="paulus-sec-reports" aria-busy="true"><p class="paulus-help"><?php esc_html_e( 'Loading the reports…', 'paulus' ); ?></p></div>
+	</section>
+	<?php
+}
+add_action( 'paulus_options_after_form', 'paulus_sec_render_tools' );
+
+/**
+ * The reports under the scan: categories, accounts, attacks, activity and
+ * the log. Every tab of Theme Options is rendered on each load, so these
+ * queries run only when the Security tab is opened, through
+ * paulus_sec_ajax_reports().
+ */
+function paulus_sec_render_reports() {
+	$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+	$admins = paulus_sec_admin_rows();
+	$total  = 0;
+	foreach ( $admins as $a ) {
+		$total += count( $a['apps'] );
+	}
+	?>
 		<h2><?php esc_html_e( 'Spam categories', 'paulus' ); ?></h2>
 		<?php $cats = paulus_sec_spam_categories(); ?>
 		<?php if ( $cats ) : ?>
@@ -1233,9 +1374,7 @@ function paulus_sec_render_tools() {
 
 		<h2><?php esc_html_e( 'Attacks seen', 'paulus' ); ?></h2>
 		<?php
-		$counts = get_option( PAULUS_SEC_COUNTS, array() );
-		$counts = is_array( $counts ) ? $counts : array();
-		krsort( $counts );
+		$counts = paulus_sec_counts();
 		$labels = array(
 			'xmlrpc'          => __( 'XML-RPC requests refused', 'paulus' ),
 			'fake-jetpack'    => __( 'of them posing as Jetpack', 'paulus' ),
@@ -1261,8 +1400,7 @@ function paulus_sec_render_tools() {
 		<h3><?php esc_html_e( 'Accounts being guessed, last 24 hours', 'paulus' ); ?></h3>
 		<p class="paulus-help"><?php esc_html_e( 'Attackers change address on every try, so failures are counted by account name. An account of yours in this list should get a new, long password, and ideally a new name that is not the site name.', 'paulus' ); ?></p>
 		<?php
-		$failed = get_option( PAULUS_SEC_FAILED, array() );
-		$failed = is_array( $failed ) ? $failed : array();
+		$failed = paulus_sec_failed_recent();
 		uasort(
 			$failed,
 			function ( $x, $y ) {
@@ -1378,7 +1516,19 @@ function paulus_sec_render_tools() {
 		<?php else : ?>
 			<p class="paulus-help"><?php esc_html_e( 'Nothing logged yet.', 'paulus' ); ?></p>
 		<?php endif; ?>
-	</section>
 	<?php
 }
-add_action( 'paulus_options_after_form', 'paulus_sec_render_tools' );
+
+/**
+ * AJAX: the reports, as HTML.
+ */
+function paulus_sec_ajax_reports() {
+	check_ajax_referer( 'paulus_sec_ajax', 'nonce' );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'You do not have permission to do that.', 'paulus' ) ), 403 );
+	}
+	ob_start();
+	paulus_sec_render_reports();
+	wp_send_json_success( array( 'html' => ob_get_clean() ) );
+}
+add_action( 'wp_ajax_paulus_sec_reports', 'paulus_sec_ajax_reports' );
