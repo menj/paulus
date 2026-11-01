@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.3] - 2026-11-01
+
+### Changed
+- **Stage 3 of the move to the ESV.** Nine more pages now quote the English Standard Version: *Was Paul the founder of Christianity?*, *The measure*, *Five hundred witnesses and an angel of light* (Revelation or borrowing), *The failed prophet*, *The Damascus road*, *Borrowings from the rabbis*, *Modern voices, from al-Kairanawī to Akhtar*, *Paul at a glance* (its five quoted sentences and the line that named the King James Version) and the Journal entry "Did Paul ever meet Jesus?". Scripture blocks were rebuilt verse by verse from the ESV API, with footnotes reading "(ESV)" (the Deuteronomy block, which has no Greek, included). Quotations in the text and in the picture captions were replaced by hand and checked word for word against the ESV text. Each page ends with the Crossway notice.
+- **A change of sense, in the Journal entry.** The ESV renders Acts 22:9 as the companions who "saw the light but did not understand the voice", where the King James Version has them not hearing it. The entry now says "do not understand the voice" instead of "do not hear the voice", since the ESV does not support the stronger claim. *The three accounts compared* turns on the same verse and will need the same care when it is converted.
+- Left as their authors wrote them: the Exodus phrases inside the translated rabbinic commentary in *Borrowings from the rabbis*, and the quoted sayings of modern writers.
+- Each edited page's previous hash is in `prior_hashes` (`#r67.3`). Content version 2.67.3.
+
 ## [2.67.2] - 2026-11-01
 
 ### Changed

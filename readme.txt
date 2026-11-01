@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.67.2
+Stable tag: 2.67.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.67.3 =
+* Third stage of the move to the ESV: nine more pages, including the Journal entry "Did Paul ever meet Jesus?".
 
 = 2.67.2 =
 * Second stage of the move to the ESV: seven more articles now quote the English Standard Version, and the picture captions in all converted articles quote it too.

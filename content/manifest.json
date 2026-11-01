@@ -1,7 +1,16 @@
 {
 	"nav_version": 7,
-	"content_version": "2.67.2",
+	"content_version": "2.67.3",
 	"prior_hashes": {
+		"paul-at-a-glance.json#r67.3": "cc2aa03193af6991abf2aeaea93ec0ec",
+		"journal-did-paul-meet-jesus.json#r67.3": "3df4b9258a281cf91ce8b494c59dca7c",
+		"c10-from-ibn-hazm-to-al-faruqi-2.json#r67.3": "4b8b399047804808bd90c7d202dda117",
+		"c09-the-failed-prophet.json#r67.3": "094b1a3304d996d6b93e96a2c9bef96f",
+		"c09-the-church-that-followed-paul.json#r67.3": "1edda04190730b2c0249b712d6e7819d",
+		"c07-witnesses-and-angels.json#r67.3": "76ee84fc66bddb12373f8ecbcbdde9e1",
+		"c07-borrowings-from-the-rabbis.json#r67.3": "b112e9c7ff9a05e060cdebdd1e49c370",
+		"c03-the-damascus-road.json#r67.3": "d77ce8d565491300705eeb966be51928",
+		"c01-the-measure.json#r67.3": "e5e48a3a72fde556e0ee0bfee57fe8e4",
 		"why-luke-does-not-know-pauls-letters.json#r67.2": "66fa7f7dc922cac5c5f0e7b218b0420a",
 		"c09-the-religion-of-paul-today.json#r67.2": "3c55e88c9776f4d851b1793e0948521a",
 		"c09-the-failed-prophet-2.json#r67.2": "c9d86b9e38e706181c65089f4938eb6f",
