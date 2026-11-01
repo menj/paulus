@@ -2,6 +2,30 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.66.7] - 2026-11-01
+
+### Added
+- Ten photographs as inline figures in eight articles: two each in At the crossroads of the message and An epistle to the churches of Paul, and one each in Saul the persecutor, The citizenship and the appeal to Caesar, A psychological portrait of Paul, The fruit at Corinth, The letters of a man (`c05-the-letters-of-a-man.json`) and Borrowings from the rabbis. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person. Dale B. Martin's page and Chronology keep their single figure: their text sits wholly in quotation blocks or a list, where a figure cannot go.
+- Content version 2.66.7, with each edited article's 2.66.6 hash in `prior_hashes` (`#r66.7`).
+
+## [2.66.6] - 2026-10-31
+
+### Added
+- Nineteen photographs as inline figures in ten articles that had one: Tarsus and a persona for every audience, The Damascus road (one, since the text is nearly all quotation), Women, slaves and Caesar, By their fruits, Them which say they are apostles, The Gospels and the new covenant, Typology, James the brother, From Khushaysh to al-Shahrastani, and Ibn Ḥazm and al-Thaʿlabī. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person.
+- Content version 2.66.6, with each edited article's 2.66.5 hash in `prior_hashes` (`#r66.6`).
+
+## [2.66.5] - 2026-10-31
+
+### Added
+- Twenty photographs as inline figures, two more in each of ten articles that had one: What the Romans saw, Who was Paul of Tarsus?, A self-appointed apostle, The three accounts compared, Ego, epilepsy and narcissism, The Tanakh rewritten, The character of Paul, Paul against the disciples, The purse, and Seven doctrines: the law and the covenant. All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and none shows a person. A figure goes only after a paragraph outside any quotation, list or footnote block, and clear of another figure.
+- Content version 2.66.5, with each edited article's 2.66.4 hash in `prior_hashes` (`#r66.5`).
+
+## [2.66.4] - 2026-10-31
+
+### Added
+- Twenty-five photographs as inline figures in ten more articles: three each in The flesh, Letters that contradict themselves (`c06-owning-the-new-testament-2.json`), Why Luke does not know Paul's letters, The hostile witnesses and Curses for dissenters (`c03-a-self-appointed-apostle-2.json`), and two more each in The failed prophet, Seven doctrines, The first witnesses, The Qurʾān as witness (`c15-the-quran-as-witness.json`) and Revelation or borrowing (`c07-witnesses-and-angels.json`). All from Pexels (Pexels License); each caption ties the picture to a verse or to the article's argument, and the alt text is the photograph's own description. A figure goes only after a paragraph outside any quotation, list or footnote block, and never within 700 characters of another figure.
+- Content version 2.66.4, with each edited article's 2.66.3 hash in `prior_hashes` (`#r66.4`).
+
 ## [2.66.3] - 2026-10-31
 
 ### Changed
