@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.1] - 2026-11-01
+
+### Changed
+- **Stage 1 of the move to the ESV.** Six articles now quote the English Standard Version beneath the Greek instead of the King James Version: *The verdict*, *The persecutor and his guilt* (A psychological portrait of Paul), *The gospels and the new covenant*, *Typology*, *The fruit at Corinth* and *Adapting the message to the pagans*. Each scripture block was rebuilt verse by verse from the ESV API and its footnote now reads "(SBLGNT; ESV)". Quotations in the running text were replaced by hand and checked word for word against the ESV text: the Romans 5:14, Galatians 4:26, 1 Corinthians 10:4 and 5:7 fragments in *Typology*, the 1 Corinthians 5:1 phrase in *The fruit at Corinth*, and the fourteen Jesus-and-Paul pairs in the table of *Adapting the message to the pagans*. In *The fruit at Corinth* "puffed up", the King James word, becomes "arrogant", the ESV word. Each converted page ends with the Crossway notice.
+- A passage that begins or ends inside a speech keeps its single opening or closing mark, as an excerpt does (Matthew 24:4–5 in *The verdict*).
+- Each edited article's 2.67.0 hash is in `prior_hashes` (`#r67.1`), so unedited copies refresh and hand edits stay. Content version 2.67.1.
+- The remaining articles still quote the King James Version, as the Sources page says, and move across in later stages.
+
 ## [2.67.0] - 2026-11-01
 
 ### Added

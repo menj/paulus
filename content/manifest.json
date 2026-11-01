@@ -1,7 +1,13 @@
 {
 	"nav_version": 7,
-	"content_version": "2.67.0",
+	"content_version": "2.67.1",
 	"prior_hashes": {
+		"c05-adapting-the-message.json#r67.1": "bc5c89a001dbf80f92fff99b14fb0a64",
+		"c13-the-flesh-2.json#r67.1": "26548b9ca619ec88cad1d3f7ea494b94",
+		"c06-twisting-the-scriptures-2.json#r67.1": "7ee7795014b9adc4df06a93144bdb4fa",
+		"c06-the-gospels-and-the-new-covenant.json#r67.1": "1d859785fb6671a88f3c0378ea8ea070",
+		"c08-the-persecutor-and-his-guilt.json#r67.1": "aa1001b3b829be8ef9b18b2258c3de67",
+		"c11-the-verdict.json#r67.1": "73fb9a7593208325fd092f75bb6c281f",
 		"sources.json#r67.0": "a1b9bee709ee8385795f7d3b7aca4994",
 		"journal-paul-pharisee-or-sadducee.json#r67.0": "ca061a0eb743f588feae6b4d692d1274",
 		"11-epistle.json#r66.7": "cd15b96430b7b6882cfaf397afe581fc",

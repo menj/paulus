@@ -345,7 +345,7 @@ The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'd
 | Works of art | `Painting`, `Sculpture`, `Drawing`, `Manuscript`, `Map`, else `VisualArtwork` with `artform`; known works carry their Wikipedia page |
 | Photographs | a figure that photographs a place or an object is `ImageObject` and `Photograph`; a museum or library that supplied it is a `Museum` or `Library` |
 | The book's chapters | a `Chapter` for each chapter the articles are drawn from, listed on the book page (`hasPart`) and named by every article in `isBasedOn` beside the book; the book carries a `BuyAction`, every article a `ReadAction` |
-| Quotations | the King James wording of each scripture block as `Quotation`; the Greek as `Quotation` in `grc` based on the SBL Greek New Testament; the Qurʾān and the hadith in Arabic |
+| Quotations | the English wording of each scripture block (ESV, or KJV in articles not yet converted) as `Quotation`; the Greek as `Quotation` in `grc` based on the SBL Greek New Testament; the Qurʾān and the hadith in Arabic |
 | Tables and the rail | each table as `Table` named by its column heads; the article's side rail as `WPSideBar` with its sections |
 | The 2023 edition | a `Book` edition (`bookEdition`, `exampleOfWork` the book, `datePublished` 2023-07-30), the page's main entity |
 | Journal | a `Blog` with its `BlogPosting`s; each entry `BlogPosting`, part of the blog; a year or month page with `temporalCoverage` |
