@@ -2,6 +2,56 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.67.4] - 2026-11-01
+
+### Changed
+- **The dashboard panel "Errors and maintenance" is redesigned** (`inc/watch.php`, `assets/css/watch.css`). Before, it was a run of paragraphs and one long list of raw log lines. Now it has a status strip (maintenance mode, the web-server safety net, the error pages, each with a coloured dot), then "Visitors, last 14 days", then "Server log, last 7 days" with three figures (entries, fatal, need a look) and the log gathered into findings. Each finding has a count, a plain title, where it came from and when it last happened, what it means and what to do, and the raw log lines behind a "Show the log lines" toggle. Findings that need a look come first, unrecognised messages next, upload mishaps after, and the harmless kinds are folded under "Background noise". The styles are in their own stylesheet, loaded only on the dashboard, and the accent follows the colour scheme chosen in Theme Options.
+- **Related log lines are merged.** The 175 Rank Math Analytics table errors (two different messages) are one finding, and the four bot fatals are one finding of 16 hits marked harmless, where before they ran to six items. Which kind a line is comes from the raw line when it is first read, because grouping blanks the quoted values (the table name) that identify it.
+- The text explaining a known message moved to `inc/watch-report.php` (`paulus_error_hint_info()`), with a title and a level for each. `paulus_error_hint()` still returns the text, so the fatal-error email is unchanged.
+
+### Added
+- `tests/watch-report-test.php` checks the grouping against the messages the live site showed on 1 November 2026. Run `php tests/watch-report-test.php`.
+
+## [2.67.3] - 2026-11-01
+
+### Changed
+- **Stage 3 of the move to the ESV.** Nine more pages now quote the English Standard Version: *Was Paul the founder of Christianity?*, *The measure*, *Five hundred witnesses and an angel of light* (Revelation or borrowing), *The failed prophet*, *The Damascus road*, *Borrowings from the rabbis*, *Modern voices, from al-Kairanawī to Akhtar*, *Paul at a glance* (its five quoted sentences and the line that named the King James Version) and the Journal entry "Did Paul ever meet Jesus?". Scripture blocks were rebuilt verse by verse from the ESV API, with footnotes reading "(ESV)" (the Deuteronomy block, which has no Greek, included). Quotations in the text and in the picture captions were replaced by hand and checked word for word against the ESV text. Each page ends with the Crossway notice.
+- **A change of sense, in the Journal entry.** The ESV renders Acts 22:9 as the companions who "saw the light but did not understand the voice", where the King James Version has them not hearing it. The entry now says "do not understand the voice" instead of "do not hear the voice", since the ESV does not support the stronger claim. *The three accounts compared* turns on the same verse and will need the same care when it is converted.
+- Left as their authors wrote them: the Exodus phrases inside the translated rabbinic commentary in *Borrowings from the rabbis*, and the quoted sayings of modern writers.
+- Each edited page's previous hash is in `prior_hashes` (`#r67.3`). Content version 2.67.3.
+
+## [2.67.2] - 2026-11-01
+
+### Changed
+- **Stage 2 of the move to the ESV.** Seven more articles now quote the English Standard Version: *The Jerusalem Council* (Paul against the disciples), *An epistle to the churches of Paul*, *Why Luke does not know Paul's letters*, *An invitation to the Christian reader*, *Paul and the New Testament*, *The religion of Paul today* and *How did Paul die?*. Scripture blocks were rebuilt verse by verse from the ESV API; the quotations in the running text and the footnote glosses on Mark's Aramaic words were replaced by hand and checked word for word against the ESV text. Each page ends with the Crossway notice and its footnotes read "(ESV)".
+- In *Paul and the New Testament* the spelling follows the ESV: "Eloi, Eloi, lema sabachthani".
+- The short phrases that Bishop Spong and the ancient writers are quoted as saying (in *The religion of Paul today* and *How did Paul die?*) are left as their authors wrote them.
+- **Captions.** The picture captions added in 2.66.4 to 2.66.7 quoted the King James Version. In every article converted so far, the captions now quote the ESV as well, so no converted article mixes the two: *A psychological portrait of Paul* (Romans 7:19), *The gospels and the new covenant* (Luke 22:20), *Typology* (Colossians 2:17), *The Jerusalem Council* (Galatians 2:11) and *An epistle to the churches of Paul* (Galatians 6:11; 2 Corinthians 3:2). Captions in articles not yet converted stay in the KJV until their turn.
+- Each edited article's previous hash is in `prior_hashes` (`#r67.2`). Content version 2.67.2.
+
+## [2.67.1] - 2026-11-01
+
+### Changed
+- **Stage 1 of the move to the ESV.** Six articles now quote the English Standard Version beneath the Greek instead of the King James Version: *The verdict*, *The persecutor and his guilt* (A psychological portrait of Paul), *The gospels and the new covenant*, *Typology*, *The fruit at Corinth* and *Adapting the message to the pagans*. Each scripture block was rebuilt verse by verse from the ESV API and its footnote now reads "(SBLGNT; ESV)". Quotations in the running text were replaced by hand and checked word for word against the ESV text: the Romans 5:14, Galatians 4:26, 1 Corinthians 10:4 and 5:7 fragments in *Typology*, the 1 Corinthians 5:1 phrase in *The fruit at Corinth*, and the fourteen Jesus-and-Paul pairs in the table of *Adapting the message to the pagans*. In *The fruit at Corinth* "puffed up", the King James word, becomes "arrogant", the ESV word. Each converted page ends with the Crossway notice.
+- A passage that begins or ends inside a speech keeps its single opening or closing mark, as an excerpt does (Matthew 24:4–5 in *The verdict*).
+- Each edited article's 2.67.0 hash is in `prior_hashes` (`#r67.1`), so unedited copies refresh and hand edits stay. Content version 2.67.1.
+- The remaining articles still quote the King James Version, as the Sources page says, and move across in later stages.
+
+## [2.67.0] - 2026-11-01
+
+### Added
+- **The ESV is the standard English translation.** The Sources page declares it (the introduction, the Scripture list and the full Crossway notice), the README records the rule, and every Journal entry quotes it. Articles written earlier keep the King James Version beneath the Greek until they are converted in stages; the Sources page says so. The ESV text was taken from the ESV API (api.esv.org) and every quotation was checked word for word against it.
+- `[paulus_esv_notice]` (`inc/shortcodes.php`) prints Crossway's required notice, in one place, under every page that quotes the ESV, with a small style in `assets/css/theme.css`.
+- Three Journal entries, with dates set so WordPress holds each as scheduled until its day: "Paul in prison: Philippi, Caesarea and Rome" (8 November 2026), "What did Paul never say about ʿĪsā?" (22 November) and "Did Paul really study under Gamaliel?" (6 December). Each links to six or more existing pages, has four questions readers ask and three photographs (nine in all, from Pexels) with a caption tying each to a verse.
+
+### Changed
+- "Was Paul a Pharisee or a Sadducee?" now quotes the ESV instead of the King James Version, with its 2.66.8 hash in `prior_hashes` (`#r67.0`) so an unedited copy refreshes.
+- `[paulus_link]` now resolves Journal entries, so one entry can link to another. A link to an entry that is still scheduled or in draft shows its title as plain text instead of a dead address.
+- Content version 2.67.0, with the earlier Sources hash in `prior_hashes` (`#r67.0`).
+
+### Notes
+- Crossway allows up to 500 verses of the ESV without written permission, never half of one book and never 25% or more of a work, and forbids quoting the ESV in material released under a Creative Commons licence. Converting the existing articles (about a thousand scripture references) needs Crossway's written permission or a licence first. The API application is registered for "Social media", which may not cover a website; confirm the terms before the conversion.
+
 ## [2.66.8] - 2026-11-01
 
 ### Added

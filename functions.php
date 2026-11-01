@@ -90,7 +90,7 @@ if ( file_exists( paulus_maintenance_flag() ) && ! paulus_maintenance_bypass() )
  * @return string[]
  */
 function paulus_theme_files() {
-	return array( 'defaults', 'options-fields', 'options-render', 'shortcodes', 'structure', 'importer', 'seo', 'figures', 'media', 'charts', 'dashboard', 'journal', 'schema-deep', 'unlist', 'search-permalinks', 'hide-login', 'login', 'security-detector', 'security', 'dropins', 'honorific', 'search', 'links', 'quran-text', 'watch' );
+	return array( 'defaults', 'options-fields', 'options-render', 'shortcodes', 'structure', 'importer', 'seo', 'figures', 'media', 'charts', 'dashboard', 'journal', 'schema-deep', 'unlist', 'search-permalinks', 'hide-login', 'login', 'security-detector', 'security', 'dropins', 'honorific', 'search', 'links', 'quran-text', 'watch-report', 'watch' );
 }
 
 /**

@@ -382,3 +382,15 @@ add_action( 'admin_notices', static function () {
 	}
 	echo '<div class="notice notice-info"><p><strong>Paulus:</strong> ' . esc_html__( 'this page shows the text built into the theme (content/articles/legal-contact.json), whatever is written here. Change that file to change the page.', 'paulus' ) . '</p></div>';
 } );
+
+/**
+ * The notice Crossway requires wherever the ESV is quoted on a web page.
+ * Usage: [paulus_esv_notice]. Kept in one place so a change of wording or
+ * text edition is made once.
+ *
+ * @return string
+ */
+function paulus_sc_esv_notice() {
+	return '<p class="paulus-esv-notice">' . esc_html__( 'Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. ESV Text Edition: 2025. The ESV text may not be quoted in any publication made available to the public by a Creative Commons license. The ESV may not be translated in whole or in part into any other language. Used by permission. All rights reserved.', 'paulus' ) . '</p>';
+}
+add_shortcode( 'paulus_esv_notice', 'paulus_sc_esv_notice' );

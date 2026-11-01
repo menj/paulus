@@ -41,6 +41,28 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 - **Upload the whole theme folder.** This release combines the 2.66.x work (the Security tab, the contextual links and sixty new photographs; see below) with the 2.65.x releases of `main`. Read the three notes below, 2.66.1 to 2.66.2, 2.66.0 to 2.66.1 and 2.65.6 to 2.66.0, before updating: the Security tab is on by default and changes how XML-RPC and the REST API answer.
 - The articles that gained photographs refresh on the first page load as an administrator, where they still match a shipped text. Clear caches afterwards.
 
+### 2.67.3 to 2.67.4
+
+- Upload the whole theme folder, including the new `inc/watch-report.php` and `assets/css/watch.css`; a partial upload without the first shows the maintenance page until it is there. Nothing in the content changes.
+- The panel looks different on the dashboard; no setting is involved.
+
+### 2.67.2 to 2.67.3
+
+- Upload the whole theme folder. Nine pages change their English quotations from the KJV to the ESV; the sync refreshes each where it still matches a shipped text, and hand-edited text stays.
+
+### 2.67.1 to 2.67.2
+
+- Upload the whole theme folder. Ten articles change (seven converted to the ESV, three with corrected captions); the sync refreshes each where it still matches a shipped text, and hand-edited text stays.
+
+### 2.67.0 to 2.67.1
+
+- Upload the whole theme folder. Six articles change their English quotations from the KJV to the ESV; the sync refreshes each where it still matches a shipped text, and hand-edited text stays. Nothing else changes.
+
+### 2.66.8 to 2.67.0
+
+- Upload the whole theme folder. The three new Journal entries are created on the first page load as an administrator after the update; WordPress holds each as scheduled and publishes it on its date, which relies on WordPress's scheduler running (a visit to the site on or after the day). Upload before 8 November 2026 so the first goes out on time.
+- The Sources page and "Was Paul a Pharisee or a Sadducee?" refresh where they still match a shipped text; hand-edited text stays.
+
 ### 2.66.7 to 2.66.8
 
 - Upload the whole theme folder. The new Journal entry is created on the first page load as an administrator after the update, with its featured image and search title; nothing existing is changed.

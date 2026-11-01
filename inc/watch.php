@@ -345,7 +345,7 @@ function paulus_php_error_summary( $days = 7 ) {
 		$key = preg_replace( array( '/\d+/', "/'[^']*'/" ), array( 'N', "'…'" ), (string) preg_replace( '/ made by .*$/', '', $msg ) );
 		$key = mb_substr( (string) $key, 0, 220 );
 		if ( ! isset( $out['groups'][ $key ] ) ) {
-			$out['groups'][ $key ] = array( 'message' => $key, 'count' => 0, 'last' => 0, 'fatal' => $fatal, 'source' => $source, 'hint' => paulus_error_hint( $msg ) );
+			$out['groups'][ $key ] = array( 'message' => $key, 'count' => 0, 'last' => 0, 'fatal' => $fatal, 'source' => $source, 'hint' => paulus_error_hint( $msg ), 'info' => paulus_error_hint_info( $msg ) );
 		}
 		++$out['groups'][ $key ]['count'];
 		$out['groups'][ $key ]['last'] = max( $out['groups'][ $key ]['last'], $time );
@@ -355,32 +355,6 @@ function paulus_php_error_summary( $days = 7 ) {
 	}
 	uasort( $out['groups'], static fn( $a, $b ) => ( $b['fatal'] <=> $a['fatal'] ) ?: ( $b['last'] <=> $a['last'] ) );
 	return $out;
-}
-
-/**
- * What a recurring log message means and what to do about it, for the ones
- * this site's logs have shown.
- *
- * @param string $msg Log message.
- * @return string Empty when there is nothing to add.
- */
-function paulus_error_hint( $msg ) {
-	$hints = array(
-		'rank_math_analytics_objects'         => __( 'Rank Math\'s Analytics table is missing from the database. In Rank Math, switch the Analytics module off and on again (Dashboard, Modules), or use Status & Tools, Database Tools, to create its tables again.', 'paulus' ),
-		'wps_scan_lock'                       => __( 'Two runs of the security plugin\'s scan started at once; harmless.', 'paulus' ),
-		'cron event list could not be saved'  => __( 'WordPress could not save its schedule, usually two requests saving it at once; harmless unless it repeats.', 'paulus' ),
-		'Undefined constant "ABSPATH"'        => __( 'A bot asked for one of WordPress\'s internal files directly; harmless.', 'paulus' ),
-		'Call to undefined function add_action' => __( 'A bot asked for one of WordPress\'s internal files directly; harmless.', 'paulus' ),
-		'Undefined array key "url"'           => __( 'Rank Math\'s author snippet on an author archive; the theme now redirects those before they render.', 'paulus' ),
-		'themes/' . get_stylesheet() . '/inc/' => __( 'A theme file was missing or half written while the theme was uploaded by FTP; visitors were shown the maintenance page. Use Maintenance mode while uploading.', 'paulus' ),
-		'/wp-includes/'                       => __( 'A WordPress file was missing, most often while WordPress itself was uploaded by FTP. Use Maintenance mode while uploading, or update from Dashboard, Updates.', 'paulus' ),
-	);
-	foreach ( $hints as $needle => $hint ) {
-		if ( false !== strpos( $msg, $needle ) ) {
-			return $hint;
-		}
-	}
-	return '';
 }
 
 /**
@@ -461,52 +435,128 @@ add_action( 'switch_theme', static function () {
 } );
 
 /**
+ * One finding of the PHP error log as a list item.
+ *
+ * @param array    $f   Finding from paulus_watch_findings().
+ * @param callable $fmt Formats a Unix time.
+ * @return string HTML.
+ */
+function paulus_watch_finding_html( array $f, $fmt ) {
+	$sources = array_values( array_unique( array_filter( wp_list_pluck( $f['lines'], 'source' ) ) ) );
+	$html    = '<li class="paulus-watch__finding paulus-watch__finding--' . esc_attr( $f['level'] ) . '">';
+	$html   .= '<div class="paulus-watch__head"><span class="paulus-watch__count">' . esc_html( number_format_i18n( $f['count'] ) ) . '×</span>';
+	$html   .= '<h4 class="paulus-watch__title">' . esc_html( $f['title'] ) . '</h4>';
+	$html   .= $f['fatal'] ? '<span class="paulus-watch__tag">' . esc_html__( 'Fatal', 'paulus' ) . '</span>' : '';
+	$html   .= '</div>';
+	/* translators: 1: where it came from, 2: when it last happened. */
+	$html .= '<p class="paulus-watch__meta">' . esc_html( sprintf( __( '%1$s · last %2$s', 'paulus' ), implode( ', ', $sources ), $fmt( $f['last'] ) ) ) . '</p>';
+	$html .= $f['text'] ? '<p class="paulus-watch__text">' . esc_html( $f['text'] ) . '</p>' : '';
+	$html .= '<details class="paulus-watch__lines"><summary>' . esc_html( sprintf( /* translators: %d: number of log lines. */ _n( 'Show the log line (%d)', 'Show the log lines (%d)', count( $f['lines'] ), 'paulus' ), count( $f['lines'] ) ) ) . '</summary><ul>';
+	foreach ( $f['lines'] as $line ) {
+		$html .= '<li><code>' . esc_html( mb_substr( $line['message'], 0, 220 ) ) . '</code> <small>' . esc_html( $line['count'] . '× · ' . $fmt( $line['last'] ) ) . '</small></li>';
+	}
+	return $html . '</ul></details></li>';
+}
+
+/**
  * The dashboard panel: maintenance, the safety net, the incidents and the
- * PHP error log of the last seven days.
+ * PHP error log of the last seven days, as a status strip, three figures and
+ * a short list of findings, most pressing first. Styled by
+ * assets/css/watch.css.
  */
 function paulus_watch_widget() {
 	$on       = file_exists( paulus_maintenance_flag() );
-	$net      = paulus_htaccess_supported() ? ( paulus_htaccess_installed() ? __( 'in place', 'paulus' ) : __( 'not written (the .htaccess file is not writable)', 'paulus' ) ) : __( 'not available on this server (not Apache or LiteSpeed); maintenance is served by WordPress only', 'paulus' );
-	$pages    = array();
+	$supports = paulus_htaccess_supported();
+	$net_ok   = $supports && paulus_htaccess_installed();
+	$net_note = '';
+	if ( ! $supports ) {
+		$net_note = __( 'The web-server safety net is not available on this server (not Apache or LiteSpeed); maintenance is served by WordPress only.', 'paulus' );
+	} elseif ( ! $net_ok ) {
+		$net_note = __( 'The web-server safety net is not written (the .htaccess file is not writable).', 'paulus' );
+	}
+	$pages = array();
 	foreach ( array( 'php-error.php', 'maintenance.php', 'db-error.php', 'paulus-maintenance.html', 'paulus-error-page.css' ) as $f ) {
 		$pages[ $f ] = file_exists( WP_CONTENT_DIR . '/' . $f );
 	}
+	$missing   = array_keys( array_filter( $pages, static fn( $v ) => ! $v ) );
 	$incidents = paulus_incidents( 50 );
 	$recent    = array_filter( $incidents, static fn( $i ) => (int) $i['t'] > time() - 14 * DAY_IN_SECONDS );
 	$log       = paulus_php_error_summary( 7 );
 	$fmt       = static fn( $t ) => wp_date( 'j M, H:i', (int) $t );
-	echo '<div class="paulus-watch">';
-	echo '<p><strong>' . esc_html__( 'Maintenance mode', 'paulus' ) . ':</strong> ' . ( $on ? '<span style="color:#b32d2e;font-weight:600">' . esc_html__( 'on', 'paulus' ) . '</span>' : esc_html__( 'off', 'paulus' ) ) . ' · <a href="' . esc_url( admin_url( 'themes.php?page=paulus-options' ) ) . '">' . esc_html__( 'Theme Options, Maintenance', 'paulus' ) . '</a></p>';
-	echo '<p><strong>' . esc_html__( 'Web-server safety net', 'paulus' ) . ':</strong> ' . esc_html( $net ) . '</p>';
-	$missing = array_keys( array_filter( $pages, static fn( $v ) => ! $v ) );
-	echo '<p><strong>' . esc_html__( 'Error pages', 'paulus' ) . ':</strong> ' . ( $missing ? esc_html( sprintf( /* translators: %s: file names. */ __( 'missing in wp-content: %s (written on the next admin page load if the folder is writable)', 'paulus' ), implode( ', ', $missing ) ) ) : esc_html__( 'all in place', 'paulus' ) ) . '</p>';
-	echo '<h3>' . esc_html__( 'Errors visitors met (last 14 days)', 'paulus' ) . '</h3>';
+	$scheme    = array_key_exists( paulus_option( 'scheme' ), paulus_schemes() ) ? paulus_option( 'scheme' ) : 'ochre';
+	$chips     = array(
+		array( __( 'Maintenance mode', 'paulus' ), $on ? __( 'On', 'paulus' ) : __( 'Off', 'paulus' ), $on ? 'bad' : 'ok' ),
+		array( __( 'Web-server safety net', 'paulus' ), $net_ok ? __( 'In place', 'paulus' ) : ( $supports ? __( 'Not written', 'paulus' ) : __( 'Not available', 'paulus' ) ), $net_ok ? 'ok' : 'warn' ),
+		array( __( 'Error pages', 'paulus' ), $missing ? sprintf( /* translators: %d: number of missing files. */ _n( '%d missing', '%d missing', count( $missing ), 'paulus' ), count( $missing ) ) : __( 'All in place', 'paulus' ), $missing ? 'warn' : 'ok' ),
+	);
+	echo '<div class="paulus-watch paulus-watch--' . esc_attr( $scheme ) . '">';
+	echo '<ul class="paulus-watch__status">';
+	foreach ( $chips as $c ) {
+		echo '<li class="is-' . esc_attr( $c[2] ) . '"><span class="paulus-watch__dot" aria-hidden="true"></span><span class="paulus-watch__label">' . esc_html( $c[0] ) . '</span><strong>' . esc_html( $c[1] ) . '</strong></li>';
+	}
+	echo '</ul>';
+	if ( $net_note ) {
+		echo '<p class="paulus-watch__note">' . esc_html( $net_note ) . '</p>';
+	}
+	if ( $missing ) {
+		/* translators: %s: file names. */
+		echo '<p class="paulus-watch__note">' . esc_html( sprintf( __( 'Missing in wp-content: %s. They are written on the next admin page load if the folder is writable.', 'paulus' ), implode( ', ', $missing ) ) ) . '</p>';
+	}
+	echo '<p class="paulus-watch__link"><a href="' . esc_url( admin_url( 'themes.php?page=paulus-options' ) ) . '">' . esc_html__( 'Theme Options, Maintenance', 'paulus' ) . '</a></p>';
+
+	echo '<section class="paulus-watch__block"><h3>' . esc_html__( 'Visitors, last 14 days', 'paulus' ) . '</h3>';
 	if ( ! $recent ) {
-		echo '<p>' . esc_html__( 'None.', 'paulus' ) . '</p>';
+		echo '<p class="paulus-watch__calm">' . esc_html__( 'No visitor met an error.', 'paulus' ) . '</p>';
 	} else {
 		$updates = count( array_filter( $recent, static fn( $i ) => 'update' === $i['k'] ) );
 		/* translators: 1: total, 2: during uploads. */
-		echo '<p>' . esc_html( sprintf( __( '%1$d, of which %2$d during an upload (answered as maintenance).', 'paulus' ), count( $recent ), $updates ) ) . '</p><ul>';
+		echo '<p>' . esc_html( sprintf( __( '%1$d errors, %2$d of them during an upload (answered as maintenance).', 'paulus' ), count( $recent ), $updates ) ) . '</p><ul class="paulus-watch__plain">';
 		foreach ( array_slice( $recent, 0, 5 ) as $i ) {
-			echo '<li><code>' . esc_html( $fmt( $i['t'] ) ) . '</code> ' . esc_html( mb_substr( paulus_first_line( $i['m'] ), 0, 160 ) ) . ' <em>' . esc_html( $i['f'] . ':' . $i['l'] ) . '</em></li>';
+			echo '<li><code>' . esc_html( $fmt( $i['t'] ) ) . '</code> ' . esc_html( mb_substr( paulus_first_line( $i['m'] ), 0, 160 ) ) . ' <small>' . esc_html( $i['f'] . ':' . $i['l'] ) . '</small></li>';
 		}
 		echo '</ul>';
 	}
-	echo '<h3>' . esc_html__( 'PHP error log (last 7 days)', 'paulus' ) . '</h3>';
+	echo '</section>';
+
+	echo '<section class="paulus-watch__block"><h3>' . esc_html__( 'Server log, last 7 days', 'paulus' ) . '</h3>';
 	if ( ! $log['readable'] ) {
-		echo '<p>' . esc_html( '' === $log['path'] ? __( 'PHP is not set to write an error log the site can read.', 'paulus' ) : sprintf( /* translators: %s: path. */ __( 'The log at %s cannot be read by the site.', 'paulus' ), $log['path'] ) ) . '</p>';
+		echo '<p class="paulus-watch__note">' . esc_html( '' === $log['path'] ? __( 'PHP is not set to write an error log the site can read.', 'paulus' ) : sprintf( /* translators: %s: path. */ __( 'The log at %s cannot be read by the site.', 'paulus' ), $log['path'] ) ) . '</p>';
 	} elseif ( ! $log['total'] ) {
-		echo '<p>' . esc_html__( 'Nothing logged.', 'paulus' ) . '</p>';
+		echo '<p class="paulus-watch__calm">' . esc_html__( 'Nothing logged.', 'paulus' ) . '</p>';
 	} else {
-		/* translators: 1: entries, 2: fatal. */
-		echo '<p>' . esc_html( sprintf( __( '%1$d entries, %2$d of them fatal. The most pressing:', 'paulus' ), $log['total'], $log['fatal'] ) ) . '</p><ul>';
-		foreach ( array_slice( $log['groups'], 0, 6 ) as $g ) {
-			echo '<li>' . ( $g['fatal'] ? '<strong style="color:#b32d2e">' . esc_html__( 'Fatal', 'paulus' ) . '</strong> ' : '' ) . esc_html( $g['count'] . '× ' . mb_substr( $g['message'], 0, 170 ) ) . ' <em>(' . esc_html( $g['source'] . ', ' . $fmt( $g['last'] ) ) . ')</em>' . ( $g['hint'] ? '<br><span style="color:#50575e">' . esc_html( $g['hint'] ) . '</span>' : '' ) . '</li>';
+		$findings = paulus_watch_findings( $log['groups'] );
+		$look     = array_filter( $findings, static fn( $f ) => in_array( $f['level'], array( 'action', 'unknown' ), true ) );
+		$quiet    = array_filter( $findings, static fn( $f ) => in_array( $f['level'], array( 'noise', 'upload' ), true ) );
+		echo '<dl class="paulus-watch__stats">';
+		echo '<div><dt>' . esc_html__( 'Entries', 'paulus' ) . '</dt><dd>' . esc_html( number_format_i18n( $log['total'] ) ) . '</dd></div>';
+		echo '<div><dt>' . esc_html__( 'Fatal', 'paulus' ) . '</dt><dd>' . esc_html( number_format_i18n( $log['fatal'] ) ) . '</dd></div>';
+		echo '<div class="' . ( $look ? 'is-attention' : 'is-calm' ) . '"><dt>' . esc_html__( 'Need a look', 'paulus' ) . '</dt><dd>' . esc_html( number_format_i18n( count( $look ) ) ) . '</dd></div>';
+		echo '</dl>';
+		if ( $look ) {
+			echo '<ol class="paulus-watch__findings">';
+			foreach ( $look as $f ) {
+				echo paulus_watch_finding_html( $f, $fmt ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from escaped parts.
+			}
+			echo '</ol>';
+		} else {
+			echo '<p class="paulus-watch__calm">' . esc_html__( 'Nothing in the log needs your attention.', 'paulus' ) . '</p>';
 		}
-		echo '</ul>';
+		if ( $quiet ) {
+			$entries = array_sum( wp_list_pluck( $quiet, 'count' ) );
+			echo '<details class="paulus-watch__quiet"><summary>' . esc_html( sprintf( /* translators: 1: kinds, 2: entries. */ _n( 'Background noise: %1$d kind, %2$s entries', 'Background noise: %1$d kinds, %2$s entries', count( $quiet ), 'paulus' ), count( $quiet ), number_format_i18n( $entries ) ) ) . '</summary><ol class="paulus-watch__findings">';
+			foreach ( $quiet as $f ) {
+				echo paulus_watch_finding_html( $f, $fmt ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from escaped parts.
+			}
+			echo '</ol></details>';
+		}
 	}
-	echo '</div>';
+	echo '</section></div>';
 }
+add_action( 'admin_enqueue_scripts', static function ( $hook ) {
+	if ( 'index.php' === $hook && current_user_can( 'manage_options' ) ) {
+		wp_enqueue_style( 'paulus-watch', PAULUS_URI . '/assets/css/watch.css', array(), PAULUS_VERSION );
+	}
+} );
 add_action( 'wp_dashboard_setup', static function () {
 	if ( current_user_can( 'manage_options' ) ) {
 		wp_add_dashboard_widget( 'paulus_watch', __( 'Errors and maintenance', 'paulus' ), 'paulus_watch_widget' );
