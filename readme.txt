@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.67.6
+Stable tag: 2.68.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.68.0 =
+* A writing-style pass over the site's own prose in 27 articles: two contractions expanded, banned words replaced with plain ones, and sentences that denied one framing before stating another rewritten as plain claims. Quotations, scripture and the archive of Martin's notes are unchanged.
 
 = 2.67.6 =
 * Security fixes: the spam gate exempts only posts the theme's own seeding run marked, holds WP-CLI publishing like other remote routes, and no longer turns private posts into pending ones. Trashed spam reached at /?p=ID answers 410. The Security tab loads its reports only when opened.
