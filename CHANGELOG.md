@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.68.0] - 2026-11-02
+
+### Changed
+- **Writing-style pass over every article** (`content/articles/`, 27 files), to the owner's style (anti-ai-writing-style, v2). Two contractions in the Answers headings are spelled out ("Does the Bible not say", "Does the Book of Acts not confirm"). Banned words give way to plain ones: "stood as", "served as" and "offers a" become "was" and "gives"; "aligned with" becomes "allied with", "fitted to" or "agrees with"; "pioneered" becomes "was the first to"; "surpassing" becomes "overtaking"; "elevation", "redefined", "rich in", "nobody", "the turning point" and "it is worth" are rewritten. Seventeen sentences that denied one framing before stating another now state the claim alone, among them "more than a spiritual transformation" in *The persecutor and his guilt*, "more than a controversial figure" in *Ego, epilepsy and narcissism* and "He is not the one being prayed to" in *The prayer Jesus taught*. No fact, figure, citation, footnote or link changed.
+- Left as written: quotations, scripture, hadith, the titles of cited books, the archive of Dale B. Martin's notes, and the 2023 preface and chapter in *The 2023 edition*, which stay as the owner published them. Literal uses stay too: Paul's missionary journeys, the tapestry cartoons of Raphael, a desert landscape, the rich young man.
+- Content version 2.68.0, with the earlier hash of each changed file in `prior_hashes` (`#r68.0`), so unedited copies on live sites refresh.
+
 ## [2.67.6] - 2026-11-01
 
 ### Fixed
