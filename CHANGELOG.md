@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.72.0] - 2026-11-03
+
+### Added
+- Pixel icons from the owner: an arrow after the Next label at the foot of an article, and an envelope beside the publisher's email address on the book page (`assets/images/`, styled in `assets/css/theme.css`, listed in `assets/files.json`). Each is animated WebP drawn at its own pixel size, for decoration only; the link text is unchanged. Readers who ask for reduced motion see a still first frame.
+
 ## [2.71.0] - 2026-11-03
 
 ### Added

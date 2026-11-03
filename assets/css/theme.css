@@ -560,6 +560,14 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-readnav__links a:hover { color: var(--t-accent); }
 .paulus-readnav__links span { font-weight: 700; font-size: 0.72rem; color: var(--t-accent-deep); }
 .paulus-readnav__next { grid-column: 2; text-align: right; }
+/* The owner's retro pixel icons (assets/images/*.webp): the arrow on the "Next" label, the envelope on the publisher's mail link. Decoration only; still under reduced motion. */
+.paulus-readnav__next span::after, .paulus-publisher a[href^="mailto:"]::before { content: ""; display: inline-block; vertical-align: middle; background: center / contain no-repeat; image-rendering: pixelated; }
+.paulus-readnav__next span::after { width: 35px; height: 21px; margin-left: 0.5rem; background-image: url(../images/arrow-next.webp); }
+.paulus-publisher a[href^="mailto:"]::before { width: 45px; height: 52px; margin-right: 0.6rem; background-image: url(../images/envelope.webp); }
+@media (prefers-reduced-motion: reduce) {
+	.paulus-readnav__next span::after { background-image: url(../images/arrow-next-static.webp); }
+	.paulus-publisher a[href^="mailto:"]::before { background-image: url(../images/envelope-static.webp); }
+}
 
 /* More from this section */
 .paulus-related { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--t-rule); }
