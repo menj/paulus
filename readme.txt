@@ -38,7 +38,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 == Changelog ==
 
 = 2.69.0 =
-* Structured data keeps to Google's supported list: FAQPage, Event, Quiz, Dataset, DefinedTermSet, ItemList, the header, footer and sidebar nodes, speakable and the search action are gone, also from Rank Math's graph where the theme adds to it. The book's offer needs a numeric price. An image sitemap at /sitemap-images.xml. Seventeen descriptions rewritten to end within 130 characters.
+* All schema.org markup stays, as the owner decided on 2026-11-03 for GEO, AEO and AIO. The book's offer needs a numeric price. An image sitemap at /sitemap-images.xml. Seventeen descriptions rewritten to end within 130 characters.
 
 = 2.68.0 =
 * A writing-style pass over the site's own prose in 27 articles: two contractions expanded, banned words replaced with plain ones, and sentences that denied one framing before stating another rewritten as plain claims. Quotations, scripture and the archive of Martin's notes are unchanged.

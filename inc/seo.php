@@ -600,6 +600,10 @@ function paulus_print_schema_graph() {
 	if ( $page ) {
 		$graph[] = $page;
 	}
+	$list = paulus_itemlist_schema();
+	if ( $list ) {
+		$graph[] = $list;
+	}
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$graph[] = $img;
 	}
@@ -719,6 +723,14 @@ function paulus_website_schema( $publisher ) {
 		'name'       => get_bloginfo( 'name' ),
 		'inLanguage' => paulus_site_language(),
 		'publisher'  => $publisher,
+		'potentialAction' => array(
+			'@type'       => 'SearchAction',
+			'target'      => array(
+				'@type'       => 'EntryPoint',
+				'urlTemplate' => home_url( '/?s={search_term_string}' ),
+			),
+			'query-input' => 'required name=search_term_string',
+		),
 	);
 }
 
@@ -979,8 +991,21 @@ function paulus_schema_additions( $data ) {
 		$add[] = paulus_website_schema( $publisher );
 	}
 	// Rank Math describes the page itself (WebPage, CollectionPage and so on);
-	// what it cannot know is the licence of the photographs in the text, added
-	// as their own nodes, never replacing its page node.
+	// what it cannot know is the site's own structure. The article list of a
+	// section, the questions on the Answers page and the licensed photographs
+	// in the text are added as their own nodes, never replacing its page node.
+	if ( is_category() && ! paulus_schema_type_present( $data, array( 'ItemList' ) ) ) {
+		$list = paulus_itemlist_schema();
+		if ( $list ) {
+			$add[] = $list;
+		}
+	}
+	if ( is_page( array( 'answers', 'questions' ) ) && ! paulus_schema_type_present( $data, array( 'FAQPage' ) ) ) {
+		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
+		if ( $faq ) {
+			$add[] = $faq;
+		}
+	}
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$add[] = $img;
 	}
@@ -1034,7 +1059,7 @@ function paulus_address_schema( $raw ) {
 
 /**
  * The page node for the current request, typed by what the page is:
- * CollectionPage for sections, ItemPage for the book,
+ * CollectionPage for sections, FAQPage for Answers, ItemPage for the book,
  * SearchResultsPage for search, WebPage otherwise. Articles are described
  * by their Article node, so none is added for them.
  *
@@ -1082,16 +1107,112 @@ function paulus_webpage_schema( $website ) {
 		$node['description'] = $desc;
 	}
 	if ( is_category() ) {
-		$node['@type'] = 'CollectionPage';
+		$node['@type']      = 'CollectionPage';
+		$node['mainEntity'] = array( '@id' => $url . '#articles' );
 	} elseif ( is_search() ) {
 		$node['@type'] = 'SearchResultsPage';
 	} elseif ( is_page( 'the-book' ) ) {
 		$node['@type']      = 'ItemPage';
 		$node['mainEntity'] = array( '@id' => get_permalink() . '#book' );
+	} elseif ( is_page( array( 'answers', 'questions' ) ) ) {
+		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
+		if ( $faq ) {
+			unset( $faq['@id'] );
+			$node = array_merge( $node, $faq, array( '@id' => $node['@id'] ) );
+		}
 	} elseif ( is_front_page() ) {
 		$node['about'] = array( '@type' => 'Person', 'name' => 'Paul of Tarsus' );
 	}
 	return $node;
+}
+
+/**
+ * On a section page, its articles in reading order as an ItemList: one entry
+ * per series (its first part) and per stand-alone article, as the page lists them.
+ *
+ * @return array
+ */
+function paulus_itemlist_schema() {
+	if ( ! is_category() || ! function_exists( 'paulus_chapters' ) ) {
+		return array();
+	}
+	$term  = get_queried_object();
+	$items = array();
+	$seen  = array();
+	foreach ( paulus_chapters( $term->term_id ) as $c ) {
+		$series = get_post_meta( $c->ID, '_paulus_series', true );
+		if ( $series && isset( $seen[ $series ] ) ) {
+			continue;
+		}
+		if ( $series ) {
+			$seen[ $series ] = true;
+		}
+		$title   = $series ? ( get_post_meta( $c->ID, '_paulus_series_title', true ) ?: get_the_title( $c ) ) : get_the_title( $c );
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => count( $items ) + 1,
+			'url'      => get_permalink( $c ),
+			'name'     => wp_strip_all_tags( $title ),
+		);
+	}
+	if ( ! $items ) {
+		return array();
+	}
+	return array(
+		'@type'           => 'ItemList',
+		'@id'             => get_term_link( $term ) . '#articles',
+		'name'            => $term->name,
+		'numberOfItems'   => count( $items ),
+		'itemListOrder'   => 'https://schema.org/ItemListOrderAscending',
+		'itemListElement' => $items,
+	);
+}
+
+/**
+ * The Answers or Questions page as an FAQPage: each h2 is a question, and the
+ * paragraphs under it, up to the "Full evidence" link, are its answer.
+ *
+ * @param string $slug Page slug: answers (default) or questions.
+ * @return array
+ */
+function paulus_faq_schema( $slug = 'answers' ) {
+	$post = get_page_by_path( in_array( $slug, array( 'answers', 'questions' ), true ) ? $slug : 'answers' );
+	if ( ! $post ) {
+		return array();
+	}
+	$html = preg_replace( '#<sup[^>]*>.*?</sup>|<ol class="footnotes">.*?</ol>#s', '', (string) $post->post_content );
+	$html = strip_shortcodes( $html );
+	if ( ! preg_match_all( '#<h2([^>]*)>(.*?)</h2>(.*?)(?=<h2|\z)#s', $html, $m, PREG_SET_ORDER ) ) {
+		return array();
+	}
+	$qs = array();
+	foreach ( $m as $row ) {
+		$id   = preg_match( '#\sid="([^"]+)"#', $row[1], $idm ) ? $idm[1] : '';
+		$row  = array( $row[0], $row[2], $row[3] );
+		$body = preg_replace( '#<p class="paulus-readmore">.*?</p>#s', '', $row[2] );
+		$text = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $body ) ) );
+		if ( '' === $text ) {
+			continue;
+		}
+		$q = array(
+			'@type'          => 'Question',
+			'name'           => wp_strip_all_tags( $row[1] ),
+			'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $text ),
+		);
+		if ( $id ) {
+			// Each question's own address, so a result can open at its answer.
+			$q['url'] = get_permalink( $post ) . '#' . $id;
+		}
+		$qs[] = $q;
+	}
+	if ( ! $qs ) {
+		return array();
+	}
+	return array(
+		'@type'      => 'FAQPage',
+		'@id'        => get_permalink( $post ) . '#faq',
+		'mainEntity' => $qs,
+	);
 }
 
 /**
