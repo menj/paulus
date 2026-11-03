@@ -936,7 +936,7 @@ function paulus_schema_component_nodes() {
 	}
 	// The 2023 edition: the English book in progress that the site began
 	// as, an edition of the work, with its date of publication.
-	if ( 'the-2023-edition' === $slug ) {
+	if ( 'the-first-edition' === $slug ) {
 		$nodes[] = array(
 			'@type'         => 'Book',
 			'@id'           => $url . '#edition',
@@ -1174,7 +1174,7 @@ function paulus_schema_deepen_node( $node ) {
 				$node = paulus_node_default( $node, 'temporalCoverage', $month ? sprintf( '%04d-%02d', $year, $month ) : sprintf( '%04d', $year ) );
 			}
 		}
-		if ( 'the-2023-edition' === $slug ) {
+		if ( 'the-first-edition' === $slug ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => $url . '#edition' ) );
 		}
 		if ( 'paul-in-the-churches' === $slug && preg_match_all( '#\[paulus_figure name="([a-z0-9-]+)"#', $content, $fm ) ) {
