@@ -5,7 +5,10 @@ All notable changes to this theme are documented here. The format follows [Keep 
 ## [2.72.0] - 2026-11-03
 
 ### Added
-- Pixel icons from the owner: an arrow after the Next label at the foot of an article, and an envelope beside the publisher's email address on the book page (`assets/images/`, styled in `assets/css/theme.css`, listed in `assets/files.json`). Each is animated WebP drawn at its own pixel size, for decoration only; the link text is unchanged. Readers who ask for reduced motion see a still first frame.
+- Pixel icons from the owner: an arrow after the Next label at the foot of an article, and an envelope beside the publisher's email address on the book page (`assets/images/`, styled in `assets/css/theme.css`, listed in `assets/files.json`). Each is animated WebP drawn at its own pixel size, for decoration only; the link text is unchanged. Readers who ask for reduced motion see a still first frame. The arrow also shows on the Journal's "Newer entry" link, which works as the same next link. The icon gaps use logical margins, so they sit on the right side in right-to-left text.
+
+### Fixed
+- `assets/files.json` names version 2.72.0 again. It had stayed at 2.63.3, so the image clean-up, which acts only when the list matches the running version, removed nothing. The list matches every image in the three folders.
 
 ## [2.71.0] - 2026-11-03
 
