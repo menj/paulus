@@ -1,6 +1,6 @@
 {
 	"nav_version": 7,
-	"content_version": "2.68.0",
+	"content_version": "2.69.0",
 	"prior_hashes": {
 		"answers.json#r68.0": "bec48ce526dba7689a9866d5af652902",
 		"an-invitation-to-christians.json#r68.0": "5da7d9d7f15ecad54e4a2b5fec6cfaea",
@@ -770,7 +770,24 @@
 		"Two gods, a redeeming death, faith without deeds, and the law called a curse. Read the seven doctrines of Paul in his own words.",
 		"Two names, three tongues, a citizenship produced under the rod, and an appeal to Caesar. Read the Roman in Paul.",
 		"Wine for a stomach, a forgotten cloak, a ledger of sufferings and a thorn in the flesh. Read what Paul's letters reveal.",
-		"ʿĪsā ibn Maryam gave the test for a false prophet, and Paul admitted to lying for the gospel. Read how Asia rejected him."
+		"ʿĪsā ibn Maryam gave the test for a false prophet, and Paul admitted to lying for the gospel. Read how Asia rejected him.",
+		"Who was Paul the apostle? Before and after Damascus: Saul the persecutor, the Roman, the self-named apostle and the mind behind them, all on record.",
+		"Where was Paul born? Tarsus in Cilicia shaped the man, who became a Jew to the Jews and a Greek to the Greeks. The second part of his biography.",
+		"Was Paul a Roman citizen? His claim in Acts, his appeal to Caesar and the silence of his own letters, and what the Roman in him reveals.",
+		"Did Paul kill Christians? Saul consented to Stephen's death and hunted the followers of ʿĪsā before Damascus, by the New Testament's own account.",
+		"Saul to Paul: what happened on the road to Damascus? Luke tells the vision three times. All three accounts of Paul's conversion are given in full.",
+		"Was Paul blind? Did his companions hear a voice? Luke's three accounts of the Damascus vision, side by side, and a Yale scholar's verdict.",
+		"The apostle to the Gentiles broke with Barnabas and opposed Peter to his face at Antioch after the council. See how the partings came about.",
+		"How many books of the New Testament did Paul write? Thirteen of 27 carry his name, and his letters came first. How his canon came to be.",
+		"Was Paul a Pharisee or a Sadducee? A Pharisee by his own word, yet he served the Sadducee high priest. What the sources say. Read on.",
+		"Paul in prison: a night at Philippi, two years at Caesarea, two at Rome. What Acts says, what the letters add, and what is missing. Read on.",
+		"What did Paul never say about Jesus? His seven letters hold no parable, no healing and no sermon, and few sayings. What they leave out.",
+		"Did Paul study under Gamaliel? Only Acts says so, and Paul's own letters sit uneasily beside it. What the evidence allows. Read on.",
+		"Paul of Tarsus at a glance: the story of Saul and Paul, ten facts, his journeys, letters, legacy, quotations and pictures, each with its evidence.",
+		"Timeline of Paul of Tarsus: his life, journeys and death year by year, from birth in Tarsus to Rome, with the sources for each date.",
+		"Names for Paul (Saul of Tarsus, Paul the Apostle, Saint Paul) and the terms of the case, from Antioch to Urgemeinde, each defined for new readers.",
+		"Primary sources and scholarship on Paul of Tarsus: scripture, Jewish and Islamic sources, and books critical of Paul, listed in full.",
+		"Pictures and images of Saint Paul: how the church has painted and carved him with his sword and book, in photographs of the originals in place."
 	],
 	"parts": [
 		{
@@ -778,7 +795,7 @@
 			"name": "The Man",
 			"description": "Saul of Tarsus, from persecutor of the first believers to self-appointed apostle, and the mind behind the change, and the character his own letters record.",
 			"seo_title": "The man: Paul of Tarsus",
-			"meta": "Who was Paul the apostle? Before and after Damascus: Saul the persecutor, the Roman, the self-named apostle and the mind behind them, all on record.",
+			"meta": "Who was Paul the apostle? Saul the persecutor, the Roman citizen and the self-named apostle, before and after Damascus, on record.",
 			"image": "paul-portrait-mirror-stone"
 		},
 		{
@@ -822,7 +839,7 @@
 			"series_title": "Who was Paul of Tarsus?",
 			"series": "who-was-paul-of-tarsus",
 			"slug": "tarsus-and-a-persona-for-every-audience",
-			"meta": "Where was Paul born? Tarsus in Cilicia shaped the man, who became a Jew to the Jews and a Greek to the Greeks. The second part of his biography.",
+			"meta": "Where was Paul born? Tarsus in Cilicia shaped a man who became a Jew to the Jews and a Greek to the Greeks. Part 2 of his life.",
 			"title": "Tarsus, and a persona for every audience",
 			"seo_title": "Where was Paul born? Tarsus",
 			"label": "Profile",
@@ -853,7 +870,7 @@
 			"series_title": "The Roman: name, tongue and citizenship",
 			"series": "the-roman",
 			"slug": "the-citizenship-and-the-appeal-to-caesar",
-			"meta": "Was Paul a Roman citizen? His claim in Acts, his appeal to Caesar and the silence of his own letters, and what the Roman in him reveals.",
+			"meta": "Was Paul a Roman citizen? His claim in Acts, his appeal to Caesar, the silence of his own letters and what the Roman in him shows.",
 			"title": "The citizenship and the appeal to Caesar",
 			"seo_title": "Was Paul a Roman citizen?",
 			"label": "The Roman",
@@ -864,7 +881,7 @@
 		},
 		{
 			"slug": "saul-the-persecutor",
-			"meta": "Did Paul kill Christians? Saul consented to Stephen's death and hunted the followers of ʿĪsā before Damascus, by the New Testament's own account.",
+			"meta": "Did Paul kill Christians? Saul approved of Stephen's death and hunted the followers of ʿĪsā, by the New Testament's own account.",
 			"title": "Saul the persecutor",
 			"seo_title": "Did Paul kill Christians?",
 			"label": "The vision",
@@ -880,7 +897,7 @@
 		},
 		{
 			"slug": "the-damascus-road",
-			"meta": "Saul to Paul: what happened on the road to Damascus? Luke tells the vision three times. All three accounts of Paul's conversion are given in full.",
+			"meta": "Saul to Paul: what happened on the road to Damascus? Luke tells the vision three times, and all three accounts are given in full.",
 			"title": "The Damascus road: one vision, three stories",
 			"seo_title": "Paul's conversion at Damascus",
 			"label": "The vision",
@@ -897,7 +914,7 @@
 		},
 		{
 			"slug": "the-three-accounts-compared",
-			"meta": "Was Paul blind? Did his companions hear a voice? Luke's three accounts of the Damascus vision, side by side, and a Yale scholar's verdict.",
+			"meta": "Was Paul blind? Did his companions hear a voice? Luke's three accounts of the Damascus vision side by side, with a Yale verdict.",
 			"title": "The three accounts compared",
 			"seo_title": "Damascus road: three accounts",
 			"label": "The vision",
@@ -1088,7 +1105,7 @@
 		},
 		{
 			"slug": "the-parting-with-barnabas",
-			"meta": "The apostle to the Gentiles broke with Barnabas and opposed Peter to his face at Antioch after the council. See how the partings came about.",
+			"meta": "The apostle to the Gentiles broke with Barnabas and opposed Peter to his face at Antioch after the council. How the partings came.",
 			"title": "The parting with Barnabas, and open conflict with Peter",
 			"seo_title": "Paul, Barnabas and Peter",
 			"label": "Count·II",
@@ -1272,7 +1289,7 @@
 		},
 		{
 			"slug": "paul-and-the-new-testament",
-			"meta": "How many books of the New Testament did Paul write? Thirteen of 27 carry his name, and his letters came first. How his canon came to be.",
+			"meta": "How many books of the New Testament did Paul write? Thirteen of 27 carry his name, and his letters came first. How his canon grew.",
 			"title": "How Paul came to own the New Testament",
 			"seo_title": "How many books did Paul write?",
 			"label": "Count·V",
@@ -1678,7 +1695,7 @@
 			"slug": "was-paul-a-pharisee-or-a-sadducee",
 			"title": "Was Paul a Pharisee or a Sadducee?",
 			"seo_title": "Paul: Pharisee or Sadducee?",
-			"meta": "Was Paul a Pharisee or a Sadducee? A Pharisee by his own word, yet he served the Sadducee high priest. What the sources say. Read on.",
+			"meta": "Was Paul a Pharisee or a Sadducee? A Pharisee by his own word, yet he served the Sadducee high priest. What the sources say.",
 			"excerpt": "Paul calls himself a Pharisee in a letter and before a council. The man who claims the name spent his persecuting years working for the Sadducees.",
 			"file": "journal-paul-pharisee-or-sadducee.json",
 			"image": "paul-decayed-oxblood",
@@ -1688,7 +1705,7 @@
 			"slug": "paul-in-prison",
 			"title": "Paul in prison: Philippi, Caesarea and Rome",
 			"seo_title": "Paul in prison: Philippi to Rome",
-			"meta": "Paul in prison: a night at Philippi, two years at Caesarea, two at Rome. What Acts says, what the letters add, and what is missing. Read on.",
+			"meta": "Paul in prison: a night at Philippi, two years at Caesarea, two at Rome. What Acts says, what the letters add and what is missing.",
 			"excerpt": "Acts names three stretches in custody and ends without a verdict. What the book records, what Paul's letters add, and where the count fails.",
 			"file": "journal-paul-in-prison.json",
 			"image": "paul-decayed-stone",
@@ -1698,7 +1715,7 @@
 			"slug": "what-paul-never-said-about-jesus",
 			"title": "What did Paul never say about ʿĪsā?",
 			"seo_title": "What Paul never said of ʿĪsā",
-			"meta": "What did Paul never say about Jesus? His seven letters hold no parable, no healing and no sermon, and few sayings. What they leave out.",
+			"meta": "What did Paul never say about Jesus? His seven letters hold no parable, no healing, no sermon and few sayings. What they omit.",
 			"excerpt": "In his seven letters Paul gives no parable, no healing and no sermon, and quotes the Lord a handful of times. A look at what he left out.",
 			"file": "journal-what-paul-never-said-about-jesus.json",
 			"image": "paul-portrait-mirror",
@@ -1708,7 +1725,7 @@
 			"slug": "did-paul-study-under-gamaliel",
 			"title": "Did Paul really study under Gamaliel?",
 			"seo_title": "Did Paul study under Gamaliel?",
-			"meta": "Did Paul study under Gamaliel? Only Acts says so, and Paul's own letters sit uneasily beside it. What the evidence allows. Read on.",
+			"meta": "Did Paul study under Gamaliel? Only Acts says so, and Paul's own letters sit uneasily beside it. What the evidence allows.",
 			"excerpt": "Only Acts says Paul sat at Gamaliel's feet. His letters name no teacher and put him unknown to the churches of Judea. What can be said.",
 			"file": "journal-paul-and-gamaliel.json",
 			"image": "paul-bastard-stone",
@@ -1738,7 +1755,7 @@
 		},
 		{
 			"slug": "paul-at-a-glance",
-			"meta": "Paul of Tarsus at a glance: the story of Saul and Paul, ten facts, his journeys, letters, legacy, quotations and pictures, each with its evidence.",
+			"meta": "Paul of Tarsus at a glance: his story, ten facts, his journeys, letters, legacy, quotations and pictures, each with its evidence.",
 			"title": "Paul of Tarsus at a glance: story, facts and timeline",
 			"seo_title": "The story of Paul in the Bible",
 			"excerpt": "The story of Saul and Paul in the Bible, ten facts about Saint Paul, his journeys, letters, legacy, quotations and pictures, on one page with links to the evidence.",
@@ -1879,7 +1896,7 @@
 		},
 		{
 			"slug": "chronology",
-			"meta": "Timeline of Paul of Tarsus: his life, journeys and death year by year, from birth in Tarsus to Rome, with the sources for each date.",
+			"meta": "Timeline of Paul of Tarsus: his life, journeys and death year by year, from Tarsus to Rome, with the sources for each date.",
 			"title": "Timeline of Paul's life",
 			"seo_title": "Timeline of Paul's life",
 			"parent": "reference",
@@ -1890,7 +1907,7 @@
 		},
 		{
 			"slug": "glossary",
-			"meta": "Names for Paul (Saul of Tarsus, Paul the Apostle, Saint Paul) and the terms of the case, from Antioch to Urgemeinde, each defined for new readers.",
+			"meta": "Names for Paul (Saul of Tarsus, Paul the Apostle, Saint Paul) and the terms of the case, from Antioch to Urgemeinde, defined.",
 			"title": "Glossary",
 			"seo_title": "Glossary of names and terms",
 			"parent": "reference",
@@ -1912,7 +1929,7 @@
 		},
 		{
 			"slug": "sources",
-			"meta": "Primary sources and scholarship on Paul of Tarsus: scripture, Jewish and Islamic sources, and books critical of Paul, listed in full.",
+			"meta": "Primary sources and scholarship on Paul of Tarsus: scripture, Jewish and Islamic sources, and books critical of Paul, in full.",
 			"title": "Sources",
 			"seo_title": "Sources on Paul of Tarsus",
 			"parent": "reference",
@@ -1923,7 +1940,7 @@
 		},
 		{
 			"slug": "paul-in-the-churches",
-			"meta": "Pictures and images of Saint Paul: how the church has painted and carved him with his sword and book, in photographs of the originals in place.",
+			"meta": "Pictures of Saint Paul: how the church painted and carved him with his sword and book, in photographs of the originals in place.",
 			"title": "Paul in the churches",
 			"seo_title": "Pictures of Paul in the churches",
 			"parent": "appendices",

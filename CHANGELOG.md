@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.69.0] - 2026-11-03
+
+- The image sitemap reads `[paulus_figure]` the way WordPress parses shortcodes, so attribute order and quoting no longer matter, and it reads entries in batches of 200 so none is left out.
+
+### Changed
+- **All schema.org markup stays.** The owner keeps every type, whether Google Search supports it or not, for generative, answer and AI search (GEO, AEO, AIO), as decided on 2026-11-03. FAQPage on the Answers, Questions and front pages, the chronology's `Event` nodes, the study guide's `Quiz`, the Pew `Dataset`s, the glossary's `DefinedTermSet`, the `ItemList`s, the `WPHeader`, `WPFooter`, `WPSideBar` and `SiteNavigationElement` nodes, `speakable` and the WebSite `SearchAction` are all as in 2.68.0.
+- **The Book's `offers`** appears only when the price in Theme Options holds a number above zero.
+- **Seventeen descriptions** that ran past 130 characters, and so were cut mid-sentence, are rewritten to end on a full stop within the limit: `the-man`, eight articles, four Journal entries and `paul-at-a-glance`, `chronology`, `glossary`, `sources` and `paul-in-the-churches`. The old texts are in `prior_meta`, so copies on live sites that still hold them take the new ones. Content version 2.69.0.
+
+### Added
+- **An image sitemap at `/sitemap-images.xml`**, named in robots.txt: every published article, Journal entry and page with its featured image and its `[paulus_figure]` photographs. With Rank Math or Yoast SEO active the theme serves none, since their sitemaps carry the images.
+
 ## [2.68.0] - 2026-11-02
 
 ### Changed

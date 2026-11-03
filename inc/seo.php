@@ -440,6 +440,117 @@ add_filter( 'rank_math/frontend/robots', static function ( $robots ) {
 	}
 	return $robots;
 } );
+/**
+ * Whether the theme serves its own image sitemap. Rank Math and Yoast SEO
+ * list each page's images in their own sitemaps, so the theme leaves the job
+ * to them.
+ *
+ * @return bool
+ */
+function paulus_image_sitemap_enabled() {
+	return ! defined( 'RANK_MATH_VERSION' ) && ! defined( 'WPSEO_VERSION' ) && (bool) get_option( 'blog_public' ) && (bool) apply_filters( 'paulus_image_sitemap', true );
+}
+
+/**
+ * The images of one post or page, as absolute URLs: the featured image, the
+ * photographs placed with [paulus_figure] and the theme's own images in the
+ * text.
+ *
+ * @param WP_Post $post Post.
+ * @return string[]
+ */
+function paulus_image_sitemap_images( $post ) {
+	$images = array();
+	$thumb  = get_the_post_thumbnail_url( $post, 'full' );
+	if ( $thumb ) {
+		$images[] = $thumb;
+	}
+	$content = (string) $post->post_content;
+	// Read [paulus_figure] the way WordPress does, so attribute order and quoting do not matter.
+	if ( preg_match_all( '/' . get_shortcode_regex( array( 'paulus_figure' ) ) . '/', $content, $m, PREG_SET_ORDER ) ) {
+		$figs = function_exists( 'paulus_figures' ) ? paulus_figures() : array();
+		foreach ( $m as $tag ) {
+			if ( '[' === $tag[1] && ']' === $tag[6] ) {
+				continue; // Escaped [[paulus_figure]].
+			}
+			$atts = shortcode_parse_atts( $tag[3] );
+			$name = is_array( $atts ) && isset( $atts['name'] ) ? (string) $atts['name'] : '';
+			if ( '' !== $name && isset( $figs[ $name ] ) ) {
+				$images[] = PAULUS_URI . '/assets/images/church/' . $name . '.avif';
+			}
+		}
+	}
+	if ( preg_match_all( '#<img[^>]+src="([^"]+)"#i', $content, $m ) ) {
+		foreach ( $m[1] as $src ) {
+			$src = html_entity_decode( $src, ENT_QUOTES );
+			if ( 0 === strpos( $src, home_url( '/' ) ) || 0 === strpos( $src, PAULUS_URI ) ) {
+				$images[] = $src;
+			}
+		}
+	}
+	return array_values( array_unique( $images ) );
+}
+
+/**
+ * Serves /sitemap-images.xml: every published article, Journal entry and
+ * page with its images, in the image sitemap format the guide recommends.
+ *
+ * @param WP $wp Request.
+ */
+function paulus_serve_image_sitemap( $wp ) {
+	if ( 'sitemap-images.xml' !== $wp->request || ! paulus_image_sitemap_enabled() ) {
+		return;
+	}
+	$types = array( 'post', 'page' );
+	if ( post_type_exists( 'paulus_journal' ) ) {
+		$types[] = 'paulus_journal';
+	}
+	// Read in batches of 200 so no published entry is left out.
+	$posts = array();
+	for ( $page = 1; ; $page++ ) {
+		$batch = get_posts(
+			array(
+				'post_type'      => $types,
+				'post_status'    => 'publish',
+				'posts_per_page' => 200,
+				'paged'          => $page,
+				'has_password'   => false,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+				'no_found_rows'  => true,
+			)
+		);
+		$posts = array_merge( $posts, $batch );
+		if ( count( $batch ) < 200 ) {
+			break;
+		}
+	}
+	status_header( 200 );
+	header( 'Content-Type: application/xml; charset=UTF-8' );
+	header( 'X-Robots-Tag: noindex, follow' );
+	echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+	echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+	foreach ( $posts as $post ) {
+		$images = paulus_image_sitemap_images( $post );
+		if ( ! $images ) {
+			continue;
+		}
+		echo "\t<url>\n\t\t<loc>" . esc_url( get_permalink( $post ) ) . "</loc>\n";
+		foreach ( $images as $image ) {
+			echo "\t\t<image:image><image:loc>" . esc_url( $image ) . "</image:loc></image:image>\n";
+		}
+		echo "\t</url>\n";
+	}
+	echo "</urlset>\n";
+	exit;
+}
+add_action( 'parse_request', 'paulus_serve_image_sitemap', 1 );
+add_filter( 'robots_txt', static function ( $output, $public ) {
+	if ( $public && paulus_image_sitemap_enabled() ) {
+		$output .= "\nSitemap: " . esc_url_raw( home_url( '/sitemap-images.xml' ) ) . "\n";
+	}
+	return $output;
+}, 20, 2 );
 // The author archive redirects to the author's page, so Rank Math's author
 // sitemap, if switched on, lists no one: a user query for ID 0 matches none.
 add_filter( 'rank_math/sitemap/author/query', static function ( $args ) {
@@ -801,11 +912,14 @@ function paulus_book_schema( $author, $publisher ) {
 	if ( false !== $published ) {
 		$book['datePublished'] = gmdate( 'Y-m', $published );
 	}
-	if ( paulus_option( 'book_buy_url' ) ) {
+	// An offer only with a real price: the option is free text, and a price
+	// of "" or "RM" alone would describe an offer the page does not make.
+	$price = preg_match( '/\d+(?:\.\d+)?/', str_replace( ',', '', (string) paulus_option( 'book_price' ) ), $pm ) ? $pm[0] : '';
+	if ( paulus_option( 'book_buy_url' ) && '' !== $price && (float) $price > 0 ) {
 		$book['offers'] = array(
 			'@type'         => 'Offer',
 			'url'           => paulus_option( 'book_buy_url' ),
-			'price'         => preg_replace( '/[^0-9.]/', '', paulus_option( 'book_price' ) ),
+			'price'         => $price,
 			'priceCurrency' => 'MYR',
 			'availability'  => 'https://schema.org/InStock',
 			'seller'        => $publisher,

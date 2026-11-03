@@ -352,6 +352,8 @@ The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'd
 | Contact | `ContactPage`, its main entity the publisher |
 | Front page | its `mainEntity`, an `ItemList` of the three sections; and an `FAQPage` (`#faq`) of exactly the questions its answers section shows, built from what the section rendered (in a block theme the body renders before `wp_head`), each answer in WordPress's display typography and linked to the full answer on the Answers page, which keeps its own `FAQPage` |
 
+The owner keeps all schema.org markup in this table, whether Google Search shows a rich result for it or not, because it serves generative, answer and AI search (GEO, AEO, AIO). Decided on 2026-11-03. The Book's `offers` appears only when Theme Options gives a numeric price above zero. The image sitemap at `/sitemap-images.xml` lists every published article, Journal entry and page with its featured image and its `[paulus_figure]` photographs; with Rank Math or Yoast SEO active the theme serves none.
+
 Linked entities carry Wikipedia and Wikidata identifiers, each verified against Wikipedia's API: Paul the Apostle (Q9200), Jesus (Q302) and Jesus in Islam (Q51664), the Acts of the Apostles (Q40309), the King James Version (Q623398), the Pew Research Center (Q1635722), Dale Martin (Q26923442) and Tarsus (Q134287).
 
 ## Built in: unlisting, search addresses, a private login address
