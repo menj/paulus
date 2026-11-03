@@ -652,14 +652,14 @@ function paulus_run_install_steps() {
 		$post  = get_page_by_path( $item['slug'], OBJECT, 'post' );
 		// An article whose slug changed (was_slug) is renamed in place, as
 		// pages are, so no second copy is installed beside it. Its ID,
-		// content and history carry over, and WordPress records the old
-		// slug for a published post and redirects the old address to it.
+		// content and history carry over, and inc/renamed.php answers the
+		// old address with a 301.
 		if ( ! $post && ! empty( $item['was_slug'] ) ) {
 			$old = get_page_by_path( $item['was_slug'], OBJECT, 'post' );
 			if ( $old ) {
 				wp_update_post( array( 'ID' => $old->ID, 'post_name' => $item['slug'] ) );
-				// Redirects are the owner's to manage: WordPress's record of
-				// the old slug, which it would redirect from, is removed.
+				// inc/renamed.php redirects from the manifest, so WordPress's
+				// record of the old slug is removed.
 				delete_post_meta( $old->ID, '_wp_old_slug', $item['was_slug'] );
 				$post = get_post( $old->ID );
 			}
@@ -765,7 +765,7 @@ function paulus_run_install_steps() {
 		// A page whose address changed in a later release ('was_slug'):
 		// rename the existing page in place rather than installing a
 		// second one beside it. Its content, edits and ID all carry over;
-		// The old address is not redirected; redirects are the owner's to manage.
+		// inc/renamed.php answers the old address with a 301.
 		if ( ! $page && ! empty( $item['was_slug'] ) ) {
 			$old_path = ! empty( $item['parent'] ) ? $item['parent'] . '/' . $item['was_slug'] : $item['was_slug'];
 			$old      = get_page_by_path( $old_path );

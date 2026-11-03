@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.70.0] - 2026-11-03
+
+### Changed
+- **The 2023 edition moves** from `/appendices/the-2023-edition/` to `/appendices/the-first-edition/`. The owner ruled on 2026-11-03 that no address carries a verse number, a count or a year. The title, heading and description keep "2023". The manifest entry carries `was_slug`, so the structure sync renames the page in place, with its ID, text and edits. The Journal entry on how the site began links the new address, and its old text joins `prior_hashes`, so an unedited copy takes the new link. The `Book` node in the schema follows the new slug. Content version 2.70.0.
+- **`inc/data/network-links.json`** takes the current addresses on every sister site and is the same file in all seven themes again: `/journal/prophet-like-moses/` on Abrahamic Religions, the Best of Islam articles without counts in their addresses, `/articles/sword-verse-jizya/` on Compelling Evidence, `/rebuttals/quran-wife-beating-verse-in-context/` on murtadd.org and the injil.help paths from its 3.11.0.
+
+### Added
+- **301s for renamed addresses**, in the new `inc/renamed.php`. Every manifest entry with a `was_slug` answers its old address with a permanent redirect to the post's permalink: the 2023 edition, `/site-map/` (now `/sitemap/`) and `/the-witnesses/from-ibn-hazm-to-al-faruqi/` (now `ibn-hazm-and-al-thalabi`). The redirect reads the manifest, never WordPress's old-slug note, which the sync still removes, so it holds through later syncs. It runs only on a 404.
+- `tests/renamed-test.php` checks that the old paths resolve, that no live slug carries a digit and that no renamed slug is still live.
+
 ## [2.69.0] - 2026-11-03
 
 - The image sitemap reads `[paulus_figure]` the way WordPress parses shortcodes, so attribute order and quoting no longer matter, and it reads entries in batches of 200 so none is left out.

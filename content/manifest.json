@@ -1,6 +1,6 @@
 {
 	"nav_version": 7,
-	"content_version": "2.69.0",
+	"content_version": "2.70.0",
 	"prior_hashes": {
 		"answers.json#r68.0": "bec48ce526dba7689a9866d5af652902",
 		"an-invitation-to-christians.json#r68.0": "5da7d9d7f15ecad54e4a2b5fec6cfaea",
@@ -590,7 +590,8 @@
 		"c03-saul-the-persecutor.json#13": "ac645a53e95838b98e48a031a7595ab0",
 		"appendices.json#73": "d1c53d716fa813bdec1f76c293fb445d",
 		"journal-how-the-site-began.json#74": "0c9ebbdac3a05a6cf18bf6d46eb38994",
-		"c12-malaysia-and-southeast-asia.json#75": "048ba6cf9e49b45541f8c621343cb12d"
+		"c12-malaysia-and-southeast-asia.json#75": "048ba6cf9e49b45541f8c621343cb12d",
+		"journal-how-the-site-began.json#76": "346eb9f1c5837198047a400ed556859c"
 	},
 	"prior_meta": [
 		"Who was the founder of Christianity? Not ʿĪsā ibn Maryam but Paul: the first books, the Gentile mission, the doctrines. Read on.",
@@ -1975,7 +1976,8 @@
 			"order": 3
 		},
 		{
-			"slug": "the-2023-edition",
+			"slug": "the-first-edition",
+			"was_slug": "the-2023-edition",
 			"meta": "The preface and first chapter this site published on 30 July 2023, kept in the wording in which they first appeared. Read them.",
 			"title": "The 2023 edition",
 			"seo_title": "The 2023 edition",

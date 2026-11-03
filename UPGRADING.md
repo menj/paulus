@@ -36,6 +36,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.69.0 to 2.70.0
+
+- **Upload the whole theme folder.** The new file is `inc/renamed.php`; without it the maintenance page shows until the upload is whole.
+- On the first page load as an administrator, the sync renames the 2023 edition to `/appendices/the-first-edition/`. The old address answers with a 301, as do `/site-map/` and the old Ibn Hazm address. Clear caches afterwards.
+
 ### 2.65.7 to 2.66.3
 
 - **Upload the whole theme folder.** This release combines the 2.66.x work (the Security tab, the contextual links and sixty new photographs; see below) with the 2.65.x releases of `main`. Read the three notes below, 2.66.1 to 2.66.2, 2.66.0 to 2.66.1 and 2.65.6 to 2.66.0, before updating: the Security tab is on by default and changes how XML-RPC and the REST API answer.

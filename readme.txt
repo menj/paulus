@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.69.0
+Stable tag: 2.70.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.70.0 =
+* The 2023 edition moves to /appendices/the-first-edition/. Every renamed address (the 2023 edition, /site-map/ and the Ibn Hazm article) answers with a 301. Sister-site links follow their new addresses.
 
 = 2.69.0 =
 * All schema.org markup stays, as the owner decided on 2026-11-03 for GEO, AEO and AIO. The book's offer needs a numeric price. An image sitemap at /sitemap-images.xml. Seventeen descriptions rewritten to end within 130 characters.
