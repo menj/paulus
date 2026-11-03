@@ -15,6 +15,11 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ### Fixed
 - A Journal entry on the theme's own graph is part of the `Blog`. Its node already named the website, so the Blog was never added.
+- Tag archives and plain date archives carry no `speakable`. `paulus_sc_page_hero()` shows no hero there, so the selectors named nothing on the page.
+- A featured image registered as a figure (a painting) now gets `encodingFormat`, `width` and `height` along with its credit. The early return skipped them.
+- The parts of a series name each article by the fragment the graph uses: `#richSnippet` under Rank Math, `#article` on the theme's graph. The old `#article` links under Rank Math pointed at no node.
+- An uploaded image under `/wp-content/uploads/` takes its `width` and `height` from the attachment's metadata, through `attachment_url_to_postid()` and `wp_get_attachment_metadata()`.
+- `tests/schema-graph-test.php` now checks references into page addresses as well. A reference into the page itself must resolve, and one into another page must use a fragment this graph uses. The credit check for the horned illustration now needs a `creditText` on the image node that holds `paul-horned-stone.avif`. Any AVIF in the graph used to pass it.
 
 ## [2.70.0] - 2026-11-03
 

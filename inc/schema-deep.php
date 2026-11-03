@@ -1168,7 +1168,9 @@ function paulus_schema_deepen_node( $node ) {
 			}
 		}
 		// The page hero's title and standfirst, on the templates that show it.
-		if ( ! is_front_page() && ! is_404() && ! is_page( 'the-book' ) ) {
+		// paulus_sc_page_hero() shows no hero on tag archives or plain date
+		// archives (the Journal's year and month pages are its own).
+		if ( ! is_front_page() && ! is_404() && ! is_page( 'the-book' ) && ! is_tag() && ! ( is_date() && ! is_post_type_archive( 'paulus_journal' ) ) ) {
 			$node = paulus_node_default( $node, 'speakable', array( '@type' => 'SpeakableSpecification', 'cssSelector' => array( '.paulus-hero-panel__title', '.paulus-hero-panel__standfirst' ) ) );
 		}
 		if ( ! is_404() && ! is_search() ) {
@@ -1357,7 +1359,7 @@ function paulus_schema_deepen_node( $node ) {
 			if ( $lic ) {
 				$node['license'] = $lic;
 			}
-			return $node;
+			return paulus_schema_image_file( $node, $src );
 		}
 		if ( '' !== $src && false === strpos( $src, '/assets/images/church/' ) && ( false !== strpos( $src, '/wp-content/uploads/' ) || false !== strpos( $src, '/assets/images/' ) ) && empty( $node['license'] ) ) {
 			$name  = (string) paulus_option( 'book_author' );
@@ -1949,9 +1951,16 @@ function paulus_schema_series_link( $node, $post, $series ) {
 		$is[] = array( '@id' => $id );
 	}
 	$node['isPartOf'] = 1 === count( $is ) ? $is[0] : array_values( $is );
-	$parts            = array();
+	// Each part's article node takes the fragment this graph gives the
+	// article (#article on the theme's path, #richSnippet under Rank Math).
+	$frag = '#article';
+	$own  = (string) ( $node['@id'] ?? '' );
+	if ( 0 === strpos( $own, (string) get_permalink( $post ) ) && preg_match( '/#[^#]+$/', $own, $m ) ) {
+		$frag = $m[0];
+	}
+	$parts = array();
 	foreach ( array_values( $series['parts'] ) as $part ) {
-		$parts[] = array( '@id' => get_permalink( $part ) . '#article' );
+		$parts[] = array( '@id' => get_permalink( $part ) . $frag );
 	}
 	paulus_schema_register(
 		'series',
@@ -2080,6 +2089,32 @@ function paulus_schema_image_file( $node, $src ) {
 		if ( $size ) {
 			$node['width']  = (int) $size[0];
 			$node['height'] = (int) $size[1];
+		}
+	}
+	// An upload: its size from the attachment's metadata (the size file the
+	// address names, or the original).
+	if ( empty( $node['width'] ) && false !== strpos( $src, '/wp-content/uploads/' ) && function_exists( 'attachment_url_to_postid' ) ) {
+		$base = preg_replace( '/-\d+x\d+(\.[a-z0-9]+)$/i', '$1', $src );
+		$aid  = (int) attachment_url_to_postid( $src );
+		if ( ! $aid && $base !== $src ) {
+			$aid = (int) attachment_url_to_postid( $base );
+		}
+		$meta = $aid ? wp_get_attachment_metadata( $aid ) : false;
+		if ( is_array( $meta ) ) {
+			$file = basename( $path );
+			$w    = (int) ( $meta['width'] ?? 0 );
+			$h    = (int) ( $meta['height'] ?? 0 );
+			foreach ( (array) ( $meta['sizes'] ?? array() ) as $sz ) {
+				if ( ( $sz['file'] ?? '' ) === $file ) {
+					$w = (int) ( $sz['width'] ?? 0 );
+					$h = (int) ( $sz['height'] ?? 0 );
+					break;
+				}
+			}
+			if ( $w && $h ) {
+				$node['width']  = $w;
+				$node['height'] = $h;
+			}
 		}
 	}
 	return $node;

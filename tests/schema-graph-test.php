@@ -543,13 +543,29 @@ function paulus_test_parse( $html, $label, $check, $required ) {
 	// the graph, or to a page address (another page's node).
 	$json = $m[1][0];
 	preg_match_all( '#\{"@id":"([^"]+)"\}#', $json, $refs );
+	// A reference into another page cannot be resolved here; it must at
+	// least use a fragment this graph gives a node on its own page (so a
+	// series part names #richSnippet under Rank Math, #article on the theme).
+	$bases = array();
+	$frags = array();
+	foreach ( array_keys( $byid ) as $id ) {
+		$at = strpos( (string) $id, '#' );
+		if ( false !== $at && 0 === strpos( (string) $id, HOME ) ) {
+			$bases[ substr( $id, 0, $at ) ] = true;
+			$frags[ substr( $id, $at ) ]    = true;
+		}
+	}
 	foreach ( array_unique( $refs[1] ) as $ref ) {
 		if ( 0 !== strpos( $ref, HOME ) || false === strpos( $ref, '#' ) ) {
 			continue;
 		}
-		$local = 0 === strpos( $ref, HOME . '#' );
-		if ( $local ) {
-			$check( isset( $byid[ $ref ] ) || false !== strpos( $json, '"@id":"' . $ref . '","' ), $label . ': reference to ' . $ref . ' has no node' );
+		$at   = strpos( $ref, '#' );
+		$base = substr( $ref, 0, $at );
+		$has  = isset( $byid[ $ref ] ) || false !== strpos( $json, '"@id":"' . $ref . '","' );
+		if ( HOME === $base || isset( $bases[ $base ] ) ) {
+			$check( $has, $label . ': reference to ' . $ref . ' has no node' );
+		} else {
+			$check( $has || isset( $frags[ substr( $ref, $at ) ] ), $label . ': reference to ' . $ref . ' uses a fragment no node of this graph uses' );
 		}
 	}
 	return $byid;
@@ -585,7 +601,21 @@ foreach ( array( 'theme' => paulus_test_graph( $state ), 'rank math' => paulus_t
 	$g = paulus_test_parse( $html, $series->post_name . ' (' . $path . ')', $check, $required );
 	$check( (bool) $types( $g, 'CreativeWorkSeries' ), $path . ': series node missing' );
 	$check( false !== strpos( $html, 'paul-horned-stone.avif' ), $path . ': the horned illustration is not in the graph' );
-	$check( (bool) preg_match( '#\{[^{}]*"url":"[^"]*paul-horned-stone\.avif"[^{}]*"creditText"#', $html ) || (bool) preg_match( '#"creditText"[^{}]*paul-horned-stone\.avif#', $html ) || false !== strpos( $html, '"encodingFormat":"image/avif"' ), $path . ': the horned illustration has no credit' );
+	$credited = false;
+	$find     = static function ( $v ) use ( &$find, &$credited ) {
+		if ( ! is_array( $v ) ) {
+			return;
+		}
+		$addr = (string) ( $v['contentUrl'] ?? $v['url'] ?? '' );
+		if ( false !== strpos( $addr, 'paul-horned-stone.avif' ) && ! empty( $v['creditText'] ) ) {
+			$credited = true;
+		}
+		foreach ( $v as $c ) {
+			$find( $c );
+		}
+	};
+	$find( $g );
+	$check( $credited, $path . ': the horned illustration has no credit' );
 	$check( false !== strpos( $html, '"accessMode":' ), $path . ': article access modes missing' );
 	$check( false !== strpos( $html, '"Chapter"' ), $path . ': chapter of the book missing' );
 }
