@@ -12,6 +12,11 @@ All notable changes to this theme are documented here. The format follows [Keep 
 - **301s for renamed addresses**, in the new `inc/renamed.php`. Every manifest entry with a `was_slug` answers its old address with a permanent redirect to the post's permalink: the 2023 edition, `/site-map/` (now `/sitemap/`) and `/the-witnesses/from-ibn-hazm-to-al-faruqi/` (now `ibn-hazm-and-al-thalabi`). The redirect reads the manifest, never WordPress's old-slug note, which the sync still removes, so it holds through later syncs. It runs only on a 404.
 - `tests/renamed-test.php` checks that the old paths resolve, that no live slug carries a digit and that no renamed slug is still live.
 
+### Fixed
+- The Journal entry on how the site began carries the MD5 of its new text. With the old one, `paulus_content_file()` rejected the file, so an existing site kept the old link and a new install had no entry text.
+- A renamed article redirects only from its whole old path, `/<part>/<old slug>/` under the theme's permalink structure. An unrelated 404 that ends in an old slug stays a 404. A structure with any other tag redirects nothing. Journal entries match `/journal/<year>/<month>/<old slug>/` and are looked up as Journal entries.
+- `tests/renamed-test.php` compares whole paths when it checks that no old address is still live, so a page slug reused under another parent passes. It also checks three paths that end in the old article slug and must not redirect.
+
 ## [2.69.0] - 2026-11-03
 
 - The image sitemap reads `[paulus_figure]` the way WordPress parses shortcodes, so attribute order and quoting no longer matter, and it reads entries in batches of 200 so none is left out.

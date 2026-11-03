@@ -20,19 +20,28 @@ defined( 'ABSPATH' ) || exit;
  * Every renamed address in a manifest: old slug => where the post now is.
  *
  * @param array $manifest The content manifest.
- * @return array<string,array{type:string,slug:string,parent:string}>
+ * @return array<string,array{type:string,slug:string,parent:string,base:string}>
  */
 function paulus_renamed_map( $manifest ) {
 	$map = array();
-	foreach ( array( 'posts' => 'post', 'journal' => 'post', 'pages' => 'page' ) as $list => $type ) {
+	foreach ( array( 'posts' => 'post', 'journal' => 'paulus_journal', 'pages' => 'page' ) as $list => $type ) {
 		foreach ( (array) ( $manifest[ $list ] ?? array() ) as $item ) {
 			if ( empty( $item['was_slug'] ) || empty( $item['slug'] ) ) {
 				continue;
 			}
+			$base = '';
+			if ( 'page' === $type ) {
+				$base = (string) ( $item['parent'] ?? '' );
+			} elseif ( 'post' === $type ) {
+				$base = (string) ( $item['part'] ?? '' );
+			} elseif ( preg_match( '/^(\d{4})-(\d{2})/', (string) ( $item['date'] ?? '' ), $m ) ) {
+				$base = 'journal/' . $m[1] . '/' . $m[2];
+			}
 			$map[ (string) $item['was_slug'] ] = array(
 				'type'   => $type,
 				'slug'   => (string) $item['slug'],
-				'parent' => 'page' === $type ? (string) ( $item['parent'] ?? '' ) : '',
+				'parent' => 'page' === $type ? $base : '',
+				'base'   => $base,
 			);
 		}
 	}
@@ -42,14 +51,18 @@ function paulus_renamed_map( $manifest ) {
 /**
  * The renamed post a request path names, or null.
  *
- * A page matches on its whole path (parent and old slug); an article matches
- * on its last segment, since its address carries its part as a prefix.
+ * Every type matches on its whole old path, never on the last segment alone,
+ * so an unrelated 404 that happens to end in an old slug stays a 404. A page's
+ * old path is its parent and old slug. An article's is the post permalink
+ * structure with its part as %category%; a structure carrying any other tag
+ * matches nothing. A Journal entry's is journal/<year>/<month>/<old slug>.
  *
- * @param string $path     Request path.
- * @param array  $manifest The content manifest.
- * @return array{type:string,slug:string,parent:string,path:string}|null
+ * @param string $path      Request path.
+ * @param array  $manifest  The content manifest.
+ * @param string $structure Post permalink structure.
+ * @return array{type:string,slug:string,parent:string,base:string,path:string}|null
  */
-function paulus_renamed_target( $path, $manifest ) {
+function paulus_renamed_target( $path, $manifest, $structure = '/%category%/%postname%/' ) {
 	$parts = array_values( array_filter( explode( '/', strtolower( trim( (string) $path, '/' ) ) ), 'strlen' ) );
 	if ( ! $parts ) {
 		return null;
@@ -60,11 +73,16 @@ function paulus_renamed_target( $path, $manifest ) {
 		return null;
 	}
 	$hit = $map[ $old ];
-	if ( 'page' === $hit['type'] ) {
-		$want = '' !== $hit['parent'] ? $hit['parent'] . '/' . $old : $old;
-		if ( implode( '/', $parts ) !== $want ) {
+	if ( 'post' === $hit['type'] ) {
+		$want = str_replace( array( '%category%', '%postname%' ), array( $hit['base'], $old ), trim( (string) $structure, '/' ) );
+		if ( false !== strpos( $want, '%' ) || '' === $hit['base'] && false !== strpos( (string) $structure, '%category%' ) ) {
 			return null;
 		}
+	} else {
+		$want = '' !== $hit['base'] ? $hit['base'] . '/' . $old : $old;
+	}
+	if ( implode( '/', $parts ) !== trim( $want, '/' ) ) {
+		return null;
 	}
 	$hit['path'] = 'page' === $hit['type'] && '' !== $hit['parent'] ? $hit['parent'] . '/' . $hit['slug'] : $hit['slug'];
 	return $hit;
@@ -85,7 +103,7 @@ function paulus_redirect_renamed() {
 	if ( '' !== trim( $home, '/' ) && 0 === strpos( $path, $home ) ) {
 		$path = substr( $path, strlen( $home ) );
 	}
-	$hit = paulus_renamed_target( $path, (array) paulus_manifest() );
+	$hit = paulus_renamed_target( $path, (array) paulus_manifest(), (string) get_option( 'permalink_structure' ) );
 	if ( ! $hit ) {
 		return;
 	}
