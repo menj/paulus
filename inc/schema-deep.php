@@ -392,9 +392,14 @@ function paulus_schema_citation_nodes( $content, $base ) {
 		}
 		$node = array(
 			'@type'    => 'CreativeWork',
+			'name'     => mb_substr( preg_replace( '/^(.+?[.;])\s.*$/su', '$1', $text ), 0, 160 ),
 			'text'     => mb_substr( $text, 0, 400 ),
 			'position' => $i + 1,
 		);
+		$ref = paulus_schema_scripture_ref( $text );
+		if ( $ref ) {
+			$node['isPartOf'] = array( '@id' => paulus_schema_register_chapter( $ref[0], $ref[1] ) );
+		}
 		if ( preg_match( '#\bid="([^"]+)"#', $note[1], $id ) ) {
 			$node['@id'] = $base . '#' . $id[1];
 			$node['url'] = $base . '#' . $id[1];
@@ -548,7 +553,8 @@ function paulus_schema_quotations( $content, $base ) {
 	if ( ! preg_match_all( '#<blockquote class="scripture[^"]*">(.*?)</blockquote>#s', $content, $m ) ) {
 		return array();
 	}
-	$out = array();
+	$out    = array();
+	$blocks = paulus_schema_scripture_blocks( $content );
 	foreach ( $m[1] as $i => $block ) {
 		$english = '';
 		foreach ( preg_split( '#</p>#', $block ) as $p ) {
@@ -560,12 +566,21 @@ function paulus_schema_quotations( $content, $base ) {
 		if ( '' === $english ) {
 			continue;
 		}
-		$out[] = array(
-			'@type'     => 'Quotation',
-			'@id'       => $base . '#quotation-' . ( $i + 1 ),
-			'text'      => mb_substr( $english, 0, 1000 ),
-			'isBasedOn' => array( '@id' => paulus_sid( 'king-james-version' ) ),
+		$q = array(
+			'@type'      => 'Quotation',
+			'@id'        => $base . '#quotation-' . ( $i + 1 ),
+			'text'       => mb_substr( $english, 0, 1000 ),
+			'isBasedOn'  => array( '@id' => paulus_sid( 'king-james-version' ) ),
+			'inLanguage' => 'en',
 		);
+		$info = $blocks[ $i ] ?? array();
+		if ( ! empty( $info['chapter'] ) ) {
+			$q['isPartOf'] = array( '@id' => $info['chapter'] );
+		}
+		if ( isset( $info['greek'] ) ) {
+			$q['translationOfWork'] = array( '@id' => $base . '#greek-' . ( $info['greek'] + 1 ) );
+		}
+		$out[] = $q;
 	}
 	return array_slice( $out, 0, 40 );
 }
@@ -868,7 +883,11 @@ function paulus_schema_component_nodes() {
 				$data['isBasedOn'] = $c['source'][1];
 				$data['citation']  = $c['source'][0];
 			}
-			$nodes[] = $data;
+			// The chart as drawn: a figure the theme renders from those
+			// figures, the site's own work, depicting the dataset.
+			$data['image'] = array( '@id' => $url . '#chart-' . $id . '-image' );
+			$nodes[]       = $data;
+			$nodes[]       = paulus_schema_chart_image( $c, $id, $url );
 		}
 	}
 
@@ -1133,10 +1152,41 @@ function paulus_schema_deepen_node( $node ) {
 		if ( isset( $kind[ $slug ] ) && ! paulus_node_is( $node, array( $kind[ $slug ] ) ) ) {
 			$node = paulus_node_add_type( $node, $kind[ $slug ] );
 		}
+		// Archives (a section, the Journal, a year or month of it) list
+		// articles; a search lists results.
+		if ( ( is_category() || is_tag() || is_date() || is_post_type_archive( 'paulus_journal' ) ) && ! paulus_node_is( $node, array( 'CollectionPage' ) ) ) {
+			$node = paulus_node_add_type( $node, 'CollectionPage' );
+		}
+		if ( is_search() && ! paulus_node_is( $node, array( 'SearchResultsPage' ) ) ) {
+			$node = paulus_node_add_type( $node, 'SearchResultsPage' );
+		}
+		// The featured image the page heads with.
+		if ( is_singular() && ! is_404() && empty( $node['primaryImageOfPage'] ) && has_post_thumbnail( get_queried_object_id() ) ) {
+			$thumb = (string) get_the_post_thumbnail_url( get_queried_object_id(), 'large' );
+			if ( '' !== $thumb ) {
+				$node['primaryImageOfPage'] = paulus_schema_deepen_node( array( '@type' => 'ImageObject', 'url' => $thumb, 'contentUrl' => $thumb, 'representativeOfPage' => true ) );
+			}
+		}
+		// The page hero's title and standfirst, on the templates that show it.
+		// paulus_sc_page_hero() shows no hero on tag archives or plain date
+		// archives (the Journal's year and month pages are its own).
+		if ( ! is_front_page() && ! is_404() && ! is_page( 'the-book' ) && ! is_tag() && ! ( is_date() && ! is_post_type_archive( 'paulus_journal' ) ) ) {
+			$node = paulus_node_default( $node, 'speakable', array( '@type' => 'SpeakableSpecification', 'cssSelector' => array( '.paulus-hero-panel__title', '.paulus-hero-panel__standfirst' ) ) );
+		}
 		if ( ! is_404() && ! is_search() ) {
 			$node = paulus_node_default( $node, 'about', $paul );
 		}
-		$node = paulus_node_default( $node, 'hasPart', array_merge( array( array( '@id' => paulus_sid( 'header' ) ), array( '@id' => paulus_sid( 'footer' ) ) ), is_singular() && ! is_404() ? paulus_schema_sections( $content, $url ) : array() ) );
+		// A page with no article node of its own (an essay among the pages,
+		// on the theme's graph) carries its quotations and its footnoted
+		// sources itself.
+		$own = is_singular() && ! is_404() && empty( $GLOBALS['paulus_sd_has_article'] ) ? array_merge( paulus_schema_quotations( $content, $url ), paulus_schema_source_quotations( $content, $url ) ) : array();
+		$node = paulus_node_default( $node, 'hasPart', array_merge( array( array( '@id' => paulus_sid( 'header' ) ), array( '@id' => paulus_sid( 'footer' ) ) ), is_singular() && ! is_404() ? paulus_schema_sections( $content, $url ) : array(), $own ) );
+		if ( is_singular() && ! is_404() && empty( $GLOBALS['paulus_sd_has_article'] ) ) {
+			$cites = paulus_schema_citation_nodes( $content, $url );
+			if ( $cites ) {
+				$node = paulus_node_default( $node, 'citation', $cites );
+			}
+		}
 		if ( is_singular() && ! is_404() ) {
 			$mentions = paulus_schema_mentions( $content );
 			if ( $mentions ) {
@@ -1201,7 +1251,16 @@ function paulus_schema_deepen_node( $node ) {
 		}
 		if ( is_singular( 'paulus_journal' ) ) {
 			$node = paulus_node_add_type( $node, 'BlogPosting' );
-			$node = paulus_node_default( $node, 'isPartOf', array( '@id' => paulus_journal_url() . '#blog' ) );
+			// In the Blog, whatever else the node is part of (the theme's
+			// own article node names the website).
+			$blog = array( '@id' => paulus_journal_url() . '#blog' );
+			if ( empty( $node['isPartOf'] ) ) {
+				$node['isPartOf'] = $blog;
+			} elseif ( ! paulus_schema_refers( $node['isPartOf'], $blog['@id'] ) ) {
+				$is               = isset( $node['isPartOf']['@id'] ) || isset( $node['isPartOf']['@type'] ) ? array( $node['isPartOf'] ) : (array) $node['isPartOf'];
+				$is[]             = $blog;
+				$node['isPartOf'] = array_values( $is );
+			}
 		} elseif ( is_singular( 'post' ) || 'why-luke-does-not-know-pauls-letters' === $slug ) {
 			// Footnoted argument from the sources: a scholarly article. An SEO
 			// plugin's default BlogPosting gives way: these are not blog posts.
@@ -1253,7 +1312,11 @@ function paulus_schema_deepen_node( $node ) {
 				$node['position'] = (int) get_post_meta( $post->ID, '_paulus_part_no', true );
 				$node['isPartOf'] = array_values( array_filter( array_merge( (array) ( isset( $node['isPartOf'] ) && ! isset( $node['isPartOf']['@type'] ) ? array( $node['isPartOf'] ) : array() ), array( array( '@type' => 'CreativeWorkSeries', 'name' => $series['title'] ) ) ) ) );
 			}
+			if ( $series ) {
+				$node = paulus_schema_series_link( $node, $post, $series );
+			}
 		}
+		$node = paulus_schema_article_details( $node, $post, $content, $url );
 		$cites = paulus_schema_citation_nodes( $content, $url );
 		if ( $cites ) {
 			$node = paulus_node_default( $node, 'citation', $cites );
@@ -1296,7 +1359,7 @@ function paulus_schema_deepen_node( $node ) {
 			if ( $lic ) {
 				$node['license'] = $lic;
 			}
-			return $node;
+			return paulus_schema_image_file( $node, $src );
 		}
 		if ( '' !== $src && false === strpos( $src, '/assets/images/church/' ) && ( false !== strpos( $src, '/wp-content/uploads/' ) || false !== strpos( $src, '/assets/images/' ) ) && empty( $node['license'] ) ) {
 			$name  = (string) paulus_option( 'book_author' );
@@ -1312,7 +1375,10 @@ function paulus_schema_deepen_node( $node ) {
 			if ( $ask && 'publish' === $ask->post_status ) {
 				$node = paulus_node_default( $node, 'acquireLicensePage', get_permalink( $ask ) );
 			}
-			return $node;
+			return paulus_schema_image_file( $node, $src );
+		}
+		if ( '' !== $src ) {
+			$node = paulus_schema_image_file( $node, $src );
 		}
 	}
 
@@ -1323,7 +1389,7 @@ function paulus_schema_deepen_node( $node ) {
 		if ( $f && '' !== paulus_schema_artform( $f['alt'] ) ) {
 			$node = paulus_node_default( $node, 'about', array( '@id' => preg_replace( '/#image$/', '#work', $node['@id'] ) ) );
 		}
-		return $node;
+		return paulus_schema_image_credit( $node, $f );
 	}
 	return $node;
 }
@@ -1340,7 +1406,8 @@ function paulus_schema_deepen( $nodes ) {
 		return $nodes;
 	}
 	// Find the nodes that already describe the author and the publisher.
-	$GLOBALS['paulus_sd_ids'] = array();
+	$GLOBALS['paulus_sd_ids']      = array();
+	$GLOBALS['paulus_sd_registry'] = array();
 	foreach ( $nodes as $node ) {
 		if ( ! is_array( $node ) || empty( $node['@id'] ) ) {
 			continue;
@@ -1374,6 +1441,11 @@ function paulus_schema_deepen( $nodes ) {
 	// once for all the lookups below; only the short list of added nodes,
 	// which grows as they are found, is encoded again.
 	$extra = array_merge( paulus_schema_page_elements(), array_map( 'paulus_schema_deepen_node', paulus_schema_component_nodes() ) );
+	// The Bible chapters and the series the page's nodes point to, before
+	// the site entities, so a book of the Bible they name follows them in.
+	foreach ( array_merge( paulus_schema_registry( 'scripture' ), paulus_schema_registry( 'series' ) ) as $node ) {
+		$extra[] = $node;
+	}
 	$json  = (string) wp_json_encode( $nodes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	$refers = static function ( $id ) use ( $json, &$extra ) {
 		return false !== strpos( $json, '"' . $id . '"' ) || paulus_schema_refers( $extra, $id );
@@ -1624,6 +1696,11 @@ function paulus_schema_source_quotations( $content, $base ) {
 				'inLanguage' => 'grc',
 				'isBasedOn'  => array( '@id' => paulus_sid( 'sblgnt' ) ),
 			);
+			foreach ( paulus_schema_scripture_blocks( $content ) as $info ) {
+				if ( isset( $info['greek'] ) && $info['greek'] === $i && ! empty( $info['chapter'] ) ) {
+					$out[ count( $out ) - 1 ]['isPartOf'] = array( '@id' => $info['chapter'] );
+				}
+			}
 		}
 	}
 	foreach ( array( 'quran' => paulus_sid( 'quran' ), 'hadith' => '' ) as $class => $source ) {
@@ -1722,4 +1799,347 @@ function paulus_is_author_archive_url( $url ) {
 	}
 	$base = isset( $GLOBALS['wp_rewrite'] ) && $GLOBALS['wp_rewrite']->author_base ? $GLOBALS['wp_rewrite']->author_base : 'author';
 	return false !== strpos( $url, '/' . $base . '/' ) || false !== strpos( $url, '?author=' );
+}
+
+/**
+ * Nodes registered while the page's nodes are built, added to the graph once
+ * each (see paulus_schema_deepen).
+ *
+ * @param string $kind Registry: scripture or series.
+ * @return array
+ */
+function paulus_schema_registry( $kind ) {
+	return array_values( (array) ( $GLOBALS['paulus_sd_registry'][ $kind ] ?? array() ) );
+}
+
+/**
+ * Register a node under its identifier.
+ *
+ * @param string $kind Registry.
+ * @param array  $node Node with an @id.
+ */
+function paulus_schema_register( $kind, $node ) {
+	if ( empty( $GLOBALS['paulus_sd_registry'][ $kind ][ $node['@id'] ] ) ) {
+		$GLOBALS['paulus_sd_registry'][ $kind ][ $node['@id'] ] = $node;
+	}
+}
+
+/**
+ * The books of the Bible, in canonical order, as the footnotes name them.
+ *
+ * @return string[]
+ */
+function paulus_schema_bible_books() {
+	return array(
+		'Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel', '1 Kings', '2 Kings',
+		'1 Chronicles', '2 Chronicles', 'Ezra', 'Nehemiah', 'Esther', 'Job', 'Psalms', 'Psalm', 'Proverbs', 'Ecclesiastes', 'Song of Solomon', 'Isaiah',
+		'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel', 'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk', 'Zephaniah',
+		'Haggai', 'Zechariah', 'Malachi', 'Matthew', 'Mark', 'Luke', 'John', 'Acts', 'Romans', '1 Corinthians', '2 Corinthians', 'Galatians',
+		'Ephesians', 'Philippians', 'Colossians', '1 Thessalonians', '2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus', 'Philemon', 'Hebrews',
+		'James', '1 Peter', '2 Peter', '1 John', '2 John', '3 John', 'Jude', 'Revelation',
+	);
+}
+
+/**
+ * The Bible reference a note opens with ("Romans 11:13 (KJV)"), as book and
+ * chapter, or null when the note opens with anything else.
+ *
+ * @param string $text Note text.
+ * @return array{0:string,1:int}|null
+ */
+function paulus_schema_scripture_ref( $text ) {
+	if ( ! preg_match( '/^((?:[1-3] )?[A-Z][a-z]+(?: of Solomon)?) (\d{1,3}):\d/', trim( (string) $text ), $m ) ) {
+		return null;
+	}
+	if ( ! in_array( $m[1], paulus_schema_bible_books(), true ) ) {
+		return null;
+	}
+	return array( 'Psalm' === $m[1] ? 'Psalms' : $m[1], (int) $m[2] );
+}
+
+/**
+ * Register a chapter of the Bible, with its book and the Bible itself, and
+ * return the chapter's identifier.
+ *
+ * @param string $book    Book of the Bible.
+ * @param int    $chapter Chapter number.
+ * @return string
+ */
+function paulus_schema_register_chapter( $book, $chapter ) {
+	$bible = home_url( '/' ) . '#bible';
+	$bid   = $bible . '-' . sanitize_title( $book );
+	$cid   = $bid . '-' . (int) $chapter;
+	// A book the site already describes (Romans, Acts, the letters) keeps
+	// its node: the chapter points to it.
+	$known = '';
+	foreach ( paulus_schema_entities() as $e ) {
+		if ( paulus_node_is( $e, array( 'Book' ) ) && ( in_array( $book, (array) ( $e['alternateName'] ?? array() ), true ) || ( 'Acts' === $book && false !== strpos( (string) $e['@id'], '#acts-of-the-apostles' ) ) ) ) {
+			$known = $e['@id'];
+			break;
+		}
+	}
+	paulus_schema_register( 'scripture', array( '@type' => 'Book', '@id' => $bible, 'name' => 'The Bible', 'genre' => 'Scripture', 'inLanguage' => array( 'he', 'arc', 'grc' ), 'sameAs' => 'https://www.wikidata.org/wiki/Q1845' ) );
+	$pos = array_search( $book, array_values( array_diff( paulus_schema_bible_books(), array( 'Psalm' ) ) ), true );
+	if ( '' !== $known ) {
+		$bid = $known;
+	} else {
+		paulus_schema_register( 'scripture', array( '@type' => 'Book', '@id' => $bid, 'name' => $book, 'genre' => 'Scripture', 'position' => false === $pos ? null : $pos + 1, 'isPartOf' => array( '@id' => $bible ) ) );
+	}
+	paulus_schema_register( 'scripture', array( '@type' => 'Chapter', '@id' => $cid, 'isPartOf' => array( array( '@id' => $bid ), array( '@id' => $bible ) ), 'name' => $book . ' ' . (int) $chapter, 'position' => (int) $chapter ) );
+	return $cid;
+}
+
+/**
+ * The scripture blocks of a text, in order: the chapter its note names, and
+ * the index of the Greek paragraph it carries among the text's Greek.
+ *
+ * @param string $content Content.
+ * @return array<int,array{chapter?:string,greek?:int}>
+ */
+function paulus_schema_scripture_blocks( $content ) {
+	static $cache = array();
+	$key = md5( (string) $content );
+	if ( isset( $cache[ $key ] ) ) {
+		// Registered again for this graph (the registry is reset per graph).
+		foreach ( $cache[ $key ]['refs'] as $ref ) {
+			paulus_schema_register_chapter( $ref[0], $ref[1] );
+		}
+		return $cache[ $key ]['blocks'];
+	}
+	$blocks = array();
+	$refs   = array();
+	if ( preg_match_all( '#<blockquote class="scripture[^"]*">(.*?)</blockquote>#s', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+		foreach ( $m[1] as $i => $hit ) {
+			$info   = array();
+			$before = substr( $content, 0, $hit[1] );
+			if ( false !== strpos( $hit[0], '<p class="greek" lang="grc">' ) ) {
+				$info['greek'] = substr_count( $before, '<p class="greek" lang="grc">' );
+			}
+			if ( preg_match( '#<a href="\#([^"]+)"#', $hit[0], $fn ) && preg_match( '#<li id="' . preg_quote( $fn[1], '#' ) . '"[^>]*>(.*?)</li>#s', $content, $li ) ) {
+				$ref = paulus_schema_scripture_ref( paulus_schema_text( $li[1] ) );
+				if ( $ref ) {
+					$info['chapter'] = paulus_schema_register_chapter( $ref[0], $ref[1] );
+					$refs[]          = $ref;
+				}
+			}
+			$blocks[ $i ] = $info;
+		}
+	}
+	$cache[ $key ] = array( 'blocks' => $blocks, 'refs' => $refs );
+	return $blocks;
+}
+
+/**
+ * The series an article is a part of: a node of its own, with its parts in
+ * order, and the article pointing to it.
+ *
+ * @param array   $node   Article node.
+ * @param WP_Post $post   Article.
+ * @param array   $series Series (paulus_series_parts).
+ * @return array
+ */
+function paulus_schema_series_link( $node, $post, $series ) {
+	$key = (string) get_post_meta( $post->ID, '_paulus_series', true );
+	$id  = home_url( '/' ) . '#series-' . sanitize_title( '' !== $key ? $key : $series['title'] );
+	$is  = isset( $node['isPartOf'] ) ? ( isset( $node['isPartOf']['@type'] ) || isset( $node['isPartOf']['@id'] ) ? array( $node['isPartOf'] ) : (array) $node['isPartOf'] ) : array();
+	foreach ( $is as $k => $part ) {
+		if ( is_array( $part ) && empty( $part['@id'] ) && paulus_node_is( $part, array( 'CreativeWorkSeries' ) ) ) {
+			$is[ $k ] = array( '@id' => $id );
+		}
+	}
+	if ( ! paulus_schema_refers( $is, $id ) ) {
+		$is[] = array( '@id' => $id );
+	}
+	$node['isPartOf'] = 1 === count( $is ) ? $is[0] : array_values( $is );
+	// Each part's article node takes the fragment this graph gives the
+	// article (#article on the theme's path, #richSnippet under Rank Math).
+	$frag = '#article';
+	$own  = (string) ( $node['@id'] ?? '' );
+	if ( 0 === strpos( $own, (string) get_permalink( $post ) ) && preg_match( '/#[^#]+$/', $own, $m ) ) {
+		$frag = $m[0];
+	}
+	$parts = array();
+	foreach ( array_values( $series['parts'] ) as $part ) {
+		$parts[] = array( '@id' => get_permalink( $part ) . $frag );
+	}
+	paulus_schema_register(
+		'series',
+		array(
+			'@type'      => 'CreativeWorkSeries',
+			'@id'        => $id,
+			'name'       => (string) $series['title'],
+			'inLanguage' => paulus_site_language(),
+			'author'     => array( '@id' => paulus_sid( 'author' ) ),
+			'hasPart'    => $parts,
+		)
+	);
+	return $node;
+}
+
+/**
+ * The details of an article that the page shows or that are plain facts of
+ * it: when it was written, its licence, its readers, and how it can be read.
+ *
+ * @param array   $node    Article node.
+ * @param WP_Post $post    Article.
+ * @param string  $content Stored content.
+ * @param string  $url     Address.
+ * @return array
+ */
+function paulus_schema_article_details( $node, $post, $content, $url ) {
+	$node  = paulus_node_default( $node, 'dateCreated', get_the_date( 'c', $post ) );
+	$terms = get_page_by_path( 'terms-of-use' );
+	if ( $terms && 'publish' === $terms->post_status ) {
+		$node = paulus_node_default( $node, 'license', get_permalink( $terms ) );
+	}
+	$node = paulus_node_default( $node, 'audience', array( '@type' => 'Audience', 'audienceType' => __( 'Readers of Christian origins and Islamic apologetics', 'paulus' ) ) );
+	// The standfirst under the title is the excerpt.
+	if ( has_excerpt( $post ) ) {
+		$node = paulus_node_default( $node, 'abstract', paulus_schema_text( get_the_excerpt( $post ) ) );
+	}
+	$figures = preg_match_all( '#\[paulus_figure name="([a-z0-9-]+)"#', $content, $fm ) ? array_values( array_unique( $fm[1] ) ) : array();
+	$charts  = preg_match_all( '#\[paulus_chart id="([a-z0-9-]+)"#', $content, $cm ) ? array_values( array_unique( $cm[1] ) ) : array();
+	$visual  = $figures || $charts || has_post_thumbnail( $post );
+	$node    = paulus_node_default( $node, 'accessMode', $visual ? array( 'textual', 'visual' ) : array( 'textual' ) );
+	$node    = paulus_node_default( $node, 'accessModeSufficient', array( '@type' => 'ItemList', 'itemListElement' => array( 'textual' ) ) );
+	$feat    = array();
+	if ( $visual ) {
+		$feat[] = 'alternativeText';
+	}
+	if ( paulus_schema_sections( $content, $url ) ) {
+		$feat[] = 'structuralNavigation';
+	}
+	if ( is_singular( 'post' ) && function_exists( 'paulus_article_sections' ) && paulus_article_sections( $post->ID ) ) {
+		$feat[] = 'tableOfContents';
+	}
+	if ( $feat ) {
+		$node = paulus_node_default( $node, 'accessibilityFeature', $feat );
+	}
+	// The figures and charts in the body.
+	$media = array();
+	foreach ( $figures as $f ) {
+		if ( function_exists( 'paulus_figures' ) && isset( paulus_figures()[ $f ] ) ) {
+			$media[] = array( '@id' => PAULUS_URI . '/assets/images/church/' . $f . '.avif#image' );
+		}
+	}
+	foreach ( $charts as $c ) {
+		if ( function_exists( 'paulus_charts' ) && isset( paulus_charts()[ $c ] ) ) {
+			$media[] = array( '@id' => $url . '#chart-' . $c . '-image' );
+		}
+	}
+	if ( $media ) {
+		$node = paulus_node_default( $node, 'associatedMedia', $media );
+	}
+	return $node;
+}
+
+/**
+ * A chart as the figure the theme draws: the site's own work, depicting the
+ * dataset it is drawn from.
+ *
+ * @param array  $c   Chart (paulus_charts).
+ * @param string $id  Chart key.
+ * @param string $url Page address.
+ * @return array
+ */
+function paulus_schema_chart_image( $c, $id, $url ) {
+	$name  = (string) paulus_option( 'book_author' );
+	$terms = get_page_by_path( 'terms-of-use' );
+	$ask   = get_page_by_path( 'contact' );
+	$img   = array(
+		'@type'           => 'ImageObject',
+		'@id'             => $url . '#chart-' . $id . '-image',
+		'url'             => $url . '#chart-' . $id,
+		'name'            => (string) $c['title'],
+		'caption'         => trim( $c['title'] . ( ! empty( $c['note'] ) ? ' ' . $c['note'] : '' ) ),
+		'encodingFormat'  => 'text/html',
+		'about'           => array( '@id' => $url . '#chart-' . $id ),
+		'creator'         => array( '@id' => paulus_sid( 'publisher' ) ),
+		'creditText'      => get_bloginfo( 'name' ) . ( ! empty( $c['source'][0] ) ? ', from ' . $c['source'][0] : '' ),
+		'copyrightHolder' => array( '@id' => paulus_sid( 'author' ) ),
+		'copyrightNotice' => '© ' . $name,
+	);
+	if ( $terms && 'publish' === $terms->post_status ) {
+		$img['license'] = get_permalink( $terms );
+	}
+	if ( $ask && 'publish' === $ask->post_status ) {
+		$img['acquireLicensePage'] = get_permalink( $ask );
+	}
+	return $img;
+}
+
+/**
+ * The file facts of an image the theme ships or the site uploaded: its
+ * format and, where known, its size.
+ *
+ * @param array  $node Image node.
+ * @param string $src  Address.
+ * @return array
+ */
+function paulus_schema_image_file( $node, $src ) {
+	$path = (string) wp_parse_url( $src, PHP_URL_PATH );
+	$ext  = strtolower( pathinfo( $path, PATHINFO_EXTENSION ) );
+	$mime = array( 'avif' => 'image/avif', 'webp' => 'image/webp', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'svg' => 'image/svg+xml', 'gif' => 'image/gif' );
+	if ( isset( $mime[ $ext ] ) ) {
+		$node = paulus_node_default( $node, 'encodingFormat', $mime[ $ext ] );
+	}
+	if ( empty( $node['width'] ) && false !== strpos( $src, '/assets/images/' ) && function_exists( 'paulus_image_size' ) ) {
+		$rel  = substr( $path, strpos( $path, '/assets/images/' ) + strlen( '/assets/images/' ) );
+		$size = paulus_image_size( PAULUS_DIR . '/assets/images/' . $rel );
+		if ( $size ) {
+			$node['width']  = (int) $size[0];
+			$node['height'] = (int) $size[1];
+		}
+	}
+	// An upload: its size from the attachment's metadata (the size file the
+	// address names, or the original).
+	if ( empty( $node['width'] ) && false !== strpos( $src, '/wp-content/uploads/' ) && function_exists( 'attachment_url_to_postid' ) ) {
+		$base = preg_replace( '/-\d+x\d+(\.[a-z0-9]+)$/i', '$1', $src );
+		$aid  = (int) attachment_url_to_postid( $src );
+		if ( ! $aid && $base !== $src ) {
+			$aid = (int) attachment_url_to_postid( $base );
+		}
+		$meta = $aid ? wp_get_attachment_metadata( $aid ) : false;
+		if ( is_array( $meta ) ) {
+			$file = basename( $path );
+			$w    = (int) ( $meta['width'] ?? 0 );
+			$h    = (int) ( $meta['height'] ?? 0 );
+			foreach ( (array) ( $meta['sizes'] ?? array() ) as $sz ) {
+				if ( ( $sz['file'] ?? '' ) === $file ) {
+					$w = (int) ( $sz['width'] ?? 0 );
+					$h = (int) ( $sz['height'] ?? 0 );
+					break;
+				}
+			}
+			if ( $w && $h ) {
+				$node['width']  = $w;
+				$node['height'] = $h;
+			}
+		}
+	}
+	return $node;
+}
+
+/**
+ * The full credit of a registered figure: format, size, holder and notice,
+ * from its record in content/images.json (as LICENSES.md lists it).
+ *
+ * @param array $node Image node.
+ * @param array $f    Figure record.
+ * @return array
+ */
+function paulus_schema_image_credit( $node, $f ) {
+	$src  = (string) ( $node['contentUrl'] ?? $node['url'] ?? preg_replace( '/#image$/', '', (string) $node['@id'] ) );
+	$node = paulus_schema_image_file( $node, $src );
+	if ( ! is_array( $f ) ) {
+		return $node;
+	}
+	$public = 0 === stripos( (string) $f['license'], 'Public domain' );
+	if ( ! $public ) {
+		$node = paulus_node_default( $node, 'copyrightNotice', '© ' . preg_replace( '/^Photograph:\s*/', '', (string) $f['author'] ) . ', ' . $f['license'] );
+		if ( ! empty( $node['creator'] ) ) {
+			$node = paulus_node_default( $node, 'copyrightHolder', $node['creator'] );
+		}
+	}
+	return $node;
 }

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.70.0
+Stable tag: 2.71.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.71.0 =
+* Deeper structured data. Scripture blocks point to their chapter of the Bible, charts are images of their datasets, every figure and illustration carries its file format and size, articles carry their accessibility and licence, and each series is a node of its own. A new test checks the graph of sample pages.
 
 = 2.70.0 =
 * The 2023 edition moves to /appendices/the-first-edition/. Every renamed address (the 2023 edition, /site-map/ and the Ibn Hazm article) answers with a 301. Sister-site links follow their new addresses.

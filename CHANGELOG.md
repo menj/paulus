@@ -2,6 +2,25 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.71.0] - 2026-11-03
+
+### Added
+- **Scripture as chapters of the Bible.** Each scripture block, its English `Quotation` and its Greek, is `isPartOf` the `Chapter` its footnote names (Romans 11). The chapter is part of its book and of `The Bible`. Romans, Acts and the letters keep the site's own entity nodes; other books get a `Book` of their own. The English quotation is `translationOfWork` the Greek. A footnote that opens with a Bible reference names its chapter, and every footnote `citation` has a `name`. Free text is never parsed for references: only the footnote a block links.
+- **Charts as images.** Each `[paulus_chart]` is an `ImageObject` (`#chart-<id>-image`) as well as a `Dataset`: the site's own drawing, `about` the dataset, with its credit, holder, notice, licence and licence page.
+- **Article details.** `dateCreated`, `license`, `audience`, `abstract` (the standfirst), `accessMode`, `accessModeSufficient`, `accessibilityFeature` and `associatedMedia` (the figures and charts in the body). An essay among the pages with no article node of its own carries its quotations and footnotes on its page node.
+- **Series nodes.** Each series is a `CreativeWorkSeries` with its own `@id` and its parts in order. The articles point to it.
+- **Image files.** Every figure and every bundled or uploaded illustration has `encodingFormat`, and `width` and `height` from `assets/images/sizes.json`. The horned illustrations of Paul are marked like every other image. A figure under a licence other than public domain carries `copyrightNotice` and `copyrightHolder`.
+- **Page kinds on Rank Math's graph.** Sections, the Journal and its periods are `CollectionPage` and search is `SearchResultsPage`, as on the theme's own graph. A page with a featured image names it as `primaryImageOfPage`, and every page with the page hero carries `speakable`.
+- `tests/schema-graph-test.php` renders sample pages with stubbed WordPress functions, on the theme's graph and through Rank Math's filter. It checks one graph per page, that the JSON parses, that each top-level `@id` is unique, the required properties and each piece above. Given the schema.org vocabulary file as its argument, it checks that the new types and properties exist there.
+
+### Fixed
+- A Journal entry on the theme's own graph is part of the `Blog`. Its node already named the website, so the Blog was never added.
+- Tag archives and plain date archives carry no `speakable`. `paulus_sc_page_hero()` shows no hero there, so the selectors named nothing on the page.
+- A featured image registered as a figure (a painting) now gets `encodingFormat`, `width` and `height` along with its credit. The early return skipped them.
+- The parts of a series name each article by the fragment the graph uses: `#richSnippet` under Rank Math, `#article` on the theme's graph. The old `#article` links under Rank Math pointed at no node.
+- An uploaded image under `/wp-content/uploads/` takes its `width` and `height` from the attachment's metadata, through `attachment_url_to_postid()` and `wp_get_attachment_metadata()`.
+- `tests/schema-graph-test.php` now checks references into page addresses as well. A reference into the page itself must resolve, and one into another page must use a fragment this graph uses. The credit check for the horned illustration now needs a `creditText` on the image node that holds `paul-horned-stone.avif`. Any AVIF in the graph used to pass it.
+
 ## [2.70.0] - 2026-11-03
 
 ### Changed
