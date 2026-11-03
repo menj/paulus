@@ -466,10 +466,16 @@ function paulus_image_sitemap_images( $post ) {
 		$images[] = $thumb;
 	}
 	$content = (string) $post->post_content;
-	if ( preg_match_all( '#\[paulus_figure name="([a-z0-9-]+)"#', $content, $m ) ) {
+	// Read [paulus_figure] the way WordPress does, so attribute order and quoting do not matter.
+	if ( preg_match_all( '/' . get_shortcode_regex( array( 'paulus_figure' ) ) . '/', $content, $m, PREG_SET_ORDER ) ) {
 		$figs = function_exists( 'paulus_figures' ) ? paulus_figures() : array();
-		foreach ( $m[1] as $name ) {
-			if ( isset( $figs[ $name ] ) ) {
+		foreach ( $m as $tag ) {
+			if ( '[' === $tag[1] && ']' === $tag[6] ) {
+				continue; // Escaped [[paulus_figure]].
+			}
+			$atts = shortcode_parse_atts( $tag[3] );
+			$name = is_array( $atts ) && isset( $atts['name'] ) ? (string) $atts['name'] : '';
+			if ( '' !== $name && isset( $figs[ $name ] ) ) {
 				$images[] = PAULUS_URI . '/assets/images/church/' . $name . '.avif';
 			}
 		}
@@ -499,16 +505,26 @@ function paulus_serve_image_sitemap( $wp ) {
 	if ( post_type_exists( 'paulus_journal' ) ) {
 		$types[] = 'paulus_journal';
 	}
-	$posts = get_posts(
-		array(
-			'post_type'      => $types,
-			'post_status'    => 'publish',
-			'posts_per_page' => 1000,
-			'has_password'   => false,
-			'orderby'        => 'modified',
-			'order'          => 'DESC',
-		)
-	);
+	// Read in batches of 200 so no published entry is left out.
+	$posts = array();
+	for ( $page = 1; ; $page++ ) {
+		$batch = get_posts(
+			array(
+				'post_type'      => $types,
+				'post_status'    => 'publish',
+				'posts_per_page' => 200,
+				'paged'          => $page,
+				'has_password'   => false,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+				'no_found_rows'  => true,
+			)
+		);
+		$posts = array_merge( $posts, $batch );
+		if ( count( $batch ) < 200 ) {
+			break;
+		}
+	}
 	status_header( 200 );
 	header( 'Content-Type: application/xml; charset=UTF-8' );
 	header( 'X-Robots-Tag: noindex, follow' );

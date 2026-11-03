@@ -4,6 +4,8 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ## [2.69.0] - 2026-11-03
 
+- The image sitemap reads `[paulus_figure]` the way WordPress parses shortcodes, so attribute order and quoting no longer matter, and it reads entries in batches of 200 so none is left out.
+
 ### Changed
 - **Structured data keeps to Google's list of supported features** (`inc/seo.php`, `inc/schema-deep.php`, `inc/structure.php`). The Answers, Questions and front pages carry no `FAQPage`; FAQ is missing from Google's list. The chronology carries no `Event` nodes, since a reader cannot attend the events of Paul's life, and the Council of Jerusalem and the Council of Nicaea are now plain `Thing` entities. The study guide's `Quiz` (open questions, no answers), the Pew charts as `Dataset`, the glossary's `DefinedTermSet`, every `ItemList` (sections, front page, bibliography, page lists), and the `WPHeader`, `WPFooter`, `WPSideBar` and `SiteNavigationElement` nodes are removed. `speakable` goes from articles. The `SearchAction` of the retired sitelinks search box goes from WebSite, in the theme's graph and in Rank Math's. The pages still show all of this as text.
 - **The Book's `offers`** appears only when the price in Theme Options holds a number above zero.
