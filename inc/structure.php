@@ -446,10 +446,6 @@ function paulus_sc_answers_teaser( $atts ) {
 		return '';
 	}
 	$url = get_permalink( $page );
-	// Recorded for the front page's FAQPage (paulus_schema_front_faq): in a
-	// block theme the page body renders before wp_head, so the markup is
-	// built from exactly the questions and answers shown here.
-	$GLOBALS['paulus_front_faq'] = array( 'url' => $url, 'items' => $items );
 	$greek = paulus_greek_mark( 'answers' );
 	$out   = '<section class="paulus-answers" aria-labelledby="paulus-answers-heading"><header class="paulus-part__head">' . ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h2 class="paulus-part__title" id="paulus-answers-heading"><a href="' . esc_url( $url ) . '">' . esc_html( get_the_title( $page ) ) . '</a></h2>';
 	if ( $page->post_excerpt ) {

@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.69.0] - 2026-11-03
+
+### Changed
+- **Structured data keeps to Google's list of supported features** (`inc/seo.php`, `inc/schema-deep.php`, `inc/structure.php`). The Answers, Questions and front pages carry no `FAQPage`; FAQ is missing from Google's list. The chronology carries no `Event` nodes, since a reader cannot attend the events of Paul's life, and the Council of Jerusalem and the Council of Nicaea are now plain `Thing` entities. The study guide's `Quiz` (open questions, no answers), the Pew charts as `Dataset`, the glossary's `DefinedTermSet`, every `ItemList` (sections, front page, bibliography, page lists), and the `WPHeader`, `WPFooter`, `WPSideBar` and `SiteNavigationElement` nodes are removed. `speakable` goes from articles. The `SearchAction` of the retired sitelinks search box goes from WebSite, in the theme's graph and in Rank Math's. The pages still show all of this as text.
+- **The Book's `offers`** appears only when the price in Theme Options holds a number above zero.
+- **Seventeen descriptions** that ran past 130 characters, and so were cut mid-sentence, are rewritten to end on a full stop within the limit: `the-man`, eight articles, four Journal entries and `paul-at-a-glance`, `chronology`, `glossary`, `sources` and `paul-in-the-churches`. The old texts are in `prior_meta`, so copies on live sites that still hold them take the new ones. Content version 2.69.0.
+
+### Added
+- **An image sitemap at `/sitemap-images.xml`**, named in robots.txt: every published article, Journal entry and page with its featured image and its `[paulus_figure]` photographs. With Rank Math or Yoast SEO active the theme serves none, since their sitemaps carry the images.
+
 ## [2.68.0] - 2026-11-02
 
 ### Changed

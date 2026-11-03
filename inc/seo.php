@@ -440,6 +440,101 @@ add_filter( 'rank_math/frontend/robots', static function ( $robots ) {
 	}
 	return $robots;
 } );
+/**
+ * Whether the theme serves its own image sitemap. Rank Math and Yoast SEO
+ * list each page's images in their own sitemaps, so the theme leaves the job
+ * to them.
+ *
+ * @return bool
+ */
+function paulus_image_sitemap_enabled() {
+	return ! defined( 'RANK_MATH_VERSION' ) && ! defined( 'WPSEO_VERSION' ) && (bool) get_option( 'blog_public' ) && (bool) apply_filters( 'paulus_image_sitemap', true );
+}
+
+/**
+ * The images of one post or page, as absolute URLs: the featured image, the
+ * photographs placed with [paulus_figure] and the theme's own images in the
+ * text.
+ *
+ * @param WP_Post $post Post.
+ * @return string[]
+ */
+function paulus_image_sitemap_images( $post ) {
+	$images = array();
+	$thumb  = get_the_post_thumbnail_url( $post, 'full' );
+	if ( $thumb ) {
+		$images[] = $thumb;
+	}
+	$content = (string) $post->post_content;
+	if ( preg_match_all( '#\[paulus_figure name="([a-z0-9-]+)"#', $content, $m ) ) {
+		$figs = function_exists( 'paulus_figures' ) ? paulus_figures() : array();
+		foreach ( $m[1] as $name ) {
+			if ( isset( $figs[ $name ] ) ) {
+				$images[] = PAULUS_URI . '/assets/images/church/' . $name . '.avif';
+			}
+		}
+	}
+	if ( preg_match_all( '#<img[^>]+src="([^"]+)"#i', $content, $m ) ) {
+		foreach ( $m[1] as $src ) {
+			$src = html_entity_decode( $src, ENT_QUOTES );
+			if ( 0 === strpos( $src, home_url( '/' ) ) || 0 === strpos( $src, PAULUS_URI ) ) {
+				$images[] = $src;
+			}
+		}
+	}
+	return array_values( array_unique( $images ) );
+}
+
+/**
+ * Serves /sitemap-images.xml: every published article, Journal entry and
+ * page with its images, in the image sitemap format the guide recommends.
+ *
+ * @param WP $wp Request.
+ */
+function paulus_serve_image_sitemap( $wp ) {
+	if ( 'sitemap-images.xml' !== $wp->request || ! paulus_image_sitemap_enabled() ) {
+		return;
+	}
+	$types = array( 'post', 'page' );
+	if ( post_type_exists( 'paulus_journal' ) ) {
+		$types[] = 'paulus_journal';
+	}
+	$posts = get_posts(
+		array(
+			'post_type'      => $types,
+			'post_status'    => 'publish',
+			'posts_per_page' => 1000,
+			'has_password'   => false,
+			'orderby'        => 'modified',
+			'order'          => 'DESC',
+		)
+	);
+	status_header( 200 );
+	header( 'Content-Type: application/xml; charset=UTF-8' );
+	header( 'X-Robots-Tag: noindex, follow' );
+	echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+	echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+	foreach ( $posts as $post ) {
+		$images = paulus_image_sitemap_images( $post );
+		if ( ! $images ) {
+			continue;
+		}
+		echo "\t<url>\n\t\t<loc>" . esc_url( get_permalink( $post ) ) . "</loc>\n";
+		foreach ( $images as $image ) {
+			echo "\t\t<image:image><image:loc>" . esc_url( $image ) . "</image:loc></image:image>\n";
+		}
+		echo "\t</url>\n";
+	}
+	echo "</urlset>\n";
+	exit;
+}
+add_action( 'parse_request', 'paulus_serve_image_sitemap', 1 );
+add_filter( 'robots_txt', static function ( $output, $public ) {
+	if ( $public && paulus_image_sitemap_enabled() ) {
+		$output .= "\nSitemap: " . esc_url_raw( home_url( '/sitemap-images.xml' ) ) . "\n";
+	}
+	return $output;
+}, 20, 2 );
 // The author archive redirects to the author's page, so Rank Math's author
 // sitemap, if switched on, lists no one: a user query for ID 0 matches none.
 add_filter( 'rank_math/sitemap/author/query', static function ( $args ) {
@@ -488,10 +583,6 @@ function paulus_print_schema_graph() {
 	$page = paulus_webpage_schema( array( '@id' => $web_id ) );
 	if ( $page ) {
 		$graph[] = $page;
-	}
-	$list = paulus_itemlist_schema();
-	if ( $list ) {
-		$graph[] = $list;
 	}
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$graph[] = $img;
@@ -612,14 +703,6 @@ function paulus_website_schema( $publisher ) {
 		'name'       => get_bloginfo( 'name' ),
 		'inLanguage' => paulus_site_language(),
 		'publisher'  => $publisher,
-		'potentialAction' => array(
-			'@type'       => 'SearchAction',
-			'target'      => array(
-				'@type'       => 'EntryPoint',
-				'urlTemplate' => home_url( '/?s={search_term_string}' ),
-			),
-			'query-input' => 'required name=search_term_string',
-		),
 	);
 }
 
@@ -801,11 +884,14 @@ function paulus_book_schema( $author, $publisher ) {
 	if ( false !== $published ) {
 		$book['datePublished'] = gmdate( 'Y-m', $published );
 	}
-	if ( paulus_option( 'book_buy_url' ) ) {
+	// An offer only with a real price: the option is free text, and a price
+	// of "" or "RM" alone would describe an offer the page does not make.
+	$price = preg_match( '/\d+(?:\.\d+)?/', str_replace( ',', '', (string) paulus_option( 'book_price' ) ), $pm ) ? $pm[0] : '';
+	if ( paulus_option( 'book_buy_url' ) && '' !== $price && (float) $price > 0 ) {
 		$book['offers'] = array(
 			'@type'         => 'Offer',
 			'url'           => paulus_option( 'book_buy_url' ),
-			'price'         => preg_replace( '/[^0-9.]/', '', paulus_option( 'book_price' ) ),
+			'price'         => $price,
 			'priceCurrency' => 'MYR',
 			'availability'  => 'https://schema.org/InStock',
 			'seller'        => $publisher,
@@ -877,21 +963,8 @@ function paulus_schema_additions( $data ) {
 		$add[] = paulus_website_schema( $publisher );
 	}
 	// Rank Math describes the page itself (WebPage, CollectionPage and so on);
-	// what it cannot know is the site's own structure. The article list of a
-	// section, the questions on the Answers page and the licensed photographs
-	// in the text are added as their own nodes, never replacing its page node.
-	if ( is_category() && ! paulus_schema_type_present( $data, array( 'ItemList' ) ) ) {
-		$list = paulus_itemlist_schema();
-		if ( $list ) {
-			$add[] = $list;
-		}
-	}
-	if ( is_page( array( 'answers', 'questions' ) ) && ! paulus_schema_type_present( $data, array( 'FAQPage' ) ) ) {
-		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
-		if ( $faq ) {
-			$add[] = $faq;
-		}
-	}
+	// what it cannot know is the licence of the photographs in the text, added
+	// as their own nodes, never replacing its page node.
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$add[] = $img;
 	}
@@ -945,7 +1018,7 @@ function paulus_address_schema( $raw ) {
 
 /**
  * The page node for the current request, typed by what the page is:
- * CollectionPage for sections, FAQPage for Answers, ItemPage for the book,
+ * CollectionPage for sections, ItemPage for the book,
  * SearchResultsPage for search, WebPage otherwise. Articles are described
  * by their Article node, so none is added for them.
  *
@@ -993,112 +1066,16 @@ function paulus_webpage_schema( $website ) {
 		$node['description'] = $desc;
 	}
 	if ( is_category() ) {
-		$node['@type']      = 'CollectionPage';
-		$node['mainEntity'] = array( '@id' => $url . '#articles' );
+		$node['@type'] = 'CollectionPage';
 	} elseif ( is_search() ) {
 		$node['@type'] = 'SearchResultsPage';
 	} elseif ( is_page( 'the-book' ) ) {
 		$node['@type']      = 'ItemPage';
 		$node['mainEntity'] = array( '@id' => get_permalink() . '#book' );
-	} elseif ( is_page( array( 'answers', 'questions' ) ) ) {
-		$faq = paulus_faq_schema( get_queried_object() ? get_queried_object()->post_name : 'answers' );
-		if ( $faq ) {
-			unset( $faq['@id'] );
-			$node = array_merge( $node, $faq, array( '@id' => $node['@id'] ) );
-		}
 	} elseif ( is_front_page() ) {
 		$node['about'] = array( '@type' => 'Person', 'name' => 'Paul of Tarsus' );
 	}
 	return $node;
-}
-
-/**
- * On a section page, its articles in reading order as an ItemList: one entry
- * per series (its first part) and per stand-alone article, as the page lists them.
- *
- * @return array
- */
-function paulus_itemlist_schema() {
-	if ( ! is_category() || ! function_exists( 'paulus_chapters' ) ) {
-		return array();
-	}
-	$term  = get_queried_object();
-	$items = array();
-	$seen  = array();
-	foreach ( paulus_chapters( $term->term_id ) as $c ) {
-		$series = get_post_meta( $c->ID, '_paulus_series', true );
-		if ( $series && isset( $seen[ $series ] ) ) {
-			continue;
-		}
-		if ( $series ) {
-			$seen[ $series ] = true;
-		}
-		$title   = $series ? ( get_post_meta( $c->ID, '_paulus_series_title', true ) ?: get_the_title( $c ) ) : get_the_title( $c );
-		$items[] = array(
-			'@type'    => 'ListItem',
-			'position' => count( $items ) + 1,
-			'url'      => get_permalink( $c ),
-			'name'     => wp_strip_all_tags( $title ),
-		);
-	}
-	if ( ! $items ) {
-		return array();
-	}
-	return array(
-		'@type'           => 'ItemList',
-		'@id'             => get_term_link( $term ) . '#articles',
-		'name'            => $term->name,
-		'numberOfItems'   => count( $items ),
-		'itemListOrder'   => 'https://schema.org/ItemListOrderAscending',
-		'itemListElement' => $items,
-	);
-}
-
-/**
- * The Answers or Questions page as an FAQPage: each h2 is a question, and the
- * paragraphs under it, up to the "Full evidence" link, are its answer.
- *
- * @param string $slug Page slug: answers (default) or questions.
- * @return array
- */
-function paulus_faq_schema( $slug = 'answers' ) {
-	$post = get_page_by_path( in_array( $slug, array( 'answers', 'questions' ), true ) ? $slug : 'answers' );
-	if ( ! $post ) {
-		return array();
-	}
-	$html = preg_replace( '#<sup[^>]*>.*?</sup>|<ol class="footnotes">.*?</ol>#s', '', (string) $post->post_content );
-	$html = strip_shortcodes( $html );
-	if ( ! preg_match_all( '#<h2([^>]*)>(.*?)</h2>(.*?)(?=<h2|\z)#s', $html, $m, PREG_SET_ORDER ) ) {
-		return array();
-	}
-	$qs = array();
-	foreach ( $m as $row ) {
-		$id   = preg_match( '#\sid="([^"]+)"#', $row[1], $idm ) ? $idm[1] : '';
-		$row  = array( $row[0], $row[2], $row[3] );
-		$body = preg_replace( '#<p class="paulus-readmore">.*?</p>#s', '', $row[2] );
-		$text = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $body ) ) );
-		if ( '' === $text ) {
-			continue;
-		}
-		$q = array(
-			'@type'          => 'Question',
-			'name'           => wp_strip_all_tags( $row[1] ),
-			'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $text ),
-		);
-		if ( $id ) {
-			// Each question's own address, so a result can open at its answer.
-			$q['url'] = get_permalink( $post ) . '#' . $id;
-		}
-		$qs[] = $q;
-	}
-	if ( ! $qs ) {
-		return array();
-	}
-	return array(
-		'@type'      => 'FAQPage',
-		'@id'        => get_permalink( $post ) . '#faq',
-		'mainEntity' => $qs,
-	);
 }
 
 /**

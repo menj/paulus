@@ -194,7 +194,9 @@ function paulus_schema_named_things() {
 	$n = 'Country';
 	$b = 'Book';
 	$o = 'Organization';
-	$e = 'Event';
+	// Historical councils, as things: Google reads Event as something a
+	// reader can attend at a time and place.
+	$e = 'Thing';
 	return array(
 		'muhammad'    => array( $p, 'Muhammad', array( 'The Prophet Muhammad' ), 'Muhammad', 'Q9458', '/Mu[hḥ]ammad|ﷺ/u' ),
 		'peter'       => array( $p, 'Peter the Apostle', array( 'Simon Peter', 'Cephas' ), 'Saint_Peter', 'Q33923', '/\b(Peter|Cephas)\b/u' ),
@@ -571,84 +573,6 @@ function paulus_schema_quotations( $content, $base ) {
 }
 
 /**
- * The header, footer and navigation of every page.
- *
- * @return array
- */
-function paulus_schema_page_elements() {
-	$nav   = array();
-	$items = array();
-	foreach ( paulus_parts() as $part ) {
-		$items[] = array( $part->name, get_term_link( $part ) );
-	}
-	$verdict = get_page_by_path( 'the-verdict' );
-	if ( $verdict && 'publish' === $verdict->post_status ) {
-		$items[] = array( __( 'The Verdict', 'paulus' ), get_permalink( $verdict ) );
-	}
-	$book = get_page_by_path( 'the-book' );
-	if ( $book && 'publish' === $book->post_status ) {
-		$items[] = array( get_the_title( $book ), get_permalink( $book ) );
-	}
-	if ( function_exists( 'paulus_journal_url' ) && post_type_exists( 'paulus_journal' ) && wp_count_posts( 'paulus_journal' )->publish ) {
-		$items[] = array( (string) paulus_option( 'journal_title' ), paulus_journal_url() );
-	}
-	$header_parts = array();
-	foreach ( $items as $i => $item ) {
-		if ( is_wp_error( $item[1] ) ) {
-			continue;
-		}
-		$id             = paulus_sid( 'nav-main-' . ( $i + 1 ) );
-		$nav[]          = array( '@type' => 'SiteNavigationElement', '@id' => $id, 'name' => $item[0], 'url' => $item[1] );
-		$header_parts[] = array( '@id' => $id );
-	}
-	$footer_parts = array();
-	$legal        = array( 'about-the-author', 'terms-of-use', 'privacy-policy', 'dmca', 'contact' );
-	foreach ( $legal as $i => $slug ) {
-		$page = 'privacy-policy' === $slug && (int) get_option( 'wp_page_for_privacy_policy' ) ? get_post( (int) get_option( 'wp_page_for_privacy_policy' ) ) : get_page_by_path( $slug );
-		if ( $page && 'publish' === $page->post_status ) {
-			$id             = paulus_sid( 'nav-footer-' . ( $i + 1 ) );
-			$nav[]          = array( '@type' => 'SiteNavigationElement', '@id' => $id, 'name' => 'contact' === $slug ? __( 'Contact Us', 'paulus' ) : get_the_title( $page ), 'url' => get_permalink( $page ) );
-			$footer_parts[] = array( '@id' => $id );
-		}
-	}
-	$map = function_exists( 'paulus_sitemap_page' ) ? paulus_sitemap_page() : null;
-	if ( $map && 'publish' === $map->post_status ) {
-		$id             = paulus_sid( 'nav-footer-sitemap' );
-		$nav[]          = array( '@type' => 'SiteNavigationElement', '@id' => $id, 'name' => get_the_title( $map ), 'url' => get_permalink( $map ) );
-		$footer_parts[] = array( '@id' => $id );
-	}
-	$nodes   = $nav;
-	$nodes[] = array( '@type' => 'WPHeader', '@id' => paulus_sid( 'header' ), 'name' => get_bloginfo( 'name' ), 'hasPart' => $header_parts );
-	$footer  = array(
-		'@type'           => 'WPFooter',
-		'@id'             => paulus_sid( 'footer' ),
-		'hasPart'         => $footer_parts,
-		'copyrightHolder' => array( '@id' => paulus_sid( 'author' ) ),
-	);
-	if ( paulus_option( 'footer_blurb' ) ) {
-		$footer['description'] = wp_strip_all_tags( (string) paulus_option( 'footer_blurb' ) );
-	}
-	$nodes[] = $footer;
-	return $nodes;
-}
-
-/**
- * A list of pages as an ItemList.
- *
- * @param string    $id    Node identifier.
- * @param string    $name  Name.
- * @param WP_Post[] $pages Pages.
- * @return array
- */
-function paulus_schema_page_itemlist( $id, $name, $pages ) {
-	$items = array();
-	foreach ( array_values( $pages ) as $i => $p ) {
-		$items[] = array( '@type' => 'ListItem', 'position' => $i + 1, 'name' => get_the_title( $p ), 'url' => get_permalink( $p ) );
-	}
-	return array( '@type' => 'ItemList', '@id' => $id, 'name' => $name, 'numberOfItems' => count( $items ), 'itemListElement' => $items );
-}
-
-/**
  * Nodes that describe the components of the current page.
  *
  * @return array
@@ -659,218 +583,12 @@ function paulus_schema_component_nodes() {
 	$url     = is_singular() ? get_permalink() : '';
 	$slug    = is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '';
 
-	// The front page: its three sections.
-	if ( is_front_page() ) {
-		$items = array();
-		foreach ( array_values( paulus_parts() ) as $i => $part ) {
-			$items[] = array( '@type' => 'ListItem', 'position' => $i + 1, 'name' => $part->name, 'url' => get_term_link( $part ) );
-		}
-		if ( $items ) {
-			$nodes[] = array( '@type' => 'ItemList', '@id' => paulus_sid( 'sections' ), 'name' => __( 'The case', 'paulus' ), 'numberOfItems' => count( $items ), 'itemListElement' => $items );
-		}
-	}
-
-	// The front page's questions: an FAQPage of exactly the questions and
-	// answers its section shows, each pointing to the full, referenced
-	// answer on the Answers page. The Answers page keeps its own FAQPage.
-	if ( is_front_page() ) {
-		$faq = paulus_schema_front_faq();
-		if ( $faq ) {
-			$nodes[] = $faq;
-		}
-	}
-
-	// Reference, Appendices and the Sitemap: the pages they index.
-	if ( in_array( $slug, array( 'reference', 'appendices' ), true ) ) {
-		$nodes[] = paulus_schema_page_itemlist( $url . '#pages', get_the_title(), get_pages( array( 'parent' => get_queried_object_id(), 'sort_column' => 'menu_order' ) ) );
-	}
-	if ( in_array( $slug, array( 'sitemap', 'site-map' ), true ) ) {
-		$pages = array();
-		foreach ( paulus_parts() as $part ) {
-			foreach ( paulus_chapters( $part->term_id ) as $post ) {
-				$pages[] = $post;
-			}
-		}
-		foreach ( get_pages( array( 'sort_column' => 'menu_order' ) ) as $p ) {
-			if ( ! in_array( $p->post_name, array( 'sitemap', 'site-map' ), true ) ) {
-				$pages[] = $p;
-			}
-		}
-		$nodes[] = paulus_schema_page_itemlist( $url . '#contents', __( 'Every article and page on the site', 'paulus' ), $pages );
-	}
-
-	// The timeline: each dated entry as an event in Paul's life.
-	if ( 'chronology' === $slug && preg_match_all( '#<li><strong>(.*?)</strong>(.*?)</li>#s', $content, $m, PREG_SET_ORDER ) ) {
-		$items     = array();
-		$all_years = array();
-		foreach ( $m as $i => $row ) {
-			$when = paulus_schema_text( $row[1] );
-			$what = paulus_schema_text( preg_replace( '#<span class="paulus-timeline__links">.*?</span>#s', '', $row[2] ) );
-			if ( '' === $what ) {
-				continue;
-			}
-			$event = array(
-				'@type'       => 'Event',
-				'@id'         => $url . '#event-' . ( $i + 1 ),
-				'name'        => mb_substr( $what, 0, 110 ),
-				'description' => $when . ': ' . $what,
-				'about'       => array( '@id' => paulus_sid( 'paul-of-tarsus' ) ),
-			);
-			// The place of the event: the first place the entry names that the
-			// site knows, by its position in the text, not the order of the list.
-			$first = null;
-			foreach ( paulus_schema_named_things() as $key => $t ) {
-				if ( in_array( $t[0], array( 'City', 'Country', 'AdministrativeArea', 'Place' ), true ) && preg_match( $t[5], $what, $pm, PREG_OFFSET_CAPTURE ) && ( null === $first || $pm[0][1] < $first[1] ) ) {
-					$first = array( $key, $pm[0][1] );
-				}
-			}
-			if ( $first ) {
-				$event['location'] = array( '@id' => paulus_sid( $first[0] ) );
-			}
-			// The years: every number in a date given in the Common Era, so a
-			// range such as "c. 5–10 CE" gives its start and its end.
-			$years = false !== strpos( $when, 'CE' ) && preg_match_all( '/\b(\d{1,4})\b/', $when, $y ) ? array_map( 'intval', $y[1] ) : array();
-			if ( $years ) {
-				$event['startDate'] = sprintf( '%04d', min( $years ) );
-				if ( max( $years ) > min( $years ) ) {
-					$event['endDate'] = sprintf( '%04d', max( $years ) );
-				}
-				$all_years[] = min( $years );
-				$all_years[] = max( $years );
-			}
-			$items[] = array( '@type' => 'ListItem', 'position' => $i + 1, 'item' => $event );
-		}
-		$list = array( '@type' => 'ItemList', '@id' => $url . '#timeline', 'name' => get_the_title(), 'numberOfItems' => count( $items ), 'itemListElement' => $items );
-		if ( ! empty( $all_years ) ) {
-			$list['temporalCoverage'] = sprintf( '%04d/%04d', min( $all_years ), max( $all_years ) );
-		}
-		$nodes[] = $list;
-	}
-
-	// The glossary: a set of defined terms.
-	if ( 'glossary' === $slug && preg_match_all( '#<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>#s', $content, $m, PREG_SET_ORDER ) ) {
-		$set   = $url . '#glossary';
-		$terms = array();
-		foreach ( $m as $row ) {
-			$name    = paulus_schema_text( $row[1] );
-			$terms[] = array(
-				'@type'            => 'DefinedTerm',
-				'@id'              => $url . '#term-' . sanitize_title( remove_accents( $name ) ),
-				'name'             => $name,
-				'description'      => paulus_schema_text( $row[2] ),
-				'inDefinedTermSet' => array( '@id' => $set ),
-			);
-		}
-		$nodes[] = array( '@type' => 'DefinedTermSet', '@id' => $set, 'name' => get_the_title(), 'url' => $url, 'hasDefinedTerm' => $terms );
-	}
-
-	// The study guide: its questions, open-ended, grouped by article.
-	if ( 'study-questions' === $slug && preg_match_all( '#<h2[^>]*>(.*?)</h2>\s*<ol[^>]*>(.*?)</ol>#s', $content, $m, PREG_SET_ORDER ) ) {
-		$questions = array();
-		$n         = 0;
-		foreach ( $m as $group ) {
-			preg_match_all( '#<li>(.*?)</li>#s', $group[2], $li );
-			foreach ( $li[1] as $q ) {
-				++$n;
-				$questions[] = array(
-					'@type'           => 'Question',
-					'@id'             => $url . '#question-' . $n,
-					'name'            => paulus_schema_text( $q ),
-					'eduQuestionType' => 'Open ended',
-					'about'           => array( '@type' => 'Thing', 'name' => paulus_schema_text( $group[1] ) ),
-				);
-			}
-		}
-		$nodes[] = array(
-			'@type'               => 'Quiz',
-			'@id'                 => $url . '#study-guide',
-			'name'                => get_the_title(),
-			'url'                 => $url,
-			'about'               => array( '@id' => paulus_sid( 'paul-of-tarsus' ) ),
-			'educationalUse'      => 'discussion',
-			'learningResourceType' => 'study guide',
-			'audience'            => array( '@type' => 'EducationalAudience', 'educationalRole' => 'student' ),
-			'inLanguage'          => paulus_site_language(),
-			'teaches'             => array_values( array_unique( array_map( static function ( $g ) {
-				return paulus_schema_text( $g[1] );
-			}, $m ) ) ),
-			'hasPart'             => $questions,
-		);
-	}
-
-	// The sources: the bibliography, grouped under its headings.
-	if ( 'sources' === $slug && preg_match_all( '#<h2[^>]*>(.*?)</h2>\s*<ul[^>]*>(.*?)</ul>#s', $content, $m, PREG_SET_ORDER ) ) {
-		$items = array();
-		foreach ( $m as $group ) {
-			preg_match_all( '#<li>(.*?)</li>#s', $group[2], $li );
-			$genre = paulus_schema_text( $group[1] );
-			foreach ( $li[1] as $entry ) {
-				$text = paulus_schema_text( $entry );
-				// The kind of work, from the list it sits in and its form: the
-				// photographs are photographs, an address is a web page, a
-				// title in quotation marks is an article, the rest are books.
-				if ( false !== stripos( $genre, 'Photograph' ) ) {
-					$type = 'Photograph';
-				} elseif ( preg_match( '/\\bMS\\.? ?\\d|\\bmanuscript\\b|\\bcodex\\b|\\bpapyrus\\b/i', $text ) ) {
-					$type = 'Manuscript';
-				} elseif ( preg_match( '#https?://#', $text ) ) {
-					$type = 'WebPage';
-				} elseif ( preg_match( '/[“"].+[”"]/u', $text ) ) {
-					$type = 'ScholarlyArticle';
-				} else {
-					$type = 'Book';
-				}
-				$items[] = array(
-					'@type'    => 'ListItem',
-					'position' => count( $items ) + 1,
-					'item'     => array( '@type' => $type, 'name' => mb_substr( $text, 0, 400 ), 'genre' => $genre ),
-				);
-			}
-		}
-		$nodes[] = array( '@type' => 'ItemList', '@id' => $url . '#bibliography', 'name' => get_the_title(), 'numberOfItems' => count( $items ), 'itemListElement' => $items );
-	}
-
-	// The charts on a page: each a dataset drawn from its source.
-	if ( function_exists( 'paulus_charts' ) && preg_match_all( '#\[paulus_chart id="([a-z0-9-]+)"#', $content, $m ) ) {
-		$charts = paulus_charts();
-		foreach ( array_unique( $m[1] ) as $id ) {
-			if ( empty( $charts[ $id ] ) ) {
-				continue;
-			}
-			$c     = $charts[ $id ];
-			$rows  = array();
-			foreach ( $c['rows'] as $row ) {
-				$vals   = (array) $row[1];
-				$pairs  = array();
-				foreach ( $vals as $k => $v ) {
-					$pairs[] = ( isset( $c['series'][ $k ] ) ? $c['series'][ $k ] . ' ' : '' ) . $v . ( $c['unit'] ?? '' );
-				}
-				$rows[] = $row[0] . ': ' . implode( ', ', $pairs );
-			}
-			$data = array(
-				'@type'           => 'Dataset',
-				'@id'             => $url . '#chart-' . $id,
-				'name'            => $c['title'],
-				'description'     => $c['title'] . ( ! empty( $c['note'] ) ? ' (' . $c['note'] . ')' : '' ) . '. ' . implode( '; ', $rows ) . '.',
-				'creator'         => array( '@id' => paulus_sid( 'pew-research-center' ) ),
-				'variableMeasured' => $c['title'],
-				'isAccessibleForFree' => true,
-			);
-			if ( ! empty( $c['series'] ) ) {
-				$years = array_filter( (array) $c['series'], static function ( $s ) {
-					return (bool) preg_match( '/^\d{4}$/', (string) $s );
-				} );
-				if ( count( $years ) >= 2 ) {
-					$data['temporalCoverage'] = min( $years ) . '/' . max( $years );
-				}
-			}
-			if ( ! empty( $c['source'][1] ) ) {
-				$data['isBasedOn'] = $c['source'][1];
-				$data['citation']  = $c['source'][0];
-			}
-			$nodes[] = $data;
-		}
-	}
+	// The front-page sections, the questions, the page lists, the timeline,
+	// the glossary, the study guide, the bibliography and the charts carried
+	// ItemList, FAQPage, Event, DefinedTermSet, Quiz and Dataset nodes until
+	// 2.69.0. None of them is a Google Search feature as used here (a
+	// historical timeline is no event a reader can attend), so they are gone
+	// and the pages say it all in their text.
 
 	// Martin's notes: the manuscript itself, and its file.
 	if ( 'dale-b-martin-luke-versus-paul' === $slug ) {
@@ -927,12 +645,6 @@ function paulus_schema_component_nodes() {
 	// Photographed places: churches, mosques, landmarks, each with its picture.
 	foreach ( paulus_schema_places( $content ) as $place ) {
 		$nodes[] = $place;
-	}
-	// The side rail of an article: its contents, a sidebar of the page.
-	if ( is_singular( 'post' ) && function_exists( 'paulus_article_sections' ) && paulus_article_sections( get_queried_object_id() ) ) {
-		$nodes[] = array( '@type' => 'WPSideBar', '@id' => $url . '#rail', 'name' => __( 'Contents', 'paulus' ), 'hasPart' => array_map( static function ( $s ) use ( $url ) {
-			return array( '@id' => $url . '#' . $s['id'] );
-		}, paulus_article_sections( get_queried_object_id() ) ) );
 	}
 	// The 2023 edition: the English book in progress that the site began
 	// as, an edition of the work, with its date of publication.
@@ -1136,7 +848,10 @@ function paulus_schema_deepen_node( $node ) {
 		if ( ! is_404() && ! is_search() ) {
 			$node = paulus_node_default( $node, 'about', $paul );
 		}
-		$node = paulus_node_default( $node, 'hasPart', array_merge( array( array( '@id' => paulus_sid( 'header' ) ), array( '@id' => paulus_sid( 'footer' ) ) ), is_singular() && ! is_404() ? paulus_schema_sections( $content, $url ) : array() ) );
+		$sections = is_singular() && ! is_404() ? paulus_schema_sections( $content, $url ) : array();
+		if ( $sections ) {
+			$node = paulus_node_default( $node, 'hasPart', $sections );
+		}
 		if ( is_singular() && ! is_404() ) {
 			$mentions = paulus_schema_mentions( $content );
 			if ( $mentions ) {
@@ -1144,14 +859,7 @@ function paulus_schema_deepen_node( $node ) {
 			}
 		}
 		$main = array(
-			'glossary'                       => '#glossary',
-			'study-questions'                => '#study-guide',
-			'sources'                        => '#bibliography',
-			'chronology'                     => '#timeline',
 			'dale-b-martin-luke-versus-paul' => '#manuscript',
-			'reference'                      => '#pages',
-			'appendices'                     => '#pages',
-			'sitemap'                        => '#contents',
 		);
 		if ( isset( $main[ $slug ] ) ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => $url . $main[ $slug ] ) );
@@ -1161,9 +869,6 @@ function paulus_schema_deepen_node( $node ) {
 		}
 		if ( 'about-the-author' === $slug ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_sid( 'author' ) ) );
-		}
-		if ( is_front_page() ) {
-			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_sid( 'sections' ) ) );
 		}
 		if ( function_exists( 'paulus_journal_url' ) && is_post_type_archive( 'paulus_journal' ) ) {
 			$node = paulus_node_default( $node, 'mainEntity', array( '@id' => paulus_journal_url() . '#blog' ) );
@@ -1241,7 +946,6 @@ function paulus_schema_deepen_node( $node ) {
 		$node = paulus_node_default( $node, 'isAccessibleForFree', true );
 		$node = paulus_node_default( $node, 'copyrightHolder', array( '@id' => paulus_sid( 'author' ) ) );
 		$node = paulus_node_default( $node, 'copyrightYear', (int) get_the_date( 'Y', $post ) );
-		$node = paulus_node_default( $node, 'speakable', array( '@type' => 'SpeakableSpecification', 'cssSelector' => array( '.paulus-hero-panel__title', '.paulus-hero-panel__standfirst' ) ) );
 		if ( is_singular( 'post' ) ) {
 			$part = paulus_part_of( $post->ID );
 			if ( $part ) {
@@ -1373,7 +1077,10 @@ function paulus_schema_deepen( $nodes ) {
 	// refers to, each as a node of its own. The deepened graph is encoded
 	// once for all the lookups below; only the short list of added nodes,
 	// which grows as they are found, is encoded again.
-	$extra = array_merge( paulus_schema_page_elements(), array_map( 'paulus_schema_deepen_node', paulus_schema_component_nodes() ) );
+	// The header, footer and navigation nodes (WPHeader, WPFooter,
+	// SiteNavigationElement) left the graph in 2.69.0: Google Search has no
+	// feature for them.
+	$extra = array_map( 'paulus_schema_deepen_node', paulus_schema_component_nodes() );
 	$json  = (string) wp_json_encode( $nodes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	$refers = static function ( $id ) use ( $json, &$extra ) {
 		return false !== strpos( $json, '"' . $id . '"' ) || paulus_schema_refers( $extra, $id );
@@ -1417,57 +1124,37 @@ function paulus_schema_deepen( $nodes ) {
 		}
 		$nodes[ 'paulus_deep_' . ( $i++ ) ] = $node;
 	}
+	foreach ( $nodes as $k => $node ) {
+		$nodes[ $k ] = paulus_schema_strip_unsupported( $node );
+	}
 	return $nodes;
 }
 
 /**
- * The FAQPage of the front page's questions, from what the section showed.
+ * Takes out what Google Search no longer reads or never read for this kind
+ * of page, from the theme's nodes and Rank Math's alike: the SearchAction of
+ * the retired sitelinks search box, and Speakable, which is for news.
  *
- * @return array
+ * @param mixed $node Graph node.
+ * @return mixed
  */
-function paulus_schema_front_faq() {
-	$shown = $GLOBALS['paulus_front_faq'] ?? null;
-	if ( ! $shown && function_exists( 'paulus_answers' ) ) {
-		$page  = get_page_by_path( 'answers' );
-		$shown = $page ? array( 'url' => get_permalink( $page ), 'items' => array_slice( paulus_answers(), 0, 6 ) ) : null;
+function paulus_schema_strip_unsupported( $node ) {
+	if ( ! is_array( $node ) ) {
+		return $node;
 	}
-	if ( empty( $shown['items'] ) ) {
-		return array();
-	}
-	$questions = array();
-	foreach ( $shown['items'] as $item ) {
-		// The answer as the reader sees it, without the "Full evidence" line.
-		// Typography as WordPress displays it (curly apostrophes and quotes),
-		// so the marked-up answer is word for word the one on the page.
-		$answer = paulus_schema_text( wptexturize( preg_replace( '#<p class="paulus-readmore">.*?</p>#s', '', (string) $item['answer'] ) ) );
-		if ( '' === $answer ) {
-			continue;
+	unset( $node['speakable'] );
+	if ( isset( $node['potentialAction'] ) && is_array( $node['potentialAction'] ) ) {
+		$actions = isset( $node['potentialAction']['@type'] ) ? array( $node['potentialAction'] ) : $node['potentialAction'];
+		$actions = array_values( array_filter( $actions, static function ( $a ) {
+			return ! ( is_array( $a ) && isset( $a['@type'] ) && 'SearchAction' === $a['@type'] );
+		} ) );
+		if ( ! $actions ) {
+			unset( $node['potentialAction'] );
+		} else {
+			$node['potentialAction'] = 1 === count( $actions ) ? $actions[0] : $actions;
 		}
-		$questions[] = array(
-			'@type'          => 'Question',
-			'@id'            => home_url( '/' ) . '#faq-' . $item['id'],
-			'name'           => paulus_schema_text( wptexturize( $item['question'] ) ),
-			'url'            => $shown['url'] . '#' . $item['id'],
-			'acceptedAnswer' => array(
-				'@type' => 'Answer',
-				'text'  => $answer,
-				'url'   => $shown['url'] . '#' . $item['id'],
-			),
-		);
 	}
-	if ( ! $questions ) {
-		return array();
-	}
-	return array(
-		'@type'      => 'FAQPage',
-		'@id'        => home_url( '/' ) . '#faq',
-		'name'       => __( 'Answers to missionary claims', 'paulus' ),
-		'url'        => home_url( '/' ),
-		'inLanguage' => paulus_site_language(),
-		'about'      => array( '@id' => paulus_sid( 'paul-of-tarsus' ) ),
-		'isPartOf'   => array( '@id' => home_url( '/' ) . '#website' ),
-		'mainEntity' => $questions,
-	);
+	return $node;
 }
 
 /**
