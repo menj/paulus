@@ -1,6 +1,6 @@
 {
 	"nav_version": 7,
-	"content_version": "2.70.0",
+	"content_version": "2.73.0",
 	"prior_hashes": {
 		"answers.json#r68.0": "bec48ce526dba7689a9866d5af652902",
 		"an-invitation-to-christians.json#r68.0": "5da7d9d7f15ecad54e4a2b5fec6cfaea",
@@ -1693,6 +1693,26 @@
 			"date": "2026-10-10 09:00:00"
 		},
 		{
+			"slug": "paul-and-apollos",
+			"title": "Paul and Apollos: the rival at Corinth",
+			"seo_title": "Paul and Apollos at Corinth",
+			"meta": "Who was Apollos? A learned Alexandrian who preached at Corinth after Paul, until the church split into parties. Read the entry.",
+			"excerpt": "Corinth had a second teacher, and part of the church preferred him. Who Apollos was, and how Paul answered the parties.",
+			"file": "journal-paul-and-apollos.json",
+			"image": "paul-horned-ink",
+			"date": "2026-10-18 09:00:00"
+		},
+		{
+			"slug": "paul-and-barnabas-at-lystra",
+			"title": "Lystra: the day Paul was taken for Hermes",
+			"seo_title": "Lystra: Paul taken for Hermes",
+			"meta": "Why was Paul called Hermes at Lystra? The crowd took him and Barnabas for gods, and both refused it: we also are men.",
+			"excerpt": "At Lystra a crowd tried to sacrifice to Barnabas and Paul as Zeus and Hermes. The two tore their clothes and said they were men.",
+			"file": "journal-paul-and-barnabas-at-lystra.json",
+			"image": "paul-dunce-oxblood",
+			"date": "2026-10-25 09:00:00"
+		},
+		{
 			"slug": "was-paul-a-pharisee-or-a-sadducee",
 			"title": "Was Paul a Pharisee or a Sadducee?",
 			"seo_title": "Paul: Pharisee or Sadducee?",
@@ -1723,6 +1743,16 @@
 			"date": "2026-11-22 09:00:00"
 		},
 		{
+			"slug": "paul-on-holy-days",
+			"title": "Days, months and seasons: what Paul said of holy days",
+			"seo_title": "Paul on feasts and holy days",
+			"meta": "What did Paul say about holy days? He called the Galatians' feasts slavery and left the day to conscience in Romans. Read on.",
+			"excerpt": "Paul rebuked the Galatians for keeping days and seasons, then left the day to each conscience. The churches built a calendar anyway.",
+			"file": "journal-paul-on-holy-days.json",
+			"image": "paul-decayed-face",
+			"date": "2026-11-29 09:00:00"
+		},
+		{
 			"slug": "did-paul-study-under-gamaliel",
 			"title": "Did Paul really study under Gamaliel?",
 			"seo_title": "Did Paul study under Gamaliel?",
@@ -1731,6 +1761,26 @@
 			"file": "journal-paul-and-gamaliel.json",
 			"image": "paul-bastard-stone",
 			"date": "2026-12-06 09:00:00"
+		},
+		{
+			"slug": "did-paul-reach-spain",
+			"title": "Did Paul ever reach Spain?",
+			"seo_title": "Did Paul ever reach Spain?",
+			"meta": "Did Paul ever reach Spain? He planned to, Acts is silent, and 1 Clement names only the west. What the sources say.",
+			"excerpt": "Paul told the Romans he would go on to Spain. Acts ends in Rome, and the first text to name Spain came a century later.",
+			"file": "journal-did-paul-reach-spain.json",
+			"image": "paul-horned-mirror",
+			"date": "2026-12-13 09:00:00"
+		},
+		{
+			"slug": "women-paul-greeted",
+			"title": "Phoebe, Prisca, Junia: the women Paul greeted",
+			"seo_title": "The women Paul greeted",
+			"meta": "Which women did Paul greet? Romans 16 names ten, among them Phoebe the deacon, Prisca and Junia. Set beside 1 Timothy 2:12.",
+			"excerpt": "Romans 16 greets ten women, among them a deacon, a teacher and a woman counted among the apostles. Then comes 1 Timothy.",
+			"file": "journal-women-paul-greeted.json",
+			"image": "met-papyrus-letter",
+			"date": "2026-12-27 09:00:00"
 		}
 	],
 	"pages": [

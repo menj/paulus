@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.73.0] - 2026-11-03
+
+### Added
+- Five Journal entries, from the owner's approved plan. Two are backdated and publish on the next sync: *Paul and Apollos: the rival at Corinth* (18 October) and *Lystra: the day Paul was taken for Hermes* (25 October). Three wait as scheduled entries until their day: *Days, months and seasons: what Paul said of holy days* (29 November, Advent Sunday), *Did Paul ever reach Spain?* (13 December) and *Phoebe, Prisca, Junia: the women Paul greeted* (27 December). Each is a `journal` item in `content/manifest.json` with its text in `content/articles/journal-*.json`, a `seo_title` within 32 characters and a description within 130. Content version 2.73.0.
+- The two backdated entries sit between 10 October and 1 November, so *Did Paul ever meet Jesus?* now has *Paul and Apollos* as its newer entry, and *Was Paul a Pharisee or a Sadducee?* has *Lystra* as its older one. `[paulus_journal_nav]` takes both from the post dates.
+
+### Notes
+- ESV count. Counting every verse cited on the 27 pages that carry the Crossway notice, as if each were quoted, gives 398 distinct verses before this release and 414 after it. The real count of quoted verses is lower. Of the new entries only the Lystra entry quotes the ESV, and only Acts 14:15, which the site already quoted. The other four cite scripture by reference and carry no Crossway notice. The ESV API was not reachable from the build, so no new ESV wording was added.
+- The holy-days entry links the Abrahamic Religions Journal, since its Christmas post is not due until 20 December. Point the link at that post once it is live.
+
 ## [2.72.0] - 2026-11-03
 
 ### Added
