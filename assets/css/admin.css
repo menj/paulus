@@ -98,6 +98,8 @@
 /* Save bar */
 .paulus-save { position: sticky; bottom: 0; z-index: 5; display: flex; justify-content: flex-end; margin-top: 18px; padding: 14px 18px; background: color-mix(in srgb, var(--pa-card) 92%, transparent); backdrop-filter: blur(6px); border: 1px solid var(--pa-rule); border-radius: 12px; }
 .paulus-save[hidden] { display: none; }
+/* Without JavaScript the tab buttons do nothing, so every panel shows (the body keeps its no-js class). */
+.no-js .paulus-panel[hidden], .no-js .paulus-save[hidden] { display: block; }
 .paulus-wrap .button.paulus-button { padding: 6px 22px; min-height: 40px; border: 0; border-radius: 999px; background: var(--pa-accent); color: #fff; font-weight: 600; letter-spacing: 0.02em; box-shadow: none; }
 .paulus-wrap .button.paulus-button:hover, .paulus-wrap .button.paulus-button:focus { background: color-mix(in srgb, var(--pa-accent) 85%, #000); color: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--pa-accent) 25%, transparent); }
 .paulus-wrap .button.paulus-button:focus-visible { outline: 2px solid var(--pa-ink); outline-offset: 2px; }

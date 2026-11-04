@@ -5,6 +5,7 @@
 .paulus-help--key { padding: 8px 12px; border-left: 3px solid var(--pa-accent); border-radius: 0 8px 8px 0; background: var(--pa-field); color: var(--pa-ink); }
 .paulus-sec { margin-top: 18px; padding: 8px 28px 24px; background: var(--pa-card); border: 1px solid var(--pa-rule); border-radius: 14px; box-shadow: 0 10px 30px -22px rgba(31, 26, 20, 0.45); color: var(--pa-ink); }
 .paulus-sec[hidden] { display: none; }
+.no-js .paulus-sec[hidden] { display: block; }
 .paulus-sec h2 { margin: 28px 0 8px; font-family: "Cinzel", Georgia, serif; font-size: 18px; letter-spacing: 0.04em; color: var(--pa-ink); }
 .paulus-sec h3 { margin: 22px 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pa-muted); }
 .paulus-sec > .notice { margin: 16px 0 0; }

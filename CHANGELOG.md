@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.75.1] - 2026-11-04
+
+A CodeAnt finding on the sister themes: Theme Options built every panel on every load. Here the Content panel ran `paulus_importer_panel()`, one `get_page_by_path()` per article and page of the manifest, whatever tab was open. No option key, hook or function was renamed or removed.
+
+### Fixed
+- `paulus_options_page()` builds the Content panel only on `?tab=content`. On other loads the panel holds an "Open the Content tab" link, and `admin.js` fetches the panel the first time the tab is shown, through the new `wp_ajax_paulus_importer_panel` action (`paulus_ajax_importer_panel()`), which checks `edit_theme_options` and the `paulus_importer_panel` nonce. The security reports were already fetched this way.
+- A save returned to the first tab, since the fragment never reaches the server. `admin.js` writes the open tab into `_wp_http_referer` as `?tab=`, and the server opens that tab. Every settings field stays in its panel, so a save keeps the fields of the other tabs.
+- The server printed `tabindex="-1"` on every tab but the first, here and on the Contextual Links screen. The scripts set the roving tabindex; arrow keys, Home and End are unchanged. Without JavaScript the panel named by `?tab=` shows.
+- Without JavaScript the tab buttons do nothing, so `.no-js` rules in `admin.css` and `security.css` show every panel and the save button. The Content panel then shows its link to `?tab=content`.
+- `?tab[]=x` made `$_GET['tab']` an array, and `sanitize_key()` threw a TypeError on PHP 8. The read checks `is_string()` first.
+- `assets/files.json` carries 2.75.1, so the image clean-up keeps working for this version.
+
 ## [2.75.0] - 2026-11-04
 
 The owner's upgrade rules of 4 November, applied in priority order: security, stability, compatibility, performance, accessibility, maintainability. The theme folder keeps its name, by the owner's decision. Every option key, shortcode, block, handle and taxonomy is unchanged, and so is the schema markup. The audit and its exceptions are in the release report.
