@@ -635,8 +635,13 @@ function paulus_upgrade_2750() {
 	if ( version_compare( (string) get_option( 'paulus_db_version', '0' ), '2.75.0', '>=' ) ) {
 		return;
 	}
+	// An existing site is one whose content the installer has run on. Its
+	// footer showed the old default whenever the field was unsaved, even with
+	// no options record at all, so it gets that badge written in. A fresh
+	// install (no content yet) starts with none.
 	$opts = get_option( 'paulus_options' );
-	if ( is_array( $opts ) && $opts && ! array_key_exists( 'footer_badges', $opts ) ) {
+	$opts = is_array( $opts ) ? $opts : array();
+	if ( false !== get_option( 'paulus_content_version' ) && ! array_key_exists( 'footer_badges', $opts ) ) {
 		$opts['footer_badges'] = paulus_legacy_footer_badges();
 		update_option( 'paulus_options', $opts );
 	}
@@ -907,7 +912,6 @@ function paulus_enqueue_assets() {
 		wp_enqueue_style( 'paulus-lightbox', PAULUS_URI . '/assets/css/lightbox.css', array( 'lightbox2' ), PAULUS_VERSION );
 		wp_enqueue_script( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/js/lightbox' . $paulus_min . '.js', array( 'jquery' ), '2.12.0', array( 'strategy' => 'defer', 'in_footer' => true ) );
 		wp_enqueue_script( 'paulus-lightbox', PAULUS_URI . '/assets/js/lightbox-init.js', array( 'lightbox2' ), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
-		wp_localize_script( 'paulus-lightbox', 'paulusLightbox', array( 'close' => __( 'Close', 'paulus' ) ) );
 		$paulus_lb = array(
 			/* translators: Lightbox2 placeholders: %1 is the figure number, %2 the number of figures. Keep both. */
 			'albumLabel'        => __( 'Figure %1 of %2', 'paulus' ),
@@ -919,7 +923,10 @@ function paulus_enqueue_assets() {
 			'disableScrolling'  => true,
 			'sanitizeTitle'     => true,
 		);
-		wp_add_inline_script( 'lightbox2', 'lightbox.option(' . wp_json_encode( $paulus_lb ) . ');' );
+		// lightbox-init.js applies these, after Lightbox2 has run, so both
+		// scripts keep their defer strategy (an inline 'after' script made
+		// WordPress load Lightbox2 blocking).
+		wp_localize_script( 'paulus-lightbox', 'paulusLightbox', array( 'close' => __( 'Close', 'paulus' ), 'options' => $paulus_lb ) );
 	}
 	if ( is_singular() ) {
 		wp_enqueue_script( 'paulus-reader', PAULUS_URI . '/assets/js/reader.js', array(), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );

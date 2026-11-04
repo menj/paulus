@@ -5,6 +5,13 @@
  */
 ( function () {
 	'use strict';
+	// The theme's Lightbox2 settings (label, wrap-around, timings), from
+	// functions.php. Both scripts are deferred and run in order, so
+	// window.lightbox exists here.
+	var cfg = window.paulusLightbox || {};
+	if ( cfg.options && window.lightbox && window.lightbox.option ) {
+		window.lightbox.option( cfg.options );
+	}
 	var sel = [ 'jpg', 'jpeg', 'png', 'webp', 'avif', 'gif' ].map( function ( x ) {
 		return '.paulus-prose a[href$=".' + x + '" i]';
 	} ).join( ', ' );
