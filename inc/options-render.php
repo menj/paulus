@@ -301,7 +301,7 @@ function paulus_options_page() {
 					paulus_importer_panel();
 				} else {
 					printf(
-						'<div data-paulus-lazy="paulus_importer_panel" data-nonce="%1$s" aria-busy="true"><p><a class="button" href="%2$s">%3$s</a></p></div>',
+						'<div data-paulus-lazy="paulus_importer_panel" data-nonce="%1$s"><p><a class="button" href="%2$s">%3$s</a></p></div>',
 						esc_attr( wp_create_nonce( 'paulus_importer_panel' ) ),
 						esc_url( admin_url( 'themes.php?page=paulus-options&tab=content#content' ) ),
 						esc_html__( 'Open the Content tab', 'paulus' )

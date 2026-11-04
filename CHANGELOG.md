@@ -11,6 +11,7 @@ A CodeAnt finding on the sister themes: Theme Options built every panel on every
 - A save returned to the first tab, since the fragment never reaches the server. `admin.js` writes the open tab into `_wp_http_referer` as `?tab=`, and the server opens that tab. Every settings field stays in its panel, so a save keeps the fields of the other tabs.
 - The server printed `tabindex="-1"` on every tab but the first, here and on the Contextual Links screen. The scripts set the roving tabindex; arrow keys, Home and End are unchanged. Without JavaScript the panel named by `?tab=` shows.
 - Without JavaScript the tab buttons do nothing, so `.no-js` rules in `admin.css` and `security.css` show every panel and the save button. The Content panel then shows its link to `?tab=content`.
+- The Content placeholder gets `aria-busy` from `admin.js` when the fetch starts, so it is never left busy where the script or `fetch` is missing.
 - `?tab[]=x` made `$_GET['tab']` an array, and `sanitize_key()` threw a TypeError on PHP 8. The read checks `is_string()` first.
 - `assets/files.json` carries 2.75.1, so the image clean-up keeps working for this version.
 
