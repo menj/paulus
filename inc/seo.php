@@ -728,18 +728,27 @@ function paulus_same_as( $urls ) {
 	return array_values( $list );
 }
 
+if ( ! defined( 'PAULUS_SCHEMA_AUTHOR_NAME' ) ) {
+	define( 'PAULUS_SCHEMA_AUTHOR_NAME', 'Mohd Elfie Nieshaem Juferi' );
+}
+if ( ! defined( 'PAULUS_SCHEMA_AUTHOR_URL' ) ) {
+	define( 'PAULUS_SCHEMA_AUTHOR_URL', 'https://menj.bio' );
+}
+
 /**
  * Person: the author, shared by every article and the book.
  *
  * @return array
  */
 function paulus_person_schema() {
-	$person = array( '@type' => 'Person', 'name' => paulus_option( 'book_author' ) );
-	if ( paulus_option( 'author_home' ) ) {
-		$person['url'] = paulus_option( 'author_home' );
-	} elseif ( paulus_option( 'author_url' ) ) {
-		$person['url'] = paulus_option( 'author_url' );
-	}
+	// The owner ruled on 4 November 2026 that the structured data names
+	// him, with https://menj.bio as the address, whatever the visible
+	// byline option holds. His other sites stay in sameAs below.
+	$person = array(
+		'@type' => 'Person',
+		'name'  => PAULUS_SCHEMA_AUTHOR_NAME,
+		'url'   => PAULUS_SCHEMA_AUTHOR_URL,
+	);
 	// The pages about the author listed in Theme Options come first, then
 	// the author's own sites.
 	$same = preg_split( '/\s+/', trim( (string) paulus_option( 'author_same_as' ) ), -1, PREG_SPLIT_NO_EMPTY );
@@ -754,10 +763,9 @@ function paulus_person_schema() {
 	foreach ( paulus_social_profiles() as $profile ) {
 		$same[] = $profile[2];
 	}
-	$same = paulus_same_as( $same );
-	if ( $same ) {
-		$person['sameAs'] = $same;
-	}
+	// https://menj.bio always ends the list (owner rule, 4 November 2026).
+	$same[] = PAULUS_SCHEMA_AUTHOR_URL;
+	$person['sameAs'] = paulus_same_as( $same );
 	if ( function_exists( 'paulus_author_portrait_url' ) && paulus_author_portrait_url() ) {
 		$person['image'] = paulus_author_portrait_url();
 	}

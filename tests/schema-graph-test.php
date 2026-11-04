@@ -515,6 +515,28 @@ function paulus_test_parse( $html, $label, $check, $required ) {
 			$byid[ $node['@id'] ] = $node;
 		}
 	}
+	// The author (owner rule, 4 November 2026): one Person named Mohd Elfie
+	// Nieshaem Juferi, url https://menj.bio, sameAs including it, and every
+	// article-kind node's author points to it. Dale B. Martin's notes keep
+	// their own author.
+	$owners = array_values( array_filter( $byid, static function ( $n ) {
+		return in_array( 'Person', (array) ( $n['@type'] ?? array() ), true ) && 'Mohd Elfie Nieshaem Juferi' === ( $n['name'] ?? '' );
+	} ) );
+	$check( count( $owners ) <= 1, $label . ': ' . count( $owners ) . ' author Person nodes' );
+	$owner_id = $owners ? $owners[0]['@id'] : null;
+	if ( $owners ) {
+		$check( 'https://menj.bio' === ( $owners[0]['url'] ?? '' ), $label . ': author url is not https://menj.bio' );
+		$check( in_array( 'https://menj.bio', (array) ( $owners[0]['sameAs'] ?? array() ), true ), $label . ': author sameAs lacks https://menj.bio' );
+	}
+	foreach ( $byid as $node ) {
+		if ( array_intersect( (array) ( $node['@type'] ?? array() ), array( 'Article', 'ScholarlyArticle', 'BlogPosting', 'Book' ) ) && isset( $node['author'] ) ) {
+			$aid = $node['author']['@id'] ?? '';
+			if ( false !== strpos( $aid, 'dale-b-martin' ) ) {
+				continue;
+			}
+			$check( null !== $owner_id && $aid === $owner_id, $label . ': ' . ( $node['@id'] ?? '' ) . ' author is not the author Person' );
+		}
+	}
 	// Required properties, at any depth; every @id is an absolute address
 	// with a fragment or path of its own.
 	$walk = static function ( $n ) use ( &$walk, $check, $label, $required ) {
