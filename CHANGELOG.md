@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.1] - 2026-11-04
+
+### Fixed
+- **Install error pages** said "written again" whatever happened. `paulus_install_dropins()` now returns each file's result (written, kept or failed), saves it as `paulus_dropins_status`, and the handler adds `paulus_dropins=failed` when a file failed. The card then shows an error notice, and the file's row reads "Could not be written (wp-content not writable or source file unreadable)".
+- On a multisite subsite the card hides the button and shows the network note the sister themes use, and the handler writes nothing there.
+- A source file the theme could not read, or a wp-content it could not write, made every admin page try again. A failed attempt now sets the `paulus_dropins_retry` transient for an hour, and admin pages wait for it to lapse. The button always tries, and a full write clears the wait.
+- `tests/error-pages-test.php`: the notices, the failed row, the subsite note and the hour wait.
+
 ## [2.77.0] - 2026-11-04
 
 Error pages, checked against the brief for all eight themes. The three drop-ins, their stylesheet and the maintenance page were already written from `dropins/`, each from its own source. No option key, hook, shortcode or function was renamed or removed, and no page title changed except the database error page's.

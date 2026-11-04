@@ -135,11 +135,17 @@ function paulus_dropin_state( $file, $dir = '' ) {
  * network the wp-content folder is shared, so only the main site writes the
  * pages, with its own name and address.
  *
+ * A failed attempt (wp-content not writable, or a source file unreadable)
+ * is tried again at most once an hour, so a file that cannot be written does
+ * not cost a rewrite on every admin page. The button always tries.
+ *
  * @param bool $force Write even when nothing has changed.
+ * @return array<string,string>|null Target file name => written, kept or
+ *                                   failed; null when nothing was tried.
  */
 function paulus_install_dropins( $force = false ) {
 	if ( ! is_admin() || wp_doing_ajax() || ! current_user_can( 'edit_theme_options' ) || ( is_multisite() && ! is_main_site() ) ) {
-		return;
+		return null;
 	}
 	$stamp = md5( wp_json_encode( paulus_dropin_tokens() ) );
 	$files = paulus_dropin_sources();
@@ -151,35 +157,43 @@ function paulus_install_dropins( $force = false ) {
 		$all_there = $all_there && file_exists( WP_CONTENT_DIR . '/' . $file );
 	}
 	if ( ! $force && get_option( 'paulus_dropins_stamp' ) === $stamp && $all_there ) {
-		return;
+		return null;
 	}
-	$done = true;
+	if ( ! $force && get_transient( 'paulus_dropins_retry' ) ) {
+		return null;
+	}
+	$result = array();
 	foreach ( array_keys( $files ) as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
-		$text   = paulus_dropin_text( $file );
-		if ( null === $text ) {
-			// The source could not be read: not done, so the next admin page tries again.
-			$done = false;
+		if ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) {
+			$result[ $file ] = 'kept';
 			continue;
 		}
-		if ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) {
+		$text = paulus_dropin_text( $file );
+		if ( null === $text ) {
+			$result[ $file ] = 'failed';
 			continue;
 		}
 		// Written to a temporary name first and moved into place, so a page
 		// WordPress reads mid-write is never half a file.
 		$tmp = $target . '.' . uniqid( 'paulus-', true ) . '.tmp';
-		if ( false === @file_put_contents( $tmp, $text ) || ! @rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
-			$done = false;
+		if ( strlen( $text ) !== @file_put_contents( $tmp, $text ) || ! @rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
+			$result[ $file ] = 'failed';
 			if ( file_exists( $tmp ) ) {
 				unlink( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 			}
+			continue;
 		}
+		$result[ $file ] = 'written';
 	}
-	// A failed write (wp-content not writable) is tried again on the next
-	// admin page load rather than recorded as done.
-	if ( $done ) {
+	update_option( 'paulus_dropins_status', $result, false );
+	if ( in_array( 'failed', $result, true ) ) {
+		set_transient( 'paulus_dropins_retry', 1, HOUR_IN_SECONDS );
+	} else {
+		delete_transient( 'paulus_dropins_retry' );
 		update_option( 'paulus_dropins_stamp', $stamp, false );
 	}
+	return $result;
 }
 add_action( 'init', 'paulus_install_dropins', 20 );
 
@@ -199,6 +213,8 @@ function paulus_remove_dropins() {
 		}
 	}
 	delete_option( 'paulus_dropins_stamp' );
+	delete_option( 'paulus_dropins_status' );
+	delete_transient( 'paulus_dropins_retry' );
 }
 add_action( 'switch_theme', 'paulus_remove_dropins' );
 
@@ -211,8 +227,14 @@ function paulus_handle_install_dropins() {
 		wp_die( esc_html__( 'You are not allowed to do that.', 'paulus' ), 403 );
 	}
 	check_admin_referer( 'paulus_install_dropins' );
-	paulus_install_dropins( true );
-	wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&tab=content&paulus_dropins=1#paulus-error-pages' ) );
+	$result = paulus_install_dropins( true );
+	if ( null === $result ) {
+		// A subsite: the network's pages are written from the main site.
+		wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&tab=content#paulus-error-pages' ) );
+		exit;
+	}
+	$flag = in_array( 'failed', $result, true ) ? 'failed' : '1';
+	wp_safe_redirect( admin_url( 'themes.php?page=paulus-options&tab=content&paulus_dropins=' . $flag . '#paulus-error-pages' ) );
 	exit;
 }
 add_action( 'admin_post_paulus_install_dropins', 'paulus_handle_install_dropins' );
@@ -242,11 +264,18 @@ function paulus_render_dropins_status() {
 		'installed' => __( 'Installed, current', 'paulus' ),
 		'outdated'  => __( 'Installed by the theme, outdated', 'paulus' ),
 		'foreign'   => __( 'Another file is there; left alone', 'paulus' ),
+		'failed'    => __( 'Could not be written (wp-content not writable or source file unreadable)', 'paulus' ),
 	);
+	$paulus_subsite = is_multisite() && ! is_main_site();
+	$paulus_saved   = (array) get_option( 'paulus_dropins_status', array() );
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only.
+	$paulus_flag = $paulus_subsite || ! isset( $_GET['paulus_dropins'] ) ? '' : sanitize_key( wp_unslash( $_GET['paulus_dropins'] ) );
 	?>
 	<div class="paulus-error-pages" id="paulus-error-pages">
 		<h3><?php esc_html_e( 'Error pages', 'paulus' ); ?></h3>
-		<?php if ( isset( $_GET['paulus_dropins'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only. ?>
+		<?php if ( 'failed' === $paulus_flag ) : ?>
+			<div class="notice notice-error inline"><p><?php esc_html_e( 'Some error pages could not be written: wp-content is not writable, or a source file in the theme is unreadable. The table shows which.', 'paulus' ); ?></p></div>
+		<?php elseif ( '' !== $paulus_flag ) : ?>
 			<div class="notice notice-success inline"><p><?php esc_html_e( 'The error pages were written again where the theme may write them.', 'paulus' ); ?></p></div>
 		<?php endif; ?>
 		<p><?php esc_html_e( 'WordPress shows these files from wp-content when it cannot run the theme: maintenance.php during an update (503), php-error.php after a fatal PHP error (500) and db-error.php when the database cannot be reached (503). The theme refreshes them after each update; the button writes them now. A file the theme did not write is left alone.', 'paulus' ); ?></p>
@@ -254,15 +283,26 @@ function paulus_render_dropins_status() {
 			<thead><tr><th scope="col"><?php esc_html_e( 'File', 'paulus' ); ?></th><th scope="col"><?php esc_html_e( 'Status', 'paulus' ); ?></th></tr></thead>
 			<tbody>
 			<?php foreach ( array_keys( paulus_dropin_sources() ) as $paulus_file ) : ?>
-				<tr><td><code>wp-content/<?php echo esc_html( $paulus_file ); ?></code></td><td><?php echo esc_html( $labels[ paulus_dropin_state( $paulus_file ) ] ); ?></td></tr>
+				<?php
+				$paulus_state = paulus_dropin_state( $paulus_file );
+				// A failed write leaves the old state on disk; the saved result says why.
+				if ( 'installed' !== $paulus_state && 'foreign' !== $paulus_state && 'failed' === ( $paulus_saved[ $paulus_file ] ?? '' ) ) {
+					$paulus_state = 'failed';
+				}
+				?>
+				<tr><td><code>wp-content/<?php echo esc_html( $paulus_file ); ?></code></td><td><?php echo esc_html( $labels[ $paulus_state ] ); ?></td></tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-			<input type="hidden" name="action" value="paulus_install_dropins">
-			<?php wp_nonce_field( 'paulus_install_dropins' ); ?>
-			<p><?php submit_button( __( 'Install error pages', 'paulus' ), 'secondary', 'submit', false ); ?></p>
-		</form>
+		<?php if ( $paulus_subsite ) : ?>
+			<p class="description"><?php esc_html_e( 'The whole network shares wp-content, so the error pages are installed from the main site.', 'paulus' ); ?></p>
+		<?php else : ?>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="paulus_install_dropins">
+				<?php wp_nonce_field( 'paulus_install_dropins' ); ?>
+				<p><?php submit_button( __( 'Install error pages', 'paulus' ), 'secondary', 'submit', false ); ?></p>
+			</form>
+		<?php endif; ?>
 		<p><?php esc_html_e( 'For the errors the web server answers before WordPress starts, static pages are in the errors folder of the theme. Add these lines to .htaccess to use them:', 'paulus' ); ?></p>
 		<textarea readonly rows="5" class="large-text code" aria-label="<?php esc_attr_e( '.htaccess lines', 'paulus' ); ?>"><?php echo esc_textarea( paulus_error_htaccess_snippet() ); ?></textarea>
 	</div>

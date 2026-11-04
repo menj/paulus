@@ -36,7 +36,21 @@ function wp_json_encode( $v ) { return json_encode( $v ); }
 function is_admin() { return true; }
 function wp_doing_ajax() { return false; }
 function current_user_can() { return true; }
-function is_multisite() { return false; }
+function is_multisite() { return ! empty( $GLOBALS['t']['subsite'] ); }
+function is_main_site() { return empty( $GLOBALS['t']['subsite'] ); }
+define( 'HOUR_IN_SECONDS', 3600 );
+function get_transient( $k ) { return $GLOBALS['t']['transients'][ $k ] ?? false; }
+function set_transient( $k, $v ) { $GLOBALS['t']['transients'][ $k ] = $v; return true; }
+function delete_transient( $k ) { unset( $GLOBALS['t']['transients'][ $k ] ); return true; }
+function esc_html_e( $s ) { echo esc_html( $s ); }
+function esc_attr_e( $s ) { echo esc_attr( $s ); }
+function esc_url( $s ) { return (string) $s; }
+function esc_textarea( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
+function admin_url( $p = '' ) { return 'https://example.test/wp-admin/' . $p; }
+function wp_nonce_field() { echo '<input type="hidden" name="_wpnonce" value="t">'; }
+function submit_button( $t ) { echo '<button>' . esc_html( $t ) . '</button>'; }
+function sanitize_key( $s ) { return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $s ) ); }
+function wp_unslash( $s ) { return $s; }
 function get_option( $k, $d = false ) { return $GLOBALS['t']['options'][ $k ] ?? $d; }
 function update_option( $k, $v ) { $GLOBALS['t']['options'][ $k ] = $v; return true; }
 function delete_option( $k ) { unset( $GLOBALS['t']['options'][ $k ] ); }
@@ -76,6 +90,41 @@ paulus_check( 'outdated' === paulus_dropin_state( 'php-error.php' ), 'the mainte
 paulus_install_dropins( true );
 paulus_check( file_get_contents( "$paulus_tmp/php-error.php" ) === $paulus_src['php-error.php'], 'the installer puts the right page back' );
 paulus_check( array() === glob( "$paulus_tmp/*.tmp" ), 'no temporary file is left' );
+paulus_check( ! in_array( 'failed', get_option( 'paulus_dropins_status' ), true ) && false === get_transient( 'paulus_dropins_retry' ), 'a full install records no failure and sets no retry wait' );
+
+function paulus_render_card() {
+	ob_start();
+	paulus_render_dropins_status();
+	return (string) ob_get_clean();
+}
+$_GET['paulus_dropins'] = '1';
+$paulus_html            = paulus_render_card();
+paulus_check( false !== strpos( $paulus_html, 'paulus_install_dropins' ) && false !== strpos( $paulus_html, 'written again' ) && false === strpos( $paulus_html, 'whole network' ), 'the main site shows the button and the success notice' );
+$_GET['paulus_dropins'] = 'failed';
+update_option( 'paulus_dropins_status', array( 'db-error.php' => 'kept', 'php-error.php' => 'failed' ) );
+unlink( "$paulus_tmp/php-error.php" );
+$paulus_html = paulus_render_card();
+paulus_check( false !== strpos( $paulus_html, 'notice-error' ) && false === strpos( $paulus_html, 'written again' ), 'a failed install shows the error notice, not the success one' );
+paulus_check( false !== strpos( $paulus_html, 'wp-content/php-error.php</code></td><td>Could not be written' ), 'the failed file reads as failed' );
+$GLOBALS['t']['subsite'] = true;
+$paulus_html             = paulus_render_card();
+paulus_check( false === strpos( $paulus_html, 'paulus_install_dropins' ) && false === strpos( $paulus_html, 'notice' ) && false !== strpos( $paulus_html, 'whole network shares wp-content' ), 'a subsite shows the network note and no button or notice' );
+paulus_check( null === paulus_install_dropins( true ), 'a subsite writes nothing' );
+$GLOBALS['t']['subsite'] = false;
+unset( $_GET['paulus_dropins'] );
+
+set_transient( 'paulus_dropins_retry', 1 );
+paulus_check( null === paulus_install_dropins() && ! file_exists( "$paulus_tmp/php-error.php" ), 'within the hour after a failure an admin page does not try again' );
+paulus_check( null !== paulus_install_dropins( true ) && file_exists( "$paulus_tmp/php-error.php" ) && false === get_transient( 'paulus_dropins_retry' ), 'the button tries at once, and success clears the wait' );
+if ( function_exists( 'posix_geteuid' ) && 0 !== posix_geteuid() ) {
+	unlink( "$paulus_tmp/php-error.php" );
+	chmod( $paulus_tmp, 0500 );
+	$paulus_r = paulus_install_dropins();
+	chmod( $paulus_tmp, 0700 );
+	paulus_check( 'failed' === $paulus_r['php-error.php'] && get_transient( 'paulus_dropins_retry' ), 'a failed write is recorded and starts the hour wait' );
+	paulus_check( null === paulus_install_dropins(), 'the next admin page waits instead of writing again' );
+	delete_transient( 'paulus_dropins_retry' );
+}
 
 exec( escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( dirname( __DIR__ ) . '/bin/build-error-pages.php' ) . ' --check 2>&1', $paulus_o, $paulus_code );
 paulus_check( 0 === $paulus_code, 'errors/*.html match the builder' );
