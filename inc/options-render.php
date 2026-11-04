@@ -234,7 +234,7 @@ function paulus_options_page() {
 	$scheme = array_key_exists( paulus_option( 'scheme' ), paulus_schemes() ) ? paulus_option( 'scheme' ) : 'ochre';
 	// The panel the screen opens on: ?tab= when it names a tab, else the first.
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- tab selection only.
-	$open   = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+	$open   = isset( $_GET['tab'] ) && is_string( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
 	$open   = isset( $tabs[ $open ] ) ? $open : (string) array_key_first( $tabs );
 	$icon   = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.avif';
 	$card   = static function ( $tab_id ) use ( $tabs, $meta ) {
