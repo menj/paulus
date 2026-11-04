@@ -275,7 +275,7 @@ body.paulus-scheme-paper .paulus-single .paulus-prose > p:first-child:not(.paulu
 .paulus-prose .footnotes li { margin-bottom: 0.5rem; break-inside: avoid; }
 .paulus-prose .paulus-esv-notice { margin-top: 1.75rem; font-family: var(--t-garamond); font-size: 0.85rem; line-height: 1.5; color: var(--t-muted); }
 
-/* "Across the network": the sister sites' pieces on one subject, in a rounded box */
+/* Further-reading box: pieces elsewhere on one subject, in a rounded box */
 .paulus-prose .paulus-network { margin: 2.5rem 0; padding: 1.1rem 1.4rem; border: 1px solid var(--t-rule); border-radius: var(--t-radius); background: var(--t-surface); }
 .paulus-prose .paulus-network__head { margin: 0 0 0.6rem; font-family: var(--t-display); font-weight: 700; font-size: 1.1rem; color: var(--t-accent-deep); }
 .paulus-prose .paulus-network ul { margin: 0; padding-left: 1.2em; }

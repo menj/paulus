@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.2] - 2026-11-04
+
+### Changed
+- The front end no longer presents other sites as related to this one. Every link stays.
+  - *The Islamic dilemma* (`islamic-dilemma.json`): the box at the end is headed "Further reading on the Islamic dilemma", in place of "The Islamic dilemma across the network". Its six links are unchanged.
+  - *What did Paul say about holy days?* (`journal-paul-on-holy-days.json`): "the Journal of our sister site, Abrahamic Religions, takes up how it came to be set in December" reads "a journal on the three Abrahamic faiths takes up how it came to be set in December", with the link on the new words.
+  - The `assets/css/theme.css` comment above `.paulus-network` no longer calls the box "Across the network".
+- Both files carry their new `md5`. The manifest records the previous hashes (`#r77.1`) in `prior_hashes`, and `content_version` is 2.77.2, so an unedited article takes the new text on the next admin page load and an edited one is left alone.
+- The author Person in the structured data is named "Mohd Elfie Nieshaem Juferi", with `url` `https://menj.bio`, whatever the visible Author option holds (`PAULUS_SCHEMA_AUTHOR_NAME`, `PAULUS_SCHEMA_AUTHOR_URL` in `inc/seo.php`). The addresses that were its `url` stay in `sameAs`, and `https://menj.bio` ends that list. Existing entries keep their order; stored options are untouched. It keeps its `@id`, which every article, Journal entry and the book reference, and under Rank Math it is still merged into one Person. Dale B. Martin's notes keep Martin as their author.
+- Under Rank Math, the author Person it builds from the WordPress user takes the owner's name and `https://menj.bio` as its url (`paulus_schema_deepen_node()`), so the merged graph names one author.
+- `assets/files.json` carries version 2.77.2, so the theme-image clean-up runs for this release.
+- `tests/schema-graph-test.php` checks every graph: one author Person, its url and sameAs, every Article, ScholarlyArticle, BlogPosting and Book author pointing to it, and an author Person wherever such a node names an author.
+
 ## [2.77.1] - 2026-11-04
 
 ### Fixed

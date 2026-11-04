@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.1
+Stable tag: 2.77.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,10 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.2 =
+* Two articles no longer describe other websites as related to this one. Every link stays.
+* The structured data names the author as Mohd Elfie Nieshaem Juferi, with https://menj.bio as his address.
 
 = 2.77.1 =
 * Install error pages says so when a file could not be written, and the table marks that file. A failed write is tried again once an hour, not on every admin page.

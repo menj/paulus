@@ -1,7 +1,9 @@
 {
 	"nav_version": 7,
-	"content_version": "2.73.0",
+	"content_version": "2.77.2",
 	"prior_hashes": {
+		"islamic-dilemma.json#r77.1": "82d479b02a421baa3ad704bfe2d55223",
+		"journal-paul-on-holy-days.json#r77.1": "188e3fc394e558ab2a2175729eeda815",
 		"answers.json#r68.0": "bec48ce526dba7689a9866d5af652902",
 		"an-invitation-to-christians.json#r68.0": "5da7d9d7f15ecad54e4a2b5fec6cfaea",
 		"c02-who-was-paul.json#r68.0": "efa86c8a53d2273f47e4e2bf13b19ec8",
