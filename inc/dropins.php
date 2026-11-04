@@ -177,7 +177,7 @@ function paulus_install_dropins( $force = false ) {
 		// Written to a temporary name first and moved into place, so a page
 		// WordPress reads mid-write is never half a file.
 		$tmp = $target . '.' . uniqid( 'paulus-', true ) . '.tmp';
-		if ( false === @file_put_contents( $tmp, $text ) || ! @rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
+		if ( strlen( $text ) !== @file_put_contents( $tmp, $text ) || ! @rename( $tmp, $target ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
 			$result[ $file ] = 'failed';
 			if ( file_exists( $tmp ) ) {
 				unlink( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions
