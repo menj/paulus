@@ -871,7 +871,8 @@ function paulus_sync_run( $target ) {
  * @return bool
  */
 function paulus_progress_bar_shown() {
-	if ( ! paulus_option( 'read_progress' ) ) {
+	// Reading Progress Bar draws its own bar while it is active.
+	if ( function_exists( 'rp_show_it' ) || ! paulus_option( 'read_progress' ) ) {
 		return false;
 	}
 	if ( is_singular( 'paulus_journal' ) ) {

@@ -153,7 +153,43 @@ add_filter( 'wp_sitemaps_posts_query_args', static function ( $args ) {
 	return $args;
 } );
 add_filter( 'rank_math/sitemap/posts_to_exclude', static function ( $ids ) {
-	return array_values( array_unique( array_merge( (array) $ids, paulus_unlisted_ids() ) ) );
+	return paulus_unlist_rank_math_exclude( $ids );
+} );
+add_filter( 'rank_math/sitemap/entry', 'paulus_unlist_rank_math_entry', 10, 3 );
+
+/**
+ * Rank Math's exclusion list, with the unlisted items added. Rank Math may
+ * pass it as an array or as a comma-separated string.
+ *
+ * @param array|string $ids IDs.
+ * @return int[]
+ */
+function paulus_unlist_rank_math_exclude( $ids ) {
+	$ids = is_array( $ids ) ? $ids : preg_split( '/[\s,]+/', (string) $ids, -1, PREG_SPLIT_NO_EMPTY );
+	return array_values( array_unique( array_merge( array_filter( array_map( 'absint', $ids ) ), paulus_unlisted_ids() ) ) );
+}
+
+/**
+ * Rank Math's sitemap entry filter: an unlisted item's entry is dropped, a
+ * second line behind the exclusion list.
+ *
+ * @param array|false $url    Entry.
+ * @param string      $type   Object type.
+ * @param mixed       $object Post or term.
+ * @return array|false
+ */
+function paulus_unlist_rank_math_entry( $url, $type, $object ) {
+	return 'post' === $type && $object instanceof WP_Post && paulus_is_unlisted( $object->ID ) ? false : $url;
+}
+
+/**
+ * Yoast SEO prints its own robots tag. On an unlisted item it stands aside,
+ * as the plugin arranges, so the noindex above is the one that counts.
+ */
+add_action( 'wp', static function () {
+	if ( is_singular() && paulus_is_unlisted( get_queried_object_id() ) ) {
+		add_filter( 'wpseo_robots_array', '__return_empty_array' );
+	}
 } );
 
 /* ------------------------------------------------------------------ */
@@ -190,17 +226,54 @@ function paulus_unlist_box( $post ) {
 	);
 }
 
-add_action( 'save_post', static function ( $post_id ) {
-	if ( ! isset( $_POST['paulus_unlist_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['paulus_unlist_nonce'] ) ), 'paulus_unlist' ) ) {
-		return;
-	}
+/**
+ * Add an item to the unlisted list or take it out. Reads the stored option
+ * itself, so a save made while unlist_posts_enabled is off keeps the list.
+ *
+ * @param int  $post_id Post ID.
+ * @param bool $unlist  True to unlist.
+ */
+function paulus_unlist_set( $post_id, $unlist ) {
+	$post_id = absint( $post_id );
+	$stored  = get_option( 'unlist_posts', array() );
+	$ids     = array_filter( array_map( 'absint', is_array( $stored ) ? $stored : array() ) );
+	$ids     = $unlist ? array_merge( $ids, array( $post_id ) ) : array_diff( $ids, array( $post_id ) );
+	update_option( 'unlist_posts', array_values( array_unique( $ids ) ) );
+}
+
+/**
+ * Save the meta box, the Quick Edit checkbox or the Bulk Edit choice.
+ *
+ * @param int $post_id Post ID.
+ */
+function paulus_unlist_save( $post_id ) {
 	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_revision( $post_id ) || ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
-	$ids = paulus_unlisted_ids();
-	$ids = ! empty( $_POST['paulus_unlisted'] ) ? array_merge( $ids, array( (int) $post_id ) ) : array_diff( $ids, array( (int) $post_id ) );
-	update_option( 'unlist_posts', array_values( array_unique( array_map( 'intval', $ids ) ) ) );
-} );
+	// Bulk Edit: core checks the bulk-posts nonce first; it is checked again here.
+	if ( isset( $_REQUEST['bulk_edit'], $_REQUEST['paulus_unlist_bulk'] ) ) {
+		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-posts' ) ) {
+			return;
+		}
+		$choice = sanitize_key( wp_unslash( $_REQUEST['paulus_unlist_bulk'] ) );
+		if ( 'unlist' === $choice || 'list' === $choice ) {
+			paulus_unlist_set( $post_id, 'unlist' === $choice );
+		}
+		return;
+	}
+	// Quick Edit.
+	if ( isset( $_POST['paulus_unlist_qe_nonce'] ) ) {
+		if ( wp_verify_nonce( sanitize_key( wp_unslash( $_POST['paulus_unlist_qe_nonce'] ) ), 'paulus_unlist_quick_edit' ) ) {
+			paulus_unlist_set( $post_id, ! empty( $_POST['paulus_unlisted'] ) );
+		}
+		return;
+	}
+	if ( ! isset( $_POST['paulus_unlist_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['paulus_unlist_nonce'] ) ), 'paulus_unlist' ) ) {
+		return;
+	}
+	paulus_unlist_set( $post_id, ! empty( $_POST['paulus_unlisted'] ) );
+}
+add_action( 'save_post', 'paulus_unlist_save' );
 
 add_filter( 'display_post_states', static function ( $states, $post ) {
 	if ( paulus_is_unlisted( $post->ID ) ) {
@@ -232,5 +305,79 @@ add_action( 'pre_get_posts', static function ( $q ) {
 	if ( is_admin() && $q->is_main_query() && ! empty( $_GET['paulus_unlisted'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		$ids = paulus_unlisted_ids();
 		$q->set( 'post__in', $ids ? $ids : array( 0 ) );
+	}
+} );
+
+/* ------------------------------------------------------------------ */
+/* Post lists: an Unlisted column, Quick Edit and Bulk Edit.           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The column on every list of a type that can be unlisted. Quick Edit and
+ * Bulk Edit fields hang off a column, so they need it too.
+ */
+add_action( 'admin_init', static function () {
+	foreach ( paulus_unlist_types() as $type ) {
+		add_filter( "manage_{$type}_posts_columns", 'paulus_unlist_column' );
+		add_action( "manage_{$type}_posts_custom_column", 'paulus_unlist_column_render', 10, 2 );
+	}
+} );
+
+/**
+ * Column header.
+ *
+ * @param array $columns Columns.
+ * @return array
+ */
+function paulus_unlist_column( $columns ) {
+	$columns['paulus_unlisted'] = __( 'Unlisted', 'paulus' );
+	return $columns;
+}
+
+/**
+ * Column cell. Quick Edit reads data-unlisted to tick its checkbox.
+ *
+ * @param string $column  Column.
+ * @param int    $post_id Post ID.
+ */
+function paulus_unlist_column_render( $column, $post_id ) {
+	if ( 'paulus_unlisted' !== $column ) {
+		return;
+	}
+	$on = paulus_is_unlisted( $post_id );
+	printf( '<span class="paulus-unlist-status" data-unlisted="%s">%s</span>', $on ? '1' : '0', $on ? esc_html__( 'Yes', 'paulus' ) : '&mdash;' );
+}
+
+add_action( 'quick_edit_custom_box', static function ( $column, $post_type ) {
+	if ( 'paulus_unlisted' !== $column || ! in_array( $post_type, paulus_unlist_types(), true ) ) {
+		return;
+	}
+	wp_nonce_field( 'paulus_unlist_quick_edit', 'paulus_unlist_qe_nonce' );
+	printf(
+		'<fieldset class="inline-edit-col-right"><div class="inline-edit-col"><label class="alignleft"><input type="checkbox" name="paulus_unlisted" value="1"> <span class="checkbox-title">%s</span></label></div></fieldset>',
+		esc_html__( 'Unlist this item', 'paulus' )
+	);
+}, 10, 2 );
+
+add_action( 'bulk_edit_custom_box', static function ( $column, $post_type ) {
+	if ( 'paulus_unlisted' !== $column || ! in_array( $post_type, paulus_unlist_types(), true ) ) {
+		return;
+	}
+	printf(
+		'<fieldset class="inline-edit-col-right"><div class="inline-edit-col"><label class="inline-edit-group"><span class="title">%1$s</span><select name="paulus_unlist_bulk"><option value="-1">%2$s</option><option value="unlist">%3$s</option><option value="list">%4$s</option></select></label></div></fieldset>',
+		esc_html__( 'Unlisted', 'paulus' ),
+		esc_html__( 'No change', 'paulus' ),
+		esc_html__( 'Unlist', 'paulus' ),
+		esc_html__( 'List', 'paulus' )
+	);
+}, 10, 2 );
+
+/**
+ * The Quick Edit script, on post lists only.
+ */
+add_action( 'admin_enqueue_scripts', static function ( $hook ) {
+	$screen = 'edit.php' === $hook ? get_current_screen() : null;
+	if ( $screen && in_array( $screen->post_type, paulus_unlist_types(), true ) ) {
+		wp_enqueue_script( 'paulus-unlist-quick-edit', PAULUS_URI . '/assets/js/unlist-quick-edit.js', array( 'jquery', 'inline-edit-post' ), PAULUS_VERSION, true );
 	}
 } );

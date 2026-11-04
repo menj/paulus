@@ -2,6 +2,29 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.76.0] - 2026-11-04
+
+The owner's brief of 4 November: build four plugins into the theme where it lacks them. All four were already built in, at least in part, so this release fills the gaps. No option key, hook, shortcode or function was renamed or removed, and no page title changed.
+
+### Already in the theme
+- Social icons: profile addresses on Theme Options (`social_links`, one per line, the network read from the host), the footer row from `[paulus_footer_social]`, 45 marks in `assets/icons/social/` with the label as screen-reader text and the SVG hidden, a visible focus outline, 32-pixel targets, colours from the scheme variables. The licence and the Font Awesome credit are in `LICENSES.md` and `readme.txt`. Nothing added.
+- Reading progress bar (`assets/js/reader.js`, Theme Options, Reading): on/off, colour, track colour, height, position, and articles, Journal entries and pages as separate switches. It is `aria-hidden`, painted from a passive scroll listener through `requestAnimationFrame`, and has no transition.
+- Unlisted items (`inc/unlist.php`) and clean search addresses (`inc/search-permalinks.php`), with the Settings, Permalinks field and the 301.
+
+### Added
+- Unlisted items: an Unlisted column, a Quick Edit checkbox and a Bulk Edit choice (`assets/js/unlist-quick-edit.js`, loaded on post lists only), as in the plugin's 1.2.0. `paulus_unlist_set()` writes the list; the meta box save is now `paulus_unlist_save()`. Rank Math's `rank_math/sitemap/entry` drops an unlisted entry, and its exclusion list accepts a comma-separated string (`paulus_unlist_rank_math_exclude()`). Yoast's robots array is emptied on an unlisted item, as the plugin does.
+- `paulus_search_pretty_url()` builds the clean address.
+
+### Changed
+- The search redirect puts the page number into the path: `/?s=paul&paged=2` goes to `/search/paul/page/2/`, where it went to `/search/paul/?paged=2`.
+- The rewrite rules are flushed once when the theme version or the search base changes, from the marker `paulus_search_rewrite_built` (`version|base`). The 2.75 check, which read every saved rule on each admin page load, is gone; it covered the same case, a base the rules did not know.
+- `paulus_progress_bar_shown()` returns false while Reading Progress Bar is active (`rp_show_it()`), so the page never shows two bars.
+- Below 601 pixels the progress bar sits at the top of the window for signed-in editors, under the admin bar, which scrolls away there. It had kept 46 pixels from the top and left a gap.
+
+### Tests
+- `tests/unlist-test.php`: list queries, single-item queries, `post__in`, editors and AJAX, the enable filter, adjacent links, page lists, both sitemaps, both robots filters and `paulus_unlist_set()`.
+- `tests/search-rewrite-test.php`: the clean address, encoding, page numbers, other query variables, empty searches, the base option and the flush marker.
+
 ## [2.75.1] - 2026-11-04
 
 A CodeAnt finding on the sister themes: Theme Options built every panel on every load. Here the Content panel ran `paulus_importer_panel()`, one `get_page_by_path()` per article and page of the manifest, whatever tab was open. No option key, hook or function was renamed or removed.

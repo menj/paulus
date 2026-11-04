@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.75.1
+Stable tag: 2.76.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.76.0 =
+* Unlisted posts and pages can be set from Quick Edit and Bulk Edit, and an Unlisted column shows which ones are. Rank Math's sitemap entries and Yoast's robots tag leave them alone too.
+* A search from the form keeps its page number in the clean address: /search/paul/page/2/.
+* The search rules are rebuilt once after each update, and no longer checked on every admin page.
+* The reading progress bar stands down while the Reading Progress Bar plugin is active, and on phones it no longer leaves a gap where the admin bar was.
 
 = 2.75.1 =
 * Theme Options no longer checks every article and page of the site structure on each load. The Content tab fetches its list when you open it, and builds it at once on ?tab=content. A save returns to the tab you were on.
