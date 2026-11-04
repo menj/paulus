@@ -699,7 +699,10 @@ function paulus_schema_fix_values( $data ) {
  * @return array
  */
 function paulus_same_as( $urls ) {
-	$urls = array_filter( (array) $urls, 'paulus_is_http_url' );
+	$urls = array_map( static function ( $u ) {
+		return is_string( $u ) ? trim( $u ) : $u;
+	}, (array) $urls );
+	$urls = array_filter( $urls, 'paulus_is_http_url' );
 	$key  = static function ( $url ) {
 		$url = untrailingslashit( trim( (string) $url ) );
 		return preg_replace_callback( '#^[a-z][a-z0-9+.-]*://[^/?\#]*#i', static function ( $m ) {

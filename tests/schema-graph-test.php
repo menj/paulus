@@ -699,7 +699,7 @@ $rm  = array(
 		'@id'                 => HOME . 'x/#richSnippet',
 		'headline'            => 'Test',
 		'isAccessibleForFree' => '1',
-		'author'              => array( '@type' => 'Person', 'name' => 'Someone', 'sameAs' => array( 'Mohd Elfie Nieshaem Juferi', 'https://example.org/a' ) ),
+		'author'              => array( '@type' => 'Person', 'name' => 'Someone', 'sameAs' => array( 'Mohd Elfie Nieshaem Juferi', '  https://example.org/a  ' ) ),
 		'hasPart'             => array( array( '@type' => 'Article', 'isAccessibleForFree' => 'no' ) ),
 	),
 	'Article'     => array( '@type' => 'Article', 'isAccessibleForFree' => 'TRUE' ),
@@ -736,7 +736,9 @@ $check( ! isset( $out['publisher']['sameAs'] ), 'sameAs: plain text kept on the 
 foreach ( array_slice( $by_slug, 0, 10 ) as $p ) {
 	$GLOBALS['T'] = array( 'kind' => 'page', 'post' => $p );
 	$h = paulus_test_rank_math( $GLOBALS['T'] );
-	$walk( json_decode( substr( $h, strpos( $h, '>' ) + 1, -9 ), true ) );
+	$j = json_decode( substr( $h, strpos( $h, '>' ) + 1, -9 ), true );
+	$check( is_array( $j ), 'rank math graph does not parse: ' . $p->post_name );
+	$walk( $j );
 }
 
 // 8. Every type the graphs use exists in schema.org (when the vocabulary
