@@ -36,6 +36,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.75.1 to 2.76.0
+
+- **Upload the whole theme folder.** The new file is `assets/js/unlist-quick-edit.js`.
+- The first page load after the update rebuilds the rewrite rules once. Clear caches afterwards so old `?paged=` search addresses are not served from a cache.
+- If Reading Progress Bar, Unlist Posts & Pages or Pretty Search Permalinks is active, the theme leaves that feature to the plugin. Deactivate the plugin to use the theme's own.
+
 ### 2.69.0 to 2.70.0
 
 - **Upload the whole theme folder.** The new file is `inc/renamed.php`; without it the maintenance page shows until the upload is whole.

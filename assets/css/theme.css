@@ -897,6 +897,8 @@ h2:hover > .paulus-anchor, h2:focus-within > .paulus-anchor, .paulus-anchor:focu
 .paulus-progress--bottom { top: auto; bottom: 0; }
 .admin-bar .paulus-progress:not(.paulus-progress--bottom) { top: 32px; }
 @media (max-width: 782px) { .admin-bar .paulus-progress:not(.paulus-progress--bottom) { top: 46px; } }
+/* Below 601px the admin bar scrolls away with the page; the bar keeps to the top and sits under it (z-index 100) until it has gone. */
+@media (max-width: 600px) { .admin-bar .paulus-progress:not(.paulus-progress--bottom) { top: 0; } }
 .paulus-top { position: fixed; right: max(1.25rem, env(safe-area-inset-right, 0px)); bottom: max(1.25rem, env(safe-area-inset-bottom, 0px)); z-index: 90; display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--t-accent); color: var(--t-on-accent); box-shadow: 0 4px 12px rgba(31, 26, 20, 0.28); cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
 .paulus-top.is-shown { opacity: 1; visibility: visible; transform: none; }
 .paulus-top:hover, .paulus-top:focus-visible { background: var(--t-accent-deep); }

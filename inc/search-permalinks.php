@@ -35,27 +35,85 @@ add_action( 'init', static function () {
 }, 1 );
 
 /**
- * A base that the saved rewrite rules do not know (the option imported
- * from the plugin, say, with the rules never flushed since) would send
- * every clean search address to a page not found. The rules are rebuilt
- * once, on an admin page load, when the base has no rule of its own.
+ * The marker stored once the rewrite rules carry the search base: the theme
+ * version and the base. The rules are rebuilt once when either changes (an
+ * update, a new base, the option imported from the plugin), never on an
+ * ordinary load. This replaces the 2.75 check, which read every saved rule on
+ * each admin page load.
+ *
+ * @param string $version Theme version.
+ * @param string $base    Search base.
+ * @return string
  */
-add_action( 'admin_init', static function () {
-	$rules = get_option( 'rewrite_rules' );
-	if ( ! get_option( 'permalink_structure' ) || ! is_array( $rules ) || ! $rules ) {
-		return;
-	}
-	$prefix = paulus_search_base() . '/';
-	foreach ( array_keys( $rules ) as $rule ) {
-		if ( 0 === strpos( (string) $rule, $prefix ) ) {
-			return;
-		}
-	}
-	flush_rewrite_rules( false );
-} );
+function paulus_search_rewrite_stamp( $version, $base ) {
+	return $version . '|' . $base;
+}
 
 /**
- * A search made by the form (/?s=term) goes to its clean address.
+ * Whether the saved rewrite rules hold a rule for the search base.
+ *
+ * @param string $base Search base.
+ * @return bool
+ */
+function paulus_search_rules_ready( $base ) {
+	$rules = get_option( 'rewrite_rules' );
+	if ( ! is_array( $rules ) ) {
+		return false;
+	}
+	foreach ( array_keys( $rules ) as $rule ) {
+		if ( 0 === strpos( (string) $rule, $base . '/' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+add_action( 'init', static function () {
+	if ( ! get_option( 'permalink_structure' ) ) {
+		return;
+	}
+	$base  = paulus_search_base();
+	$stamp = paulus_search_rewrite_stamp( PAULUS_VERSION, $base );
+	if ( get_option( 'paulus_search_rewrite_built' ) === $stamp ) {
+		return;
+	}
+	flush_rewrite_rules( false );
+	// The marker is written only once the rules are seen to hold the search
+	// rule, so a flush that fails or never finishes is tried again next load.
+	if ( paulus_search_rules_ready( $base ) ) {
+		update_option( 'paulus_search_rewrite_built', $stamp );
+	}
+}, 20 );
+
+/**
+ * The clean address of a search: /base/term/, then page/N/ from the second
+ * page on, then any other query variables. Empty for an empty search, which
+ * gets no redirect.
+ *
+ * @param string $home  Home URL.
+ * @param string $base  Search base.
+ * @param string $term  Search terms as typed.
+ * @param int    $paged Page number.
+ * @param array  $args  Other query variables, already sanitised.
+ * @return string
+ */
+function paulus_search_pretty_url( $home, $base, $term, $paged = 1, $args = array() ) {
+	$term = trim( (string) $term );
+	if ( '' === $term || '' === (string) $base ) {
+		return '';
+	}
+	$url = rtrim( (string) $home, '/' ) . '/' . $base . '/' . rawurlencode( $term ) . '/';
+	if ( (int) $paged > 1 ) {
+		$url .= 'page/' . (int) $paged . '/';
+	}
+	if ( $args ) {
+		$url .= '?' . http_build_query( $args, '', '&', PHP_QUERY_RFC3986 );
+	}
+	return $url;
+}
+
+/**
+ * A search made by the form (/?s=term) goes to its clean address with a 301.
  */
 add_action( 'template_redirect', static function () {
 	global $wp_rewrite;
@@ -66,21 +124,18 @@ add_action( 'template_redirect', static function () {
 	if ( false !== strpos( $path, '/' . paulus_search_base() . '/' ) ) {
 		return;
 	}
-	$query = get_search_query( false );
-	if ( '' === trim( $query ) ) {
-		return;
-	}
-	// Every other query variable (the page number, an ordering) travels
-	// with the terms, so ?s=paul&paged=2 lands on the second page.
-	$url  = get_search_link( $query );
+	// Every other query variable (an ordering, say) travels with the terms;
+	// the page number goes into the path, so ?s=paul&paged=2 lands on
+	// /search/paul/page/2/.
 	$args = array();
 	foreach ( wp_unslash( $_GET ) as $key => $value ) { // phpcs:ignore WordPress.Security.NonceVerification
-		if ( 's' !== $key && is_scalar( $value ) ) {
+		if ( ! in_array( $key, array( 's', 'paged' ), true ) && is_scalar( $value ) ) {
 			$args[ sanitize_key( $key ) ] = sanitize_text_field( (string) $value );
 		}
 	}
-	if ( $args ) {
-		$url = add_query_arg( $args, $url );
+	$url = paulus_search_pretty_url( home_url( '/' ), paulus_search_base(), get_search_query( false ), (int) get_query_var( 'paged' ), $args );
+	if ( '' === $url ) {
+		return;
 	}
 	wp_safe_redirect( $url, 301 );
 	exit;
