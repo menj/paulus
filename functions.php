@@ -321,12 +321,12 @@ function paulus_upgrade_150() {
 		);
 		foreach ( $old as $key => $value ) {
 			if ( ( $opts[ $key ] ?? '' ) === $value ) {
-				$opts[ $key ] = $defaults[ $key ];
+				$opts[ $key ] = 'footer_badges' === $key ? paulus_legacy_footer_badges() : $defaults[ $key ];
 			}
 		}
 		foreach ( array( 'book_pages', 'book_format', 'book_price' ) as $key ) {
 			if ( empty( $opts[ $key ] ) ) {
-				$opts[ $key ] = $defaults[ $key ];
+				$opts[ $key ] = 'footer_badges' === $key ? paulus_legacy_footer_badges() : $defaults[ $key ];
 			}
 		}
 		update_option( 'paulus_options', $opts );
@@ -617,12 +617,30 @@ function paulus_upgrade_2335() {
 		$defaults = paulus_defaults();
 		foreach ( array( 'footer_blurb', 'footer_badges', 'site_seo_title', 'hero_kicker' ) as $key ) {
 			if ( '' === trim( (string) ( $opts[ $key ] ?? '' ) ) ) {
-				$opts[ $key ] = $defaults[ $key ];
+				$opts[ $key ] = 'footer_badges' === $key ? paulus_legacy_footer_badges() : $defaults[ $key ];
 			}
 		}
 		update_option( 'paulus_options', $opts );
 	}
 	update_option( 'paulus_db_version', '2.33.6', false );
+}
+
+/**
+ * One-time step to 2.75.0: the footer badge is no longer a default, since its
+ * image loads from another server. A site whose saved options never held the
+ * field showed the old default; write that value into its options, so its
+ * footer stays as it was. A fresh install starts with no badge.
+ */
+function paulus_upgrade_2750() {
+	if ( version_compare( (string) get_option( 'paulus_db_version', '0' ), '2.75.0', '>=' ) ) {
+		return;
+	}
+	$opts = get_option( 'paulus_options' );
+	if ( is_array( $opts ) && $opts && ! array_key_exists( 'footer_badges', $opts ) ) {
+		$opts['footer_badges'] = paulus_legacy_footer_badges();
+		update_option( 'paulus_options', $opts );
+	}
+	update_option( 'paulus_db_version', '2.75.0', false );
 }
 
 /**
@@ -656,6 +674,7 @@ function paulus_run_upgrades() {
 	paulus_upgrade_26217();
 	paulus_upgrade_2630();
 	paulus_upgrade_2654();
+	paulus_upgrade_2750();
 }
 add_action( 'admin_init', 'paulus_run_upgrades' );
 // Built in from three GPL plugins (see LICENSES.md and the README): unlist,
@@ -881,12 +900,26 @@ function paulus_enqueue_assets() {
 	wp_enqueue_style( 'paulus-print', PAULUS_URI . '/assets/css/print.css', array( 'paulus-theme' ), PAULUS_VERSION, 'print' );
 	$paulus_content = is_singular() ? (string) get_post_field( 'post_content', get_queried_object_id() ) : '';
 	if ( $paulus_content && ( has_shortcode( $paulus_content, 'paulus_figure' ) || preg_match( '#<a[^>]+href="[^"]+\.(?:jpe?g|png|webp|avif|gif)"[^>]*>\s*<img#i', $paulus_content ) ) ) {
-		wp_enqueue_style( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/css/lightbox.min.css', array(), '2.12.0' );
+		// The unminified Lightbox2 sources ship beside the minified ones;
+		// SCRIPT_DEBUG serves them.
+		$paulus_min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		wp_enqueue_style( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/css/lightbox' . $paulus_min . '.css', array(), '2.12.0' );
 		wp_enqueue_style( 'paulus-lightbox', PAULUS_URI . '/assets/css/lightbox.css', array( 'lightbox2' ), PAULUS_VERSION );
-		wp_enqueue_script( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/js/lightbox.min.js', array( 'jquery' ), '2.12.0', array( 'strategy' => 'defer', 'in_footer' => true ) );
+		wp_enqueue_script( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/js/lightbox' . $paulus_min . '.js', array( 'jquery' ), '2.12.0', array( 'strategy' => 'defer', 'in_footer' => true ) );
 		wp_enqueue_script( 'paulus-lightbox', PAULUS_URI . '/assets/js/lightbox-init.js', array( 'lightbox2' ), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
 		wp_localize_script( 'paulus-lightbox', 'paulusLightbox', array( 'close' => __( 'Close', 'paulus' ) ) );
-		wp_add_inline_script( 'lightbox2', "lightbox.option({ albumLabel: 'Figure %1 of %2', wrapAround: true, fadeDuration: 250, imageFadeDuration: 250, resizeDuration: 300, positionFromTop: 40, disableScrolling: true, sanitizeTitle: true });" );
+		$paulus_lb = array(
+			/* translators: Lightbox2 placeholders: %1 is the figure number, %2 the number of figures. Keep both. */
+			'albumLabel'        => __( 'Figure %1 of %2', 'paulus' ),
+			'wrapAround'        => true,
+			'fadeDuration'      => 250,
+			'imageFadeDuration' => 250,
+			'resizeDuration'    => 300,
+			'positionFromTop'   => 40,
+			'disableScrolling'  => true,
+			'sanitizeTitle'     => true,
+		);
+		wp_add_inline_script( 'lightbox2', 'lightbox.option(' . wp_json_encode( $paulus_lb ) . ');' );
 	}
 	if ( is_singular() ) {
 		wp_enqueue_script( 'paulus-reader', PAULUS_URI . '/assets/js/reader.js', array(), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
@@ -914,6 +947,21 @@ function paulus_enqueue_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'paulus_enqueue_assets', 20 );
+
+/**
+ * Theme supports and translations.
+ *
+ * Twenty Twenty-Five, as a block theme, already gets a title tag from core;
+ * declaring both supports here keeps them if the parent ever drops them. The
+ * text domain is the theme slug, paulus, loaded from the theme's languages
+ * folder when one is added, and from wp-content/languages/themes otherwise.
+ */
+function paulus_theme_setup() {
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'automatic-feed-links' );
+	load_child_theme_textdomain( 'paulus', PAULUS_DIR . '/languages' );
+}
+add_action( 'after_setup_theme', 'paulus_theme_setup' );
 
 /**
  * Editor gets the same schemes and type.
