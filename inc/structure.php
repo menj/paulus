@@ -1039,7 +1039,7 @@ function paulus_sc_page_hero() {
 			$crumbs[] = array( get_the_title( $post ), '' );
 		}
 		if ( has_post_thumbnail( $post ) ) {
-			$image = get_the_post_thumbnail( $post, 'large', array( 'alt' => '', 'fetchpriority' => 'high', 'sizes' => paulus_panel_image_sizes() ) );
+			$image = get_the_post_thumbnail( $post, 'large', array( 'fetchpriority' => 'high', 'sizes' => paulus_panel_image_sizes() ) );
 		}
 	}
 	if ( '' === $title ) {
@@ -1062,7 +1062,7 @@ function paulus_sc_page_hero() {
 	}
 	$meta .= '</ol></nav>';
 
-	$out  = '<header class="paulus-hero-panel' . ( $image ? ' has-image' : '' ) . '">';
+	$out  = '<div class="paulus-hero-panel' . ( $image ? ' has-image' : '' ) . '">';
 	if ( $image ) {
 		$out .= '<figure class="paulus-hero-panel__image">' . $image . '</figure>';
 	}
@@ -1110,7 +1110,7 @@ function paulus_sc_page_hero() {
 		}
 		$out .= '</ol></nav>';
 	}
-	return $out . '</div></header>';
+	return $out . '</div></div>';
 }
 add_shortcode( 'paulus_page_hero', 'paulus_sc_page_hero' );
 

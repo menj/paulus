@@ -1238,3 +1238,43 @@ button:hover .paulus-greekswap__gr, button:focus-visible .paulus-greekswap__gr {
 /* Forced colours: the system would paint the masked background in Canvas,
  * so the calligraphy would vanish; draw it in the text colour instead. */
 @media (forced-colors: active) { .paulus-honorific { forced-color-adjust: none; background-color: CanvasText; } }
+
+/* Mobile and accessibility pass (2.74.0). Each rule below either applies
+ * only under the phone and tablet breakpoints, or changes nothing a mouse
+ * user sees on a wide screen. */
+
+/* Running text outside the article prose takes the Medium preset, which
+ * WordPress scales down to 14px on a 320px phone. Hold it at 16px there;
+ * from 750px up the preset is already larger, so desktop is unchanged. */
+html body { font-size: max(1rem, var(--wp--preset--font-size--medium)); }
+/* The header is sized in em and was drawn at the preset; keep it so. */
+.paulus-header { font-size: var(--wp--preset--font-size--medium); }
+
+/* The skip link. The theme's .screen-reader-text sets clip: rect(0 0 0 0),
+ * which WordPress's own :focus rule does not undo, so the link stayed
+ * invisible when focused. */
+.screen-reader-text:focus, .skip-link.screen-reader-text:focus { clip: auto; }
+
+/* Phones and tablets: the menu button keeps its 28px drawing but gets a
+ * 44px tap area, drawn by an empty layer 8px wider on every side, so the
+ * header row does not move. The close button in the open menu likewise. */
+@media (max-width: 1023px) {
+	/* WordPress already positions the close button absolutely. */
+	.paulus-nav .wp-block-navigation__responsive-container-open { position: relative; }
+	.paulus-nav .wp-block-navigation__responsive-container-open::before,
+	.paulus-nav .wp-block-navigation__responsive-container-close::before { content: ""; position: absolute; inset: -8px; }
+}
+
+/* The answers links' tap padding was partly covered by the block after
+ * them; lift the line above it. */
+.paulus-answers__more { position: relative; z-index: 1; }
+
+/* Ochre scheme: the Greek word in the hero panel measured 4.34:1 against
+ * the panel; the scheme's deeper red gives 4.5:1 or better. */
+body.paulus-scheme-ochre .paulus-hero-panel .paulus-greek { color: #5c1f10; }
+
+/* Paired charts: the earlier series was told from the later one only by a
+ * lighter shade. Its bars and its legend key now also carry diagonal
+ * hatching, so the two read apart without colour (WCAG 1.4.1). */
+.paulus-chart--paired .paulus-chart__bar--1,
+.paulus-chart__key--1::before { background-image: repeating-linear-gradient(135deg, transparent 0 2px, color-mix(in srgb, var(--t-accent) 70%, transparent) 2px 3px); }
