@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.73.1] - 2026-11-04
+
+### Fixed
+- `isAccessibleForFree` is a real boolean on every node of Rank Math's graph, nested ones too. Rank Math sends "1", and the Schema Markup Validator flagged it as INVALID_BOOLEAN on the Article and ScholarlyArticle nodes. The theme's own `true` never reached them, since `paulus_node_default()` fills only missing keys. Now "1", 1, "true" and "yes" become `true`; "0", 0, "false", "no" and "" become `false`.
+- `sameAs` keeps only http and https addresses. The live Person node held the plain text "Mohd Elfie Nieshaem Juferi", and the validator gave TYPE_CONVERSION_FAILED. `paulus_same_as()` drops anything `paulus_is_http_url()` rejects, and the last pass over Rank Math's graph applies it to every `sameAs`, its own Person and Organization nodes included. A list left empty is removed.
+- `tests/schema-graph-test.php` feeds a stand-in Rank Math graph with both faults through the filter, and walks ten rendered pages for any `sameAs` that is not a URL or any `isAccessibleForFree` that is not a boolean.
+
 ## [2.73.0] - 2026-11-03
 
 ### Added

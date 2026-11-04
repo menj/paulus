@@ -643,6 +643,52 @@ function paulus_org_schema() {
 }
 
 /**
+ * Whether a value is an absolute http(s) address. sameAs takes URLs only:
+ * Rank Math has been seen to put the author's plain name there, which the
+ * Schema Markup Validator rejects with TYPE_CONVERSION_FAILED.
+ *
+ * @param mixed $url Candidate.
+ * @return bool
+ */
+function paulus_is_http_url( $url ) {
+	if ( ! is_string( $url ) ) {
+		return false;
+	}
+	$url = trim( $url );
+	return (bool) preg_match( '#^https?://[^\s/?\#]+#i', $url ) && false !== filter_var( $url, FILTER_VALIDATE_URL );
+}
+
+/**
+ * Walk a JSON-LD structure, nested nodes included, and fix two values
+ * Rank Math gets wrong: isAccessibleForFree comes as "1" (INVALID_BOOLEAN)
+ * and is cast to a real boolean, and sameAs keeps only http(s) addresses.
+ *
+ * @param mixed $data Graph, node or value.
+ * @return mixed
+ */
+function paulus_schema_fix_values( $data ) {
+	if ( ! is_array( $data ) ) {
+		return $data;
+	}
+	foreach ( $data as $k => $v ) {
+		if ( 'isAccessibleForFree' === $k && ! is_bool( $v ) ) {
+			// "1", "true", "yes" and 1 are true; "0", "false", "no", "" and 0 false.
+			$data[ $k ] = is_string( $v ) ? in_array( strtolower( trim( $v ) ), array( '1', 'true', 'yes' ), true ) : (bool) $v;
+		} elseif ( 'sameAs' === $k ) {
+			$same = paulus_same_as( $v );
+			if ( $same ) {
+				$data[ $k ] = is_array( $v ) ? $same : $same[0];
+			} else {
+				unset( $data[ $k ] );
+			}
+		} elseif ( is_array( $v ) ) {
+			$data[ $k ] = paulus_schema_fix_values( $v );
+		}
+	}
+	return $data;
+}
+
+/**
  * A sameAs list with one entry per page, the first spelling kept: the
  * scheme and host are compared without case and the final slash is
  * ignored (https://menj.blog and https://menj.blog/ are one page), while
@@ -653,6 +699,7 @@ function paulus_org_schema() {
  * @return array
  */
 function paulus_same_as( $urls ) {
+	$urls = array_filter( (array) $urls, 'paulus_is_http_url' );
 	$key  = static function ( $url ) {
 		$url = untrailingslashit( trim( (string) $url ) );
 		return preg_replace_callback( '#^[a-z][a-z0-9+.-]*://[^/?\#]*#i', static function ( $m ) {
@@ -1301,7 +1348,9 @@ function paulus_rank_math_json_ld( $data ) {
 	}
 	// Deepen Rank Math's own nodes and the theme's, and add the components
 	// the page holds; keys are kept for Rank Math's entity linking.
-	return paulus_schema_deepen( $data );
+	// Last, over every node and nested node: real booleans and URL-only
+	// sameAs lists, whoever filled them.
+	return paulus_schema_fix_values( paulus_schema_deepen( $data ) );
 }
 // Priority 100: Rank Math's own entity-linking pass runs at 99, so this
 // sees the final graph rather than racing it on registration order.
