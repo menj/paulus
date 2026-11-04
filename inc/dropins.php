@@ -157,7 +157,12 @@ function paulus_install_dropins( $force = false ) {
 	foreach ( array_keys( $files ) as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
 		$text   = paulus_dropin_text( $file );
-		if ( null === $text || ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) ) {
+		if ( null === $text ) {
+			// The source could not be read: not done, so the next admin page tries again.
+			$done = false;
+			continue;
+		}
+		if ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) {
 			continue;
 		}
 		// Written to a temporary name first and moved into place, so a page

@@ -19,7 +19,11 @@ $paulus_pages = array(
 	'502' => array( 'Bad gateway', 'Error 502', array( 'A server between you and the site gave a wrong answer.', 'Please try again in a few minutes.' ), 'Try again' ),
 	'503' => array( 'Back shortly', 'Temporarily unavailable', array( 'The site is busy or offline for a short while.', 'Please try again in a few minutes.' ), 'Try again' ),
 );
-$paulus_tpl = (string) file_get_contents( $paulus_root . '/dropins/maintenance.php' );
+$paulus_tpl = file_get_contents( $paulus_root . '/dropins/maintenance.php' );
+if ( false === $paulus_tpl || '' === $paulus_tpl ) {
+	fwrite( STDERR, "cannot read dropins/maintenance.php\n" );
+	exit( 1 );
+}
 $paulus_tpl = ltrim( (string) preg_replace( '/^<\?php.*?\?>/s', '', $paulus_tpl ) );
 $paulus_tpl = str_replace( "<meta http-equiv=\"refresh\" content=\"60\">\n", '', $paulus_tpl );
 $paulus_tpl = strtr(
@@ -53,7 +57,10 @@ foreach ( $paulus_pages as $paulus_code => $paulus_p ) {
 		}
 		continue;
 	}
-	file_put_contents( $paulus_path, $paulus_html );
+	if ( false === file_put_contents( $paulus_path, $paulus_html ) ) {
+		fwrite( STDERR, "cannot write errors/$paulus_code.html\n" );
+		exit( 1 );
+	}
 	echo "wrote errors/$paulus_code.html\n";
 }
 exit( $paulus_stale ? 1 : 0 );

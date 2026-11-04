@@ -14,8 +14,12 @@ define( 'ABSPATH', __DIR__ . '/' );
 define( 'PAULUS_DIR', dirname( __DIR__ ) );
 define( 'PAULUS_URI', 'https://example.test/wp-content/themes/paulus' );
 define( 'PAULUS_VERSION', '9.9.9' );
-$paulus_tmp = sys_get_temp_dir() . '/paulus-err-' . getmypid();
-@mkdir( $paulus_tmp );
+// A fresh directory of its own, so the cleanup at the end removes only what this test wrote.
+$paulus_tmp = sys_get_temp_dir() . '/paulus-err-' . getmypid() . '-' . bin2hex( random_bytes( 6 ) );
+if ( ! mkdir( $paulus_tmp, 0700 ) ) {
+	fwrite( STDERR, "cannot create $paulus_tmp\n" );
+	exit( 1 );
+}
 define( 'WP_CONTENT_DIR', $paulus_tmp );
 $GLOBALS['t'] = array( 'options' => array() );
 function add_action() {}
