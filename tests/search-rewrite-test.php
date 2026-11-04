@@ -28,6 +28,10 @@ function sanitize_key( $s ) {
 }
 function flush_rewrite_rules() {
 	++$GLOBALS['t']['flushed'];
+	if ( empty( $GLOBALS['t']['flush_fails'] ) ) {
+		$base = $GLOBALS['t']['options']['wpseosearch_base'] ?? 'search';
+		$GLOBALS['t']['options']['rewrite_rules'] = array( ( '' !== $base ? $base : 'search' ) . '/(.+)/?$' => 'index.php?s=$matches[1]' );
+	}
 }
 function run_init() {
 	foreach ( $GLOBALS['t']['actions']['init'] as $cb ) {
@@ -79,10 +83,20 @@ $GLOBALS['t']['options']['paulus_search_rewrite_built'] = '9.9.8|cari';
 run_init();
 run_init();
 check( 3 === $GLOBALS['t']['flushed'], 'a new theme version flushes once' );
+// A flush that leaves no search rule writes no marker, so the next load tries again.
+$GLOBALS['t']['flush_fails'] = true;
+$GLOBALS['t']['options']['wpseosearch_base'] = 'find';
+$GLOBALS['t']['options']['rewrite_rules']    = array();
+run_init();
+check( 4 === $GLOBALS['t']['flushed'] && '9.9.9|cari' === get_option( 'paulus_search_rewrite_built' ), 'a failed flush leaves the old marker' );
+$GLOBALS['t']['flush_fails'] = false;
+run_init();
+run_init();
+check( 5 === $GLOBALS['t']['flushed'] && '9.9.9|find' === get_option( 'paulus_search_rewrite_built' ), 'the next load flushes again, then stops' );
 $GLOBALS['t']['options']['permalink_structure'] = '';
 $GLOBALS['t']['options']['paulus_search_rewrite_built'] = 'old';
 run_init();
-check( 3 === $GLOBALS['t']['flushed'], 'plain permalinks: nothing to flush' );
+check( 5 === $GLOBALS['t']['flushed'], 'plain permalinks: nothing to flush' );
 
 echo "Search address checks: $count, failed: $fail\n";
 exit( $fail ? 1 : 0 );

@@ -128,6 +128,18 @@
 			}
 		}, { passive: true } );
 		window.addEventListener( 'resize', paint, { passive: true } );
+		// Lazy images and late fonts make the page taller after it loads, with
+		// no scroll or resize event; the bar is repainted when the height changes.
+		if ( 'ResizeObserver' in window ) {
+			new window.ResizeObserver( function () {
+				if ( ! ticking ) {
+					ticking = true;
+					window.requestAnimationFrame( paint );
+				}
+			} ).observe( document.body );
+		} else {
+			window.addEventListener( 'load', paint );
+		}
 		paint();
 	}
 

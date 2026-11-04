@@ -227,18 +227,46 @@ function paulus_unlist_box( $post ) {
 }
 
 /**
- * Add an item to the unlisted list or take it out. Reads the stored option
- * itself, so a save made while unlist_posts_enabled is off keeps the list.
+ * Add an item to the unlisted list or take it out.
+ *
+ * Each item's own flag, post meta `_paulus_unlisted` ("1" or "0"), is the
+ * record. The plugin's option `unlist_posts` is rebuilt from the flags after
+ * every change, so the plugin, and every reader of the option, sees the same
+ * list. Two editors saving different items at once each write their own
+ * row, and the later rebuild reads both, so neither change is lost (a plain
+ * read and write of the option could drop one). IDs the plugin stored
+ * without a flag are kept unless their item has been listed again here.
  *
  * @param int  $post_id Post ID.
  * @param bool $unlist  True to unlist.
  */
 function paulus_unlist_set( $post_id, $unlist ) {
 	$post_id = absint( $post_id );
-	$stored  = get_option( 'unlist_posts', array() );
-	$ids     = array_filter( array_map( 'absint', is_array( $stored ) ? $stored : array() ) );
-	$ids     = $unlist ? array_merge( $ids, array( $post_id ) ) : array_diff( $ids, array( $post_id ) );
-	update_option( 'unlist_posts', array_values( array_unique( $ids ) ) );
+	if ( ! $post_id ) {
+		return;
+	}
+	update_post_meta( $post_id, '_paulus_unlisted', $unlist ? '1' : '0' );
+	paulus_unlist_rebuild();
+}
+
+/**
+ * Rebuild `unlist_posts` from the per-item flags and the plugin's legacy IDs.
+ *
+ * @return int[] The stored list.
+ */
+function paulus_unlist_rebuild() {
+	global $wpdb;
+	// The option is read fresh from the database, past the object cache.
+	wp_cache_delete( 'alloptions', 'options' );
+	wp_cache_delete( 'unlist_posts', 'options' );
+	$stored = get_option( 'unlist_posts', array() );
+	$legacy = array_filter( array_map( 'absint', is_array( $stored ) ? $stored : array() ) );
+	$on     = array_map( 'absint', (array) $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", '_paulus_unlisted', '1' ) ) );
+	$off    = array_map( 'absint', (array) $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", '_paulus_unlisted', '0' ) ) );
+	$ids    = array_values( array_unique( array_merge( $on, array_diff( $legacy, $off ) ) ) );
+	sort( $ids );
+	update_option( 'unlist_posts', $ids );
+	return $ids;
 }
 
 /**

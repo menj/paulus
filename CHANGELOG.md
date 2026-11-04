@@ -21,9 +21,15 @@ The owner's brief of 4 November: build four plugins into the theme where it lack
 - `paulus_progress_bar_shown()` returns false while Reading Progress Bar is active (`rp_show_it()`), so the page never shows two bars.
 - Below 601 pixels the progress bar sits at the top of the window for signed-in editors, under the admin bar, which scrolls away there. It had kept 46 pixels from the top and left a gap.
 
+### Fixed (CodeAnt review of #52)
+- `paulus_unlist_set()` read the whole `unlist_posts` option and wrote it back, so two editors saving different items at once could lose one change. Each item's flag is now post meta `_paulus_unlisted` ("1" or "0"), and `paulus_unlist_rebuild()` writes the option from the flags, read fresh past the object cache. IDs the plugin stored without a flag stay listed until the item is listed here. The plugin still reads the same option.
+- The search flush marker was written whatever the flush did. It is now written only when the saved rules hold a rule for the base (`paulus_search_rules_ready()`), so a failed flush is tried again on the next load.
+- README said editors see everything. On the public site an unlisted item is hidden from signed-in editors too, as in the plugin, whose SQL filter runs on every front-end query; admin screens, editor REST requests and admin-sent AJAX see it. README now says so.
+- The progress bar repaints when the page grows after load (lazy images, late fonts), through a `ResizeObserver` on the body, with a `load` listener where that is missing.
+
 ### Tests
-- `tests/unlist-test.php`: list queries, single-item queries, `post__in`, editors and AJAX, the enable filter, adjacent links, page lists, both sitemaps, both robots filters and `paulus_unlist_set()`.
-- `tests/search-rewrite-test.php`: the clean address, encoding, page numbers, other query variables, empty searches, the base option and the flush marker.
+- `tests/unlist-test.php`: list queries, single-item queries, `post__in`, editors and AJAX, the enable filter, adjacent links, page lists, both sitemaps, both robots filters, `paulus_unlist_set()`, a concurrent save to another item and the rebuild from flags.
+- `tests/search-rewrite-test.php`: the clean address, encoding, page numbers, other query variables, empty searches, the base option, the flush marker, and a failed flush that is retried.
 
 ## [2.75.1] - 2026-11-04
 

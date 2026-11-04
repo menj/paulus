@@ -35,6 +35,28 @@ function update_option( $key, $value ) {
 	$GLOBALS['t']['options'][ $key ] = $value;
 	return true;
 }
+$GLOBALS['t']['meta'] = array();
+function update_post_meta( $id, $key, $value ) {
+	$GLOBALS['t']['meta'][ $id ][ $key ] = $value;
+}
+function wp_cache_delete() {}
+/** Stand-in for $wpdb: answers the two flag queries from the meta stub. */
+class Fake_WPDB {
+	public $postmeta = 'wp_postmeta';
+	public function prepare( $sql, ...$args ) {
+		return $args;
+	}
+	public function get_col( $args ) {
+		$out = array();
+		foreach ( $GLOBALS['t']['meta'] as $id => $meta ) {
+			if ( isset( $meta[ $args[0] ] ) && $meta[ $args[0] ] === $args[1] ) {
+				$out[] = (string) $id;
+			}
+		}
+		return $out;
+	}
+}
+$GLOBALS['wpdb'] = new Fake_WPDB();
 function absint( $v ) {
 	return abs( (int) $v );
 }
@@ -181,7 +203,16 @@ reset_state();
 // Saving.
 paulus_unlist_set( 11, true );
 paulus_unlist_set( 7, false );
-check( array( 9, 11 ) === get_option( 'unlist_posts' ), 'paulus_unlist_set adds and removes IDs' );
+check( array( 9, 11 ) === get_option( 'unlist_posts' ), 'paulus_unlist_set adds and removes IDs, keeping the plugin legacy ID 9' );
+check( '1' === $GLOBALS['t']['meta'][11]['_paulus_unlisted'] && '0' === $GLOBALS['t']['meta'][7]['_paulus_unlisted'], 'each change is stored as the item flag' );
+// Two saves at once: the second request read the option before the first wrote it.
+$GLOBALS['t']['options']['unlist_posts'] = array( 9, 11 );
+update_post_meta( 20, '_paulus_unlisted', '1' );   // request A wrote its flag...
+paulus_unlist_set( 21, true );                     // ...request B rebuilds and still sees A.
+check( array( 9, 11, 20, 21 ) === get_option( 'unlist_posts' ), 'a concurrent change to another item is not lost' );
+// A stale option missing an item is repaired from the flags.
+$GLOBALS['t']['options']['unlist_posts'] = array();
+check( array( 11, 20, 21 ) === paulus_unlist_rebuild(), 'the option is rebuilt from the flags' );
 
 echo "Unlist checks: $count, failed: $fail\n";
 exit( $fail ? 1 : 0 );

@@ -49,14 +49,39 @@ function paulus_search_rewrite_stamp( $version, $base ) {
 	return $version . '|' . $base;
 }
 
+/**
+ * Whether the saved rewrite rules hold a rule for the search base.
+ *
+ * @param string $base Search base.
+ * @return bool
+ */
+function paulus_search_rules_ready( $base ) {
+	$rules = get_option( 'rewrite_rules' );
+	if ( ! is_array( $rules ) ) {
+		return false;
+	}
+	foreach ( array_keys( $rules ) as $rule ) {
+		if ( 0 === strpos( (string) $rule, $base . '/' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
 add_action( 'init', static function () {
 	if ( ! get_option( 'permalink_structure' ) ) {
 		return;
 	}
-	$stamp = paulus_search_rewrite_stamp( PAULUS_VERSION, paulus_search_base() );
-	if ( get_option( 'paulus_search_rewrite_built' ) !== $stamp ) {
+	$base  = paulus_search_base();
+	$stamp = paulus_search_rewrite_stamp( PAULUS_VERSION, $base );
+	if ( get_option( 'paulus_search_rewrite_built' ) === $stamp ) {
+		return;
+	}
+	flush_rewrite_rules( false );
+	// The marker is written only once the rules are seen to hold the search
+	// rule, so a flush that fails or never finishes is tried again next load.
+	if ( paulus_search_rules_ready( $base ) ) {
 		update_option( 'paulus_search_rewrite_built', $stamp );
-		flush_rewrite_rules( false );
 	}
 }, 20 );
 
