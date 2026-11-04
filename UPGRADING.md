@@ -36,6 +36,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.0 to 2.77.1
+
+- **Upload the whole theme folder.** Nothing to run.
+
 ### 2.76.0 to 2.77.0
 
 - **Upload the whole theme folder.** The new files are `errors/*.html` and `bin/build-error-pages.php`. The first admin page rewrites the error pages in `wp-content` with the new database wording.
