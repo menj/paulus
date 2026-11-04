@@ -20,8 +20,10 @@ function paulus_admin_assets( $hook ) {
 		return;
 	}
 	wp_enqueue_style( 'paulus-fonts', PAULUS_URI . '/assets/css/fonts.css', array(), PAULUS_VERSION );
-	wp_enqueue_style( 'paulus-admin', PAULUS_URI . '/assets/css/admin.css', array( 'paulus-fonts' ), PAULUS_VERSION );
-	wp_enqueue_script( 'paulus-admin', PAULUS_URI . '/assets/js/admin.js', array(), PAULUS_VERSION, true );
+	wp_enqueue_style( 'wp-color-picker' );
+	wp_enqueue_style( 'dashicons' );
+	wp_enqueue_style( 'paulus-admin', PAULUS_URI . '/assets/css/admin.css', array( 'paulus-fonts', 'wp-color-picker' ), PAULUS_VERSION );
+	wp_enqueue_script( 'paulus-admin', PAULUS_URI . '/assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), PAULUS_VERSION, true );
 }
 add_action( 'admin_enqueue_scripts', 'paulus_admin_assets' );
 
@@ -72,7 +74,33 @@ function paulus_admin_footer_version( $text ) {
 add_filter( 'update_footer', 'paulus_admin_footer_version', 20 );
 
 /**
+ * Icon (a Dashicons class) and one-line usage note for each tab.
+ *
+ * @return array<string,array{0:string,1:string}>
+ */
+function paulus_options_tab_meta() {
+	return array(
+		'book'       => array( 'dashicons-book', __( 'The book the site is built on: titles, author, catalogue figures and the order link. The author card, the book page and the structured data read these fields.', 'paulus' ) ),
+		'catalogue'  => array( 'dashicons-index-card', __( 'The national library record of the book, as the footer colophon prints it.', 'paulus' ) ),
+		'publisher'  => array( 'dashicons-building', __( 'The publisher named in the colophon and the structured data. The address and telephone go into the structured data only.', 'paulus' ) ),
+		'appearance' => array( 'dashicons-art', __( 'Pick a colour scheme. This screen takes it at once, so you can judge it before you save. The ornament layer adds the first-century textures and borders.', 'paulus' ) ),
+		'reading'    => array( 'dashicons-visibility', __( 'Reading aids on articles and pages: the progress bar, arrow-key paging, resume reading, the copy-link button and back to top.', 'paulus' ) ),
+		'media'      => array( 'dashicons-format-image', __( 'What WordPress does with new uploads. Files already in the media library stay as they are.', 'paulus' ) ),
+		'login'      => array( 'dashicons-lock', __( 'The login screen, application passwords and the security headers sent with every page.', 'paulus' ) ),
+		'security'   => array( 'dashicons-shield', __( 'XML-RPC, REST API writes and the spam gate. The cleanup tools and reports sit under the switches.', 'paulus' ) ),
+		'upkeep'     => array( 'dashicons-admin-tools', __( 'Maintenance mode for FTP updates, and an email when new fatal errors appear.', 'paulus' ) ),
+		'links'      => array( 'dashicons-admin-links', __( 'Links added to the first mention of a subject, to this site and to the sister sites, with limits and your own phrases.', 'paulus' ) ),
+		'journal'    => array( 'dashicons-edit-page', __( 'The title, introduction and search description of the Journal page.', 'paulus' ) ),
+		'front'      => array( 'dashicons-admin-home', __( 'The front page hero, its title and description for search, and the footer text and badges.', 'paulus' ) ),
+		'content'    => array( 'dashicons-download', __( 'Install or update the shipped articles, pages and menu. Text you have edited is kept.', 'paulus' ) ),
+	);
+}
+
+/**
  * Render one field.
+ *
+ * Every control keeps the name paulus_options[<key>] and the id
+ * paulus-<key>, so saving and the sanitiser are unchanged.
  *
  * @param string $key Field key.
  * @param array  $def Field definition.
@@ -85,16 +113,21 @@ function paulus_render_field( $key, $def ) {
 	switch ( $def[1] ) {
 		case 'bio':
 		case 'textarea':
-			printf( '<textarea id="%s" name="%s" rows="4">%s</textarea>', esc_attr( $id ), esc_attr( $name ), esc_textarea( $value ) );
+			printf( '<textarea id="%s" name="%s" rows="4" class="paulus-input">%s</textarea>', esc_attr( $id ), esc_attr( $name ), esc_textarea( $value ) );
 			break;
 		case 'html':
-			printf( '<textarea id="%s" name="%s" rows="4" class="code">%s</textarea>', esc_attr( $id ), esc_attr( $name ), esc_textarea( $value ) );
+			printf( '<textarea id="%s" name="%s" rows="4" class="paulus-input code">%s</textarea>', esc_attr( $id ), esc_attr( $name ), esc_textarea( $value ) );
 			break;
 		case 'checkbox':
-			printf( '<input type="hidden" name="%2$s" value="0"><label class="paulus-check"><input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s> %4$s</label>', esc_attr( $id ), esc_attr( $name ), checked( 1, (int) $value, false ), esc_html__( 'Enabled', 'paulus' ) );
+			printf(
+				'<input type="hidden" name="%2$s" value="0"><span class="paulus-toggle"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s><span class="paulus-toggle__track" aria-hidden="true"></span></span>',
+				esc_attr( $id ),
+				esc_attr( $name ),
+				checked( 1, (int) $value, false )
+			);
 			break;
 		case 'select':
-			printf( '<select id="%s" name="%s">', esc_attr( $id ), esc_attr( $name ) );
+			printf( '<select id="%s" name="%s" class="paulus-select">', esc_attr( $id ), esc_attr( $name ) );
 			foreach ( (array) ( $def[2] ?? array() ) as $val => $label ) {
 				printf( '<option value="%s" %s>%s</option>', esc_attr( $val ), selected( $value, $val, false ), esc_html( $label ) );
 			}
@@ -102,41 +135,89 @@ function paulus_render_field( $key, $def ) {
 			break;
 		case 'number':
 			$range = isset( $def[2] ) && is_array( $def[2] ) ? $def[2] : array( 0, 100 );
-			printf( '<input type="number" id="%s" name="%s" value="%s" min="%d" max="%d" step="1" class="small-text">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) $value ), (int) $range[0], (int) $range[1] );
+			printf(
+				'<span class="paulus-range"><input type="range" id="%1$s" name="%2$s" value="%3$d" min="%4$d" max="%5$d" step="1" aria-describedby="%1$s-value"><output id="%1$s-value" for="%1$s" class="paulus-range__value" aria-live="polite">%3$d</output></span>',
+				esc_attr( $id ),
+				esc_attr( $name ),
+				(int) $value,
+				(int) $range[0],
+				(int) $range[1]
+			);
 			break;
 		case 'color':
-			printf( '<input type="text" id="%s" name="%s" value="%s" class="regular-text code" placeholder="#7a2e1a" maxlength="7" pattern="#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?" autocomplete="off">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) $value ) );
+			printf( '<input type="text" id="%s" name="%s" value="%s" class="paulus-color" placeholder="#7a2e1a" maxlength="7" autocomplete="off">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) $value ) );
 			break;
 		case 'scheme':
 			echo '<div class="paulus-swatches">';
 			foreach ( paulus_schemes() as $slug => $label ) {
 				printf(
-					'<label class="paulus-swatch paulus-swatch--%1$s"><input type="radio" name="%2$s" value="%1$s" %3$s><span class="paulus-swatch__chip" aria-hidden="true"></span><span>%4$s</span></label>',
+					'<label class="paulus-swatch paulus-swatch--%1$s"><input type="radio" name="%2$s" value="%1$s" %3$s %5$s><span class="paulus-swatch__chip" aria-hidden="true"></span><span>%4$s</span></label>',
 					esc_attr( $slug ),
 					esc_attr( $name ),
 					checked( $value, $slug, false ),
-					esc_html( $label )
+					esc_html( $label ),
+					array_key_first( paulus_schemes() ) === $slug ? 'id="' . esc_attr( $id ) . '"' : ''
 				);
 			}
 			echo '</div>';
 			break;
 		case 'image':
 			echo '<div class="paulus-images">';
+			$first = true;
 			foreach ( paulus_images() as $slug => $label ) {
 				printf(
-					'<label class="paulus-image"><input type="radio" name="%1$s" value="%2$s" %3$s><img src="%4$s" alt="" loading="lazy"><span>%5$s</span></label>',
+					'<label class="paulus-image"><input type="radio" name="%1$s" value="%2$s" %3$s %6$s><img src="%4$s" alt="" loading="lazy"><span>%5$s</span></label>',
 					esc_attr( $name ),
 					esc_attr( $slug ),
 					checked( $value, $slug, false ),
 					esc_url( paulus_image_url( $slug ) ),
-					esc_html( $label )
+					esc_html( $label ),
+					$first ? 'id="' . esc_attr( $id ) . '"' : ''
 				);
+				$first = false;
 			}
 			echo '</div>';
 			break;
 		default:
 			$type = in_array( $def[1], array( 'url', 'email' ), true ) ? $def[1] : 'text';
-			printf( '<input type="%s" id="%s" name="%s" value="%s" class="regular-text">', esc_attr( $type ), esc_attr( $id ), esc_attr( $name ), esc_attr( $value ) );
+			printf( '<input type="%s" id="%s" name="%s" value="%s" class="paulus-input">', esc_attr( $type ), esc_attr( $id ), esc_attr( $name ), esc_attr( $value ) );
+	}
+}
+
+/**
+ * One tab's fields as card rows. Colour fields share one row, as a grid.
+ *
+ * @param array $fields Field map of the tab.
+ */
+function paulus_render_rows( $fields ) {
+	$colors = array_filter( $fields, static fn( $def ) => 'color' === $def[1] );
+	$done   = false;
+	foreach ( $fields as $key => $def ) {
+		if ( 'color' === $def[1] ) {
+			if ( $done ) {
+				continue;
+			}
+			$done = true;
+			echo '<div class="paulus-row paulus-row--colors"><div class="paulus-colors">';
+			foreach ( $colors as $ckey => $cdef ) {
+				printf( '<div class="paulus-colors__item"><label for="paulus-%1$s">%2$s</label>', esc_attr( $ckey ), esc_html( $cdef[0] ) );
+				paulus_render_field( $ckey, $cdef );
+				echo '</div>';
+			}
+			echo '</div></div>';
+			continue;
+		}
+		$group = in_array( $def[1], array( 'scheme', 'image' ), true );
+		printf( '<div class="paulus-row paulus-row--%s">', esc_attr( $def[1] ) );
+		if ( $group ) {
+			// Radio cards: the label names the group, the first card takes the id.
+			printf( '<div class="paulus-row__label"><label for="paulus-%s" id="paulus-%s-label">%s</label></div>', esc_attr( $key ), esc_attr( $key ), esc_html( $def[0] ) );
+			printf( '<div class="paulus-row__control" role="radiogroup" aria-labelledby="paulus-%s-label">', esc_attr( $key ) );
+		} else {
+			printf( '<div class="paulus-row__label"><label for="paulus-%s">%s</label></div><div class="paulus-row__control">', esc_attr( $key ), esc_html( $def[0] ) );
+		}
+		paulus_render_field( $key, $def );
+		echo '</div></div>';
 	}
 }
 
@@ -148,43 +229,47 @@ function paulus_options_page() {
 		return;
 	}
 	$fields = paulus_fields();
-	?>
-	<?php
+	$meta   = paulus_options_tab_meta();
+	$tabs   = array_map( static fn( $tab ) => $tab['label'], $fields ) + array( 'content' => __( 'Content', 'paulus' ) );
 	$scheme = array_key_exists( paulus_option( 'scheme' ), paulus_schemes() ) ? paulus_option( 'scheme' ) : 'ochre';
 	$icon   = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.avif';
+	$card   = static function ( $tab_id ) use ( $tabs, $meta ) {
+		printf(
+			'<div class="paulus-card__head"><span class="dashicons %1$s" aria-hidden="true"></span><div><h2 class="paulus-card__title">%2$s</h2><p class="paulus-card__desc">%3$s</p></div></div>',
+			esc_attr( $meta[ $tab_id ][0] ?? 'dashicons-admin-generic' ),
+			esc_html( $tabs[ $tab_id ] ),
+			esc_html( $meta[ $tab_id ][1] ?? '' )
+		);
+	};
 	?>
 	<div class="wrap paulus-wrap paulus-wrap--<?php echo esc_attr( $scheme ); ?>">
 		<header class="paulus-masthead">
 			<img class="paulus-masthead__icon" src="<?php echo esc_url( $icon ); ?>" alt="" width="56" height="56">
 			<div class="paulus-masthead__text">
-				<p class="paulus-masthead__eyebrow"><?php echo esc_html( get_bloginfo( 'name' ) ); ?> <span aria-hidden="true">·</span> Paulus <?php echo esc_html( PAULUS_VERSION ); ?></p>
 				<h1 class="paulus-masthead__title"><?php esc_html_e( 'Theme Options', 'paulus' ); ?></h1>
+				<p class="paulus-masthead__desc"><?php echo esc_html( sprintf( /* translators: %s: site name. */ __( 'Settings for %s: the book, the look of the site, reading aids, security and content.', 'paulus' ), get_bloginfo( 'name' ) ) ); ?></p>
 			</div>
-			<a class="paulus-masthead__visit" href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View site', 'paulus' ); ?></a>
+			<span class="paulus-masthead__badge"><?php echo esc_html( sprintf( /* translators: %s: theme version. */ __( 'Version %s', 'paulus' ), PAULUS_VERSION ) ); ?></span>
+			<a class="paulus-masthead__visit" href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View site', 'paulus' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'paulus' ); ?></span></a>
 		</header>
 		<hr class="wp-header-end">
 		<?php settings_errors(); ?>
 		<?php paulus_importer_notice(); ?>
 
-		<nav class="paulus-tabs" role="tablist">
-			<?php $first = true; foreach ( $fields as $tab_id => $tab ) : ?>
-				<button type="button" role="tab" class="paulus-tab" id="tab-<?php echo esc_attr( $tab_id ); ?>" aria-controls="panel-<?php echo esc_attr( $tab_id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>"><?php echo esc_html( $tab['label'] ); ?></button>
+		<div class="paulus-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Theme Options sections', 'paulus' ); ?>">
+			<?php $first = true; foreach ( $tabs as $tab_id => $label ) : ?>
+				<button type="button" role="tab" class="paulus-tab" id="tab-<?php echo esc_attr( $tab_id ); ?>" aria-controls="panel-<?php echo esc_attr( $tab_id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" tabindex="<?php echo $first ? '0' : '-1'; ?>"><span class="dashicons <?php echo esc_attr( $meta[ $tab_id ][0] ?? 'dashicons-admin-generic' ); ?>" aria-hidden="true"></span><span><?php echo esc_html( $label ); ?></span></button>
 			<?php $first = false; endforeach; ?>
-			<button type="button" role="tab" class="paulus-tab" id="tab-content" aria-controls="panel-content" aria-selected="false"><?php esc_html_e( 'Content', 'paulus' ); ?></button>
-		</nav>
+		</div>
 
-		<form method="post" action="options.php">
+		<form method="post" action="options.php" class="paulus-form">
 			<?php settings_fields( 'paulus_options_group' ); ?>
 			<?php $first = true; foreach ( $fields as $tab_id => $tab ) : ?>
-				<section class="paulus-panel" role="tabpanel" id="panel-<?php echo esc_attr( $tab_id ); ?>" aria-labelledby="tab-<?php echo esc_attr( $tab_id ); ?>" <?php echo $first ? '' : 'hidden'; ?>>
-					<table class="form-table" role="presentation">
-						<?php foreach ( $tab['fields'] as $key => $def ) : ?>
-							<tr class="paulus-row paulus-row--<?php echo esc_attr( $def[1] ); ?>">
-								<th scope="row"><label for="paulus-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $def[0] ); ?></label></th>
-								<td><?php paulus_render_field( $key, $def ); ?></td>
-							</tr>
-						<?php endforeach; ?>
-					</table>
+				<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-<?php echo esc_attr( $tab_id ); ?>" aria-labelledby="tab-<?php echo esc_attr( $tab_id ); ?>" <?php echo $first ? '' : 'hidden'; ?>>
+					<?php $card( $tab_id ); ?>
+					<div class="paulus-card__body">
+						<?php paulus_render_rows( $tab['fields'] ); ?>
+					</div>
 					<?php
 					/**
 					 * After a tab's fields, inside the form (the Security tab adds its notes here).
@@ -202,9 +287,16 @@ function paulus_options_page() {
 		do_action( 'paulus_options_after_form' );
 		?>
 
-		<section class="paulus-panel" role="tabpanel" id="panel-content" aria-labelledby="tab-content" hidden>
-			<?php paulus_importer_panel(); ?>
+		<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-content" aria-labelledby="tab-content" hidden>
+			<?php $card( 'content' ); ?>
+			<div class="paulus-card__body"><?php paulus_importer_panel(); ?></div>
 		</section>
+
+		<footer class="paulus-foot">
+			<a href="<?php echo esc_url( PAULUS_URI . '/README.md' ); ?>"><?php esc_html_e( 'Theme reference (README)', 'paulus' ); ?></a>
+			<a href="<?php echo esc_url( PAULUS_URI . '/UPGRADING.md' ); ?>"><?php esc_html_e( 'Before you update (UPGRADING)', 'paulus' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>"><?php esc_html_e( 'Site Health', 'paulus' ); ?></a>
+		</footer>
 	</div>
 	<?php
 }

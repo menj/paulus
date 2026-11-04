@@ -24,6 +24,17 @@ function paulus_schemes() {
 }
 
 /**
+ * The footer badge that was the default until 2.74.0: an AI Visibility badge
+ * whose image is served from another site. Kept for sites that relied on the
+ * default, so their footer does not change on update.
+ *
+ * @return string
+ */
+function paulus_legacy_footer_badges() {
+	return '<a href="https://www.ai-visibility.org.uk/apostleofdoom-org/" title="AI Visibility: 10/10 Platinum"><img src="https://ai-visibility-directory.winter-cake-bf57.workers.dev/badge/apostleofdoom-org.svg?style=themed&theme=dark&size=compact" alt="AI Visibility: 10/10 Platinum" width="180" height="28" loading="lazy"></a>';
+}
+
+/**
  * Default option values.
  *
  * @return array<string,mixed>
@@ -32,7 +43,10 @@ function paulus_defaults() {
 	return array(
 		// Site.
 		'site_name'        => 'Apostle of Doom',
-		'footer_badges'    => '<a href="https://www.ai-visibility.org.uk/apostleofdoom-org/" title="AI Visibility: 10/10 Platinum"><img src="https://ai-visibility-directory.winter-cake-bf57.workers.dev/badge/apostleofdoom-org.svg?style=themed&theme=dark&size=compact" alt="AI Visibility: 10/10 Platinum" width="180" height="28" loading="lazy"></a>',
+		// Empty by default since 2.75.0: a badge image is a request to another
+		// server on every page. A site that showed the earlier default keeps
+		// it (paulus_upgrade_2750()); Theme Options, Front page, takes any.
+		'footer_badges'    => '',
 		'footer_blurb'     => 'A case file against Paul of Tarsus: the man, the charges, the witnesses and the verdict, drawn from the book by Mohd Elfie Nieshaem Juferi.',
 		'site_seo_title'   => 'The case against Paul of Tarsus',
 		'site_meta'        => 'Saul of Tarsus hunted the followers of ʿĪsā ibn Maryam, then claimed to speak for him. The evidence, in his own letters, is here.',

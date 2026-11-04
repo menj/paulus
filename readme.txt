@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.74.0
+Stable tag: 2.75.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,45 @@ Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsu
 
 == Description ==
 
-Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih. It ships the book's chapters as 33 articles in three sections, the Answers, Verdict and Reference pages, a book landing page, a tabbed Theme Options screen with named color schemes and a first-century ornament layer, an author card and footer brand block driven from those options, a content installer that protects hand edits field by field, a private login address and clean search addresses built in, application passwords off until switched on under Theme Options, Login, bundled fonts, illustrations and eighty-five licensed photographs and reproductions, titles in the form "<page> | Apostle of Doom" with page-specific descriptions supplied to any active SEO plugin, and structured data that, alongside Rank Math, adds only what Rank Math does not emit itself. See README.md for the full reference and UPGRADING.md before updating a live site.
+Paulus is the theme of Apostle of Doom, the English site of the book Paulus Perosak Risalah Al-Masih by Mohd Elfie Nieshaem Juferi. It is a block child theme of Twenty Twenty-Five, built for that one site.
+
+The site reads as a case file: the man, six charges, the witnesses, answers to missionary claims and the verdict. The theme ships the book's chapters as 33 articles in three sections, with the reference pages, a Journal and a book page. README.md is the full technical reference. Read UPGRADING.md before you update a live site.
+
+== Features ==
+
+* A content installer for the articles, pages, Journal entries and menu. It keeps your edits field by field, and offers the theme's text beside any article you changed.
+* A tabbed Theme Options screen under Appearance, with six named colour schemes and an optional first-century ornament layer.
+* An author card and footer brand block, both filled from Theme Options.
+* Reading aids: a progress bar, arrow-key paging, resume reading, a copy-link button and back to top. Each can be switched off.
+* A Lightbox2 viewer for the figures, and Print and Save as PDF buttons on every article.
+* Shortcodes for figures, charts, the Journal and the footer blocks, listed in README.md.
+* Titles in the form "<page> | Apostle of Doom", with page descriptions handed to any active SEO plugin.
+* Structured data. Alongside Rank Math, the theme adds only the nodes Rank Math does not print itself.
+* A private login address, clean search addresses, and application passwords off until you switch them on.
+* Security switches for XML-RPC, REST API writes and gambling spam, with a cleanup tool and reports.
+* Maintenance mode, and an email when new fatal errors appear.
+* Contextual links from the first mention of a subject to the page that treats it, on this site or a sister site.
+* Bundled fonts, illustrations and licensed photographs, each with its credit line.
+
+== Usage ==
+
+Open Appearance, Theme Options. Each tab is a card with a short note at the top. Switches turn a feature on or off, sliders show their value as you move them, and Save changes stores every tab at once.
+
+* Book: titles, author, catalogue figures and the order link. The author card, the book page and the structured data read these fields.
+* Catalogue record: the national library record, as the footer colophon prints it.
+* Publisher: name, registration, address, telephone, email and website. The address and telephone go into the structured data only.
+* Colors: pick a scheme from the cards. The screen takes the scheme at once, so you can judge it before you save. The ornament switch adds the textures and borders.
+* Reading: the progress bar (where it shows, top or bottom, its height and its two colours), arrow-key paging, resume reading, the copy-link button and back to top. Leave a colour empty to follow the scheme.
+* Media: stop WordPress making resized copies of uploads, or scaled copies of large ones.
+* Login: the medallion or logo, the tagline and Greek inscription, application passwords and the security headers.
+* Security: XML-RPC, REST API writes from a browser session only, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
+* Maintenance: maintenance mode for FTP updates, and the fatal-error email.
+* Contextual links: links to this site and to the sister sites, the limit for each, your own phrases and the pages to leave alone.
+* Journal: the title, introduction and search description of the Journal page.
+* Front page: the hero, the front-page title and description, and the footer text and badges.
+* Content: install or update the shipped content. Text you have edited is kept.
+
+Appearance, Contextual Links holds a second, smaller set of link rules: approved domains, site-wide phrases, a per-post limit and whether links open in a new tab.
 
 == Installation ==
 
@@ -20,22 +58,60 @@ Paulus is a block child theme built on Twenty Twenty-Five for Apostle of Doom, t
 3. Select Install site content from the prompt on the dashboard or the front page (or under Appearance, Theme Options, Content). The installer also sets word-based permalinks and the site icon.
 4. On later updates, read UPGRADING.md, then open any page as an administrator; the structure updates itself.
 
+== Frequently Asked Questions ==
+
+= Does the theme load anything from other servers? =
+
+No, not by default. Fonts, scripts, styles and images are all served from the theme folder. The one exception is anything you put in the footer badges yourself, such as a badge image hosted elsewhere. Sites updated from 2.74.0 or earlier keep the AI Visibility badge they showed before; a fresh install has none.
+
+= Will an update overwrite my edits? =
+
+No. The installer records what it shipped, and an article or page you changed keeps your text. The dashboard lists those articles so you can take the theme's text or keep yours.
+
+= Why are some typefaces marked as needing a licence? =
+
+Sabon Next LT and the Dubidam fonts are not free for a public site. LICENSES.md gives the terms of every font, image and script.
+
+= What is under Theme Options, Content? =
+
+The installer. It shows which articles and pages are installed, and one button installs or updates the rest.
+
+== Privacy ==
+
+The theme sends no data to other servers and adds no analytics or tracking. It sets no cookies of its own.
+
+It stores a few things on the site itself:
+
+* The security log, up to 200 entries, records the time, the user, the request type and the IP address of each blocked or held action. Clear it from Theme Options, Security.
+* The error watch reads the PHP error log and keeps a count of new errors. With the fatal-error email on, a summary goes to the site's administration address.
+* Resume reading, when switched on, keeps the reader's place in that reader's own browser (localStorage). Nothing reaches the server.
+* The Contextual Links screen remembers its last tab in the administrator's browser.
+
+The share buttons are plain links. Facebook or X sees a visit only when a reader clicks one.
+
 == Copyright ==
 
-Paulus, Copyright 2023-2026 MENJ. The theme's code is licensed under the GNU General Public License v2 or later, like WordPress.
+Paulus, Copyright 2023-2026 MENJ. The theme's code is licensed under the GNU General Public License v2 or later, like WordPress. Article text and illustrations are copyright Mohd Elfie Nieshaem Juferi and Langgam Fikir.
 
-Bundled resources keep the licences of their owners and are not relicensed:
+Bundled resources keep the licences of their owners and are not relicensed. LICENSES.md holds the full list.
 
-* Cinzel and EB Garamond: SIL Open Font License 1.1 (texts in LICENSES.md).
+* Cinzel and EB Garamond: SIL Open Font License 1.1.
 * Special Elite: Apache License 2.0.
 * Sabon Next LT: Monotype commercial font; a web font licence is required.
-* Dubidam and Dubidam Arabic: NamelaType, free personal-use edition; a commercial licence is required for a public site that sells a book. See LICENSES.md.
+* Dubidam and Dubidam Arabic: NamelaType, free personal-use edition; a commercial licence is required for a public site that sells a book.
 * KFGQPC HAFS Uthmanic Script: King Fahd Glorious Quran Printing Complex (free of cost to use, copy and distribute, not to be sold or modified), served as a WOFF2 conversion of the supplied file by the owner's decision of 2026-10-26, accepting that restriction. Licence text in assets/fonts/kfgqpc-hafs-uthmanic-script-LICENSE.txt.
 * Arslan Wessam: distributed through Dev-Point.com with no licence file.
-* Photographs and images: the licence stated in each figure's credit line (Wikimedia Commons, The Met, the National Gallery of Art, Yale University Art Gallery); see LICENSES.md.
-* html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
+* Photographs and images: the licence stated in each figure's credit line (Wikimedia Commons, Pexels, Pixabay, The Met, the National Gallery of Art, Yale University Art Gallery); see LICENSES.md.
+* Lightbox2 2.12.0 (MIT, Lokesh Dhakar): assets/vendor/lightbox2, with its LICENSE and unminified sources.
+* html2pdf.js 0.14.0 (MIT, Erik Koopmans) and the libraries it bundles: assets/js/vendor, with html2pdf-LICENSE, the bundle's licence notices and the unminified bundle.
+* Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.75.0 =
+* Theme Options rebuilt as cards, with switches, sliders that show their value, colour pickers and keyboard-ready tabs. No setting changed.
+* No request to another server by default: the AI Visibility footer badge is no longer a default, and sites that showed it keep it.
+* Unminified sources and licence files for Lightbox2 and html2pdf.js. The viewer's "Figure 1 of 8" label is translatable.
 
 = 2.74.0 =
 * Mobile and accessibility fixes: the skip link shows on focus, phone text holds 16px, the menu button has a 44px tap area, the image viewer takes focus and names its close button, and hero illustrations carry their alt text.
@@ -985,6 +1061,7 @@ Bundled resources keep the licences of their owners and are not relicensed:
 = 1.0.0 =
 * Initial release.
 
-== Copyright ==
+== Upgrade Notice ==
 
-Paulus is distributed under the terms of the GNU GPL v2 or later. Article text and illustrations are copyright Mohd Elfie Nieshaem Juferi and Langgam Fikir.
+= 2.75.0 =
+Theme Options has a new layout; every setting keeps its value. A fresh install no longer shows the AI Visibility footer badge.

@@ -184,23 +184,23 @@ function pau_cl_page() {
 		<h1><?php esc_html_e( 'Contextual Links', 'paulus' ); ?></h1>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'pau_cl' ); ?>
-			<nav class="cl-admin__tabs" role="tablist">
-				<button type="button" class="cl-admin__tab" role="tab" data-tab="domains"><?php esc_html_e( 'Domains', 'paulus' ); ?></button>
-				<button type="button" class="cl-admin__tab" role="tab" data-tab="phrases"><?php esc_html_e( 'Phrases', 'paulus' ); ?></button>
-				<button type="button" class="cl-admin__tab" role="tab" data-tab="rules"><?php esc_html_e( 'Rules', 'paulus' ); ?></button>
-			</nav>
+			<div class="cl-admin__tabs" role="tablist" aria-label="<?php esc_attr_e( 'Contextual Links sections', 'paulus' ); ?>">
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-domains" aria-controls="cl-panel-domains" aria-selected="false" tabindex="-1" data-tab="domains"><?php esc_html_e( 'Domains', 'paulus' ); ?></button>
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-phrases" aria-controls="cl-panel-phrases" aria-selected="false" tabindex="-1" data-tab="phrases"><?php esc_html_e( 'Phrases', 'paulus' ); ?></button>
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-rules" aria-controls="cl-panel-rules" aria-selected="false" tabindex="-1" data-tab="rules"><?php esc_html_e( 'Rules', 'paulus' ); ?></button>
+			</div>
 
-			<section class="cl-admin__panel" data-panel="domains">
-				<p class="description"><?php esc_html_e( 'Approved domains, one per line. Links to any other domain, and to this site, are ignored.', 'paulus' ); ?></p>
-				<textarea class="large-text code" rows="8" name="<?php echo esc_attr( $n ); ?>[domains]"><?php echo esc_textarea( $o['domains'] ); ?></textarea>
+			<section class="cl-admin__panel" role="tabpanel" id="cl-panel-domains" aria-labelledby="cl-tab-domains" tabindex="0" data-panel="domains">
+				<p class="description" id="cl-domains-help"><?php esc_html_e( 'Approved domains, one per line. Links to any other domain, and to this site, are ignored.', 'paulus' ); ?></p>
+				<textarea class="large-text code" rows="8" id="cl-domains" aria-labelledby="cl-tab-domains" aria-describedby="cl-domains-help" name="<?php echo esc_attr( $n ); ?>[domains]"><?php echo esc_textarea( $o['domains'] ); ?></textarea>
 			</section>
 
-			<section class="cl-admin__panel" data-panel="phrases">
-				<p class="description"><?php esc_html_e( 'Site-wide, one per line: phrase | URL. The phrase is linked where it already appears in a paragraph.', 'paulus' ); ?></p>
-				<textarea class="large-text code" rows="14" name="<?php echo esc_attr( $n ); ?>[phrases]"><?php echo esc_textarea( $o['phrases'] ); ?></textarea>
+			<section class="cl-admin__panel" role="tabpanel" id="cl-panel-phrases" aria-labelledby="cl-tab-phrases" tabindex="0" data-panel="phrases">
+				<p class="description" id="cl-phrases-help"><?php esc_html_e( 'Site-wide, one per line: phrase | URL. The phrase is linked where it already appears in a paragraph.', 'paulus' ); ?></p>
+				<textarea class="large-text code" rows="14" id="cl-phrases" aria-labelledby="cl-tab-phrases" aria-describedby="cl-phrases-help" name="<?php echo esc_attr( $n ); ?>[phrases]"><?php echo esc_textarea( $o['phrases'] ); ?></textarea>
 			</section>
 
-			<section class="cl-admin__panel" data-panel="rules">
+			<section class="cl-admin__panel" role="tabpanel" id="cl-panel-rules" aria-labelledby="cl-tab-rules" tabindex="0" data-panel="rules">
 				<div class="cl-admin__row"><label><input type="checkbox" name="<?php echo esc_attr( $n ); ?>[enabled]" value="1" <?php checked( $o['enabled'] ); ?>> <?php esc_html_e( 'Insert links', 'paulus' ); ?></label></div>
 				<div class="cl-admin__row"><label><?php esc_html_e( 'Maximum links per post', 'paulus' ); ?> <input type="number" min="1" max="12" name="<?php echo esc_attr( $n ); ?>[max]" value="<?php echo esc_attr( $o['max'] ); ?>"></label></div>
 				<div class="cl-admin__row"><label><input type="checkbox" name="<?php echo esc_attr( $n ); ?>[new_tab]" value="1" <?php checked( $o['new_tab'] ); ?>> <?php esc_html_e( 'Open in a new tab', 'paulus' ); ?></label></div>

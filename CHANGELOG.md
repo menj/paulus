@@ -2,6 +2,22 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.75.0] - 2026-11-04
+
+The owner's upgrade rules of 4 November, applied in priority order: security, stability, compatibility, performance, accessibility, maintainability. The theme folder keeps its name, by the owner's decision. Every option key, shortcode, block, handle and taxonomy is unchanged, and so is the schema markup. The audit and its exceptions are in the release report.
+
+### Changed
+- Theme Options is rebuilt to the owner's admin design system. Each tab is a card with an icon, a title and a note on what it holds; the field rows put the label left and the control right, and stack below 782 pixels. The form tables are gone. Every on-off setting is a switch (a checkbox with `role="switch"`). The three number settings are sliders that show their value as they move. The two progress-bar colours use the core `wp-color-picker`, side by side in a grid. The schemes and portraits stay as picture cards, now grouped as radio groups. The tabs take Home and End beside the arrow keys, scroll sideways on a narrow screen, and the panels can take focus. A footer links README, UPGRADING and Site Health. Field names, ids and the sanitiser are unchanged, so saving works as before. The CSS and JS stay in `assets/` and load on `appearance_page_paulus-options` only.
+- The Contextual Links screen's tabs carry `aria-controls`, `aria-selected` and roving `tabindex`, answer the arrow keys, Home and End, and its two text boxes are named by their tabs.
+- The footer badge is no longer a default. Its image came from another server on every page of a fresh install. `paulus_upgrade_2750()` writes the old badge into the options of any site the installer has run on and whose options lack the field. That includes a site with no options record at all. So the live footer does not change, and the 2.33.5 repair restores the same badge. A fresh install starts without it.
+- The Lightbox2 counter, "Figure %1 of %2", is translatable. The settings now go to `lightbox-init.js` with `wp_localize_script()`, and it applies them. The inline `lightbox.option()` call is gone. It had made WordPress drop `defer` from Lightbox2, which now loads deferred again.
+
+### Added
+- `add_theme_support( 'title-tag' )` and `add_theme_support( 'automatic-feed-links' )`, and `load_child_theme_textdomain( 'paulus' )`, in `paulus_theme_setup()`.
+- Unminified sources and licences beside the minified vendor files: `lightbox.js`, `lightbox.css` and `LICENSE` for Lightbox2 2.12.0, and `html2pdf.bundle.js`, `html2pdf.bundle.min.js.LICENSE.txt` and `html2pdf-LICENSE` for html2pdf.js 0.14.0. All come from the npm packages, whose minified files match the shipped ones byte for byte. `SCRIPT_DEBUG` serves the unminified Lightbox2.
+- readme.txt has Features, Usage (one line per Theme Options tab), FAQ, Privacy and Upgrade Notice sections. The second Copyright section at its end is merged into the first.
+- LICENSES.md names the source of each vendor file, and covers the social images, the screenshot and the Martin PDF.
+
 ## [2.74.0] - 2026-11-04
 
 Two owner briefs from 4 November drove this release: the mobile-first theme audit and the WCAG 2.2 AA policy. Both were tested on a local copy at 9 widths, from 320 to 1280 pixels, with axe-core 4.10 and keyboard passes. The desktop layout at 1024 and 1280 measures the same as before.
