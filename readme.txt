@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.73.1
+Stable tag: 2.74.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Bundled resources keep the licences of their owners and are not relicensed:
 * html2pdf.js (MIT) and Lightbox2 (MIT): licence texts in LICENSES.md.
 
 == Changelog ==
+
+= 2.74.0 =
+* Mobile and accessibility fixes: the skip link shows on focus, phone text holds 16px, the menu button has a 44px tap area, the image viewer takes focus and names its close button, and hero illustrations carry their alt text.
 
 = 2.73.1 =
 * Structured data passes the Schema Markup Validator again: isAccessibleForFree is a true or false value, and sameAs lists hold web addresses only.

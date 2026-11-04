@@ -2,6 +2,23 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.74.0] - 2026-11-04
+
+Two owner briefs from 4 November drove this release: the mobile-first theme audit and the WCAG 2.2 AA policy. Both were tested on a local copy at 9 widths, from 320 to 1280 pixels, with axe-core 4.10 and keyboard passes. The desktop layout at 1024 and 1280 measures the same as before.
+
+### Fixed
+- The skip link shows when it gets focus. The theme's `.screen-reader-text` set `clip: rect(0, 0, 0, 0)`, and WordPress's own focus rule clears `clip-path` only, so a keyboard user tabbed onto a link nobody could see (WCAG 2.4.7).
+- Running text outside the article prose holds 16px on phones. The Medium preset shrank to 14px at 320 pixels. From 750 pixels up the preset is larger than 16px already, so nothing changes there.
+- The menu button on phones and tablets has a 44px tap area. It was 28px. An empty layer 8px wider on each side takes the taps, so the header row stays where it was; the close button in the open menu gets the same.
+- One banner and one contentinfo landmark per page. The article hero panel was a top-level `<header>`, and the footer part put a second `<footer>` inside the template part's own. Both are now `<div>`s with the same classes.
+- The hero illustration carries its alt text. `paulus_sc_page_hero()` forced `alt=""`, so the portrait, the decayed saint, the dunce and the horned figures went unannounced. The alt now comes from the media library, which the importer fills from `content/images.json`. The illustrations themselves are unchanged.
+- The Lightbox2 viewer names its close control ("Close"), gives the large image the thumbnail's alt text, and puts focus on the close control when it opens. Lightbox2 had left focus on its overlay, outside the dialog. Its controls show a focus outline; the library set `outline: 0`.
+- In the viewer, Previous and Next keep focus when they change the image. Lightbox2 puts focus on its overlay after every image, and 2.74.0 first sent it to Close each time. Now only the opening goes to Close. Enter and Space work on Previous and Next too; Lightbox2 draws them as links with no address, so those keys did nothing.
+- The viewer's "Close" label is translatable. `functions.php` passes it to the script with `wp_localize_script()` and `__( 'Close', 'paulus' )`.
+- The arrow keys turn images in the viewer again. The Journal's keyboard shortcut checked whether the viewer was open with `offsetParent`, which is always null for Lightbox2's fixed box, so ArrowRight left the page for the next entry.
+- Paired charts hatch the earlier series. 2010 and 2050 had differed by shade alone (WCAG 1.4.1).
+- In the ochre scheme the Greek word in the hero panel reads at 4.5:1. It measured 4.34:1.
+
 ## [2.73.1] - 2026-11-04
 
 ### Fixed
