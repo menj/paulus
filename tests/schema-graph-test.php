@@ -690,7 +690,58 @@ $GLOBALS['T'] = array( 'kind' => 'category', 'term' => $GLOBALS['TERMS'][0] );
 $g = paulus_test_parse( paulus_test_graph( $GLOBALS['T'] ), 'category', $check, $required );
 $check( (bool) $types( $g, 'CollectionPage' ), 'category: not a CollectionPage' );
 
-// 7. Every type the graphs use exists in schema.org (when the vocabulary
+// 7. Rank Math's wrong values: "1" for isAccessibleForFree and a plain
+// name in sameAs, on top-level and nested nodes.
+$GLOBALS['T'] = array( 'kind' => 'page', 'post' => reset( $by_slug ) );
+$rm  = array(
+	'richSnippet' => array(
+		'@type'               => 'ScholarlyArticle',
+		'@id'                 => HOME . 'x/#richSnippet',
+		'headline'            => 'Test',
+		'isAccessibleForFree' => '1',
+		'author'              => array( '@type' => 'Person', 'name' => 'Someone', 'sameAs' => array( 'Mohd Elfie Nieshaem Juferi', '  https://example.org/a  ' ) ),
+		'hasPart'             => array( array( '@type' => 'Article', 'isAccessibleForFree' => 'no' ) ),
+	),
+	'Article'     => array( '@type' => 'Article', 'isAccessibleForFree' => 'TRUE' ),
+	'zero'        => array( '@type' => 'Article', 'isAccessibleForFree' => 0 ),
+	'empty'       => array( '@type' => 'Article', 'isAccessibleForFree' => '' ),
+	'ProfilePage' => array( '@type' => 'Person', 'name' => 'Mohd Elfie Nieshaem Juferi', 'sameAs' => array( 'Mohd Elfie Nieshaem Juferi', 'javascript:alert(1)', 'ftp://example.org/', 'https://example.com/b' ) ),
+	'publisher'   => array( '@type' => 'Organization', 'name' => 'P', 'sameAs' => 'not a url' ),
+);
+$out = paulus_rank_math_json_ld( $rm );
+$check( true === $out['richSnippet']['isAccessibleForFree'], 'free: "1" not cast to true' );
+$check( false === $out['richSnippet']['hasPart'][0]['isAccessibleForFree'], 'free: nested "no" not cast to false' );
+$check( true === $out['Article']['isAccessibleForFree'], 'free: "TRUE" not cast to true' );
+$check( false === $out['zero']['isAccessibleForFree'] && false === $out['empty']['isAccessibleForFree'], 'free: 0 or "" not cast to false' );
+$walk = static function ( $n ) use ( &$walk, $check ) {
+	if ( ! is_array( $n ) ) {
+		return;
+	}
+	foreach ( $n as $k => $v ) {
+		if ( 'sameAs' === $k ) {
+			foreach ( (array) $v as $u ) {
+				$check( paulus_is_http_url( $u ), 'sameAs holds a non-URL: ' . json_encode( $u ) );
+			}
+		} elseif ( 'isAccessibleForFree' === $k ) {
+			$check( is_bool( $v ), 'isAccessibleForFree is not a boolean' );
+		}
+		$walk( $v );
+	}
+};
+$walk( $out );
+$check( in_array( 'https://example.org/a', (array) $out['richSnippet']['author']['sameAs'], true ), 'sameAs: nested URL lost' );
+$check( in_array( 'https://example.com/b', (array) ( $out['ProfilePage']['sameAs'] ?? array() ), true ), 'sameAs: Person URL lost' );
+$check( ! isset( $out['publisher']['sameAs'] ), 'sameAs: plain text kept on the Organization' );
+// The same walk over ten pages through Rank Math's filter.
+foreach ( array_slice( $by_slug, 0, 10 ) as $p ) {
+	$GLOBALS['T'] = array( 'kind' => 'page', 'post' => $p );
+	$h = paulus_test_rank_math( $GLOBALS['T'] );
+	$j = json_decode( substr( $h, strpos( $h, '>' ) + 1, -9 ), true );
+	$check( is_array( $j ), 'rank math graph does not parse: ' . $p->post_name );
+	$walk( $j );
+}
+
+// 8. Every type the graphs use exists in schema.org (when the vocabulary
 // file is given: php tests/schema-graph-test.php path/to/schemaorg.jsonld).
 if ( ! empty( $argv[1] ) && is_readable( $argv[1] ) ) {
 	$vocab = (string) file_get_contents( $argv[1] );
