@@ -1102,7 +1102,7 @@ function paulus_schema_deepen_node( $node ) {
 
 	// The author: the same person on every page, with profiles. Rank Math's
 	// author node is recognised by its identifier (see paulus_schema_deepen).
-	$is_author = ( $node['name'] ?? '' ) === $author || ( ! empty( $node['@id'] ) && ( $GLOBALS['paulus_sd_ids']['author'] ?? '' ) === $node['@id'] );
+	$is_author = ( $node['name'] ?? '' ) === $author || ( defined( 'PAULUS_SCHEMA_AUTHOR_NAME' ) && ( $node['name'] ?? '' ) === PAULUS_SCHEMA_AUTHOR_NAME ) || ( ! empty( $node['@id'] ) && ( $GLOBALS['paulus_sd_ids']['author'] ?? '' ) === $node['@id'] );
 	if ( paulus_node_is( $node, array( 'Person' ) ) && $is_author && function_exists( 'paulus_person_schema' ) ) {
 		$person = paulus_person_schema();
 		foreach ( $person as $k => $v ) {
@@ -1119,12 +1119,10 @@ function paulus_schema_deepen_node( $node ) {
 		} else {
 			unset( $node['sameAs'] );
 		}
-		// Rank Math gives the author the address of the author archive, which
-		// the theme redirects to the author's page: the node takes that page.
-		if ( ! empty( $node['url'] ) && paulus_is_author_archive_url( $node['url'] ) ) {
-			$about       = get_page_by_path( 'about-the-author' );
-			$node['url'] = $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' );
-		}
+		// The name and address are the owner's, whatever Rank Math took from
+		// the WordPress user (owner rule, 4 November 2026).
+		$node['name'] = $person['name'];
+		$node['url']  = $person['url'];
 		$node = paulus_node_default( $node, 'knowsLanguage', array( 'ms', 'en' ) );
 		return paulus_node_default( $node, 'knowsAbout', array( $paul, 'Christian origins', 'Islamic apologetics' ) );
 	}

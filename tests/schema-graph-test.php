@@ -528,6 +528,10 @@ function paulus_test_parse( $html, $label, $check, $required ) {
 		$check( 'https://menj.bio' === ( $owners[0]['url'] ?? '' ), $label . ': author url is not https://menj.bio' );
 		$check( in_array( 'https://menj.bio', (array) ( $owners[0]['sameAs'] ?? array() ), true ), $label . ': author sameAs lacks https://menj.bio' );
 	}
+	$authored = array_filter( $byid, static function ( $n ) {
+		return array_intersect( (array) ( $n['@type'] ?? array() ), array( 'Article', 'ScholarlyArticle', 'BlogPosting', 'Book' ) ) && isset( $n['author'] ) && false === strpos( (string) ( $n['author']['@id'] ?? '' ), 'dale-b-martin' );
+	} );
+	$check( ! $authored || null !== $owner_id, $label . ': articles with an author but no author Person' );
 	foreach ( $byid as $node ) {
 		if ( array_intersect( (array) ( $node['@type'] ?? array() ), array( 'Article', 'ScholarlyArticle', 'BlogPosting', 'Book' ) ) && isset( $node['author'] ) ) {
 			$aid = $node['author']['@id'] ?? '';
