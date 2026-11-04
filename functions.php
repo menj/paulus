@@ -885,6 +885,7 @@ function paulus_enqueue_assets() {
 		wp_enqueue_style( 'paulus-lightbox', PAULUS_URI . '/assets/css/lightbox.css', array( 'lightbox2' ), PAULUS_VERSION );
 		wp_enqueue_script( 'lightbox2', PAULUS_URI . '/assets/vendor/lightbox2/js/lightbox.min.js', array( 'jquery' ), '2.12.0', array( 'strategy' => 'defer', 'in_footer' => true ) );
 		wp_enqueue_script( 'paulus-lightbox', PAULUS_URI . '/assets/js/lightbox-init.js', array( 'lightbox2' ), PAULUS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
+		wp_localize_script( 'paulus-lightbox', 'paulusLightbox', array( 'close' => __( 'Close', 'paulus' ) ) );
 		wp_add_inline_script( 'lightbox2', "lightbox.option({ albumLabel: 'Figure %1 of %2', wrapAround: true, fadeDuration: 250, imageFadeDuration: 250, resizeDuration: 300, positionFromTop: 40, disableScrolling: true, sanitizeTitle: true });" );
 	}
 	if ( is_singular() ) {

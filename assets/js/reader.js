@@ -146,7 +146,8 @@
 				}
 				// Leave the keys to the image viewer while it is open.
 				var box = document.getElementById( 'lightbox' );
-				if ( box && box.offsetParent !== null ) {
+				// offsetParent is null for a fixed box, so test display.
+				if ( box && 'none' !== getComputedStyle( box ).display ) {
 					return;
 				}
 				if ( 'ArrowLeft' === e.key && prev ) {
