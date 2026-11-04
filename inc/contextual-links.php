@@ -185,9 +185,9 @@ function pau_cl_page() {
 		<form method="post" action="options.php">
 			<?php settings_fields( 'pau_cl' ); ?>
 			<div class="cl-admin__tabs" role="tablist" aria-label="<?php esc_attr_e( 'Contextual Links sections', 'paulus' ); ?>">
-				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-domains" aria-controls="cl-panel-domains" aria-selected="false" tabindex="-1" data-tab="domains"><?php esc_html_e( 'Domains', 'paulus' ); ?></button>
-				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-phrases" aria-controls="cl-panel-phrases" aria-selected="false" tabindex="-1" data-tab="phrases"><?php esc_html_e( 'Phrases', 'paulus' ); ?></button>
-				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-rules" aria-controls="cl-panel-rules" aria-selected="false" tabindex="-1" data-tab="rules"><?php esc_html_e( 'Rules', 'paulus' ); ?></button>
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-domains" aria-controls="cl-panel-domains" aria-selected="false" data-tab="domains"><?php esc_html_e( 'Domains', 'paulus' ); ?></button>
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-phrases" aria-controls="cl-panel-phrases" aria-selected="false" data-tab="phrases"><?php esc_html_e( 'Phrases', 'paulus' ); ?></button>
+				<button type="button" class="cl-admin__tab" role="tab" id="cl-tab-rules" aria-controls="cl-panel-rules" aria-selected="false" data-tab="rules"><?php esc_html_e( 'Rules', 'paulus' ); ?></button>
 			</div>
 
 			<section class="cl-admin__panel" role="tabpanel" id="cl-panel-domains" aria-labelledby="cl-tab-domains" tabindex="0" data-panel="domains">

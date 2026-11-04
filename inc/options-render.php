@@ -232,6 +232,10 @@ function paulus_options_page() {
 	$meta   = paulus_options_tab_meta();
 	$tabs   = array_map( static fn( $tab ) => $tab['label'], $fields ) + array( 'content' => __( 'Content', 'paulus' ) );
 	$scheme = array_key_exists( paulus_option( 'scheme' ), paulus_schemes() ) ? paulus_option( 'scheme' ) : 'ochre';
+	// The panel the screen opens on: ?tab= when it names a tab, else the first.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- tab selection only.
+	$open   = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+	$open   = isset( $tabs[ $open ] ) ? $open : (string) array_key_first( $tabs );
 	$icon   = has_site_icon() ? get_site_icon_url( 96 ) : PAULUS_URI . '/assets/images/site-icon-96.avif';
 	$card   = static function ( $tab_id ) use ( $tabs, $meta ) {
 		printf(
@@ -257,15 +261,15 @@ function paulus_options_page() {
 		<?php paulus_importer_notice(); ?>
 
 		<div class="paulus-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Theme Options sections', 'paulus' ); ?>">
-			<?php $first = true; foreach ( $tabs as $tab_id => $label ) : ?>
-				<button type="button" role="tab" class="paulus-tab" id="tab-<?php echo esc_attr( $tab_id ); ?>" aria-controls="panel-<?php echo esc_attr( $tab_id ); ?>" aria-selected="<?php echo $first ? 'true' : 'false'; ?>" tabindex="<?php echo $first ? '0' : '-1'; ?>"><span class="dashicons <?php echo esc_attr( $meta[ $tab_id ][0] ?? 'dashicons-admin-generic' ); ?>" aria-hidden="true"></span><span><?php echo esc_html( $label ); ?></span></button>
-			<?php $first = false; endforeach; ?>
+			<?php foreach ( $tabs as $tab_id => $label ) : ?>
+				<button type="button" role="tab" class="paulus-tab" id="tab-<?php echo esc_attr( $tab_id ); ?>" aria-controls="panel-<?php echo esc_attr( $tab_id ); ?>" aria-selected="<?php echo $open === $tab_id ? 'true' : 'false'; ?>"><span class="dashicons <?php echo esc_attr( $meta[ $tab_id ][0] ?? 'dashicons-admin-generic' ); ?>" aria-hidden="true"></span><span><?php echo esc_html( $label ); ?></span></button>
+			<?php endforeach; ?>
 		</div>
 
 		<form method="post" action="options.php" class="paulus-form">
 			<?php settings_fields( 'paulus_options_group' ); ?>
-			<?php $first = true; foreach ( $fields as $tab_id => $tab ) : ?>
-				<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-<?php echo esc_attr( $tab_id ); ?>" aria-labelledby="tab-<?php echo esc_attr( $tab_id ); ?>" <?php echo $first ? '' : 'hidden'; ?>>
+			<?php foreach ( $fields as $tab_id => $tab ) : ?>
+				<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-<?php echo esc_attr( $tab_id ); ?>" aria-labelledby="tab-<?php echo esc_attr( $tab_id ); ?>" <?php echo $open === $tab_id ? '' : 'hidden'; ?>>
 					<?php $card( $tab_id ); ?>
 					<div class="paulus-card__body">
 						<?php paulus_render_rows( $tab['fields'] ); ?>
@@ -279,17 +283,32 @@ function paulus_options_page() {
 					do_action( 'paulus_options_panel_after', $tab_id );
 					?>
 				</section>
-			<?php $first = false; endforeach; ?>
-			<div class="paulus-save"><?php submit_button( __( 'Save changes', 'paulus' ), 'primary paulus-button', 'submit', false ); ?></div>
+			<?php endforeach; ?>
+			<div class="paulus-save"<?php echo 'content' === $open ? ' hidden' : ''; ?>><?php submit_button( __( 'Save changes', 'paulus' ), 'primary paulus-button', 'submit', false ); ?></div>
 		</form>
 		<?php
 		/** After the options form, outside it (the Security tab's tools, which carry forms of their own). */
 		do_action( 'paulus_options_after_form' );
 		?>
 
-		<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-content" aria-labelledby="tab-content" hidden>
+		<section class="paulus-panel paulus-card" role="tabpanel" tabindex="0" id="panel-content" aria-labelledby="tab-content" <?php echo 'content' === $open ? '' : 'hidden'; ?>>
 			<?php $card( 'content' ); ?>
-			<div class="paulus-card__body"><?php paulus_importer_panel(); ?></div>
+			<div class="paulus-card__body" id="paulus-content-body">
+				<?php
+				// The panel looks up every article and page of the manifest; build
+				// it only on ?tab=content, or fetch it when the tab is first shown.
+				if ( 'content' === $open ) {
+					paulus_importer_panel();
+				} else {
+					printf(
+						'<div data-paulus-lazy="paulus_importer_panel" data-nonce="%1$s" aria-busy="true"><p><a class="button" href="%2$s">%3$s</a></p></div>',
+						esc_attr( wp_create_nonce( 'paulus_importer_panel' ) ),
+						esc_url( admin_url( 'themes.php?page=paulus-options&tab=content#content' ) ),
+						esc_html__( 'Open the Content tab', 'paulus' )
+					);
+				}
+				?>
+			</div>
 		</section>
 
 		<footer class="paulus-foot">
@@ -300,3 +319,18 @@ function paulus_options_page() {
 	</div>
 	<?php
 }
+
+/**
+ * The Content panel over admin-ajax, fetched by admin.js the first time the
+ * tab is shown on a load that did not open on it.
+ */
+function paulus_ajax_importer_panel() {
+	if ( ! current_user_can( 'edit_theme_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'paulus' ) ), 403 );
+	}
+	check_ajax_referer( 'paulus_importer_panel', 'nonce' );
+	ob_start();
+	paulus_importer_panel();
+	wp_send_json_success( array( 'html' => ob_get_clean() ) );
+}
+add_action( 'wp_ajax_paulus_importer_panel', 'paulus_ajax_importer_panel' );

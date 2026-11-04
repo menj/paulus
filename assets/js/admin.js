@@ -6,6 +6,7 @@
 
 	var tabs = Array.prototype.slice.call( document.querySelectorAll( '.paulus-tab' ) );
 	var save = document.querySelector( '.paulus-save' );
+	var referer = document.querySelector( '.paulus-form input[name="_wp_http_referer"]' );
 	if ( ! tabs.length ) {
 		return;
 	}
@@ -30,6 +31,42 @@
 			tab.scrollIntoView( { block: 'nearest', inline: 'nearest' } );
 		}
 		history.replaceState( null, '', '#' + tab.id.replace( 'tab-', '' ) );
+		// The fragment is not sent with the save, so name the tab in the
+		// address WordPress returns to.
+		if ( referer && window.URL ) {
+			var back = new URL( referer.value, window.location.href );
+			back.searchParams.set( 'tab', tab.id.replace( 'tab-', '' ) );
+			referer.value = back.pathname + back.search;
+		}
+		loadLazy( document.getElementById( tab.getAttribute( 'aria-controls' ) ) );
+	}
+
+	// A heavy panel (Content) is built only when the screen opens on its
+	// ?tab=; otherwise fetch it the first time its tab is shown. The
+	// placeholder link opens that ?tab= if the request fails.
+	function loadLazy( panel ) {
+		var box = panel ? panel.querySelector( '[data-paulus-lazy]' ) : null;
+		if ( ! box || box.getAttribute( 'data-loading' ) || ! window.fetch || ! window.ajaxurl ) {
+			return;
+		}
+		box.setAttribute( 'data-loading', '1' );
+		var body = new URLSearchParams();
+		body.append( 'action', box.getAttribute( 'data-paulus-lazy' ) );
+		body.append( 'nonce', box.getAttribute( 'data-nonce' ) );
+		window.fetch( window.ajaxurl, { method: 'POST', credentials: 'same-origin', body: body } )
+			.then( function ( r ) {
+				return r.json();
+			} )
+			.then( function ( res ) {
+				if ( ! res || ! res.success ) {
+					throw new Error( 'failed' );
+				}
+				box.outerHTML = res.data.html;
+			} )
+			.catch( function () {
+				box.removeAttribute( 'data-loading' );
+				box.removeAttribute( 'aria-busy' );
+			} );
 	}
 
 	tabs.forEach( function ( tab, i ) {
@@ -55,6 +92,14 @@
 	} );
 
 	var start = document.getElementById( 'tab-' + window.location.hash.slice( 1 ) );
+	if ( ! start && window.URLSearchParams ) {
+		start = document.getElementById( 'tab-' + ( new URLSearchParams( window.location.search ).get( 'tab' ) || '' ) );
+	}
+	if ( ! start ) {
+		start = tabs.filter( function ( t ) {
+			return t.getAttribute( 'aria-selected' ) === 'true';
+		} )[ 0 ];
+	}
 	activate( start || tabs[ 0 ], false );
 
 	// Each slider shows its value as it moves.

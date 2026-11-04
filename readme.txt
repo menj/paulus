@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.75.0
+Stable tag: 2.75.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.75.1 =
+* Theme Options no longer checks every article and page of the site structure on each load. The Content tab fetches its list when you open it, and builds it at once on ?tab=content. A save returns to the tab you were on.
 
 = 2.75.0 =
 * Theme Options rebuilt as cards, with switches, sliders that show their value, colour pickers and keyboard-ready tabs. No setting changed.
