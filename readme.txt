@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.76.0
+Stable tag: 2.77.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.0 =
+* Theme Options, Content has an Install error pages button and shows whether each error page is installed, outdated or someone else's file.
+* The database error page says "We cannot reach our database", and the error pages tell search engines not to index them.
+* Static 403, 500, 502 and 503 pages in the errors folder for the web server, with the .htaccess lines beside the button.
+* The 404 page tells search engines not to index it.
 
 = 2.76.0 =
 * Unlisted posts and pages can be set from Quick Edit and Bulk Edit, and an Unlisted column shows which ones are. Rank Math's sitemap entries and Yoast's robots tag leave them alone too.

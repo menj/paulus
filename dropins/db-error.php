@@ -4,6 +4,7 @@ if ( ! headers_sent() ) {
 	header( 'HTTP/1.1 503 Service Unavailable', true, 503 );
 	header( 'Content-Type: text/html; charset=utf-8' );
 	header( 'Retry-After: 300' );
+	header( 'X-Robots-Tag: noindex' );
 	header( 'Cache-Control: no-store, max-age=0' );
 }
 ?>
@@ -14,7 +15,7 @@ if ( ! headers_sent() ) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="60">
-<title>Temporarily unavailable | {{SITE_NAME}}</title>
+<title>We cannot reach our database | {{SITE_NAME}}</title>
 <link rel="stylesheet" href="{{THEME_URL}}/assets/css/fonts.css">
 <link rel="stylesheet" href="{{CONTENT_URL}}/paulus-error-page.css">
 </head>
@@ -23,7 +24,7 @@ if ( ! headers_sent() ) {
 <div class="card">
 <p class="name">{{SITE_NAME}}</p>
 <p class="status">Database error</p>
-<h1>Temporarily unavailable</h1>
+<h1>We cannot reach our database</h1>
 <p>The site could not reach its database just now. Nothing has been lost.</p>
 <p>Please try again in a few minutes.</p>
 <a class="again" href="{{HOME_URL}}">Try again</a>

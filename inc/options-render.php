@@ -299,6 +299,9 @@ function paulus_options_page() {
 				// it only on ?tab=content, or fetch it when the tab is first shown.
 				if ( 'content' === $open ) {
 					paulus_importer_panel();
+					if ( function_exists( 'paulus_render_dropins_status' ) ) {
+						paulus_render_dropins_status();
+					}
 				} else {
 					printf(
 						'<div data-paulus-lazy="paulus_importer_panel" data-nonce="%1$s"><p><a class="button" href="%2$s">%3$s</a></p></div>',
