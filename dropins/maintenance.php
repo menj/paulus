@@ -4,6 +4,7 @@ if ( ! headers_sent() ) {
 	header( 'HTTP/1.1 503 Service Unavailable', true, 503 );
 	header( 'Content-Type: text/html; charset=utf-8' );
 	header( 'Retry-After: 300' );
+	header( 'X-Robots-Tag: noindex' );
 	header( 'Cache-Control: no-store, max-age=0' );
 }
 ?>

@@ -292,6 +292,17 @@ WordPress shows its plain screens when it cannot load the theme. `dropins/mainte
 
 The error pages use a copy of their stylesheet in `wp-content/paulus-error-page.css`, so they keep their look while the theme folder is being uploaded, and the drop-ins are written again whenever one of them is missing. The PHP error page tells an upload in progress (a file missing or half written in the theme or in WordPress) from any other error: the first is answered `503` "Back shortly" with a refresh, the second `500`. Each time it records the incident in `wp-content/paulus-incidents.log.php`, which begins with an `exit` so it cannot be read over the web.
 
+Theme Options, Content ends with the error pages: each file's state (not installed, installed, outdated or another file left alone) and an **Install error pages** button that writes them at once, behind a nonce and `edit_theme_options`. `maintenance.php` and `db-error.php` answer `503` with `Retry-After`, `php-error.php` answers `500` ("Something went wrong") or `503` for an upload in progress, and all three send `noindex` and `no-store`.
+
+For the errors the web server answers before WordPress starts, `errors/` holds static 403, 500, 502 and 503 pages built from the maintenance markup (`php bin/build-error-pages.php`). Add to `.htaccess`:
+
+```
+ErrorDocument 403 /wp-content/themes/paulus/errors/403.html
+ErrorDocument 500 /wp-content/themes/paulus/errors/500.html
+ErrorDocument 502 /wp-content/themes/paulus/errors/502.html
+ErrorDocument 503 /wp-content/themes/paulus/errors/503.html
+```
+
 ## Maintenance and the error watch
 
 `inc/watch.php`, with the first lines of `functions.php`.

@@ -432,10 +432,18 @@ add_filter( 'wp_sitemaps_add_provider', static function ( $provider, $name ) {
 add_filter( 'wp_robots', static function ( $robots ) {
 	return is_date() && ! is_post_type_archive( 'paulus_journal' ) ? wp_robots_no_robots( $robots ) : $robots;
 } );
+// The 404 page is not indexed; its links are still followed.
+add_filter( 'wp_robots', static function ( $robots ) {
+	if ( is_404() ) {
+		$robots['noindex'] = true;
+		$robots['follow']  = true;
+	}
+	return $robots;
+} );
 // Rank Math removes every wp_robots filter on the front end, so the same
 // choice goes through its own robots filter too.
 add_filter( 'rank_math/frontend/robots', static function ( $robots ) {
-	if ( is_date() && ! is_post_type_archive( 'paulus_journal' ) ) {
+	if ( ( is_date() && ! is_post_type_archive( 'paulus_journal' ) ) || is_404() ) {
 		$robots['index'] = 'noindex';
 	}
 	return $robots;

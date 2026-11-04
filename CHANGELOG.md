@@ -2,6 +2,24 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.0] - 2026-11-04
+
+Error pages, checked against the brief for all eight themes. The three drop-ins, their stylesheet and the maintenance page were already written from `dropins/`, each from its own source. No option key, hook, shortcode or function was renamed or removed, and no page title changed except the database error page's.
+
+### Added
+- **Install error pages** at the foot of Theme Options, Content (`admin_post_paulus_install_dropins`, nonce and `edit_theme_options`, the capability the installer asks for). It writes the files at once (`paulus_install_dropins( true )`). The table beside it reads each file as not installed, installed, outdated or another file left alone (`paulus_dropin_state()`), and `paulus_dropin_text()` builds the text the installer writes, so both compare the same thing.
+- `errors/403.html`, `500.html`, `502.html` and `503.html` for the web server's `ErrorDocument` lines, built from the maintenance markup by `bin/build-error-pages.php`. They link the theme's `fonts.css` and `error-page.css`. The `.htaccess` lines are under the button (`paulus_error_htaccess_snippet()`).
+- `tests/error-pages-test.php`.
+
+### Changed
+- `db-error.php` is titled and headed "We cannot reach our database" (it read "Temporarily unavailable").
+- All three drop-ins send `X-Robots-Tag: noindex` beside the robots meta tag.
+- The 404 page sends `noindex, follow`, through `wp_robots` and Rank Math's robots filter.
+- Each write goes through a temporary file without a PHP warning when `wp-content` is not writable.
+
+### Kept
+- The installer still runs on the first admin page after an update and still replaces copies the Abrahamic theme marked safe to delete, as before. Any other file is left alone.
+
 ## [2.76.0] - 2026-11-04
 
 The owner's brief of 4 November: build four plugins into the theme where it lacks them. All four were already built in, at least in part, so this release fills the gaps. No option key, hook, shortcode or function was renamed or removed, and no page title changed.

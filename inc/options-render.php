@@ -299,6 +299,9 @@ function paulus_options_page() {
 				// it only on ?tab=content, or fetch it when the tab is first shown.
 				if ( 'content' === $open ) {
 					paulus_importer_panel();
+					if ( function_exists( 'paulus_render_dropins_status' ) ) {
+						paulus_render_dropins_status();
+					}
 				} else {
 					printf(
 						'<div data-paulus-lazy="paulus_importer_panel" data-nonce="%1$s"><p><a class="button" href="%2$s">%3$s</a></p></div>',
@@ -331,6 +334,10 @@ function paulus_ajax_importer_panel() {
 	check_ajax_referer( 'paulus_importer_panel', 'nonce' );
 	ob_start();
 	paulus_importer_panel();
+	// The same panel as ?tab=content: the importer, then the error pages.
+	if ( function_exists( 'paulus_render_dropins_status' ) ) {
+		paulus_render_dropins_status();
+	}
 	wp_send_json_success( array( 'html' => ob_get_clean() ) );
 }
 add_action( 'wp_ajax_paulus_importer_panel', 'paulus_ajax_importer_panel' );
