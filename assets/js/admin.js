@@ -50,6 +50,7 @@
 			return;
 		}
 		box.setAttribute( 'data-loading', '1' );
+		box.setAttribute( 'aria-busy', 'true' );
 		var body = new URLSearchParams();
 		body.append( 'action', box.getAttribute( 'data-paulus-lazy' ) );
 		body.append( 'nonce', box.getAttribute( 'data-nonce' ) );
