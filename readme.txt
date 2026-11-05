@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.10
+Stable tag: 2.77.11
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -146,6 +146,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.11 =
+* The Study guide no longer gives search engines an FAQPage. The page shows questions without answers, and Google counts an FAQPage question without a shown answer as an error. The questions on the page are unchanged.
+
 = 2.77.10 =
 * Each article shows the date it was published, and the date it was updated, under the byline. A "Last reviewed" date and Key takeaways show once you fill them in on the article's screen.
 * One line in the middle of an article points to its study questions, or to the next article.
@@ -174,6 +177,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.11 =
+Upload the whole theme folder. Nothing else needs doing. Search Console's FAQ error on the Study guide clears once Google reads the page again.
 
 = 2.77.10 =
 Upload the whole theme folder. Key takeaways and "Last reviewed" are written on an article's screen. If something outside the site reads the user list through the REST API, switch "Hide the user list" off under Security.
