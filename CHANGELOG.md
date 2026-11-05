@@ -2,6 +2,20 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.6] - 2026-11-05
+
+### Changed
+- `CLAUDE.md` and `FARUQI.md` move from the theme folder to `.claude/`, where Claude Code reads them. `.gitattributes` leaves out `/.claude` in place of the two old root entries, so neither file reaches a `git archive` zip. `.claude/.htaccess` denies the folder to the web server, in case a working copy is uploaded; `paulus_hidden_entries()` already removes it from a live theme folder.
+- `assets/files.json` carries version 2.77.6, so the image clean-up keeps working.
+
+### Fixed
+- The static error pages in `errors/` link the home page at `/` and their stylesheets under `/wp-content/themes/paulus/`, so on a site installed in a subfolder they lost their style and their button led out of the site. `paulus_dropin_extras()` now lists a copy of each, written to `wp-content/paulus-errors/` with the site's home address and theme folder, under the drop-ins' marker, stamp and retry rules. The card lists the copies, `paulus_error_htaccess_snippet()` points at them, and `paulus_remove_dropins()` deletes them with the folder. `errors/` stays as the copy for a site at the root.
+- On a network whose main site had switched to another theme, no site wrote the drop-ins again, so they kept the old version for good. `paulus_dropins_writer()` lets one subsite write them while the main site runs another theme: the one with the lowest ID that runs Paulus (`paulus_dropins_first_theme_site()`), so two subsites never overwrite each other's addresses.
+- `README.md` named version 2.66.3 in its install step; it names 2.77.6.
+- `paulus_dropin_is_ours()` read a file it had not checked was readable, which raised a warning for an unreadable file in wp-content.
+
+`content_version` stays at 2.77.3: no article changed.
+
 ## [2.77.5] - 2026-11-05
 
 ### Fixed

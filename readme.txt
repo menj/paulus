@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.5
+Stable tag: 2.77.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,11 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.6 =
+* CLAUDE.md and FARUQI.md move into the .claude folder, which the release zip leaves out and the web server never serves.
+* On a site installed in a subfolder, the static error pages linked the home page and their stylesheets at the domain root. The theme now writes a copy of each into wp-content/paulus-errors/ with the site's own addresses, and the .htaccess lines on the Content tab point there.
+* On a network whose main site runs another theme, a subsite that runs Paulus now keeps the error pages up to date.
 
 = 2.77.5 =
 * On a network, a theme switch on the main site leaves the error pages in place while another site still runs Paulus.
