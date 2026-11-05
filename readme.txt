@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.12
+Stable tag: 2.77.13
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -146,6 +146,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.13 =
+* The browser icon set is complete: favicon.ico, an SVG icon, 32px, touch, 192px and 512px icons and a web app manifest, all from the portrait the site icon uses. Until the site icon is set, they show on the site, the login screen and the admin, and the site answers /favicon.ico with the icon. The error pages show it in the tab.
+
 = 2.77.12 =
 * The Study guide gives search engines its questions as an FAQPage again, word for word, as in 2.77.10. Search Console may list them as questions without answers. The owner keeps them for AI and answer search. The questions on the page are unchanged.
 
@@ -180,6 +183,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.13 =
+Upload the whole theme folder. Open one admin page so the error pages are written again with the icon.
 
 = 2.77.12 =
 Upload the whole theme folder. Nothing else needs doing. Search Console may report the Study guide's questions as missing answers; the owner keeps them on purpose.

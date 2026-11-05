@@ -162,6 +162,7 @@ if ( ! getenv( 'PAULUS_TEST_SUB' ) ) {
 } else {
 	paulus_check( false !== strpos( paulus_error_htaccess_snippet(), 'ErrorDocument 403 /blog/wp-content/paulus-errors/403.html' ), 'the .htaccess lines follow the subfolder' );
 	paulus_check( false !== strpos( $paulus_copy, 'href="/blog/"' ) && false !== strpos( $paulus_copy, 'href="/blog/wp-content/themes/paulus/assets/css/error-page.css"' ) && false === strpos( $paulus_copy, 'href="/"' ) && false === strpos( $paulus_copy, 'href="/wp-content/' ), 'the copy links the home page and stylesheets in the subfolder' );
+	paulus_check( false !== strpos( $paulus_copy, '<link rel="icon" href="/blog/wp-content/themes/paulus/assets/images/favicon-32.png"' ), 'the copy links the tab icon in the subfolder' );
 }
 paulus_remove_dropins();
 paulus_check( ! is_dir( "$paulus_tmp/paulus-errors" ), 'a theme switch removes the copies and their folder' );
