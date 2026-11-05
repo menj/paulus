@@ -51,7 +51,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.77.14 to 2.77.15
 
-- Upload the whole theme folder. Nothing else changes. On a site in a subfolder, put a copy of `assets/images/favicon.ico` in the domain root (or, with a Site Icon set, that icon as `favicon.ico`), since browsers ask for `/favicon.ico` there.
+- Upload the whole theme folder. Nothing else changes. On a site in a subfolder, put a copy of `assets/images/favicon.ico` in the domain root (or, with a Site Icon set, that icon converted to an ICO file named `favicon.ico`), since browsers ask for `/favicon.ico` there.
 
 ### 2.77.13 to 2.77.14
 

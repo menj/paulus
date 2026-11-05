@@ -116,7 +116,7 @@ The installer. It shows which articles and pages are installed, and one button i
 
 = My site is in a subfolder. Where does the browser icon go? =
 
-Browsers ask for /favicon.ico at the top of the domain, such as example.com/favicon.ico, even when the site lives in example.com/blog/. WordPress never sees that request, so put a copy of the theme's favicon.ico in the domain root folder. The icon tags in each page cover the pages either way. If you have set a Site Icon, put that icon there as favicon.ico instead.
+Browsers ask for /favicon.ico at the top of the domain, such as example.com/favicon.ico, even when the site lives in example.com/blog/. WordPress never sees that request, so put a copy of the theme's favicon.ico in the domain root folder. The icon tags in each page cover the pages either way. If you have set a Site Icon, put that icon there, converted to an ICO file named favicon.ico, instead.
 
 == Privacy ==
 
@@ -196,7 +196,7 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 == Upgrade Notice ==
 
 = 2.77.15 =
-Upload the whole theme folder. On a site in a subfolder, also put a copy of assets/images/favicon.ico in the domain root folder (or, with a Site Icon set, that icon as favicon.ico); otherwise nothing to do.
+Upload the whole theme folder. On a site in a subfolder, also put a copy of assets/images/favicon.ico in the domain root folder (or, with a Site Icon set, that icon converted to an ICO file named favicon.ico); otherwise nothing to do.
 
 = 2.77.14 =
 Upload the whole theme folder. Nothing else needs doing.
