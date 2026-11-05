@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.5] - 2026-11-05
+
+### Fixed
+- On a network, switching the main site to another theme deleted the shared drop-ins while a subsite still ran Paulus. `paulus_remove_dropins()` now skips the removal when `paulus_dropins_in_use_elsewhere()` finds another site, whose `stylesheet` or `template` option names the theme. It reads the sites from `get_sites()` 500 at a time until the list runs out.
+- On a network whose main site had already switched away, the last subsite to leave Paulus left the drop-ins behind. Whichever site is the last to run the theme now removes the theme's own files.
+- When a sister theme's marked drop-in could not be replaced, the error pages card still read "Another file is there; left alone", since `paulus_dropin_state()` calls such a file `foreign`. `paulus_render_dropins_status()` now shows the saved `failed` for a `foreign` file that `paulus_dropin_is_replaceable()` accepts.
+
+`content_version` stays at 2.77.3: no article changed.
+
 ## [2.77.4] - 2026-11-05
 
 ### Fixed
