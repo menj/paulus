@@ -36,6 +36,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.5 to 2.77.6
+
+- **Upload the whole theme folder.** The first admin page writes the copies of the static error pages into `wp-content/paulus-errors/`.
+- If `.htaccess` carries the old `ErrorDocument` lines, which point at the theme's `errors/` folder, replace them with the lines from Theme Options, Content. The old lines still work on a site at the domain root.
+
 ### 2.77.0 to 2.77.1
 
 - **Upload the whole theme folder.** Nothing to run.

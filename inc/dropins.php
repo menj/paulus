@@ -14,6 +14,12 @@
  * "Written by the ... theme; safe to delete", is replaced; switching themes
  * removes the theme's own.
  *
+ * The static pages in errors/ assume a site at the domain root with the
+ * theme in /wp-content/themes/paulus/. The theme also copies each into
+ * wp-content/paulus-errors/ with this site's home address and theme folder,
+ * so a site installed in a subfolder gets links that work. The .htaccess
+ * lines on the Content tab point at the copies.
+ *
  * @package Paulus
  */
 
@@ -28,19 +34,27 @@ function paulus_dropin_files() {
 	return array( 'maintenance.php', 'db-error.php', 'php-error.php' );
 }
 
+/** The folder in wp-content that holds this site's copies of the static pages. */
+const PAULUS_STATIC_ERRORS = 'paulus-errors';
+
 /**
  * The files written beside the drop-ins: the stylesheet the error pages use,
  * copied out of the theme so they keep their look while the theme folder is
  * being uploaded, and the maintenance page as static HTML, which the web
- * server and the theme's maintenance mode serve without running WordPress.
+ * server and the theme's maintenance mode serve without running WordPress,
+ * and a copy of each static page in errors/ with this site's addresses.
  *
- * @return array<string,string> Target file name => source file in the theme.
+ * @return array<string,string> Target file name, relative to wp-content => source file in the theme.
  */
 function paulus_dropin_extras() {
-	return array(
+	$files = array(
 		'paulus-error-page.css'   => 'assets/css/error-page.css',
 		'paulus-maintenance.html' => 'dropins/maintenance.php',
 	);
+	foreach ( array( '403', '500', '502', '503', '504' ) as $code ) {
+		$files[ PAULUS_STATIC_ERRORS . '/' . $code . '.html' ] = 'errors/' . $code . '.html';
+	}
+	return $files;
 }
 
 /**
@@ -51,7 +65,7 @@ function paulus_dropin_extras() {
  * @return bool
  */
 function paulus_dropin_is_ours( $path ) {
-	$head = (string) file_get_contents( $path, false, null, 0, 300 );
+	$head = is_readable( $path ) ? (string) file_get_contents( $path, false, null, 0, 300 ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions
 	return false !== strpos( $head, 'Paulus error page drop-in' ) || false !== strpos( $head, 'Paulus: the standalone error pages' ) || false !== strpos( $head, 'Written by the Abrahamic theme' );
 }
 
@@ -116,6 +130,18 @@ function paulus_dropin_text( $file ) {
 		return null;
 	}
 	$text = strtr( (string) file_get_contents( $source ), paulus_dropin_tokens() ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( 0 === strpos( $file, PAULUS_STATIC_ERRORS . '/' ) ) {
+		// errors/ is built for a site at the root with the theme in
+		// /wp-content/themes/paulus/; the copy carries this site's addresses.
+		$tokens = paulus_dropin_tokens();
+		return '<!-- Paulus error page drop-in ' . PAULUS_VERSION . ". Written by the Paulus theme; safe to delete. -->\n" . strtr(
+			$text,
+			array(
+				'href="/wp-content/themes/paulus/' => 'href="' . $tokens['{{THEME_URL}}'] . '/',
+				'href="/"'                         => 'href="' . $tokens['{{HOME_URL}}'] . '"',
+			)
+		);
+	}
 	if ( 'paulus-maintenance.html' === $file ) {
 		// The static page is the maintenance drop-in without its PHP: the
 		// status and headers come from whatever serves it.
@@ -145,13 +171,32 @@ function paulus_dropin_state( $file, $dir = '' ) {
 }
 
 /**
+ * Whether this site writes the shared files in wp-content: any site off a
+ * network, the main site of a network, or a subsite that runs the theme
+ * while the main site runs another. Without the last case a network whose
+ * main site had switched away kept the files of the old version for good,
+ * with no site left to refresh them.
+ *
+ * @return bool
+ */
+function paulus_dropins_writer() {
+	if ( ! is_multisite() || is_main_site() ) {
+		return true;
+	}
+	$slug = basename( dirname( __DIR__ ) );
+	$main = get_main_site_id();
+	return ! in_array( $slug, array( get_blog_option( $main, 'stylesheet' ), get_blog_option( $main, 'template' ) ), true );
+}
+
+/**
  * Copy the drop-ins into wp-content, when the theme, site name or addresses
  * have changed since the last copy, or at once when $force is set (the
  * Install error pages button). Runs when an administrator loads an admin
  * page, never for a visitor: a write into wp-content belongs to the owner,
  * and two anonymous requests must not write the same file at once. On a
- * network the wp-content folder is shared, so only the main site writes the
- * pages, with its own name and address.
+ * network the wp-content folder is shared, so the main site writes the
+ * pages, with its own name and address, or a subsite that runs the theme
+ * while the main site runs another (paulus_dropins_writer()).
  *
  * A failed attempt (wp-content not writable, or a source file unreadable)
  * is tried again at most once an hour, so a file that cannot be written does
@@ -162,7 +207,7 @@ function paulus_dropin_state( $file, $dir = '' ) {
  *                                   failed; null when nothing was tried.
  */
 function paulus_install_dropins( $force = false ) {
-	if ( ! is_admin() || wp_doing_ajax() || ! current_user_can( 'edit_theme_options' ) || ( is_multisite() && ! is_main_site() ) ) {
+	if ( ! is_admin() || wp_doing_ajax() || ! current_user_can( 'edit_theme_options' ) || ! paulus_dropins_writer() ) {
 		return null;
 	}
 	$stamp = md5( wp_json_encode( paulus_dropin_tokens() ) );
@@ -183,6 +228,9 @@ function paulus_install_dropins( $force = false ) {
 	$result = array();
 	foreach ( array_keys( $files ) as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
+		if ( ! is_dir( dirname( $target ) ) ) {
+			wp_mkdir_p( dirname( $target ) );
+		}
 		if ( file_exists( $target ) && ! paulus_dropin_is_replaceable( $target ) ) {
 			$result[ $file ] = 'kept';
 			continue;
@@ -266,6 +314,8 @@ function paulus_remove_dropins() {
 			unlink( $target ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 		}
 	}
+	// The folder of static copies goes too, but only when it is empty.
+	@rmdir( WP_CONTENT_DIR . '/' . PAULUS_STATIC_ERRORS ); // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
 	delete_option( 'paulus_dropins_stamp' );
 	delete_option( 'paulus_dropins_status' );
 	delete_transient( 'paulus_dropins_retry' );
@@ -294,13 +344,13 @@ function paulus_handle_install_dropins() {
 add_action( 'admin_post_paulus_install_dropins', 'paulus_handle_install_dropins' );
 
 /**
- * The lines for .htaccess that point the web server at the static pages in
- * errors/.
+ * The lines for .htaccess that point the web server at this site's copies
+ * of the static pages, in wp-content/paulus-errors/.
  *
  * @return string
  */
 function paulus_error_htaccess_snippet() {
-	$base  = untrailingslashit( (string) wp_parse_url( PAULUS_URI, PHP_URL_PATH ) ) . '/errors/';
+	$base  = untrailingslashit( (string) wp_parse_url( content_url( '/' ), PHP_URL_PATH ) ) . '/' . PAULUS_STATIC_ERRORS . '/';
 	$lines = array( '# Paulus: pages for the errors the web server answers before WordPress runs' );
 	foreach ( array( 403, 500, 502, 503, 504 ) as $code ) {
 		$lines[] = 'ErrorDocument ' . $code . ' ' . $base . $code . '.html';
@@ -320,7 +370,7 @@ function paulus_render_dropins_status() {
 		'foreign'   => __( 'Another file is there; left alone', 'paulus' ),
 		'failed'    => __( 'Could not be written (wp-content not writable or source file unreadable)', 'paulus' ),
 	);
-	$paulus_subsite = is_multisite() && ! is_main_site();
+	$paulus_subsite = ! paulus_dropins_writer();
 	$paulus_saved   = (array) get_option( 'paulus_dropins_status', array() );
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only.
 	$paulus_flag = $paulus_subsite || ! isset( $_GET['paulus_dropins'] ) ? '' : sanitize_key( wp_unslash( $_GET['paulus_dropins'] ) );
@@ -359,7 +409,7 @@ function paulus_render_dropins_status() {
 				<p><?php submit_button( __( 'Install error pages', 'paulus' ), 'secondary', 'submit', false ); ?></p>
 			</form>
 		<?php endif; ?>
-		<p><?php esc_html_e( 'For the errors the web server answers before WordPress starts, static pages are in the errors folder of the theme. Add these lines to .htaccess to use them:', 'paulus' ); ?></p>
+		<p><?php esc_html_e( 'For the errors the web server answers before WordPress starts, the theme writes static pages into wp-content/paulus-errors, with this site\'s addresses. Add these lines to .htaccess to use them:', 'paulus' ); ?></p>
 		<textarea readonly rows="6" class="large-text code" aria-label="<?php esc_attr_e( '.htaccess lines', 'paulus' ); ?>"><?php echo esc_textarea( paulus_error_htaccess_snippet() ); ?></textarea>
 	</div>
 	<?php

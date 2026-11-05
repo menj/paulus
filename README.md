@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.66.3) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.66.3.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`) and the changelog, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.66.3) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.66.3.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -288,21 +288,25 @@ Two pages exist to answer what people search for. `/questions/` (`content/articl
 
 ## Error pages
 
-WordPress shows its plain screens when it cannot load the theme. `dropins/maintenance.php`, `db-error.php` and `php-error.php` replace them with pages in the site's dress: parchment ground between two meander bands, a card with the accent on its upper edge, the site's faces, in the ochre scheme or the ink scheme on dark displays (`assets/css/error-page.css`). They need nothing from the database. `inc/dropins.php` copies them into `wp-content/` the first time an administrator opens an admin page after an install or update (on a network, the main site's administrator), filling in the site name, the home address and the address of the theme's stylesheets; each is written to a temporary name and moved into place, and a failed write (wp-content not writable) is tried again on the next admin page load rather than recorded as done. A file there that the theme did not write is left alone, and switching themes removes them. The maintenance and database pages reload every minute.
+WordPress shows its plain screens when it cannot load the theme. `dropins/maintenance.php`, `db-error.php` and `php-error.php` replace them with pages in the site's dress: parchment ground between two meander bands, a card with the accent on its upper edge, the site's faces, in the ochre scheme or the ink scheme on dark displays (`assets/css/error-page.css`). They need nothing from the database. `inc/dropins.php` copies them into `wp-content/` the first time an administrator opens an admin page after an install or update (on a network, the main site's administrator, or a subsite's while the main site runs another theme), filling in the site name, the home address and the address of the theme's stylesheets; each is written to a temporary name and moved into place, and a failed write (wp-content not writable) is tried again on the next admin page load rather than recorded as done. A file there that the theme did not write is left alone, and switching themes removes them. The maintenance and database pages reload every minute.
 
 The error pages use a copy of their stylesheet in `wp-content/paulus-error-page.css`, so they keep their look while the theme folder is being uploaded, and the drop-ins are written again whenever one of them is missing. The PHP error page tells an upload in progress (a file missing or half written in the theme or in WordPress) from any other error: the first is answered `503` "Back shortly" with a refresh, the second `500`. Each time it records the incident in `wp-content/paulus-incidents.log.php`, which begins with an `exit` so it cannot be read over the web.
 
 Theme Options, Content ends with the error pages: each file's state (not installed, installed, outdated or another file left alone) and an **Install error pages** button that writes them at once, behind a nonce and `edit_theme_options`. `maintenance.php` and `db-error.php` answer `503` with `Retry-After`, `php-error.php` answers `500` ("Something went wrong") or `503` for an upload in progress, and all three send `noindex` and `no-store`.
 
-For the errors the web server answers before WordPress starts, `errors/` holds static 403, 500, 502, 503 and 504 pages built from the maintenance markup (`php bin/build-error-pages.php`). Add to `.htaccess`:
+For the errors the web server answers before WordPress starts, `errors/` holds static 403, 500, 502, 503 and 504 pages built from the maintenance markup (`php bin/build-error-pages.php`). They assume a site at the domain root, with the theme in `/wp-content/themes/paulus/`.
+
+The theme also writes a copy of each into `wp-content/paulus-errors/`, with the site's own home address and theme folder, at the same times and under the same rules as the drop-ins. A site installed in a subfolder, such as `example.com/blog/`, gets links that work. Switching themes removes the copies. Theme Options, Content shows the `.htaccess` lines with this site's addresses. For a site at the root they read:
 
 ```
-ErrorDocument 403 /wp-content/themes/paulus/errors/403.html
-ErrorDocument 500 /wp-content/themes/paulus/errors/500.html
-ErrorDocument 502 /wp-content/themes/paulus/errors/502.html
-ErrorDocument 503 /wp-content/themes/paulus/errors/503.html
-ErrorDocument 504 /wp-content/themes/paulus/errors/504.html
+ErrorDocument 403 /wp-content/paulus-errors/403.html
+ErrorDocument 500 /wp-content/paulus-errors/500.html
+ErrorDocument 502 /wp-content/paulus-errors/502.html
+ErrorDocument 503 /wp-content/paulus-errors/503.html
+ErrorDocument 504 /wp-content/paulus-errors/504.html
 ```
+
+On a network the main site writes these files, since every site shares `wp-content`. When the main site runs another theme, a subsite that runs Paulus writes them. The last site to leave the theme removes them.
 
 ## Maintenance and the error watch
 

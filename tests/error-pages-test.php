@@ -12,7 +12,7 @@
 
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'PAULUS_DIR', dirname( __DIR__ ) );
-define( 'PAULUS_URI', 'https://example.test/wp-content/themes/paulus' );
+define( 'PAULUS_URI', 'https://example.test' . ( getenv( 'PAULUS_TEST_SUB' ) ?: '' ) . '/wp-content/themes/paulus' );
 define( 'PAULUS_VERSION', '9.9.9' );
 // A fresh directory of its own, so the cleanup at the end removes only what this test wrote.
 $paulus_tmp = sys_get_temp_dir() . '/paulus-err-' . getmypid() . '-' . bin2hex( random_bytes( 6 ) );
@@ -29,8 +29,11 @@ function esc_attr( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
 function wp_specialchars_decode( $s ) { return $s; }
 function get_bloginfo() { return 'Apostle of Doom'; }
 function wp_parse_url( $u, $c = -1 ) { return parse_url( $u, $c ); }
-function home_url( $p = '' ) { return 'https://example.test' . $p; }
-function content_url( $p = '' ) { return 'https://example.test/wp-content' . $p; }
+function home_url( $p = '' ) { return 'https://example.test' . ( getenv( 'PAULUS_TEST_SUB' ) ?: '' ) . $p; }
+function content_url( $p = '' ) { return 'https://example.test' . ( getenv( 'PAULUS_TEST_SUB' ) ?: '' ) . '/wp-content' . $p; }
+function wp_mkdir_p( $d ) { return is_dir( $d ) || mkdir( $d, 0755, true ); }
+function get_main_site_id() { return 1; }
+function get_blog_option( $id, $k ) { return $GLOBALS['t']['main_theme'] ?? 'paulus'; }
 function untrailingslashit( $s ) { return rtrim( $s, '/' ); }
 function wp_json_encode( $v ) { return json_encode( $v ); }
 function is_admin() { return true; }
@@ -109,7 +112,11 @@ paulus_check( false !== strpos( $paulus_html, 'wp-content/php-error.php</code></
 $GLOBALS['t']['subsite'] = true;
 $paulus_html             = paulus_render_card();
 paulus_check( false === strpos( $paulus_html, 'paulus_install_dropins' ) && false === strpos( $paulus_html, 'notice' ) && false !== strpos( $paulus_html, 'whole network shares wp-content' ), 'a subsite shows the network note and no button or notice' );
-paulus_check( null === paulus_install_dropins( true ), 'a subsite writes nothing' );
+paulus_check( null === paulus_install_dropins( true ), 'a subsite writes nothing while the main site runs the theme' );
+$GLOBALS['t']['main_theme'] = 'twentytwentyfive';
+paulus_check( paulus_dropins_writer() && is_array( paulus_install_dropins( true ) ), 'a subsite writes when the main site runs another theme' );
+unset( $GLOBALS['t']['main_theme'] );
+unlink( "$paulus_tmp/php-error.php" );
 $GLOBALS['t']['subsite'] = false;
 unset( $_GET['paulus_dropins'] );
 
@@ -132,8 +139,26 @@ foreach ( array( '403', '500', '502', '503' ) as $paulus_c ) {
 	$paulus_h = (string) file_get_contents( dirname( __DIR__ ) . "/errors/$paulus_c.html" );
 	paulus_check( false !== strpos( $paulus_h, 'noindex' ) && false === strpos( $paulus_h, '{{' ) && preg_match( '~<title>[^<|]{1,32} \| Apostle of Doom</title>~', $paulus_h ), "errors/$paulus_c.html is filled, noindex and keeps the title rule" );
 }
-paulus_check( false !== strpos( paulus_error_htaccess_snippet(), 'ErrorDocument 503 /wp-content/themes/paulus/errors/503.html' ), '.htaccess lines point at errors/' );
 
+// The copies of the static pages: errors/ as it is at the root, this
+// site's addresses in a subfolder (a second run, since PAULUS_URI is fixed).
+paulus_install_dropins( true );
+$paulus_copy = (string) file_get_contents( "$paulus_tmp/paulus-errors/403.html" );
+paulus_check( paulus_dropin_is_ours( "$paulus_tmp/paulus-errors/403.html" ), 'the copy carries the marker' );
+if ( ! getenv( 'PAULUS_TEST_SUB' ) ) {
+	paulus_check( false !== strpos( paulus_error_htaccess_snippet(), 'ErrorDocument 503 /wp-content/paulus-errors/503.html' ), '.htaccess lines point at the copies in wp-content' );
+	paulus_check( substr( $paulus_copy, strpos( $paulus_copy, "\n" ) + 1 ) === file_get_contents( dirname( __DIR__ ) . '/errors/403.html' ), 'a root install copies errors/403.html as it is' );
+	exec( 'PAULUS_TEST_SUB=/blog ' . escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( __FILE__ ) . ' 2>&1', $paulus_so, $paulus_sc );
+	paulus_check( 0 === $paulus_sc, 'the checks pass for a site in a subfolder: ' . implode( ' ', preg_grep( '/^FAIL/', $paulus_so ) ) );
+} else {
+	paulus_check( false !== strpos( paulus_error_htaccess_snippet(), 'ErrorDocument 403 /blog/wp-content/paulus-errors/403.html' ), 'the .htaccess lines follow the subfolder' );
+	paulus_check( false !== strpos( $paulus_copy, 'href="/blog/"' ) && false !== strpos( $paulus_copy, 'href="/blog/wp-content/themes/paulus/assets/css/error-page.css"' ) && false === strpos( $paulus_copy, 'href="/"' ) && false === strpos( $paulus_copy, 'href="/wp-content/' ), 'the copy links the home page and stylesheets in the subfolder' );
+}
+paulus_remove_dropins();
+paulus_check( ! is_dir( "$paulus_tmp/paulus-errors" ), 'a theme switch removes the copies and their folder' );
+
+array_map( 'unlink', array_filter( glob( "$paulus_tmp/paulus-errors/*" ) ?: array(), 'is_file' ) );
+@rmdir( "$paulus_tmp/paulus-errors" );
 array_map( 'unlink', array_filter( glob( "$paulus_tmp/{,.}*", GLOB_BRACE ) ?: array(), 'is_file' ) );
 @rmdir( $paulus_tmp );
 echo $paulus_fail ? "$paulus_fail failed\n" : "all passed\n";
