@@ -702,6 +702,15 @@ function paulus_cleanup_on_version_change() {
 			return;
 		}
 	}
+	// Read the version again, from the database, now the lease is held: a
+	// request that passed the check above may have paused while another ran
+	// the clean-up, recorded the version and released the lease.
+	global $wpdb;
+	wp_cache_delete( 'paulus_retired_version', 'options' );
+	if ( PAULUS_VERSION === (string) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", 'paulus_retired_version' ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		paulus_release_lock( 'paulus_retired_lock', $lease );
+		return;
+	}
 	$GLOBALS['paulus_cleanup_lease'] = $lease;
 	add_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
 	try {

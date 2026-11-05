@@ -36,7 +36,13 @@ function wp_get_environment_type() { return $GLOBALS['t']['env']; }
 function wp_normalize_path( $p ) { return str_replace( '\\', '/', $p ); }
 function trailingslashit( $p ) { return rtrim( $p, '/\\' ) . '/'; }
 function apply_filters( $hook, $v ) { return $v; }
-function get_option( $k, $d = false ) { return $GLOBALS['t']['options'][ $k ] ?? $d; }
+function get_option( $k, $d = false ) {
+	$v = $GLOBALS['t']['options'][ $k ] ?? $d;
+	if ( 'paulus_retired_version' === $k && ! empty( $GLOBALS['t']['after_check'] ) ) {
+		call_user_func( $GLOBALS['t']['after_check'] );
+	}
+	return $v;
+}
 function add_option( $k, $v ) {
 	if ( array_key_exists( $k, $GLOBALS['t']['options'] ) ) {
 		return false;
@@ -177,6 +183,9 @@ class T_DB {
 	public function prepare( $sql, ...$args ) {
 		return $args;
 	}
+	public function get_var( $args ) {
+		return $GLOBALS['t']['options'][ $args[0] ] ?? null;
+	}
 	public function query( $args ) {
 		if ( 2 === count( $args ) ) {
 			// DELETE … WHERE option_name = %s AND option_value = %s.
@@ -252,6 +261,18 @@ paulus_cleanup_on_version_change();
 check( 'a run that lost its lease frees nothing and records nothing', 3 === $GLOBALS['t']['runs'] && time() . '.successor' === $GLOBALS['t']['options']['paulus_retired_lock'] && '9.9.8' === $GLOBALS['t']['options']['paulus_retired_version'] );
 unset( $GLOBALS['t']['options']['paulus_retired_lock'] );
 $GLOBALS['t']['options']['paulus_retired_version'] = '9.9.9';
+// A request that passed the version check, then paused while another ran
+// the clean-up and released the lease: once it holds the lease it reads the
+// version again, finds it recorded, frees the lease and runs nothing.
+$GLOBALS['t']['options']['paulus_retired_version'] = '9.9.8';
+function t_recorded_meanwhile() {
+	$GLOBALS['t']['options']['paulus_retired_version'] = '9.9.9';
+}
+$GLOBALS['t']['after_check'] = 't_recorded_meanwhile';
+$runs = $GLOBALS['t']['runs'];
+paulus_cleanup_on_version_change();
+check( 'a request that paused past the check runs nothing once it holds the lease, and frees it', $runs === $GLOBALS['t']['runs'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+unset( $GLOBALS['t']['after_check'] );
 
 // The .htaccess block for WordPress's own files.
 check( 'WordPress at the .htaccess folder: no prefix', '' === paulus_sec_core_prefix( '/srv/site/', '/srv/site/' ) && '' === paulus_sec_core_prefix( '/srv/site', '/srv/site/' ) );
