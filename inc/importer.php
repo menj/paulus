@@ -614,7 +614,61 @@ add_filter( 'removable_query_args', 'paulus_importer_removable_args' );
  */
 function paulus_run_install() {
 	// The security gate exempts what this run saves and marks it as seeded.
-	return function_exists( 'paulus_sec_seed_run' ) ? paulus_sec_seed_run( 'paulus_run_install_steps' ) : paulus_run_install_steps();
+	$steps = static function () {
+		return function_exists( 'paulus_sec_seed_run' ) ? paulus_sec_seed_run( 'paulus_run_install_steps' ) : paulus_run_install_steps();
+	};
+	return paulus_without_post_watchers( $steps );
+}
+
+/**
+ * Classes whose save_post watchers are set aside while the theme writes its
+ * own articles, pages and Journal entries. Rank Math's analytics watcher
+ * writes to its own tables on every save; on a site whose analytics module
+ * never created them, each save logged a database error, 266 lines in nine
+ * days of the live error log, all from the theme's sync. The theme's texts
+ * carry their own search title and description, so nothing is lost.
+ *
+ * @return string[]
+ */
+function paulus_quiet_watcher_classes() {
+	return (array) apply_filters( 'paulus_quiet_watcher_classes', array( 'RankMath\\Analytics\\Watcher' ) );
+}
+
+/**
+ * Run a callback with the watchers of paulus_quiet_watcher_classes() taken
+ * off the hooks a post save fires, and put them back afterwards, each at its
+ * own priority, even when the callback throws.
+ *
+ * @param callable $run The callback.
+ * @return mixed What the callback returns.
+ */
+function paulus_without_post_watchers( $run ) {
+	global $wp_filter;
+	$classes = paulus_quiet_watcher_classes();
+	$removed = array();
+	foreach ( array( 'save_post', 'wp_insert_post', 'post_updated', 'edit_post', 'transition_post_status', 'delete_post', 'wp_trash_post' ) as $hook ) {
+		if ( empty( $wp_filter[ $hook ] ) || ! $wp_filter[ $hook ] instanceof WP_Hook ) {
+			continue;
+		}
+		foreach ( $wp_filter[ $hook ]->callbacks as $priority => $callbacks ) {
+			foreach ( $callbacks as $cb ) {
+				$fn = $cb['function'];
+				if ( is_array( $fn ) && is_object( $fn[0] ) && in_array( get_class( $fn[0] ), $classes, true ) ) {
+					$removed[] = array( $hook, $fn, $priority, $cb['accepted_args'] );
+				}
+			}
+		}
+	}
+	foreach ( $removed as $r ) {
+		remove_action( $r[0], $r[1], $r[2] );
+	}
+	try {
+		return call_user_func( $run );
+	} finally {
+		foreach ( $removed as $r ) {
+			add_action( $r[0], $r[1], $r[2], $r[3] );
+		}
+	}
 }
 
 /**

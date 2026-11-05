@@ -593,6 +593,10 @@ function paulus_remove_tree( $root ) {
 		return 0;
 	}
 	foreach ( $it as $f ) {
+		// A long walk keeps the version clean-up's lease fresh: the tick
+		// fires for every entry, and the renewal itself goes by the clock
+		// (once a minute), so a slow entry delays it by that entry alone.
+		do_action( 'paulus_cleanup_tick' );
 		if ( $f->isDir() && ! $f->isLink() ) {
 			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
 		} else {
@@ -608,21 +612,32 @@ function paulus_remove_tree( $root ) {
 	return $gone;
 }
 
-// Hidden files and folders at the top of the theme folder: the repository's
-// `.git`, `.github`, `.gitignore` and `.gitattributes`, and editor folders
-// (`.vscode`, `.idea`, `.claude`), which an upload of a working copy carries
-// and the web server may serve. Server files that may belong to the host
-// stay. A local or development site keeps them, so a theme run from a
-// working copy keeps its repository; so does `define( 'PAULUS_KEEP_DOTFILES', true );`.
+// Development files at the top of the theme folder, which an FTP upload of a
+// working copy carries and the web server may serve: the hidden entries (the
+// repository's `.git`, `.github`, `.gitignore` and `.gitattributes`, and
+// editor folders such as `.vscode`, `.idea` and `.claude`), and the folders a
+// release zip leaves out (`tests`, `tools`, `docs`). Server files that may
+// belong to the host (`.htaccess`, `.user.ini`, `.well-known`) stay. A local
+// or development site keeps all of them, so a theme run from a working copy
+// keeps its repository; so does `define( 'PAULUS_KEEP_DOTFILES', true );`.
+function paulus_keeps_dev_files() {
+	return ( defined( 'PAULUS_KEEP_DOTFILES' ) && PAULUS_KEEP_DOTFILES )
+		|| in_array( wp_get_environment_type(), array( 'local', 'development' ), true );
+}
+
 function paulus_hidden_entries() {
-	if ( ( defined( 'PAULUS_KEEP_DOTFILES' ) && PAULUS_KEEP_DOTFILES )
-		|| in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) ) {
+	if ( paulus_keeps_dev_files() ) {
 		return array();
 	}
 	$keep = array( '.', '..', '.htaccess', '.user.ini', '.well-known' );
 	$list = array();
 	foreach ( (array) scandir( PAULUS_DIR ) as $name ) {
 		if ( is_string( $name ) && '.' === substr( $name, 0, 1 ) && ! in_array( $name, $keep, true ) ) {
+			$list[] = PAULUS_DIR . '/' . $name;
+		}
+	}
+	foreach ( array( 'tests', 'tools', 'docs' ) as $name ) {
+		if ( file_exists( PAULUS_DIR . '/' . $name ) || is_link( PAULUS_DIR . '/' . $name ) ) {
 			$list[] = PAULUS_DIR . '/' . $name;
 		}
 	}
@@ -644,9 +659,11 @@ function paulus_cleanup_retired_files() {
 		}
 	}
 	foreach ( $dirs as $dir ) {
+		do_action( 'paulus_cleanup_tick' );
 		$gone += paulus_remove_tree( $dir );
 	}
 	foreach ( $paths as $path ) {
+		do_action( 'paulus_cleanup_tick' );
 		if ( is_link( $path ) ) {
 			wp_delete_file( $path );
 			$gone += is_link( $path ) ? 0 : 1;
@@ -658,22 +675,127 @@ function paulus_cleanup_retired_files() {
 	return $gone;
 }
 
-// Once for each version, on the first admin page an administrator loads, and
-// with the weekly image housekeeping.
-add_action( 'admin_init', static function () {
-	if ( get_option( 'paulus_retired_version' ) !== PAULUS_VERSION && current_user_can( 'manage_options' ) ) {
-		update_option( 'paulus_retired_version', PAULUS_VERSION, false );
-		$gone = paulus_cleanup_retired_files();
-		if ( $gone ) {
-			error_log( 'Paulus: removed ' . $gone . ' retired files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+/**
+ * Once for each version, on the first request of any kind after the version
+ * changes (an FTP upload of a working copy puts `.git` and the tests on the
+ * server at once, and the site may see no administrator for days), and with
+ * the weekly image housekeeping.
+ *
+ * One request runs it, under a lease held in an option: add_option() takes
+ * a free lease (it fails when the option exists), and the running clean-up
+ * renews it every minute while it works (paulus_renew_cleanup_lease(), on
+ * the "paulus_cleanup_tick" action fired for every entry it removes), so a
+ * long clean-up is never displaced, and releases it only while it still
+ * holds it (paulus_release_lock()). A lease left unrenewed for five minutes
+ * belongs to a request that died, and is taken over with one compare-and-set
+ * UPDATE that only one request can win (paulus_swap_lock()). The version is
+ * recorded after the clean-up returns, so a request that dies is retried.
+ */
+function paulus_cleanup_on_version_change() {
+	if ( get_option( 'paulus_retired_version' ) === PAULUS_VERSION ) {
+		return;
+	}
+	$lease = time() . '.' . wp_rand( 100000, 999999 );
+	if ( ! add_option( 'paulus_retired_lock', $lease, '', false ) ) {
+		$held = (string) get_option( 'paulus_retired_lock' );
+		if ( time() - (int) $held < 5 * MINUTE_IN_SECONDS || ! paulus_swap_lock( 'paulus_retired_lock', $held, $lease ) ) {
+			return;
 		}
 	}
-} );
+	// Read the version again, from the database, now the lease is held: a
+	// request that passed the check above may have paused while another ran
+	// the clean-up, recorded the version and released the lease.
+	global $wpdb;
+	wp_cache_delete( 'paulus_retired_version', 'options' );
+	if ( PAULUS_VERSION === (string) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", 'paulus_retired_version' ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		paulus_release_lock( 'paulus_retired_lock', $lease );
+		return;
+	}
+	$GLOBALS['paulus_cleanup_lease'] = $lease;
+	add_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
+	try {
+		$gone = paulus_cleanup_retired_files();
+	} finally {
+		remove_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
+	}
+	// Recorded only once the clean-up has returned, and while this request
+	// still holds the lease: it renews the lease one last time (which fails
+	// if another request took it over, and then leaves everything to that
+	// one), records the version, and only then releases the lease. A request
+	// arriving in between finds the lease fresh or the version recorded, so
+	// it never starts a second clean-up. A request that dies part-way leaves
+	// the version unrecorded and its lease unrenewed, so a later request
+	// takes it over and tries again.
+	$held  = (string) $GLOBALS['paulus_cleanup_lease'];
+	$final = time() . '.' . substr( $held, strpos( $held, '.' ) + 1 ) . '-done';
+	unset( $GLOBALS['paulus_cleanup_lease'] );
+	if ( ! paulus_swap_lock( 'paulus_retired_lock', $held, $final ) ) {
+		return;
+	}
+	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
+	paulus_release_lock( 'paulus_retired_lock', $final );
+	if ( $gone ) {
+		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+	}
+}
+add_action( 'init', 'paulus_cleanup_on_version_change', 1 );
+
+/**
+ * Renew the running clean-up's lease, at most once a minute, with the same
+ * compare-and-set, so it never looks stale while it works.
+ */
+function paulus_renew_cleanup_lease() {
+	$held = (string) ( $GLOBALS['paulus_cleanup_lease'] ?? '' );
+	if ( '' === $held || time() - (int) $held < MINUTE_IN_SECONDS ) {
+		return;
+	}
+	$next = time() . '.' . substr( $held, strpos( $held, '.' ) + 1 );
+	if ( paulus_swap_lock( 'paulus_retired_lock', $held, $next ) ) {
+		$GLOBALS['paulus_cleanup_lease'] = $next;
+	}
+}
+
+/**
+ * Release a lock only while it still holds this request's value, in one
+ * DELETE, so a request that lost its lease never frees its successor's.
+ *
+ * @param string $name The lock's option name.
+ * @param string $held This request's value.
+ * @return bool Whether this request still held it and released it.
+ */
+function paulus_release_lock( $name, $held ) {
+	global $wpdb;
+	$done = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name = %s AND option_value = %s", $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	wp_cache_delete( $name, 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
+	wp_cache_delete( 'notoptions', 'options' );
+	return 1 === $done;
+}
+
+/**
+ * Replace a lock's value, for one request only: the new value is written
+ * only where the row still holds the value read before, in a single UPDATE,
+ * so of two requests that read the same value exactly one changes the row.
+ *
+ * @param string $name The lock's option name.
+ * @param string $held The value read from it.
+ * @param string $next The value to write.
+ * @return bool Whether this request changed it.
+ */
+function paulus_swap_lock( $name, $held, $next ) {
+	global $wpdb;
+	$won = (int) $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s", $next, $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	// The cached list of autoloaded options is cleared too, for a lock
+	// option that was saved with autoload on.
+	wp_cache_delete( $name, 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
+	return 1 === $won;
+}
 add_action( 'paulus_image_housekeeping', 'paulus_cleanup_retired_files', 20 );
 add_action( 'after_switch_theme', static function () {
 	$gone = paulus_cleanup_retired_files();
 	if ( $gone ) {
-		error_log( 'Paulus: removed ' . $gone . ' retired and hidden files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	}
 } );
 
@@ -727,9 +849,20 @@ add_action( 'template_redirect', 'paulus_redirect_old_images', 4 );
  * WordPress finds nothing for, and that is one of these, is answered 410
  * Gone, which tells search engines to drop it for good; any address
  * WordPress does find is untouched.
+ *
+ * The spam era's posts are asked for by number as well: /?p=739 and the
+ * like, about 2,700 requests in nine days of the live logs. WordPress sends a
+ * number it knows to the post's own address, so one that reaches here as
+ * not found names no post this site has, and is gone too (a preview, which
+ * WordPress shows only to its author, is left as it is).
  */
 function paulus_gone_spam() {
 	if ( ! is_404() ) {
+		return;
+	}
+	if ( paulus_is_gone_post_number( $_GET ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		status_header( 410 );
+		nocache_headers();
 		return;
 	}
 	$path = strtolower( rawurldecode( (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
@@ -741,3 +874,20 @@ function paulus_gone_spam() {
 	}
 }
 add_action( 'template_redirect', 'paulus_gone_spam', 5 );
+
+/**
+ * Whether a not-found request asks for a post by number alone: "p" holds
+ * digits, and nothing but "p" (and a "page_id" or "cpage" a crawler may
+ * carry along with it) is set, so a search or a preview is never answered 410.
+ *
+ * @param array $query The request's query arguments.
+ * @return bool
+ */
+function paulus_is_gone_post_number( $query ) {
+	$p = $query['p'] ?? null;
+	// Digits, and not zero (WordPress reads p=0 as the home page).
+	if ( ! is_string( $p ) || ! ctype_digit( $p ) || '' === ltrim( $p, '0' ) ) {
+		return false;
+	}
+	return ! array_diff( array_keys( $query ), array( 'p', 'page_id', 'cpage' ) );
+}

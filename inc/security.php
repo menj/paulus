@@ -108,6 +108,52 @@ function paulus_sec_htaccess_lines() {
 	);
 }
 
+/** The .htaccess marker of the block that denies WordPress's own files. */
+defined( 'PAULUS_SEC_CORE_MARKER' ) || define( 'PAULUS_SEC_CORE_MARKER', 'Paulus: deny direct core files' );
+
+/**
+ * Lines that deny WordPress's own files that are never meant to be asked for
+ * by address: the PHP files in wp-includes (bots ask for blocks/rss.php and
+ * the like, which then fail with a fatal error and fill the error log),
+ * wp-settings.php, wp-config-sample.php, readme.html (which names the
+ * version) and wp-admin/install.php. The editor's TinyMCE loader
+ * (wp-includes/js/tinymce/) and ms-files.php, which a network's rewrite
+ * rules hand uploads to, stay reachable. The paths are relative to the
+ * folder that holds .htaccess, with WordPress's folder when it is installed
+ * in its own subfolder.
+ *
+ * @param string $prefix WordPress's folder relative to the .htaccess folder, '' or "wp/".
+ * @return string[]
+ */
+function paulus_sec_core_lines( $prefix = '' ) {
+	$p = preg_quote( $prefix, '#' );
+	$p = str_replace( ' ', '\\ ', $p );
+	return array(
+		'<IfModule mod_rewrite.c>',
+		'RewriteEngine On',
+		'RewriteRule ^' . $p . 'wp-includes/(?!js/tinymce/|ms-files\\.php$).+\\.php$ - [F,L]',
+		'RewriteRule ^' . $p . '(wp-settings|wp-config-sample)\\.php$ - [F,L]',
+		'RewriteRule ^' . $p . 'readme\\.html$ - [F,L]',
+		'RewriteRule ^' . $p . 'wp-admin/install\\.php$ - [F,L]',
+		'</IfModule>',
+	);
+}
+
+/**
+ * WordPress's folder relative to the folder that holds .htaccess: '' when
+ * they are the same, "wp/" when WordPress sits in its own subfolder, null
+ * when WordPress is outside it (the block is then not written).
+ *
+ * @param string $home The folder that holds .htaccess, with a trailing slash.
+ * @param string $abs  ABSPATH.
+ * @return string|null
+ */
+function paulus_sec_core_prefix( $home, $abs ) {
+	$home = wp_normalize_path( trailingslashit( $home ) );
+	$abs  = wp_normalize_path( trailingslashit( $abs ) );
+	return 0 === strpos( $abs, $home ) ? (string) substr( $abs, strlen( $home ) ) : null;
+}
+
 /**
  * Path of the site's .htaccess, or '' when the server is not Apache or the
  * file cannot be written.
@@ -157,6 +203,13 @@ function paulus_sec_sync_htaccess( $force = false ) {
 	} elseif ( ! $want && $current ) {
 		$ok = insert_with_markers( $file, 'Block xmlrpc.php', array() );
 	}
+	// The core files block is kept while the theme runs, whatever the switch.
+	$prefix = paulus_sec_core_prefix( get_home_path(), ABSPATH );
+	// define( 'PAULUS_ALLOW_CORE_FILES', true ); in wp-config.php takes the block out.
+	$lines  = null === $prefix || ( defined( 'PAULUS_ALLOW_CORE_FILES' ) && PAULUS_ALLOW_CORE_FILES ) ? array() : paulus_sec_core_lines( $prefix );
+	if ( extract_from_markers( $file, PAULUS_SEC_CORE_MARKER ) !== $lines ) {
+		$ok = insert_with_markers( $file, PAULUS_SEC_CORE_MARKER, $lines ) && $ok;
+	}
 	update_option( 'paulus_security_htaccess', ! $ok ? 'unavailable' : ( $want ? 'written' : 'off' ), false );
 }
 add_action( 'admin_init', 'paulus_sec_sync_htaccess' );
@@ -171,6 +224,7 @@ function paulus_sec_remove_htaccess() {
 	$file = paulus_sec_htaccess_file();
 	if ( '' !== $file ) {
 		insert_with_markers( $file, 'Block xmlrpc.php', array() );
+		insert_with_markers( $file, PAULUS_SEC_CORE_MARKER, array() );
 	}
 	delete_transient( 'paulus_sec_htaccess_checked' );
 }

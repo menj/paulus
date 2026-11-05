@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.7
+Stable tag: 2.77.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,11 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.8 =
+* Old spam-era addresses such as /?p=739 answer 410 Gone.
+* Development files uploaded with the theme (.git, tests and the like) are refused by the web server and removed on the first request after an update.
+* Theme updates no longer fill the error log with Rank Math database errors, and bots asking for WordPress's own files get 403.
 
 = 2.77.7 =
 * The front page reads as one story, from the man to the charges, the witnesses, the replies and the book, with a short step line before each section.

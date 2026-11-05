@@ -8,6 +8,11 @@
  * @package Paulus
  */
 
+// Run from the command line only: on a web server this file does nothing.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
+
 define( 'PAULUS_SECURITY_TEST', true );
 define( 'ABSPATH', __DIR__ . '/' );
 if ( ! function_exists( '__' ) ) {
