@@ -8,7 +8,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.6) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.6.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.7) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.7.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -18,7 +18,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 The site is arranged as a case file against Paul. Three sections (WordPress categories ordered by the term meta `paulus_order`) hold 33 articles, the English chapters of the book in parts; each article carries `_paulus_order` (reading order), `_paulus_label` (for example "Count·III", "The vision") and, for parts of a multi-part chapter, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no` and `_paulus_parts`.
 
 ```
-/                                  Front page: hero, the six counts, the man, answers, the witnesses
+/                                  Front page, told as a story: hero, the man, the six counts, the witnesses, answers, the Islamic dilemma, the book
 /category/the-man/                 Profile, The Roman, The vision (3 parts), The purse, The mind (2 parts), The character (3 parts)
 /category/the-charges/             Count·I (1), Count·II (2), Count·III (3), Count·IV (2), Count·V (3), Count·VI (3)
 /category/the-witnesses/           The early church, The brother, The Islamic tradition (3 parts), The revelation, Testimony, The region
@@ -88,6 +88,22 @@ paulus/
 
 Color schemes are pure CSS: the active scheme is written as a body class, and `schemes.css` remaps the theme.json preset variables. No inline CSS or JavaScript is emitted.
 
+## The front page as a story
+
+The front page reads as one case, top to bottom, the order a hearing runs in. Each section after the hero opens with a step label and one bridging line (`[paulus_story]`, copy in `paulus_front_story()` in `inc/structure.php`), then the section's own Greek inscription and heading.
+
+| Step | Section | Its job in the story |
+| --- | --- | --- |
+| Hero | `[paulus_hero]` | The claim: Paul of Tarsus and the corruption of the message of ʿĪsā ibn Maryam, with the way in (Read the charges, About the book) |
+| First, the man | The Man | Who stands accused, from his own letters and Acts |
+| Then, the charges | The Charges | The case: the measure first, then the six counts |
+| Next, the witnesses | The Witnesses | The testimony the counts rest on |
+| Then, the replies | Answers to missionary claims | The objections heard most often, each answered briefly, with the front page's `FAQPage` built from them |
+| The hardest objection | The Islamic dilemma | The strongest argument against the case, with a link to its full answer |
+| Last, the whole case | The book | The next step: the book the case is drawn from |
+
+The three sections follow their reading order on the site (`paulus_order`: the man, the charges, the witnesses), so the front page, the menu and the Site map tell the case in one order. The setup prompt sits under the hero for administrators until content exists. A front-page template saved in the Site Editor keeps its own order; reset it to take this one (see UPGRADING.md).
+
 ## Shortcodes
 
 | Shortcode | Output |
@@ -96,6 +112,7 @@ Color schemes are pure CSS: the active scheme is written as a body class, and `s
 | `[paulus_setup_prompt]` | Install prompt on the front page, administrators only, until content exists |
 | `[paulus_parts]` | Sections with their articles; `part="the-charges"` for one, `part="current"` on section pages; `style="cards"`, `"counts"`, `"text"` or `"list"`. Overview pages show one card per series |
 | `[paulus_answers_teaser count="6"]` | FAQ accordion of the first questions from the Answers page |
+| `[paulus_story step="…"]…[/paulus_story]` | A step of the front page's story: a label and one bridging line from `paulus_front_story()`, then the enclosed section. Prints nothing when the section prints nothing, and the section alone for an unknown step. With `section="default"` or `section="charges"` it also prints the front-page section wrapper (`.paulus-front__section`, with the `--charges` modifier), so an empty section leaves no blank band |
 | `[paulus_page_hero]` | Title panel for articles, pages and section pages; on articles the byline sets the author's name alone in Cinzel capitals as a signature, with the reading time in the label face beside it, and the panel carries the share links (Facebook, X, WhatsApp, Telegram, email, plain links; marks from the Minimalist Social Icons pack, inlined by `paulus_icon()`, which accepts only plain slugs as icon names and never passes them through `sanitize_file_name()`, since that rewrites a name such as "pdf" to "unnamed-file.pdf") |
 | `[paulus_article_rail]` | Side rail, sticky, 1240px and wider: the article's sections with the current one marked, the parts of the chapter, and apparatus links |
 | `[paulus_series_nav]` | "This series" list of a chapter's parts. No template places it since 2.26.5; available for manual use |
@@ -440,7 +457,7 @@ On sync, a featured image of the theme's still held as JPEG in the media library
 
 ## Screen sizes
 
-The theme is checked at eleven widths from 320 to 1920 pixels (320, 360, 390, 414, 600, 768, 820, 1024, 1280, 1440, 1920) on eighteen kinds of page, 198 combinations, for sideways scrolling, elements running off the screen, text under 11 pixels on phones, and tap targets under 24 pixels on touch screens outside running text. The header keeps one row at every width (96 to 103 pixels tall): WordPress collapses the navigation behind its button only below 600 pixels, and the theme extends that to 1023 pixels, so tablets use the menu button too; at 360 pixels and under the wordmark and header tools are set smaller. On touch screens small links (the header wordmark, answer link marks, breadcrumbs, the Journal's year, month, entry and feed links, the Sitemap's group headings, the author card's book toggle) are given a tap area of at least 44 pixels without changing how they look. The share row wraps when it runs out of room. The opened menu is set flush left.
+The theme is checked at twelve widths from 320 to 1920 pixels (320, 360, 375, 390, 414, 600, 768, 820, 1024, 1280, 1440, 1920) on eighteen kinds of page, 216 combinations, for sideways scrolling, elements running off the screen, text under 11 pixels on phones, and tap targets under 24 pixels on touch screens outside running text. The header keeps one row at every width (96 to 103 pixels tall): WordPress collapses the navigation behind its button only below 600 pixels, and the theme extends that to 1023 pixels, so tablets use the menu button too; at 430 pixels and under the wordmark and header tools are set smaller, and at 340 and under the header's side margin narrows too (the 360 limit before 2.77.7 left a 375-pixel phone scrolling sideways, and 320 overflowed by 28 pixels). On touch screens small links (the header wordmark, answer link marks, breadcrumbs, the Journal's year, month, entry and feed links, the Sitemap's group headings, the author card's book toggle) are given a tap area of at least 44 pixels without changing how they look. The share row wraps when it runs out of room. The opened menu is set flush left.
 
 ## Dashboard widget
 
