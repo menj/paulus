@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.14 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.15 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.14) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.14.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.15) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.14.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -466,7 +466,7 @@ On a network the main site writes these files, since every site shares `wp-conte
 
 The installer sets the site icon to the portrait (`paulus_install_site_icon()`), and WordPress then prints its own icon tags. Until one is set, `paulus_fallback_icon()` (`inc/importer.php`) prints `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `site.webmanifest` and `theme-color` #7a2e1a on `wp_head`, `login_head` and `admin_head`.
 
-`/favicon.ico` reaches WordPress when no such file sits in the site root. `paulus_serve_favicon()` answers it on `template_redirect` (priority 0, so HEAD is covered) and `do_faviconico` with `assets/images/favicon.ico`, `Cache-Control: public, max-age=86400` and an ETag, with a 304 on a match; with a site icon, WordPress redirects to it. The manifest is a static file with relative icon paths. The theme `.htaccess` refuses dot entries, the development folders and Markdown other than the served documents, so the icons are served. The error pages link `favicon-32.png` through `{{THEME_URL}}`.
+`/favicon.ico` reaches WordPress when no such file sits in the site root. `paulus_serve_favicon()` answers it on `template_redirect` (priority 0, so HEAD is covered) and `do_faviconico` with `assets/images/favicon.ico`, `Cache-Control: public, max-age=86400` and an ETag, with a 304 on a match; with a site icon, WordPress redirects to it. The manifest is a static file with relative icon paths. The theme `.htaccess` refuses dot entries, the development folders and Markdown other than the served documents, so the icons are served. The error pages link `favicon-32.png` through `{{THEME_URL}}`. On a site in a subfolder, such as `example.com/blog/`, browsers still ask for `example.com/favicon.ico`, which WordPress never sees: put a copy of `assets/images/favicon.ico` at the domain root there. The head tags cover the pages either way. If a Site Icon is set, put that icon there as favicon.ico instead.
 
 ## Maintenance and the error watch
 

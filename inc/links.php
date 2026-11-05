@@ -8,7 +8,7 @@
  * the Council of Nicaea on abrahamic-religions.com, and so on.
  *
  * The phrases come from inc/data/network-links.json, one file shared by the
- * seven themes of the network and identical in each: every entry names the
+ * seven themes and identical in each: every entry names the
  * site that owns the page, its path there and the phrases that lead to it.
  * Entries for this site become links to home_url( path ), so a staging copy
  * links to itself; entries for the others go to that site's address. The
