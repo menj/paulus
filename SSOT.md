@@ -58,7 +58,7 @@ Check every `seo_title` before a commit. The command exits with 1 when one is mi
 python3 -c "import json, sys; m=json.load(open('content/manifest.json')); bad=[(x.get('slug'), len(x.get('seo_title') or '')) for k in ('parts','posts','journal','pages') for x in m[k] if not x.get('seo_title') or len(x['seo_title']) > 32]; print(bad or 'all within 32'); sys.exit(1 if bad else 0)"
 ```
 
-On 2.77.9 the longest is 32 characters ("Was Paul an apostle or disciple?"), and none is missing.
+The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name), so 50 leaves 32. On 2.77.9 the longest `seo_title` is 32 characters ("Was Paul an apostle or disciple?"), which makes a 50-character title, and none is missing.
 
 ## The content manifest
 
