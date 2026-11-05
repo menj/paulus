@@ -9,8 +9,11 @@
 $paulus_e        = error_get_last();
 $paulus_message  = is_array( $paulus_e ) ? (string) $paulus_e['message'] : '';
 $paulus_file     = is_array( $paulus_e ) ? (string) $paulus_e['file'] : '';
+// Only the file and the first line of the message count: the stack trace
+// below it names wp-includes/ for any fatal raised through a hook.
+$paulus_head     = strtok( $paulus_message, "\n" );
 $paulus_updating = '' !== $paulus_message
-	&& preg_match( '~/(wp-content/themes/|wp-includes/|wp-admin/)~', $paulus_file . ' ' . $paulus_message )
+	&& preg_match( '~/(wp-content/themes/|wp-includes/|wp-admin/)~', $paulus_file . ' ' . preg_replace( '~ in /\S+:\d+$~', '', (string) $paulus_head ) )
 	&& preg_match( '~Failed opening required|No such file or directory|syntax error|Unclosed|Unterminated|unexpected end of file|Call to undefined (function|method)|Class "[^"]+" not found~', $paulus_message );
 $paulus_log = __DIR__ . '/paulus-incidents.log.php';
 if ( ! is_file( $paulus_log ) || filesize( $paulus_log ) < 262144 ) {

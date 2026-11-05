@@ -17,6 +17,7 @@ $paulus_pages = array(
 	'403' => array( 'Access denied', 'Error 403', array( 'This address is closed to visitors.', 'Every page of the site is open from the home page.' ), 'Go to the home page' ),
 	'500' => array( 'Something went wrong', 'Error 500', array( 'A fault on our side stopped this page. It is not something you did.', 'Please try again in a few minutes.' ), 'Try again' ),
 	'502' => array( 'Bad gateway', 'Error 502', array( 'A server between you and the site gave a wrong answer.', 'Please try again in a few minutes.' ), 'Try again' ),
+	'504' => array( 'The server took too long', 'Error 504', array( 'A server between you and the site waited too long for an answer.', 'Please try again in a few minutes.' ), 'Try again' ),
 	'503' => array( 'Back shortly', 'Temporarily unavailable', array( 'The site is busy or offline for a short while.', 'Please try again in a few minutes.' ), 'Try again' ),
 );
 $paulus_tpl = file_get_contents( $paulus_root . '/dropins/maintenance.php' );

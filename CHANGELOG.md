@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.4] - 2026-11-05
+
+### Fixed
+- `dropins/php-error.php` answered a real fatal as an update in progress (503, "Back shortly", Retry-After 120). It looked for `wp-includes/` in the file and the whole message, and the message carries the stack trace, which names `wp-includes/class-wp-hook.php` for any "Call to undefined function" raised through a hook. The check now reads the file and the first line of the message only, with its own " in /path:line" cut off. A fatal on `template_redirect` gets the 500 page. A missing core or theme file ("Failed opening required '.../wp-includes/...'") still gets the 503.
+- Only the Abrahamic theme's leftover drop-ins could be replaced. `paulus_dropin_is_replaceable()` lets the installer write over any file a sister theme marked "Written by the ... theme; safe to delete". A file without such a mark is left alone, and a theme switch removes the same files as before.
+
+### Added
+- `errors/504.html` for a gateway timeout, in the same design as the 502 page, and an `ErrorDocument 504` line in the .htaccess snippet and the README.
+
+`content_version` stays at 2.77.3: no article changed.
+
 ## [2.77.3] - 2026-11-05
 
 ### Fixed
