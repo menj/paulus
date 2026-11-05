@@ -112,6 +112,7 @@ On a live site the first request after a version change removes the dot entries,
 | `.htaccess` markers | `Block xmlrpc.php`, `Paulus: deny direct core files`, `Paulus maintenance` |
 | Files in wp-content | `paulus-errors/`, `paulus-error-page.css`, `paulus-maintenance.html`, `paulus-incidents.log.php` |
 | Maintenance flag | `.paulus-maintenance` in the site's folder |
+| CSS classes for contextual links | `paulus-ctx-link` on every one, and `paulus-ctx-link--sister` as well on a link to another site (`inc/links.php`); custom CSS targets these |
 
 ## Contributor rules
 
