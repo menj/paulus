@@ -21,8 +21,8 @@ RedirectMatch 403 /\.(?!well-known(/|$))[^/]+(/|$)
 # The tests, tools, keyword research and command-line scripts, at the top of
 # the theme folder only (assets/docs stays open). RedirectMatch searches the
 # whole request path, so this matches /wp-content/themes/paulus/tests/ and
-# the like, with or without a site subfolder in front. tests/, docs/ and
-# bin/ also carry their own .htaccess, which refuses them wherever the theme
+# the like, with or without a site subfolder in front. tests/, tools/,
+# docs/ and bin/ also carry their own .htaccess, which refuses them wherever the theme
 # folder sits.
 RedirectMatch 403 /themes/[^/]+/(tests|tools|bin|docs)(/|$)
 
