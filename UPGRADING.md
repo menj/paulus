@@ -16,7 +16,7 @@ To update over FTP instead:
 3. Rename the live folder to `paulus-old` and at once `paulus-new` to `paulus`, with Appearance, Themes closed, at a quiet hour. A page asked for between the two renames finds no theme, and that screen switches the site to another theme if it finds the folder missing.
 4. Open any page as an administrator, check the site, switch Maintenance mode off and delete `paulus-old`.
 
-An upload straight into the live folder also works under Maintenance mode. `functions.php` cannot guard itself, so keep maintenance on until the last file is up.
+An upload straight into the live folder works under Maintenance mode. The theme's own check covers only the PHP files in `inc/`, so keep maintenance on until the last file is up.
 
 Never upload WordPress core to a live folder without `wp-config.php` in place. The installer answers anyone in that state.
 

@@ -352,6 +352,13 @@ To release: bump the version in `style.css`, `readme.txt` (Stable tag and change
 | `paulus_security_headers` | The response headers sent with the security headers switch on |
 | `paulus_sync_budget` | Seconds one structure sync may run before it stops and resumes on the next load (15) |
 | `paulus_quiet_watcher_classes` | Plugin classes taken off the save hooks while the sync writes |
+| `unlist_posts_enabled` | The built-in unlisting, under the name the Unlist Posts & Pages plugin used (true) |
+
+| Action | Fires |
+| --- | --- |
+| `paulus_options_panel_after` | Inside each Theme Options tab, after its fields (given the tab ID) |
+| `paulus_options_after_form` | After the Theme Options form, outside it; the Security tab's tools hang here |
+| `paulus_cleanup_tick` | Each time the development-file clean-up removes an entry; it renews the clean-up's lease |
 
 | Constant | Set in | Effect |
 | --- | --- | --- |
@@ -414,7 +421,7 @@ location = /xmlrpc.php { return 403; }
 
 The first line goes further than the Apache rules, which refuse dot entries only inside the theme folder: it refuses `.git` and `.claude` anywhere on the site. The second matches the theme folder's own `.htaccess`, `.well-known` left open.
 
-Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front, as in `^/blog/wp-includes/`, and the theme-folder rules with it (`^/blog/wp-content/themes/paulus/`). Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
+Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front of every rule but the first (the `.git` and `.claude` rule stays global), as in `^/blog/wp-includes/`, and the theme-folder rules with it (`^/blog/wp-content/themes/paulus/`). Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
 
 The theme cannot protect a site whose WordPress core sits on the server without `wp-config.php`, since the installer then answers anyone. Upload `wp-config.php` first, or upload core to a folder the web server does not serve and rename it into place.
 

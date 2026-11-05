@@ -82,7 +82,7 @@ Read UPGRADING.md first. Then:
 3. Open any page as an administrator. The structure brings itself up to date, and an article you edited keeps your text.
 4. Switch Maintenance mode off.
 
-Uploading into the live folder file by file also works for most files: while one is missing, visitors see the maintenance page. The one file that cannot cover itself is functions.php, since it holds that check, so keep Maintenance mode on for the whole upload.
+Uploading into the live folder file by file is riskier. The theme checks only its PHP files in inc/ and shows the maintenance page while one is missing; functions.php, the templates, the stylesheets and the images are not checked. Keep Maintenance mode on for the whole upload: on Apache and LiteSpeed the web server itself then serves the maintenance page, even while a PHP file is missing.
 
 == Frequently Asked Questions ==
 
