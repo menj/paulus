@@ -45,13 +45,32 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 	// tell the browser the wrong thing to pick from.
 	$set = $mid_size && $mid_size[0] < $size[0] ? PAULUS_URI . '/assets/images/church/' . $atts['name'] . '-720.avif ' . (int) $mid_size[0] . 'w, ' . $full . ' ' . (int) $size[0] . 'w' : '';
 	$tall = $size[1] > $size[0];
+	$cred = paulus_figure_credit( $f );
+	return '<figure class="paulus-figure' . ( $tall ? ' paulus-figure--tall' : '' ) . ( '1' === $atts['wide'] ? ' paulus-figure--wide' : '' ) . ( ! empty( $f['cutout'] ) ? ' paulus-figure--cutout' : '' ) . '">'
+		. '<a class="paulus-figure__zoom" href="' . esc_url( $full ) . '" data-lightbox="paulus-figures" data-title="' . esc_attr( wp_strip_all_tags( $caption ) . ' ' . wp_strip_all_tags( $cred ) ) . '" aria-label="' . esc_attr__( 'Open the full-size image', 'paulus' ) . '">'
+		. '<img src="' . esc_url( $full ) . '"' . ( $set ? ' srcset="' . esc_attr( $set ) . '" sizes="(max-width: 760px) 100vw, 720px"' : '' ) . ' alt="' . esc_attr( $f['alt'] ) . '" width="' . (int) $size[0] . '" height="' . (int) $size[1] . '" loading="lazy" decoding="async">'
+		. '</a>'
+		. '<figcaption>' . wp_kses( $caption, array( 'em' => array(), 'a' => array( 'href' => true ) ) ) . ' <span class="paulus-figure__credit">' . $cred . '</span></figcaption>'
+		. '</figure>';
+}
+add_shortcode( 'paulus_figure', 'paulus_sc_figure' );
+
+/**
+ * The credit line of a registered figure: author and licence, and a link to
+ * its source page named for the site it is on. [paulus_figure] and the lead
+ * and list on the Journal (inc/lead-list.php) share it.
+ *
+ * @param array $f Figure record from paulus_figures().
+ * @return string HTML.
+ */
+function paulus_figure_credit( $f ) {
 	$lic  = $f['license_url'] ? '<a href="' . esc_url( $f['license_url'] ) . '" rel="license noopener" target="_blank">' . esc_html( $f['license'] ) . '</a>' : esc_html( $f['license'] );
 	// A figure with a source links it, named for the site it is on
 	// (Wikimedia Commons, the Met's collection); a figure supplied from
 	// elsewhere (an empty source) gives author and licence only.
 	$host  = (string) wp_parse_url( (string) $f['source'], PHP_URL_HOST );
 	$label = false !== strpos( $host, 'wikimedia.org' ) ? 'Wikimedia Commons' : ( false !== strpos( $host, 'metmuseum.org' ) ? __( 'the Met’s collection', 'paulus' ) : ( false !== strpos( $host, 'nga.gov' ) ? __( 'the National Gallery of Art’s collection', 'paulus' ) : preg_replace( '/^www\./', '', $host ) ) );
-	$cred = $f['source'] ? sprintf(
+	return $f['source'] ? sprintf(
 		/* translators: 1: author, 2: licence, 3: source link. */
 		__( 'Image: %1$s, %2$s, via %3$s.', 'paulus' ),
 		esc_html( $f['author'] ),
@@ -63,11 +82,5 @@ function paulus_sc_figure( $atts, $caption = '' ) {
 		esc_html( $f['author'] ),
 		$lic
 	);
-	return '<figure class="paulus-figure' . ( $tall ? ' paulus-figure--tall' : '' ) . ( '1' === $atts['wide'] ? ' paulus-figure--wide' : '' ) . ( ! empty( $f['cutout'] ) ? ' paulus-figure--cutout' : '' ) . '">'
-		. '<a class="paulus-figure__zoom" href="' . esc_url( $full ) . '" data-lightbox="paulus-figures" data-title="' . esc_attr( wp_strip_all_tags( $caption ) . ' ' . wp_strip_all_tags( $cred ) ) . '" aria-label="' . esc_attr__( 'Open the full-size image', 'paulus' ) . '">'
-		. '<img src="' . esc_url( $full ) . '"' . ( $set ? ' srcset="' . esc_attr( $set ) . '" sizes="(max-width: 760px) 100vw, 720px"' : '' ) . ' alt="' . esc_attr( $f['alt'] ) . '" width="' . (int) $size[0] . '" height="' . (int) $size[1] . '" loading="lazy" decoding="async">'
-		. '</a>'
-		. '<figcaption>' . wp_kses( $caption, array( 'em' => array(), 'a' => array( 'href' => true ) ) ) . ' <span class="paulus-figure__credit">' . $cred . '</span></figcaption>'
-		. '</figure>';
 }
-add_shortcode( 'paulus_figure', 'paulus_sc_figure' );
+

@@ -180,25 +180,41 @@ function paulus_journal_url( $year = 0, $month = 0 ) {
 /**
  * [paulus_journal_list] The entries of the current Journal view: date,
  * title, excerpt and a link, with pagination, an index of the months that
- * have entries, and the feed.
+ * have entries, and the feed. On the first page the newest entry leads,
+ * with the next five beside it (paulus_lead_list()).
  *
  * @return string
  */
 function paulus_sc_journal_list() {
-	global $wpdb;
+	global $wpdb, $wp_query;
 	$out = '';
+	// The first page of a view opens with the lead and list
+	// (inc/lead-list.php); the entries it shows leave the list below, and the
+	// pagination stays the same.
+	$lead = array(
+		'html' => '',
+		'ids'  => array(),
+	);
+	if ( ! is_paged() && function_exists( 'paulus_lead_list' ) && $wp_query instanceof WP_Query && ! empty( $wp_query->posts ) ) {
+		$lead = paulus_lead_list( array_slice( $wp_query->posts, 0, 1 + PAULUS_LEAD_LIST_MAX ) );
+	}
 	if ( have_posts() ) {
-		$out .= '<ol class="paulus-journal__list">';
+		$items = '';
 		while ( have_posts() ) {
 			the_post();
-			$out .= '<li class="paulus-journal__item"><article>'
+			if ( in_array( (int) get_the_ID(), $lead['ids'], true ) ) {
+				continue;
+			}
+			$items .= '<li class="paulus-journal__item"><article>'
 				. '<p class="paulus-journal__date"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date( 'j F Y' ) ) . '</time></p>'
 				. '<h2 class="paulus-journal__title"><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h2>'
 				. ( has_excerpt() || get_the_content() ? '<p class="paulus-journal__excerpt">' . esc_html( wp_strip_all_tags( get_the_excerpt() ) ) . '</p>' : '' )
 				. '<p class="paulus-journal__more"><a href="' . esc_url( get_permalink() ) . '">' . esc_html__( 'Read the entry', 'paulus' ) . ' <span aria-hidden="true">→</span></a></p>'
 				. '</article></li>';
 		}
-		$out .= '</ol>';
+		if ( '' !== $items ) {
+			$out .= '<ol class="paulus-journal__list">' . $items . '</ol>';
+		}
 		wp_reset_postdata();
 		$pages = paginate_links( array( 'type' => 'list', 'prev_text' => __( 'Newer', 'paulus' ), 'next_text' => __( 'Older', 'paulus' ) ) );
 		if ( $pages ) {
@@ -231,7 +247,7 @@ function paulus_sc_journal_list() {
 		$out .= '</ul></nav>';
 	}
 	$out .= '<p class="paulus-journal__feed"><a href="' . esc_url( get_post_type_archive_feed_link( 'paulus_journal' ) ) . '">' . esc_html__( 'Follow the Journal by RSS', 'paulus' ) . '</a></p>';
-	return '<div class="paulus-journal">' . $out . '</div>';
+	return $lead['html'] . '<div class="paulus-journal">' . $out . '</div>';
 }
 add_shortcode( 'paulus_journal_list', 'paulus_sc_journal_list' );
 

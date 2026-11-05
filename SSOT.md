@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.13. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.14. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -39,6 +39,7 @@ Made in the owner's brief of 5 November 2026 and not yet in `.claude/CLAUDE.md`;
 
 - The `[paulus_book_teaser]` block, with its price and buy button, stays on every article. The owner decided this on 2026-11-05, after ruling out new sales calls to action elsewhere.
 - Every theme is licensed under the GNU General Public License, version 3 or later (2026-11-05).
+- "Only use this style of layout (not the colours) where it makes sense to do so" (2026-11-05), of the lead and list. On this site it is the head of the Journal (`[paulus_journal_list]`); `[paulus_related]` and the front page keep their own layouts.
 
 Recorded in `CHANGELOG.md` under 2.69.0 (2026-11-03), word for word:
 
@@ -66,7 +67,7 @@ Check every `seo_title` before a commit. The command exits with 1 when one is mi
 python3 -c "import json, sys; m=json.load(open('content/manifest.json')); bad=[(x.get('slug'), len(x.get('seo_title') or '')) for k in ('parts','posts','journal','pages') for x in m[k] if not x.get('seo_title') or len(x['seo_title']) > 32]; print(bad or 'all within 32'); sys.exit(1 if bad else 0)"
 ```
 
-The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name), so 50 leaves 32. On 2.77.13 the longest `seo_title` is 32 characters ("Was Paul an apostle or disciple?"), which makes a 50-character title, and none is missing.
+The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name), so 50 leaves 32. On 2.77.14 the longest `seo_title` is 32 characters ("Was Paul an apostle or disciple?"), which makes a 50-character title, and none is missing.
 
 ## The content manifest
 
@@ -74,7 +75,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.3 on 2.77.13) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.3 on 2.77.14) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -143,7 +144,7 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/` and the browser icons in `assets/images/` (`favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, with `favicon.ico` and `favicon.svg`). Those take the formats browsers ask for, all drawn from `site-icon.webp`, at the owner's request of 2026-11-05: "make sure you have favicon too".
 
-Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.13 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
+Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.14 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
 
 ### Release checklist
 
