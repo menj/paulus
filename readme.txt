@@ -110,6 +110,7 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 = 2.77.7 =
 * The front page reads as one story, from the man to the charges, the witnesses, the replies and the book, with a short step line before each section.
+* On phones narrower than 414 pixels the header no longer makes the page scroll sideways.
 
 = 2.77.6 =
 * CLAUDE.md and FARUQI.md move into the .claude folder, which the release zip leaves out and the web server never serves.
