@@ -46,7 +46,6 @@ function add_option( $k, $v ) {
 }
 function update_option( $k, $v ) { $GLOBALS['t']['options'][ $k ] = $v; return true; }
 function delete_option( $k ) { unset( $GLOBALS['t']['options'][ $k ] ); return true; }
-function error_log_stub() {}
 function wp_delete_file( $p ) { @unlink( $p ); }
 
 t_load( 'inc/watch.php', array( 'paulus_is_gone_post_number', 'paulus_keeps_dev_files', 'paulus_hidden_entries', 'paulus_remove_tree' ) );
@@ -101,6 +100,34 @@ rmdir( "$root/assets/docs" );
 rmdir( "$root/assets" );
 rmdir( "$root/inc" );
 rmdir( $root );
+
+// The clean-up on a version change: one request runs it, and a request that
+// dies part-way is retried once its lock is stale.
+define( 'PAULUS_VERSION', '9.9.9' );
+t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change' ) );
+$GLOBALS['t']['runs']  = 0;
+$GLOBALS['t']['throw'] = true;
+function paulus_cleanup_retired_files() {
+	++$GLOBALS['t']['runs'];
+	if ( $GLOBALS['t']['throw'] ) {
+		throw new RuntimeException( 'died' );
+	}
+	return 0;
+}
+try {
+	paulus_cleanup_on_version_change();
+} catch ( RuntimeException $e ) {
+	unset( $e );
+}
+check( 'a run that dies leaves the version unrecorded and its lock in place', ! isset( $GLOBALS['t']['options']['paulus_retired_version'] ) && isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+$GLOBALS['t']['throw'] = false;
+paulus_cleanup_on_version_change();
+check( 'a fresh lock keeps a second request out', 1 === $GLOBALS['t']['runs'] );
+$GLOBALS['t']['options']['paulus_retired_lock'] = time() - 600;
+paulus_cleanup_on_version_change();
+check( 'a stale lock is taken over and the version recorded after the run', 2 === $GLOBALS['t']['runs'] && '9.9.9' === $GLOBALS['t']['options']['paulus_retired_version'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+paulus_cleanup_on_version_change();
+check( 'once recorded, it does not run again', 2 === $GLOBALS['t']['runs'] );
 
 // The save_post watchers.
 class WP_Hook {

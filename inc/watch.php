@@ -675,7 +675,8 @@ function paulus_cleanup_retired_files() {
  * server at once, and the site may see no administrator for days), and with
  * the weekly image housekeeping. A lock taken with add_option(), which fails
  * when the option exists, lets one request run it; a lock older than five
- * minutes belongs to a request that died and is taken over.
+ * minutes belongs to a request that died and is taken over. The version is
+ * recorded after the clean-up returns, so a request that dies is retried.
  */
 function paulus_cleanup_on_version_change() {
 	if ( get_option( 'paulus_retired_version' ) === PAULUS_VERSION ) {
@@ -687,8 +688,11 @@ function paulus_cleanup_on_version_change() {
 		}
 		update_option( 'paulus_retired_lock', time(), false );
 	}
-	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
 	$gone = paulus_cleanup_retired_files();
+	// Recorded only once the clean-up has returned: a request that dies
+	// part-way leaves the version unrecorded and its lock stale, so a later
+	// request takes the lock over and tries again.
+	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
 	delete_option( 'paulus_retired_lock' );
 	if ( $gone ) {
 		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions

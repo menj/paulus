@@ -8,7 +8,7 @@ Fixes from nine days of the live logs (access, FTP and PHP error logs, 26 Octobe
 
 ### Fixed
 - `/?p=<number>` for a number no post has answered 404, about 2,700 times, nearly all on numbers from the domain's spam era. `paulus_gone_spam()` now answers 410 Gone when the request asks for a post by number alone and WordPress found nothing (`paulus_is_gone_post_number()`); a preview, a search or `p=0` is left alone.
-- The owner uploads the theme by FTP from a working copy, which puts `.git`, `.claude`, `tests` and the like on the live server, and the clean-up ran only on the first admin page after an update, so they could sit there for days. It now runs on the first request of any kind after the version changes (`paulus_cleanup_on_version_change()` on `init`, with an `add_option()` lock so one request does it), and it also removes the `tests`, `tools` and `docs` folders. A local or development site, or one with `PAULUS_KEEP_DOTFILES`, keeps everything.
+- The owner uploads the theme by FTP from a working copy, which puts `.git`, `.claude`, `tests` and the like on the live server, and the clean-up ran only on the first admin page after an update, so they could sit there for days. It now runs on the first request of any kind after the version changes (`paulus_cleanup_on_version_change()` on `init`, with an `add_option()` lock so one request does it, and the version recorded only after the clean-up returns, so a request that dies part-way is retried once its lock is five minutes old), and it also removes the `tests`, `tools` and `docs` folders. A local or development site, or one with `PAULUS_KEEP_DOTFILES`, keeps everything.
 - Until the clean-up runs, a new `.htaccess` in the theme folder refuses those files to the web server: every file and folder whose name begins with a dot (`.git`, `.claude`, `.env`, `.htaccess` and the like; `.well-known` stays open), the `tests`, `tools`, `bin` and `docs` folders, and every Markdown file except `README.md`, `UPGRADING.md` and `LICENSES.md`. `assets/docs` stays open. Checked on Apache 2.4: every denied path answers 403, the three documents, the PDF in `assets/docs` and the stylesheets answer 200, and a missing theme image still reaches WordPress for its redirect to the AVIF.
 - Every script in `tests/` and `bin/` exits at once unless PHP runs it from the command line.
 - Each theme update logged up to 266 database errors from Rank Math's analytics watcher, which writes to tables its module never created on this site whenever a post is saved. `paulus_run_install()` now takes the watcher off the save hooks for the length of the sync and puts it back afterwards (`paulus_without_post_watchers()`, classes in `paulus_quiet_watcher_classes()`). The sync already skips a save when the text has not changed.
@@ -16,7 +16,7 @@ Fixes from nine days of the live logs (access, FTP and PHP error logs, 26 Octobe
 - The dashboard's hints for the Rank Math and core-file findings say what this release changes.
 
 ### Added
-- `tests/live-logs-test.php`, 31 checks of the above.
+- `tests/live-logs-test.php`, 35 checks of the above.
 
 `content_version` stays at 2.77.3: no article or page changed.
 
