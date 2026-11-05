@@ -338,7 +338,7 @@ php bin/build-error-pages.php --check
 
 The repository has no CI workflow, so run them before every commit. Check every `seo_title` against the 32-character limit with the command in `SSOT.md`.
 
-To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json` and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
+To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the first line of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
 
 ## Hooks, filters and constants
 
@@ -403,13 +403,16 @@ RewriteRule ^wp-admin/install\.php$ - [F,L]
 Nginx reads no `.htaccess`. Put these in the server block, above the `location ~ \.php$` block:
 
 ```nginx
-location ~ /\.(?!well-known(/|$)) { return 403; }
+location ~ /\.(git|claude) { return 403; }
+location ~ ^/wp-content/themes/paulus/(.+/)?\.(?!well-known(/|$)) { return 403; }
 location ~ ^/wp-content/themes/paulus/(tests|tools|bin|docs)(/|$) { return 403; }
 location ~* ^/wp-content/themes/paulus/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
 location ~ ^/wp-includes/(?!js/tinymce/|ms-files\.php$).+\.php(/|$) { return 403; }
 location ~ ^/(wp-settings\.php|wp-config-sample\.php|readme\.html|wp-admin/install\.php)(/|$) { return 403; }
 location = /xmlrpc.php { return 403; }
 ```
+
+The first line goes further than the Apache rules, which refuse dot entries only inside the theme folder: it refuses `.git` and `.claude` anywhere on the site. The second matches the theme folder's own `.htaccess`, `.well-known` left open.
 
 Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front, as in `^/blog/wp-includes/`. Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
 

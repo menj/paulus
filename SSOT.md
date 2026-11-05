@@ -131,7 +131,7 @@ Figures carry public-domain, CC0 or Creative Commons attribution licences only, 
 
 ### Release checklist
 
-1. The version is the same in `style.css`, `readme.txt` (Stable tag and changelog), the zip name in `README.md`, `assets/files.json`, the top entry of `CHANGELOG.md` and the first line of this file. `PAULUS_VERSION` reads `style.css`.
+1. The version is the same in `style.css`, `readme.txt` (Stable tag and changelog), the zip name and the At a glance table in `README.md`, `assets/files.json`, the top entry of `CHANGELOG.md` and the first line of this file. `PAULUS_VERSION` reads `style.css`.
 2. `content_version` moves only when shipped content changes, and `prior_hashes` and `prior_meta` record what it replaced.
 3. Every `seo_title` is 32 characters or fewer (the check above).
 4. `CHANGELOG.md` has the new entry, `readme.txt` the short form, and `UPGRADING.md` a note when the owner must act; its roadmap drops what shipped.
