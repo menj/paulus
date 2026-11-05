@@ -14,7 +14,8 @@ To update over FTP instead:
 1. Switch Maintenance mode on (Theme Options, Maintenance), and turn on hidden files in the FTP program (in FileZilla: Server, Force showing hidden files), so the `.htaccess` files go up.
 2. Upload the new `paulus` folder into `wp-content/themes/` as `paulus-new`.
 3. Rename the live folder to `paulus-old` and at once `paulus-new` to `paulus`, with Appearance, Themes closed, at a quiet hour. A page asked for between the two renames finds no theme, and that screen switches the site to another theme if it finds the folder missing.
-4. Open any page as an administrator, check the site, switch Maintenance mode off and delete `paulus-old`.
+4. Open any page as an administrator and check the site. If WordPress switched to another theme during the renames, activate Paulus again under Appearance, Themes; while another theme runs, end maintenance by deleting the file `.paulus-maintenance` in the site's folder over FTP.
+5. Switch Maintenance mode off and delete `paulus-old`.
 
 An upload straight into the live folder works under Maintenance mode. The theme's own check covers only the PHP files in `inc/`, so keep maintenance on until the last file is up.
 

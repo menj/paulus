@@ -86,7 +86,7 @@ The archive of Dale B. Martin's notes (`dale-b-martin-luke-versus-paul.json`) is
 | `assets/images/` | Illustrations as AVIF; `sizes.json` gives their dimensions |
 | `assets/images/church/` | The figures, with `commons-meta.json` |
 | `assets/social/` | Link-preview copies |
-| `assets/files.json` | Every image the release ships, with the version it belongs to. Its `version` must equal `style.css`, or the image clean-up removes nothing |
+| `assets/files.json` | The images the release ships in `assets/images/`, `assets/images/church/` and `assets/social/`, the folders the image clean-up manages, with the version they belong to. Its `version` must equal `style.css`, or the clean-up removes nothing |
 | `assets/docs/` | The PDF of Martin's notes, served on purpose |
 | `inc/data/network-links.json` | The phrase map for contextual links. It is kept byte for byte the same in every theme that carries it: change it in all of them or in none |
 | `dropins/` | Sources of the three wp-content error pages |
@@ -131,7 +131,7 @@ Each figure shows its credit and its licence, recorded in `content/images.json`.
 
 ### Release checklist
 
-1. The version is the same in `style.css`, `readme.txt` (Stable tag and changelog), the zip name and the At a glance table in `README.md`, `assets/files.json`, the top entry of `CHANGELOG.md` and the first line of this file. `PAULUS_VERSION` reads `style.css`.
+1. The version is the same in `style.css`, `readme.txt` (Stable tag and changelog), the zip name and the At a glance table in `README.md`, `assets/files.json`, the top entry of `CHANGELOG.md` and the version line at the top of this file. `PAULUS_VERSION` reads `style.css`.
 2. `content_version` moves only when shipped content changes, and `prior_hashes` and `prior_meta` record what it replaced.
 3. Every `seo_title` is 32 characters or fewer (the check above).
 4. `CHANGELOG.md` has the new entry, `readme.txt` the short form, and `UPGRADING.md` a note when the owner must act; its roadmap drops what shipped.

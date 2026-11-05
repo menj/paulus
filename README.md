@@ -411,15 +411,17 @@ Nginx reads no `.htaccess`. Put these in the server block above every other rege
 
 ```nginx
 location ~ /\.(git|claude) { return 403; }
-location ~ ^/wp-content/themes/paulus/(.+/)?\.(?!well-known(/|$)) { return 403; }
-location ~ ^/wp-content/themes/paulus/(tests|tools|bin|docs)(/|$) { return 403; }
-location ~ ^/wp-content/themes/paulus/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
+location ~ ^/wp-content/themes/paulus[^/]*/(.+/)?\.(?!well-known(/|$)) { return 403; }
+location ~ ^/wp-content/themes/paulus[^/]*/(tests|tools|bin|docs)(/|$) { return 403; }
+location ~ ^/wp-content/themes/paulus[^/]*/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
 location ~ ^/wp-includes/(?!js/tinymce/|ms-files\.php$).+\.php(/|$) { return 403; }
 location ~ ^/(wp-settings\.php|wp-config-sample\.php|readme\.html|wp-admin/install\.php)(/|$) { return 403; }
 location = /xmlrpc.php { return 403; }
 ```
 
 The first line goes further than the Apache rules, which refuse dot entries only inside the theme folder: it refuses `.git` and `.claude` anywhere on the site. The second matches the theme folder's own `.htaccess`, `.well-known` left open.
+
+The `paulus[^/]*` in the theme rules also covers the `paulus-new` and `paulus-old` folders of an FTP update, which Nginx would otherwise serve while both sit on the server.
 
 Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front of every rule but the first (the `.git` and `.claude` rule stays global), as in `^/blog/wp-includes/`, and the theme-folder rules with it (`^/blog/wp-content/themes/paulus/`). Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
 
@@ -444,6 +446,8 @@ ErrorDocument 502 /wp-content/paulus-errors/502.html
 ErrorDocument 503 /wp-content/paulus-errors/503.html
 ErrorDocument 504 /wp-content/paulus-errors/504.html
 ```
+
+On Nginx the same pages go in with `error_page 403 /wp-content/paulus-errors/403.html;` and so on for each code. Where `wp-content` sits below a subfolder, use its real address, as in `/blog/wp-content/paulus-errors/403.html`; the Content tab's lines show it.
 
 On a network the main site writes these files, since every site shares `wp-content`. When the main site runs another theme, the site with the lowest ID that runs Paulus writes them, and only that one. The last site to leave the theme removes them.
 
