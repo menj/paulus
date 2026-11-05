@@ -2,6 +2,28 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.10] - 2026-11-05
+
+The article page gets the pieces it lacked, the study questions become an FAQPage, the user list closes to visitors, and the theme moves to the GNU GPL, version 3 or later. No article, page or setting is removed, and no public identifier is renamed. `content_version` stays at 2.77.3.
+
+### Added
+- The byline of an article shows, on a line under the name, the date it was published and, when it changed on a later day, the date it was updated (`paulus_article_dates_html()`). The name and the reading time are as they were.
+- "Last reviewed": a line under the dates, from the date in a new Key takeaways and review box on the post screen (`_paulus_reviewed`).
+- Key takeaways: the article's points, one a line, from the same box (`_paulus_takeaways`), in a ruled box above the contents tablet. The shipped articles have none yet, so the box shows only once you write them.
+- One line before the third section of an article points to its study questions, or to the next article in reading order when it has none. Theme Options, Reading, switches it and the takeaways (`article_mid_next`, `article_takeaways`, both on).
+- The Study guide is an FAQPage of its 132 questions, word for word, each with the address of its set. Only a page that shows `paulus-questions` lists gets one. The page gives no answers, so no Question carries one.
+- `inc/hardening.php`, ported from the murtadd theme: for visitors who are not logged in, the REST API's user routes answer 404, any `?author=` address goes to the About the author page with a 301, and oEmbed answers name the book's author. Security tab switch `sec_hide_authors`, on.
+- `tests/article-test.php`.
+
+### Changed
+- The title panel is a region named by its title, so its content sits in a landmark; axe reported it outside one on every article and page.
+- The reading-order band and the new line share one rule for which study questions an article points to (`paulus_article_questions_anchor()`).
+- The theme is licensed under the GNU General Public License, version 3 or later, as the owner decided on 5 November 2026. `style.css` and `readme.txt` name it, `LICENSE` holds the full, unmodified text, and `LICENSES.md` keeps its third-party sections.
+- `SSOT.md` records the owner's decision on the book teaser, and `.claude/skills/theme-docs/SKILL.md` is the final documentation standard, with its Licence section.
+
+### Fixed
+- `LICENSES.md` counted Login Logo as a fourth rewritten module. The theme follows its logo-file convention and stands aside while it is active; three plugins are rewritten as modules, as `README.md` says.
+
 ## [2.77.9] - 2026-11-05
 
 Documentation only. No article, page or setting changes.

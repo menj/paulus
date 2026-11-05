@@ -103,6 +103,7 @@ function paulus_defaults() {
 		'security_headers' => 1,
 		'sec_xmlrpc_off'   => 1,
 		'sec_rest_lock'    => 1,
+		'sec_hide_authors' => 1,
 		'sec_spam_gate'    => 1,
 		'sec_gone'         => 1,
 		'maintenance_mode' => 0,
@@ -128,6 +129,8 @@ function paulus_defaults() {
 		'read_memory'      => 1,
 		'read_copy'        => 1,
 		'read_top'         => 1,
+		'article_takeaways' => 1,
+		'article_mid_next'  => 1,
 		'media_no_sizes'   => 1,
 		'media_no_scaled'  => 1,
 		// Front page.

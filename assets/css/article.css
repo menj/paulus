@@ -1,0 +1,71 @@
+/*
+ * The article page (inc/article.php): the dates and "Last reviewed" in the
+ * title panel's byline, Key takeaways above the contents tablet, and the
+ * one-line next step in the middle of the text. Loaded on articles only,
+ * after theme.css. Every colour is a scheme token, so each of the six
+ * schemes carries it.
+ */
+
+/* ---------- Byline ---------- */
+.paulus-hero-panel__dates { flex-basis: 100%; }
+.paulus-hero-panel__date { font-family: var(--t-label); font-size: 0.78rem; font-weight: 400; color: var(--t-muted); }
+.paulus-hero-panel__reviewed {
+	flex-basis: 100%;
+	font-family: var(--t-label);
+	font-size: 0.74rem;
+	font-weight: 400;
+	color: var(--t-muted);
+}
+
+/* ---------- Key takeaways ---------- */
+.paulus-prose .paulus-takeaways {
+	margin: 2rem 0 1.5rem;
+	padding: 1.1rem 1.4rem 0.9rem;
+	background: var(--t-surface);
+	border-top: 2px solid var(--t-accent);
+	border-bottom: 1px solid color-mix(in srgb, var(--t-rule) 35%, transparent);
+}
+.paulus-prose .paulus-takeaways__label {
+	margin: 0 0 0.6rem !important;
+	font-family: var(--t-label);
+	font-size: 0.76rem;
+	color: var(--t-accent-deep);
+	text-align: left !important;
+}
+.paulus-prose .paulus-takeaways ul { margin: 0; padding-inline-start: 1.2rem; }
+.paulus-prose .paulus-takeaways li { margin: 0 0 0.45rem; text-align: left; hyphens: manual; }
+.paulus-prose .paulus-takeaways li::marker { color: var(--t-accent); }
+
+/* ---------- The next step in the text ---------- */
+.paulus-prose .paulus-next-step {
+	display: flex;
+	gap: 0.7rem;
+	align-items: baseline;
+	margin: 2rem 0;
+	padding: 0.8rem 1.1rem;
+	border-inline-start: 3px solid var(--t-accent);
+	background: color-mix(in srgb, var(--t-surface) 70%, transparent);
+	text-align: left;
+	hyphens: manual;
+}
+.paulus-prose .paulus-next-step__mark {
+	flex: none;
+	display: inline-grid;
+	place-items: center;
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 50%;
+	background: var(--t-accent-deep);
+	color: var(--t-on-accent);
+	font-family: var(--t-label);
+	font-size: 0.8rem;
+}
+.paulus-prose .paulus-next-step a { color: var(--t-accent-deep); text-decoration-color: var(--t-gold); text-underline-offset: 0.2em; }
+
+@media print {
+	.paulus-next-step { display: none !important; }
+	/* print.css sets the panel and the text black on white; the new lines follow it in every scheme. */
+	.paulus-hero-panel__date, .paulus-hero-panel__reviewed { color: #444 !important; }
+	.paulus-prose .paulus-takeaways { background: none !important; border-top-color: #000 !important; border-bottom-color: #000 !important; }
+	.paulus-prose .paulus-takeaways__label { color: #000 !important; }
+}
