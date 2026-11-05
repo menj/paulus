@@ -338,7 +338,7 @@ php bin/build-error-pages.php --check
 
 The repository has no CI workflow, so run them before every commit. Check every `seo_title` against the 32-character limit with the command in `SSOT.md`.
 
-To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the first line of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
+To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the version line at the top of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
 
 ## Hooks, filters and constants
 
@@ -405,9 +405,11 @@ RewriteRule ^wp-admin/install\.php$ - [F,L]
 # END Paulus: deny direct core files
 ```
 
-"Block xmlrpc.php" is there while XML-RPC is off; other themes the owner runs use the same marker. A third block, `# BEGIN Paulus maintenance`, sits at the top of the file and acts only while `.paulus-maintenance` exists; its lines carry the site's own addresses (`paulus_htaccess_lines()` in `inc/watch.php`).
+"Block xmlrpc.php" is there while XML-RPC is off; the marker name is a common one, so a switch between themes that use it never writes it twice. A third block, `# BEGIN Paulus maintenance`, sits at the top of the file and acts only while `.paulus-maintenance` exists; its lines carry the site's own addresses (`paulus_htaccess_lines()` in `inc/watch.php`).
 
-Nginx reads no `.htaccess`. Put these in the server block above every other regex `location`, the `location ~ \.php$` block that hands PHP to PHP-FPM and any static-file block among them: Nginx takes the first regex location that matches, so a rule further down never runs. Where the host keeps such blocks in an include, merge the denials into them instead.
+Nginx reads no `.htaccess`. Put these in the server block above every other regex `location`, the `location ~ \.php$` block that hands PHP to PHP-FPM and any static-file block among them: Nginx takes the first regex location that matches, so a rule further down never runs.
+
+Where the host keeps such blocks in an include, merge the denials into them instead. Check for a matching `location ^~` or exact `location =` block too (for `/wp-content/` or the themes folder, say): Nginx skips every regex location after one of those matches, so put the denials inside it.
 
 ```nginx
 location ~ /\.(git|claude) { return 403; }

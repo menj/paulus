@@ -310,7 +310,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Next
 
-- Hide the REST user list from visitors. The other themes the owner runs drop `/wp/v2/users` for anyone not logged in; Paulus still serves it, though it already keeps author archives and the users sitemap closed.
+- Hide the REST user list from visitors. `/wp/v2/users` names every account with posts to anyone who asks; Paulus still serves it, though it already keeps author archives and the users sitemap closed.
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
 - Run the tests on every push. The repository has eight test files and no CI workflow.
 
@@ -322,7 +322,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Ideas
 
-- Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block, as another of the owner's themes does.
+- Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block. `wp-config.php` holds the database password, and the error logs show bots asking for core files by address.
 - Send `/wp-content/uploads/2026/09/paul-dunce-face.jpg` and the like to the AVIF illustration. The same logs show 26 requests for that one file, answered 404.
 - Confirm the terms of Arslan Wessam with its author, as `LICENSES.md` asks.
 
