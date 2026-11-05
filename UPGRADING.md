@@ -9,6 +9,17 @@ How to move a live site to a new version, and what each update does and does not
 3. Open any page as an administrator. The structure sync runs once, because the manifest's `content_version` differs from the one recorded on the site. Appearance, Theme Options, Content shows both versions afterwards; they should match.
 4. Clear every page cache (plugin, server and CDN).
 
+To update over FTP instead:
+
+1. Switch Maintenance mode on (Theme Options, Maintenance), and turn on hidden files in the FTP program (in FileZilla: Server, Force showing hidden files), so the `.htaccess` files go up.
+2. Upload the new `paulus` folder into `wp-content/themes/` as `paulus-new`.
+3. Rename the live folder to `paulus-old` and at once `paulus-new` to `paulus`, with Appearance, Themes closed: that screen switches the site to another theme if it finds the folder missing.
+4. Open any page as an administrator, check the site, switch Maintenance mode off and delete `paulus-old`.
+
+An upload straight into the live folder also works under Maintenance mode. `functions.php` cannot guard itself, so keep maintenance on until the last file is up.
+
+Never upload WordPress core to a live folder without `wp-config.php` in place. The installer answers anyone in that state.
+
 ## What the sync changes, and what it leaves alone
 
 The sync writes the theme's text and settings only where the site still holds something the theme shipped. Anything edited by hand stays as it is.
@@ -36,6 +47,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 | Front page | 2.77.7 | Sections reordered as a story (the man, the charges, the witnesses, answers, the Islamic dilemma, the book), each wrapped in `[paulus_story section="…" step="…"]`, which now prints the section wrapper the block groups used to |
 
 ## Notes by version
+
+### 2.77.8 to 2.77.9
+
+- Nothing to run. The release adds `SSOT.md` and changes the documents only. `content_version` stays at 2.77.3, so the structure sync does not run.
 
 ### 2.77.7 to 2.77.8
 
@@ -286,3 +301,26 @@ Most articles are rebuilt from source: footnotes renumbered in reading order (2.
 ### 2.26.5 to 2.28.2
 
 No action beyond the routine. The Single template change in 2.26.5 is listed above.
+
+## Roadmap
+
+Everything below is a plan, open to change. Each item says why it is here. An item leaves this list when it ships, and goes into `CHANGELOG.md`.
+
+### Next
+
+- Hide the REST user list from visitors. The other themes the owner runs drop `/wp/v2/users` for anyone not logged in; Paulus still serves it, though it already keeps author archives and the users sitemap closed.
+- Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
+- Run the tests on every push. The repository has eight test files and no CI workflow.
+
+### Later
+
+- Licences for Sabon Next LT and the Dubidam fonts, which `readme.txt` lists as not free for a public site. This waits on the owner.
+- Test on WordPress 7.1 and raise "Tested up to", which reads 7.0.
+- Find what still sends reports to `/wp-json/wp-perf-shield/v1/csp-report`. The logs from 26 October to 4 November show 746 such requests answered 404, from a plugin that is no longer on the site.
+
+### Ideas
+
+- Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block, as another of the owner's themes does.
+- Send `/wp-content/uploads/2026/09/paul-dunce-face.jpg` and the like to the AVIF illustration. The same logs show 26 requests for that one file, answered 404.
+- Confirm the terms of Arslan Wessam with its author, as `LICENSES.md` asks.
+

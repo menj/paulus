@@ -2,20 +2,33 @@
 
 The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site presenting the Islamic case against Paul of Tarsus. The written content is drawn from *Paulus Perosak Risalah Al-Masih* by Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025; ISBN 978-629-96135-0-3).
 
+## At a glance
+
+| Item | Value |
+| --- | --- |
+| Version | 2.77.9 (`style.css`; `PAULUS_VERSION` reads it) |
+| Content version | 2.77.3 (`content/manifest.json`) |
+| Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
+| WordPress | 6.7 or later, tested up to 7.0 |
+| PHP | 8.0 or later |
+| Web server | Apache and LiteSpeed get their `.htaccess` blocks written by the theme. Nginx needs the rules under Security below |
+| Multisite | The main site writes the error pages and the maintenance block; while it runs another theme, the subsite with the lowest ID that runs Paulus writes the error pages |
+| Other documents | `SSOT.md` (the fixed facts and rules), `UPGRADING.md` (the notes for each update and the roadmap), `CHANGELOG.md`, `LICENSES.md` and `readme.txt` (the owner's guide) |
+
 ## Requirements
 
 WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent theme, version 1.5 or later. Paulus is a child theme (`Template: twentytwentyfive`) and cannot run without the parent: it inherits every template, pattern and style it does not override itself.
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.8) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.8.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.9) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.9.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
 
 ## Site architecture
 
-The site is arranged as a case file against Paul. Three sections (WordPress categories ordered by the term meta `paulus_order`) hold 33 articles, the English chapters of the book in parts; each article carries `_paulus_order` (reading order), `_paulus_label` (for example "Count·III", "The vision") and, for parts of a multi-part chapter, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no` and `_paulus_parts`.
+The site is arranged as a case file against Paul. Three sections (WordPress categories ordered by the term meta `paulus_order`) hold 56 articles, the English chapters of the book, several of them in parts; each article carries `_paulus_order` (reading order), `_paulus_label` (for example "Count·III", "The vision") and, for parts of a multi-part chapter, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no` and `_paulus_parts`.
 
 ```
 /                                  Front page, told as a story: hero, the man, the six counts, the witnesses, answers, the Islamic dilemma, the book
@@ -25,7 +38,7 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /answers/                          Short answers to common missionary claims, each linked to its article
 /questions/                        A hub of short answers to the questions people search for most, each linked to the article that owns the topic
 /paul-at-a-glance/                 The story, ten facts, names, journeys, letters, legacy, quotations and pictures on one page
-/islamic-dilemma/                  The "Islamic dilemma" answered from Paul's role, with the network's other pieces on it
+/islamic-dilemma/                  The "Islamic dilemma" answered from Paul's role, with links to other pieces on it
 /meaning-of-the-name-paul/         What the names Paul (Latin Paulus, "small") and Saul (Shaʾul, "asked for") mean, and the Arabic Būlus
 /saul-in-the-bible/                King Saul and Saul of Tarsus told apart, with Ṭālūt in the Qurʾān
 /pauls-missionary-journeys/        The three journeys of Acts and the voyage to Rome, and where Paul's letters differ
@@ -57,10 +70,13 @@ Running the installer again is safe. It leaves existing text alone, moves articl
 | Publisher | Name, registration number, email and website (shown on the book page); address and telephone, published in the structured data only |
 | Colors | First-century ornament switch (on by default). Named scheme: Ochre (book cover, default), Vellum, Oxblood, Ink, Paper, Graphite |
 | Reading | Five reading aids, each on by default. The progress bar can be shown on articles, Journal entries and pages (each its own switch), at the top or the bottom of the screen, 1 to 12 pixels high, in a bar colour and a track colour (hex codes; left empty they follow the colour scheme), and is chosen on the server so a page that should not have it never loads it. The other aids: the left and right arrow keys for the previous and next article in the reading order (ignored in form fields and while the image viewer is open); a resume prompt on long articles and pages, which offers to return a reader to the section where they stopped and never moves the page by itself (position kept only in the reader's browser, for sixty days, and cleared on reaching the end); a copy-link button in the share row; and a back-to-top button. All respect reduced motion and are left out of print |
+| Media | Keep only the original of each upload (no resized copies), and never scale down large uploads |
 | Login | The portrait in the login page's medallion, a logo image address in its place, the tagline, the Greek inscription, application passwords (off by default; option `login_app_passwords`) and the security headers (on by default; `security_headers`). See The login page |
+| Security | Turn off XML-RPC, allow REST changes only from a logged-in browser, hold suspected gambling spam as Pending, and answer 410 Gone on the address of removed spam. Below them: the spam scan and the security log |
 | Maintenance | Maintenance mode (the file `.paulus-maintenance`; option `maintenance_mode`) and the email when new fatal errors appear (on; `error_alerts`). See Maintenance and the error watch |
-| Links | Links in the text to bestofislam.org and injil.help: the switch (on), the most on one page (8), and the phrases with their addresses, one per line. See Links in the text |
-| Front page | Search title (shown before "\| Apostle of Doom"), meta description, kicker, heading, subheading, introduction, hero image, footer description and footer badges (links and images) |
+| Contextual links | Links from the first mention of a subject to the page that treats it: a switch and a limit for links to this site (0 to 15) and to other sites (0 to 10), more phrases as `phrase \| address`, and slugs that never get links. See Links in the text |
+| Journal | The Journal's title, introduction and search description |
+| Front page | Search title (shown before "\| Apostle of Doom", up to 32 characters), meta description, kicker, heading, subheading, introduction, hero image, footer description and footer badges (links and images) |
 | Content | Site structure installer, with the structure version on the site beside the one shipped |
 
 The screen is styled after the site: a masthead with the site icon, "Theme Options" in Cinzel capitals, a one-line description and a version badge; a row of tabs, each with an icon, that scrolls sideways on a narrow screen and answers the arrow keys, Home and End; and one card per tab, headed by the tab's icon and a note on what it holds. Inside a card each field is a row, label on the left and control on the right, stacked below 782 pixels. Switches stand for every on-off setting, sliders show their number as they move, the progress-bar colours use the WordPress colour picker side by side, and the schemes and portraits are picture cards. The screen takes the colours of the active scheme, and previews a new one as soon as another scheme is picked (`assets/js/admin.js`); the fields themselves stay on light cards in every scheme. A sticky bar keeps "Save changes" in reach. On this screen only, the admin footer reads "Paulus, built by MENJ for Apostle of Doom", with MENJ linking to https://github.com/menj (the theme header's Author and Theme URI), in place of WordPress's line, and shows the theme version in place of WordPress's.
@@ -277,9 +293,9 @@ The buttons carry the swap too: Read the charges ΚΑΤΗΓΟΡΙΑ and About th
 
 ## Links in the text
 
-Where an article, a Journal entry or a page names a thing this site or one of the author's other sites treats at length, `inc/links.php` links its first mention in the running text to that page: the Damascus road, the Jerusalem Council or James the Just to the article here; the Ebionites, the Gospel of Thomas and the four gospels to The Injil (injil.help); Quran 4:157, the Trinity, the Talmud and Ibn Isḥāq to Best of Islam (bestofislam.org); the Council of Nicaea and the Mandaeans to Abrahamic Religions (abrahamic-religions.com); the Euthyphro dilemma and the problem of evil to Compelling Evidence (compelling-evidence.com); apostasy to Murtadd (murtadd.org); Laylat al-Qadr to Lailatulqadar (lailatulqadar.guide). Always an inner page that treats the subject, never a home page or a list.
+Where an article, a Journal entry or a page names a thing this site or another site treats at length, `inc/links.php` links its first mention in the running text to that page: the Damascus road, the Jerusalem Council or James the Just to the article here; the Ebionites, the Gospel of Thomas and the four gospels to The Injil (injil.help); Quran 4:157, the Trinity, the Talmud and Ibn Isḥāq to Best of Islam (bestofislam.org); the Council of Nicaea and the Mandaeans to Abrahamic Religions (abrahamic-religions.com); the Euthyphro dilemma and the problem of evil to Compelling Evidence (compelling-evidence.com); apostasy to Murtadd (murtadd.org); Laylat al-Qadr to Lailatulqadar (lailatulqadar.guide). Always an inner page that treats the subject, never a home page or a list.
 
-The phrases are in `inc/data/network-links.json`, **one file shared by the seven themes of the network and identical in each** (change it in one, copy it to all): each entry names the site that owns the page (`paulus`, `bestofislam`, `injil`, `abrahamic`, `ce`, `murtadd`, `lailatulqadar`), its path there and the phrases that lead to it, each phrase once in the whole file. Entries for this site link to `home_url( path )`, so a staging copy links to itself; entries for the others go to the address in the file's `sites`. Theme Options, Contextual links, holds more lines as `phrase | address` (a path here, or an address on one of the network's sites; any other site is refused); they are read before the file, so they add to it and win over it. The filter `paulus_contextual_links_map` changes the file's contents, and `paulus_contextual_links_enabled` (given the post) switches the links off for a page.
+The phrases are in `inc/data/network-links.json` (`SSOT.md` has the rule for changing it): each entry names the site that owns the page (`paulus`, `bestofislam`, `injil`, `abrahamic`, `ce`, `murtadd`, `lailatulqadar`), its path there and the phrases that lead to it, each phrase once in the whole file. Entries for this site link to `home_url( path )`, so a staging copy links to itself; entries for the others go to the address in the file's `sites`. Theme Options, Contextual links, holds more lines as `phrase | address` (a path here, or an address on one of the sites the file names; any other site is refused); they are read before the file, so they add to it and win over it. The filter `paulus_contextual_links_map` changes the file's contents, and `paulus_contextual_links_enabled` (given the post) switches the links off for a page.
 
 The links are made as the text renders (`the_content`, at 15: after the honorific and before the Answers index and the page contents), so every article carries them, an edited one included, and the stored text is untouched: switch them off and they are gone. A phrase is matched whole, capitals aside, so "Ebionites" is not found inside "Ebionitism", and only in the running text: never inside a link, a heading, a quotation, a caption, a footnote, a reference mark, a table, an Arabic, Hebrew, Syriac or Greek block, or a tag. Each address is linked once a page, at the first mention of any of its phrases; a paragraph or list item takes one new link at most; a page never links to itself; the front page has none. Links to this site and links to the others are switched on and limited separately (four and three a page by default), and the slugs listed under Excluded never get any. A link here carries the class `paulus-ctx-link`; one to another site also `paulus-ctx-link--sister` and `rel="noopener"`, and opens in the same tab. Both are set like every other link in the text.
 
@@ -302,6 +318,102 @@ Two pages exist to answer what people search for. `/questions/` (`content/articl
 ## Keyword research
 
 `docs/keyword-map.csv` records every keyword of the Semrush export (2,170 of them): its volume and difficulty, its cluster (death and martyrdom, founder of Christianity, Damascus, meeting Jesus, and so on, or a reason it was left out), the page that answers it, and whether its words now appear together on at least one page. Of the 1,923 judged relevant, 1,662 (98% of the search volume) now appear together on at least one page. They were worked in by their meaning rather than repeated word for word: the two pages above, seven glossary entries, a section of the Akyol article and the Sources, and search titles and descriptions rewritten for eighteen pages. The 247 left out are places, schools and parishes, feast days and patronage, films, study aids, other languages and unrelated names; most of the 261 relevant keywords not yet matched are misspellings. The clusters come from word matching, so treat the file as a working record.
+
+## Build, test and release
+
+There is no build step: the PHP, CSS and JavaScript run as shipped. The checks run from the theme folder, each without WordPress:
+
+```bash
+find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+php tests/error-pages-test.php
+php tests/live-logs-test.php
+php tests/renamed-test.php
+php tests/schema-graph-test.php
+php tests/search-rewrite-test.php
+php tests/security-detector-test.php
+php tests/unlist-test.php
+php tests/watch-report-test.php
+php bin/build-error-pages.php --check
+```
+
+The repository has no CI workflow, so run them before every commit. Check every `seo_title` against the 32-character limit with the command in `SSOT.md`.
+
+To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json` and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
+
+## Hooks, filters and constants
+
+| Filter | Effect |
+| --- | --- |
+| `paulus_contextual_links_map` | The phrase map from `inc/data/network-links.json` |
+| `paulus_contextual_links_enabled` | Contextual links on a given post |
+| `paulus_page_contents` | Whether a post or page shows its contents list (given the post ID) |
+| `paulus_image_sitemap` | Whether `/sitemap-images.xml` is served (off anyway with Rank Math or Yoast, or a site hidden from search) |
+| `paulus_sec_rest_allow` | REST route prefixes exempt from the logged-in write lock |
+| `paulus_security_headers` | The response headers sent with the security headers switch on |
+| `paulus_sync_budget` | Seconds one structure sync may run before it stops and resumes on the next load (15) |
+| `paulus_quiet_watcher_classes` | Plugin classes taken off the save hooks while the sync writes |
+
+| Constant | Set in | Effect |
+| --- | --- | --- |
+| `PAULUS_VERSION`, `PAULUS_DIR`, `PAULUS_URI` | `functions.php` | Version and theme paths |
+| `PAULUS_TITLE_MAX`, `PAULUS_META_MAX` | `inc/seo.php` | 50 and 130: the whole title and the description |
+| `PAULUS_SCHEMA_AUTHOR_NAME`, `PAULUS_SCHEMA_AUTHOR_URL` | `wp-config.php`, else `inc/seo.php` | The author in the structured data |
+| `PAULUS_HIDE_LOGIN` | `wp-config.php` | False turns the private login address off, whatever is saved |
+| `PAULUS_SECURITY_LOCK` | `wp-config.php` | False turns the remote-publishing locks off without changing the settings |
+| `PAULUS_SPAM_THRESHOLD` | `wp-config.php` | The score at which the spam gate holds a post |
+| `PAULUS_KEEP_DOTFILES` | `wp-config.php` | True keeps the development files on a live site |
+| `PAULUS_ALLOW_CORE_FILES` | `wp-config.php` | True leaves out "Paulus: deny direct core files" |
+
+## Security
+
+The maintenance safety net, the half-uploaded theme guard, the core-file block and the clean-up of development files are set out under Maintenance and the error watch, below. In short:
+
+- `functions.php` checks every file in `inc/` before any loads and loads each inside a `try`. A missing or half-written file gives the maintenance page with `503`. `functions.php` itself is parsed before it runs, so it cannot guard itself.
+- The Security tab turns off XML-RPC, locks REST writes to a logged-in browser with a nonce, holds gambling spam as Pending and answers 410 Gone on the address of removed spam. Application passwords are off unless the Login tab switches them on.
+- Author archives and `?author=N` go to the About the author page with a 301 before WordPress could name the account, and the users sitemap is dropped. The REST user routes stay open to visitors (see the roadmap in `UPGRADING.md`).
+- The private login address (from WPS Hide Login, option `whl_page`) is off until an address is saved. `define( 'PAULUS_HIDE_LOGIN', false );` is the way back in.
+
+On Apache, with a writable `.htaccess`, `paulus_sec_sync_htaccess()` keeps these two blocks, at most once an hour from the admin and at once when Theme Options is saved, and `paulus_sec_remove_htaccess()` takes them out on a theme switch. For WordPress at the root of the `.htaccess` folder they read:
+
+```apache
+# BEGIN Block xmlrpc.php
+<Files xmlrpc.php>
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order Deny,Allow
+Deny from all
+</IfModule>
+</Files>
+# END Block xmlrpc.php
+# BEGIN Paulus: deny direct core files
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^wp-includes/(?!js/tinymce/|ms-files\.php$).+\.php$ - [F,L]
+RewriteRule ^(wp-settings|wp-config-sample)\.php$ - [F,L]
+RewriteRule ^readme\.html$ - [F,L]
+RewriteRule ^wp-admin/install\.php$ - [F,L]
+</IfModule>
+# END Paulus: deny direct core files
+```
+
+"Block xmlrpc.php" is there while XML-RPC is off; other themes the owner runs use the same marker. A third block, `# BEGIN Paulus maintenance`, sits at the top of the file and acts only while `.paulus-maintenance` exists; its lines carry the site's own addresses (`paulus_htaccess_lines()` in `inc/watch.php`).
+
+Nginx reads no `.htaccess`. Put these in the server block, above the `location ~ \.php$` block:
+
+```nginx
+location ~ /\.(?!well-known(/|$)) { return 403; }
+location ~ ^/wp-content/themes/paulus/(tests|tools|bin|docs)(/|$) { return 403; }
+location ~* ^/wp-content/themes/paulus/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
+location ~ ^/wp-includes/(?!js/tinymce/|ms-files\.php$).+\.php(/|$) { return 403; }
+location ~ ^/(wp-settings\.php|wp-config-sample\.php|readme\.html|wp-admin/install\.php)(/|$) { return 403; }
+location = /xmlrpc.php { return 403; }
+```
+
+Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front, as in `^/blog/wp-includes/`. Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
+
+The theme cannot protect a site whose WordPress core sits on the server without `wp-config.php`, since the installer then answers anyone. Upload `wp-config.php` first, or upload core to a folder the web server does not serve and rename it into place.
 
 ## Error pages
 
@@ -434,14 +546,14 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 
 ## Search titles and descriptions
 
-- A page's search title, including the " | Apostle of Doom" ending the theme appends, stays under 50 characters: the `seo_title` in the manifest is at most 31. The one exception is the book's name, **Paulus Perosak Risalah Al-Masih**, which is never shortened or altered.
+- A page's search title, including the " | Apostle of Doom" ending the theme appends, stays under 50 characters: the `seo_title` in the manifest is at most 32 (the owner's rule of 2026-10-31, in `SSOT.md`). The one exception is the book's name, **Paulus Perosak Risalah Al-Masih**, which is never shortened or altered.
 - A meta description stays under 130 characters, its closing call to action included.
 - When either changes, the value it replaces goes into `prior_meta`, so installed sites take the new one. Anything typed in by hand is kept.
 - An article's slug follows its title. A renamed article carries `was_slug`, and the sync renames the existing post in place. The theme manages no redirects: WordPress's old-slug record is removed after a rename, and old addresses are left for the owner to redirect.
 
 ## Image formats
 
-Every image the theme shows is AVIF, at every width; link previews are JPEG, and the logo and icon PNG. No WebP file is shipped. The two calligraphy masks also keep a PNG, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`).
+Every image the theme shows is AVIF, at every width; link previews are WebP, since social networks do not show AVIF, and the logo and icon PNG. The two calligraphy masks also keep a PNG, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`).
 
 | Images | Format | Where |
 |---|---|---|
@@ -452,7 +564,7 @@ Every image the theme shows is AVIF, at every width; link previews are JPEG, and
 | Publisher logo, site icon | PNG | required as PNG or JPEG by structured data and home-screen icons |
 | Link previews (Open Graph, X) | WebP, quality 78, 1,024 px | `assets/social/<slug>.webp`: social networks do not show AVIF |
 
-`paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its JPEG copy, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).
+`paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its WebP copy in `assets/social/`, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).
 
 On sync, a featured image of the theme's still held as JPEG in the media library is converted in its entry: the old file and every size WordPress made from it are deleted first (`wp_delete_attachment_files()`), the AVIF goes in, the file type becomes `image/avif`, and the entry keeps its ID. Housekeeping keeps both places free of unused files, automatically: the moment the theme is activated (`after_switch_theme`), on the first admin page after the active theme is updated to a new version (once per version), after each content update, and weekly through WP-Cron (`paulus_image_housekeeping`, scheduled while the theme is active and cleared when another theme is switched in). `paulus_cleanup_theme_residue()` removes images in the theme's own image folders (`assets/images`, `assets/images/church`, `assets/social`) that this version does not ship, by the list in `assets/files.json`, written at packaging with the version it belongs to (`{"version": …, "files": […]}`); the clean-up acts only when that version matches the running theme, so a stale or older list removes nothing; a theme uploaded by FTP or unzipped over the old folder would otherwise keep images a newer version dropped. `paulus_cleanup_image_residue()` removes superseded copies earlier releases left in the uploads folder: files named after a bundled illustration, in JPEG or WebP, that no media entry uses. The owner's own files are never touched.
 
@@ -466,7 +578,7 @@ The WordPress dashboard carries a status panel for users who can change the them
 
 ## Where each fact lives
 
-Each fact has one file of record. When two places disagree, this file wins and the other is stale.
+Each fact has one file of record. `SSOT.md` holds the fixed facts and rules, and wins when two documents disagree; for the facts below, the file of record wins over any document.
 
 | Fact | File of record | Notes |
 | --- | --- | --- |

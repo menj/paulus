@@ -2,6 +2,29 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.9] - 2026-11-05
+
+Documentation only. No article, page or setting changes.
+
+### Added
+- `SSOT.md`, the single source of truth: identity, purpose, the owner decisions copied word for word from `.claude/CLAUDE.md` (the horned illustrations, 2026-10-29; the title rule, 2026-10-31), the title and description limits with a check for every `seo_title`, the content manifest rules (`md5`, `prior_hashes`, `prior_meta`, `content_version`), the folders and files, the names that must not change, the contributor rules, a release checklist and the credits that must stay. The theme `.htaccess` already refuses it, as it refuses every Markdown file but the three it links.
+- `README.md` gains an At a glance table, the build, test and release commands, the filters and constants, and a Security section with the exact `.htaccess` blocks and their Nginx equivalents.
+- `UPGRADING.md` gains the FTP routine and a roadmap.
+- `.claude/skills/theme-docs/SKILL.md` holds the documentation standard, and `.claude/CLAUDE.md` points to it.
+
+### Changed
+- `readme.txt` covers installing and updating over FTP, with Maintenance mode, hidden files shown and a temporary folder renamed into place, and never WordPress core without `wp-config.php`. It gains two FAQ answers and upgrade notices for 2.77.8 and 2.77.9, and its changelog keeps the last five releases; the full history stays here.
+- `README.md` and `readme.txt` are served, so they no longer speak of the sites the text links to as a network or as sister sites.
+
+### Fixed
+- The README and the readme counted 33 articles; the manifest holds 56, in three sections.
+- The README's Theme Options table lacked the Media, Security and Journal tabs and described the old Links tab; it now lists all thirteen tabs in their order.
+- The README said link previews are JPEG and that no WebP file ships. They are WebP, in `assets/social/`.
+- The README held a page's `seo_title` to 31 characters. The owner's rule is 32.
+- `assets/files.json` carries version 2.77.9, so the image clean-up keeps working.
+
+`content_version` stays at 2.77.3: no article or page changed.
+
 ## [2.77.8] - 2026-11-05
 
 Fixes from nine days of the live logs (access, FTP and PHP error logs, 26 October to 4 November).
