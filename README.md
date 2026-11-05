@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.13 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.14 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.13) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.13.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.14) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.14.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -99,7 +99,7 @@ paulus/
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the lead and list at the head of the Journal), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -308,6 +308,10 @@ Dated entries (replies to missionary claims, notes on new sources, news of the b
 Addresses carry the date: an entry at `/journal/2026/09/slug/` (year and month of publication), the Journal at `/journal/`, a year at `/journal/2026/`, a month at `/journal/2026/09/`, each with `/page/2/` and so on, and the feed at `/journal/feed/`. The year and month views are Journal archives filtered by the theme's own query variables (`journal_year`, `journal_monthnum`), so WordPress does not treat them as date archives and an SEO plugin that switches date archives off leaves them working; WordPress's own date archives (`/2026/09/`) are unaffected. The address rules refresh themselves once after each theme update.
 
 The Journal page (`archive-paulus_journal.html`) lists entries ten to a page with date, title and excerpt, then an archive of the months that have entries (cached for a day, and refreshed when an entry is saved or removed), then the feed; its title panel carries the Greek inscription ΓΡΑΦΩ ("I write", 1 John 2:1). An entry (`single-paulus_journal.html`) shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, and a band with the older and newer entries (which the arrow keys follow) and the way back to the Journal. Entries appear in site search. Theme Options, Journal, holds the title, the introduction and the search description; year and month pages have their own descriptions within 120 to 130 characters.
+
+On the first page of the Journal, of a year and of a month, the newest entry leads (`paulus_lead_list( array $posts, array $args )` in `inc/lead-list.php`, called by `[paulus_journal_list]`). Its featured image fills the left column, about 60 per cent of the 1,180-pixel wide width, with the date and title on a dark band at its foot under a short accent rule; the credit sits below the image. The next five entries stand in a list on the right, each a 16:9 thumbnail with the title, clamped at three lines, and the date. Those six leave the list below, so a page still holds ten entries and the pagination does not move. With fewer than five entries, or a newest entry without a featured image, nothing is drawn and the list shows as before. Unlisted entries (`paulus_is_unlisted()`) never appear. `$args` takes `heading` ("Latest entries"), `heading_id`, `lead_id` (an entry to lead with, which then leaves the list) and `max`.
+
+The credit follows the image: a registered figure (`content/images.json`, "figures") takes its own line as `[paulus_figure]` prints it (`paulus_figure_credit()` in `inc/figures.php`), one of the theme's illustrations is credited to the book's author, and any other image gives its caption. The horned and other illustrations show as they are. `assets/css/lead-list.css` loads on the first page of a Journal view (`paulus_lead_list_assets()`, `wp_enqueue_scripts` at 21, after the theme's own styles; an enqueue made while the shortcode renders would print `theme.css` above the core block styles). Columns run `minmax(0,3fr) minmax(0,2fr)` and stack under 782 pixels; the title sits on `rgb(0 0 0 / .85)`, so white type stays above 4.5:1 on any image; each card is one link with a visible focus ring; hover zoom stops under `prefers-reduced-motion`.
 
 The theme can ship entries: those listed under `journal` in `content/manifest.json` (text in `content/articles/`, a featured image from the illustrations, a date, a search title and description) are created once, on the first sync after they appear, and their slugs recorded in `paulus_journal_shipped`, so an entry the owner edits keeps the edits and one the owner deletes is not made again. The first, "Dale B. Martin's notes on Luke and Paul, published", is dated 24 September 2026 and carries `paul-gladius-painted.jpg`.
 

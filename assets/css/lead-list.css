@@ -1,0 +1,219 @@
+/* Lead and list: the newest Journal entry large and a stacked list of the
+   next five, above the rest of the entries on the first page of a Journal
+   view (inc/lead-list.php). Colours, fonts and the radius come from the
+   theme tokens in theme.css, so every colour scheme follows. */
+
+.paulus-lead-list {
+	--paulus-ll-radius: var(--t-radius, 6px);
+	--paulus-ll-gap: clamp(1.25rem, 3vw, 2.5rem);
+	margin-block: clamp(1.5rem, 3vw, 2.5rem) var(--paulus-ll-gap);
+}
+
+.paulus-lead-list__heading {
+	margin: 0 0 1.25rem;
+	font-family: var(--t-display);
+	text-align: left;
+	font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+	line-height: 1.25;
+	color: var(--t-ink);
+}
+
+.paulus-lead-list__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+	gap: var(--paulus-ll-gap);
+	align-items: start;
+}
+
+/* Lead */
+.paulus-lead-list__lead,
+.paulus-lead-list__figure { margin: 0; }
+
+.paulus-lead-list__media {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--paulus-ll-radius);
+	background: color-mix(in srgb, var(--t-ink) 8%, transparent);
+	display: grid;
+	isolation: isolate;
+}
+
+.paulus-lead-list__media > * { grid-area: 1 / 1; min-width: 0; min-height: 0; }
+
+/* The ratio sits on the image, so a long title can make the band, and the
+   box with it, taller than the ratio instead of being cut off. */
+.paulus-lead-list__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	transition: transform 0.35s ease;
+}
+
+.paulus-lead-list__lead:hover .paulus-lead-list__img { transform: scale(1.03); }
+
+/* The gradient runs from 85% black at the foot to clear; the text sits on the
+   solid 85% part, so white type keeps well above 4.5:1 on any photograph. */
+.paulus-lead-list__overlay {
+	align-self: end;
+	padding: 4.5rem clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 2.5vw, 1.5rem);
+	background: linear-gradient(to top, rgb(0 0 0 / 0.85) 0, rgb(0 0 0 / 0.85) calc(100% - 4.5rem), rgb(0 0 0 / 0) 100%);
+	color: #fff;
+}
+
+.paulus-lead-list__rule {
+	display: block;
+	width: 3rem;
+	height: 3px;
+	margin-bottom: 0.85rem;
+	background: color-mix(in srgb, var(--t-accent) 55%, #fff);
+	border-radius: 2px;
+}
+
+.paulus-lead-list__title,
+.paulus-prose .paulus-lead-list__title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--t-display);
+	text-align: left;
+	hyphens: manual;
+	text-wrap: balance;
+	font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+	line-height: 1.2;
+	font-weight: 700;
+	color: #fff;
+}
+
+.paulus-lead-list__title .paulus-lead-list__link { color: #fff; }
+
+.paulus-lead-list__date,
+.paulus-lead-list__item-date {
+	margin: 0 0 0.35rem;
+	font-family: var(--t-label);
+	font-size: 0.78rem;
+	text-align: left;
+}
+
+.paulus-lead-list__date { color: #fff; }
+.paulus-lead-list__item-date { margin: 0.3rem 0 0; color: var(--t-muted); }
+
+.paulus-lead-list__credit {
+	font-family: var(--t-label);
+	margin-top: 0.5rem;
+	font-size: 0.8rem;
+	line-height: 1.4;
+	color: var(--t-muted);
+}
+
+.paulus-lead-list__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.paulus-lead-list__credit a:hover,
+.paulus-lead-list__credit a:focus-visible { color: var(--t-accent-deep); }
+
+/* List */
+.paulus-lead-list__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.paulus-lead-list__item {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(6.5rem, 40%) minmax(0, 1fr);
+	gap: 1rem;
+	align-items: center;
+	padding-block: 0.9rem;
+	border-top: 1px solid color-mix(in srgb, var(--t-rule) 30%, transparent);
+}
+
+.paulus-lead-list__item:first-child { padding-top: 0; border-top: 0; }
+.paulus-lead-list__item:last-child { padding-bottom: 0; }
+
+.paulus-lead-list__thumb {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 16 / 9;
+	border-radius: var(--paulus-ll-radius);
+	background: color-mix(in srgb, var(--t-ink) 8%, transparent);
+}
+
+.paulus-lead-list__thumb-img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.35s ease;
+}
+
+.paulus-lead-list__item:hover .paulus-lead-list__thumb-img { transform: scale(1.04); }
+
+.paulus-lead-list__item-title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--t-display);
+	text-align: left;
+	hyphens: manual;
+	font-size: 1.05rem;
+	line-height: 1.3;
+	font-weight: 700;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.paulus-lead-list__item-title .paulus-lead-list__link { color: var(--t-ink); }
+.paulus-lead-list__item:hover .paulus-lead-list__link { color: var(--t-accent-deep); }
+
+/* The whole card is the link: the link's ::after covers the card, and the
+   focus ring is drawn on it. */
+.paulus-lead-list__link {
+	text-decoration: none;
+	outline: none;
+}
+
+.paulus-lead-list__link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: var(--paulus-ll-radius);
+}
+
+.paulus-lead-list__link:focus-visible::after {
+	outline: 3px solid var(--t-gold);
+	outline-offset: 3px;
+}
+
+/* The lead's link covers the photograph only, so the credit links below it stay usable. */
+.paulus-lead-list__lead .paulus-lead-list__link::after { inset: 0; }
+
+/* The photograph clips anything outside it, so the lead's ring is drawn
+   inside its edge, with a dark band under it to show on any photograph. */
+.paulus-lead-list__lead .paulus-lead-list__link:focus-visible::after {
+	outline-offset: -6px;
+	box-shadow: inset 0 0 0 3px rgb(0 0 0 / 0.85);
+}
+
+@media (max-width: 781px) {
+	.paulus-lead-list__grid { grid-template-columns: minmax(0, 1fr); }
+	.paulus-lead-list__img { aspect-ratio: 16 / 9; }
+	.paulus-lead-list__overlay { padding-top: 3.5rem; background: linear-gradient(to top, rgb(0 0 0 / 0.85) 0, rgb(0 0 0 / 0.85) calc(100% - 3.5rem), rgb(0 0 0 / 0) 100%); }
+	.paulus-lead-list__title { font-size: 1.3rem; }
+	.paulus-lead-list__item { grid-template-columns: minmax(6.5rem, 38%) minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.paulus-lead-list__img,
+	.paulus-lead-list__thumb-img { transition: none; }
+	.paulus-lead-list__lead:hover .paulus-lead-list__img,
+	.paulus-lead-list__item:hover .paulus-lead-list__thumb-img { transform: none; }
+}
+
+@media (forced-colors: active) {
+	.paulus-lead-list__overlay { background: Canvas; color: CanvasText; }
+	.paulus-lead-list__title .paulus-lead-list__link { color: LinkText; }
+	.paulus-lead-list__link:focus-visible::after { outline-color: Highlight; }
+}

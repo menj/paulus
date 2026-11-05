@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.13 to 2.77.14
+
+- Upload the whole theme folder. The new files are `inc/lead-list.php`, `assets/css/lead-list.css` and `tests/lead-list-test.php`. `content_version` stays at 2.77.3, so the structure sync does not run.
+- The Journal opens with the newest entry large and the next five beside it. It needs no setting. The Journal template is unchanged, so a copy customised in the Site Editor shows it too, as long as it keeps `[paulus_journal_list]`.
+
 ### 2.77.12 to 2.77.13
 
 - Upload the whole theme folder. The new files are in `assets/images/`: `favicon.ico`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` and `site.webmanifest`. Open one admin page so the error pages are written again with the icon.
@@ -344,6 +349,8 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Find what still sends reports to `/wp-json/wp-perf-shield/v1/csp-report`. The logs from 26 October to 4 November show 746 such requests answered 404, from a plugin that is no longer on the site.
 
 ### Ideas
+
+- A choice of lead entry for the Journal in Theme Options. `paulus_lead_list()` takes a `lead_id`, but `[paulus_journal_list]` always leads with the newest; a pinned entry would need a field and a rule for when it stops leading.
 
 - Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block. `wp-config.php` holds the database password, and the error logs show bots asking for core files by address.
 - Send `/wp-content/uploads/2026/09/paul-dunce-face.jpg` and the like to the AVIF illustration. The same logs show 26 requests for that one file, answered 404.

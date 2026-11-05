@@ -2,6 +2,20 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.14] - 2026-11-05
+
+The Journal opens with a lead and list. No article, page, title or setting changes, and `content_version` stays at 2.77.3.
+
+### Added
+- On the first page of the Journal, and of a year or a month, the newest entry leads, large, with its date and title on a dark band at the foot of its image and a short accent rule above them. The image credit sits below it. The next five entries stand in a list on the right, each a 16:9 thumbnail with the title and date beside it. On a phone the lead comes first.
+- The six entries it shows leave the list below, so each page still holds ten and page 2 starts where it did. The month index and the feed link follow as before.
+- With fewer than five entries, or a newest entry without a featured image, nothing changes. Unlisted entries never appear in it.
+- `inc/lead-list.php` (`paulus_lead_list()`), `assets/css/lead-list.css`, loaded on the first page of a Journal view, and `tests/lead-list-test.php`.
+
+### Changed
+- The credit line of `[paulus_figure]` moves into `paulus_figure_credit()` in `inc/figures.php`, so the lead can credit a figure the same way. The figure's output is unchanged.
+- `[paulus_related]`, the front page and the illustrations are not touched.
+
 ## [2.77.13] - 2026-11-05
 
 The browser icon set is complete. No article, page or setting changes, and `content_version` stays at 2.77.3.
