@@ -449,7 +449,9 @@ ErrorDocument 503 /wp-content/paulus-errors/503.html
 ErrorDocument 504 /wp-content/paulus-errors/504.html
 ```
 
-On Nginx the same pages go in with `error_page 403 /wp-content/paulus-errors/403.html;` and so on for each code. Where `wp-content` sits below a subfolder, use its real address, as in `/blog/wp-content/paulus-errors/403.html`; the Content tab's lines show it.
+On Nginx the same pages go in with `error_page 403 /wp-content/paulus-errors/403.html;` and so on for each code. These cover the errors Nginx answers itself, such as a 502 or 504 from a stalled PHP-FPM. A 500 from PHP passes through unless `fastcgi_intercept_errors on;` is set in the PHP location, and it is better left off: the theme's `php-error.php` drop-in already answers those in the site's design.
+
+Where `wp-content` sits below a subfolder, use its real address, as in `/blog/wp-content/paulus-errors/403.html`; the Content tab's lines show it.
 
 On a network the main site writes these files, since every site shares `wp-content`. When the main site runs another theme, the site with the lowest ID that runs Paulus writes them, and only that one. The last site to leave the theme removes them.
 
@@ -563,7 +565,7 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 ## Search titles and descriptions
 
 - A page's search title, including the " | Apostle of Doom" ending the theme appends, stays under 50 characters: the `seo_title` in the manifest is at most 32 (the owner's rule of 2026-10-31, in `SSOT.md`). The one exception is the book's name, **Paulus Perosak Risalah Al-Masih**, which is never shortened or altered.
-- A meta description stays under 130 characters, its closing call to action included.
+- A meta description is at most 130 characters (`PAULUS_META_MAX`), its closing call to action included.
 - When either changes, the value it replaces goes into `prior_meta`, so installed sites take the new one. Anything typed in by hand is kept.
 - An article's slug follows its title. A renamed article carries `was_slug`, and the sync renames the existing post in place. The theme manages no redirects: WordPress's old-slug record is removed after a rename, and old addresses are left for the owner to redirect.
 
