@@ -64,14 +64,14 @@ On 2.77.9 the longest is 32 characters ("Was Paul an apostle or disciple?"), and
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.3 on 2.77.9) | Raise it with any change to shipped article or page text, or to the structure, so the sync runs on installed sites. Leave it alone when no shipped content changes |
-| `nav_version` | The version of the header menu | Raise it when the menu's shipped links change |
+| `content_version` | The version of the shipped content (2.77.3 on 2.77.9) | The sync runs only when this differs from the site's record. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
 | `journal` | Shipped Journal entries | Created once each, recorded in `paulus_journal_shipped`, never made again once deleted |
 | `pages` | The pages | `order` and, for a moved page, `was_parent` |
 | `prior_hashes` | MD5 of every earlier shipped text, keyed `<file>#r<release>` | Add the old hash whenever a shipped text changes, so an untouched page still takes the new one |
-| `prior_meta` | Every earlier shipped description and title | Add the old value whenever one changes, so installed sites take the new one; a value typed by hand is kept |
+| `prior_meta` | Every earlier shipped description and title | Add the old value whenever one changes, and raise `content_version`, so installed sites take the new one; a value typed by hand is kept |
 
 Each text lives in `content/articles/<name>.json` as `{"name": …, "format": "wordpress-post-content", "md5": …, "content": …}`. `paulus_content_file()` is the only reader: it opens only that folder, and refuses a file that does not name itself or whose `md5` does not match its `content`. After an edit, set `md5` to the MD5 of the new text.
 
@@ -94,7 +94,7 @@ The archive of Dale B. Martin's notes (`dale-b-martin-luke-versus-paul.json`) is
 | `docs/` | The keyword research. Not shipped |
 | `tests/`, `tools/`, `bin/` | Checks and scripts. `tests/` and `tools/` are not shipped; every PHP script in them exits outside the command line |
 | `.claude/` | Contributor rules and skills. Not shipped, refused by the web server, removed from a live site |
-| `CHANGELOG.md` | Not shipped |
+| `CHANGELOG.md` | Not shipped: `.gitattributes` leaves it out of the zip. This is the theme's one exception to the shared documentation standard in `.claude/skills/theme-docs/SKILL.md`, which says the docs ship |
 | `README.md`, `UPGRADING.md`, `LICENSES.md` | Shipped and served on purpose: Theme Options links the first two |
 
 On a live site the first request after a version change removes the dot entries, `tests`, `tools` and `docs` from the theme folder, unless the site is `local` or `development` or defines `PAULUS_KEEP_DOTFILES`.

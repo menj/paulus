@@ -6,7 +6,7 @@ How to move a live site to a new version, and what each update does and does not
 
 1. Back up the database. The structure sync writes to posts, post meta, term meta and options.
 2. Upload the new zip under Appearance, Themes, Add New, and choose "Replace current with uploaded". Zips are named `paulus-<version>.zip`, with dots in the version.
-3. Open any page as an administrator. The structure sync runs once, because the manifest's `content_version` differs from the one recorded on the site. Appearance, Theme Options, Content shows both versions afterwards; they should match.
+3. Open any page as an administrator. The structure sync runs once when the manifest's `content_version` differs from the one recorded on the site; a release that leaves it alone runs no sync. Appearance, Theme Options, Content shows both versions afterwards; they should match.
 4. Clear every page cache (plugin, server and CDN).
 
 To update over FTP instead:
