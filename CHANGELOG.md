@@ -7,7 +7,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 Documentation only. No article, page or setting changes.
 
 ### Added
-- `SSOT.md`, the single source of truth: identity, purpose, the owner decisions copied word for word from `.claude/CLAUDE.md` (the horned illustrations, 2026-10-29; the title rule, 2026-10-31), the title and description limits with a check for every `seo_title`, the content manifest rules (`md5`, `prior_hashes`, `prior_meta`, `content_version`), the folders and files, the names that must not change, the contributor rules, a release checklist and the credits that must stay. The theme `.htaccess` already refuses it, as it refuses every Markdown file but the three it links.
+- `SSOT.md`, the single source of truth: identity, purpose, the owner decisions copied word for word from `.claude/CLAUDE.md` (the horned illustrations, 2026-10-29; the title rule, 2026-10-31), the title and description limits with a check for every `seo_title`, the content manifest rules (`md5`, `prior_hashes`, `prior_meta`, `content_version`), the folders and files, the names that must not change, the contributor rules, a release checklist and the credits that must stay. The theme `.htaccess` already refuses it, as it refuses every Markdown file but `README.md`, `UPGRADING.md` and `LICENSES.md`.
 - `README.md` gains an At a glance table, the build, test and release commands, the filters and constants, and a Security section with the exact `.htaccess` blocks and their Nginx equivalents.
 - `UPGRADING.md` gains the FTP routine and a roadmap.
 - `.claude/skills/theme-docs/SKILL.md` holds the documentation standard, and `.claude/CLAUDE.md` points to it.

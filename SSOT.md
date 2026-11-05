@@ -127,7 +127,7 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
 
-Figures carry public-domain, CC0 or Creative Commons attribution licences only, and each shows its credit.
+Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.9 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
 
 ### Release checklist
 

@@ -400,13 +400,13 @@ RewriteRule ^wp-admin/install\.php$ - [F,L]
 
 "Block xmlrpc.php" is there while XML-RPC is off; other themes the owner runs use the same marker. A third block, `# BEGIN Paulus maintenance`, sits at the top of the file and acts only while `.paulus-maintenance` exists; its lines carry the site's own addresses (`paulus_htaccess_lines()` in `inc/watch.php`).
 
-Nginx reads no `.htaccess`. Put these in the server block, above the `location ~ \.php$` block:
+Nginx reads no `.htaccess`. Put these in the server block above every other regex `location`, the `location ~ \.php$` block that hands PHP to PHP-FPM and any static-file block among them: Nginx takes the first regex location that matches, so a rule further down never runs. Where the host keeps such blocks in an include, merge the denials into them instead.
 
 ```nginx
 location ~ /\.(git|claude) { return 403; }
 location ~ ^/wp-content/themes/paulus/(.+/)?\.(?!well-known(/|$)) { return 403; }
 location ~ ^/wp-content/themes/paulus/(tests|tools|bin|docs)(/|$) { return 403; }
-location ~* ^/wp-content/themes/paulus/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
+location ~ ^/wp-content/themes/paulus/(?!(README|UPGRADING|LICENSES)\.md$).+\.md$ { return 403; }
 location ~ ^/wp-includes/(?!js/tinymce/|ms-files\.php$).+\.php(/|$) { return 403; }
 location ~ ^/(wp-settings\.php|wp-config-sample\.php|readme\.html|wp-admin/install\.php)(/|$) { return 403; }
 location = /xmlrpc.php { return 403; }
@@ -414,7 +414,7 @@ location = /xmlrpc.php { return 403; }
 
 The first line goes further than the Apache rules, which refuse dot entries only inside the theme folder: it refuses `.git` and `.claude` anywhere on the site. The second matches the theme folder's own `.htaccess`, `.well-known` left open.
 
-Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front, as in `^/blog/wp-includes/`. Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
+Leave out the last line while XML-RPC is on. For a site in a subfolder, put its path in front, as in `^/blog/wp-includes/`, and the theme-folder rules with it (`^/blog/wp-content/themes/paulus/`). Maintenance mode on Nginx works through PHP only, since the safety net is an Apache block.
 
 The theme cannot protect a site whose WordPress core sits on the server without `wp-config.php`, since the installer then answers anyone. Upload `wp-config.php` first, or upload core to a folder the web server does not serve and rename it into place.
 
