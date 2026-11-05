@@ -218,7 +218,8 @@ add_action( 'init', 'paulus_install_dropins', 20 );
 /**
  * Whether another site of the network still runs this theme, as its
  * stylesheet or its template. The drop-ins in the shared wp-content then
- * stay. At most 500 sites are checked.
+ * stay. Sites are read 500 at a time, so a large network is checked in
+ * full without loading every site at once.
  *
  * @return bool
  */
@@ -226,19 +227,24 @@ function paulus_dropins_in_use_elsewhere() {
 	if ( ! is_multisite() ) {
 		return false;
 	}
-	$slug = basename( dirname( __DIR__ ) );
-	$ids  = get_sites(
-		array(
-			'fields'       => 'ids',
-			'number'       => 500,
-			'site__not_in' => array( get_current_blog_id() ),
-		)
-	);
-	foreach ( $ids as $id ) {
-		if ( in_array( $slug, array( get_blog_option( $id, 'stylesheet' ), get_blog_option( $id, 'template' ) ), true ) ) {
-			return true;
+	$slug   = basename( dirname( __DIR__ ) );
+	$offset = 0;
+	do {
+		$ids = get_sites(
+			array(
+				'fields'       => 'ids',
+				'number'       => 500,
+				'offset'       => $offset,
+				'site__not_in' => array( get_current_blog_id() ),
+			)
+		);
+		foreach ( $ids as $id ) {
+			if ( in_array( $slug, array( get_blog_option( $id, 'stylesheet' ), get_blog_option( $id, 'template' ) ), true ) ) {
+				return true;
+			}
 		}
-	}
+		$offset += 500;
+	} while ( 500 === count( $ids ) );
 	return false;
 }
 
@@ -247,7 +253,10 @@ function paulus_dropins_in_use_elsewhere() {
  * with it.
  */
 function paulus_remove_dropins() {
-	if ( ( is_multisite() && ! is_main_site() ) || paulus_dropins_in_use_elsewhere() ) {
+	// On a network the files are shared: they stay while any other site,
+	// the main site included, still runs the theme. The last site to switch
+	// away removes them, even a subsite.
+	if ( paulus_dropins_in_use_elsewhere() ) {
 		delete_option( 'paulus_dropins_stamp' );
 		return;
 	}
