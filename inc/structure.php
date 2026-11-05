@@ -494,6 +494,70 @@ function paulus_sc_dilemma_teaser() {
 add_shortcode( 'paulus_dilemma_teaser', 'paulus_sc_dilemma_teaser' );
 
 /**
+ * The front page's story: one step per section, in the order the page reads.
+ * The reader meets the man, hears the charges and the witnesses, then the
+ * missionaries' replies and the hardest of them, and ends at the book.
+ * Each step is a short label and one bridging line; the section's own
+ * heading follows it.
+ *
+ * @return array<string,array{label:string,bridge:string}> Step key => copy.
+ */
+function paulus_front_story() {
+	return array(
+		'the-man'         => array(
+			'label'  => __( 'First, the man', 'paulus' ),
+			'bridge' => __( 'Before the charges, the accused: a Pharisee from Tarsus who hunted the first believers and then named himself their apostle.', 'paulus' ),
+		),
+		'the-charges'     => array(
+			'label'  => __( 'Then, the charges', 'paulus' ),
+			'bridge' => __( 'With the man in view, the case against him, one count at a time.', 'paulus' ),
+		),
+		'the-witnesses'   => array(
+			'label'  => __( 'Next, the witnesses', 'paulus' ),
+			'bridge' => __( 'Each count rests on testimony. Here are the people and the texts that give it, some of them from Paul\'s own side.', 'paulus' ),
+		),
+		'answers'         => array(
+			'label'  => __( 'Then, the replies', 'paulus' ),
+			'bridge' => __( 'Missionaries answer the case with claims of their own. Here are the ones heard most often, each with a short answer.', 'paulus' ),
+		),
+		'islamic-dilemma' => array(
+			'label'  => __( 'The hardest objection', 'paulus' ),
+			'bridge' => __( 'One argument says the Qurʾān itself vouches for the Bible Christians read today. It has a full answer.', 'paulus' ),
+		),
+		'the-book'        => array(
+			'label'  => __( 'Last, the whole case', 'paulus' ),
+			'bridge' => __( 'Each step above comes from one book, where the argument runs in full with its sources.', 'paulus' ),
+		),
+	);
+}
+
+/**
+ * [paulus_story step="the-man"]…[/paulus_story] A step of the front page's
+ * story: its label and bridging line, then the enclosed section. When the
+ * section prints nothing (a missing page, an empty part, no book page), the
+ * step prints nothing either, so no line is left pointing at an absent
+ * section. An unknown step prints the section alone.
+ *
+ * @param array  $atts    Attributes: step, a key of paulus_front_story().
+ * @param string $content The section's shortcode.
+ * @return string
+ */
+function paulus_sc_story( $atts, $content = '' ) {
+	$atts  = shortcode_atts( array( 'step' => '' ), $atts, 'paulus_story' );
+	$inner = trim( do_shortcode( (string) $content ) );
+	if ( '' === $inner ) {
+		return '';
+	}
+	$story = paulus_front_story();
+	if ( ! isset( $story[ $atts['step'] ] ) ) {
+		return $inner;
+	}
+	$step = $story[ $atts['step'] ];
+	return '<p class="paulus-story"><span class="paulus-story__label">' . esc_html( $step['label'] ) . '</span> <span class="paulus-story__bridge">' . esc_html( $step['bridge'] ) . '</span></p>' . $inner;
+}
+add_shortcode( 'paulus_story', 'paulus_sc_story' );
+
+/**
  * Child pages of the current page with their summaries.
  *
  * @return string

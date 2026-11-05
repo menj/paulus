@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.7] - 2026-11-05
+
+### Changed
+- The front page reads as one story: the man, the charges, the witnesses, the missionaries' replies, the hardest objection, then the book. The man now comes before the charges and the witnesses before the replies, so the page follows the sections' own reading order (`paulus_order`). No section was removed or renamed.
+- Each section after the hero opens with a step label and one bridging line ("First, the man", "Then, the charges" and so on) from the new `[paulus_story]` shortcode, whose copy lives in `paulus_front_story()`. A step whose section prints nothing prints nothing either.
+- README.md sets out the front page's story and each section's job in it; UPGRADING.md lists the front-page template among those a Site Editor copy holds back.
+- `assets/files.json` carries version 2.77.7, so the image clean-up keeps working.
+
+`content_version` stays at 2.77.3: no article or page changed.
+
 ## [2.77.6] - 2026-11-05
 
 ### Changed
