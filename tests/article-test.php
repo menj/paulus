@@ -70,7 +70,8 @@ $check  = static function ( $ok, $what ) use ( &$failed ) {
 // Takeaways go above the contents tablet, else above the first section.
 $body = '<p>Intro.</p><nav class="paulus-faq-index paulus-contents" id="contents"></nav><h2 id="a">A</h2><p>1</p>';
 $out  = paulus_article_insert_takeaways( $body, '<section class="paulus-takeaways"></section>' );
-$check( strpos( $out, 'paulus-takeaways' ) < strpos( $out, 'paulus-contents' ) && strpos( $out, '<p>Intro.</p>' ) === 0, 'takeaways sit above the contents, after the opening paragraph' );
+$at  = strpos( $out, 'paulus-takeaways' );
+$check( false !== $at && $at < strpos( $out, 'paulus-contents' ) && 0 === strpos( $out, '<p>Intro.</p>' ), 'takeaways sit above the contents, after the opening paragraph' );
 $check( 0 === strpos( paulus_article_insert_takeaways( '<h2>A</h2>', '<x>' ), '<x><h2>' ), 'without contents, above the first section' );
 
 // The mid-article step goes before the third section and its back link.

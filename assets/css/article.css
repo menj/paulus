@@ -64,4 +64,8 @@
 
 @media print {
 	.paulus-next-step { display: none !important; }
+	/* print.css sets the panel and the text black on white; the new lines follow it in every scheme. */
+	.paulus-hero-panel__date, .paulus-hero-panel__reviewed { color: #444 !important; }
+	.paulus-prose .paulus-takeaways { background: none !important; border-top-color: #000 !important; border-bottom-color: #000 !important; }
+	.paulus-prose .paulus-takeaways__label { color: #000 !important; }
 }

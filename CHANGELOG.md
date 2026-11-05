@@ -21,6 +21,9 @@ The article page gets the pieces it lacked, the study questions become an FAQPag
 - The theme is licensed under the GNU General Public License, version 3 or later, as the owner decided on 5 November 2026. `style.css` and `readme.txt` name it, `LICENSE` holds the full, unmodified text, and `LICENSES.md` keeps its third-party sections.
 - `SSOT.md` records the owner's decision on the book teaser, and `.claude/skills/theme-docs/SKILL.md` gains its Licence section.
 
+### Fixed
+- `LICENSES.md` counted Login Logo as a fourth rewritten module. The theme follows its logo-file convention and stands aside while it is active; three plugins are rewritten as modules, as `README.md` says.
+
 ## [2.77.9] - 2026-11-05
 
 Documentation only. No article, page or setting changes.

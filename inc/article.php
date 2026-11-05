@@ -165,13 +165,38 @@ function paulus_article_questions_anchor( $id, $chapters = null ) {
 }
 
 /**
+ * The reading order an article sits in. An unlisted article, opened by its
+ * address, is in it with its neighbours, and any other unlisted one is
+ * still left out; the reading-order band and the line in the text both use it.
+ *
+ * @param int $id Post ID.
+ * @return WP_Post[]
+ */
+function paulus_article_reading_order( $id ) {
+	if ( ! function_exists( 'paulus_is_unlisted' ) || ! paulus_is_unlisted( $id ) ) {
+		return paulus_chapters();
+	}
+	remove_action( 'pre_get_posts', 'paulus_unlist_query' );
+	$chapters = array_values(
+		array_filter(
+			paulus_chapters(),
+			static function ( $p ) use ( $id ) {
+				return (int) $p->ID === (int) $id || ! paulus_is_unlisted( $p->ID );
+			}
+		)
+	);
+	add_action( 'pre_get_posts', 'paulus_unlist_query' );
+	return $chapters;
+}
+
+/**
  * The next article in reading order, or null.
  *
  * @param int $id Post ID.
  * @return WP_Post|null
  */
 function paulus_article_next( $id ) {
-	$chapters = paulus_chapters();
+	$chapters = paulus_article_reading_order( $id );
 	$ids      = array_map( 'intval', wp_list_pluck( $chapters, 'ID' ) );
 	$pos      = array_search( (int) $id, $ids, true );
 	return ( false !== $pos && isset( $chapters[ $pos + 1 ] ) ) ? $chapters[ $pos + 1 ] : null;
@@ -189,7 +214,7 @@ function paulus_article_mid_next_html( $id ) {
 		return '';
 	}
 	$qs     = get_page_by_path( 'reference/study-questions' );
-	$anchor = $qs && 'publish' === $qs->post_status ? paulus_article_questions_anchor( $id ) : '';
+	$anchor = $qs && 'publish' === $qs->post_status ? paulus_article_questions_anchor( $id, paulus_article_reading_order( $id ) ) : '';
 	if ( '' !== $anchor ) {
 		$line = sprintf(
 			/* translators: %s: link to the study questions for this article. */

@@ -625,17 +625,10 @@ add_shortcode( 'paulus_article_meta', 'paulus_sc_article_meta' );
  */
 function paulus_sc_article_nav() {
 	$id       = get_the_ID();
-	$chapters = paulus_chapters();
 	// An unlisted article, opened by its address, still offers its
 	// neighbours: the reading order is taken whole, with this article in it
-	// and any other unlisted one still left out.
-	if ( function_exists( 'paulus_is_unlisted' ) && paulus_is_unlisted( $id ) ) {
-		remove_action( 'pre_get_posts', 'paulus_unlist_query' );
-		$chapters = array_values( array_filter( paulus_chapters(), static function ( $p ) use ( $id ) {
-			return (int) $p->ID === (int) $id || ! paulus_is_unlisted( $p->ID );
-		} ) );
-		add_action( 'pre_get_posts', 'paulus_unlist_query' );
-	}
+	// and any other unlisted one still left out (inc/article.php).
+	$chapters = paulus_article_reading_order( $id );
 	$ids      = wp_list_pluck( $chapters, 'ID' );
 	$pos      = array_search( $id, $ids, true );
 	if ( false === $pos ) {
