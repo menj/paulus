@@ -172,8 +172,8 @@ function paulus_dropin_state( $file, $dir = '' ) {
 
 /**
  * Whether this site writes the shared files in wp-content: any site off a
- * network, the main site of a network, or a subsite that runs the theme
- * while the main site runs another. Without the last case a network whose
+ * network, the main site of a network, or, while the main site runs another
+ * theme, the one subsite with the lowest ID that runs this one. Without the last case a network whose
  * main site had switched away kept the files of the old version for good,
  * with no site left to refresh them.
  *
@@ -185,7 +185,41 @@ function paulus_dropins_writer() {
 	}
 	$slug = basename( dirname( __DIR__ ) );
 	$main = get_main_site_id();
-	return ! in_array( $slug, array( get_blog_option( $main, 'stylesheet' ), get_blog_option( $main, 'template' ) ), true );
+	if ( in_array( $slug, array( get_blog_option( $main, 'stylesheet' ), get_blog_option( $main, 'template' ) ), true ) ) {
+		return false;
+	}
+	// One writer only: the site with the lowest ID that runs the theme, so
+	// the shared files never flip between subsites' addresses.
+	return get_current_blog_id() === paulus_dropins_first_theme_site();
+}
+
+/**
+ * The site with the lowest ID that runs this theme, as its stylesheet or
+ * its template; 0 when none does. Sites are read 500 at a time.
+ *
+ * @return int
+ */
+function paulus_dropins_first_theme_site() {
+	$slug   = basename( dirname( __DIR__ ) );
+	$offset = 0;
+	do {
+		$ids = get_sites(
+			array(
+				'fields'  => 'ids',
+				'number'  => 500,
+				'offset'  => $offset,
+				'orderby' => 'id',
+				'order'   => 'ASC',
+			)
+		);
+		foreach ( $ids as $id ) {
+			if ( in_array( $slug, array( get_blog_option( $id, 'stylesheet' ), get_blog_option( $id, 'template' ) ), true ) ) {
+				return (int) $id;
+			}
+		}
+		$offset += 500;
+	} while ( 500 === count( $ids ) );
+	return 0;
 }
 
 /**
@@ -401,7 +435,7 @@ function paulus_render_dropins_status() {
 			</tbody>
 		</table>
 		<?php if ( $paulus_subsite ) : ?>
-			<p class="description"><?php esc_html_e( 'The whole network shares wp-content, so the error pages are installed from the main site.', 'paulus' ); ?></p>
+			<p class="description"><?php esc_html_e( 'The whole network shares wp-content, so one site writes the error pages for all: the main site, or the first site that runs Paulus when the main site runs another theme.', 'paulus' ); ?></p>
 		<?php else : ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="paulus_install_dropins">

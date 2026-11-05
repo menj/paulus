@@ -33,7 +33,9 @@ function home_url( $p = '' ) { return 'https://example.test' . ( getenv( 'PAULUS
 function content_url( $p = '' ) { return 'https://example.test' . ( getenv( 'PAULUS_TEST_SUB' ) ?: '' ) . '/wp-content' . $p; }
 function wp_mkdir_p( $d ) { return is_dir( $d ) || mkdir( $d, 0755, true ); }
 function get_main_site_id() { return 1; }
-function get_blog_option( $id, $k ) { return $GLOBALS['t']['main_theme'] ?? 'paulus'; }
+function get_blog_option( $id, $k ) { return 1 === $id ? ( $GLOBALS['t']['main_theme'] ?? 'paulus' ) : 'paulus'; }
+function get_current_blog_id() { return $GLOBALS['t']['current'] ?? 2; }
+function get_sites( $a ) { return ( $a['offset'] ?? 0 ) ? array() : array( 1, 2, 3 ); }
 function untrailingslashit( $s ) { return rtrim( $s, '/' ); }
 function wp_json_encode( $v ) { return json_encode( $v ); }
 function is_admin() { return true; }
@@ -115,7 +117,9 @@ paulus_check( false === strpos( $paulus_html, 'paulus_install_dropins' ) && fals
 paulus_check( null === paulus_install_dropins( true ), 'a subsite writes nothing while the main site runs the theme' );
 $GLOBALS['t']['main_theme'] = 'twentytwentyfive';
 paulus_check( paulus_dropins_writer() && is_array( paulus_install_dropins( true ) ), 'a subsite writes when the main site runs another theme' );
-unset( $GLOBALS['t']['main_theme'] );
+$GLOBALS['t']['current'] = 3;
+paulus_check( ! paulus_dropins_writer(), 'a second subsite leaves the writing to the first' );
+unset( $GLOBALS['t']['main_theme'], $GLOBALS['t']['current'] );
 unlink( "$paulus_tmp/php-error.php" );
 $GLOBALS['t']['subsite'] = false;
 unset( $_GET['paulus_dropins'] );
