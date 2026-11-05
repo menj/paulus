@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.11] - 2026-11-05
+
+The Study guide gives up the FAQPage that 2.77.10 added. No article, page or setting changes, and `content_version` stays at 2.77.3.
+
+### Removed
+- The FAQPage of the Study guide's 132 questions. The page shows the questions and no answers, so no `Question` had an `acceptedAnswer`, and Google Search Console reported each one as an error. Structured data describes only what a page shows, and an FAQPage needs answers on the page. The Study guide is a WebPage again, with its `Quiz`. `paulus_study_questions_schema()`, `paulus_article_question_sets()` and `paulus_article_plain()` leave `inc/article.php`, and `paulus_schema_additions()` and `paulus_webpage_schema()` in `inc/seo.php` no longer call them. The questions on the page are as they were.
+
+### Changed
+- `tests/article-test.php` checks that no FAQPage is built from the study questions and that the Study guide still shows its question lists.
+- The roadmap in `UPGRADING.md` says the FAQPage can return once the page shows an answer to each question.
+- `.claude/skills/theme-docs/SKILL.md`: an FTP update is staged inside `wp-content/themes/` under a temporary name, with the `.htaccess` and deny files sent first, then renamed into place.
+
 ## [2.77.10] - 2026-11-05
 
 The article page gets the pieces it lacked, the study questions become an FAQPage, the user list closes to visitors, and the theme moves to the GNU GPL, version 3 or later. No article, page or setting is removed, and no public identifier is renamed. `content_version` stays at 2.77.3.

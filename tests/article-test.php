@@ -2,7 +2,7 @@
 /**
  * The article page (inc/article.php) and the author hardening
  * (inc/hardening.php): where the takeaways and the mid-article next step
- * go, the study questions read word for word into an FAQPage, the REST user
+ * go, the study questions kept out of any FAQPage, the REST user
  * routes hidden from visitors, and the book teaser left where it is.
  * WordPress is replaced by small stubs.
  *
@@ -80,13 +80,14 @@ $mid  = paulus_article_insert_mid( $text, '<p class="paulus-next-step">x</p>' );
 $check( false !== strpos( $mid, '<p>2</p><p class="paulus-next-step">x</p><p class="paulus-faq-back">' ), 'the step goes before the back link that leads into the third section' );
 $check( '<h2>A</h2><h2>B</h2>' === paulus_article_insert_mid( '<h2>A</h2><h2>B</h2>', '<x>' ), 'nothing with fewer than three sections' );
 
-// The study questions, word for word, with their set's address.
-$html = '<p>Intro</p><h2 id="who-was-paul-of-tarsus">The man: Who was Paul?</h2><ol class="paulus-questions"><li>What gave Paul &amp; his letters such a place?</li><li>Why <em>Rome</em>?</li></ol><h2 id="x">Other</h2><ol><li>Not a question set</li></ol>';
-$sets = paulus_article_question_sets( $html );
-$check( 1 === count( $sets ) && 2 === count( $sets[0]['questions'] ), 'one set of two questions; a plain list is not a set' );
-$check( 'What gave Paul & his letters such a place?' === $sets[0]['questions'][0] && 'Why Rome?' === $sets[0]['questions'][1], 'the questions are read as plain text, word for word' );
-$check( 'who-was-paul-of-tarsus' === $sets[0]['anchor'], 'each set keeps the id of its heading' );
-$check( array() === paulus_article_question_sets( '<h2>Q?</h2><p>A.</p>' ), 'a page without study questions has no sets, so no FAQPage' );
+// The Study guide shows its questions and no answers, so it carries no
+// FAQPage: an FAQPage Question needs an accepted answer the page shows.
+$seo     = preg_replace( '#/\*.*?\*/|//[^\n]*#s', '', (string) file_get_contents( __DIR__ . '/../inc/seo.php' ) );
+$article = preg_replace( '#/\*.*?\*/|//[^\n]*#s', '', (string) file_get_contents( __DIR__ . '/../inc/article.php' ) );
+$check( false === strpos( $seo . $article, 'paulus_study_questions_schema' ), 'no FAQPage is built from the study questions' );
+$check( false === strpos( $article, 'FAQPage' ), 'inc/article.php adds no FAQPage' );
+$study = json_decode( (string) file_get_contents( __DIR__ . '/../content/articles/study-questions.json' ), true );
+$check( is_array( $study ) && false !== strpos( (string) json_encode( $study ), 'paulus-questions' ), 'the Study guide still shows its question lists' );
 
 // The REST user routes are hidden from visitors only.
 $routes = array( '/wp/v2/users' => 1, '/wp/v2/users/(?P<id>[\d]+)' => 1, '/wp/v2/users/me' => 1, '/wp/v2/posts' => 1 );

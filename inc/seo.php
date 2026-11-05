@@ -1071,12 +1071,6 @@ function paulus_schema_additions( $data ) {
 		if ( $faq ) {
 			$add[] = $faq;
 		}
-	} elseif ( is_singular() && function_exists( 'paulus_study_questions_schema' ) && ! paulus_schema_type_present( $data, array( 'FAQPage' ) ) ) {
-		// The study questions a page shows, word for word (inc/article.php).
-		$faq = paulus_study_questions_schema( get_queried_object() );
-		if ( $faq ) {
-			$add[] = $faq;
-		}
 	}
 	foreach ( paulus_figure_images_schema() as $img ) {
 		$add[] = $img;
@@ -1194,15 +1188,6 @@ function paulus_webpage_schema( $website ) {
 		}
 	} elseif ( is_front_page() ) {
 		$node['about'] = array( '@type' => 'Person', 'name' => 'Paul of Tarsus' );
-	} elseif ( is_page() && function_exists( 'paulus_study_questions_schema' ) ) {
-		// A page that shows study questions (the Study guide): an FAQPage of
-		// exactly those questions (inc/article.php). Any other page shows
-		// none and stays a WebPage.
-		$faq = paulus_study_questions_schema( get_queried_object() );
-		if ( $faq ) {
-			unset( $faq['@id'] );
-			$node = array_merge( $node, $faq, array( '@id' => $node['@id'] ) );
-		}
 	}
 	return $node;
 }
