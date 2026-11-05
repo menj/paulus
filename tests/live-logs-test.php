@@ -44,7 +44,13 @@ function add_option( $k, $v ) {
 	$GLOBALS['t']['options'][ $k ] = $v;
 	return true;
 }
-function update_option( $k, $v ) { $GLOBALS['t']['options'][ $k ] = $v; return true; }
+function update_option( $k, $v ) {
+	if ( 'paulus_retired_version' === $k ) {
+		$GLOBALS['t']['lock_at_version'] = $GLOBALS['t']['options']['paulus_retired_lock'] ?? null;
+	}
+	$GLOBALS['t']['options'][ $k ] = $v;
+	return true;
+}
 function delete_option( $k ) { unset( $GLOBALS['t']['options'][ $k ] ); return true; }
 function wp_delete_file( $p ) { @unlink( $p ); }
 
@@ -231,6 +237,7 @@ $GLOBALS['t']['during'] = static function () use ( $stale ) {
 };
 paulus_cleanup_on_version_change();
 check( 'a stale lease is taken over and the version recorded after the run', 2 === $GLOBALS['t']['runs'] && '9.9.9' === $GLOBALS['t']['options']['paulus_retired_version'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+check( 'the version is recorded while the lease is still held, and the lease freed after', is_string( $GLOBALS['t']['lock_at_version'] ) && '-done' === substr( $GLOBALS['t']['lock_at_version'], -5 ) );
 check( 'a running clean-up renews its lease on a tick', ! empty( $GLOBALS['t']['renewed'] ) );
 check( 'a rival holding the old lease cannot displace it', false === $GLOBALS['t']['rival'] );
 paulus_cleanup_on_version_change();

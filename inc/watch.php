@@ -709,14 +709,22 @@ function paulus_cleanup_on_version_change() {
 	} finally {
 		remove_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
 	}
-	// Recorded only once the clean-up has returned: a request that dies
-	// part-way leaves the version unrecorded and its lease unrenewed, so a
-	// later request takes it over and tries again. A request whose lease was
-	// taken over in the meantime leaves both to the request that holds it.
-	if ( paulus_release_lock( 'paulus_retired_lock', (string) $GLOBALS['paulus_cleanup_lease'] ) ) {
-		update_option( 'paulus_retired_version', PAULUS_VERSION, false );
-	}
+	// Recorded only once the clean-up has returned, and while this request
+	// still holds the lease: it renews the lease one last time (which fails
+	// if another request took it over, and then leaves everything to that
+	// one), records the version, and only then releases the lease. A request
+	// arriving in between finds the lease fresh or the version recorded, so
+	// it never starts a second clean-up. A request that dies part-way leaves
+	// the version unrecorded and its lease unrenewed, so a later request
+	// takes it over and tries again.
+	$held  = (string) $GLOBALS['paulus_cleanup_lease'];
+	$final = time() . '.' . substr( $held, strpos( $held, '.' ) + 1 ) . '-done';
 	unset( $GLOBALS['paulus_cleanup_lease'] );
+	if ( ! paulus_swap_lock( 'paulus_retired_lock', $held, $final ) ) {
+		return;
+	}
+	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
+	paulus_release_lock( 'paulus_retired_lock', $final );
 	if ( $gone ) {
 		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	}
