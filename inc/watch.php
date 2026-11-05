@@ -608,21 +608,32 @@ function paulus_remove_tree( $root ) {
 	return $gone;
 }
 
-// Hidden files and folders at the top of the theme folder: the repository's
-// `.git`, `.github`, `.gitignore` and `.gitattributes`, and editor folders
-// (`.vscode`, `.idea`, `.claude`), which an upload of a working copy carries
-// and the web server may serve. Server files that may belong to the host
-// stay. A local or development site keeps them, so a theme run from a
-// working copy keeps its repository; so does `define( 'PAULUS_KEEP_DOTFILES', true );`.
+// Development files at the top of the theme folder, which an FTP upload of a
+// working copy carries and the web server may serve: the hidden entries (the
+// repository's `.git`, `.github`, `.gitignore` and `.gitattributes`, and
+// editor folders such as `.vscode`, `.idea` and `.claude`), and the folders a
+// release zip leaves out (`tests`, `tools`, `docs`). Server files that may
+// belong to the host (`.htaccess`, `.user.ini`, `.well-known`) stay. A local
+// or development site keeps all of them, so a theme run from a working copy
+// keeps its repository; so does `define( 'PAULUS_KEEP_DOTFILES', true );`.
+function paulus_keeps_dev_files() {
+	return ( defined( 'PAULUS_KEEP_DOTFILES' ) && PAULUS_KEEP_DOTFILES )
+		|| in_array( wp_get_environment_type(), array( 'local', 'development' ), true );
+}
+
 function paulus_hidden_entries() {
-	if ( ( defined( 'PAULUS_KEEP_DOTFILES' ) && PAULUS_KEEP_DOTFILES )
-		|| in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) ) {
+	if ( paulus_keeps_dev_files() ) {
 		return array();
 	}
 	$keep = array( '.', '..', '.htaccess', '.user.ini', '.well-known' );
 	$list = array();
 	foreach ( (array) scandir( PAULUS_DIR ) as $name ) {
 		if ( is_string( $name ) && '.' === substr( $name, 0, 1 ) && ! in_array( $name, $keep, true ) ) {
+			$list[] = PAULUS_DIR . '/' . $name;
+		}
+	}
+	foreach ( array( 'tests', 'tools', 'docs' ) as $name ) {
+		if ( file_exists( PAULUS_DIR . '/' . $name ) || is_link( PAULUS_DIR . '/' . $name ) ) {
 			$list[] = PAULUS_DIR . '/' . $name;
 		}
 	}
@@ -658,22 +669,37 @@ function paulus_cleanup_retired_files() {
 	return $gone;
 }
 
-// Once for each version, on the first admin page an administrator loads, and
-// with the weekly image housekeeping.
-add_action( 'admin_init', static function () {
-	if ( get_option( 'paulus_retired_version' ) !== PAULUS_VERSION && current_user_can( 'manage_options' ) ) {
-		update_option( 'paulus_retired_version', PAULUS_VERSION, false );
-		$gone = paulus_cleanup_retired_files();
-		if ( $gone ) {
-			error_log( 'Paulus: removed ' . $gone . ' retired files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-		}
+/**
+ * Once for each version, on the first request of any kind after the version
+ * changes (an FTP upload of a working copy puts `.git` and the tests on the
+ * server at once, and the site may see no administrator for days), and with
+ * the weekly image housekeeping. A lock taken with add_option(), which fails
+ * when the option exists, lets one request run it; a lock older than five
+ * minutes belongs to a request that died and is taken over.
+ */
+function paulus_cleanup_on_version_change() {
+	if ( get_option( 'paulus_retired_version' ) === PAULUS_VERSION ) {
+		return;
 	}
-} );
+	if ( ! add_option( 'paulus_retired_lock', time(), '', false ) ) {
+		if ( time() - (int) get_option( 'paulus_retired_lock' ) < 5 * MINUTE_IN_SECONDS ) {
+			return;
+		}
+		update_option( 'paulus_retired_lock', time(), false );
+	}
+	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
+	$gone = paulus_cleanup_retired_files();
+	delete_option( 'paulus_retired_lock' );
+	if ( $gone ) {
+		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+	}
+}
+add_action( 'init', 'paulus_cleanup_on_version_change', 1 );
 add_action( 'paulus_image_housekeeping', 'paulus_cleanup_retired_files', 20 );
 add_action( 'after_switch_theme', static function () {
 	$gone = paulus_cleanup_retired_files();
 	if ( $gone ) {
-		error_log( 'Paulus: removed ' . $gone . ' retired and hidden files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	}
 } );
 
@@ -727,9 +753,20 @@ add_action( 'template_redirect', 'paulus_redirect_old_images', 4 );
  * WordPress finds nothing for, and that is one of these, is answered 410
  * Gone, which tells search engines to drop it for good; any address
  * WordPress does find is untouched.
+ *
+ * The spam era's posts are asked for by number as well: /?p=739 and the
+ * like, about 2,700 requests in nine days of the live logs. WordPress sends a
+ * number it knows to the post's own address, so one that reaches here as
+ * not found names no post this site has, and is gone too (a preview, which
+ * WordPress shows only to its author, is left as it is).
  */
 function paulus_gone_spam() {
 	if ( ! is_404() ) {
+		return;
+	}
+	if ( paulus_is_gone_post_number( $_GET ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		status_header( 410 );
+		nocache_headers();
 		return;
 	}
 	$path = strtolower( rawurldecode( (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
@@ -741,3 +778,20 @@ function paulus_gone_spam() {
 	}
 }
 add_action( 'template_redirect', 'paulus_gone_spam', 5 );
+
+/**
+ * Whether a not-found request asks for a post by number alone: "p" holds
+ * digits, and nothing but "p" (and a "page_id" or "cpage" a crawler may
+ * carry along with it) is set, so a search or a preview is never answered 410.
+ *
+ * @param array $query The request's query arguments.
+ * @return bool
+ */
+function paulus_is_gone_post_number( $query ) {
+	$p = $query['p'] ?? null;
+	// Digits, and not zero (WordPress reads p=0 as the home page).
+	if ( ! is_string( $p ) || ! ctype_digit( $p ) || '' === ltrim( $p, '0' ) ) {
+		return false;
+	}
+	return ! array_diff( array_keys( $query ), array( 'p', 'page_id', 'cpage' ) );
+}

@@ -1,0 +1,33 @@
+# Paulus theme folder: files a working copy carries that the web server must
+# never serve. The theme removes them from a live site on the first request
+# after an update (inc/watch.php); these lines cover the time before that, and
+# a site that keeps them. Served on purpose and left open: README.md,
+# UPGRADING.md and LICENSES.md (linked from Theme Options), and assets/docs.
+
+# The repository and editor folders (.git, .github, .claude, .vscode, .idea)
+# and the files beginning with ".git" or ".ht" (this file among them).
+RedirectMatch 403 /\.(git|github|claude|vscode|idea)(/|$)
+<FilesMatch "^\.(git|ht)">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>
+
+# The tests, tools, keyword research and command-line scripts, at the top of
+# the theme folder only (assets/docs stays open).
+RedirectMatch 403 /themes/[^/]+/(tests|tools|bin|docs)(/|$)
+
+# Markdown, except the three documents the site links.
+<FilesMatch "^(?!(README|UPGRADING|LICENSES)\.md$).+\.md$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>

@@ -9,6 +9,11 @@
  * @package Paulus
  */
 
+// Run from the command line only: on a web server this file does nothing.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
+
 $paulus_root  = dirname( __DIR__ );
 $paulus_check = in_array( '--check', $argv, true );
 $paulus_theme = '/wp-content/themes/paulus';

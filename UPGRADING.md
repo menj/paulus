@@ -37,6 +37,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.7 to 2.77.8
+
+- **Upload the whole theme folder, the new `.htaccess` in it included** (FTP clients often hide files that begin with a dot; turn on "show hidden files"). On the first page load afterwards the theme removes `.git`, `.claude`, `tests`, `tools` and `docs` from its folder on the server.
+- If you run the theme from a git working copy on a live site, add `define( 'PAULUS_KEEP_DOTFILES', true );` to `wp-config.php` first.
+- The first admin page writes the "Paulus: deny direct core files" block into the site's `.htaccess`. If a plugin or the host needs one of those files by address, add `define( 'PAULUS_ALLOW_CORE_FILES', true );` to `wp-config.php`; the next admin page within the hour takes the block out.
+
 ### 2.77.6 to 2.77.7
 
 - **Upload the whole theme folder.** Nothing to run, and no article changes.
