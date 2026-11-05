@@ -101,58 +101,6 @@ rmdir( "$root/assets" );
 rmdir( "$root/inc" );
 rmdir( $root );
 
-// The clean-up on a version change: one request runs it, and a request that
-// dies part-way is retried once its lock is stale.
-define( 'PAULUS_VERSION', '9.9.9' );
-t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_take_over_lock' ) );
-// The options table, as far as the lock's compare-and-set UPDATE goes.
-class T_DB {
-	public $options = 'wp_options';
-	public function prepare( $sql, ...$args ) {
-		return array( $sql, $args );
-	}
-	public function query( $q ) {
-		list( $value, $name, $held ) = $q[1];
-		if ( ! array_key_exists( $name, $GLOBALS['t']['options'] ) || (string) $GLOBALS['t']['options'][ $name ] !== $held ) {
-			return 0;
-		}
-		$GLOBALS['t']['options'][ $name ] = $value;
-		return 1;
-	}
-}
-$GLOBALS['wpdb'] = new T_DB();
-function wp_rand( $a, $b ) { return random_int( $a, $b ); }
-function wp_cache_delete() { return true; }
-$GLOBALS['t']['runs']  = 0;
-$GLOBALS['t']['throw'] = true;
-function paulus_cleanup_retired_files() {
-	++$GLOBALS['t']['runs'];
-	if ( $GLOBALS['t']['throw'] ) {
-		throw new RuntimeException( 'died' );
-	}
-	return 0;
-}
-try {
-	paulus_cleanup_on_version_change();
-} catch ( RuntimeException $e ) {
-	unset( $e );
-}
-check( 'a run that dies leaves the version unrecorded and its lock in place', ! isset( $GLOBALS['t']['options']['paulus_retired_version'] ) && isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
-$GLOBALS['t']['throw'] = false;
-paulus_cleanup_on_version_change();
-check( 'a fresh lock keeps a second request out', 1 === $GLOBALS['t']['runs'] );
-$GLOBALS['t']['options']['paulus_retired_lock'] = time() - 600;
-paulus_cleanup_on_version_change();
-check( 'a stale lock is taken over and the version recorded after the run', 2 === $GLOBALS['t']['runs'] && '9.9.9' === $GLOBALS['t']['options']['paulus_retired_version'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
-paulus_cleanup_on_version_change();
-check( 'once recorded, it does not run again', 2 === $GLOBALS['t']['runs'] );
-$GLOBALS['t']['options']['paulus_retired_lock'] = (string) ( time() - 600 );
-$stale = $GLOBALS['t']['options']['paulus_retired_lock'];
-$first = paulus_take_over_lock( 'paulus_retired_lock', $stale );
-$second = paulus_take_over_lock( 'paulus_retired_lock', $stale );
-check( 'of two requests that read the same stale lock, only one takes it over', $first && ! $second );
-unset( $GLOBALS['t']['options']['paulus_retired_lock'] );
-
 // The save_post watchers.
 class WP_Hook {
 	public $callbacks = array();
@@ -177,7 +125,18 @@ function remove_action( $hook, $fn, $prio = 10 ) {
 		}
 	}
 }
+function do_action( $hook ) {
+	foreach ( $GLOBALS['wp_filter'][ $hook ]->callbacks ?? array() as $cbs ) {
+		foreach ( $cbs as $cb ) {
+			call_user_func( $cb['function'] );
+		}
+	}
+}
 function t_count( $hook ) {
+	if ( ! isset( $GLOBALS['wp_filter'][ $hook ] ) ) {
+		return 0;
+	}
+
 	return array_sum( array_map( 'count', $GLOBALS['wp_filter'][ $hook ]->callbacks ) );
 }
 $rm    = new RankMath\Analytics\Watcher();
@@ -200,6 +159,73 @@ try {
 	unset( $e );
 }
 check( 'it is put back even when the run throws', 3 === t_count( 'save_post' ) );
+
+// The clean-up on a version change: one request runs it under a lease; a
+// request that dies is retried once its lease is stale; a running clean-up
+// renews its lease, so it is never displaced.
+define( 'PAULUS_VERSION', '9.9.9' );
+t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_renew_cleanup_lease', 'paulus_swap_lock' ) );
+// The options table, as far as the lock's compare-and-set UPDATE goes.
+class T_DB {
+	public $options = 'wp_options';
+	public function prepare( $sql, ...$args ) {
+		return $args;
+	}
+	public function query( $args ) {
+		list( $next, $name, $held ) = $args;
+		if ( ! array_key_exists( $name, $GLOBALS['t']['options'] ) || (string) $GLOBALS['t']['options'][ $name ] !== $held ) {
+			return 0;
+		}
+		$GLOBALS['t']['options'][ $name ] = $next;
+		return 1;
+	}
+}
+$GLOBALS['wpdb'] = new T_DB();
+function wp_rand( $a, $b ) { return random_int( $a, $b ); }
+function wp_cache_delete() { return true; }
+$GLOBALS['t']['runs']  = 0;
+$GLOBALS['t']['throw'] = true;
+$GLOBALS['t']['during'] = null;
+function paulus_cleanup_retired_files() {
+	++$GLOBALS['t']['runs'];
+	if ( $GLOBALS['t']['throw'] ) {
+		throw new RuntimeException( 'died' );
+	}
+	if ( $GLOBALS['t']['during'] ) {
+		call_user_func( $GLOBALS['t']['during'] );
+	}
+	return 0;
+}
+try {
+	paulus_cleanup_on_version_change();
+} catch ( RuntimeException $e ) {
+	unset( $e );
+}
+check( 'a run that dies leaves the version unrecorded and its lease in place', ! isset( $GLOBALS['t']['options']['paulus_retired_version'] ) && isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+check( 'and takes its tick hook with it', 0 === t_count( 'paulus_cleanup_tick' ) );
+$GLOBALS['t']['throw'] = false;
+paulus_cleanup_on_version_change();
+check( 'a fresh lease keeps a second request out', 1 === $GLOBALS['t']['runs'] );
+$stale = (string) ( time() - 600 ) . '.123456';
+$GLOBALS['t']['options']['paulus_retired_lock'] = $stale;
+check( 'of two requests that read the same stale lease, only one takes it over', paulus_swap_lock( 'paulus_retired_lock', $stale, time() . '.1' ) && ! paulus_swap_lock( 'paulus_retired_lock', $stale, time() . '.2' ) );
+// A clean-up that runs long: its lease is aged, a tick renews it, and a
+// rival that read the lease before the renewal cannot take it over.
+$GLOBALS['t']['options']['paulus_retired_lock'] = $stale;
+$GLOBALS['t']['during'] = static function () use ( $stale ) {
+	$GLOBALS['t']['options']['paulus_retired_lock'] = (string) ( time() - 600 ) . '.' . substr( $GLOBALS['paulus_cleanup_lease'], strpos( $GLOBALS['paulus_cleanup_lease'], '.' ) + 1 );
+	$GLOBALS['paulus_cleanup_lease']                = $GLOBALS['t']['options']['paulus_retired_lock'];
+	$rival_read                                     = $GLOBALS['paulus_cleanup_lease'];
+	do_action( 'paulus_cleanup_tick' );
+	$GLOBALS['t']['renewed'] = time() - (int) $GLOBALS['t']['options']['paulus_retired_lock'] < 60;
+	$GLOBALS['t']['rival']   = paulus_swap_lock( 'paulus_retired_lock', $rival_read, time() . '.9' );
+};
+paulus_cleanup_on_version_change();
+check( 'a stale lease is taken over and the version recorded after the run', 2 === $GLOBALS['t']['runs'] && '9.9.9' === $GLOBALS['t']['options']['paulus_retired_version'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
+check( 'a running clean-up renews its lease on a tick', ! empty( $GLOBALS['t']['renewed'] ) );
+check( 'a rival holding the old lease cannot displace it', false === $GLOBALS['t']['rival'] );
+paulus_cleanup_on_version_change();
+check( 'once recorded, it does not run again', 2 === $GLOBALS['t']['runs'] );
 
 // The .htaccess block for WordPress's own files.
 check( 'WordPress at the .htaccess folder: no prefix', '' === paulus_sec_core_prefix( '/srv/site/', '/srv/site/' ) && '' === paulus_sec_core_prefix( '/srv/site', '/srv/site/' ) );

@@ -592,7 +592,12 @@ function paulus_remove_tree( $root ) {
 	} catch ( UnexpectedValueException $e ) {
 		return 0;
 	}
+	$seen = 0;
 	foreach ( $it as $f ) {
+		// A long walk keeps the version clean-up's lease fresh.
+		if ( 0 === ++$seen % 200 ) {
+			do_action( 'paulus_cleanup_tick' );
+		}
 		if ( $f->isDir() && ! $f->isLink() ) {
 			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
 		} else {
@@ -673,27 +678,41 @@ function paulus_cleanup_retired_files() {
  * Once for each version, on the first request of any kind after the version
  * changes (an FTP upload of a working copy puts `.git` and the tests on the
  * server at once, and the site may see no administrator for days), and with
- * the weekly image housekeeping. A lock taken with add_option(), which fails
- * when the option exists, lets one request run it; a lock older than five
- * minutes belongs to a request that died and is taken over. The version is
+ * the weekly image housekeeping.
+ *
+ * One request runs it, under a lease held in an option: add_option() takes
+ * a free lease (it fails when the option exists), and the running clean-up
+ * renews it every minute while it works (paulus_renew_cleanup_lease(), on
+ * the "paulus_cleanup_tick" action that paulus_remove_tree() fires), so a
+ * long clean-up is never displaced. A lease left unrenewed for five minutes
+ * belongs to a request that died, and is taken over with one compare-and-set
+ * UPDATE that only one request can win (paulus_swap_lock()). The version is
  * recorded after the clean-up returns, so a request that dies is retried.
  */
 function paulus_cleanup_on_version_change() {
 	if ( get_option( 'paulus_retired_version' ) === PAULUS_VERSION ) {
 		return;
 	}
-	if ( ! add_option( 'paulus_retired_lock', time(), '', false ) ) {
+	$lease = time() . '.' . wp_rand( 100000, 999999 );
+	if ( ! add_option( 'paulus_retired_lock', $lease, '', false ) ) {
 		$held = (string) get_option( 'paulus_retired_lock' );
-		if ( time() - (int) $held < 5 * MINUTE_IN_SECONDS || ! paulus_take_over_lock( 'paulus_retired_lock', $held ) ) {
+		if ( time() - (int) $held < 5 * MINUTE_IN_SECONDS || ! paulus_swap_lock( 'paulus_retired_lock', $held, $lease ) ) {
 			return;
 		}
 	}
-	$gone = paulus_cleanup_retired_files();
+	$GLOBALS['paulus_cleanup_lease'] = $lease;
+	add_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
+	try {
+		$gone = paulus_cleanup_retired_files();
+	} finally {
+		remove_action( 'paulus_cleanup_tick', 'paulus_renew_cleanup_lease' );
+	}
 	// Recorded only once the clean-up has returned: a request that dies
-	// part-way leaves the version unrecorded and its lock stale, so a later
-	// request takes the lock over and tries again.
+	// part-way leaves the version unrecorded and its lease unrenewed, so a
+	// later request takes it over and tries again.
 	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
 	delete_option( 'paulus_retired_lock' );
+	unset( $GLOBALS['paulus_cleanup_lease'] );
 	if ( $gone ) {
 		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	}
@@ -701,18 +720,33 @@ function paulus_cleanup_on_version_change() {
 add_action( 'init', 'paulus_cleanup_on_version_change', 1 );
 
 /**
- * Take over a stale lock held in an option, for one request only: the new
- * time is written only where the row still holds the stale value read
- * before, in a single UPDATE, so of two requests that read the same stale
- * lock exactly one changes the row and wins.
+ * Renew the running clean-up's lease, at most once a minute, with the same
+ * compare-and-set, so it never looks stale while it works.
+ */
+function paulus_renew_cleanup_lease() {
+	$held = (string) ( $GLOBALS['paulus_cleanup_lease'] ?? '' );
+	if ( '' === $held || time() - (int) $held < MINUTE_IN_SECONDS ) {
+		return;
+	}
+	$next = time() . '.' . substr( $held, strpos( $held, '.' ) + 1 );
+	if ( paulus_swap_lock( 'paulus_retired_lock', $held, $next ) ) {
+		$GLOBALS['paulus_cleanup_lease'] = $next;
+	}
+}
+
+/**
+ * Replace a lock's value, for one request only: the new value is written
+ * only where the row still holds the value read before, in a single UPDATE,
+ * so of two requests that read the same value exactly one changes the row.
  *
  * @param string $name The lock's option name.
- * @param string $held The stale value read from it.
- * @return bool Whether this request took the lock.
+ * @param string $held The value read from it.
+ * @param string $next The value to write.
+ * @return bool Whether this request changed it.
  */
-function paulus_take_over_lock( $name, $held ) {
+function paulus_swap_lock( $name, $held, $next ) {
 	global $wpdb;
-	$won = (int) $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s", (string) ( time() . '.' . wp_rand( 1000, 9999 ) ), $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$won = (int) $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s", $next, $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	// The cached list of autoloaded options is cleared too, for a lock
 	// option that was saved with autoload on.
 	wp_cache_delete( $name, 'options' );
