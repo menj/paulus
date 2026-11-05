@@ -33,7 +33,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 | --- | --- | --- |
 | Single | 2.26.5 | `[paulus_series_nav]` removed from below the text |
 | 404 | 2.32.0 | Heading and first paragraph replaced by `[paulus_404_quip]` and a plain paragraph |
-| Front page | 2.77.7 | Sections reordered as a story (the man, the charges, the witnesses, answers, the Islamic dilemma, the book), each wrapped in `[paulus_story step="…"]` |
+| Front page | 2.77.7 | Sections reordered as a story (the man, the charges, the witnesses, answers, the Islamic dilemma, the book), each wrapped in `[paulus_story section="…" step="…"]`, which now prints the section wrapper the block groups used to |
 
 ## Notes by version
 

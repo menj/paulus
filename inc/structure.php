@@ -541,22 +541,32 @@ function paulus_front_story() {
  * step prints nothing either, so no line is left pointing at an absent
  * section. An unknown step prints the section alone.
  *
- * @param array  $atts    Attributes: step, a key of paulus_front_story().
+ * With section="default" (or "charges", for the counts' modifier) the step
+ * prints its own front-page section wrapper, which a block group in the
+ * template used to: a group cannot see that the shortcode inside it came
+ * out empty, so an empty section left a blank band of padding and a rule.
+ *
+ * @param array  $atts    Attributes: step, a key of paulus_front_story();
+ *                        section, the wrapper's modifier or '' for none.
  * @param string $content The section's shortcode.
  * @return string
  */
 function paulus_sc_story( $atts, $content = '' ) {
-	$atts  = shortcode_atts( array( 'step' => '' ), $atts, 'paulus_story' );
+	$atts  = shortcode_atts( array( 'step' => '', 'section' => '' ), $atts, 'paulus_story' );
 	$inner = trim( do_shortcode( (string) $content ) );
 	if ( '' === $inner ) {
 		return '';
 	}
 	$story = paulus_front_story();
-	if ( ! isset( $story[ $atts['step'] ] ) ) {
+	if ( isset( $story[ $atts['step'] ] ) ) {
+		$step  = $story[ $atts['step'] ];
+		$inner = '<p class="paulus-story"><span class="paulus-story__label">' . esc_html( $step['label'] ) . '</span> <span class="paulus-story__bridge">' . esc_html( $step['bridge'] ) . '</span></p>' . $inner;
+	}
+	if ( '' === $atts['section'] ) {
 		return $inner;
 	}
-	$step = $story[ $atts['step'] ];
-	return '<p class="paulus-story"><span class="paulus-story__label">' . esc_html( $step['label'] ) . '</span> <span class="paulus-story__bridge">' . esc_html( $step['bridge'] ) . '</span></p>' . $inner;
+	$class = 'wp-block-group alignwide paulus-front__section' . ( 'default' === $atts['section'] ? '' : ' paulus-front__section--' . sanitize_html_class( $atts['section'] ) );
+	return '<div class="' . esc_attr( $class ) . '">' . $inner . '</div>';
 }
 add_shortcode( 'paulus_story', 'paulus_sc_story' );
 
