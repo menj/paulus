@@ -17,7 +17,7 @@ The theme `.htaccess` refuses this file to the web server, as it refuses every M
 | Text domain | `paulus` |
 | Parent theme | Twenty Twenty-Five (`Template: twentytwentyfive`), version 1.5 or later |
 | Requirements | WordPress 6.7 or later (tested up to 7.0), PHP 8.0 or later |
-| Theme author | MENJ (`Author` and `Theme URI` in `style.css`) |
+| Theme author | MENJ (`Author` and `Author URI` in `style.css`; `Theme URI` is the GitHub page) |
 | Author for schema | Mohd Elfie Nieshaem Juferi (`PAULUS_SCHEMA_AUTHOR_NAME`, `inc/seo.php`) |
 | Source book | *Paulus Perosak Risalah Al-Masih*, Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025; ISBN 978-629-96135-0-3). Its name is never shortened or altered |
 | Licence | GPL v2 or later for the code. The articles and illustrations belong to the book's author and publisher |
