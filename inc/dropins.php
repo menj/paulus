@@ -216,11 +216,38 @@ function paulus_install_dropins( $force = false ) {
 add_action( 'init', 'paulus_install_dropins', 20 );
 
 /**
+ * Whether another site of the network still runs this theme, as its
+ * stylesheet or its template. The drop-ins in the shared wp-content then
+ * stay. At most 500 sites are checked.
+ *
+ * @return bool
+ */
+function paulus_dropins_in_use_elsewhere() {
+	if ( ! is_multisite() ) {
+		return false;
+	}
+	$slug = basename( dirname( __DIR__ ) );
+	$ids  = get_sites(
+		array(
+			'fields'       => 'ids',
+			'number'       => 500,
+			'site__not_in' => array( get_current_blog_id() ),
+		)
+	);
+	foreach ( $ids as $id ) {
+		if ( in_array( $slug, array( get_blog_option( $id, 'stylesheet' ), get_blog_option( $id, 'template' ) ), true ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
  * Remove the drop-ins when the theme is switched off: their stylesheet goes
  * with it.
  */
 function paulus_remove_dropins() {
-	if ( is_multisite() && ! is_main_site() ) {
+	if ( ( is_multisite() && ! is_main_site() ) || paulus_dropins_in_use_elsewhere() ) {
 		delete_option( 'paulus_dropins_stamp' );
 		return;
 	}
@@ -303,8 +330,10 @@ function paulus_render_dropins_status() {
 			<?php foreach ( array_keys( paulus_dropin_sources() ) as $paulus_file ) : ?>
 				<?php
 				$paulus_state = paulus_dropin_state( $paulus_file );
-				// A failed write leaves the old state on disk; the saved result says why.
-				if ( 'installed' !== $paulus_state && 'foreign' !== $paulus_state && 'failed' === ( $paulus_saved[ $paulus_file ] ?? '' ) ) {
+				// A failed write leaves the old state on disk; the saved result says
+				// why. A sister theme's file the theme may replace counts too.
+				$paulus_left = 'foreign' === $paulus_state && ! paulus_dropin_is_replaceable( WP_CONTENT_DIR . '/' . $paulus_file );
+				if ( 'installed' !== $paulus_state && ! $paulus_left && 'failed' === ( $paulus_saved[ $paulus_file ] ?? '' ) ) {
 					$paulus_state = 'failed';
 				}
 				?>
