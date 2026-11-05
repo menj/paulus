@@ -592,12 +592,11 @@ function paulus_remove_tree( $root ) {
 	} catch ( UnexpectedValueException $e ) {
 		return 0;
 	}
-	$seen = 0;
 	foreach ( $it as $f ) {
-		// A long walk keeps the version clean-up's lease fresh.
-		if ( 0 === ++$seen % 200 ) {
-			do_action( 'paulus_cleanup_tick' );
-		}
+		// A long walk keeps the version clean-up's lease fresh: the tick
+		// fires for every entry, and the renewal itself goes by the clock
+		// (once a minute), so a slow entry delays it by that entry alone.
+		do_action( 'paulus_cleanup_tick' );
 		if ( $f->isDir() && ! $f->isLink() ) {
 			@rmdir( $f->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
 		} else {
@@ -660,9 +659,11 @@ function paulus_cleanup_retired_files() {
 		}
 	}
 	foreach ( $dirs as $dir ) {
+		do_action( 'paulus_cleanup_tick' );
 		$gone += paulus_remove_tree( $dir );
 	}
 	foreach ( $paths as $path ) {
+		do_action( 'paulus_cleanup_tick' );
 		if ( is_link( $path ) ) {
 			wp_delete_file( $path );
 			$gone += is_link( $path ) ? 0 : 1;
@@ -683,8 +684,9 @@ function paulus_cleanup_retired_files() {
  * One request runs it, under a lease held in an option: add_option() takes
  * a free lease (it fails when the option exists), and the running clean-up
  * renews it every minute while it works (paulus_renew_cleanup_lease(), on
- * the "paulus_cleanup_tick" action that paulus_remove_tree() fires), so a
- * long clean-up is never displaced. A lease left unrenewed for five minutes
+ * the "paulus_cleanup_tick" action fired for every entry it removes), so a
+ * long clean-up is never displaced, and releases it only while it still
+ * holds it (paulus_release_lock()). A lease left unrenewed for five minutes
  * belongs to a request that died, and is taken over with one compare-and-set
  * UPDATE that only one request can win (paulus_swap_lock()). The version is
  * recorded after the clean-up returns, so a request that dies is retried.
@@ -709,9 +711,11 @@ function paulus_cleanup_on_version_change() {
 	}
 	// Recorded only once the clean-up has returned: a request that dies
 	// part-way leaves the version unrecorded and its lease unrenewed, so a
-	// later request takes it over and tries again.
-	update_option( 'paulus_retired_version', PAULUS_VERSION, false );
-	delete_option( 'paulus_retired_lock' );
+	// later request takes it over and tries again. A request whose lease was
+	// taken over in the meantime leaves both to the request that holds it.
+	if ( paulus_release_lock( 'paulus_retired_lock', (string) $GLOBALS['paulus_cleanup_lease'] ) ) {
+		update_option( 'paulus_retired_version', PAULUS_VERSION, false );
+	}
 	unset( $GLOBALS['paulus_cleanup_lease'] );
 	if ( $gone ) {
 		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
@@ -732,6 +736,23 @@ function paulus_renew_cleanup_lease() {
 	if ( paulus_swap_lock( 'paulus_retired_lock', $held, $next ) ) {
 		$GLOBALS['paulus_cleanup_lease'] = $next;
 	}
+}
+
+/**
+ * Release a lock only while it still holds this request's value, in one
+ * DELETE, so a request that lost its lease never frees its successor's.
+ *
+ * @param string $name The lock's option name.
+ * @param string $held This request's value.
+ * @return bool Whether this request still held it and released it.
+ */
+function paulus_release_lock( $name, $held ) {
+	global $wpdb;
+	$done = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name = %s AND option_value = %s", $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	wp_cache_delete( $name, 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
+	wp_cache_delete( 'notoptions', 'options' );
+	return 1 === $done;
 }
 
 /**

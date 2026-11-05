@@ -164,7 +164,7 @@ check( 'it is put back even when the run throws', 3 === t_count( 'save_post' ) )
 // request that dies is retried once its lease is stale; a running clean-up
 // renews its lease, so it is never displaced.
 define( 'PAULUS_VERSION', '9.9.9' );
-t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_renew_cleanup_lease', 'paulus_swap_lock' ) );
+t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_renew_cleanup_lease', 'paulus_swap_lock', 'paulus_release_lock' ) );
 // The options table, as far as the lock's compare-and-set UPDATE goes.
 class T_DB {
 	public $options = 'wp_options';
@@ -172,6 +172,15 @@ class T_DB {
 		return $args;
 	}
 	public function query( $args ) {
+		if ( 2 === count( $args ) ) {
+			// DELETE … WHERE option_name = %s AND option_value = %s.
+			list( $name, $held ) = $args;
+			if ( ! array_key_exists( $name, $GLOBALS['t']['options'] ) || (string) $GLOBALS['t']['options'][ $name ] !== $held ) {
+				return 0;
+			}
+			unset( $GLOBALS['t']['options'][ $name ] );
+			return 1;
+		}
 		list( $next, $name, $held ) = $args;
 		if ( ! array_key_exists( $name, $GLOBALS['t']['options'] ) || (string) $GLOBALS['t']['options'][ $name ] !== $held ) {
 			return 0;
@@ -226,6 +235,16 @@ check( 'a running clean-up renews its lease on a tick', ! empty( $GLOBALS['t']['
 check( 'a rival holding the old lease cannot displace it', false === $GLOBALS['t']['rival'] );
 paulus_cleanup_on_version_change();
 check( 'once recorded, it does not run again', 2 === $GLOBALS['t']['runs'] );
+// A run whose lease is taken over before it finishes leaves the lock and the
+// version to the request that took it.
+$GLOBALS['t']['options']['paulus_retired_version'] = '9.9.8';
+$GLOBALS['t']['during'] = static function () {
+	$GLOBALS['t']['options']['paulus_retired_lock'] = time() . '.successor';
+};
+paulus_cleanup_on_version_change();
+check( 'a run that lost its lease frees nothing and records nothing', 3 === $GLOBALS['t']['runs'] && time() . '.successor' === $GLOBALS['t']['options']['paulus_retired_lock'] && '9.9.8' === $GLOBALS['t']['options']['paulus_retired_version'] );
+unset( $GLOBALS['t']['options']['paulus_retired_lock'] );
+$GLOBALS['t']['options']['paulus_retired_version'] = '9.9.9';
 
 // The .htaccess block for WordPress's own files.
 check( 'WordPress at the .htaccess folder: no prefix', '' === paulus_sec_core_prefix( '/srv/site/', '/srv/site/' ) && '' === paulus_sec_core_prefix( '/srv/site', '/srv/site/' ) );
