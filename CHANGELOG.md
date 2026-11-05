@@ -2,6 +2,11 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.3] - 2026-11-05
+
+### Fixed
+- *What did Paul say about holy days?* (`journal-paul-on-holy-days.json`): "a journal on the three Abrahamic faiths" reads "a journal on the four Abrahamic faiths". The linked site treats Judaism, Christianity, Islam and Mandaeism. The article carries its new `md5`, the manifest records the 2.77.2 hash (`#r77.2`) in `prior_hashes`, and `content_version` is 2.77.3, so an unedited article takes the new text and an edited one is left alone.
+
 ## [2.77.2] - 2026-11-04
 
 ### Changed

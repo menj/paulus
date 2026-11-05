@@ -1,7 +1,8 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.2",
+	"content_version": "2.77.3",
 	"prior_hashes": {
+		"journal-paul-on-holy-days.json#r77.2": "eed590a013d83126276e70f1bf1646f0",
 		"islamic-dilemma.json#r77.1": "82d479b02a421baa3ad704bfe2d55223",
 		"journal-paul-on-holy-days.json#r77.1": "188e3fc394e558ab2a2175729eeda815",
 		"answers.json#r68.0": "bec48ce526dba7689a9866d5af652902",
