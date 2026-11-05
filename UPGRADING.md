@@ -13,7 +13,7 @@ To update over FTP instead:
 
 1. Switch Maintenance mode on (Theme Options, Maintenance), and turn on hidden files in the FTP program (in FileZilla: Server, Force showing hidden files), so the `.htaccess` files go up.
 2. Upload the new `paulus` folder into `wp-content/themes/` as `paulus-new`.
-3. Rename the live folder to `paulus-old` and at once `paulus-new` to `paulus`, with Appearance, Themes closed: that screen switches the site to another theme if it finds the folder missing.
+3. Rename the live folder to `paulus-old` and at once `paulus-new` to `paulus`, with Appearance, Themes closed, at a quiet hour. A page asked for between the two renames finds no theme, and that screen switches the site to another theme if it finds the folder missing.
 4. Open any page as an administrator, check the site, switch Maintenance mode off and delete `paulus-old`.
 
 An upload straight into the live folder also works under Maintenance mode. `functions.php` cannot guard itself, so keep maintenance on until the last file is up.
@@ -51,6 +51,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.77.8 to 2.77.9
 
 - Nothing to run. The release adds `SSOT.md` and changes the documents only. `content_version` stays at 2.77.3, so the structure sync does not run.
+- As after any version change, the first request removes development files from the theme folder, and the first admin page runs the image housekeeping and rewrites the error pages.
 
 ### 2.77.7 to 2.77.8
 

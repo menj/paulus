@@ -553,7 +553,7 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 
 ## Image formats
 
-Every image the theme shows is AVIF, at every width; link previews are WebP, since social networks do not show AVIF, and the logo and icon PNG. The two calligraphy masks also keep a PNG, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`).
+The illustrations, figures, the hero and the portraits are AVIF, at every width. WebP covers the rest: link previews (social networks skip AVIF), the publisher logo and the site icon, the owner's pixel icons (`arrow-next` and `envelope`, each with a still copy), and a fallback copy of the two calligraphy masks, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`). No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
 
 | Images | Format | Where |
 |---|---|---|
@@ -561,7 +561,8 @@ Every image the theme shows is AVIF, at every width; link previews are WebP, sin
 | Full-size figures (about 1,400 px) | AVIF, quality 50 | `assets/images/church/<name>.avif` |
 | Hero cutout (1,024 px, transparent) | AVIF, with its transparency | `assets/images/paul-portrait-cutout.avif` |
 | Smaller widths: figures at 720 px, the hero at 480 and 720 px (transparent); the author's portrait (240 px); the 96-pixel icon; the honorific calligraphy (a mask) | AVIF, quality 60 (the icon 80, the calligraphy 90) | beside their full-size files, in `srcset`; each 720-pixel copy is made from its full-size AVIF |
-| Publisher logo, site icon | PNG | required as PNG or JPEG by structured data and home-screen icons |
+| Publisher logo, site icon | WebP | `assets/images/publisher-logo.webp`, `assets/images/site-icon.webp` |
+| Pixel icons and the calligraphy mask fallbacks | WebP | `assets/images/arrow-next*.webp`, `envelope*.webp`, `alayhi-al-salam.webp`, `lanat-allah.webp` |
 | Link previews (Open Graph, X) | WebP, quality 78, 1,024 px | `assets/social/<slug>.webp`: social networks do not show AVIF |
 
 `paulus_image_url()` gives an illustration's AVIF; `paulus_social_image_url()` and `paulus_social_for_url()` its WebP copy in `assets/social/`, which the theme's own preview tags and Rank Math's (`rank_math/opengraph/{facebook,twitter}/image_array`) use; a page without an image, and no default set in Rank Math, takes the portrait's copy. Dimensions come from `assets/images/sizes.json`, so no page depends on the server's PHP reading AVIF (`getimagesize()` does so only from PHP 8.2).

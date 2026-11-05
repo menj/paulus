@@ -19,7 +19,7 @@ Documentation only. No article, page or setting changes.
 ### Fixed
 - The README and the readme counted 33 articles; the manifest holds 56, in three sections.
 - The README's Theme Options table lacked the Media, Security and Journal tabs and described the old Links tab; it now lists all thirteen tabs in their order.
-- The README said link previews are JPEG and that no WebP file ships. They are WebP, in `assets/social/`.
+- The README said link previews are JPEG, the logo and icon PNG and the calligraphy fallbacks PNG, and that no WebP file ships. All of these are WebP, and the only PNG files are the three Lightbox2 controls.
 - The README held a page's `seo_title` to 31 characters. The owner's rule is 32.
 - `assets/files.json` carries version 2.77.9, so the image clean-up keeps working.
 

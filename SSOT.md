@@ -50,10 +50,10 @@ Other decisions recorded in `README.md` and `LICENSES.md`:
 | Meta description | at most 130 characters, its closing call to action included | `PAULUS_META_MAX` |
 | The book's name | never shortened, the one exception to the title length | |
 
-Check every `seo_title` before a commit:
+Check every `seo_title` before a commit. The command exits with 1 when one is missing or too long:
 
 ```bash
-python3 -c "import json; m=json.load(open('content/manifest.json')); bad=[(x['slug'], len(x['seo_title'])) for k in ('parts','posts','journal','pages') for x in m[k] if len(x.get('seo_title', '')) > 32 or not x.get('seo_title')]; print(bad or 'all within 32')"
+python3 -c "import json, sys; m=json.load(open('content/manifest.json')); bad=[(x.get('slug'), len(x.get('seo_title') or '')) for k in ('parts','posts','journal','pages') for x in m[k] if not x.get('seo_title') or len(x['seo_title']) > 32]; print(bad or 'all within 32'); sys.exit(1 if bad else 0)"
 ```
 
 On 2.77.9 the longest is 32 characters ("Was Paul an apostle or disciple?"), and none is missing.
@@ -125,7 +125,9 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 ### Images
 
-Every image the theme shows is AVIF; link previews are WebP (`assets/social/`), the publisher logo and the icon PNG. Figures carry public-domain, CC0 or Creative Commons attribution licences only, and each shows its credit.
+The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
+
+Figures carry public-domain, CC0 or Creative Commons attribution licences only, and each shows its credit.
 
 ### Release checklist
 
