@@ -332,13 +332,15 @@ function paulus_article_question_sets( $html ) {
 }
 
 /**
- * Plain text of some markup, entities decoded, on one line.
+ * Plain text of some markup, as the page renders it: texturized, as
+ * the_content is, so an apostrophe reads as the reader sees it, then
+ * entities decoded, on one line.
  *
  * @param string $html Markup.
  * @return string
  */
 function paulus_article_plain( $html ) {
-	return trim( (string) preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( (string) $html ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+	return trim( (string) preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( wptexturize( (string) $html ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
 }
 
 /**

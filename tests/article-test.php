@@ -49,6 +49,11 @@ function esc_html__( $s ) {
 function __( $s ) {
 	return $s;
 }
+function wptexturize( $s ) {
+	// The part of WordPress's filter the tests need: an apostrophe within a
+	// word becomes a right single quotation mark.
+	return preg_replace( "/(?<=\\w)'(?=\\w)/u", '&#8217;', (string) $s );
+}
 function wp_strip_all_tags( $s ) {
 	return strip_tags( (string) $s );
 }
@@ -86,6 +91,8 @@ $sets = paulus_article_question_sets( $html );
 $check( 1 === count( $sets ) && 2 === count( $sets[0]['questions'] ), 'one set of two questions; a plain list is not a set' );
 $check( 'What gave Paul & his letters such a place?' === $sets[0]['questions'][0] && 'Why Rome?' === $sets[0]['questions'][1], 'the questions are read as plain text, word for word' );
 $check( 'who-was-paul-of-tarsus' === $sets[0]['anchor'], 'each set keeps the id of its heading' );
+$sets = paulus_article_question_sets( '<h2 id="a">A</h2><ol class="paulus-questions"><li>What did Paul\'s letters say?</li></ol>' );
+$check( "What did Paul\u{2019}s letters say?" === $sets[0]['questions'][0], 'an apostrophe reads as the page renders it, texturized' );
 $check( array() === paulus_article_question_sets( '<h2>Q?</h2><p>A.</p>' ), 'a page without study questions has no sets, so no FAQPage' );
 
 // Both hooks in inc/seo.php build the FAQPage of the study questions, as
