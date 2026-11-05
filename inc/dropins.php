@@ -10,8 +10,9 @@
  * stylesheet is assets/css/error-page.css.
  *
  * A file in wp-content that the theme did not write is left alone. A copy
- * written by the Paulus theme, or by the Abrahamic theme (whose files say
- * they are safe to delete), is replaced; switching themes removes them.
+ * written by the Paulus theme, or by any sister theme whose files say
+ * "Written by the ... theme; safe to delete", is replaced; switching themes
+ * removes the theme's own.
  *
  * @package Paulus
  */
@@ -52,6 +53,23 @@ function paulus_dropin_extras() {
 function paulus_dropin_is_ours( $path ) {
 	$head = (string) file_get_contents( $path, false, null, 0, 300 );
 	return false !== strpos( $head, 'Paulus error page drop-in' ) || false !== strpos( $head, 'Paulus: the standalone error pages' ) || false !== strpos( $head, 'Written by the Abrahamic theme' );
+}
+
+/**
+ * Whether a file in wp-content may be written over at install time: the
+ * theme's own, or a leftover of one of the owner's sister themes, which mark
+ * every drop-in "Written by the ... theme; safe to delete". A file with no
+ * such mark is never touched.
+ *
+ * @param string $path File path.
+ * @return bool
+ */
+function paulus_dropin_is_replaceable( $path ) {
+	if ( paulus_dropin_is_ours( $path ) ) {
+		return true;
+	}
+	$head = is_readable( $path ) ? (string) file_get_contents( $path, false, null, 0, 400 ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions
+	return (bool) preg_match( '/Written by the [A-Za-z0-9 .\'-]{1,40} theme; safe to delete/', $head );
 }
 
 /**
@@ -165,7 +183,7 @@ function paulus_install_dropins( $force = false ) {
 	$result = array();
 	foreach ( array_keys( $files ) as $file ) {
 		$target = WP_CONTENT_DIR . '/' . $file;
-		if ( file_exists( $target ) && ! paulus_dropin_is_ours( $target ) ) {
+		if ( file_exists( $target ) && ! paulus_dropin_is_replaceable( $target ) ) {
 			$result[ $file ] = 'kept';
 			continue;
 		}
@@ -248,7 +266,7 @@ add_action( 'admin_post_paulus_install_dropins', 'paulus_handle_install_dropins'
 function paulus_error_htaccess_snippet() {
 	$base  = untrailingslashit( (string) wp_parse_url( PAULUS_URI, PHP_URL_PATH ) ) . '/errors/';
 	$lines = array( '# Paulus: pages for the errors the web server answers before WordPress runs' );
-	foreach ( array( 403, 500, 502, 503 ) as $code ) {
+	foreach ( array( 403, 500, 502, 503, 504 ) as $code ) {
 		$lines[] = 'ErrorDocument ' . $code . ' ' . $base . $code . '.html';
 	}
 	return implode( "\n", $lines );
@@ -304,7 +322,7 @@ function paulus_render_dropins_status() {
 			</form>
 		<?php endif; ?>
 		<p><?php esc_html_e( 'For the errors the web server answers before WordPress starts, static pages are in the errors folder of the theme. Add these lines to .htaccess to use them:', 'paulus' ); ?></p>
-		<textarea readonly rows="5" class="large-text code" aria-label="<?php esc_attr_e( '.htaccess lines', 'paulus' ); ?>"><?php echo esc_textarea( paulus_error_htaccess_snippet() ); ?></textarea>
+		<textarea readonly rows="6" class="large-text code" aria-label="<?php esc_attr_e( '.htaccess lines', 'paulus' ); ?>"><?php echo esc_textarea( paulus_error_htaccess_snippet() ); ?></textarea>
 	</div>
 	<?php
 }

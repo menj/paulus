@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.3
+Stable tag: 2.77.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,11 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.4 =
+* A real PHP error gets the 500 page again. A fault raised through a hook was shown as "Back shortly" with a 503.
+* Error pages left by a sister theme are replaced. Any other file is left alone.
+* A static 504 page in the errors folder, with its .htaccess line.
 
 = 2.77.3 =
 * The article on Paul and holy days now speaks of the four Abrahamic faiths, as the Abrahamic Religions site counts them.

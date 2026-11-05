@@ -294,13 +294,14 @@ The error pages use a copy of their stylesheet in `wp-content/paulus-error-page.
 
 Theme Options, Content ends with the error pages: each file's state (not installed, installed, outdated or another file left alone) and an **Install error pages** button that writes them at once, behind a nonce and `edit_theme_options`. `maintenance.php` and `db-error.php` answer `503` with `Retry-After`, `php-error.php` answers `500` ("Something went wrong") or `503` for an upload in progress, and all three send `noindex` and `no-store`.
 
-For the errors the web server answers before WordPress starts, `errors/` holds static 403, 500, 502 and 503 pages built from the maintenance markup (`php bin/build-error-pages.php`). Add to `.htaccess`:
+For the errors the web server answers before WordPress starts, `errors/` holds static 403, 500, 502, 503 and 504 pages built from the maintenance markup (`php bin/build-error-pages.php`). Add to `.htaccess`:
 
 ```
 ErrorDocument 403 /wp-content/themes/paulus/errors/403.html
 ErrorDocument 500 /wp-content/themes/paulus/errors/500.html
 ErrorDocument 502 /wp-content/themes/paulus/errors/502.html
 ErrorDocument 503 /wp-content/themes/paulus/errors/503.html
+ErrorDocument 504 /wp-content/themes/paulus/errors/504.html
 ```
 
 ## Maintenance and the error watch
