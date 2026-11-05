@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.15] - 2026-11-05
+
+The settings and readme speak of the other sites in plain words, and the docs name the subfolder favicon step. No article, page, title or setting changes, and `content_version` stays at 2.77.3.
+
+### Changed
+- The Theme Options Links tab summary and the code comments in `inc/dropins.php`, `inc/links.php` and `inc/security.php` say "the other sites". The `paulus-ctx-link--sister` class and the `sister` link kind keep their names.
+- `readme.txt` and `README.md` say that a site in a subfolder needs a copy of `favicon.ico` at the domain root, because browsers ask for it there and WordPress never sees the request.
+
 ## [2.77.14] - 2026-11-05
 
 The Journal opens with a lead and list. No article, page, title or setting changes, and `content_version` stays at 2.77.3.

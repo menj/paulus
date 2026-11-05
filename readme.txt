@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.14
+Stable tag: 2.77.15
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ In the Key takeaways and review box on the article's screen, one a line. The sam
 
 The installer. It shows which articles and pages are installed, and one button installs or updates the rest.
 
+= My site is in a subfolder. Where does the browser icon go? =
+
+Browsers ask for /favicon.ico at the top of the domain, such as example.com/favicon.ico, even when the site lives in example.com/blog/. WordPress never sees that request, so put a copy of the theme's favicon.ico in the domain root folder. The icon tags in each page cover the pages either way. If you have set a Site Icon, put that icon there, converted to an ICO file named favicon.ico, instead.
+
 == Privacy ==
 
 The theme sends no data to other servers and adds no analytics or tracking. It sets no cookies of its own.
@@ -145,6 +149,10 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.15 =
+* The settings and the readme speak of the other sites in plain words. Links to them stay.
+* The readme says where the browser icon goes on a site in a subfolder: a copy of favicon.ico in the domain root.
 
 = 2.77.14 =
 * The Journal opens with the newest entry large, with its image credit, and the next five in a list beside it. The other entries follow as before. With fewer than five entries, or a newest entry without an image, the Journal looks as it did.
@@ -186,6 +194,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.15 =
+Upload the whole theme folder. On a site in a subfolder, also put a copy of assets/images/favicon.ico in the domain root folder (or, with a Site Icon set, that icon converted to an ICO file named favicon.ico); otherwise nothing to do.
 
 = 2.77.14 =
 Upload the whole theme folder. Nothing else needs doing.

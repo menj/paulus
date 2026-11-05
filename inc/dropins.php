@@ -10,7 +10,7 @@
  * stylesheet is assets/css/error-page.css.
  *
  * A file in wp-content that the theme did not write is left alone. A copy
- * written by the Paulus theme, or by any sister theme whose files say
+ * written by the Paulus theme, or by any of the seven themes whose files say
  * "Written by the ... theme; safe to delete", is replaced; switching themes
  * removes the theme's own.
  *
@@ -71,7 +71,7 @@ function paulus_dropin_is_ours( $path ) {
 
 /**
  * Whether a file in wp-content may be written over at install time: the
- * theme's own, or a leftover of one of the owner's sister themes, which mark
+ * theme's own, or a leftover of one of the owner's other themes, which mark
  * every drop-in "Written by the ... theme; safe to delete". A file with no
  * such mark is never touched.
  *
@@ -298,7 +298,7 @@ function paulus_install_dropins( $force = false ) {
 add_action( 'init', 'paulus_install_dropins', 20 );
 
 /**
- * Whether another site of the network still runs this theme, as its
+ * Whether another site on this install still runs this theme, as its
  * stylesheet or its template. The drop-ins in the shared wp-content then
  * stay. Sites are read 500 at a time, so a large network is checked in
  * full without loading every site at once.
@@ -424,7 +424,7 @@ function paulus_render_dropins_status() {
 				<?php
 				$paulus_state = paulus_dropin_state( $paulus_file );
 				// A failed write leaves the old state on disk; the saved result says
-				// why. A sister theme's file the theme may replace counts too.
+				// why. Another theme's file the theme may replace counts too.
 				$paulus_left = 'foreign' === $paulus_state && ! paulus_dropin_is_replaceable( WP_CONTENT_DIR . '/' . $paulus_file );
 				if ( 'installed' !== $paulus_state && ! $paulus_left && 'failed' === ( $paulus_saved[ $paulus_file ] ?? '' ) ) {
 					$paulus_state = 'failed';
