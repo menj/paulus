@@ -104,7 +104,25 @@ rmdir( $root );
 // The clean-up on a version change: one request runs it, and a request that
 // dies part-way is retried once its lock is stale.
 define( 'PAULUS_VERSION', '9.9.9' );
-t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change' ) );
+t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_take_over_lock' ) );
+// The options table, as far as the lock's compare-and-set UPDATE goes.
+class T_DB {
+	public $options = 'wp_options';
+	public function prepare( $sql, ...$args ) {
+		return array( $sql, $args );
+	}
+	public function query( $q ) {
+		list( $value, $name, $held ) = $q[1];
+		if ( ! array_key_exists( $name, $GLOBALS['t']['options'] ) || (string) $GLOBALS['t']['options'][ $name ] !== $held ) {
+			return 0;
+		}
+		$GLOBALS['t']['options'][ $name ] = $value;
+		return 1;
+	}
+}
+$GLOBALS['wpdb'] = new T_DB();
+function wp_rand( $a, $b ) { return random_int( $a, $b ); }
+function wp_cache_delete() { return true; }
 $GLOBALS['t']['runs']  = 0;
 $GLOBALS['t']['throw'] = true;
 function paulus_cleanup_retired_files() {
@@ -128,6 +146,12 @@ paulus_cleanup_on_version_change();
 check( 'a stale lock is taken over and the version recorded after the run', 2 === $GLOBALS['t']['runs'] && '9.9.9' === $GLOBALS['t']['options']['paulus_retired_version'] && ! isset( $GLOBALS['t']['options']['paulus_retired_lock'] ) );
 paulus_cleanup_on_version_change();
 check( 'once recorded, it does not run again', 2 === $GLOBALS['t']['runs'] );
+$GLOBALS['t']['options']['paulus_retired_lock'] = (string) ( time() - 600 );
+$stale = $GLOBALS['t']['options']['paulus_retired_lock'];
+$first = paulus_take_over_lock( 'paulus_retired_lock', $stale );
+$second = paulus_take_over_lock( 'paulus_retired_lock', $stale );
+check( 'of two requests that read the same stale lock, only one takes it over', $first && ! $second );
+unset( $GLOBALS['t']['options']['paulus_retired_lock'] );
 
 // The save_post watchers.
 class WP_Hook {

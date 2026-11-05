@@ -683,10 +683,10 @@ function paulus_cleanup_on_version_change() {
 		return;
 	}
 	if ( ! add_option( 'paulus_retired_lock', time(), '', false ) ) {
-		if ( time() - (int) get_option( 'paulus_retired_lock' ) < 5 * MINUTE_IN_SECONDS ) {
+		$held = (string) get_option( 'paulus_retired_lock' );
+		if ( time() - (int) $held < 5 * MINUTE_IN_SECONDS || ! paulus_take_over_lock( 'paulus_retired_lock', $held ) ) {
 			return;
 		}
-		update_option( 'paulus_retired_lock', time(), false );
 	}
 	$gone = paulus_cleanup_retired_files();
 	// Recorded only once the clean-up has returned: a request that dies
@@ -699,6 +699,26 @@ function paulus_cleanup_on_version_change() {
 	}
 }
 add_action( 'init', 'paulus_cleanup_on_version_change', 1 );
+
+/**
+ * Take over a stale lock held in an option, for one request only: the new
+ * time is written only where the row still holds the stale value read
+ * before, in a single UPDATE, so of two requests that read the same stale
+ * lock exactly one changes the row and wins.
+ *
+ * @param string $name The lock's option name.
+ * @param string $held The stale value read from it.
+ * @return bool Whether this request took the lock.
+ */
+function paulus_take_over_lock( $name, $held ) {
+	global $wpdb;
+	$won = (int) $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s", (string) ( time() . '.' . wp_rand( 1000, 9999 ) ), $name, $held ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	// The cached list of autoloaded options is cleared too, for a lock
+	// option that was saved with autoload on.
+	wp_cache_delete( $name, 'options' );
+	wp_cache_delete( 'alloptions', 'options' );
+	return 1 === $won;
+}
 add_action( 'paulus_image_housekeeping', 'paulus_cleanup_retired_files', 20 );
 add_action( 'after_switch_theme', static function () {
 	$gone = paulus_cleanup_retired_files();
