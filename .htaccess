@@ -4,10 +4,11 @@
 # a site that keeps them. Served on purpose and left open: README.md,
 # UPGRADING.md and LICENSES.md (linked from Theme Options), and assets/docs.
 
-# The repository and editor folders (.git, .github, .claude, .vscode, .idea)
-# and the files beginning with ".git" or ".ht" (this file among them).
-RedirectMatch 403 /\.(git|github|claude|vscode|idea)(/|$)
-<FilesMatch "^\.(git|ht)">
+# Every file and folder whose name begins with a dot: the repository and
+# editor folders (.git, .github, .claude, .vscode, .idea), .env files, .ht*
+# (this file among them) and the like. .well-known stays open.
+RedirectMatch 403 /\.(?!well-known(/|$))[^/]+(/|$)
+<FilesMatch "^\.">
 	<IfModule mod_authz_core.c>
 		Require all denied
 	</IfModule>
