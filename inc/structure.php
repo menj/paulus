@@ -287,7 +287,8 @@ function paulus_sc_parts_build( $atts ) {
 		$atts['part'] = $term->slug;
 		$bare         = true;
 	}
-	$out   = '<div class="paulus-parts paulus-parts--' . esc_attr( $style ) . '">';
+	$open  = '<div class="paulus-parts paulus-parts--' . esc_attr( $style ) . '">';
+	$out   = '';
 	foreach ( paulus_parts() as $part ) {
 		if ( $atts['part'] && $part->slug !== $atts['part'] ) {
 			continue;
@@ -354,7 +355,9 @@ function paulus_sc_parts_build( $atts ) {
 		}
 		$out .= '</ol></section>';
 	}
-	return $out . '</div>';
+	// No section with a published article: nothing at all, so the front
+	// page's story step above it ([paulus_story]) is left out too.
+	return '' === $out ? '' : $open . $out . '</div>';
 }
 add_shortcode( 'paulus_parts', 'paulus_sc_parts' );
 
