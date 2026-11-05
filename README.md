@@ -581,7 +581,7 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 
 ## Image formats
 
-The illustrations, figures, the hero and the portraits are AVIF, at every width. WebP covers the rest: link previews (social networks skip AVIF), the publisher logo and the site icon, the owner's pixel icons (`arrow-next` and `envelope`, each with a still copy), and a fallback copy of the two calligraphy masks, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`). No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
+The illustrations, figures, the hero and the portraits are AVIF, at every width. WebP covers the rest: link previews (social networks skip AVIF), the publisher logo and the site icon, the owner's pixel icons (`arrow-next` and `envelope`, each with a still copy), and a fallback copy of the two calligraphy masks, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`). No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/` and the browser icons in the table below, which take the formats browsers ask for.
 
 | Images | Format | Where |
 |---|---|---|
