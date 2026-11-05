@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.12 to 2.77.13
+
+- Upload the whole theme folder. The new files are in `assets/images/`: `favicon.ico`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` and `site.webmanifest`. Open one admin page so the error pages are written again with the icon.
+- The installer sets the site icon to the portrait, so most sites keep WordPress's own icon tags. The theme's set covers a site with no site icon. If a `favicon.ico` file sits in the site root, the web server sends it and the theme never answers.
+
 ### 2.77.11 to 2.77.12
 
 - Upload the whole theme folder. No file is added or removed, and `content_version` stays at 2.77.3, so the structure sync does not run.

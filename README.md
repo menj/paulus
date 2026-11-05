@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.12 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.13 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.12) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.12.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.13) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.13.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -458,6 +458,12 @@ Where `wp-content` sits below a subfolder, use its real address, as in `/blog/wp
 
 On a network the main site writes these files, since every site shares `wp-content`. When the main site runs another theme, the site with the lowest ID that runs Paulus writes them, and only that one. The last site to leave the theme removes them.
 
+## Browser icons
+
+The installer sets the site icon to the portrait (`paulus_install_site_icon()`), and WordPress then prints its own icon tags. Until one is set, `paulus_fallback_icon()` (`inc/importer.php`) prints `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `site.webmanifest` and `theme-color` #7a2e1a on `wp_head`, `login_head` and `admin_head`.
+
+`/favicon.ico` reaches WordPress when no such file sits in the site root. `paulus_serve_favicon()` answers it on `template_redirect` (priority 0, so HEAD is covered) and `do_faviconico` with `assets/images/favicon.ico`, `Cache-Control: public, max-age=86400` and an ETag, with a 304 on a match; with a site icon, WordPress redirects to it. The manifest is a static file with relative icon paths. The theme `.htaccess` refuses dot entries, the development folders and Markdown other than the served documents, so the icons are served. The error pages link `favicon-32.png` through `{{THEME_URL}}`.
+
 ## Maintenance and the error watch
 
 `inc/watch.php`, with the first lines of `functions.php`.
@@ -575,7 +581,7 @@ The principles, drawn from his *Christian Ethics* (1967), *Al Tawhid* (1982; 2nd
 
 ## Image formats
 
-The illustrations, figures, the hero and the portraits are AVIF, at every width. WebP covers the rest: link previews (social networks skip AVIF), the publisher logo and the site icon, the owner's pixel icons (`arrow-next` and `envelope`, each with a still copy), and a fallback copy of the two calligraphy masks, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`). No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
+The illustrations, figures, the hero and the portraits are AVIF, at every width. WebP covers the rest: link previews (social networks skip AVIF), the publisher logo and the site icon, the owner's pixel icons (`arrow-next` and `envelope`, each with a still copy), and a fallback copy of the two calligraphy masks, which a browser that cannot read AVIF uses instead (`image-set()` in `theme.css`). No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/` and the browser icons in the table below, which take the formats browsers ask for.
 
 | Images | Format | Where |
 |---|---|---|
@@ -584,6 +590,7 @@ The illustrations, figures, the hero and the portraits are AVIF, at every width.
 | Hero cutout (1,024 px, transparent) | AVIF, with its transparency | `assets/images/paul-portrait-cutout.avif` |
 | Smaller widths: figures at 720 px, the hero at 480 and 720 px (transparent); the author's portrait (240 px); the 96-pixel icon; the honorific calligraphy (a mask) | AVIF, quality 60 (the icon 80, the calligraphy 90) | beside their full-size files, in `srcset`; each 720-pixel copy is made from its full-size AVIF |
 | Publisher logo, site icon | WebP | `assets/images/publisher-logo.webp`, `assets/images/site-icon.webp` |
+| Browser icons, from the site icon | PNG (128 colours), ICO, SVG | `assets/images/favicon.ico` (16, 32, 48), `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `favicon.svg`, with `site.webmanifest` |
 | Pixel icons and the calligraphy mask fallbacks | WebP | `assets/images/arrow-next*.webp`, `envelope*.webp`, `alayhi-al-salam.webp`, `lanat-allah.webp` |
 | Link previews (Open Graph, X) | WebP, quality 78, 1,024 px | `assets/social/<slug>.webp`: social networks do not show AVIF |
 

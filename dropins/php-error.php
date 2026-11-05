@@ -49,6 +49,7 @@ if ( ! headers_sent() ) {
 <meta name="robots" content="noindex">
 <?php if ( $paulus_updating ) : ?><meta http-equiv="refresh" content="60"><?php endif; ?>
 <title><?php echo $paulus_updating ? 'Back shortly' : 'Something went wrong'; ?> | {{SITE_NAME}}</title>
+<link rel="icon" href="{{THEME_URL}}/assets/images/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="stylesheet" href="{{THEME_URL}}/assets/css/fonts.css">
 <link rel="stylesheet" href="{{CONTENT_URL}}/paulus-error-page.css">
 </head>

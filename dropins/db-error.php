@@ -16,6 +16,7 @@ if ( ! headers_sent() ) {
 <meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="60">
 <title>We cannot reach our database | {{SITE_NAME}}</title>
+<link rel="icon" href="{{THEME_URL}}/assets/images/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="stylesheet" href="{{THEME_URL}}/assets/css/fonts.css">
 <link rel="stylesheet" href="{{CONTENT_URL}}/paulus-error-page.css">
 </head>

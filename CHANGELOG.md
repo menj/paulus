@@ -2,6 +2,20 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.13] - 2026-11-05
+
+The browser icon set is complete. No article, page or setting changes, and `content_version` stays at 2.77.3.
+
+### Added
+- `assets/images/favicon.ico` (16, 32 and 48px), `favicon-32.png`, `apple-touch-icon.png` (180px), `icon-192.png`, `icon-512.png`, `favicon.svg` (a 64px copy inside an SVG, since the mark is a drawing) and `site.webmanifest`, all from `site-icon.webp`. The portrait fills its square, so the manifest lists `icon-512.png` as the maskable icon too. The PNGs use 128 colours, which keeps the 512px file under the WebP it comes from.
+- `paulus_fallback_icon()` prints the SVG, 32px, touch icon, manifest and `theme-color` (#7a2e1a), on the login screen and the admin as well as the site, until a site icon is set.
+- `paulus_serve_favicon()` answers `/favicon.ico` with the icon: a day's cache and an ETag, with a 304 while it is unchanged, and HEAD gets the headers alone. With a site icon, WordPress redirects to it.
+- The drop-ins and static error pages link `favicon-32.png` through `{{THEME_URL}}`, the same path rule as their stylesheets, so a subfolder copy gets a working icon. `tests/error-pages-test.php` checks the subfolder copy.
+- `assets/files.json` lists the new files, so the theme-residue clean-up keeps them.
+
+### Changed
+- The fallback no longer links the 322 KB `site-icon.webp` as the tab and touch icon. The file stays, for the installer's site icon.
+
 ## [2.77.12] - 2026-11-05
 
 The Study guide gets back the FAQPage that 2.77.11 took out. No article, page or setting changes, and `content_version` stays at 2.77.3.
