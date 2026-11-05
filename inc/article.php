@@ -12,10 +12,9 @@
  * - a "Last reviewed" line, from the date in the Article fields box;
  * - "Key takeaways", the article's points, above the contents tablet;
  * - one line in the middle of the text pointing to the next step: the
- *   article's study questions, or else the next article in reading order.
- *
- * The Study guide's questions carry no FAQPage. The page shows questions
- * and no answers, and an FAQPage Question needs a visible accepted answer.
+ *   article's study questions, or else the next article in reading order;
+ * - the study questions as an FAQPage, built from the exact questions, only
+ *   on a page that shows them.
  *
  * No new piece sells anything. [paulus_book_teaser] stays where it is, as
  * the owner decided on 2026-11-05, and nothing here adds another.
@@ -290,6 +289,97 @@ function paulus_article_filter_content( $content ) {
 	return paulus_article_insert_takeaways( $content, paulus_article_takeaways_html( $id ) );
 }
 add_filter( 'the_content', 'paulus_article_filter_content', 21 );
+
+/* ---------------------------------------------------------------------
+ * The study questions as an FAQPage
+ * ------------------------------------------------------------------ */
+
+/**
+ * The study questions a text shows: each `<ol class="paulus-questions">`
+ * and its items, under the heading that introduces the set.
+ *
+ * @param string $html Stored text.
+ * @return array<int,array{anchor:string,set:string,questions:string[]}>
+ */
+function paulus_article_question_sets( $html ) {
+	if ( false === strpos( (string) $html, 'paulus-questions' ) ) {
+		return array();
+	}
+	$parts = preg_split( '#(<h2\b[^>]*>.*?</h2>)#s', (string) $html, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$sets  = array();
+	$head  = array( '', '' );
+	foreach ( (array) $parts as $part ) {
+		if ( preg_match( '#^<h2\b([^>]*)>(.*?)</h2>$#s', $part, $h ) ) {
+			$head = array( preg_match( '#\bid=["\']([^"\']+)["\']#', $h[1], $idm ) ? $idm[1] : '', paulus_article_plain( $h[2] ) );
+			continue;
+		}
+		if ( ! preg_match_all( '#<ol\b[^>]*\bclass=["\'][^"\']*\bpaulus-questions\b[^"\']*["\'][^>]*>(.*?)</ol>#s', $part, $lists ) ) {
+			continue;
+		}
+		foreach ( $lists[1] as $list ) {
+			preg_match_all( '#<li\b[^>]*>(.*?)</li>#s', $list, $items );
+			$questions = array_values( array_filter( array_map( 'paulus_article_plain', $items[1] ), 'strlen' ) );
+			if ( $questions ) {
+				$sets[] = array(
+					'anchor'    => $head[0],
+					'set'       => $head[1],
+					'questions' => $questions,
+				);
+			}
+		}
+	}
+	return $sets;
+}
+
+/**
+ * Plain text of some markup, entities decoded, on one line.
+ *
+ * @param string $html Markup.
+ * @return string
+ */
+function paulus_article_plain( $html ) {
+	return trim( (string) preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( (string) $html ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+}
+
+/**
+ * The FAQPage of the study questions a page shows, or an empty array. Each
+ * Question is one of the questions word for word, with the address of its
+ * set. The page asks them and leaves the answering to the reader and the
+ * article each set accompanies, so no Question carries an answer.
+ *
+ * @param WP_Post|null $post The page; the queried one when null.
+ * @return array
+ */
+function paulus_study_questions_schema( $post = null ) {
+	$post = $post ? $post : get_queried_object();
+	if ( ! $post instanceof WP_Post ) {
+		return array();
+	}
+	$sets = paulus_article_question_sets( (string) $post->post_content );
+	if ( ! $sets ) {
+		return array();
+	}
+	$url = (string) get_permalink( $post );
+	$qs  = array();
+	foreach ( $sets as $set ) {
+		foreach ( $set['questions'] as $question ) {
+			$q = array(
+				'@type'       => 'Question',
+				'name'        => $question,
+				'answerCount' => 0,
+			);
+			if ( '' !== $set['anchor'] ) {
+				$q['url'] = $url . '#' . $set['anchor'];
+			}
+			$qs[] = $q;
+		}
+	}
+	return array(
+		'@type'      => 'FAQPage',
+		'@id'        => $url . '#faq',
+		'mainEntity' => $qs,
+	);
+}
 
 /* ---------------------------------------------------------------------
  * The Article fields box and the settings

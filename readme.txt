@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.11
+Stable tag: 2.77.12
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -146,6 +146,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.12 =
+* The Study guide gives search engines its questions as an FAQPage again, word for word, as in 2.77.10. Search Console may list them as questions without answers. The owner keeps them for AI and answer search. The questions on the page are unchanged.
+
 = 2.77.11 =
 * The Study guide no longer gives search engines an FAQPage. The page shows questions without answers, and Google counts an FAQPage question without a shown answer as an error. The questions on the page are unchanged.
 
@@ -177,6 +180,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.12 =
+Upload the whole theme folder. Nothing else needs doing. Search Console may report the Study guide's questions as missing answers; the owner keeps them on purpose.
 
 = 2.77.11 =
 Upload the whole theme folder. Nothing else needs doing. Search Console's FAQ error on the Study guide clears once Google reads the page again.
