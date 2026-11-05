@@ -11,7 +11,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
 | PHP | 8.0 or later |
-| Web server | Apache and LiteSpeed get their `.htaccess` blocks written by the theme. Nginx needs the rules under Security below |
+| Web server | Apache and LiteSpeed get their `.htaccess` blocks written by the theme: WordPress's `$is_apache` counts LiteSpeed as Apache, and the maintenance block checks for it as well. Nginx needs the rules under Security below |
 | Multisite | The main site writes the error pages and the maintenance block; while it runs another theme, the subsite with the lowest ID that runs Paulus writes the error pages |
 | Other documents | `SSOT.md` (the fixed facts and rules), `UPGRADING.md` (the notes for each update and the roadmap), `CHANGELOG.md`, `LICENSES.md` and `readme.txt` (the owner's guide) |
 
