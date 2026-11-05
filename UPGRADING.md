@@ -49,6 +49,14 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.9 to 2.77.10
+
+- Upload the whole theme folder. The new files are `LICENSE`, `inc/article.php`, `inc/hardening.php`, `assets/css/article.css` and, in a working copy, `tests/article-test.php`. `content_version` stays at 2.77.3, so the structure sync does not run.
+- Articles show their dates under the byline at once. Key takeaways and "Last reviewed" show once you fill them in the Key takeaways and review box on an article's screen.
+- Theme Options, Reading, has two new switches, both on: Key takeaways, and the one line before the third section. Security has "Hide the user list from visitors", on.
+- The REST API's user routes now answer 404 to visitors who are not logged in, and `?author=` addresses go to the About the author page. If a service outside the site reads `/wp-json/wp/v2/users` without logging in, switch the Security option off.
+- The theme is now under the GNU General Public License, version 3 or later.
+
 ### 2.77.8 to 2.77.9
 
 - Nothing to run. The release adds `SSOT.md` and changes the documents only. `content_version` stays at 2.77.3, so the structure sync does not run.
@@ -310,9 +318,9 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Next
 
-- Hide the REST user list from visitors. `/wp/v2/users` names every account with posts to anyone who asks; Paulus still serves it, though it already keeps author archives and the users sitemap closed.
+- Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
-- Run the tests on every push. The repository has eight test files and no CI workflow.
+- Run the tests on every push. The repository has nine test files and no CI workflow.
 
 ### Later
 
@@ -325,4 +333,6 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block. `wp-config.php` holds the database password, and the error logs show bots asking for core files by address.
 - Send `/wp-content/uploads/2026/09/paul-dunce-face.jpg` and the like to the AVIF illustration. The same logs show 26 requests for that one file, answered 404.
 - Confirm the terms of Arslan Wessam with its author, as `LICENSES.md` asks.
+- Give the study questions their answers in the structured data. The FAQPage of the Study guide lists each question with no `acceptedAnswer`, because the page shows none; Google's FAQ results ask for one, so the page earns none until each set links to the article that answers it, visibly.
+- `lastReviewed` for articles. "Last reviewed" shows in the byline, but an article is described by its Article node, which has no such property, and the page has no WebPage node to carry it.
 

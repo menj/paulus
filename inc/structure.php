@@ -644,32 +644,9 @@ function paulus_sc_article_nav() {
 	$out   = '<nav class="paulus-readnav" id="paulus-readnav" aria-label="' . esc_attr__( 'Reading order', 'paulus' ) . '"><div class="paulus-readnav__inner">';
 	$qs     = get_page_by_path( 'reference/study-questions' );
 	$series = get_post_meta( $id, '_paulus_series', true );
-	$anchor = '';
-	if ( get_post_meta( $id, '_paulus_questions', true ) ) {
-		$anchor = get_post_field( 'post_name', $id );
-	} elseif ( $series ) {
-		// A part without its own questions takes those of the nearest
-		// earlier part of its series that has them: the article it was
-		// divided from. Only when none precedes it, the first that follows.
-		$before = '';
-		$after  = '';
-		$passed = false;
-		foreach ( $chapters as $c ) {
-			if ( (int) $c->ID === (int) $id ) {
-				$passed = true;
-				continue;
-			}
-			if ( get_post_meta( $c->ID, '_paulus_series', true ) !== $series || ! get_post_meta( $c->ID, '_paulus_questions', true ) ) {
-				continue;
-			}
-			if ( ! $passed ) {
-				$before = $c->post_name;
-			} elseif ( '' === $after ) {
-				$after = $c->post_name;
-			}
-		}
-		$anchor = '' !== $before ? $before : $after;
-	}
+	// The article's own set, or for a part without one the nearest part of
+	// its series that has one (inc/article.php).
+	$anchor = paulus_article_questions_anchor( $id, $chapters );
 	if ( $qs && $anchor ) {
 		// How many questions the set holds: the list under its heading.
 		$count = 0;
@@ -1139,7 +1116,9 @@ function paulus_sc_page_hero() {
 	}
 	$meta .= '</ol></nav>';
 
-	$out  = '<div class="paulus-hero-panel' . ( $image ? ' has-image' : '' ) . '">';
+	// A region named by its title: the panel sits between the header and
+	// <main>, and its content must belong to a landmark.
+	$out  = '<div class="paulus-hero-panel' . ( $image ? ' has-image' : '' ) . '" role="region" aria-labelledby="paulus-page-title">';
 	if ( $image ) {
 		$out .= '<figure class="paulus-hero-panel__image">' . $image . '</figure>';
 	}
@@ -1158,7 +1137,7 @@ function paulus_sc_page_hero() {
 			}
 		}
 	}
-	$out      .= ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h1 class="paulus-hero-panel__title">' . esc_html( $title ) . '</h1>';
+	$out      .= ( $greek ? '<p class="paulus-greek-line">' . $greek . '</p>' : '' ) . '<h1 class="paulus-hero-panel__title" id="paulus-page-title">' . esc_html( $title ) . '</h1>';
 	if ( $standfirst ) {
 		$out .= '<p class="paulus-hero-panel__standfirst">' . esc_html( $standfirst ) . '</p>';
 	}
@@ -1170,6 +1149,8 @@ function paulus_sc_page_hero() {
 			$out .= ' <span class="paulus-hero-panel__time paulus-hero-panel__when"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date( 'j F Y' ) ) . '</time> <span class="paulus-hero-panel__sep">·</span> ' . esc_html( paulus_reading_time( get_the_ID() ) ) . '</span>';
 		} elseif ( is_single() ) {
 			$out .= ' <span class="paulus-hero-panel__time"><span class="paulus-hero-panel__sep">·</span> ' . esc_html( paulus_reading_time( get_the_ID() ) ) . '</span>';
+			// Published, updated on a later day, and "Last reviewed" (inc/article.php).
+			$out .= paulus_article_dates_html( get_the_ID() );
 		}
 		$out .= '</p>';
 	}

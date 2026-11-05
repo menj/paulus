@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.9. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.10. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -20,7 +20,7 @@ The theme `.htaccess` refuses this file to the web server, as it refuses every M
 | Theme author | MENJ (`Author` and `Author URI` in `style.css`; `Theme URI` is the GitHub page) |
 | Author for schema | Mohd Elfie Nieshaem Juferi (`PAULUS_SCHEMA_AUTHOR_NAME`, `inc/seo.php`) |
 | Source book | *Paulus Perosak Risalah Al-Masih*, Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025; ISBN 978-629-96135-0-3). Its name is never shortened or altered |
-| Licence | GPL v2 or later for the code. The articles and illustrations belong to the book's author and publisher |
+| Licence | GNU General Public License v3 or later for the code (owner decision, 5 November 2026), full text in `LICENSE`. The articles and illustrations belong to the book's author and publisher |
 
 ## Purpose and position
 
@@ -34,6 +34,11 @@ Copied word for word from `.claude/CLAUDE.md`.
 
 - The horned illustrations of Paul (`paul-horned-*`, with the decayed saint, the dunce and the BASTARD cap) stay. The owner decided on 2026-10-29 to keep them after weighing them against `FARUQI.md`. Do not remove, replace or soften them, and do not raise the question again unless the owner does.
 - Every page title reads `<page title, keyword or description> | <site name>` and stays under 60 characters. The theme builds it in `paulus_seo_title()` (`inc/seo.php`) and holds it to `PAULUS_TITLE_MAX`, 50, the stricter limit in force; with " | Apostle of Doom" that leaves 32 characters for a page's `seo_title` in `content/manifest.json`. Any new page, article or section gets a `seo_title` within that, and a changed one is checked before it is committed. The owner set this rule on 2026-10-31.
+
+Made in the owner's brief of 5 November 2026 and not yet in `.claude/CLAUDE.md`; when the owner adds them there, these lines are their copy:
+
+- The `[paulus_book_teaser]` block, with its price and buy button, stays on every article. The owner decided this on 2026-11-05, after ruling out new sales calls to action elsewhere.
+- Every theme is licensed under the GNU General Public License, version 3 or later (2026-11-05).
 
 Other decisions recorded in `README.md` and `LICENSES.md`:
 
@@ -58,7 +63,7 @@ Check every `seo_title` before a commit. The command exits with 1 when one is mi
 python3 -c "import json, sys; m=json.load(open('content/manifest.json')); bad=[(x.get('slug'), len(x.get('seo_title') or '')) for k in ('parts','posts','journal','pages') for x in m[k] if not x.get('seo_title') or len(x['seo_title']) > 32]; print(bad or 'all within 32'); sys.exit(1 if bad else 0)"
 ```
 
-The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name), so 50 leaves 32. On 2.77.9 the longest `seo_title` is 32 characters ("Was Paul an apostle or disciple?"), which makes a 50-character title, and none is missing.
+The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name), so 50 leaves 32. On 2.77.10 the longest `seo_title` is 32 characters ("Was Paul an apostle or disciple?"), which makes a 50-character title, and none is missing.
 
 ## The content manifest
 
@@ -66,7 +71,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.3 on 2.77.9) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.3 on 2.77.10) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -98,15 +103,20 @@ The archive of Dale B. Martin's notes (`dale-b-martin-luke-versus-paul.json`) is
 | `.claude/` | Contributor rules and skills. Not shipped, refused by the web server, removed from a live site |
 | `CHANGELOG.md` | Not shipped: `.gitattributes` leaves it out of the zip. This is the theme's one exception to the shared documentation standard in `.claude/skills/theme-docs/SKILL.md`, which says the docs ship |
 | `README.md`, `UPGRADING.md`, `LICENSES.md` | Shipped and served on purpose: Theme Options links the first two |
+| `LICENSE` | The GNU General Public License, version 3, unmodified. Shipped |
 
 On a live site the first request after a version change removes the dot entries, `tests`, `tools` and `docs` from the theme folder, unless the site is `local` or `development` or defines `PAULUS_KEEP_DOTFILES`.
+
+## The article page
+
+An article shows, in order: the title panel (breadcrumb, title, standfirst, byline with the reading time, then the dates and "Last reviewed"), the share row, the text with Key takeaways above its contents tablet and one line before its third section, the references, the author note, the reading-order band, "More from" the section and `[paulus_book_teaser]`. The byline names `book_author` as it always has. No piece but the book teaser mentions the book's price or its order link, and no new piece may (`tests/article-test.php`). The FAQPage of the study questions is built only from the `paulus-questions` lists a page shows, word for word.
 
 ## Names that must not change
 
 | Kind | Names |
 |---|---|
 | Option | `paulus_options` (every Theme Options field), `paulus_journal_shipped` |
-| Post meta | `_paulus_order`, `_paulus_label`, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no`, `_paulus_parts` |
+| Post meta | `_paulus_order`, `_paulus_label`, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no`, `_paulus_parts`, `_paulus_takeaways`, `_paulus_reviewed` |
 | Term meta | `paulus_order` |
 | Constants | `PAULUS_HIDE_LOGIN`, `PAULUS_SECURITY_LOCK`, `PAULUS_SPAM_THRESHOLD`, `PAULUS_KEEP_DOTFILES`, `PAULUS_ALLOW_CORE_FILES`, `PAULUS_SCHEMA_AUTHOR_NAME`, `PAULUS_SCHEMA_AUTHOR_URL` |
 | `.htaccess` markers | `Block xmlrpc.php`, `Paulus: deny direct core files`, `Paulus maintenance` |
@@ -130,7 +140,7 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/`.
 
-Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.9 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
+Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.10 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
 
 ### Release checklist
 

@@ -6,13 +6,14 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.9 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.10 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
 | PHP | 8.0 or later |
 | Web server | Apache and LiteSpeed get their `.htaccess` blocks written by the theme: WordPress sets `$is_apache` when `SERVER_SOFTWARE` names Apache or LiteSpeed (`wp-includes/vars.php`), and the maintenance block checks for LiteSpeed itself as well. Nginx needs the rules under Security below |
 | Multisite | The main site writes the error pages and the maintenance block; while it runs another theme, the subsite with the lowest ID that runs Paulus writes the error pages |
+| Licence | GNU General Public License v3 or later; the full text is in `LICENSE` |
 | Other documents | `SSOT.md` (the fixed facts and rules), `UPGRADING.md` (the notes for each update and the roadmap), `CHANGELOG.md`, `LICENSES.md` and `readme.txt` (the owner's guide) |
 
 ## Requirements
@@ -21,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.9) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.9.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.10) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.10.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -55,7 +56,7 @@ The site is arranged as a case file against Paul. Three sections (WordPress cate
 /site-map/                         Every article and page in one list
 ```
 
-The installer creates the header menu (The Man, The Charges, The Witnesses, The Verdict, The book) and rebuilds it when a new version of the theme changes the structure. The footer menu is built from the site structure by `[paulus_footer_nav]`: "The Case" (the three sections and The Verdict), "The Precedent" (Original sin, ʿĪsā in his own words, The prayer ʿĪsā taught, An invitation), "Reference" (the Reference pages) and "Appendices". The header menu carries none of the four pages under The Precedent, by the owner's choice. Every article opens on a title panel with its illustration, a breadcrumb to its section and part, the standfirst, the byline and, for parts of a series, the other parts. Below the text come the author note, the previous and next article in reading order ("Previous part" and "Next part" inside a series) with a link to the article's questions in the study guide, "More from" the section, and the book teaser. The parts of a series are listed in the title panel below 1240px and in the side rail above it, so no list of parts repeats after the text. Every article reaches a set of study questions, its own or its series'. On screens 1240px and wider a side rail beside the text lists the parts in Roman numerals and jump links to the references, the reading order and the section.
+The installer creates the header menu (The Man, The Charges, The Witnesses, The Verdict, The book) and rebuilds it when a new version of the theme changes the structure. The footer menu is built from the site structure by `[paulus_footer_nav]`: "The Case" (the three sections and The Verdict), "The Precedent" (Original sin, ʿĪsā in his own words, The prayer ʿĪsā taught, An invitation), "Reference" (the Reference pages) and "Appendices". The header menu carries none of the four pages under The Precedent, by the owner's choice. Every article opens on a title panel with its illustration, a breadcrumb to its section and part, the standfirst, the byline and, for parts of a series, the other parts. Below the text come the author note, the previous and next article in reading order ("Previous part" and "Next part" inside a series) with a link to the article's questions in the study guide, "More from" the section, and the book teaser. The parts of a series are listed in the title panel below 1240px and in the side rail above it, so no list of parts repeats after the text. Every article reaches a set of study questions, its own or its series'. Inside the text, `inc/article.php` adds Key takeaways above the contents tablet (the article's points, from the Key takeaways and review box on the post screen, meta `_paulus_takeaways`; nothing shows without them) and, before the third section, one line pointing to the article's study questions, or to the next article when it has none. Neither is a call to buy: the book teaser stays where it was, and nothing else sells. On screens 1240px and wider a side rail beside the text lists the parts in Roman numerals and jump links to the references, the reading order and the section.
 
 The structure keeps itself current. The manifest carries a `content_version`; whenever an administrator loads any page and that version differs from the one recorded on the site, the installer runs and adds new articles, labels, descriptions, images and menu entries. Text is refreshed only where a post still matches a version the theme shipped (`prior_hashes` in the manifest, and the hashes recorded at install); anything edited by hand is left alone.
 
@@ -69,10 +70,10 @@ Running the installer again is safe. It leaves existing text alone, moves articl
 | Catalogue record | The book's library record for the book page: title and statement of responsibility, physical description, language, notes (one per line), subject headings (one per line), ISBNs as catalogued (one per line) and Bib ID. Edition, imprint and OCLC number come from the Book tab |
 | Publisher | Name, registration number, email and website (shown on the book page); address and telephone, published in the structured data only |
 | Colors | First-century ornament switch (on by default). Named scheme: Ochre (book cover, default), Vellum, Oxblood, Ink, Paper, Graphite |
-| Reading | Five reading aids, each on by default. The progress bar can be shown on articles, Journal entries and pages (each its own switch), at the top or the bottom of the screen, 1 to 12 pixels high, in a bar colour and a track colour (hex codes; left empty they follow the colour scheme), and is chosen on the server so a page that should not have it never loads it. The other aids: the left and right arrow keys for the previous and next article in the reading order (ignored in form fields and while the image viewer is open); a resume prompt on long articles and pages, which offers to return a reader to the section where they stopped and never moves the page by itself (position kept only in the reader's browser, for sixty days, and cleared on reaching the end); a copy-link button in the share row; and a back-to-top button. All respect reduced motion and are left out of print |
+| Reading | Five reading aids, each on by default. The progress bar can be shown on articles, Journal entries and pages (each its own switch), at the top or the bottom of the screen, 1 to 12 pixels high, in a bar colour and a track colour (hex codes; left empty they follow the colour scheme), and is chosen on the server so a page that should not have it never loads it. The other aids: the left and right arrow keys for the previous and next article in the reading order (ignored in form fields and while the image viewer is open); a resume prompt on long articles and pages, which offers to return a reader to the section where they stopped and never moves the page by itself (position kept only in the reader's browser, for sixty days, and cleared on reaching the end); a copy-link button in the share row; and a back-to-top button. All respect reduced motion and are left out of print. Two switches for articles, both on by default: Key takeaways above the contents (`article_takeaways`), and a one-line next step before the third section (`article_mid_next`) |
 | Media | Keep only the original of each upload (no resized copies), and never scale down large uploads |
 | Login | The portrait in the login page's medallion, a logo image address in its place, the tagline, the Greek inscription, application passwords (off by default; option `login_app_passwords`) and the security headers (on by default; `security_headers`). See The login page |
-| Security | Turn off XML-RPC, allow REST changes only from a logged-in browser, hold suspected gambling spam as Pending, and answer 410 Gone on the address of removed spam. Below them: the spam scan and the security log |
+| Security | Turn off XML-RPC, allow REST changes only from a logged-in browser, hide the user list from visitors (`sec_hide_authors`, on), hold suspected gambling spam as Pending, and answer 410 Gone on the address of removed spam. Below them: the spam scan and the security log |
 | Maintenance | Maintenance mode (the file `.paulus-maintenance`; option `maintenance_mode`) and the email when new fatal errors appear (on; `error_alerts`). See Maintenance and the error watch |
 | Contextual links | Links from the first mention of a subject to the page that treats it: a switch and a limit for links to this site (0 to 15) and to other sites (0 to 10), more phrases as `phrase \| address`, and slugs that never get links. See Links in the text |
 | Journal | The Journal's title, introduction and search description |
@@ -87,17 +88,18 @@ Defaults live in `paulus_defaults()` in `inc/defaults.php`. The fields themselve
 
 ```
 paulus/
-  assets/css/     theme.css, schemes.css, ornament.css, fonts.css, print.css, admin.css
+  assets/css/     theme.css, schemes.css, ornament.css, fonts.css, print.css, admin.css, article.css (the article page's additions)
   assets/js/      admin.js, lightbox-init.js (editor images into the lightbox), reader.js (section marking in the article rail), print.js (Print and Save as PDF), vendor/html2pdf.bundle.min.js (0.14.0, MIT; the unminified bundle and the licence files sit beside it)
   assets/fonts/   WOFF2 fonts (Cinzel, Dubidam and Dubidam Arabic, Sabon Next LT, EB Garamond, Special Elite, Arslan Wessam, KFGQPC HAFS Uthmanic Script)
   assets/icons/   share marks from the Minimalist Social Icons pack (facebook, x, whatsapp, telegram), the theme's email, print and search marks, a Save as PDF mark (a page with a folded corner and a download arrow, drawn in the text colour like the rest), and social/ with the full pack (45 platforms) for the footer
   assets/images/  cover, publisher logo, author portrait, seven illustrations and their variants, site icon
+  LICENSE         the GNU General Public License, version 3, in full
   LICENSES.md     the theme's licence and what is bundled with it, in one document
   docs/           keyword-map.csv: every keyword from the Semrush research, its cluster, and where it is worked into the site
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -129,7 +131,7 @@ The three sections follow their reading order on the site (`paulus_order`: the m
 | `[paulus_parts]` | Sections with their articles; `part="the-charges"` for one, `part="current"` on section pages; `style="cards"`, `"counts"`, `"text"` or `"list"`. Overview pages show one card per series |
 | `[paulus_answers_teaser count="6"]` | FAQ accordion of the first questions from the Answers page |
 | `[paulus_story step="…"]…[/paulus_story]` | A step of the front page's story: a label and one bridging line from `paulus_front_story()`, then the enclosed section. Prints nothing when the section prints nothing, and the section alone for an unknown step. With `section="default"` or `section="charges"` it also prints the front-page section wrapper (`.paulus-front__section`, with the `--charges` modifier), so an empty section leaves no blank band |
-| `[paulus_page_hero]` | Title panel for articles, pages and section pages; on articles the byline sets the author's name alone in Cinzel capitals as a signature, with the reading time in the label face beside it, and the panel carries the share links (Facebook, X, WhatsApp, Telegram, email, plain links; marks from the Minimalist Social Icons pack, inlined by `paulus_icon()`, which accepts only plain slugs as icon names and never passes them through `sanitize_file_name()`, since that rewrites a name such as "pdf" to "unnamed-file.pdf") |
+| `[paulus_page_hero]` | Title panel for articles, pages and section pages; on articles the byline sets the author's name alone in Cinzel capitals as a signature, with the reading time in the label face beside it and, on a line below, the date it was published and the date it was updated when that is a later day, then "Last reviewed" when the article has a review date (`paulus_article_dates_html()`). The panel is a region named by its title, so its content sits inside a landmark. It carries the share links (Facebook, X, WhatsApp, Telegram, email, plain links; marks from the Minimalist Social Icons pack, inlined by `paulus_icon()`, which accepts only plain slugs as icon names and never passes them through `sanitize_file_name()`, since that rewrites a name such as "pdf" to "unnamed-file.pdf") |
 | `[paulus_article_rail]` | Side rail, sticky, 1240px and wider: the article's sections with the current one marked, the parts of the chapter, and apparatus links |
 | `[paulus_series_nav]` | "This series" list of a chapter's parts. No template places it since 2.26.5; available for manual use |
 | Share row (`paulus_share_links()`, in the title panel) | Not a shortcode. Print, Save as PDF, copy link (Theme Options, Reading), then the networks and email |
@@ -333,6 +335,7 @@ php tests/search-rewrite-test.php
 php tests/security-detector-test.php
 php tests/unlist-test.php
 php tests/watch-report-test.php
+php tests/article-test.php
 php bin/build-error-pages.php --check
 ```
 
@@ -377,7 +380,7 @@ The maintenance safety net, the half-uploaded theme guard, the core-file block a
 
 - `functions.php` checks every file in `inc/` before any loads and loads each inside a `try`. A missing or half-written file gives the maintenance page with `503`. `functions.php` itself is parsed before it runs, so it cannot guard itself.
 - The Security tab turns off XML-RPC, locks REST writes to a logged-in browser with a nonce, holds gambling spam as Pending and answers 410 Gone on the address of removed spam. Application passwords are off unless the Login tab switches them on.
-- Author archives and `?author=N` go to the About the author page with a 301 before WordPress could name the account, and the users sitemap is dropped. The REST user routes stay open to visitors (see the roadmap in `UPGRADING.md`).
+- Author archives go to the About the author page with a 301 before WordPress could name the account, and the users sitemap is dropped. For a visitor who is not logged in, `inc/hardening.php` (ported from the murtadd theme) also sends any `?author=` address there, whether or not the user exists, drops the REST user routes (`/wp/v2/users` and everything under it answer 404) and gives oEmbed answers the book's author and the site's address. A logged-in user keeps both. The Security switch `sec_hide_authors` (on) controls it.
 - The private login address (from WPS Hide Login, option `whl_page`) is off until an address is saved. `define( 'PAULUS_HIDE_LOGIN', false );` is the way back in.
 
 On Apache, with a writable `.htaccess`, `paulus_sec_sync_htaccess()` keeps these two blocks, at most once an hour from the admin and at once when Theme Options is saved, and `paulus_sec_remove_htaccess()` takes them out on a theme switch. For WordPress at the root of the `.htaccess` folder they read:
@@ -497,6 +500,7 @@ The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'd
 | “Luke” versus Paul (Martin's notes) | a `Manuscript` by Dale B. Martin (2019), with its PDF as a `MediaObject` |
 | Every page with headings | each section heading as a `WebPageElement` with its position and, where the page gives it an anchor, its address (taken from the headings the page really rendered, so every address resolves); each footnote as a `CreativeWork` `citation` with its address |
 | Questions | an `FAQPage` of every question and its accepted answer, built the same way as Answers |
+| Study guide, and any page that shows study questions | an `FAQPage` of exactly the questions in its `<ol class="paulus-questions">` lists, word for word, each with the address of its set (`paulus_study_questions_schema()`, `inc/article.php`). The page asks the questions and gives no answers, so each `Question` has `answerCount` 0 and no `acceptedAnswer`. A page without such lists gets none |
 | Timeline | an `ItemList` of 17 `Event`s in Paul's life |
 | Glossary | a `DefinedTermSet` of its `DefinedTerm`s |
 | Study guide | a `Quiz` of 121 open-ended `Question`s, grouped by article |
@@ -652,7 +656,7 @@ The free edition of Dubidam replaces its digits and most punctuation with a wate
 
 ### Licensing
 
-The theme's own code is GPL v2 or later. The bundled fonts, illustrations and photographs are not covered by that licence and keep their own: each one's licence is listed below and in `LICENSES.md`. A licence belongs to its owner and cannot be changed by the theme, so none of the fonts is relicensed.
+The theme's own code is licensed under the GNU General Public License v3 or later; the full text is in `LICENSE`. The bundled fonts, illustrations and photographs are not covered by that licence and keep their own: each one's licence is listed below and in `LICENSES.md`. A licence belongs to its owner and cannot be changed by the theme, so none of the fonts is relicensed.
 
 EB Garamond and Cinzel (SIL Open Font License) and Special Elite (Apache License 2.0) are free for web use; their licences are in `LICENSES.md`. Check the others before the site goes public:
 

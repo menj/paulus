@@ -93,6 +93,8 @@ function paulus_fields() {
 				'read_memory'   => array( __( 'Offer to resume a long article or page where the reader left off (kept in the reader\'s browser only)', 'paulus' ), 'checkbox' ),
 				'read_copy'     => array( __( 'Copy-link button in the share row', 'paulus' ), 'checkbox' ),
 				'read_top'      => array( __( 'Back-to-top button on long pages', 'paulus' ), 'checkbox' ),
+				'article_takeaways' => array( __( 'Key takeaways above an article\'s contents, where the article has some (written in the Key takeaways and review box on the post screen)', 'paulus' ), 'checkbox' ),
+				'article_mid_next'  => array( __( 'One line before an article\'s third section, pointing to its study questions, or else to the next article', 'paulus' ), 'checkbox' ),
 			),
 		),
 		'media'      => array(
@@ -118,6 +120,7 @@ function paulus_fields() {
 			'fields' => array(
 				'sec_xmlrpc_off' => array( __( 'Turn off XML-RPC: xmlrpc.php answers 403 and the pingback header goes. On Apache the theme also blocks it in .htaccess, and removes that block when this is switched off. The Jetpack plugin and old mobile apps need XML-RPC', 'paulus' ), 'checkbox' ),
 				'sec_rest_lock'  => array( __( 'Allow REST API changes only from a logged-in browser: a request that creates, changes or deletes content while logged in must come from a browser session on this site with a valid nonce. Basic authentication and passwords sent in a header are refused. Reading through the API, and anything a visitor sends without logging in, are unchanged', 'paulus' ), 'checkbox' ),
+				'sec_hide_authors' => array( __( 'Hide the user list from visitors who are not logged in: the REST API\'s user routes answer 404, and an ?author= address goes to the About the author page instead of naming a login. Logged-in users keep both', 'paulus' ), 'checkbox' ),
 				'sec_spam_gate'  => array( __( 'Hold suspected gambling spam as Pending: an article, page or Journal entry whose title, address or text reads as casino or betting spam, or that is published from outside the editor, is saved as Pending, never published, and logged below. Content the theme ships is exempt', 'paulus' ), 'checkbox' ),
 				'sec_gone'       => array( __( 'Answer 410 Gone on the address of removed spam: search engines drop a 410 address faster than a 404 one. Only addresses of spam moved to the trash from this tab are affected', 'paulus' ), 'checkbox' ),
 			),

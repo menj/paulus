@@ -3,9 +3,9 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.9
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Stable tag: 2.77.10
+License: GNU General Public License v3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Twenty Twenty-Five child theme presenting the Islamic case against Paul of Tarsus, with a book landing page and starter content.
 
@@ -23,12 +23,13 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * A tabbed Theme Options screen under Appearance, with six named colour schemes and an optional first-century ornament layer.
 * An author card and footer brand block, both filled from Theme Options.
 * Reading aids: a progress bar, arrow-key paging, resume reading, a copy-link button and back to top. Each can be switched off.
+* On every article: the dates under the byline, an optional "Last reviewed" line, Key takeaways above the contents, and one line in the text pointing to its study questions.
 * A Lightbox2 viewer for the figures, and Print and Save as PDF buttons on every article.
 * Shortcodes for figures, charts, the Journal and the footer blocks, listed in README.md.
 * Titles in the form "<page> | Apostle of Doom", with page descriptions handed to any active SEO plugin.
 * Structured data. Alongside Rank Math, the theme adds only the nodes Rank Math does not print itself.
 * A private login address, clean search addresses, and application passwords off until you switch them on.
-* Security switches for XML-RPC, REST API writes and gambling spam, with a cleanup tool and reports.
+* Security switches for XML-RPC, REST API writes, the user list and gambling spam, with a cleanup tool and reports.
 * Maintenance mode, and an email when new fatal errors appear.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
@@ -41,10 +42,10 @@ Open Appearance, Theme Options. Each tab is a card with a short note at the top.
 * Catalogue record: the national library record, as the footer colophon prints it.
 * Publisher: name, registration, address, telephone, email and website. The address and telephone go into the structured data only.
 * Colors: pick a scheme from the cards. The screen takes the scheme at once, so you can judge it before you save. The ornament switch adds the textures and borders.
-* Reading: the progress bar (where it shows, top or bottom, its height and its two colours), arrow-key paging, resume reading, the copy-link button and back to top. Leave a colour empty to follow the scheme.
+* Reading: the progress bar (where it shows, top or bottom, its height and its two colours), arrow-key paging, resume reading, the copy-link button and back to top. Leave a colour empty to follow the scheme. Two switches for articles: Key takeaways, and the line before the third section.
 * Media: stop WordPress making resized copies of uploads, or scaled copies of large ones.
 * Login: the medallion or logo, the tagline and Greek inscription, application passwords and the security headers.
-* Security: XML-RPC, REST API writes from a browser session only, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
+* Security: XML-RPC, REST API writes from a browser session only, the user list hidden from visitors, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
 * Maintenance: maintenance mode for FTP updates, and the fatal-error email.
 * Contextual links: links to this site and to other sites, the limit for each, your own phrases and the pages to leave alone.
 * Journal: the title, introduction and search description of the Journal page.
@@ -106,6 +107,9 @@ Either Maintenance mode is on, or the theme is incomplete on the server because 
 
 The theme writes its server rules only on Apache and LiteSpeed. On Nginx, give your host the rules in README.md to add to the server settings.
 
+= Where do I write an article's key takeaways? =
+In the Key takeaways and review box on the article's screen, one a line. The same box takes the date you last checked the article against its sources. Leave both empty and nothing shows.
+
 = What is under Theme Options, Content? =
 
 The installer. It shows which articles and pages are installed, and one button installs or updates the rest.
@@ -125,7 +129,7 @@ The share buttons are plain links. Facebook or X sees a visit only when a reader
 
 == Copyright ==
 
-Paulus, Copyright 2023-2026 MENJ. The theme's code is licensed under the GNU General Public License v2 or later, like WordPress. Article text and illustrations are copyright Mohd Elfie Nieshaem Juferi and Langgam Fikir.
+Paulus, Copyright 2023-2026 MENJ. The theme's code is licensed under the GNU General Public License v3 or later; the full text is in the LICENSE file. Article text and illustrations are copyright Mohd Elfie Nieshaem Juferi and Langgam Fikir.
 
 Bundled resources keep the licences of their owners and are not relicensed. LICENSES.md holds the full list.
 
@@ -141,6 +145,13 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.10 =
+* Each article shows the date it was published, and the date it was updated, under the byline. A "Last reviewed" date and Key takeaways show once you fill them in on the article's screen.
+* One line in the middle of an article points to its study questions, or to the next article.
+* The Study guide's questions are given to search engines as an FAQPage, word for word.
+* Visitors who are not logged in can no longer list the site's accounts through the REST API or ?author= addresses.
+* The theme is now licensed under the GNU General Public License, version 3 or later. The full text is in the LICENSE file.
 
 = 2.77.9 =
 * Documentation only, and no article changes. A single source of truth joins the readme, the README, the upgrade notes and the changelog.
@@ -160,13 +171,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * On a site installed in a subfolder, the static error pages linked the home page and their stylesheets at the domain root. The theme now writes a copy of each into wp-content/paulus-errors/ with the site's own addresses, and the .htaccess lines on the Content tab point there.
 * On a multisite install whose main site runs another theme, a subsite that runs Paulus now keeps the error pages up to date.
 
-= 2.77.5 =
-* On a multisite install, a theme switch on the main site leaves the error pages in place while another site still runs Paulus.
-* The error pages card shows a failed write over another theme's error page as failed.
-
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.10 =
+Upload the whole theme folder. Key takeaways and "Last reviewed" are written on an article's screen. If something outside the site reads the user list through the REST API, switch "Hide the user list" off under Security.
 
 = 2.77.9 =
 Documentation only. Nothing needs doing.
