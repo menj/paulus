@@ -66,7 +66,7 @@ With FTP:
 
 1. Turn on hidden files in your FTP program first. In FileZilla it is Server, Force showing hidden files. The theme has files whose names start with a dot (.htaccess), and they must go up too.
 2. Upload the paulus folder into wp-content/themes under a temporary name, such as paulus-new.
-3. When every file is up, rename the old folder (if there is one) to paulus-old, then at once rename paulus-new to paulus. Do the two renames one straight after the other, at a quiet hour, with Appearance, Themes closed. A page asked for in the moment between them finds no theme and shows an error, and if WordPress opens that screen while the folder is missing, it switches the site to another theme.
+3. When every file is up, rename the old folder (if there is one) to paulus-old, then at once rename paulus-new to paulus. Do the two renames one straight after the other, at a quiet hour, with Appearance, Themes closed. With Maintenance mode on, on Apache or LiteSpeed, visitors who ask for a page in the moment between them get the "Back shortly" page from the web server. On Nginx, or without that mode, they may see an error. And if WordPress opens that screen for an administrator while the folder is missing, it switches the site to another theme.
 4. Activate Paulus if it is not active yet, then install the site content as above. Delete paulus-old once the site looks right.
 
 The folder must be called paulus, all lower case.
