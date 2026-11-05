@@ -2,6 +2,21 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.12] - 2026-11-05
+
+The Study guide gets back the FAQPage that 2.77.11 took out. No article, page or setting changes, and `content_version` stays at 2.77.3.
+
+### Restored
+- The FAQPage of the Study guide's questions, exactly as 2.77.10 built it. `paulus_study_questions_schema()`, `paulus_article_question_sets()` and `paulus_article_plain()` return to `inc/article.php`, and `paulus_schema_additions()` and `paulus_webpage_schema()` in `inc/seo.php` call them again. Each `Question` has `answerCount` 0 and no `acceptedAnswer`, because the page shows none.
+- One change from review: `paulus_article_plain()` runs the text through `wptexturize()` first, as `the_content` does, so a question with an apostrophe reads in the FAQPage as the page shows it. The theme's other FAQPages do the same (`inc/schema-deep.php`).
+- 2.77.11 broke the owner decision recorded under 2.69.0 (2026-11-03): "All schema.org markup stays. The owner keeps every type, whether Google Search supports it or not, for generative, answer and AI search (GEO, AEO, AIO)." This release keeps to it. Search Console's report of missing answers is expected.
+
+### Changed
+- `tests/article-test.php` checks the question sets again, word for word and texturized, with their addresses, and that both hooks in `inc/seo.php` call `paulus_study_questions_schema()`.
+- `SSOT.md` carries the 2026-11-03 decision word for word under Owner decisions.
+- The roadmap in `UPGRADING.md` no longer says the FAQPage would return later.
+- `.claude/skills/theme-docs/SKILL.md` says to do the two renames of an FTP update straight after each other with the admin closed.
+
 ## [2.77.11] - 2026-11-05
 
 The Study guide gives up the FAQPage that 2.77.10 added. No article, page or setting changes, and `content_version` stays at 2.77.3.

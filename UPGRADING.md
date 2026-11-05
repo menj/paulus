@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.11 to 2.77.12
+
+- Upload the whole theme folder. No file is added or removed, and `content_version` stays at 2.77.3, so the structure sync does not run.
+- The Study guide is an FAQPage of its questions again, with its `Quiz`, as 2.77.10 built it. Search Console will report its questions as FAQ items missing their answers once Google reads the page again. The owner keeps the markup for generative, answer and AI search (the decision of 2026-11-03), so leave that report as it is.
+
 ### 2.77.10 to 2.77.11
 
 - Upload the whole theme folder. No file is added or removed, and `content_version` stays at 2.77.3, so the structure sync does not run.
@@ -338,6 +343,5 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Refuse `wp-admin/includes/*.php` and `wp-config.php` by address in the core-file block. `wp-config.php` holds the database password, and the error logs show bots asking for core files by address.
 - Send `/wp-content/uploads/2026/09/paul-dunce-face.jpg` and the like to the AVIF illustration. The same logs show 26 requests for that one file, answered 404.
 - Confirm the terms of Arslan Wessam with its author, as `LICENSES.md` asks.
-- Bring back the FAQPage of the study questions once the Study guide shows an answer to each one. 2.77.10 built it from the questions alone, with no `acceptedAnswer`, and Google reported every question as an error; 2.77.11 took it out. It can return, from the same `paulus-questions` lists and from the answers the page then shows, word for word. The 2.77.10 code (`paulus_study_questions_schema()` in `inc/article.php`) is in the history.
 - `lastReviewed` for articles. "Last reviewed" shows in the byline, but an article is described by its Article node, which has no such property, and the page has no WebPage node to carry it.
 

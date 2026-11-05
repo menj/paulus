@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.11 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.12 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.11) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.11.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.12) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.12.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -500,7 +500,7 @@ The theme ships Privacy Policy, Terms of Use and DMCA as drafts (`'status' => 'd
 | “Luke” versus Paul (Martin's notes) | a `Manuscript` by Dale B. Martin (2019), with its PDF as a `MediaObject` |
 | Every page with headings | each section heading as a `WebPageElement` with its position and, where the page gives it an anchor, its address (taken from the headings the page really rendered, so every address resolves); each footnote as a `CreativeWork` `citation` with its address |
 | Questions | an `FAQPage` of every question and its accepted answer, built the same way as Answers |
-| Study guide, and any page that shows study questions | no `FAQPage`. The page asks its questions and shows no answers, and an `FAQPage` `Question` needs an `acceptedAnswer` the page shows, so 2.77.11 took out the one 2.77.10 added. The questions stay on the page as they are. See the roadmap in `UPGRADING.md` |
+| Study guide, and any page that shows study questions | an `FAQPage` of exactly the questions in its `<ol class="paulus-questions">` lists, word for word, each with the address of its set (`paulus_study_questions_schema()`, `inc/article.php`). The page asks the questions and gives no answers, so each `Question` has `answerCount` 0 and no `acceptedAnswer`. Google Search Console reports each as missing its answer; the owner keeps the markup for generative, answer and AI search, as decided on 2026-11-03. A page without such lists gets none |
 | Timeline | an `ItemList` of 17 `Event`s in Paul's life |
 | Glossary | a `DefinedTermSet` of its `DefinedTerm`s |
 | Study guide | a `Quiz` of 121 open-ended `Question`s, grouped by article |
