@@ -1,7 +1,17 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.19",
+	"content_version": "2.77.21",
 	"prior_hashes": {
+		"journal-did-paul-meet-jesus.json#r77.20": "d276ecaacdc06c33b493ed918729b161",
+		"journal-paul-and-apollos.json#r77.20": "960ee8bc00375a0cf572140b11b7fa1d",
+		"journal-paul-and-barnabas-at-lystra.json#r77.20": "a74fa038ce8c8d352c6aaae3da448aca",
+		"journal-paul-pharisee-or-sadducee.json#r77.20": "2a85c5e02202ed5ff0800224ec8f51f2",
+		"journal-what-paul-never-said-about-jesus.json#r77.20": "b62165d1d2fe3b4decd1d4fc842ee48d",
+		"journal-paul-on-holy-days.json#r77.20": "1ca78e10f52c8a582cbc3bd464d42569",
+		"journal-paul-and-gamaliel.json#r77.20": "16631007f852fa078895d481de5c45e8",
+		"journal-did-paul-reach-spain.json#r77.20": "dc595ba62ffa2a6caeb33fa4f09bb876",
+		"journal-paul-in-prison.json#r77.20": "036962c3d859e339a204e1f341bdcfc1",
+		"journal-women-paul-greeted.json#r77.20": "01cc653329fbfa7fb0a886735cdf4d24",
 		"c13-the-flesh.json#r77.19": "8235e42959fa00c2665ee6e981530ce9",
 		"c13-lies-curses-and-guile.json#r77.19": "904cafd67bbd66e46198f4fdb34890ee",
 		"c05-the-letters-of-a-man.json#r77.19": "3f91f1cca0ba7e202fa8f8e1804f3e8d",
