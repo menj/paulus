@@ -1,7 +1,12 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.18",
+	"content_version": "2.77.19",
 	"prior_hashes": {
+		"c13-the-flesh.json#r77.19": "8235e42959fa00c2665ee6e981530ce9",
+		"c13-lies-curses-and-guile.json#r77.19": "904cafd67bbd66e46198f4fdb34890ee",
+		"c05-the-letters-of-a-man.json#r77.19": "3f91f1cca0ba7e202fa8f8e1804f3e8d",
+		"c02-who-was-paul.json#r77.19": "a1638aedb6bbea7771276e1f0d0c3c18",
+		"c02-who-was-paul-2.json#r77.19": "3b9c0797f34b1b5f03b6545ae983f158",
 		"saul-in-the-bible.json#r77.18": "a7a9dfdbf2007ca1ac46c20a9bfa3d20",
 		"meaning-of-the-name-paul.json#r77.18": "1455d50dc23234d2e030764a02098bbb",
 		"islamic-dilemma.json#r77.18": "f1862086534857c4ff73ec18cdae2ba4",

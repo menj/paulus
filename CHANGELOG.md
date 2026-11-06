@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.19] - 2026-11-06
+
+Stage 7 of the move to the English Standard Version: five more articles quote the ESV beneath the Greek, and 50 pages now carry the Crossway notice. `content_version` rises to 2.77.19 because the shipped texts change.
+
+### Changed
+- Five articles quote the ESV instead of the King James Version: *Tarsus, and a persona for every audience*, *The flesh: licence, lust and the war within*, *The letters of a man*, *Who was Paul of Tarsus in the Bible?* and *Perjury, curses and the whited wall* (`the-character-of-paul`).
+- Scripture blocks were rebuilt verse by verse from the ESV text the ESV API supplies, with footnotes reading "(SBLGNT; ESV)" or "(ESV; Greek from the SBLGNT)". Quotations in the running text and in the picture captions were replaced by hand and checked word for word against the same text. Words the prose took from the King James Version without quotation marks follow the ESV too: "vile affections" and "changed the natural use" are "dishonorable passions" and "exchanged natural relations for those contrary to nature", "adultery, fornication, uncleanness and lasciviousness" is "sexual immorality, impurity and sensuality", "false brethren" is "false brothers", and "slow bellies" is "lazy gluttons". Paul's "I speak as a fool" is "I am talking like a madman".
+- In *The flesh* the King James terms "effeminate" and "abusers of themselves with mankind" become the ESV's single phrase "men who practice homosexuality", since the ESV renders the two Greek words (*malakoi* and *arsenokoitai*) together. The footnote on the Greek says so. The sentence on Galatians 5:17 is rebuilt on the ESV.
+- The title, search title and the section heading "The whited wall" of `the-character-of-paul` are left as they are. "Whited" is the King James word, but the phrase is how readers search for Acts 23:3, and the ESV's "whitewashed" would not fit the 32 characters a search title may have. The text itself quotes the ESV, "you whitewashed wall". The owner may want to choose.
+- Each edited article's earlier hash is in `prior_hashes` (`#r77.19`), so an untouched copy takes the new text and a hand-edited one stays.
+
 ## [2.77.18] - 2026-11-06
 
 Stage 6 of the move to the English Standard Version: four more pages quote the ESV beneath the Greek, and 45 pages now carry the Crossway notice. `content_version` rises to 2.77.18 because the shipped texts change.
