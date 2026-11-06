@@ -1,7 +1,14 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.3",
+	"content_version": "2.77.16",
 	"prior_hashes": {
+		"c15-james-the-brother.json#r77.16": "75a3f223403c5b6da09c0105c74b5a30",
+		"c14-the-roman.json#r77.16": "3559193d6d648a660fb6d2a44e4e5b42",
+		"c14-the-roman-2.json#r77.16": "fe0c6b3bc242301f1725b1e8b487b347",
+		"c13-women-slaves-and-caesar.json#r77.16": "18f37dbbfc3af369118ae78ecc9aec31",
+		"c04-the-jerusalem-council-2.json#r77.16": "e2e19e2ea9d1706845ecab35f3f3d58d",
+		"c04-by-their-fruits-2.json#r77.16": "a015bfd42b4a84b0f673317ebf12d908",
+		"c03-a-self-appointed-apostle-2.json#r77.16": "475cfa9a67b2d725861a2f18e3d2dbd9",
 		"journal-paul-on-holy-days.json#r77.2": "eed590a013d83126276e70f1bf1646f0",
 		"islamic-dilemma.json#r77.1": "82d479b02a421baa3ad704bfe2d55223",
 		"journal-paul-on-holy-days.json#r77.1": "188e3fc394e558ab2a2175729eeda815",

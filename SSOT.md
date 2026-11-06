@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.15. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.16. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -48,6 +48,7 @@ Recorded in `CHANGELOG.md` under 2.69.0 (2026-11-03), word for word:
 Other decisions recorded in `README.md` and `LICENSES.md`:
 
 - 2026-10-26: serve a WOFF2 conversion of the KFGQPC HAFS Uthmanic Script, accepting that its licence forbids modifying the font.
+- 2026-11-01: the English Standard Version is the standard English translation of Scripture, declared on the Sources page. Articles written earlier move across in stages (`README.md`, Editorial conventions, Translation). The owner stated on 2026-11-01 that he holds the licence and permission for it.
 - The header menu carries none of the four pages under The Precedent.
 
 ## Titles and descriptions
@@ -75,7 +76,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.3 on 2.77.15) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.16 on 2.77.16) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -136,6 +137,10 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 ʿĪsā ibn Maryam is named so in the site's own voice, with the written honorific the theme turns into calligraphy. The Koine Greek comes only from `paulus_greek_marks()`.
 
+### Scripture
+
+The Greek of the New Testament is the SBL Greek New Testament. The English beneath it is the English Standard Version, except in articles not yet moved across, which still carry the King James Version. ESV wording comes from the text the ESV API supplies and is never typed from memory, and every quoted phrase is checked word for word against it. A page that quotes the ESV ends with `[paulus_esv_notice]`, Crossway's notice, and its footnotes read "(SBLGNT; ESV)". An article moves across whole, picture captions included, so no article mixes two translations. Quotations from scholars, ancient writers and translated commentary keep their authors' wording. The ESV is never quoted in material released under a Creative Commons licence.
+
 ### Public wording
 
 `README.md`, `UPGRADING.md`, `LICENSES.md` and `readme.txt` are served, and the pages are public. None of them says that the site is related to other sites or belongs to a group of them. Links to other sites are ordinary links.
@@ -144,7 +149,7 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/` and the browser icons in `assets/images/` (`favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, with `favicon.ico` and `favicon.svg`). Those take the formats browsers ask for, all drawn from `site-icon.webp`, at the owner's request of 2026-11-05: "make sure you have favicon too".
 
-Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.15 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
+Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.16 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
 
 ### Release checklist
 

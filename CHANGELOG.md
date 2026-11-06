@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.16] - 2026-11-06
+
+Stage 4 of the move to the English Standard Version: seven more articles quote the ESV beneath the Greek, and 35 pages now carry the Crossway notice. `content_version` rises to 2.77.16 because the shipped texts change.
+
+### Changed
+- Seven articles quote the ESV instead of the King James Version: *The citizenship and the appeal to Caesar*, *The Roman: name and tongue*, *Curses for dissenters, and the break with Barnabas*, *Women, slaves, Caesar and the witnesses of conscience*, *James, the brother of ʿĪsā ibn Maryam*, *The parting with Barnabas, and open conflict with Peter* and *"Them which say they are apostles, and are not"*.
+- Each scripture block was rebuilt verse by verse from the ESV text the ESV API supplies, and its footnote now reads "(SBLGNT; ESV)". Quotations in the running text and in the picture captions were replaced by hand and checked word for word against the same text. Where the ESV words differ from the King James Version, the sentence follows the ESV: Paul "rude in speech" is "unskilled in speaking", Barnabas carried away "with their dissimulation" is "led astray by their hypocrisy", "all things to all men" is "all things to all people", and the "tares" of the picture caption are "weeds". Each page ends with the Crossway notice.
+- Each edited article's earlier hash is in `prior_hashes` (`#r77.16`), so an untouched copy takes the new text and a hand-edited one stays.
+
 ## [2.77.15] - 2026-11-05
 
 The settings and readme speak of the other sites in plain words, and the docs name the subfolder favicon step. No article, page, title or setting changes, and `content_version` stays at 2.77.3.
