@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.18. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.19. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -76,7 +76,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.18 on 2.77.18) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.19 on 2.77.19) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -149,7 +149,7 @@ The Greek of the New Testament is the SBL Greek New Testament. The English benea
 
 The illustrations, figures, the hero and the portraits are AVIF. WebP is kept for link previews (`assets/social/`), the publisher logo and the site icon, the pixel icons (`arrow-next`, `envelope`) and the fallback copies of the two calligraphy masks. No PNG or JPEG ships, apart from the three control images of Lightbox2 in `assets/vendor/lightbox2/images/` and the browser icons in `assets/images/` (`favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, with `favicon.ico` and `favicon.svg`). Those take the formats browsers ask for, all drawn from `site-icon.webp`, at the owner's request of 2026-11-05: "make sure you have favicon too".
 
-Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.18 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
+Each figure shows its credit and its licence, recorded in `content/images.json`. On 2.77.19 these are the Pexels License (141 figures), the public domain or CC0 (55), Creative Commons attribution licences, BY or BY-SA (34), the Pixabay Content License (1), and "All rights reserved" for the 4 images the author made himself (the reader photographs, the book in hand and the portrait of Dale B. Martin). `LICENSES.md` sets out the terms. A new figure from outside these needs the owner's say.
 
 ### Release checklist
 
