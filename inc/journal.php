@@ -180,31 +180,26 @@ function paulus_journal_url( $year = 0, $month = 0 ) {
 /**
  * [paulus_journal_list] The entries of the current Journal view: date,
  * title, excerpt and a link, with pagination, an index of the months that
- * have entries, and the feed. On the first page the newest entry leads,
- * with the next five beside it (paulus_lead_list()).
+ * have entries, and the feed. Above it, the featured block (paulus_lead_list()).
  *
  * @return string
  */
 function paulus_sc_journal_list() {
 	global $wpdb, $wp_query;
 	$out = '';
-	// The first page of a view opens with the lead and list
-	// (inc/lead-list.php); the entries it shows leave the list below, and the
-	// pagination stays the same.
+	// The first page of a view opens with the featured block, if four entries
+	// are featured (inc/lead-list.php). The list below always holds every entry.
 	$lead = array(
 		'html' => '',
 		'ids'  => array(),
 	);
-	if ( ! is_paged() && function_exists( 'paulus_lead_list' ) && $wp_query instanceof WP_Query && ! empty( $wp_query->posts ) ) {
-		$lead = paulus_lead_list( array_slice( $wp_query->posts, 0, 1 + PAULUS_LEAD_LIST_MAX ) );
+	if ( ! is_paged() && ! paulus_journal_period() && function_exists( 'paulus_lead_list' ) ) {
+		$lead = paulus_lead_list( paulus_lead_featured() );
 	}
 	if ( have_posts() ) {
 		$items = '';
 		while ( have_posts() ) {
 			the_post();
-			if ( in_array( (int) get_the_ID(), $lead['ids'], true ) ) {
-				continue;
-			}
 			$items .= '<li class="paulus-journal__item"><article>'
 				. '<p class="paulus-journal__date"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date( 'j F Y' ) ) . '</time></p>'
 				. '<h2 class="paulus-journal__title"><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h2>'

@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.20] - 2026-11-06
+
+The Journal is the full list of entries again. The lead and list had taken the six newest entries out of it; it is now a separate block for featured entries only. `content_version` stays at 2.77.19 because no shipped text changes.
+
+### Changed
+- `[paulus_journal_list]` shows every entry, ten to a page, and no entry leaves it.
+- The lead and list holds one lead and three entries, not five, and only entries marked "Featured" (a box on the entry's edit screen, post meta `_paulus_featured`). With fewer than four featured, nothing is drawn and the Journal is the plain list. Nothing is featured on upgrade.
+- Pointing at, or tabbing to, an entry in the list brings its picture, date and title into the large panel; leaving restores the lead (`assets/js/lead-list.js`).
+- Upload the whole theme folder, then tick "Featured" on four entries to show the block.
+
 ## [2.77.19] - 2026-11-06
 
 Stage 7 of the move to the English Standard Version: five more articles quote the ESV beneath the Greek, and 50 pages now carry the Crossway notice. `content_version` rises to 2.77.19 because the shipped texts change.

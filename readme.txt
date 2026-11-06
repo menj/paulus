@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.19
+Stable tag: 2.77.20
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.20 =
+* The Journal lists every entry again. The lead and list is now a block for featured entries only (one lead, three in the list); pointing at a list entry brings its picture forward.
+
 = 2.77.19 =
 * Five more articles quote the English Standard Version beneath the Greek: Tarsus and a persona for every audience, the flesh, the letters of a man, who was Paul of Tarsus, and the character of Paul. The rest follow in later releases.
 
@@ -206,6 +209,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.20 =
+The Journal shows every entry again; tick "Featured" on four entries to show the featured block.
 
 = 2.77.19 =
 Upload the whole theme folder. Five articles change their English quotations from the King James Version to the English Standard Version; nothing else needs doing.
