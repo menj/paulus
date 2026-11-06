@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.16
+Stable tag: 2.77.17
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.17 =
+* Six more articles quote the English Standard Version beneath the Greek: Saul the persecutor, the three accounts compared, "Lord" before the Spirit, seven doctrines, suffering that atones, and by their fruits. The rest follow in later releases.
+
 = 2.77.16 =
 * Seven more articles quote the English Standard Version beneath the Greek: the citizenship and the appeal to Caesar, the Roman, curses for dissenters, women, slaves and Caesar, James the brother, the parting with Barnabas, and "Them which say they are apostles". The rest follow in later releases.
 
@@ -197,6 +200,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.17 =
+Upload the whole theme folder. Six articles change their English quotations from the King James Version to the English Standard Version; nothing else needs doing.
 
 = 2.77.16 =
 Upload the whole theme folder. Seven articles change their English quotations from the King James Version to the English Standard Version; nothing else needs doing.
