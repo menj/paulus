@@ -137,39 +137,31 @@ function paulus_test_check( $ok, $what ) {
 	$paulus_fail += $ok ? 0 : 1;
 }
 
-$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true ) ) );
-paulus_test_check( array( 1, 2, 3, 4, 5, 6 ) === $r['ids'], 'the newest entry leads and the next five form the list' );
-paulus_test_check( 1 === substr_count( $r['html'], '<article' ) && 5 === substr_count( $r['html'], '<li ' ), 'one lead entry, five list items' );
-paulus_test_check( false !== strpos( $r['html'], 'aria-labelledby="paulus-lead-list-heading"' ) && false !== strpos( $r['html'], 'id="paulus-lead-list-heading"' ), 'the section is labelled by its heading' );
-paulus_test_check( 5 === substr_count( $r['html'], 'alt=""' ), 'list thumbnails carry empty alt text' );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true ) ) );
+paulus_test_check( array( 1, 2, 3, 4 ) === $r['ids'], 'one lead and three in the list, no more' );
+paulus_test_check( 4 === substr_count( $r['html'], '<article' ) && 1 === substr_count( $r['html'], 'data-lead="1" hidden' ) + 1 && 3 === substr_count( $r['html'], '<li ' ), 'a panel for the lead and one for each list entry, three list items' );
+paulus_test_check( false !== strpos( $r['html'], 'aria-labelledby="paulus-lead-list-heading"' ), 'the section is labelled by its heading' );
+paulus_test_check( 3 === substr_count( $r['html'], 'alt=""' ), 'list thumbnails carry empty alt text' );
 paulus_test_check( false !== strpos( $r['html'], '<figcaption class="paulus-lead-list__credit">Illustration: The Author.</figcaption>' ), 'the credit sits in the figcaption' );
-$paulus_overlay = substr( $r['html'], strpos( $r['html'], 'paulus-lead-list__overlay' ), strpos( $r['html'], '</figure>' ) - strpos( $r['html'], 'paulus-lead-list__overlay' ) );
-paulus_test_check( preg_match( '#^paulus-lead-list__overlay.*?</div></div><figcaption#s', $paulus_overlay ) === 1, 'the credit is outside the overlay' );
 
-$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true ) ), array( 'lead_id' => 4 ) );
-paulus_test_check( array( 4, 1, 2, 3, 5, 6 ) === $r['ids'], 'lead_id leads and is left out of the list' );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true ) ), array( 'lead_id' => 4 ) );
+paulus_test_check( array( 4, 1, 2, 3 ) === $r['ids'], 'lead_id leads and is left out of the list' );
 
-$GLOBALS['paulus_t']['unlisted'] = array( 2, 4 );
-$r                            = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true ) ), array( 'lead_id' => 4 ) );
-paulus_test_check( array( 1, 3, 5, 6, 7 ) === $r['ids'], 'unlisted entrys neither lead nor appear in the list' );
+$GLOBALS['paulus_t']['unlisted'] = array( 2 );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true ) ) );
+paulus_test_check( array( 1, 3, 4, 5 ) === $r['ids'], 'unlisted entries do not appear' );
 $GLOBALS['paulus_t']['unlisted'] = array();
 
 $r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true ) ) );
-paulus_test_check( '' === $r['html'], 'three entrys: nothing is drawn and the grid stays as it was' );
+paulus_test_check( '' === $r['html'], 'three featured: nothing is drawn' );
 
-$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true ) ) );
-paulus_test_check( '' === $r['html'], 'four entrys: nothing is drawn' );
-
-$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true ) ) );
-paulus_test_check( array( 1, 2, 3, 4, 5 ) === $r['ids'], 'five entrys: a lead and a list of four' );
-
-$r = paulus_lead_list( paulus_t_posts( array( 1 => false, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true ) ) );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => false, 2 => true, 3 => true, 4 => true ) ) );
 paulus_test_check( '' === $r['html'], 'a lead without a featured image: nothing is drawn' );
 
-$r = paulus_lead_list( paulus_t_posts( array( 5 => true, 2 => true, 3 => true, 4 => true, 6 => true ) ) );
-paulus_test_check( false !== strpos( $r['html'], 'Image: Papyrus letter, CC0.' ), 'a registered figure keeps its own credit, renamed file or not' );
+$r = paulus_lead_list( paulus_t_posts( array( 5 => true, 2 => true, 3 => true, 4 => true ) ) );
+paulus_test_check( false !== strpos( $r['html'], 'Image: Papyrus letter, CC0.' ), 'a registered figure keeps its own credit' );
 
-$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => false, 3 => true, 4 => true, 5 => true, 6 => true ) ) );
-paulus_test_check( 1 === substr_count( $r['html'], 'paulus-lead-list__thumb--empty' ), 'a list entry without a photograph keeps an empty 16:9 panel' );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => false, 3 => true, 4 => true ) ) );
+paulus_test_check( 1 === substr_count( $r['html'], 'paulus-lead-list__thumb--empty' ), 'a list entry without a photograph keeps an empty panel' );
 
 exit( $paulus_fail ? 1 : 0 );
