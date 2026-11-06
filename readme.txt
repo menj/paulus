@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.20
+Stable tag: 2.77.21
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.21 =
+* Ten Journal entries about Paul end on a verdict, a closing section that judges the evidence they set out.
+
 = 2.77.20 =
 * The Journal lists every entry again. The lead and list is now a block for featured entries only (one lead, three in the list); pointing at a list entry brings its picture forward.
 
@@ -209,6 +212,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.21 =
+Ten Journal entries gain a closing verdict. Unedited entries update on their own.
 
 = 2.77.20 =
 The Journal shows every entry again; tick "Featured" on four entries to show the featured block.

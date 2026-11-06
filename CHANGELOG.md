@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.21] - 2026-11-06
+
+Ten Journal entries about Paul now end on a verdict. They had explained the evidence and stopped short of judging it. `content_version` rises to 2.77.21 because the shipped texts change.
+
+### Changed
+- A closing section, "The verdict", is added to: *Did Paul ever meet Jesus?*, *Paul and Apollos*, *Lystra*, *Pharisee or Sadducee*, *What did Paul never say about ʿĪsā?*, *Holy days*, *Gamaliel*, *Spain*, *Paul in prison* and *The women Paul greeted*. Each states what the evidence shows against Paul's authority and teaching, using only points the entry already makes.
+- Upload the whole theme folder. Entries the owner has not edited take the new text on the sync; an edited entry keeps its edits and needs the section added by hand.
+
 ## [2.77.20] - 2026-11-06
 
 The Journal is the full list of entries again. The lead and list had taken the six newest entries out of it; it is now a separate block for featured entries only. `content_version` stays at 2.77.19 because no shipped text changes.
