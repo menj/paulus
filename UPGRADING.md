@@ -49,6 +49,14 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.16 to 2.77.17
+
+- Upload the whole theme folder. Six articles change their English quotations from the King James Version to the English Standard Version, and `content_version` moves to 2.77.17, so the structure sync runs and refreshes each of them where it still matches a shipped text. Text edited by hand stays. Nothing else changes.
+
+### 2.77.15 to 2.77.16
+
+- Upload the whole theme folder. Seven articles change their English quotations from the King James Version to the English Standard Version, and `content_version` moves to 2.77.16, so the structure sync runs and refreshes each of them where it still matches a shipped text. Text edited by hand stays. Nothing else changes.
+
 ### 2.77.14 to 2.77.15
 
 - Upload the whole theme folder. Nothing else changes. On a site in a subfolder, put a copy of `assets/images/favicon.ico` in the domain root (or, with a Site Icon set, that icon converted to an ICO file named `favicon.ico`), since browsers ask for `/favicon.ico` there.
@@ -342,6 +350,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Next
 
+- Finish the move to the ESV. Articles written before 1 November 2026 still quote the King James Version beneath the Greek, and the Sources page says so. Each moves across whole, picture captions included, so no article mixes two translations. The largest are left for last: *ʿĪsā in his own words*, *The prayer ʿĪsā taught*, *Original sin*, *The Greek body and the Jewish bed* and *Justification by faith*.
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
 - Run the tests on every push. The repository has nine test files and no CI workflow.
