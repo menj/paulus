@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.17
+Stable tag: 2.77.18
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.18 =
+* Four more pages quote the English Standard Version beneath the Greek: the answers to missionary claims, the Islamic dilemma, Saul in the Bible, and the meaning of the name Paul. The rest follow in later releases.
+
 = 2.77.17 =
 * Six more articles quote the English Standard Version beneath the Greek: Saul the persecutor, the three accounts compared, "Lord" before the Spirit, seven doctrines, suffering that atones, and by their fruits. The rest follow in later releases.
 
@@ -200,6 +203,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.18 =
+Upload the whole theme folder. Four pages change their English quotations from the King James Version to the English Standard Version; nothing else needs doing.
 
 = 2.77.17 =
 Upload the whole theme folder. Six articles change their English quotations from the King James Version to the English Standard Version; nothing else needs doing.

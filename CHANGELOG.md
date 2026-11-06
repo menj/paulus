@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.18] - 2026-11-06
+
+Stage 6 of the move to the English Standard Version: four more pages quote the ESV beneath the Greek, and 45 pages now carry the Crossway notice. `content_version` rises to 2.77.18 because the shipped texts change.
+
+### Changed
+- Four pages quote the ESV instead of the King James Version: *Answers to missionary claims*, *The Islamic dilemma and the letters of Paul*, *Saul in the Bible* and *The meaning of the name Paul*.
+- Scripture blocks were rebuilt verse by verse from the ESV text the ESV API supplies, and their footnotes now read "(ESV)" or "(ESV; Greek from the SBLGNT)". Quotations in the running text were replaced by hand and checked word for word against the same text. Where the ESV words differ from the King James Version the sentence follows the ESV: "God forbid" is "By no means!", "delivered from the law" is "released from the law", "all his epistles" is "all his letters", "laboured more abundantly than they all" is "worked harder than any of them", and "not a whit behind the very chiefest apostles" is "not in the least inferior to these super-apostles". In *The meaning of the name Paul* the note on the other men named Saul now says "Shaul in the ESV", since the ESV spells it that way too.
+- *Answers to missionary claims* now agrees with *The three accounts compared* on Acts 22:9: the companions "did not understand the voice" in the ESV, where the Greek says "did not hear".
+- Each edited page's earlier hash is in `prior_hashes` (`#r77.18`), so an untouched copy takes the new text and a hand-edited one stays.
+
 ## [2.77.17] - 2026-11-06
 
 Stage 5 of the move to the English Standard Version: six more articles quote the ESV beneath the Greek, and 41 pages now carry the Crossway notice. `content_version` rises to 2.77.17 because the shipped texts change.
