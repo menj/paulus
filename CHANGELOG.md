@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.22] - 2026-11-07
+
+Stage 8 of the move to the English Standard Version, first part: two more articles quote the ESV, and 52 pages now carry the Crossway notice. `content_version` rises to 2.77.22 because the shipped texts change.
+
+### Changed
+- *Was Paul married?* and *The purse* quote the ESV instead of the King James Version. Scripture blocks were rebuilt verse by verse from the ESV API text; quotations in the running text, footnotes and captions were replaced by hand and checked word for word against the same text. KJV wording the prose took without quotation marks follows the ESV too ("true yokefellow" is "true companion", "brass" is "copper").
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.21] - 2026-11-06
 
 Ten Journal entries about Paul now end on a verdict. They had explained the evidence and stopped short of judging it. `content_version` rises to 2.77.21 because the shipped texts change.
