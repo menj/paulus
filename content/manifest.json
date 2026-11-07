@@ -1,7 +1,9 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.21",
+	"content_version": "2.77.22",
 	"prior_hashes": {
+		"was-paul-married.json#r77.21": "26e86756d64fbcd12de33f5976ca93d6",
+		"c14-the-purse.json#r77.21": "d79ca0aa5d7c4972a4719a659ff3a650",
 		"journal-did-paul-meet-jesus.json#r77.20": "d276ecaacdc06c33b493ed918729b161",
 		"journal-paul-and-apollos.json#r77.20": "960ee8bc00375a0cf572140b11b7fa1d",
 		"journal-paul-and-barnabas-at-lystra.json#r77.20": "a74fa038ce8c8d352c6aaae3da448aca",
