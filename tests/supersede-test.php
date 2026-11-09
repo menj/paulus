@@ -37,11 +37,17 @@ $check( 'a bad checksum stops removals', '' !== paulus_removal_guard( false, fal
 $check( 'a drop of exactly 10 percent still runs', paulus_removal_guard( false, true, 90, 100 ), '' );
 $check( 'a drop of more than 10 percent stops removals', '' !== paulus_removal_guard( false, true, 89, 100 ), true );
 
+$check( 'no include list, nothing to cut', paulus_supersede_cut_includes( array(), array( 5 ) ), null );
+$check( 'a superseded ID leaves the include list', paulus_supersede_cut_includes( array( 3, 5, 7 ), array( 5 ) ), array( 3, 7 ) );
+$check( 'an emptied include list asks for a post that cannot exist', paulus_supersede_cut_includes( array( 5 ), array( 5 ) ), array( 0 ) );
+$check( 'IDs given as strings are cut too', paulus_supersede_cut_includes( array( '5', '8' ), array( 5 ) ), array( 8 ) );
+
 $src = (string) file_get_contents( dirname( __DIR__ ) . '/inc/supersede.php' );
 $check( 'the redirect runs at priority 1', false !== strpos( $src, "'template_redirect', 'paulus_supersede_redirect', 1" ), true );
 $check( 'an item with no file fails the integrity check', false !== strpos( $src, 'empty( $item[\'file\'] ) || ! is_string( $item[\'file\'] )' ), true );
 $check( 'only shipped text is retired', false !== strpos( $src, 'paulus_is_shipped_text( $old_post )' ), true );
 $check( 'the count baseline is not written by the retire step', 1 === substr_count( $src, "update_option( 'paulus_manifest_count'" ), true );
+$check( 'the fallback covers Rank Math robots and sitemap', 3 === substr_count( $src, "'rank_math/" ), true );
 $check( 'the module deletes nothing for good', false === strpos( $src, 'wp_delete_post' ), true );
 $check( 'the module uses the Trash', false !== strpos( $src, 'wp_trash_post' ), true );
 

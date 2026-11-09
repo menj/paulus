@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.30] - 2026-11-09
+
+Follow-up to 2.77.29, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `inc/supersede.php`, the fallback that runs when the Unlist Posts plugin is active (the unlist module stands down then): it now mirrors the native module. Rank Math gets the same noindex (`rank_math/frontend/robots`), the same sitemap exclusion (`rank_math/sitemap/posts_to_exclude`, with `rank_math/sitemap/entry` as a second line) and Yoast stands aside as it does for an unlisted item. A query that sets `post__in` loses the superseded IDs from that list itself, and an emptied list becomes `[0]` (`paulus_supersede_cut_includes()`), because WordPress ignores `post__not_in` when `post__in` is set.
+
+### Checked end to end
+On a scratch site, with a temporary pair set through the `paulus_manifest` filter on two shipped articles: the old address answered 301 to the new one; the old article was gone from the category list and the Sitemap page (it was in both without the pair); its own page carried noindex; the sync moved it to the Trash; its address still answered 301 afterwards; the core sitemap query excluded it and a `post__in` query no longer returned it.
+
 ## [2.77.29] - 2026-11-09
 
 Follow-up to 2.77.28, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.

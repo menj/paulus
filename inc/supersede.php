@@ -368,20 +368,60 @@ function paulus_sync_preview_render() {
 }
 
 /**
+ * Whether superseded items are hidden on this request: the public site, never an editor at work.
+ * The same rule the unlist module applies to its own list.
+ *
+ * @return bool
+ */
+function paulus_supersede_hides() {
+	if ( paulus_supersede_disabled() ) {
+		return false;
+	}
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return false;
+	}
+	return ! ( defined( 'REST_REQUEST' ) && REST_REQUEST && current_user_can( 'edit_posts' ) );
+}
+
+/**
+ * Take the superseded IDs out of a query's include list, or ask for a post that cannot exist when that
+ * empties it. WordPress ignores post__not_in whenever post__in is set, so the list is cut itself.
+ *
+ * @param int[] $in  The include list.
+ * @param int[] $ids Superseded IDs.
+ * @return int[]|null The new list, or null when the query has no include list.
+ */
+function paulus_supersede_cut_includes( $in, $ids ) {
+	$in = array_filter( array_map( 'intval', (array) $in ) );
+	if ( ! $in ) {
+		return null;
+	}
+	$in = array_values( array_diff( $in, $ids ) );
+	return $in ? $in : array( 0 );
+}
+
+/**
  * With the Unlist Posts plugin active the unlist module stands down, so the hiding of superseded items is
- * done here: left out of lists, search and feeds, out of the XML sitemap, and noindex on its own page.
+ * done here: left out of lists, search and feeds (also queries that set post__in), out of the WordPress and
+ * Rank Math sitemaps, and noindex on the item's own page, through WordPress's robots tag and Rank Math's.
  */
 if ( class_exists( 'Unlist_Posts' ) ) {
 	add_action(
 		'pre_get_posts',
 		static function ( $q ) {
-			if ( paulus_supersede_disabled() || ( is_admin() && ! wp_doing_ajax() ) || $q->is_singular() || current_user_can( 'edit_posts' ) ) {
+			if ( ! paulus_supersede_hides() || $q->is_singular() || $q->get( 'p' ) || $q->get( 'page_id' ) || $q->get( 'name' ) || $q->get( 'pagename' ) ) {
 				return;
 			}
 			$ids = paulus_superseded_ids();
-			if ( $ids ) {
-				$q->set( 'post__not_in', array_merge( (array) $q->get( 'post__not_in' ), $ids ) );
+			if ( ! $ids ) {
+				return;
 			}
+			$in = paulus_supersede_cut_includes( $q->get( 'post__in' ), $ids );
+			if ( null !== $in ) {
+				$q->set( 'post__in', $in );
+				return;
+			}
+			$q->set( 'post__not_in', array_values( array_unique( array_merge( (array) $q->get( 'post__not_in' ), $ids ) ) ) );
 		}
 	);
 	add_filter(
@@ -398,6 +438,38 @@ if ( class_exists( 'Unlist_Posts' ) ) {
 		'wp_robots',
 		static function ( $robots ) {
 			return is_singular() && in_array( (int) get_queried_object_id(), paulus_superseded_ids(), true ) ? wp_robots_no_robots( $robots ) : $robots;
+		}
+	);
+	add_filter(
+		'rank_math/frontend/robots',
+		static function ( $robots ) {
+			if ( is_singular() && in_array( (int) get_queried_object_id(), paulus_superseded_ids(), true ) ) {
+				$robots['index'] = 'noindex';
+			}
+			return $robots;
+		}
+	);
+	add_filter(
+		'rank_math/sitemap/posts_to_exclude',
+		static function ( $ids ) {
+			$ids = is_array( $ids ) ? $ids : preg_split( '/[\s,]+/', (string) $ids, -1, PREG_SPLIT_NO_EMPTY );
+			return array_values( array_unique( array_merge( array_filter( array_map( 'absint', $ids ) ), paulus_superseded_ids() ) ) );
+		}
+	);
+	add_filter(
+		'rank_math/sitemap/entry',
+		static function ( $url, $type, $object ) {
+			return 'post' === $type && $object instanceof WP_Post && in_array( (int) $object->ID, paulus_superseded_ids(), true ) ? false : $url;
+		},
+		10,
+		3
+	);
+	add_action(
+		'wp',
+		static function () {
+			if ( is_singular() && in_array( (int) get_queried_object_id(), paulus_superseded_ids(), true ) ) {
+				add_filter( 'wpseo_robots_array', '__return_empty_array' );
+			}
 		}
 	);
 }
