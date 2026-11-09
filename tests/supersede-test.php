@@ -48,6 +48,7 @@ $check( 'an item with no file fails the integrity check', false !== strpos( $src
 $check( 'only shipped text is retired', false !== strpos( $src, 'paulus_is_shipped_text( $old_post )' ), true );
 $check( 'the count baseline is not written by the retire step', 1 === substr_count( $src, "update_option( 'paulus_manifest_count'" ), true );
 $check( 'the fallback covers Rank Math robots and sitemap', 3 === substr_count( $src, "'rank_math/" ), true );
+$check( 'an editor\'s admin-side AJAX call is exempt', false !== strpos( $src, 'wp_get_referer()' ) && false !== strpos( $src, 'admin_url()' ), true );
 $check( 'the module deletes nothing for good', false === strpos( $src, 'wp_delete_post' ), true );
 $check( 'the module uses the Trash', false !== strpos( $src, 'wp_trash_post' ), true );
 
