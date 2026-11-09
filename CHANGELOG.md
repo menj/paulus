@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.26] - 2026-11-09
+
+The canon claim corrected, three Journal entries and a new source, all from Samuel Davidson's *The Canon of the Bible* (1877). No feature removed; the horned illustrations, the book teaser, all schema.org markup and every `seo_title` (all 32 characters or fewer) are unchanged. `content_version` is 2.77.26.
+
+### Changed
+- `content/articles/c06-the-gospels-and-the-new-covenant.json`: the paragraph that said a council at Rome in 382 banned every gospel that disagreed with Paul, and that the canon was assembled a priori, now says no single council banned the rest and that the surviving lists date from the late fourth century onward. Footnote 8 cites Davidson pp. 100 to 101 and 103 and Metzger on the Gelasian Decree. The old hash is in `prior_hashes` as `#r77.26`. The two older descriptions that mentioned 382 stay in `prior_meta` as history.
+- `content/articles/answers.json`: the fourteen-letter count now says the church long counted fourteen, where Marcion gave ten and the Muratorian list thirteen.
+- `content/articles/sources.json`: Davidson added to the scholarship list.
+
+### Added
+- Three Journal entries, dated 3, 10 and 17 January 2027: "Did a council at Rome ban the other gospels in 382?" (`seo_title` "Did Rome ban gospels in 382?", 28 characters), "Did Marcion make the first New Testament?" (30) and "Thirteen letters or fourteen?" (29). The slug of the first has no digit, as `tests/renamed-test.php` requires.
+
 ## [2.77.25] - 2026-11-09
 
 WCAG 2.2 AA audit and fixes. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` is untouched.

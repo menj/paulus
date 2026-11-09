@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.25 to 2.77.26
+
+Upload the whole theme folder, then run Install or update under Theme Options, Content (the automatic sync does it on the first visit because `content_version` changed to 2.77.26). The corrected article text reaches pages you have not edited; for a page you edited, the installer offers the theme's text beside yours. The three new Journal entries are created once each and dated 3, 10 and 17 January 2027. Citations to modern works in those entries, now listed on the Sources page (Metzger, Lieu, Harnack, von Campenhausen, Attridge) need a human check against the books.
+
 ### 2.77.24 to 2.77.25
 
 Upload the whole theme folder. No setting changes. WCAG 2.2 AA register (scratch WordPress, `WP_DEBUG` on with an empty log; axe-core with wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa and best-practice tags at 1280 and 375 px on 12 templates and the open search panel and menu; keyboard walk, 320 px reflow, text-spacing override):
