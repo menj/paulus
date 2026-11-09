@@ -1,6 +1,6 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.22",
+	"content_version": "2.77.26",
 	"prior_hashes": {
 		"was-paul-married.json#r77.21": "26e86756d64fbcd12de33f5976ca93d6",
 		"c14-the-purse.json#r77.21": "d79ca0aa5d7c4972a4719a659ff3a650",
@@ -628,7 +628,10 @@
 		"appendices.json#73": "d1c53d716fa813bdec1f76c293fb445d",
 		"journal-how-the-site-began.json#74": "0c9ebbdac3a05a6cf18bf6d46eb38994",
 		"c12-malaysia-and-southeast-asia.json#75": "048ba6cf9e49b45541f8c621343cb12d",
-		"journal-how-the-site-began.json#76": "346eb9f1c5837198047a400ed556859c"
+		"journal-how-the-site-began.json#76": "346eb9f1c5837198047a400ed556859c",
+		"c06-the-gospels-and-the-new-covenant.json#r77.26": "67f34cdac802a472a3d3d761cafe66b5",
+		"answers.json#r77.26": "cda074f19fc0419a9ce5684e239ad764",
+		"sources.json#r77.26": "1329563ba7ea9f0ca3169909c3a89448"
 	},
 	"prior_meta": [
 		"Who was the founder of Christianity? Not ʿĪsā ibn Maryam but Paul: the first books, the Gentile mission, the doctrines. Read on.",
@@ -1818,6 +1821,36 @@
 			"file": "journal-women-paul-greeted.json",
 			"image": "met-papyrus-letter",
 			"date": "2026-12-27 09:00:00"
+		},
+		{
+			"slug": "did-rome-ban-other-gospels",
+			"title": "Did a council at Rome ban the other gospels in 382?",
+			"seo_title": "Did Rome ban gospels in 382?",
+			"meta": "Did a council at Rome in 382 ban every gospel but four? Davidson names no such council. See what the lists say. Read on.",
+			"excerpt": "A council at Rome in 382 is said to have banned every gospel that disagreed with Paul. Davidson reports lists of books, and no council that banned anything.",
+			"file": "journal-did-rome-ban-gospels-in-382.json",
+			"image": "met-inkwell-stylus",
+			"date": "2027-01-03 09:00:00"
+		},
+		{
+			"slug": "did-marcion-make-the-first-new-testament",
+			"title": "Did Marcion make the first New Testament?",
+			"seo_title": "Did Marcion make the first NT?",
+			"meta": "Marcion brought ten letters of Paul and an edited Luke to Rome in 144. How far did the church copy him? Read on.",
+			"excerpt": "Marcion brought ten letters of Paul and an edited Luke to Rome in 144. The church that rejected him built a larger collection.",
+			"file": "journal-did-marcion-make-first-nt.json",
+			"image": "met-diploma",
+			"date": "2027-01-10 09:00:00"
+		},
+		{
+			"slug": "thirteen-letters-or-fourteen",
+			"title": "Thirteen letters or fourteen?",
+			"seo_title": "Thirteen letters or fourteen?",
+			"meta": "Marcion counted ten letters of Paul, the Muratorian list thirteen, Augustine fourteen. When did Hebrews count? Read on.",
+			"excerpt": "The church counted ten letters of Paul, then thirteen, then fourteen, then doubted fourteen. Davidson's lists show the steps.",
+			"file": "journal-thirteen-letters-or-fourteen.json",
+			"image": "met-tiberius-ring",
+			"date": "2027-01-17 09:00:00"
 		}
 	],
 	"pages": [
