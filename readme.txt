@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.23
+Stable tag: 2.77.24
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.24 =
+* Phone layout pass: long words in titles, excerpts and search snippets wrap, wide tables and code blocks in pages scroll inside their own box, embeds scale with the column, and small links are easier to tap. The look on larger screens is unchanged.
+
 = 2.77.23 =
 * The lead and list on the Journal reacts. A row under the pointer or the keyboard focus gets a soft tint that grows past it, an accent bar on its left edge, a zoom on its thumbnail, an underlined accent title and an arrow. The first row carries the bar at rest.
 * Each entry shows its category as a coloured tab that links to the category, with its date and reading time under the title. The large panel shows a Read arrow on hover and focus.
@@ -221,6 +224,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.24 =
+Upload the whole theme folder. Nothing else to do.
 
 = 2.77.23 =
 Upload the whole theme folder. Nothing else to do; the three new Journal tab settings start with everything on.

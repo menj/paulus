@@ -1034,3 +1034,35 @@ add_filter( 'body_class', 'paulus_body_class' );
 
 /* Contextual in-content links. */
 require_once get_stylesheet_directory() . '/inc/contextual-links.php';
+
+/**
+ * Mobile-first patches, loaded after the theme's own sheets (2.77.24).
+ */
+function paulus_enqueue_mobile_first() {
+	wp_enqueue_style( 'paulus-mobile-first', PAULUS_URI . '/assets/css/mobile-first.css', array( 'paulus-theme' ), PAULUS_VERSION );
+}
+add_action( 'wp_enqueue_scripts', 'paulus_enqueue_mobile_first', 30 );
+
+/**
+ * Give a table or a code block in a page or post a way to scroll on its own on a
+ * narrow screen, and a way for a keyboard to reach it. A bare table is wrapped in
+ * a labelled group; a code block takes tabindex 0 unless it has one. Texts that
+ * already carry the theme's own table wrapper are left alone.
+ *
+ * @param string $html Rendered text.
+ * @return string
+ */
+function paulus_content_scroll_regions( $html ) {
+	if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
+		return $html;
+	}
+	$html = (string) $html;
+	if ( false !== stripos( $html, '<table' ) && false === strpos( $html, 'paulus-table-wrap' ) && false === strpos( $html, 'paulus-scroll' ) ) {
+		$html = (string) preg_replace( '#<table\b.*?</table>#is', '<div class="paulus-scroll" role="group" tabindex="0" aria-label="' . esc_attr__( 'Table', 'paulus' ) . '">$0</div>', $html );
+	}
+	if ( false !== stripos( $html, '<pre' ) ) {
+		$html = (string) preg_replace( '#<pre\b(?![^>]*\btabindex\s*=)#i', '<pre tabindex="0"', $html );
+	}
+	return $html;
+}
+add_filter( 'the_content', 'paulus_content_scroll_regions', 25 );
