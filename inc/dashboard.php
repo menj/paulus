@@ -168,6 +168,21 @@ function paulus_dashboard_render() {
 							<?php if ( paulus_is_divided( $paulus_row['file'] ) ) : ?>
 								<br><em><?php esc_html_e( 'This article was divided in this release. Keeping your version repeats the sections that now open its next part.', 'paulus' ); ?></em>
 							<?php endif; ?>
+							<?php
+							$paulus_shipped = paulus_content_file( preg_replace( '/\.html$/', '.json', (string) $paulus_row['file'] ) );
+							$paulus_post    = get_post( $paulus_id );
+							if ( '' !== $paulus_shipped && $paulus_post && function_exists( 'wp_text_diff' ) ) :
+								$paulus_diff = wp_text_diff( $paulus_post->post_content, $paulus_shipped, array( 'title_left' => __( 'Yours', 'paulus' ), 'title_right' => __( 'The theme\'s text', 'paulus' ) ) );
+								if ( $paulus_diff ) :
+									?>
+									<details class="paulus-dash__diff">
+										<summary><?php esc_html_e( 'Show the differences', 'paulus' ); ?></summary>
+										<?php echo $paulus_diff; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built by core's wp_text_diff(), which escapes the text. ?>
+									</details>
+									<?php
+								endif;
+							endif;
+							?>
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="paulus-dash__kept-form">
 								<input type="hidden" name="action" value="paulus_kept_edit">
 								<input type="hidden" name="post_id" value="<?php echo (int) $paulus_id; ?>">

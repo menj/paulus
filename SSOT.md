@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.27. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.28. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -83,6 +83,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 | `journal` | Shipped Journal entries | Created once each, recorded in `paulus_journal_shipped`, never made again once deleted |
 | `pages` | The pages | `order` and, for a moved page, `was_parent` |
 | `prior_hashes` | MD5 of every earlier shipped text, keyed `<file>#r<release>` | Add the old hash whenever a shipped text changes, so an untouched page still takes the new one |
+| `supersedes` | Old slug => new slug, for a text a newer one replaces | While the new item is published the old one answers with a 301 to it (`template_redirect`, priority 1), is hidden from lists, search, feeds, adjacent links and sitemaps through the unlist module, carries noindex, and is moved to the Trash (never deleted) by the sync. An old item the owner edited is left alone. After it is in the Trash the old address still redirects. Leave it `{}` when nothing is replaced. Adding a pair raises `content_version` |
 | `prior_meta` | Every earlier shipped description and title | Add the old value whenever one changes, and raise `content_version`, so installed sites take the new one; a value typed by hand is kept |
 
 Each text lives in `content/articles/<name>.json` as `{"name": …, "format": "wordpress-post-content", "md5": …, "content": …}`. `paulus_content_file()` is the only reader: it opens only that folder, and refuses a file that does not name itself or whose `md5` does not match its `content`. After an edit, set `md5` to the MD5 of the new text.

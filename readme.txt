@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.27
+Stable tag: 2.77.28
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.28 =
+* A newer text can now replace an older one safely. The old one redirects to the new one, drops out of lists, search, feeds and sitemaps, asks search engines not to index it, and moves to the Trash if you have not edited it. Under Theme Options, Content, a dry run shows what the next update would do, and the dashboard shows the differences between your text and the theme's before you choose. Updates stop removing anything if a shipped text fails its check or the item count drops by more than a tenth. Nothing removed, nothing renamed.
+
 = 2.77.27 =
 * The accessibility scan script reports a page that fails to load as a failure, and its usage line names the right folder. Nothing removed, nothing renamed.
 
@@ -233,6 +236,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.28 =
+Upload the whole theme folder. Nothing else to do.
 
 = 2.77.27 =
 Upload the whole theme folder. Nothing else to do.
