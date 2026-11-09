@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.22 to 2.77.23
+
+Upload the whole theme folder. The new file is `assets/js/lead-list-enter.js`. The Journal tab gains three lead and list settings, all on, with no accent override. Nothing else to do.
+
 ### 2.77.18 to 2.77.19
 
 - Upload the whole theme folder. Five articles change their English quotations from the King James Version to the English Standard Version, and `content_version` moves to 2.77.19, so the structure sync runs and refreshes each of them where it still matches a shipped text. Text edited by hand stays. Nothing else changes.

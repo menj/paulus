@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.22 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.23 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.22) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.15.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.23) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus-2.77.15.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -76,7 +76,7 @@ Running the installer again is safe. It leaves existing text alone, moves articl
 | Security | Turn off XML-RPC, allow REST changes only from a logged-in browser, hide the user list from visitors (`sec_hide_authors`, on), hold suspected gambling spam as Pending, and answer 410 Gone on the address of removed spam. Below them: the spam scan and the security log |
 | Maintenance | Maintenance mode (the file `.paulus-maintenance`; option `maintenance_mode`) and the email when new fatal errors appear (on; `error_alerts`). See Maintenance and the error watch |
 | Contextual links | Links from the first mention of a subject to the page that treats it: a switch and a limit for links to this site (0 to 15) and to other sites (0 to 10), more phrases as `phrase \| address`, and slugs that never get links. See Links in the text |
-| Journal | The Journal's title, introduction and search description |
+| Journal | The Journal's title, introduction and search description, and the lead and list: category tabs, arrows and motion, an accent colour (`ll_tabs`, `ll_motion`, `ll_accent`; filters `paulus_lead_list_show_tabs`, `paulus_lead_list_motion`, `paulus_lead_list_accent`) |
 | Front page | Search title (shown before "\| Apostle of Doom", up to 32 characters), meta description, kicker, heading, subheading, introduction, hero image, footer description and footer badges (links and images) |
 | Content | Site structure installer, with the structure version on the site beside the one shipped |
 
@@ -310,6 +310,8 @@ Addresses carry the date: an entry at `/journal/2026/09/slug/` (year and month o
 The Journal page (`archive-paulus_journal.html`) lists entries ten to a page with date, title and excerpt, then an archive of the months that have entries (cached for a day, and refreshed when an entry is saved or removed), then the feed; its title panel carries the Greek inscription ΓΡΑΦΩ ("I write", 1 John 2:1). An entry (`single-paulus_journal.html`) shows the trail Home · Journal · month and year, the date in the byline, the share row, the text, and a band with the older and newer entries (which the arrow keys follow) and the way back to the Journal. Entries appear in site search. Theme Options, Journal, holds the title, the introduction and the search description; year and month pages have their own descriptions within 120 to 130 characters.
 
 The Journal is always the ordinary list of every entry, ten to a page, newest first. Above it on the first page sits an optional block for FEATURED entries only (`paulus_lead_list( array $posts, array $args )` in `inc/lead-list.php`, fed by `paulus_lead_featured()`): one lead, large on the left, and three entries in a list on the right. An entry is featured with the "Featured" box on its edit screen (post meta `_paulus_featured`); the block is drawn once four published entries are featured and the lead has a featured image, and nothing is drawn otherwise. Pointing at (or tabbing to) an entry in the list brings its picture, date and title into the large panel (`assets/js/lead-list.js`); leaving restores the lead. The lead's date and title sit on a dark band under a short accent rule, with the credit below. Entries are never taken out of the list below. Unlisted entries never appear. `$args` takes `heading` ("Featured"), `heading_id`, `lead_id` and `max` (at most three).
+
+Rows and panels react to hover, focus and a tap (one `--paulus-ll-on` variable drives every state), carry a category tab (Journal entries have no category, so the tab reads "Journal" and the year and links to that year) and a date and reading-time line, and the block fades up on scroll with `assets/js/lead-list-enter.js` (the panel swap stays in `assets/js/lead-list.js`).
 
 The credit follows the image: a registered figure (`content/images.json`, "figures") takes its own line as `[paulus_figure]` prints it (`paulus_figure_credit()` in `inc/figures.php`), one of the theme's illustrations is credited to the book's author, and any other image gives its caption. The horned and other illustrations show as they are. `assets/css/lead-list.css` loads on the first page of a Journal view (`paulus_lead_list_assets()`, `wp_enqueue_scripts` at 21, after the theme's own styles; an enqueue made while the shortcode renders would print `theme.css` above the core block styles). Columns run `minmax(0,3fr) minmax(0,2fr)` and stack under 782 pixels; the title sits on `rgb(0 0 0 / .85)`, so white type stays above 4.5:1 on any image; each card is one link with a visible focus ring; hover zoom stops under `prefers-reduced-motion`.
 

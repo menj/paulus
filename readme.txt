@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.22
+Stable tag: 2.77.23
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,7 @@ Open Appearance, Theme Options. Each tab is a card with a short note at the top.
 * Security: XML-RPC, REST API writes from a browser session only, the user list hidden from visitors, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
 * Maintenance: maintenance mode for FTP updates, and the fatal-error email.
 * Contextual links: links to this site and to other sites, the limit for each, your own phrases and the pages to leave alone.
-* Journal: the title, introduction and search description of the Journal page.
+* Journal: the title, introduction and search description of the Journal page, and three lead and list settings (category tabs, arrows and motion, an accent colour).
 * Front page: the hero, the front-page title and description, and the footer text and badges.
 * Content: install or update the shipped content. Text you have edited is kept.
 
@@ -150,6 +150,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.23 =
+* The lead and list on the Journal reacts. A row under the pointer or the keyboard focus gets a soft tint that grows past it, an accent bar on its left edge, a zoom on its thumbnail, an underlined accent title and an arrow. The first row carries the bar at rest.
+* Each entry shows its category as a coloured tab that links to the category, with its date and reading time under the title. The large panel shows a Read arrow on hover and focus.
+* The block fades up in turn as it scrolls into view. Visitors who ask for reduced motion see colour changes only.
+* The Journal tab has three new settings: category tabs, arrows and motion, and an accent colour.
+
 = 2.77.22 =
 * Two more articles (Was Paul married?, The purse) quote the ESV.
 
@@ -215,6 +221,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.23 =
+Upload the whole theme folder. Nothing else to do; the three new Journal tab settings start with everything on.
 
 = 2.77.22 =
 Two more articles move to the ESV. Unedited pages update on their own.

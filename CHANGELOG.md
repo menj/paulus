@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.23] - 2026-11-09
+
+The lead and list reacts to the pointer, the keyboard and a tap. No feature removed, the horned illustrations and every `seo_title` are unchanged, and `content_version` stays at 2.77.22.
+
+### Added
+- Row states: a soft tint of the accent that grows past the row, an accent bar sliding in on the left edge, a 6% zoom on the thumbnail, the title in the deep accent with an animated underline, an arrow sliding in at the end of the row, and the row's rule in the accent. Focus and pressed states match, with a 2px outline on focus. Pointing at a row still brings its panel forward.
+- Panel states: the image zooms 5%, a darker veil fades in, the rule above the headline doubles in length and a Read arrow appears, on hover and focus.
+- A category tab above each title and on each panel, in one of five colour pairs from the scheme's own tokens, as a link to the category archive. A category takes its colour from its slug. The pairs are the scheme's designed pairs, checked at 4.5:1 in all six schemes.
+- A line under each title with the date and the reading time at 220 words a minute, replacing the date line.
+- The first list item carries the bar at rest and gives it up while another row is in use.
+- A staggered fade-up when the block scrolls into view, in `assets/js/lead-list-enter.js` (listed in `assets/files.json`). Reduced motion turns off all movement and zoom and keeps the colour changes. Hover styles sit under `(hover: hover)`; on touch screens the arrows stay faint at rest and tapping uses `:active`.
+- Three settings on the Journal tab: category tabs and arrows and motion (both on) and an accent colour, `ll_tabs`, `ll_motion` and `ll_accent` in `paulus_options`. An accent that is under 3:1 against the chosen scheme's page is refused with a notice; the hovered title keeps the scheme's text colour. The filters `paulus_lead_list_show_tabs`, `paulus_lead_list_motion` and `paulus_lead_list_accent` set the same three.
+
 ## [2.77.22] - 2026-11-07
 
 Stage 8 of the move to the English Standard Version, first part: two more articles quote the ESV, and 52 pages now carry the Crossway notice. `content_version` rises to 2.77.22 because the shipped texts change.
