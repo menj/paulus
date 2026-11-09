@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.28] - 2026-11-09
+
+Superseded content, a dry run and guards. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Added
+- `inc/supersede.php` (module `supersede`): the manifest's `supersedes` map, old slug to new slug. While the new item is published the old one is redirected with a 301 (`template_redirect`, priority 1; after it is in the Trash its address still redirects), hidden from lists, search, feeds, adjacent links and sitemaps (`paulus_unlisted_ids()` includes it, and the owner's `unlist_posts` option is not changed), marked noindex, and moved to the Trash by the sync, never deleted. An old item the owner edited is left alone. The manifest carries `"supersedes": {}` for now.
+- Guards: removals stop when a shipped text is missing or fails its checksum, when the manifest lists more than 10 percent fewer items than at the last good sync, or when `PAULUS_DISABLE_SUPERSEDE` is true in `wp-config.php` (which also switches off the redirect and the hiding).
+- A dry run of the next sync on the Theme Options Content tab (`paulus_sync_preview()`), and a log of the last 100 changes.
+- The dashboard's "Your edits" prompt shows a `wp_text_diff()` of your text against the theme's.
+- The `paulus_manifest` filter.
+- `tests/supersede-test.php`.
+
 ## [2.77.27] - 2026-11-09
 
 Follow-up to 2.77.25. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
