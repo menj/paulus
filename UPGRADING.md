@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.29 to 2.77.30
+
+Upload the whole theme folder. Nothing else to do. The `supersedes` map is still empty. Only a site that runs the Unlist Posts plugin is affected, and only once a pair is added.
+
 ### 2.77.28 to 2.77.29
 
 Upload the whole theme folder. Nothing else to do. The `supersedes` map is still empty. When a pair is added, the old item is retired only if its text is still one the theme shipped.
