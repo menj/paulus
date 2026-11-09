@@ -257,6 +257,40 @@ function paulus_supersede_retire() {
 }
 
 /**
+ * The key a retry is judged by: the map and the guard state together. Pure.
+ *
+ * @param array  $map    The supersedes map.
+ * @param string $reason The guard's reason, '' when removals may run.
+ * @return string
+ */
+function paulus_supersede_state_key( $map, $reason ) {
+	return md5( wp_json_encode( $map ) . '|' . $reason );
+}
+
+/**
+ * Retire superseded items again when the map or the guard state changed since the last try. The sync runs only
+ * when the content version changes, so a retire that a guard blocked then (a count drop, the kill switch) would
+ * never be tried again once the block cleared. This gives it that retry, for an administrator on an admin page.
+ */
+function paulus_supersede_maybe_retry() {
+	if ( wp_doing_ajax() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$map = paulus_supersedes_map( paulus_manifest() );
+	if ( ! $map ) {
+		return;
+	}
+	$reason = paulus_removal_guard( paulus_supersede_disabled(), paulus_manifest_intact(), paulus_manifest_count(), (int) get_option( 'paulus_manifest_count', 0 ) );
+	$key    = paulus_supersede_state_key( $map, $reason );
+	if ( get_option( 'paulus_supersede_state' ) === $key ) {
+		return;
+	}
+	paulus_supersede_retire();
+	update_option( 'paulus_supersede_state', $key, false );
+}
+add_action( 'admin_init', 'paulus_supersede_maybe_retry', 30 );
+
+/**
  * Record the item count as the baseline for the 10 percent guard. Called when a sync has finished
  * completely, never after a partial run.
  */

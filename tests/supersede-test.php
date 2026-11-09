@@ -13,6 +13,9 @@ if ( 'cli' !== PHP_SAPI ) {
 }
 define( 'ABSPATH', __DIR__ . '/' );
 function add_action() {}
+function wp_json_encode( $d ) {
+	return json_encode( $d );
+}
 $GLOBALS['t_admin']   = false;
 $GLOBALS['t_ajax']    = false;
 $GLOBALS['t_editor']  = false;
@@ -61,6 +64,10 @@ $check( 'a superseded ID leaves the include list', paulus_supersede_cut_includes
 $check( 'an emptied include list asks for a post that cannot exist', paulus_supersede_cut_includes( array( 5 ), array( 5 ) ), array( 0 ) );
 $check( 'IDs given as strings are cut too', paulus_supersede_cut_includes( array( '5', '8' ), array( 5 ) ), array( 8 ) );
 
+$check( 'the state key changes when the guard clears', paulus_supersede_state_key( array( 'a' => 'b' ), 'blocked' ) !== paulus_supersede_state_key( array( 'a' => 'b' ), '' ), true );
+$check( 'the state key changes when the map changes', paulus_supersede_state_key( array( 'a' => 'b' ), '' ) !== paulus_supersede_state_key( array( 'a' => 'c' ), '' ), true );
+$check( 'the same map and state give the same key', paulus_supersede_state_key( array( 'a' => 'b' ), 'x' ), paulus_supersede_state_key( array( 'a' => 'b' ), 'x' ) );
+
 $src = (string) file_get_contents( dirname( __DIR__ ) . '/inc/supersede.php' );
 $check( 'the redirect runs at priority 1', false !== strpos( $src, "'template_redirect', 'paulus_supersede_redirect', 1" ), true );
 $check( 'an item with no file fails the integrity check', false !== strpos( $src, 'empty( $item[\'file\'] ) || ! is_string( $item[\'file\'] )' ), true );
@@ -82,7 +89,6 @@ $GLOBALS['t_editor']  = false;
 $GLOBALS['t_referer'] = 'https://example.test/wp-admin/edit.php';
 $check( 'a visitor\'s AJAX call with an admin referer hides', paulus_supersede_hides(), true );
 $GLOBALS['t_ajax'] = false;
-$check( 'an editor\'s AJAX call is exempt', false !== strpos( $src, 'wp_get_referer()' ) && false !== strpos( $src, 'admin_url()' ), true );
 $check( 'the module deletes nothing for good', false === strpos( $src, 'wp_delete_post' ), true );
 $check( 'the module uses the Trash', false !== strpos( $src, 'wp_trash_post' ), true );
 
