@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.31 to 2.77.32
+
+Upload the whole theme folder. Nothing else to do. Only a test file changed.
+
 ### 2.77.30 to 2.77.31
 
 Upload the whole theme folder. Nothing else to do. Only a site that runs the Unlist Posts plugin is affected, and only once a pair is added to the empty `supersedes` map.

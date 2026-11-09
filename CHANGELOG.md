@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.32] - 2026-11-09
+
+Follow-up to 2.77.31, from CodeAnt's review of it. Tests only. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Changed
+- `tests/supersede-test.php` calls `paulus_supersede_hides()` with stubbed requests: a front-end request hides, an admin screen does not, an editor's AJAX call from a wp-admin screen does not, an editor's AJAX call from the public site does, and a visitor's AJAX call with an admin referer does.
+
 ## [2.77.31] - 2026-11-09
 
 Follow-up to 2.77.30, from CodeAnt's late review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.

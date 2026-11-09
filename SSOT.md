@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.31. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.32. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
