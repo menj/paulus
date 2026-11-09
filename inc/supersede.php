@@ -98,7 +98,8 @@ function paulus_manifest_intact() {
 	$m = paulus_manifest();
 	foreach ( array( 'posts', 'journal', 'pages' ) as $list ) {
 		foreach ( (array) ( $m[ $list ] ?? array() ) as $item ) {
-			if ( ! empty( $item['file'] ) && '' === paulus_content_file( basename( $item['file'] ) ) ) {
+			// Every item needs a text, and it is read by the exact value the manifest holds.
+			if ( empty( $item['file'] ) || ! is_string( $item['file'] ) || '' === paulus_content_file( $item['file'] ) ) {
 				return false;
 			}
 		}
@@ -126,6 +127,34 @@ function paulus_supersede_find( $slug ) {
 }
 
 /**
+ * Every hash of a text this theme shipped: the baselines this site recorded and every earlier release.
+ *
+ * @return string[]
+ */
+function paulus_shipped_hashes() {
+	$set = array();
+	foreach ( (array) get_option( 'paulus_content_hashes', array() ) as $entry ) {
+		$set[] = is_string( $entry ) ? $entry : (string) ( $entry['content'] ?? '' );
+	}
+	foreach ( (array) ( paulus_manifest()['prior_hashes'] ?? array() ) as $hash ) {
+		$set[] = (string) $hash;
+	}
+	return array_values( array_filter( array_unique( $set ) ) );
+}
+
+/**
+ * Whether a post still holds text the theme shipped. Fail closed: a body that matches no shipped text
+ * counts as the owner's, so it is never redirected, hidden or trashed. The check reads the body itself,
+ * so an edit made since the last sync is seen even when the old item is no longer in the manifest.
+ *
+ * @param WP_Post $post Post.
+ * @return bool
+ */
+function paulus_is_shipped_text( $post ) {
+	return in_array( md5( $post->post_content ), paulus_shipped_hashes(), true );
+}
+
+/**
  * Old post => new post, for every pair where both are live and the old one is not an owner edit.
  *
  * @return array<int,int> Old post ID => new post ID.
@@ -143,7 +172,7 @@ function paulus_superseded_pairs() {
 	foreach ( paulus_supersedes_map( paulus_manifest() ) as $old => $new ) {
 		$old_post = paulus_supersede_find( $old );
 		$new_post = paulus_supersede_find( $new );
-		if ( $old_post && $new_post && $old_post->ID !== $new_post->ID && ! isset( $kept[ $old_post->ID ] ) ) {
+		if ( $old_post && $new_post && $old_post->ID !== $new_post->ID && ! isset( $kept[ $old_post->ID ] ) && paulus_is_shipped_text( $old_post ) ) {
 			$cache[ (int) $old_post->ID ] = (int) $new_post->ID;
 		}
 	}
@@ -224,8 +253,17 @@ function paulus_supersede_retire() {
 			paulus_supersede_log( $post->post_name, 'moved to the Trash, replaced by ' . get_post_field( 'post_name', $new_id ) );
 		}
 	}
-	update_option( 'paulus_manifest_count', paulus_manifest_count(), false );
 	return $out;
+}
+
+/**
+ * Record the item count as the baseline for the 10 percent guard. Called when a sync has finished
+ * completely, never after a partial run.
+ */
+function paulus_supersede_record_count() {
+	if ( paulus_manifest_intact() ) {
+		update_option( 'paulus_manifest_count', paulus_manifest_count(), false );
+	}
 }
 
 /**
@@ -327,4 +365,39 @@ function paulus_sync_preview_render() {
 		}
 		echo '</tbody></table>';
 	}
+}
+
+/**
+ * With the Unlist Posts plugin active the unlist module stands down, so the hiding of superseded items is
+ * done here: left out of lists, search and feeds, out of the XML sitemap, and noindex on its own page.
+ */
+if ( class_exists( 'Unlist_Posts' ) ) {
+	add_action(
+		'pre_get_posts',
+		static function ( $q ) {
+			if ( paulus_supersede_disabled() || ( is_admin() && ! wp_doing_ajax() ) || $q->is_singular() || current_user_can( 'edit_posts' ) ) {
+				return;
+			}
+			$ids = paulus_superseded_ids();
+			if ( $ids ) {
+				$q->set( 'post__not_in', array_merge( (array) $q->get( 'post__not_in' ), $ids ) );
+			}
+		}
+	);
+	add_filter(
+		'wp_sitemaps_posts_query_args',
+		static function ( $args ) {
+			$ids = paulus_superseded_ids();
+			if ( $ids ) {
+				$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), $ids );
+			}
+			return $args;
+		}
+	);
+	add_filter(
+		'wp_robots',
+		static function ( $robots ) {
+			return is_singular() && in_array( (int) get_queried_object_id(), paulus_superseded_ids(), true ) ? wp_robots_no_robots( $robots ) : $robots;
+		}
+	);
 }
