@@ -39,7 +39,7 @@ $check( 'a drop of more than 10 percent stops removals', '' !== paulus_removal_g
 
 $src = (string) file_get_contents( dirname( __DIR__ ) . '/inc/supersede.php' );
 $check( 'the redirect runs at priority 1', false !== strpos( $src, "'template_redirect', 'paulus_supersede_redirect', 1" ), true );
-$check( 'an item with no file fails the integrity check', false !== strpos( $src, "empty( $item['file'] ) || ! is_string( $item['file'] )" ), true );
+$check( 'an item with no file fails the integrity check', false !== strpos( $src, 'empty( $item[\'file\'] ) || ! is_string( $item[\'file\'] )' ), true );
 $check( 'only shipped text is retired', false !== strpos( $src, 'paulus_is_shipped_text( $old_post )' ), true );
 $check( 'the count baseline is not written by the retire step', 1 === substr_count( $src, "update_option( 'paulus_manifest_count'" ), true );
 $check( 'the module deletes nothing for good', false === strpos( $src, 'wp_delete_post' ), true );
