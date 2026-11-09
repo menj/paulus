@@ -2,6 +2,20 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.33] - 2026-11-09
+
+Follow-up to 2.77.32, from a check of every button added in 2.77.28 to 2.77.32. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `inc/supersede.php`: the sync runs only when the content version changes, so a retire that a guard blocked (a count drop, the kill switch) was never tried again once the block cleared. `paulus_supersede_maybe_retry()` (`admin_init`, administrators only) judges a retry by `paulus_supersede_state_key()`, the map and the guard state together, and runs the retire again when it changes.
+
+### Checked in a browser (no change needed)
+- On the dashboard, "Use the theme's text" and "Keep mine" each post `paulus_kept_edit` and do what they say; the `wp_text_diff()` shows for every kept edit; no nested form.
+- The Theme Options Content tab, with the dry run, has no nested form, and no button there posts the settings form.
+
+### Changed
+- `tests/supersede-test.php`: the old assertion that looked for `wp_get_referer()` and `admin_url()` in the source is gone (the behavioural cases cover it), and three cases pin the state key.
+
 ## [2.77.32] - 2026-11-09
 
 Follow-up to 2.77.31, from CodeAnt's review of it. Tests only. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.

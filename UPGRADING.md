@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.32 to 2.77.33
+
+Upload the whole theme folder. Nothing else to do.
+
 ### 2.77.31 to 2.77.32
 
 Upload the whole theme folder. Nothing else to do. Only a test file changed.
