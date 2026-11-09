@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.31] - 2026-11-09
+
+Follow-up to 2.77.30, from CodeAnt's late review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `paulus_supersede_hides()` in `inc/supersede.php` now also exempts an editor's admin-side AJAX request whose referer is under `admin_url()`, as the native unlist rule does, so the fallback for the Unlist Posts plugin never hides a superseded item from an editor at work.
+
 ## [2.77.30] - 2026-11-09
 
 Follow-up to 2.77.29, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.

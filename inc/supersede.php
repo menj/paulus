@@ -380,7 +380,17 @@ function paulus_supersede_hides() {
 	if ( is_admin() && ! wp_doing_ajax() ) {
 		return false;
 	}
-	return ! ( defined( 'REST_REQUEST' ) && REST_REQUEST && current_user_can( 'edit_posts' ) );
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && current_user_can( 'edit_posts' ) ) {
+		return false;
+	}
+	// An editor's admin-side AJAX call, from a screen under wp-admin, sees everything (the native rule).
+	if ( wp_doing_ajax() && current_user_can( 'edit_posts' ) ) {
+		$referer = (string) wp_get_referer();
+		if ( '' !== $referer && 0 === strpos( $referer, admin_url() ) ) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**

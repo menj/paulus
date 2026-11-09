@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.30
+Stable tag: 2.77.31
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.31 =
+* With the Unlist Posts plugin active, an editor working in the admin sees replaced old texts in admin-side requests, as with the theme's own rule. Nothing removed, nothing renamed.
+
 = 2.77.30 =
 * A replaced old text is now also hidden when the Unlist Posts plugin is active: it stays out of Rank Math's sitemap, carries Rank Math's noindex, and stays out of queries that list posts by ID. Nothing removed, nothing renamed.
 
@@ -242,6 +245,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.31 =
+Upload the whole theme folder. Nothing else to do.
 
 = 2.77.30 =
 Upload the whole theme folder. Nothing else to do.
