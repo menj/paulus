@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.34] - 2026-11-09
+
+Follow-up to 2.77.33, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `paulus_supersede_maybe_retry()` ran at `admin_init` priority 30, the same as the sync, and before it. If the replacement was one the pending sync would create, the retry saw no pair, cached that, and recorded the state as handled. It now runs at priority 40, after the sync; the retire steps read the pairs fresh (`paulus_superseded_pairs( true )`) instead of reusing the copy kept for the request; and the state key includes which replacements are published (`paulus_supersede_state_key( $map, $reason, $ready )`), so a replacement that appears later changes the key and the retire runs.
+
 ## [2.77.33] - 2026-11-09
 
 Follow-up to 2.77.32, from a check of every button added in 2.77.28 to 2.77.32. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.

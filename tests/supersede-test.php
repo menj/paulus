@@ -66,6 +66,9 @@ $check( 'IDs given as strings are cut too', paulus_supersede_cut_includes( array
 
 $check( 'the state key changes when the guard clears', paulus_supersede_state_key( array( 'a' => 'b' ), 'blocked' ) !== paulus_supersede_state_key( array( 'a' => 'b' ), '' ), true );
 $check( 'the state key changes when the map changes', paulus_supersede_state_key( array( 'a' => 'b' ), '' ) !== paulus_supersede_state_key( array( 'a' => 'c' ), '' ), true );
+$check( 'the state key changes when a replacement appears', paulus_supersede_state_key( array( 'a' => 'b' ), '', array() ) !== paulus_supersede_state_key( array( 'a' => 'b' ), '', array( 'b' ) ), true );
+$check( 'the state key does not depend on the order of the replacements', paulus_supersede_state_key( array(), '', array( 'x', 'y' ) ), paulus_supersede_state_key( array(), '', array( 'y', 'x' ) ) );
+$check( 'the retry runs after the sync', false !== strpos( (string) file_get_contents( dirname( __DIR__ ) . '/inc/supersede.php' ), "'paulus_supersede_maybe_retry', 40" ), true );
 $check( 'the same map and state give the same key', paulus_supersede_state_key( array( 'a' => 'b' ), 'x' ), paulus_supersede_state_key( array( 'a' => 'b' ), 'x' ) );
 
 $src = (string) file_get_contents( dirname( __DIR__ ) . '/inc/supersede.php' );
