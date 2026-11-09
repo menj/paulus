@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.28 to 2.77.29
+
+Upload the whole theme folder. Nothing else to do. The `supersedes` map is still empty. When a pair is added, the old item is retired only if its text is still one the theme shipped.
+
 ### 2.77.27 to 2.77.28
 
 Upload the whole theme folder. Nothing else to do. The manifest's `supersedes` map is empty, so nothing is redirected, hidden or trashed yet. When a pair is added, the old item moves to the Trash only if you did not edit it, and its address keeps redirecting. To switch it all off, add `define( 'PAULUS_DISABLE_SUPERSEDE', true );` to `wp-config.php`.

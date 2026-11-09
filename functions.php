@@ -853,6 +853,9 @@ function paulus_sync_run( $target ) {
 		if ( '' !== $target ) {
 			update_option( 'paulus_content_version', $target, false );
 		}
+		if ( function_exists( 'paulus_supersede_record_count' ) ) {
+			paulus_supersede_record_count();
+		}
 		paulus_sync_note( 'finished', 'done' );
 	} else {
 		$s = get_option( 'paulus_sync_status' );

@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.29] - 2026-11-09
+
+Follow-up to 2.77.28, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Fixed
+- `inc/supersede.php`: an old item is retired only while its body hashes to a text the theme shipped (`paulus_is_shipped_text()`: the recorded baselines and every `prior_hashes` value). The check reads the body, so an edit made since the last sync counts even when the old item is no longer in the manifest. The dry run uses the same pairs.
+- `paulus_manifest_intact()` fails when an item has no `file`, or the value is not a string, and reads each text by the exact manifest value.
+- The 10 percent guard compares with the count recorded when a sync finished completely (`paulus_supersede_record_count()`, called where the content version is recorded), not after the retire step.
+- With the Unlist Posts plugin active, `supersede.php` hides superseded items itself (lists, search, feeds, the XML sitemap, noindex), because the unlist module stands down in that case.
+
 ## [2.77.28] - 2026-11-09
 
 Superseded content, a dry run and guards. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
