@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.27] - 2026-11-09
+
+Follow-up to 2.77.25. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Fixed
+- `tools/axe-audit.js`: a page that fails to load or scan now sets the exit status to 1, and the usage line points to `tools/axe-audit.js` and the paulus cookie instead of `bin/` and murtadd.
+
 ## [2.77.26] - 2026-11-09
 
 The canon claim corrected, three Journal entries and a new source, all from Samuel Davidson's *The Canon of the Bible* (1877). No feature removed; the horned illustrations, the book teaser, all schema.org markup and every `seo_title` (all 32 characters or fewer) are unchanged. `content_version` is 2.77.26.
