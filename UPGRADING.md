@@ -51,7 +51,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.77.25 to 2.77.26
 
-Upload the whole theme folder, then run Install or update under Theme Options, Content (the automatic sync does it on the first visit because `content_version` changed to 2.77.26). The corrected article text reaches pages you have not edited; for a page you edited, the installer offers the theme's text beside yours. The three new Journal entries are created once each and dated 3, 10 and 17 January 2027. Citations to modern works in those entries (Metzger, Lieu, Harnack, von Campenhausen, Attridge) need a human check against the books.
+Upload the whole theme folder, then run Install or update under Theme Options, Content (the automatic sync does it on the first visit because `content_version` changed to 2.77.26). The corrected article text reaches pages you have not edited; for a page you edited, the installer offers the theme's text beside yours. The three new Journal entries are created once each and dated 3, 10 and 17 January 2027. Citations to modern works in those entries, now listed on the Sources page (Metzger, Lieu, Harnack, von Campenhausen, Attridge) need a human check against the books.
 
 ### 2.77.24 to 2.77.25
 
