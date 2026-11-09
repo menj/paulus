@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.25] - 2026-11-09
+
+WCAG 2.2 AA audit and fixes. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` is untouched.
+
+### Fixed
+- `inc/script-lang.php` (new module `script-lang`): `paulus_script_lang_filter()` (`the_content`, priority 100) wraps each run of Arabic-script or Greek-script text that sits outside an element with its own `lang` in `<span lang="ar">` or `<span lang="grc">` (WCAG 3.1.2). The audit found 800 unmarked runs in the articles. The stored content, its hashes and its manifest do not change.
+
+### Added
+- `tools/axe-audit.js`: an axe-core and Playwright scan of a list of URLs at a given width.
+- `tests/script-lang-test.php`.
+
 ## [2.77.24] - 2026-11-09
 
 Mobile-first audit and fixes. No feature removed, the horned illustrations, the book teaser and every `seo_title` are unchanged, and `content_version` is untouched.

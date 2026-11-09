@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.24
+Stable tag: 2.77.25
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.25 =
+* Accessibility pass (WCAG 2.2 AA): Arabic and Greek words inside English sentences now carry a language tag, so screen readers pronounce them. An axe audit script and a test were added. Nothing removed, nothing renamed.
+
 = 2.77.24 =
 * Phone layout pass: long words in titles, excerpts and search snippets wrap, wide tables and code blocks in pages scroll inside their own box, embeds scale with the column, and small links are easier to tap. The look on larger screens is unchanged.
 
@@ -224,6 +227,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.25 =
+Upload the whole theme folder. Nothing else to do.
 
 = 2.77.24 =
 Upload the whole theme folder. Nothing else to do.

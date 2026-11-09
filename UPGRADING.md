@@ -49,6 +49,17 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.24 to 2.77.25
+
+Upload the whole theme folder. No setting changes. WCAG 2.2 AA register (scratch WordPress, `WP_DEBUG` on with an empty log; axe-core with wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa and best-practice tags at 1280 and 375 px on 12 templates and the open search panel and menu; keyboard walk, 320 px reflow, text-spacing override):
+
+| Id | Severity | WCAG | Component | Finding | Status |
+|---|---|---|---|---|---|
+| PA-01 | Major | 3.1.2 | Article content | Inline Arabic and Greek words without `lang` | Fixed in `inc/script-lang.php` |
+| PA-02 | Minor | 1.3.1 | wp-login.php | No `main` landmark in core's login markup | Manual review, core markup |
+
+Everything else passed: no axe violations on the front end, no hidden focus, no reflow overflow at 320 px, `prefers-reduced-motion` honoured. Manual review still open: a screen-reader pass over the lead and list tabs, the lightbox and the PDF export. The code audit found no state-changing handler without nonce and capability check and no remote assets. Licences are in `LICENSES.md`. Folder name: nothing in the code assumes `paulus`; none renamed.
+
 ### 2.77.23 to 2.77.24
 
 Upload the whole theme folder. The new file is `assets/css/mobile-first.css`. Nothing else to do. Audit: scratch WordPress with seeded long titles, URLs, a wide table, code, an embed, a gallery and comments; Playwright at 320, 360, 375, 390, 414, 480, 768, 1024 and 1280 px over 14 page types, axe-core 4.
