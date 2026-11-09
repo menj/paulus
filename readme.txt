@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.26
+Stable tag: 2.77.27
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.27 =
+* The accessibility scan script reports a page that fails to load as a failure, and its usage line names the right folder. Nothing removed, nothing renamed.
+
 = 2.77.26 =
 * The claim that Rome banned gospels in 382 is corrected in the article on the gospels and the new covenant. Three Journal entries added, on Rome and 382, on Marcion and on Paul's thirteen or fourteen letters. Samuel Davidson's history of the canon is added to the Sources page. Nothing removed, nothing renamed.
 
@@ -230,6 +233,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.27 =
+Upload the whole theme folder. Nothing else to do.
 
 = 2.77.26 =
 Upload the whole theme folder, then run Install or update under Theme Options, Content. Three Journal entries arrive on their dates, and edited texts are offered beside your own.
