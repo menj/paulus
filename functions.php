@@ -1034,3 +1034,51 @@ add_filter( 'body_class', 'paulus_body_class' );
 
 /* Contextual in-content links. */
 require_once get_stylesheet_directory() . '/inc/contextual-links.php';
+
+/**
+ * Mobile-first patches, loaded after the theme's own sheets (2.77.24).
+ */
+function paulus_enqueue_mobile_first() {
+	wp_enqueue_style( 'paulus-mobile-first', PAULUS_URI . '/assets/css/mobile-first.css', array( 'paulus-theme' ), PAULUS_VERSION );
+}
+add_action( 'wp_enqueue_scripts', 'paulus_enqueue_mobile_first', 30 );
+
+/**
+ * Give a table or a code block in a page or post a way to scroll on its own on a
+ * narrow screen, and a way for a keyboard to reach it. A bare table is wrapped in
+ * a labelled group; the theme's own `paulus-table-wrap` boxes gain the same label and
+ * a tab stop; a code block takes tabindex 0 unless it has one.
+ *
+ * @param string $html Rendered text.
+ * @return string
+ */
+function paulus_content_scroll_regions( $html ) {
+	if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
+		return $html;
+	}
+	$html = (string) $html;
+	if ( false !== stripos( $html, '<table' ) ) {
+		$label = esc_attr__( 'Table', 'paulus' );
+		$attrs = ' role="group" tabindex="0" aria-label="' . $label . '"';
+		$html  = (string) preg_replace_callback(
+			'#<div\b[^>]*\b(?:paulus-table-wrap|paulus-scroll)\b[^>]*>(?:(?!</table>).)*</table>|<table\b.*?</table>#is',
+			static function ( $m ) use ( $attrs ) {
+				$chunk = $m[0];
+				if ( 0 === stripos( $chunk, '<table' ) ) {
+					return '<div class="paulus-scroll"' . $attrs . '>' . $chunk . '</div>';
+				}
+				// The theme's own wrapper: keep it, and make it reachable by keyboard.
+				if ( preg_match( '#^<div\b[^>]*\btabindex\s*=#i', $chunk ) ) {
+					return $chunk;
+				}
+				return (string) preg_replace( '#^<div\b#i', '<div' . $attrs, $chunk, 1 );
+			},
+			$html
+		);
+	}
+	if ( false !== stripos( $html, '<pre' ) ) {
+		$html = (string) preg_replace( '#<pre\b(?![^>]*\btabindex\s*=)#i', '<pre tabindex="0"', $html );
+	}
+	return $html;
+}
+add_filter( 'the_content', 'paulus_content_scroll_regions', 25 );

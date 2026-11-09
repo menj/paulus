@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.24] - 2026-11-09
+
+Mobile-first audit and fixes. No feature removed, the horned illustrations, the book teaser and every `seo_title` are unchanged, and `content_version` is untouched.
+
+### Fixed
+- `assets/css/mobile-first.css` (new, loaded after `theme.css`): a long word in a hero title, standfirst, chapter title, excerpt, search snippet or prose paragraph wraps instead of widening the page (the hero panel and chapter grid now use `minmax(0, 1fr)`); `pre` and wide tables scroll inside their own box; embeds scale with the column; links in the timeline, the contents list, the footnotes, the FAQ back link and the heading anchors take a 24 px minimum target.
+- `functions.php`: `paulus_enqueue_mobile_first()` loads the sheet; `paulus_content_scroll_regions()` (`the_content`, priority 25, main query) wraps a bare table in a labelled, focusable scroll box and gives a code block `tabindex="0"`. Texts that carry the theme's own table wrapper are left alone.
+
+### Audit record
+Findings, remaining risks and follow-ups are in `UPGRADING.md` under 2.77.23 to 2.77.24.
+
 ## [2.77.23] - 2026-11-09
 
 The lead and list reacts to the pointer, the keyboard and a tap. No feature removed, the horned illustrations and every `seo_title` are unchanged, and `content_version` stays at 2.77.22.

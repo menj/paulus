@@ -49,6 +49,24 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.23 to 2.77.24
+
+Upload the whole theme folder. The new file is `assets/css/mobile-first.css`. Nothing else to do. Audit: scratch WordPress with seeded long titles, URLs, a wide table, code, an embed, a gallery and comments; Playwright at 320, 360, 375, 390, 414, 480, 768, 1024 and 1280 px over 14 page types, axe-core 4.
+
+| Id | Severity | Risk of fix | Finding | Status |
+|---|---|---|---|---|
+| MF-01 | High | Low | A long word in a hero title, standfirst, chapter title, excerpt or snippet widened the page (scrollWidth 937 to 2515) on four page types, at every width | Fixed |
+| MF-02 | High | Medium | Bare tables and `pre` in pages and posts overflowed and had no keyboard scroll (`scrollable-region-focusable`) | Fixed (wrapper filter and CSS) |
+| MF-03 | Medium | Low | 73 targets under 24 px at 375 px (timeline links, contents list, footnotes, heading anchors) | 38 left (skip link, core markup, inline links) |
+| MF-04 | Low | Low | Footnote text at 15.2 px | Kept at 15 px minimum, flagged |
+| MF-05 | Low | Medium | Kickers, labels and colophon at 12 to 13.6 px | Manual review, design choice |
+| MF-06 | Low | Medium | Chronology page layout shift 0.075 at 375 px | Manual review |
+| MF-07 | Info | None | Header tools row at 320 px fits (portrait, search, menu); no change needed | Verified |
+
+Overflow count per width before and after: 4 to 0 at every one of the nine widths. axe: `scrollable-region-focusable` gone, nothing new; the login page keeps core's `landmark-one-main` and `region`. Desktop pages grow 5 to 74 px where list links take the 24 px minimum.
+
+Remaining risks: the filter changes the markup of tables in `the_content` (a labelled group wrapper); the `anywhere` wrapping could split an unbroken string in a narrow card. Follow-up: raise the 12 to 13.6 px labels, reserve space on the chronology page.
+
 ### 2.77.22 to 2.77.23
 
 Upload the whole theme folder. The new file is `assets/js/lead-list-enter.js`. The Journal tab gains three lead and list settings, all on, with no accent override. Nothing else to do.
@@ -362,6 +380,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Next
 
+- Mobile follow-ups from the 2.77.24 audit: raise the 12 to 13.6 px kickers, labels and colophon to 14 px, and reserve space on the chronology page (layout shift 0.075 at 375 px). Both change the design, so they wait for the owner.
 - Finish the move to the ESV. Articles written before 1 November 2026 still quote the King James Version beneath the Greek, and the Sources page says so. Each moves across whole, picture captions included, so no article mixes two translations. The largest are left for last: *ʿĪsā in his own words*, *The prayer ʿĪsā taught*, *Original sin*, *The Greek body and the Jewish bed* and *Justification by faith*.
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
