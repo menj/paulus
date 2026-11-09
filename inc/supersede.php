@@ -157,11 +157,13 @@ function paulus_is_shipped_text( $post ) {
 /**
  * Old post => new post, for every pair where both are live and the old one is not an owner edit.
  *
+ * @param bool $fresh Read again, past the copy kept for this request. The retire steps use it, because a sync
+ *                    may have created the replacement since the first read.
  * @return array<int,int> Old post ID => new post ID.
  */
-function paulus_superseded_pairs() {
+function paulus_superseded_pairs( $fresh = false ) {
 	static $cache = null;
-	if ( null !== $cache ) {
+	if ( null !== $cache && ! $fresh ) {
 		return $cache;
 	}
 	$cache = array();
@@ -246,7 +248,7 @@ function paulus_supersede_retire() {
 		return $out;
 	}
 	delete_option( 'paulus_supersede_blocked' );
-	foreach ( paulus_superseded_pairs() as $old_id => $new_id ) {
+	foreach ( paulus_superseded_pairs( true ) as $old_id => $new_id ) {
 		$post = get_post( $old_id );
 		if ( $post && 'publish' === $post->post_status && wp_trash_post( $old_id ) ) {
 			$out['trashed'][] = $old_id;
@@ -257,14 +259,16 @@ function paulus_supersede_retire() {
 }
 
 /**
- * The key a retry is judged by: the map and the guard state together. Pure.
+ * The key a retry is judged by: the map, the guard state and which replacements exist. Pure.
  *
- * @param array  $map    The supersedes map.
- * @param string $reason The guard's reason, '' when removals may run.
+ * @param array    $map    The supersedes map.
+ * @param string   $reason The guard's reason, '' when removals may run.
+ * @param string[] $ready  Slugs of the replacements that are published.
  * @return string
  */
-function paulus_supersede_state_key( $map, $reason ) {
-	return md5( wp_json_encode( $map ) . '|' . $reason );
+function paulus_supersede_state_key( $map, $reason, $ready = array() ) {
+	sort( $ready );
+	return md5( wp_json_encode( $map ) . '|' . $reason . '|' . wp_json_encode( $ready ) );
 }
 
 /**
@@ -281,14 +285,23 @@ function paulus_supersede_maybe_retry() {
 		return;
 	}
 	$reason = paulus_removal_guard( paulus_supersede_disabled(), paulus_manifest_intact(), paulus_manifest_count(), (int) get_option( 'paulus_manifest_count', 0 ) );
-	$key    = paulus_supersede_state_key( $map, $reason );
+	// A replacement the sync has not created yet makes the attempt a no-op, so it is part of the key: when the
+	// replacement appears, the key changes and the retire runs.
+	$ready = array();
+	foreach ( array_unique( array_values( $map ) ) as $new_slug ) {
+		if ( paulus_supersede_find( $new_slug ) ) {
+			$ready[] = $new_slug;
+		}
+	}
+	$key = paulus_supersede_state_key( $map, $reason, $ready );
 	if ( get_option( 'paulus_supersede_state' ) === $key ) {
 		return;
 	}
 	paulus_supersede_retire();
 	update_option( 'paulus_supersede_state', $key, false );
 }
-add_action( 'admin_init', 'paulus_supersede_maybe_retry', 30 );
+// After the sync (admin_init 30), so a replacement it creates is there when this looks.
+add_action( 'admin_init', 'paulus_supersede_maybe_retry', 40 );
 
 /**
  * Record the item count as the baseline for the 10 percent guard. Called when a sync has finished
