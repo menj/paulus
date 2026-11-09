@@ -1,5 +1,5 @@
 {
- "version": "2.77.22",
+ "version": "2.77.23",
  "files": [
   "assets/images/alayhi-al-salam.avif",
   "assets/images/alayhi-al-salam.webp",
@@ -527,6 +527,7 @@
   "assets/images/site-icon-96.avif",
   "assets/images/site-icon.webp",
   "assets/images/site.webmanifest",
+  "assets/js/lead-list-enter.js",
   "assets/social/author-photo.webp",
   "assets/social/book-cover.webp",
   "assets/social/met-diploma.webp",

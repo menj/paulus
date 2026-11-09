@@ -1,11 +1,26 @@
 /* Lead and list: the newest Journal entry large and a stacked list of the
    next five, above the rest of the entries on the first page of a Journal
    view (inc/lead-list.php). Colours, fonts and the radius come from the
-   theme tokens in theme.css, so every colour scheme follows. */
+   theme tokens in theme.css, so every colour scheme follows.
+
+   State is one number. A hovered, focused or pressed row or lead sets
+   --paulus-ll-on to 1, and the highlight, the accent bar, the zoom, the title
+   colour and underline, the arrow and the rule all read it, so the states
+   cannot drift apart. Hover is under (hover: hover); focus and pressed
+   are not, so a keyboard and a touch screen get them too. */
 
 .paulus-lead-list {
 	--paulus-ll-radius: var(--t-radius, 6px);
 	--paulus-ll-gap: clamp(1.25rem, 3vw, 2.5rem);
+	--paulus-ll-accent: var(--t-accent);
+	/* Text in the accent: the scheme's deep accent pulled toward its ink, so it reads at 4.5:1 on the hover tint in all six schemes, ochre included. */
+	--paulus-ll-accent-text: color-mix(in srgb, var(--t-accent-deep) 55%, var(--t-ink));
+	--paulus-ll-tint: color-mix(in srgb, var(--paulus-ll-accent) 13%, var(--t-base));
+	--paulus-ll-tint-press: color-mix(in srgb, var(--paulus-ll-accent) 22%, var(--t-base));
+	--paulus-ll-rule: color-mix(in srgb, var(--t-rule) 30%, transparent);
+	--paulus-ll-muted: var(--t-muted);
+	--paulus-ll-grow: 0.65rem;
+	--paulus-ll-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 	margin-block: clamp(1.5rem, 3vw, 2.5rem) var(--paulus-ll-gap);
 }
 
@@ -26,8 +41,9 @@
 }
 
 /* Lead */
-.paulus-lead-list__lead,
+.paulus-lead-list__lead { margin: 0; --paulus-ll-on: 0; }
 .paulus-lead-list__figure { margin: 0; }
+.paulus-lead-list__lead[hidden] { display: none; }
 
 .paulus-lead-list__media {
 	position: relative;
@@ -48,14 +64,24 @@
 	height: 100%;
 	aspect-ratio: 3 / 2;
 	object-fit: cover;
-	transition: transform 0.35s ease;
+	transform: scale(calc(1 + 0.05 * var(--paulus-ll-on)));
+	transition: transform 0.6s var(--paulus-ll-ease);
 }
 
-.paulus-lead-list__lead:hover .paulus-lead-list__img { transform: scale(1.03); }
+/* A second, darker veil that fades in on hover, so the gradient deepens. */
+.paulus-lead-list__media::before {
+	content: "";
+	background: linear-gradient(to top, rgb(0 0 0 / 0.5) 0, rgb(0 0 0 / 0.15) 60%, rgb(0 0 0 / 0) 100%);
+	opacity: var(--paulus-ll-on);
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+}
 
 /* The gradient runs from 85% black at the foot to clear; the text sits on the
    solid 85% part, so white type keeps well above 4.5:1 on any photograph. */
 .paulus-lead-list__overlay {
+	position: relative;
+	z-index: 1;
 	align-self: end;
 	padding: 4.5rem clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 2.5vw, 1.5rem);
 	background: linear-gradient(to top, rgb(0 0 0 / 0.85) 0, rgb(0 0 0 / 0.85) calc(100% - 4.5rem), rgb(0 0 0 / 0) 100%);
@@ -64,11 +90,12 @@
 
 .paulus-lead-list__rule {
 	display: block;
-	width: 3rem;
+	width: calc(3rem + 3rem * var(--paulus-ll-on));
 	height: 3px;
 	margin-bottom: 0.85rem;
 	background: color-mix(in srgb, var(--t-accent) 55%, #fff);
 	border-radius: 2px;
+	transition: width 0.4s var(--paulus-ll-ease);
 }
 
 .paulus-lead-list__title,
@@ -87,16 +114,26 @@
 
 .paulus-lead-list__title .paulus-lead-list__link { color: #fff; }
 
-.paulus-lead-list__date,
-.paulus-lead-list__item-date {
-	margin: 0 0 0.35rem;
-	font-family: var(--t-label);
-	font-size: 0.78rem;
-	text-align: left;
+.paulus-lead-list__lead .paulus-lead-list__meta { color: #e6edf5; padding-inline-end: 5rem; }
+
+/* "Read" and its arrow, at the foot of the band, on hover and focus. */
+.paulus-lead-list__read {
+	position: absolute;
+	inset-inline-end: clamp(1rem, 2.5vw, 1.75rem);
+	inset-block-end: clamp(1rem, 2.5vw, 1.5rem);
+	display: inline-flex;
+	gap: 0.35rem;
+	align-items: center;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: #fff;
+	opacity: var(--paulus-ll-on);
+	transform: translateX(calc((1 - var(--paulus-ll-on)) * -0.6rem));
+	transition: opacity 0.3s ease, transform 0.4s var(--paulus-ll-ease);
+	pointer-events: none;
 }
 
-.paulus-lead-list__date { color: #fff; }
-.paulus-lead-list__item-date { margin: 0.3rem 0 0; color: var(--t-muted); }
+.paulus-lead-list__read .paulus-lead-list__arrow { position: static; opacity: 1; transform: none; color: color-mix(in srgb, var(--t-accent) 55%, #fff); font-size: 1.15rem; line-height: 1; }
 
 .paulus-lead-list__credit {
 	font-family: var(--t-label);
@@ -110,6 +147,71 @@
 .paulus-lead-list__credit a:hover,
 .paulus-lead-list__credit a:focus-visible { color: var(--t-accent-deep); }
 
+/* Category tabs. Five colour pairs, each a theme token with the token that
+   reads on it; a category slug picks one and keeps it. Both appearances are
+   checked at 4.5:1 in tests/lead-list-test.php. */
+.paulus-lead-list__tabrow { margin: 0; padding: 0; line-height: 1; text-align: left; }
+
+.paulus-lead-list__tab {
+	font-family: var(--t-label);
+	--paulus-ll-tab-bg: var(--t-accent);
+	--paulus-ll-tab-fg: var(--t-on-accent);
+	position: relative;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	min-height: 1.5rem;
+	margin-bottom: 0.4rem;
+	padding: 0.1rem 0.7rem;
+	border: 1px solid var(--paulus-ll-tab-bd, transparent);
+	border-radius: 999px;
+	background: var(--paulus-ll-tab-bg);
+	color: var(--paulus-ll-tab-fg);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	line-height: 1.3;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: box-shadow 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.paulus-lead-list__tab--c0 { --paulus-ll-tab-bg: var(--t-accent); --paulus-ll-tab-fg: var(--t-on-accent); }
+.paulus-lead-list__tab--c1 { --paulus-ll-tab-bg: var(--t-panel); --paulus-ll-tab-fg: var(--t-on-panel); --paulus-ll-tab-bd: var(--t-ink); }
+.paulus-lead-list__tab--c2 { --paulus-ll-tab-bg: var(--t-ink); --paulus-ll-tab-fg: var(--t-base); }
+.paulus-lead-list__tab--c3 { --paulus-ll-tab-bg: var(--t-accent-deep); --paulus-ll-tab-fg: var(--t-on-accent); }
+.paulus-lead-list__tab--c4 { --paulus-ll-tab-bg: var(--t-surface); --paulus-ll-tab-fg: var(--t-ink); --paulus-ll-tab-bd: var(--t-ink); }
+
+.paulus-lead-list__tab:focus-visible {
+	outline: 2px solid var(--t-ink);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px var(--t-base);
+	text-decoration: underline;
+}
+
+.paulus-lead-list__tab:active { text-decoration: underline; }
+
+/* On the photograph the focus ring needs a light edge as well. */
+.paulus-lead-list__overlay .paulus-lead-list__tab:focus-visible { outline-color: #fff; box-shadow: 0 0 0 4px #000; }
+
+.paulus-lead-list__meta {
+	margin: 0.4rem 0 0;
+	font-family: var(--t-label);
+	text-align: left;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.15rem 0.5rem;
+	font-size: 0.8rem;
+	line-height: 1.4;
+	color: var(--paulus-ll-muted);
+}
+
+/* On the tint the muted meta line gives way to the ink, so it holds 4.5:1 in every scheme. */
+.paulus-lead-list__item .paulus-lead-list__meta {
+	color: color-mix(in srgb, var(--paulus-ll-muted) calc((1 - max(var(--paulus-ll-on), var(--paulus-ll-cur))) * 100%), var(--t-ink));
+	transition: color 0.2s ease;
+}
+
 /* List */
 .paulus-lead-list__list {
 	margin: 0;
@@ -118,17 +220,53 @@
 }
 
 .paulus-lead-list__item {
+	--paulus-ll-on: 0;
+	--paulus-ll-cur: 0;
 	position: relative;
+	isolation: isolate;
 	display: grid;
 	grid-template-columns: minmax(6.5rem, 40%) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: center;
-	padding-block: 0.9rem;
-	border-top: 1px solid color-mix(in srgb, var(--t-rule) 30%, transparent);
+	margin-inline: calc(-1 * var(--paulus-ll-grow));
+	padding: 0.9rem var(--paulus-ll-grow);
+	border-top: 1px solid color-mix(in srgb, var(--paulus-ll-accent) calc(max(var(--paulus-ll-on), var(--paulus-ll-above, 0)) * 100%), var(--paulus-ll-rule));
+	transition: border-color 0.25s ease;
 }
 
-.paulus-lead-list__item:first-child { padding-top: 0; border-top: 0; }
+.paulus-lead-list__item:first-child { padding-top: 0; border-top-color: transparent; }
 .paulus-lead-list__item:last-child { padding-bottom: 0; }
+
+/* The highlight: a soft tint that grows past the row, with rounded corners. */
+.paulus-lead-list__item::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: -0.35rem 0;
+	border-radius: calc(var(--paulus-ll-radius) + 4px);
+	background: var(--paulus-ll-tint);
+	opacity: max(var(--paulus-ll-on), calc(var(--paulus-ll-cur) * 0.55));
+	transform: scale(calc(0.97 + 0.03 * max(var(--paulus-ll-on), var(--paulus-ll-cur))));
+	transition: opacity 0.25s ease, transform 0.35s var(--paulus-ll-ease), background-color 0.15s ease;
+}
+
+/* The accent bar on the left edge, sliding in. */
+.paulus-lead-list__item::after {
+	content: "";
+	position: absolute;
+	inset-block: -0.15rem;
+	inset-inline-start: 0.2rem;
+	width: 4px;
+	border-radius: 4px;
+	background: var(--paulus-ll-accent);
+	opacity: max(var(--paulus-ll-on), var(--paulus-ll-cur));
+	transform: scaleY(max(var(--paulus-ll-on), var(--paulus-ll-cur)));
+	transition: transform 0.35s var(--paulus-ll-ease), opacity 0.2s ease;
+}
+
+/* The first row carries the bar at rest, so the list is never lifeless. */
+.paulus-lead-list__item.is-current { --paulus-ll-cur: 1; }
+.paulus-lead-list__item.is-current:first-child::before { inset-block-start: -0.35rem; }
 
 .paulus-lead-list__thumb {
 	display: block;
@@ -143,10 +281,11 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.35s ease;
+	transform: scale(calc(1 + 0.06 * var(--paulus-ll-on)));
+	transition: transform 0.45s var(--paulus-ll-ease);
 }
 
-.paulus-lead-list__item:hover .paulus-lead-list__thumb-img { transform: scale(1.04); }
+.paulus-lead-list__text { min-width: 0; padding-inline-end: 1.75rem; }
 
 .paulus-lead-list__item-title {
 	margin: 0;
@@ -155,7 +294,7 @@
 	text-align: left;
 	hyphens: manual;
 	font-size: 1.05rem;
-	line-height: 1.3;
+	line-height: 1.35;
 	font-weight: 700;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
@@ -164,8 +303,29 @@
 	overflow: hidden;
 }
 
-.paulus-lead-list__item-title .paulus-lead-list__link { color: var(--t-ink); }
-.paulus-lead-list__item:hover .paulus-lead-list__link { color: var(--t-accent-deep); }
+.paulus-lead-list__item-title .paulus-lead-list__link {
+	color: color-mix(in srgb, var(--paulus-ll-accent-text) calc(var(--paulus-ll-on) * 100%), var(--t-ink));
+	background: linear-gradient(currentColor, currentColor) 0 100% / calc(var(--paulus-ll-on) * 100%) 2px no-repeat;
+	padding-bottom: 2px;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	transition: color 0.2s ease, background-size 0.35s var(--paulus-ll-ease);
+}
+
+/* The arrow at the end of the row. */
+.paulus-lead-list__item > .paulus-lead-list__arrow {
+	position: absolute;
+	inset-inline-end: calc(var(--paulus-ll-grow) + 0.1rem);
+	inset-block-start: 50%;
+	margin-top: -0.7rem;
+	font-size: 1.25rem;
+	line-height: 1.4;
+	color: var(--paulus-ll-accent-text);
+	opacity: var(--paulus-ll-on);
+	transform: translateX(calc((1 - var(--paulus-ll-on)) * -0.75rem));
+	transition: opacity 0.25s ease, transform 0.4s var(--paulus-ll-ease);
+	pointer-events: none;
+}
 
 /* The whole card is the link: the link's ::after covers the card, and the
    focus ring is drawn on it. */
@@ -182,9 +342,15 @@
 	border-radius: var(--paulus-ll-radius);
 }
 
-.paulus-lead-list__link:focus-visible::after {
-	outline: 3px solid var(--t-gold);
-	outline-offset: 3px;
+.paulus-lead-list__item .paulus-lead-list__link::after {
+	inset: -0.35rem 0;
+	border-radius: calc(var(--paulus-ll-radius) + 4px);
+}
+
+/* Focus: a 2px ring in the contrast colour on the grown row. */
+.paulus-lead-list__item .paulus-lead-list__link:focus-visible::after {
+	outline: 2px solid var(--t-ink);
+	outline-offset: 0;
 }
 
 /* The lead's link covers the photograph only, so the credit links below it stay usable. */
@@ -193,8 +359,54 @@
 /* The photograph clips anything outside it, so the lead's ring is drawn
    inside its edge, with a dark band under it to show on any photograph. */
 .paulus-lead-list__lead .paulus-lead-list__link:focus-visible::after {
+	outline: 3px solid color-mix(in srgb, var(--t-accent) 55%, #fff);
 	outline-offset: -6px;
 	box-shadow: inset 0 0 0 3px rgb(0 0 0 / 0.85);
+}
+
+/* Row and lead states: focus and pressed everywhere, hover only where a
+   pointer can hover. */
+.paulus-lead-list__item:has(:focus-visible),
+.paulus-lead-list__lead:has(.paulus-lead-list__link:focus-visible) { --paulus-ll-on: 1; }
+
+.paulus-lead-list__item:has(:focus-visible) + .paulus-lead-list__item { --paulus-ll-above: 1; }
+
+.paulus-lead-list__item:active,
+.paulus-lead-list__lead:active { --paulus-ll-on: 1; }
+
+.paulus-lead-list__item:active::before { background: var(--paulus-ll-tint-press); }
+.paulus-lead-list__item:active + .paulus-lead-list__item { --paulus-ll-above: 1; }
+
+/* While another row is the one in use, the current row gives its bar up. */
+.paulus-lead-list__list:has(:focus-visible) .paulus-lead-list__item.is-current:not(:has(:focus-visible)) { --paulus-ll-cur: 0; }
+
+@media (hover: hover) {
+	.paulus-lead-list__item:hover,
+	.paulus-lead-list__lead:hover { --paulus-ll-on: 1; }
+	.paulus-lead-list__item:hover + .paulus-lead-list__item { --paulus-ll-above: 1; }
+	.paulus-lead-list__list:has(.paulus-lead-list__item:hover) .paulus-lead-list__item.is-current:not(:hover) { --paulus-ll-cur: 0; }
+	.paulus-lead-list__tab:hover { text-decoration: underline; box-shadow: 0 0 0 2px color-mix(in srgb, var(--paulus-ll-tab-bg) 40%, transparent); }
+}
+
+/* A touch screen has no hover, so the arrows stay at rest, faint. */
+@media (hover: none) {
+	.paulus-lead-list__item > .paulus-lead-list__arrow { opacity: max(0.7, var(--paulus-ll-on)); transform: translateX(calc((1 - var(--paulus-ll-on)) * -0.25rem)); }
+	.paulus-lead-list__read { opacity: 1; transform: none; }
+}
+
+/* Entrance: the block fades up in turn when it scrolls into view
+   (assets/js/lead-list.js adds the classes; without it nothing is hidden). */
+.paulus-lead-list.is-armed .paulus-lead-list__lead,
+.paulus-lead-list.is-armed .paulus-lead-list__item {
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+.paulus-lead-list.is-armed.is-in .paulus-lead-list__lead,
+.paulus-lead-list.is-armed.is-in .paulus-lead-list__item {
+	opacity: 1;
+	transform: none;
+	transition: opacity 0.55s ease calc((var(--paulus-ll-i, -1) + 1) * 70ms), transform 0.55s var(--paulus-ll-ease) calc((var(--paulus-ll-i, -1) + 1) * 70ms), border-color 0.25s ease;
 }
 
 @media (max-width: 781px) {
@@ -205,18 +417,42 @@
 	.paulus-lead-list__item { grid-template-columns: minmax(6.5rem, 38%) minmax(0, 1fr); }
 }
 
+/* Reduced motion: no movement and no zoom; the colour changes stay. Switching
+   "Arrows and motion" off in the theme options does the same and hides the arrows. */
 @media (prefers-reduced-motion: reduce) {
 	.paulus-lead-list__img,
-	.paulus-lead-list__thumb-img { transition: none; }
-	.paulus-lead-list__lead:hover .paulus-lead-list__img,
-	.paulus-lead-list__item:hover .paulus-lead-list__thumb-img { transform: none; }
+	.paulus-lead-list__thumb-img,
+	.paulus-lead-list__rule,
+	.paulus-lead-list__read,
+	.paulus-lead-list__item > .paulus-lead-list__arrow,
+	.paulus-lead-list__item::before,
+	.paulus-lead-list__item::after { transition-property: opacity, color, background-color, border-color; }
+	.paulus-lead-list__img,
+	.paulus-lead-list__thumb-img,
+	.paulus-lead-list__read,
+	.paulus-lead-list__item > .paulus-lead-list__arrow,
+	.paulus-lead-list__item::before,
+	.paulus-lead-list__item::after { transform: none; }
+	.paulus-lead-list__rule { width: 3rem; }
+	.paulus-lead-list__item-title .paulus-lead-list__link { transition-property: color; }
 }
+
+.paulus-lead-list--calm .paulus-lead-list__img,
+.paulus-lead-list--calm .paulus-lead-list__thumb-img,
+.paulus-lead-list--calm .paulus-lead-list__read,
+.paulus-lead-list--calm .paulus-lead-list__item::before,
+.paulus-lead-list--calm .paulus-lead-list__item::after { transform: none; transition-property: opacity, color, background-color, border-color; }
+.paulus-lead-list--calm .paulus-lead-list__rule { width: 3rem; }
+.paulus-lead-list--calm .paulus-lead-list__item > .paulus-lead-list__arrow,
+.paulus-lead-list--calm .paulus-lead-list__read { display: none; }
+.paulus-lead-list--calm .paulus-lead-list__item-title .paulus-lead-list__link { transition-property: color; }
 
 @media (forced-colors: active) {
 	.paulus-lead-list__overlay { background: Canvas; color: CanvasText; }
 	.paulus-lead-list__title .paulus-lead-list__link { color: LinkText; }
 	.paulus-lead-list__link:focus-visible::after { outline-color: Highlight; }
+	.paulus-lead-list__item::after { background: Highlight; }
+	.paulus-lead-list__tab { border: 1px solid ButtonText; }
 }
 
-.paulus-lead-list__lead[hidden] { display: none; }
 .paulus-lead-list__item[data-lead] { cursor: pointer; }

@@ -149,6 +149,9 @@ function paulus_fields() {
 				'journal_title' => array( __( 'Title of the Journal', 'paulus' ), 'text' ),
 				'journal_intro' => array( __( 'Introduction, under the title on the Journal page', 'paulus' ), 'textarea' ),
 				'journal_meta'  => array( __( 'Search description of the Journal page (120 to 130 characters)', 'paulus' ), 'textarea' ),
+				'll_tabs'       => array( __( 'Lead and list: show a category tab above each title (the tab names the category and links to it)', 'paulus' ), 'checkbox' ),
+				'll_motion'     => array( __( 'Lead and list: show the arrows, the zoom and the fade-up (switched off, the colour changes on hover and focus stay; reduced motion never moves)', 'paulus' ), 'checkbox' ),
+				'll_accent'     => array( __( 'Lead and list: accent colour for the row highlight, bar, arrows and underline (a hex code; leave empty to follow the colour scheme)', 'paulus' ), 'color' ),
 			),
 		),
 		'front'      => array(
@@ -266,6 +269,14 @@ function paulus_sanitize_options( $input ) {
 				default:
 					$clean[ $key ] = sanitize_text_field( $value );
 			}
+		}
+	}
+	// A lead and list accent that is hard to see on the chosen scheme's page is dropped.
+	if ( ! empty( $clean['ll_accent'] ) && function_exists( 'paulus_lead_list_accent_ok' ) ) {
+		$scheme = isset( $clean['scheme'] ) ? (string) $clean['scheme'] : 'ochre';
+		if ( ! paulus_lead_list_accent_ok( $clean['ll_accent'], $scheme ) ) {
+			$clean['ll_accent'] = '';
+			add_settings_error( 'paulus_options', 'paulus_ll_accent', __( 'The lead and list accent colour was not saved: it does not reach 3:1 against the page of the chosen colour scheme. Choose a stronger colour, or leave the field empty.', 'paulus' ) );
 		}
 	}
 	return $clean;
