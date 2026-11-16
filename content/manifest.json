@@ -1,8 +1,14 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.36",
+	"content_version": "2.77.37",
 	"prior_hashes": {
+		"c05-seven-doctrines.json#r77.36": "864562c4be201e3d4bfa9ceba2a4ce98",
+		"apostle-to-the-gentiles.json#r77.36": "d91c89c12710b12ac7fab66a3a5243ec",
+		"c13-lies-curses-and-guile.json#r77.36": "beae0cdfe1f21759f6752c6b34163e97",
+		"c14-the-purse.json#r77.36": "07837fce7bf591f183e37eb96852c045",
+		"c04-the-jerusalem-council.json#r77.36": "1543d255dcc3332e839fee6d554a954f",
+		"c05-the-letters-of-a-man.json#r77.36": "362568ad566d56758c81f7334df5162c",
 		"c03-a-self-appointed-apostle.json#r77.34": "2abaf9cdde54e9ab328ffeba42f2fa93",
 		"pauls-missionary-journeys.json#r77.34": "e826e1055bfc8f88d98d56a4d0bb7fd4",
 		"was-paul-married.json#r77.21": "26e86756d64fbcd12de33f5976ca93d6",
