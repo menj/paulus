@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.37
+Stable tag: 2.77.38
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.38 =
+* Two more articles (Seven doctrines: the law and the covenant, Letters that contradict themselves) quote the ESV.
+
 = 2.77.37 =
 * Four articles answer the reply that Paul was loving and humble and that only Muslims criticise him; two more pages quote the ESV.
 
@@ -263,6 +266,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.38 =
+Two more articles move to the ESV. Unedited pages update on their own.
 
 = 2.77.37 =
 Four articles gain sections answering common replies, and two move to the ESV. Unedited pages update on their own.

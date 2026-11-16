@@ -1,8 +1,10 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.37",
+	"content_version": "2.77.38",
 	"prior_hashes": {
+		"c05-seven-doctrines-2.json#r77.37": "c81b752fefa8c9b025dd18d0418de612",
+		"c06-owning-the-new-testament-2.json#r77.37": "5c1b01fd851c84812ab6211a419d92ae",
 		"c05-seven-doctrines.json#r77.36": "864562c4be201e3d4bfa9ceba2a4ce98",
 		"apostle-to-the-gentiles.json#r77.36": "d91c89c12710b12ac7fab66a3a5243ec",
 		"c13-lies-curses-and-guile.json#r77.36": "beae0cdfe1f21759f6752c6b34163e97",
