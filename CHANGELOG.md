@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.38] - 2026-11-16
+
+Stage 8, third part: *Seven doctrines: the law and the covenant* and *Letters that contradict themselves* quote the ESV, and 58 pages now carry the Crossway notice. `content_version` rises to 2.77.38 because the shipped texts change.
+
+### Changed
+- Scripture blocks rebuilt verse by verse from the ESV API; quotations in the running text replaced by hand and checked word for word against the same text. KJV wording follows the ESV: "dung" is "rubbish", "delivered from the law" is "released from the law", "neither male nor female" is "no male and female", and "the head of the woman is the man" is "the head of a wife is her husband". Junia is "well known to the apostles", a phrase the sentence now says many scholars read as "among the apostles".
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.37] - 2026-11-16
 
 Four existing articles now answer the common reply that Paul was loving and humble, that only Muslims accuse him and that Muslims offer no proof. Two more pages quote the ESV, and 56 pages now carry the Crossway notice. `content_version` rises to 2.77.37 because the shipped texts change.
