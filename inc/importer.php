@@ -35,6 +35,8 @@ function paulus_manifest() {
 	foreach ( array( 'parts', 'posts', 'pages' ) as $key ) {
 		$data[ $key ] = isset( $data[ $key ] ) && is_array( $data[ $key ] ) ? $data[ $key ] : array();
 	}
+	// A hook for tests and for a site's own additions, such as a `supersedes` map.
+	$data = apply_filters( 'paulus_manifest', $data );
 	if ( $data['posts'] ) {
 		$manifest = $data; // A failed read is not cached, so a later call in this request tries again.
 	}
@@ -975,6 +977,9 @@ function paulus_run_install_steps() {
 
 	paulus_sync_note( 'journal and navigation' );
 	paulus_install_journal();
+	if ( function_exists( 'paulus_supersede_retire' ) ) {
+		paulus_supersede_retire();
+	}
 	paulus_install_navigation( $parts );
 	paulus_sync_note( 'images' );
 	paulus_sync_images();
@@ -1082,6 +1087,9 @@ function paulus_importer_panel() {
 		<?php submit_button( __( 'Install or update site structure', 'paulus' ), 'primary', 'submit', false ); ?>
 	</form>
 	<?php
+	if ( function_exists( 'paulus_sync_preview_render' ) ) {
+		paulus_sync_preview_render();
+	}
 }
 
 /**

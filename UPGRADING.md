@@ -49,6 +49,75 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.33 to 2.77.34
+
+Upload the whole theme folder. Nothing else to do.
+
+### 2.77.32 to 2.77.33
+
+Upload the whole theme folder. Nothing else to do.
+
+### 2.77.31 to 2.77.32
+
+Upload the whole theme folder. Nothing else to do. Only a test file changed.
+
+### 2.77.30 to 2.77.31
+
+Upload the whole theme folder. Nothing else to do. Only a site that runs the Unlist Posts plugin is affected, and only once a pair is added to the empty `supersedes` map.
+
+### 2.77.29 to 2.77.30
+
+Upload the whole theme folder. Nothing else to do. The `supersedes` map is still empty. Only a site that runs the Unlist Posts plugin is affected, and only once a pair is added.
+
+### 2.77.28 to 2.77.29
+
+Upload the whole theme folder. Nothing else to do. The `supersedes` map is still empty. When a pair is added, the old item is retired only if its text is still one the theme shipped.
+
+### 2.77.27 to 2.77.28
+
+Upload the whole theme folder. Nothing else to do. The manifest's `supersedes` map is empty, so nothing is redirected, hidden or trashed yet. When a pair is added, the old item moves to the Trash only if you did not edit it, and its address keeps redirecting. To switch it all off, add `define( 'PAULUS_DISABLE_SUPERSEDE', true );` to `wp-config.php`.
+
+### 2.77.26 to 2.77.27
+
+Upload the whole theme folder. Nothing else to do. Only a developer script changed.
+
+### 2.77.25 to 2.77.26
+
+Upload the whole theme folder, then run Install or update under Theme Options, Content (the automatic sync does it on the first visit because `content_version` changed to 2.77.26). The corrected article text reaches pages you have not edited; for a page you edited, the installer offers the theme's text beside yours. The three new Journal entries are created once each and dated 3, 10 and 17 January 2027. Citations to modern works in those entries, now listed on the Sources page (Metzger, Lieu, Harnack, von Campenhausen, Attridge) need a human check against the books.
+
+### 2.77.24 to 2.77.25
+
+Upload the whole theme folder. No setting changes. WCAG 2.2 AA register (scratch WordPress, `WP_DEBUG` on with an empty log; axe-core with wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa and best-practice tags at 1280 and 375 px on 12 templates and the open search panel and menu; keyboard walk, 320 px reflow, text-spacing override):
+
+| Id | Severity | WCAG | Component | Finding | Status |
+|---|---|---|---|---|---|
+| PA-01 | Major | 3.1.2 | Article content | Inline Arabic and Greek words without `lang` | Fixed in `inc/script-lang.php` |
+| PA-02 | Minor | 1.3.1 | wp-login.php | No `main` landmark in core's login markup | Manual review, core markup |
+
+Everything else passed: no axe violations on the front end, no hidden focus, no reflow overflow at 320 px, `prefers-reduced-motion` honoured. Manual review still open: a screen-reader pass over the lead and list tabs, the lightbox and the PDF export. The code audit found no state-changing handler without nonce and capability check and no remote assets. Licences are in `LICENSES.md`. Folder name: nothing in the code assumes `paulus`; none renamed.
+
+### 2.77.23 to 2.77.24
+
+Upload the whole theme folder. The new file is `assets/css/mobile-first.css`. Nothing else to do. Audit: scratch WordPress with seeded long titles, URLs, a wide table, code, an embed, a gallery and comments; Playwright at 320, 360, 375, 390, 414, 480, 768, 1024 and 1280 px over 14 page types, axe-core 4.
+
+| Id | Severity | Risk of fix | Finding | Status |
+|---|---|---|---|---|
+| MF-01 | High | Low | A long word in a hero title, standfirst, chapter title, excerpt or snippet widened the page (scrollWidth 937 to 2515) on four page types, at every width | Fixed |
+| MF-02 | High | Medium | Bare tables and `pre` in pages and posts overflowed and had no keyboard scroll (`scrollable-region-focusable`) | Fixed (wrapper filter and CSS) |
+| MF-03 | Medium | Low | 73 targets under 24 px at 375 px (timeline links, contents list, footnotes, heading anchors) | 38 left (skip link, core markup, inline links) |
+| MF-04 | Low | Low | Footnote text at 15.2 px | Kept at 15 px minimum, flagged |
+| MF-05 | Low | Medium | Kickers, labels and colophon at 12 to 13.6 px | Manual review, design choice |
+| MF-06 | Low | Medium | Chronology page layout shift 0.075 at 375 px | Manual review |
+| MF-07 | Info | None | Header tools row at 320 px fits (portrait, search, menu); no change needed | Verified |
+
+Overflow count per width before and after: 4 to 0 at every one of the nine widths. axe: `scrollable-region-focusable` gone, nothing new; the login page keeps core's `landmark-one-main` and `region`. Desktop pages grow 5 to 74 px where list links take the 24 px minimum.
+
+Remaining risks: the filter changes the markup of tables in `the_content` (a labelled group wrapper); the `anywhere` wrapping could split an unbroken string in a narrow card. Follow-up: raise the 12 to 13.6 px labels, reserve space on the chronology page.
+
+### 2.77.22 to 2.77.23
+
+Upload the whole theme folder. The new file is `assets/js/lead-list-enter.js`. The Journal tab gains three lead and list settings, all on, with no accent override. Nothing else to do.
+
 ### 2.77.18 to 2.77.19
 
 - Upload the whole theme folder. Five articles change their English quotations from the King James Version to the English Standard Version, and `content_version` moves to 2.77.19, so the structure sync runs and refreshes each of them where it still matches a shipped text. Text edited by hand stays. Nothing else changes.
@@ -358,6 +427,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 
 ### Next
 
+- Mobile follow-ups from the 2.77.24 audit: raise the 12 to 13.6 px kickers, labels and colophon to 14 px, and reserve space on the chronology page (layout shift 0.075 at 375 px). Both change the design, so they wait for the owner.
 - Finish the move to the ESV. Articles written before 1 November 2026 still quote the King James Version beneath the Greek, and the Sources page says so. Each moves across whole, picture captions included, so no article mixes two translations. The largest are left for last: *ʿĪsā in his own words*, *The prayer ʿĪsā taught*, *Original sin*, *The Greek body and the Jewish bed* and *Justification by faith*.
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.

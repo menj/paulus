@@ -1,0 +1,55 @@
+/* Paulus: mobile-first patches (2.77.24). Loaded after theme.css.
+   Scoped rules only. Nothing here removes a desktop style. */
+
+/* A long word in a title or heading wraps instead of widening its box. */
+.paulus-hero-panel { grid-template-columns: minmax(0, 1fr); }
+.paulus-hero-panel.has-image { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.paulus-hero-panel__body,
+.paulus-chapter,
+.paulus-result,
+.paulus-teaser__body { min-width: 0; }
+.wp-block-post-content figure { max-width: 100%; }
+.paulus-hero-panel__title,
+.paulus-chapter__title,
+.paulus-teaser__title,
+.paulus-hero-panel__standfirst,
+.paulus-chapter__excerpt,
+.paulus-result,
+.paulus-result__snippet,
+.wp-block-post-content figcaption,
+.paulus-prose h1,
+.paulus-prose h2,
+.paulus-prose h3,
+.paulus-prose p,
+.paulus-prose li,
+.paulus-prose blockquote { overflow-wrap: anywhere; }
+
+/* Tables and code blocks scroll inside their own box. */
+.paulus-prose pre,
+.wp-block-post-content pre { max-width: 100%; overflow-x: auto; }
+.paulus-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.5rem 0 2rem; }
+.paulus-scroll:focus-visible,
+.wp-block-post-content pre:focus-visible { outline: 2px solid var(--t-accent); outline-offset: 2px; }
+.paulus-scroll table { border-collapse: collapse; margin: 0; }
+.paulus-scroll th,
+.paulus-scroll td { border: 1px solid var(--t-rule); padding: 0.55rem 0.7rem; vertical-align: top; text-align: left; }
+
+/* Embeds and media scale with the column. */
+.wp-block-post-content iframe,
+.wp-block-post-content video,
+.wp-block-post-content embed,
+.wp-block-post-content object { max-width: 100%; }
+.wp-block-post-content iframe[src*="youtube"],
+.wp-block-post-content iframe[src*="youtu.be"],
+.wp-block-post-content iframe[src*="vimeo"] { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+
+/* Tap targets of at least 24 by 24 CSS pixels (WCAG 2.5.8). */
+.paulus-timeline__links a,
+.paulus-faq-index a,
+.paulus-prose .footnotes a,
+.paulus-faq-back a { display: inline-block; min-height: 24px; padding-block: 2px; box-sizing: border-box; }
+.paulus-anchor { display: inline-block; min-width: 24px; min-height: 24px; text-align: center; box-sizing: border-box; }
+.paulus-author__books > summary { min-height: 24px; }
+
+/* Footnote text and small labels no smaller than 14px on a phone. */
+.paulus-prose .footnotes { font-size: max(0.95rem, 15px); }

@@ -90,7 +90,7 @@ function paulus_options_tab_meta() {
 		'security'   => array( 'dashicons-shield', __( 'XML-RPC, REST API writes and the spam gate. The cleanup tools and reports sit under the switches.', 'paulus' ) ),
 		'upkeep'     => array( 'dashicons-admin-tools', __( 'Maintenance mode for FTP updates, and an email when new fatal errors appear.', 'paulus' ) ),
 		'links'      => array( 'dashicons-admin-links', __( 'Links added to the first mention of a subject, to this site and to the other sites, with limits and your own phrases.', 'paulus' ) ),
-		'journal'    => array( 'dashicons-edit-page', __( 'The title, introduction and search description of the Journal page.', 'paulus' ) ),
+		'journal'    => array( 'dashicons-edit-page', __( 'The title, introduction and search description of the Journal page, and the lead and list switches.', 'paulus' ) ),
 		'front'      => array( 'dashicons-admin-home', __( 'The front page hero, its title and description for search, and the footer text and badges.', 'paulus' ) ),
 		'content'    => array( 'dashicons-download', __( 'Install or update the shipped articles, pages and menu. Text you have edited is kept.', 'paulus' ) ),
 	);

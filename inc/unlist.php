@@ -31,7 +31,13 @@ if ( class_exists( 'Unlist_Posts' ) ) {
  */
 function paulus_unlisted_ids() {
 	$ids = get_option( 'unlist_posts', array() );
-	return array_values( array_filter( array_map( 'absint', is_array( $ids ) ? $ids : array() ) ) );
+	$ids = array_values( array_filter( array_map( 'absint', is_array( $ids ) ? $ids : array() ) ) );
+	// Posts the manifest says a newer text has replaced (inc/supersede.php) are hidden the same way. They are
+	// never written into the stored option, so the owner's own list stays the owner's.
+	if ( function_exists( 'paulus_superseded_ids' ) ) {
+		$ids = array_values( array_unique( array_merge( $ids, paulus_superseded_ids() ) ) );
+	}
+	return $ids;
 }
 
 /**

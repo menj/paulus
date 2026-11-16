@@ -17,6 +17,7 @@ define( 'ABSPATH', __DIR__ . '/' );
 
 class WP_Post {
 	public $ID;
+	public $post_content = 'one two three four five six seven eight nine ten';
 	public $post_status = 'publish';
 	public $post_title  = '';
 	public function __construct( $id, $img = true ) {
@@ -26,13 +27,18 @@ class WP_Post {
 	}
 	public $img;
 }
-class WP_Term {}
+class WP_Term {
+	public $slug;
+	public $name;
+	public $term_id;
+}
 class WP_Query {}
 class WP_Block {}
 
 $GLOBALS['paulus_t'] = array(
 	'posts'    => array(),
 	'unlisted' => array(),
+	'filters'  => array(),
 );
 function paulus_t_posts( array $spec ) {
 	$GLOBALS['paulus_t']['posts'] = array();
@@ -43,6 +49,44 @@ function paulus_t_posts( array $spec ) {
 }
 function add_action() {}
 function add_filter() {}
+function apply_filters( $tag, $value ) {
+	return $GLOBALS['paulus_t']['filters'][ $tag ] ?? $value;
+}
+function strip_shortcodes( $s ) {
+	return $s;
+}
+function wp_strip_all_tags( $s ) {
+	return strip_tags( (string) $s );
+}
+function _n( $a ) {
+	return $a;
+}
+function get_the_category( $id ) {
+	$cats = array(
+		1 => array( 'history' ),
+		2 => array( 'uncategorized', 'scripture' ),
+		3 => array( 'uncategorized' ),
+	);
+	$out  = array();
+	foreach ( $cats[ $id ] ?? array( 'theology' ) as $slug ) {
+		$c          = new WP_Term();
+		$c->slug    = $slug;
+		$c->name    = ucfirst( $slug );
+		$c->term_id = crc32( $slug ) % 1000;
+		$out[]      = $c;
+	}
+	return $out;
+}
+function get_post_type_archive_link() {
+	return '/journal/';
+}
+function trailingslashit( $s ) {
+	return rtrim( $s, '/' ) . '/';
+}
+function get_category_link( $id ) {
+	return '/category/' . $id . '/';
+}
+
 function __( $s ) {
 	return $s;
 }
@@ -163,5 +207,25 @@ paulus_test_check( false !== strpos( $r['html'], 'Image: Papyrus letter, CC0.' )
 
 $r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => false, 3 => true, 4 => true ) ) );
 paulus_test_check( 1 === substr_count( $r['html'], 'paulus-lead-list__thumb--empty' ), 'a list entry without a photograph keeps an empty panel' );
+
+// Category tabs, meta line, current row, settings.
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true ) ) );
+paulus_test_check( false !== strpos( $r['html'], 'class="paulus-lead-list__meta"' ) && false !== strpos( $r['html'], '1 min read' ), 'the panels and the list items carry a date and reading-time line' );
+paulus_test_check( 1 === preg_match( '#<a class="paulus-lead-list__tab paulus-lead-list__tab--c\d" href="/category/\d+/">History</a>#', $r['html'] ) && false === strpos( $r['html'], '>Uncategorized<' ), 'a tab is a link that names the category; the default category is skipped' );
+paulus_test_check( false !== strpos( $r['html'], 'paulus-lead-list__tab--c' ) && false !== strpos( $r['html'], '>Journal 2026' ) && false !== strpos( $r['html'], 'href="/journal/2026' ), 'an entry without a category gets a Journal and year tab that links to that year' );
+paulus_test_check( 1 === substr_count( $r['html'], 'paulus-lead-list__item is-current' ), 'only the first list item is the current row' );
+paulus_test_check( false === strpos( $r['html'], 'paulus-lead-list--calm' ) && false === strpos( $r['html'], 'style="--paulus-ll-accent' ), 'by default motion is on and the scheme accent is used' );
+$GLOBALS['paulus_t']['filters'] = array(
+	'paulus_lead_list_show_tabs' => false,
+	'paulus_lead_list_motion'    => false,
+	'paulus_lead_list_accent'    => '#7a2e1a',
+);
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true ) ) );
+paulus_test_check( false === strpos( $r['html'], '<a class="paulus-lead-list__tab' ) && false !== strpos( $r['html'], 'paulus-lead-list--calm' ) && false !== strpos( $r['html'], '--paulus-ll-accent:#7a2e1a' ), 'the switches remove the tabs and motion, and the accent override is applied' );
+$GLOBALS['paulus_t']['filters'] = array( 'paulus_lead_list_accent' => 'red; background:url(x)' );
+$r = paulus_lead_list( paulus_t_posts( array( 1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true ) ) );
+paulus_test_check( false === strpos( $r['html'], 'style="--paulus-ll-accent' ), 'an accent that is not a hex colour is dropped' );
+$GLOBALS['paulus_t']['filters'] = array();
+paulus_test_check( paulus_lead_list_accent_ok( '#7a2e1a', 'paper' ) && ! paulus_lead_list_accent_ok( '#f3eee4', 'paper' ) && ! paulus_lead_list_accent_ok( '#b8955f', 'ochre' ), 'an accent that is hard to see on the scheme page is refused' );
 
 exit( $paulus_fail ? 1 : 0 );

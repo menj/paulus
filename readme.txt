@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.23
+Stable tag: 2.77.35
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,7 @@ Open Appearance, Theme Options. Each tab is a card with a short note at the top.
 * Security: XML-RPC, REST API writes from a browser session only, the user list hidden from visitors, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
 * Maintenance: maintenance mode for FTP updates, and the fatal-error email.
 * Contextual links: links to this site and to other sites, the limit for each, your own phrases and the pages to leave alone.
-* Journal: the title, introduction and search description of the Journal page.
+* Journal: the title, introduction and search description of the Journal page, and three lead and list settings (category tabs, arrows and motion, an accent colour).
 * Front page: the hero, the front-page title and description, and the footer text and badges.
 * Content: install or update the shipped content. Text you have edited is kept.
 
@@ -150,8 +150,47 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
-= 2.77.23 =
+= 2.77.35 =
 * Two more articles (A self-appointed apostle, Paul's missionary journeys) quote the ESV.
+
+= 2.77.34 =
+* The retry of a replacement that an update guard blocked now waits for the update to finish, and also runs when the replacement text appears later. Nothing removed, nothing renamed.
+
+= 2.77.33 =
+* A replacement that an update guard blocked is tried again once the guard clears. Nothing removed, nothing renamed.
+
+= 2.77.32 =
+* Tests only: the rule that shows replaced old texts to an editor at work is now tested by behaviour. Nothing removed, nothing renamed.
+
+= 2.77.31 =
+* With the Unlist Posts plugin active, an editor working in the admin sees replaced old texts in admin-side requests, as with the theme's own rule. Nothing removed, nothing renamed.
+
+= 2.77.30 =
+* A replaced old text is now also hidden when the Unlist Posts plugin is active: it stays out of Rank Math's sitemap, carries Rank Math's noindex, and stays out of queries that list posts by ID. Nothing removed, nothing renamed.
+
+= 2.77.29 =
+* Safer replacement of old texts. An old item is only redirected, hidden or moved to the Trash while its text is still exactly a text the theme shipped, so an edit you made is never lost. The check for missing texts is stricter, the item-count guard uses the last complete update, and the hiding works with the Unlist Posts plugin too. Nothing removed, nothing renamed.
+
+= 2.77.28 =
+* A newer text can now replace an older one safely. The old one redirects to the new one, drops out of lists, search, feeds and sitemaps, asks search engines not to index it, and moves to the Trash if you have not edited it. Under Theme Options, Content, a dry run shows what the next update would do, and the dashboard shows the differences between your text and the theme's before you choose. Updates stop removing anything if a shipped text fails its check or the item count drops by more than a tenth. Nothing removed, nothing renamed.
+
+= 2.77.27 =
+* The accessibility scan script reports a page that fails to load as a failure, and its usage line names the right folder. Nothing removed, nothing renamed.
+
+= 2.77.26 =
+* The claim that Rome banned gospels in 382 is corrected in the article on the gospels and the new covenant. Three Journal entries added, on Rome and 382, on Marcion and on Paul's thirteen or fourteen letters. Samuel Davidson's history of the canon is added to the Sources page. Nothing removed, nothing renamed.
+
+= 2.77.25 =
+* Accessibility pass (WCAG 2.2 AA): Arabic and Greek words inside English sentences now carry a language tag, so screen readers pronounce them. An axe audit script and a test were added. Nothing removed, nothing renamed.
+
+= 2.77.24 =
+* Phone layout pass: long words in titles, excerpts and search snippets wrap, wide tables and code blocks in pages scroll inside their own box, embeds scale with the column, and small links are easier to tap. The look on larger screens is unchanged.
+
+= 2.77.23 =
+* The lead and list on the Journal reacts. A row under the pointer or the keyboard focus gets a soft tint that grows past it, an accent bar on its left edge, a zoom on its thumbnail, an underlined accent title and an arrow. The first row carries the bar at rest.
+* Each entry shows its category as a coloured tab that links to the category, with its date and reading time under the title. The large panel shows a Read arrow on hover and focus.
+* The block fades up in turn as it scrolls into view. Visitors who ask for reduced motion see colour changes only.
+* The Journal tab has three new settings: category tabs, arrows and motion, and an accent colour.
 
 = 2.77.22 =
 * Two more articles (Was Paul married?, The purse) quote the ESV.
@@ -219,8 +258,44 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
 
-= 2.77.23 =
+= 2.77.35 =
 Two more articles move to the ESV. Unedited pages update on their own.
+
+= 2.77.34 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.33 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.32 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.31 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.30 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.29 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.28 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.27 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.26 =
+Upload the whole theme folder, then run Install or update under Theme Options, Content. Three Journal entries arrive on their dates, and edited texts are offered beside your own.
+
+= 2.77.25 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.24 =
+Upload the whole theme folder. Nothing else to do.
+
+= 2.77.23 =
+Upload the whole theme folder. Nothing else to do; the three new Journal tab settings start with everything on.
 
 = 2.77.22 =
 Two more articles move to the ESV. Unedited pages update on their own.

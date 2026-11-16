@@ -2,13 +2,134 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [2.77.23] - 2026-11-16
+## [2.77.35] - 2026-11-16
 
-Stage 8, second part: *A self-appointed apostle* and *Paul's missionary journeys* quote the ESV, and 54 pages now carry the Crossway notice. `content_version` rises to 2.77.23 because the shipped texts change.
+Stage 8, second part: *A self-appointed apostle* and *Paul's missionary journeys* quote the ESV, and 54 pages now carry the Crossway notice. `content_version` rises to 2.77.35 because the shipped texts change.
 
 ### Changed
 - Scripture blocks rebuilt verse by verse from the ESV API; quotations in the running text and captions replaced by hand and checked word for word against the same text. KJV names follow the ESV too: Jupiter and Mercurius are Zeus and Hermes, Diana is Artemis, "unknown by face" is "unknown in person".
 - Upload the whole theme folder. Nothing else changes.
+
+## [2.77.34] - 2026-11-09
+
+Follow-up to 2.77.33, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `paulus_supersede_maybe_retry()` ran at `admin_init` priority 30, the same as the sync, and before it. If the replacement was one the pending sync would create, the retry saw no pair, cached that, and recorded the state as handled. It now runs at priority 40, after the sync; the retire steps read the pairs fresh (`paulus_superseded_pairs( true )`) instead of reusing the copy kept for the request; and the state key includes which replacements are published (`paulus_supersede_state_key( $map, $reason, $ready )`), so a replacement that appears later changes the key and the retire runs.
+
+## [2.77.33] - 2026-11-09
+
+Follow-up to 2.77.32, from a check of every button added in 2.77.28 to 2.77.32. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `inc/supersede.php`: the sync runs only when the content version changes, so a retire that a guard blocked (a count drop, the kill switch) was never tried again once the block cleared. `paulus_supersede_maybe_retry()` (`admin_init`, administrators only) judges a retry by `paulus_supersede_state_key()`, the map and the guard state together, and runs the retire again when it changes.
+
+### Checked in a browser (no change needed)
+- On the dashboard, "Use the theme's text" and "Keep mine" each post `paulus_kept_edit` and do what they say; the `wp_text_diff()` shows for every kept edit; no nested form.
+- The Theme Options Content tab, with the dry run, has no nested form, and no button there posts the settings form.
+
+### Changed
+- `tests/supersede-test.php`: the old assertion that looked for `wp_get_referer()` and `admin_url()` in the source is gone (the behavioural cases cover it), and three cases pin the state key.
+
+## [2.77.32] - 2026-11-09
+
+Follow-up to 2.77.31, from CodeAnt's review of it. Tests only. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Changed
+- `tests/supersede-test.php` calls `paulus_supersede_hides()` with stubbed requests: a front-end request hides, an admin screen does not, an editor's AJAX call from a wp-admin screen does not, an editor's AJAX call from the public site does, and a visitor's AJAX call with an admin referer does.
+
+## [2.77.31] - 2026-11-09
+
+Follow-up to 2.77.30, from CodeAnt's late review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `paulus_supersede_hides()` in `inc/supersede.php` now also exempts an editor's admin-side AJAX request whose referer is under `admin_url()`, as the native unlist rule does, so the fallback for the Unlist Posts plugin never hides a superseded item from an editor at work.
+
+## [2.77.30] - 2026-11-09
+
+Follow-up to 2.77.29, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26. The `supersedes` map is still empty.
+
+### Fixed
+- `inc/supersede.php`, the fallback that runs when the Unlist Posts plugin is active (the unlist module stands down then): it now mirrors the native module. Rank Math gets the same noindex (`rank_math/frontend/robots`), the same sitemap exclusion (`rank_math/sitemap/posts_to_exclude`, with `rank_math/sitemap/entry` as a second line) and Yoast stands aside as it does for an unlisted item. A query that sets `post__in` loses the superseded IDs from that list itself, and an emptied list becomes `[0]` (`paulus_supersede_cut_includes()`), because WordPress ignores `post__not_in` when `post__in` is set.
+
+### Checked end to end
+On a scratch site, with a temporary pair set through the `paulus_manifest` filter on two shipped articles: the old address answered 301 to the new one; the old article was gone from the category list and the Sitemap page (it was in both without the pair); its own page carried noindex; the sync moved it to the Trash; its address still answered 301 afterwards; the core sitemap query excluded it and a `post__in` query no longer returned it.
+
+## [2.77.29] - 2026-11-09
+
+Follow-up to 2.77.28, from CodeAnt's review of it. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Fixed
+- `inc/supersede.php`: an old item is retired only while its body hashes to a text the theme shipped (`paulus_is_shipped_text()`: the recorded baselines and every `prior_hashes` value). The check reads the body, so an edit made since the last sync counts even when the old item is no longer in the manifest. The dry run uses the same pairs.
+- `paulus_manifest_intact()` fails when an item has no `file`, or the value is not a string, and reads each text by the exact manifest value.
+- The 10 percent guard compares with the count recorded when a sync finished completely (`paulus_supersede_record_count()`, called where the content version is recorded), not after the retire step.
+- With the Unlist Posts plugin active, `supersede.php` hides superseded items itself (lists, search, feeds, the XML sitemap, noindex), because the unlist module stands down in that case.
+
+## [2.77.28] - 2026-11-09
+
+Superseded content, a dry run and guards. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Added
+- `inc/supersede.php` (module `supersede`): the manifest's `supersedes` map, old slug to new slug. While the new item is published the old one is redirected with a 301 (`template_redirect`, priority 1; after it is in the Trash its address still redirects), hidden from lists, search, feeds, adjacent links and sitemaps (`paulus_unlisted_ids()` includes it, and the owner's `unlist_posts` option is not changed), marked noindex, and moved to the Trash by the sync, never deleted. An old item the owner edited is left alone. The manifest carries `"supersedes": {}` for now.
+- Guards: removals stop when a shipped text is missing or fails its checksum, when the manifest lists more than 10 percent fewer items than at the last good sync, or when `PAULUS_DISABLE_SUPERSEDE` is true in `wp-config.php` (which also switches off the redirect and the hiding).
+- A dry run of the next sync on the Theme Options Content tab (`paulus_sync_preview()`), and a log of the last 100 changes.
+- The dashboard's "Your edits" prompt shows a `wp_text_diff()` of your text against the theme's.
+- The `paulus_manifest` filter.
+- `tests/supersede-test.php`.
+
+## [2.77.27] - 2026-11-09
+
+Follow-up to 2.77.25. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` stays 2.77.26.
+
+### Fixed
+- `tools/axe-audit.js`: a page that fails to load or scan now sets the exit status to 1, and the usage line points to `tools/axe-audit.js` and the paulus cookie instead of `bin/` and murtadd.
+
+## [2.77.26] - 2026-11-09
+
+The canon claim corrected, three Journal entries and a new source, all from Samuel Davidson's *The Canon of the Bible* (1877). No feature removed; the horned illustrations, the book teaser, all schema.org markup and every `seo_title` (all 32 characters or fewer) are unchanged. `content_version` is 2.77.26.
+
+### Changed
+- `content/articles/c06-the-gospels-and-the-new-covenant.json`: the paragraph that said a council at Rome in 382 banned every gospel that disagreed with Paul, and that the canon was assembled a priori, now says no single council banned the rest and that the surviving lists date from the late fourth century onward. Footnote 8 cites Davidson pp. 100 to 101 and 103 and Metzger on the Gelasian Decree. The old hash is in `prior_hashes` as `#r77.26`. The two older descriptions that mentioned 382 stay in `prior_meta` as history.
+- `content/articles/answers.json`: the fourteen-letter count now says the church long counted fourteen, where Marcion gave ten and the Muratorian list thirteen.
+- `content/articles/sources.json`: Davidson added to the scholarship list.
+
+### Added
+- Three Journal entries, dated 3, 10 and 17 January 2027: "Did a council at Rome ban the other gospels in 382?" (`seo_title` "Did Rome ban gospels in 382?", 28 characters), "Did Marcion make the first New Testament?" (30) and "Thirteen letters or fourteen?" (29). The slug of the first has no digit, as `tests/renamed-test.php` requires.
+
+## [2.77.25] - 2026-11-09
+
+WCAG 2.2 AA audit and fixes. No feature removed, the horned illustrations, the book teaser, all schema.org markup and every `seo_title` are unchanged, and `content_version` is untouched.
+
+### Fixed
+- `inc/script-lang.php` (new module `script-lang`): `paulus_script_lang_filter()` (`the_content`, priority 100) wraps each run of Arabic-script or Greek-script text that sits outside an element with its own `lang` in `<span lang="ar">` or `<span lang="grc">` (WCAG 3.1.2). The audit found 800 unmarked runs in the articles. The stored content, its hashes and its manifest do not change.
+
+### Added
+- `tools/axe-audit.js`: an axe-core and Playwright scan of a list of URLs at a given width.
+- `tests/script-lang-test.php`.
+
+## [2.77.24] - 2026-11-09
+
+Mobile-first audit and fixes. No feature removed, the horned illustrations, the book teaser and every `seo_title` are unchanged, and `content_version` is untouched.
+
+### Fixed
+- `assets/css/mobile-first.css` (new, loaded after `theme.css`): a long word in a hero title, standfirst, chapter title, excerpt, search snippet or prose paragraph wraps instead of widening the page (the hero panel and chapter grid now use `minmax(0, 1fr)`); `pre` and wide tables scroll inside their own box; embeds scale with the column; links in the timeline, the contents list, the footnotes, the FAQ back link and the heading anchors take a 24 px minimum target.
+- `functions.php`: `paulus_enqueue_mobile_first()` loads the sheet; `paulus_content_scroll_regions()` (`the_content`, priority 25, main query) wraps a bare table in a labelled, focusable scroll box and gives a code block `tabindex="0"`. Texts that carry the theme's own table wrapper are left alone.
+
+### Audit record
+Findings, remaining risks and follow-ups are in `UPGRADING.md` under 2.77.23 to 2.77.24.
+
+## [2.77.23] - 2026-11-09
+
+The lead and list reacts to the pointer, the keyboard and a tap. No feature removed, the horned illustrations and every `seo_title` are unchanged, and `content_version` stays at 2.77.22.
+
+### Added
+- Row states: a soft tint of the accent that grows past the row, an accent bar sliding in on the left edge, a 6% zoom on the thumbnail, the title in the deep accent with an animated underline, an arrow sliding in at the end of the row, and the row's rule in the accent. Focus and pressed states match, with a 2px outline on focus. Pointing at a row still brings its panel forward.
+- Panel states: the image zooms 5%, a darker veil fades in, the rule above the headline doubles in length and a Read arrow appears, on hover and focus.
+- A category tab above each title and on each panel, in one of five colour pairs from the scheme's own tokens, as a link to the category archive. A category takes its colour from its slug. The pairs are the scheme's designed pairs, checked at 4.5:1 in all six schemes.
+- A line under each title with the date and the reading time at 220 words a minute, replacing the date line.
+- The first list item carries the bar at rest and gives it up while another row is in use.
+- A staggered fade-up when the block scrolls into view, in `assets/js/lead-list-enter.js` (listed in `assets/files.json`). Reduced motion turns off all movement and zoom and keeps the colour changes. Hover styles sit under `(hover: hover)`; on touch screens the arrows stay faint at rest and tapping uses `:active`.
+- Three settings on the Journal tab: category tabs and arrows and motion (both on) and an accent colour, `ll_tabs`, `ll_motion` and `ll_accent` in `paulus_options`. An accent that is under 3:1 against the chosen scheme's page is refused with a notice; the hovered title keeps the scheme's text colour. The filters `paulus_lead_list_show_tabs`, `paulus_lead_list_motion` and `paulus_lead_list_accent` set the same three.
 
 ## [2.77.22] - 2026-11-07
 
