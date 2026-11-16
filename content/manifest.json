@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.38",
+	"content_version": "2.77.39",
 	"prior_hashes": {
 		"c05-seven-doctrines-2.json#r77.37": "c81b752fefa8c9b025dd18d0418de612",
 		"c06-owning-the-new-testament-2.json#r77.37": "5c1b01fd851c84812ab6211a419d92ae",
@@ -1872,6 +1872,16 @@
 			"file": "journal-made-of-a-woman.json",
 			"image": "photo-newborn-hand",
 			"date": "2026-12-20 09:00:00"
+		},
+		{
+			"slug": "pauls-thorn-in-the-flesh",
+			"title": "Paul's thorn in the flesh: what was it?",
+			"seo_title": "Paul's thorn in the flesh",
+			"meta": "Paul never says what his thorn in the flesh was. What 2 Corinthians 12 allows, and why the visions around it matter more.",
+			"excerpt": "Nobody knows what the thorn was. The passage around it shows a man answering a charge of weakness with a vision no one can test.",
+			"file": "journal-pauls-thorn-in-the-flesh.json",
+			"image": "thorn-branch-thorns-37176612",
+			"date": "2027-01-24 09:00:00"
 		}
 	],
 	"pages": [
