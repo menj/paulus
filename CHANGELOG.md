@@ -2,6 +2,28 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.37] - 2026-11-16
+
+Four existing articles now answer the common reply that Paul was loving and humble, that only Muslims accuse him and that Muslims offer no proof. Two more pages quote the ESV, and 56 pages now carry the Crossway notice. `content_version` rises to 2.77.37 because the shipped texts change.
+
+### Added
+- *Lies, curses and guile* (`the-character-of-paul`) gains "The loving Paul": his humility and love are in the letters, and so are three curses on Christians who disagree, the handing of a church member to Satan, and Saul's approval of Stephen's death. The section says plainly that Paul never calls for anyone to be killed.
+- *The purse* gains "The tentmaker who took money": he worked with his hands, yet claimed the right to support, took it from Philippi and admits to "robbing" other churches.
+- *The Jerusalem council* (`paul-against-the-disciples`) gains "Critics before Islam": Cephas opposed at Antioch, the charge in Acts 21:21, James 2:24 and Irenaeus on the Ebionites, with the point that the Qurʾān does not name Paul and the case is built from his own letters.
+- *The letters of a man* gains "Words put in his mouth": "Preach the word, in season and out of season" is 2 Timothy 4:2, a letter in Paul's name, and is in no Gospel.
+
+### Changed
+- *Seven doctrines* and *Apostle to the Gentiles* quote the ESV instead of the King James Version, checked word for word against the ESV text.
+- Upload the whole theme folder. Edited pages keep their edits, so paste the new sections in by hand where you changed a page.
+
+## [2.77.36] - 2026-11-16
+
+A new Journal entry, scheduled for 20 December 2026: *Born of a woman: all Paul says of ʿĪsā's birth*. `content_version` rises to 2.77.36 because the shipped content gains an entry.
+
+### Added
+- *Born of a woman* reads Galatians 4:4 and the two other verses where Paul mentions the birth (Romans 1:3, Philippians 2:7), sets them beside the Gospels and Sūrah Maryam, and ends on a verdict. It carries the Crossway notice, links to five pages on the site and has a `seo_title` of 30 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post, and shows in the Journal on its date.
+
 ## [2.77.35] - 2026-11-16
 
 Stage 8, second part: *A self-appointed apostle* and *Paul's missionary journeys* quote the ESV, and 54 pages now carry the Crossway notice. `content_version` rises to 2.77.35 because the shipped texts change.
