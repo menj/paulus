@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.40] - 2026-11-16
+
+Stage 8, fourth part: *The Tanakh rewritten* and *Justification by faith* quote the ESV, and 60 pages now carry the Crossway notice. `content_version` rises to 2.77.40 because the shipped texts change.
+
+### Changed
+- Scripture blocks rebuilt verse by verse from the ESV API; quotations in the running text, the Hebrew glosses and a footnote replaced by hand and checked word for word against the same text. The argument about Hebrews 8:9 is unchanged: the ESV keeps "though I was their husband" in Jeremiah 31:32 and "so I showed no concern for them" in Hebrews 8:9. "Seed" in the Genesis 12:7 discussion is now "offspring", as in the ESV.
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.39] - 2026-11-16
 
 A new Journal entry, scheduled for 24 January 2027: *Paul's thorn in the flesh: what was it?* `content_version` rises to 2.77.39 because the shipped content gains an entry.

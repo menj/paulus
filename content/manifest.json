@@ -1,8 +1,10 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.39",
+	"content_version": "2.77.40",
 	"prior_hashes": {
+		"c06-twisting-the-scriptures-3.json#r77.39": "c04678062310674873fe35f6407bcfb8",
+		"c06-the-gospels-and-the-new-covenant-2.json#r77.39": "ceaf1d8e509cd0442b94bdf5eb95185e",
 		"c05-seven-doctrines-2.json#r77.37": "c81b752fefa8c9b025dd18d0418de612",
 		"c06-owning-the-new-testament-2.json#r77.37": "5c1b01fd851c84812ab6211a419d92ae",
 		"c05-seven-doctrines.json#r77.36": "864562c4be201e3d4bfa9ceba2a4ce98",
