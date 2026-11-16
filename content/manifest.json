@@ -1,8 +1,13 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.40",
+	"content_version": "2.77.41",
 	"prior_hashes": {
+		"c05-the-letters-of-a-man-2.json#r77.40": "b575967c4f4ed492170b660a4cbf469b",
+		"c06-twisting-the-scriptures.json#r77.40": "8ceebbd6fd44ab4ead69cd0a0b34194b",
+		"the-prayer-jesus-taught.json#r77.40": "9aff3a967b4b6187662348bdee485cc3",
+		"original-sin.json#r77.40": "925c2502d1885c38c015dc4fbe455cd7",
+		"jesus-in-his-own-words.json#r77.40": "22781c5b0838f12cc2c3d3ccad0a93e3",
 		"c06-twisting-the-scriptures-3.json#r77.39": "c04678062310674873fe35f6407bcfb8",
 		"c06-the-gospels-and-the-new-covenant-2.json#r77.39": "ceaf1d8e509cd0442b94bdf5eb95185e",
 		"c05-seven-doctrines-2.json#r77.37": "c81b752fefa8c9b025dd18d0418de612",

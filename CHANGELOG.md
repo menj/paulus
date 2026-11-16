@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.41] - 2026-11-16
+
+Stage 8, last part: the five remaining articles that quoted the King James Version now quote the ESV. 58 pages and 8 Journal entries now carry the Crossway notice (earlier entries in this changelog counted these differently and overstated the total by a few). `content_version` rises to 2.77.41 because the shipped texts change.
+
+### Changed
+- *The Greek body and the Jewish bed*, *Twisting the Scriptures*, *The prayer ʿĪsā taught*, *Original sin* and *ʿĪsā in his own words* quote the ESV. Scripture blocks were rebuilt verse by verse from the ESV API; quotations in the running text, headings, captions and footnotes were replaced by hand and checked word for word against the same text.
+- KJV wording in the arguments follows the ESV: "workers of iniquity" is "workers of lawlessness", "I have begotten you through the gospel" is "I became your father in Christ Jesus through the gospel", "Good Master" is "Good Teacher", "Godhead" is "deity", and "we establish the law" is "we uphold the law". In *ʿĪsā in his own words* the Matthew 19:17 paragraph now says the King James text kept Mark's question and that the ESV follows the oldest manuscripts.
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.40] - 2026-11-16
 
 Stage 8, fourth part: *The Tanakh rewritten* and *Justification by faith* quote the ESV, and 60 pages now carry the Crossway notice. `content_version` rises to 2.77.40 because the shipped texts change.

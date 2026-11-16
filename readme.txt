@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.40
+Stable tag: 2.77.41
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.41 =
+* The last five articles that quoted the King James Version now quote the ESV.
+
 = 2.77.40 =
 * Two more articles (The Tanakh rewritten, Justification by faith) quote the ESV.
 
@@ -272,6 +275,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.41 =
+The move to the ESV is complete for the articles. Unedited pages update on their own.
 
 = 2.77.40 =
 Two more articles move to the ESV. Unedited pages update on their own.
