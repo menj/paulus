@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.35",
+	"content_version": "2.77.36",
 	"prior_hashes": {
 		"c03-a-self-appointed-apostle.json#r77.34": "2abaf9cdde54e9ab328ffeba42f2fa93",
 		"pauls-missionary-journeys.json#r77.34": "e826e1055bfc8f88d98d56a4d0bb7fd4",
@@ -1854,6 +1854,16 @@
 			"file": "journal-thirteen-letters-or-fourteen.json",
 			"image": "met-tiberius-ring",
 			"date": "2027-01-17 09:00:00"
+		},
+		{
+			"slug": "born-of-a-woman",
+			"title": "Born of a woman: all Paul says of ʿĪsā's birth",
+			"seo_title": "Born of a woman: Paul on Jesus",
+			"meta": "Paul mentions the birth of Jesus once, in a clause, and never names Mary. What Galatians 4:4 says, and what the Gospels add later.",
+			"excerpt": "Paul gives the birth of ʿĪsā one clause and names no mother. Everything else the church tells about it comes from other books.",
+			"file": "journal-made-of-a-woman.json",
+			"image": "photo-newborn-hand",
+			"date": "2026-12-20 09:00:00"
 		}
 	],
 	"pages": [

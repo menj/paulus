@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.36] - 2026-11-16
+
+A new Journal entry, scheduled for 20 December 2026: *Born of a woman: all Paul says of ʿĪsā's birth*. `content_version` rises to 2.77.36 because the shipped content gains an entry.
+
+### Added
+- *Born of a woman* reads Galatians 4:4 and the two other verses where Paul mentions the birth (Romans 1:3, Philippians 2:7), sets them beside the Gospels and Sūrah Maryam, and ends on a verdict. It carries the Crossway notice, links to five pages on the site and has a `seo_title` of 30 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post, and shows in the Journal on its date.
+
 ## [2.77.35] - 2026-11-16
 
 Stage 8, second part: *A self-appointed apostle* and *Paul's missionary journeys* quote the ESV, and 54 pages now carry the Crossway notice. `content_version` rises to 2.77.35 because the shipped texts change.
