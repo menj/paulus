@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.39] - 2026-11-16
+
+A new Journal entry, scheduled for 24 January 2027: *Paul's thorn in the flesh: what was it?* `content_version` rises to 2.77.39 because the shipped content gains an entry.
+
+### Added
+- *Paul's thorn in the flesh* reads 2 Corinthians 12 and Galatians 4 and 6, sets out the guesses (eyes, headaches, epilepsy, opponents) and ends on a verdict: the visions come with no witness and no content, and the thorn is Paul's answer to a charge of weakness. It carries the Crossway notice, links to four pages and has a `seo_title` of 25 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post.
+
 ## [2.77.38] - 2026-11-16
 
 Stage 8, third part: *Seven doctrines: the law and the covenant* and *Letters that contradict themselves* quote the ESV, and 58 pages now carry the Crossway notice. `content_version` rises to 2.77.38 because the shipped texts change.
