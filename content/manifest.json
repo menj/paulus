@@ -1,7 +1,9 @@
 {
 	"nav_version": 7,
-	"content_version": "2.77.22",
+	"content_version": "2.77.23",
 	"prior_hashes": {
+		"c03-a-self-appointed-apostle.json#r77.22": "2abaf9cdde54e9ab328ffeba42f2fa93",
+		"pauls-missionary-journeys.json#r77.22": "e826e1055bfc8f88d98d56a4d0bb7fd4",
 		"was-paul-married.json#r77.21": "26e86756d64fbcd12de33f5976ca93d6",
 		"c14-the-purse.json#r77.21": "d79ca0aa5d7c4972a4719a659ff3a650",
 		"journal-did-paul-meet-jesus.json#r77.20": "d276ecaacdc06c33b493ed918729b161",

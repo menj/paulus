@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.23] - 2026-11-16
+
+Stage 8, second part: *A self-appointed apostle* and *Paul's missionary journeys* quote the ESV, and 54 pages now carry the Crossway notice. `content_version` rises to 2.77.23 because the shipped texts change.
+
+### Changed
+- Scripture blocks rebuilt verse by verse from the ESV API; quotations in the running text and captions replaced by hand and checked word for word against the same text. KJV names follow the ESV too: Jupiter and Mercurius are Zeus and Hermes, Diana is Artemis, "unknown by face" is "unknown in person".
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.22] - 2026-11-07
 
 Stage 8 of the move to the English Standard Version, first part: two more articles quote the ESV, and 52 pages now carry the Crossway notice. `content_version` rises to 2.77.22 because the shipped texts change.

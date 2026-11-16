@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.22
+Stable tag: 2.77.23
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.23 =
+* Two more articles (A self-appointed apostle, Paul's missionary journeys) quote the ESV.
+
 = 2.77.22 =
 * Two more articles (Was Paul married?, The purse) quote the ESV.
 
@@ -215,6 +218,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.23 =
+Two more articles move to the ESV. Unedited pages update on their own.
 
 = 2.77.22 =
 Two more articles move to the ESV. Unedited pages update on their own.
