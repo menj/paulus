@@ -1,8 +1,10 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.42",
+	"content_version": "2.77.43",
 	"prior_hashes": {
+		"journal-did-marcion-make-first-nt.json#r77.42": "877ed8c492abdf830b72fd7820e124ef",
+		"journal-thirteen-letters-or-fourteen.json#r77.42": "3d0c41fbd93bb7b66115a7e0fdf36488",
 		"journal-did-paul-meet-jesus.json#r77.41": "982321e22de47a4a5c47e6b7656f7e5c",
 		"journal-paul-and-apollos.json#r77.41": "d8875ddc4acff6183782fcde7fda0325",
 		"journal-paul-pharisee-or-sadducee.json#r77.41": "123313c98212b0416f5903d6ea6e8cb2",
@@ -1903,6 +1905,16 @@
 			"file": "journal-pauls-thorn-in-the-flesh.json",
 			"image": "thorn-branch-thorns-37176612",
 			"date": "2027-01-24 09:00:00"
+		},
+		{
+			"slug": "damascus-road-three-versions",
+			"title": "Three tellings of the Damascus road",
+			"seo_title": "Damascus road: three versions",
+			"meta": "Acts tells Paul's conversion three times and the tellings disagree. Paul's own letter adds almost nothing. What the texts say.",
+			"excerpt": "Who fell, who heard the voice and who gave the orders changes with each telling of the Damascus road. Paul's own account leaves most of it out.",
+			"file": "journal-damascus-road-three-versions.json",
+			"image": "caravaggio-conversion",
+			"date": "2027-01-31 09:00:00"
 		}
 	],
 	"pages": [
