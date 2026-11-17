@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.42] - 2026-11-17
+
+The Journal stops giving Paul the benefit of the doubt. Twelve entries had hedged, conceded points or praised him where the evidence they set out points the other way. Every verdict is now rewritten to say plainly what his own letters show. `content_version` rises to 2.77.42 because the shipped texts change.
+
+### Changed
+- All eleven verdicts, and the new *Born of a woman* and *Paul's thorn in the flesh*, are rewritten in plain accusatory prose, each resting on a quotation from his own letters or from Acts: no credential and no teacher (*Did Paul ever meet Jesus?*, *Gamaliel*), a new face for every audience in his own words, "all things to all people" (*Pharisee or Sadducee*), contradictory orders to Galatia and Rome (*holy days*), a revelation nobody can examine (*the thorn*), a prisoner by his own choice of court (*prison*), a forecast that left no trace (*Spain*), and a man who collected the divine honours Luke has him refuse (*Lystra*, from Galatians 4:14).
+- The hedges are gone: "it may be true", "I hold the question open", "I cannot tell which", "the honesty is plain", "nothing here is a criticism of that man" and "I do not claim that Paul denied it".
+- *The women Paul greeted* ends on Paul's own rule in 1 Corinthians 14:34–35 instead of blaming a forger.
+- A style pass removed the "not X, but Y" constructions, the anaphoric runs and the padded triads from the same entries, and one line of hedging in the Gamaliel entry.
+- Upload the whole theme folder. Entries the owner has not edited take the new text on the sync; an edited entry keeps its edits.
+
 ## [2.77.41] - 2026-11-16
 
 Stage 8, last part: the remaining articles that quoted the King James Version now quote the ESV. 59 pages and 8 Journal entries now carry the Crossway notice (earlier entries in this changelog counted these differently and overstated the total by a few). `content_version` rises to 2.77.41 because the shipped texts change.
