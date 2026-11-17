@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.44] - 2026-11-17
+
+A new Journal entry, scheduled for 7 February 2027: *Peter against Paul at Antioch: who won?* `content_version` rises to 2.77.44 because the shipped content gains an entry.
+
+### Added
+- *Peter against Paul at Antioch* reads Galatians 2:9–14 and Acts 15:39–40. Every party Paul names at Antioch (Peter, Barnabas, the Jewish believers and the men from James) took the other side, Paul reports his own speech and no reply, and Acts leaves the episode out. It carries the Crossway notice, links to four pages, and has a `seo_title` of 29 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post.
+
 ## [2.77.43] - 2026-11-17
 
 A new Journal entry, scheduled for 31 January 2027: *Three tellings of the Damascus road*. Two canon-history entries gain a short section on what they mean for Paul. `content_version` rises to 2.77.43 because the shipped content changes.

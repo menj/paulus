@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.43",
+	"content_version": "2.77.44",
 	"prior_hashes": {
 		"journal-did-marcion-make-first-nt.json#r77.42": "877ed8c492abdf830b72fd7820e124ef",
 		"journal-thirteen-letters-or-fourteen.json#r77.42": "3d0c41fbd93bb7b66115a7e0fdf36488",
@@ -1915,6 +1915,16 @@
 			"file": "journal-damascus-road-three-versions.json",
 			"image": "caravaggio-conversion",
 			"date": "2027-01-31 09:00:00"
+		},
+		{
+			"slug": "peter-against-paul-at-antioch",
+			"title": "Peter against Paul at Antioch: who won?",
+			"seo_title": "Peter against Paul at Antioch",
+			"meta": "Paul says he rebuked Peter at Antioch. Acts never mentions it, and Paul never says who won. What Galatians 2 reports.",
+			"excerpt": "Every party Paul names at Antioch took the other side, and he never says anyone gave way. Acts leaves the episode out.",
+			"file": "journal-peter-against-paul-at-antioch.json",
+			"image": "el-greco-peter-paul",
+			"date": "2027-02-07 09:00:00"
 		}
 	],
 	"pages": [
