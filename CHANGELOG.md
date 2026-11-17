@@ -4,15 +4,12 @@ All notable changes to this theme are documented here. The format follows [Keep 
 
 ## [2.77.42] - 2026-11-17
 
-Six Journal entries lost their sympathetic passages. They had hedged, or praised Paul, where the evidence they set out points the other way. `content_version` rises to 2.77.42 because the shipped texts change.
+The Journal stops giving Paul the benefit of the doubt. Twelve entries had hedged, conceded points or praised him where the evidence they set out points the other way. Every verdict is now rewritten to say plainly what his own letters show. `content_version` rises to 2.77.42 because the shipped texts change.
 
 ### Changed
-- *Lystra* no longer calls the scene "the best thing Acts says of Paul" or says "nothing here is a criticism of that man". The verdict now sets Luke's Paul, who refuses to be made a god, beside Paul's own letter to the Galatians, which recalls with pride that they received him "as an angel of God, as Christ Jesus".
-- *Did Paul really study under Gamaliel?* drops "it may be true" and says the simplest reason Paul never mentions it is that there was nothing to mention.
-- *Did Paul ever reach Spain?* drops "I hold the question open" and says the evidence leans against it.
-- *Paul in prison* no longer says "I cannot tell which" about the missing imprisonments, and links the Corinthians' doubts about his word.
-- *What did Paul never say about ʿĪsā?* drops "the honesty is plain".
-- *The women Paul greeted* now ends on Paul's own rule in 1 Corinthians 14:34–35, "the women should keep silent in the churches", instead of blaming a forger. The church did not need one.
+- All eleven verdicts, and the new *Born of a woman* and *Paul's thorn in the flesh*, are rewritten in plain accusatory prose, each resting on a quotation from his own letters or from Acts: no credential and no teacher (*Did Paul ever meet Jesus?*, *Gamaliel*), a new face for every audience in his own words, "all things to all people" (*Pharisee or Sadducee*), contradictory orders to Galatia and Rome (*holy days*), a revelation nobody can examine (*the thorn*), a prisoner by his own choice of court (*prison*), a forecast that left no trace (*Spain*), and a man who collected the divine honours Luke has him refuse (*Lystra*, from Galatians 4:14).
+- The hedges are gone: "it may be true", "I hold the question open", "I cannot tell which", "the honesty is plain", "nothing here is a criticism of that man" and "I do not claim that Paul denied it".
+- *The women Paul greeted* ends on Paul's own rule in 1 Corinthians 14:34–35 instead of blaming a forger.
 - Upload the whole theme folder. Entries the owner has not edited take the new text on the sync; an edited entry keeps its edits.
 
 ## [2.77.41] - 2026-11-16

@@ -151,7 +151,7 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 == Changelog ==
 
 = 2.77.42 =
-* Six Journal entries are sharpened: sympathetic passages about Paul removed, and the women entry now ends on Paul's own words in 1 Corinthians 14.
+* The Journal verdicts are rewritten without concessions to Paul, each resting on a quotation from his own letters.
 
 = 2.77.41 =
 * The last five articles that quoted the King James Version now quote the ESV.
@@ -280,7 +280,7 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 == Upgrade Notice ==
 
 = 2.77.42 =
-Six Journal entries are made more critical. Unedited entries update on their own.
+The Journal verdicts are made more critical. Unedited entries update on their own.
 
 = 2.77.41 =
 The move to the ESV is complete for the articles. Unedited pages update on their own.
