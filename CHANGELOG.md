@@ -8,6 +8,7 @@ A new Journal entry, scheduled for 7 February 2027: *Peter against Paul at Antio
 
 ### Added
 - *Peter against Paul at Antioch* reads Galatians 2:9–14 and Acts 15:39–40. Every party Paul names at Antioch (Peter, Barnabas, the Jewish believers and the men from James) took the other side, Paul reports his own speech and no reply, and Acts leaves the episode out. It carries the Crossway notice, links to four pages, and has a `seo_title` of 29 characters.
+- Three recent entries grow to about 1,000 words each with new sourced sections: *Damascus road* ("What happened next", "Escape from Damascus", where Acts and 2 Corinthians name different enemies), *Born of a woman* ("What the Gospels add later": Mark has no birth story, and Matthew and Luke give different fathers for Joseph) and *The thorn* ("A habit of revelations"). *Peter against Paul at Antioch* includes "The decree Paul never mentions": Acts has Paul carry the Jerusalem decree on idol meat, and he tells Corinth to eat whatever is sold in the meat market.
 - Upload the whole theme folder. The entry is created once, as a scheduled post.
 
 ## [2.77.43] - 2026-11-17

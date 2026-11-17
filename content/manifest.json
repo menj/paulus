@@ -3,6 +3,9 @@
 	"supersedes": {},
 	"content_version": "2.77.44",
 	"prior_hashes": {
+		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",
+		"journal-made-of-a-woman.json#r77.43": "f439f6da9c5a80744b053527dfa62481",
+		"journal-pauls-thorn-in-the-flesh.json#r77.43": "1d18d26d4bd3eeda214a7094d85d9c15",
 		"journal-did-marcion-make-first-nt.json#r77.42": "877ed8c492abdf830b72fd7820e124ef",
 		"journal-thirteen-letters-or-fourteen.json#r77.42": "3d0c41fbd93bb7b66115a7e0fdf36488",
 		"journal-did-paul-meet-jesus.json#r77.41": "982321e22de47a4a5c47e6b7656f7e5c",
