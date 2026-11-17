@@ -1,8 +1,14 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.41",
+	"content_version": "2.77.42",
 	"prior_hashes": {
+		"journal-paul-and-barnabas-at-lystra.json#r77.41": "8e304ab6a49e8d4fdcacce93bcf58417",
+		"journal-paul-and-gamaliel.json#r77.41": "a5604e3183831dd040d38904ed4c94c9",
+		"journal-did-paul-reach-spain.json#r77.41": "0f85ccf92d20f026cabc09fdf46ee83d",
+		"journal-paul-in-prison.json#r77.41": "e9a9d80f0e5685f1e3f5dd8c4620cd79",
+		"journal-what-paul-never-said-about-jesus.json#r77.41": "4313953832b4c22ecfc0dac81736e79c",
+		"journal-women-paul-greeted.json#r77.41": "96cc81e5b5c90675ba930f8dedae3c56",
 		"c10-no-prophet-between-2.json#r77.40": "73c581f7ff849eb0f4f3ae867a9b239c",
 		"11-epistle.json#r77.40": "7d9c50087d6cf1682b758566c800d0b1",
 		"c05-the-letters-of-a-man-2.json#r77.40": "b575967c4f4ed492170b660a4cbf469b",

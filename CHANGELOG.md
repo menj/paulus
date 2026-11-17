@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.42] - 2026-11-17
+
+Six Journal entries lost their sympathetic passages. They had hedged, or praised Paul, where the evidence they set out points the other way. `content_version` rises to 2.77.42 because the shipped texts change.
+
+### Changed
+- *Lystra* no longer calls the scene "the best thing Acts says of Paul" or says "nothing here is a criticism of that man". The verdict now sets Luke's Paul, who refuses to be made a god, beside Paul's own letter to the Galatians, which recalls with pride that they received him "as an angel of God, as Christ Jesus".
+- *Did Paul really study under Gamaliel?* drops "it may be true" and says the simplest reason Paul never mentions it is that there was nothing to mention.
+- *Did Paul ever reach Spain?* drops "I hold the question open" and says the evidence leans against it.
+- *Paul in prison* no longer says "I cannot tell which" about the missing imprisonments, and links the Corinthians' doubts about his word.
+- *What did Paul never say about ʿĪsā?* drops "the honesty is plain".
+- *The women Paul greeted* now ends on Paul's own rule in 1 Corinthians 14:34–35, "the women should keep silent in the churches", instead of blaming a forger. The church did not need one.
+- Upload the whole theme folder. Entries the owner has not edited take the new text on the sync; an edited entry keeps its edits.
+
 ## [2.77.41] - 2026-11-16
 
 Stage 8, last part: the remaining articles that quoted the King James Version now quote the ESV. 59 pages and 8 Journal entries now carry the Crossway notice (earlier entries in this changelog counted these differently and overstated the total by a few). `content_version` rises to 2.77.41 because the shipped texts change.
