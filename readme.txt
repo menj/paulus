@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.43
+Stable tag: 2.77.44
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.44 =
+* New Journal entry for 7 February: Peter against Paul at Antioch.
+
 = 2.77.43 =
 * New Journal entry for 31 January: Three tellings of the Damascus road. Two canon entries gain a section on what they mean for Paul.
 
@@ -281,6 +284,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.44 =
+A new Journal entry is added and scheduled.
 
 = 2.77.43 =
 A new Journal entry is added and scheduled.
