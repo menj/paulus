@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.44",
+	"content_version": "2.77.45",
 	"prior_hashes": {
 		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",
 		"journal-made-of-a-woman.json#r77.43": "f439f6da9c5a80744b053527dfa62481",
@@ -1928,6 +1928,16 @@
 			"file": "journal-peter-against-paul-at-antioch.json",
 			"image": "el-greco-peter-paul",
 			"date": "2027-02-07 09:00:00"
+		},
+		{
+			"slug": "paul-and-the-return-that-failed",
+			"title": "We who are alive: Paul and the return that never came",
+			"seo_title": "Paul and the return that failed",
+			"meta": "Paul told the Thessalonians by a word from the Lord that he would be alive at the return. What he wrote, and what ʿĪsā said instead.",
+			"excerpt": "Paul wrote that he and his readers would be alive when Christ returned. They were not, and he never corrected it. ʿĪsā said not even the Son knows the hour.",
+			"file": "journal-paul-and-the-return-that-failed.json",
+			"image": "sunrise-over-hills-18319865",
+			"date": "2027-02-14 09:00:00"
 		}
 	],
 	"pages": [
