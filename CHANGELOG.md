@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.45] - 2026-11-17
+
+A new Journal entry, scheduled for 14 February 2027: *We who are alive: Paul and the return that never came*. `content_version` rises to 2.77.45 because the shipped content gains an entry.
+
+### Added
+- *We who are alive* sets Paul's promise in 1 Thessalonians 4:15–17, "by a word from the Lord", that he would be alive at the return, beside 1 Corinthians 15:51–52, Romans 13:11–12 and 1 Corinthians 7:29. It adds his later turn to expecting death in Philippians 1:23 with no correction of the earlier promise, ʿĪsā's admission in Mark 13:32 that not even the Son knows the hour, and the delay as it shows in 2 Peter 3:3–4. About 1,100 words, ending on a verdict. It carries the Crossway notice, links to three pages, and has a `seo_title` of 31 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post.
+
 ## [2.77.44] - 2026-11-17
 
 A new Journal entry, scheduled for 7 February 2027: *Peter against Paul at Antioch: who won?* `content_version` rises to 2.77.44 because the shipped content gains an entry.
