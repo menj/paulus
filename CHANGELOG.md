@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.43] - 2026-11-17
+
+A new Journal entry, scheduled for 31 January 2027: *Three tellings of the Damascus road*. Two canon-history entries gain a short section on what they mean for Paul. `content_version` rises to 2.77.43 because the shipped content changes.
+
+### Added
+- *Three tellings of the Damascus road* sets Acts 9, 22 and 26 against each other and against Galatians 1. The companions stand in one telling and fall in another, hear the voice in one and do not in the next, and Ananias drops out of the third. Paul's own letter leaves out the light, the voice, the companions and Ananias. It carries the Crossway notice, links to three pages, and has a `seo_title` of 29 characters.
+- *Did Marcion make the first New Testament?* and *Thirteen letters or fourteen?* each gain "What it means for Paul": the church kept Marcion's author and enlarged him, and six of the thirteen letters in the canon are not Paul's own on this site's reading. The 382 entry is unchanged, since the claim it examines is false.
+- Upload the whole theme folder. The new entry is created once, as a scheduled post.
+
 ## [2.77.42] - 2026-11-17
 
 The Journal stops giving Paul the benefit of the doubt. Twelve entries had hedged, conceded points or praised him where the evidence they set out points the other way. Every verdict is now rewritten to say plainly what his own letters show. `content_version` rises to 2.77.42 because the shipped texts change.
