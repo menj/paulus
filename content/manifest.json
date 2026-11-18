@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.46",
+	"content_version": "2.77.47",
 	"prior_hashes": {
 		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",
 		"journal-made-of-a-woman.json#r77.43": "f439f6da9c5a80744b053527dfa62481",
@@ -1948,6 +1948,16 @@
 			"file": "journal-paul-onesimus-and-slavery.json",
 			"image": "rusty-iron-chains-36688932",
 			"date": "2027-02-21 09:00:00"
+		},
+		{
+			"slug": "was-paul-a-roman-citizen",
+			"title": "Was Paul a Roman citizen?",
+			"seo_title": "Was Paul a Roman citizen?",
+			"meta": "Acts says Paul was a Roman citizen. His letters never mention it, and they record three beatings with rods. What the texts say.",
+			"excerpt": "Acts claims Roman citizenship for Paul three times. Paul never claims it once, and he records being beaten with rods three times.",
+			"file": "journal-was-paul-a-roman-citizen.json",
+			"image": "roman-silver-coins",
+			"date": "2027-02-28 09:00:00"
 		}
 	],
 	"pages": [

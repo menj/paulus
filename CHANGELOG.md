@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.47] - 2026-11-18
+
+A new Journal entry, scheduled for 28 February 2027: *Was Paul a Roman citizen?* It fills the last slot of the November to February calendar. `content_version` rises to 2.77.47 because the shipped content gains an entry.
+
+### Added
+- *Was Paul a Roman citizen?* sets Acts 16:37, 22:25–28 and 25:11 against Paul's letters, which never mention citizenship, a Roman name or an appeal to Rome, and against his record of three beatings with rods in 2 Corinthians 11:25. It adds the Philippians credential list, which omits citizenship in a letter to a Roman colony, and the use Luke has for the claim. About 910 words, ending on a verdict. It carries the Crossway notice, links to four pages, and has a `seo_title` of 25 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post.
+
 ## [2.77.46] - 2026-11-18
 
 A new Journal entry, scheduled for 21 February 2027: *Paul sent Onesimus back: Philemon and slavery*. `content_version` rises to 2.77.46 because the shipped content gains an entry.
