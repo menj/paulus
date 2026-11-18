@@ -2,6 +2,16 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.48] - 2026-11-18
+
+The last King James word in a page title is gone: "the whited wall" is now "the whitewashed wall", as the ESV has it in Acts 23:3. `content_version` rises to 2.77.48 because the shipped title and text change.
+
+### Changed
+- *Perjury, curses and the whitewashed wall* (`the-character-of-paul`): the title, the section heading "The whitewashed wall" and the excerpt use the ESV word. The search title is now "Paul's whitewashed wall curse" (29 characters, inside the limit of 32); the slug and address are unchanged.
+- The old title, search title and excerpt are recorded in `prior_meta`, so the page takes the new wording on the sync while an edited one keeps its edits.
+- The contextual-link phrase "whited wall" stays, since readers still search for it, and "whitewashed wall" is added beside it in `inc/data/network-links.json`.
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.47] - 2026-11-18
 
 A new Journal entry, scheduled for 28 February 2027: *Was Paul a Roman citizen?* It fills the last slot of the November to February calendar. `content_version` rises to 2.77.47 because the shipped content gains an entry.

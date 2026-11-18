@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.47
+Stable tag: 2.77.48
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -150,6 +150,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.48 =
+* "The whited wall" in a page title becomes "the whitewashed wall", as in the ESV.
+
 = 2.77.47 =
 * New Journal entry for 28 February: Was Paul a Roman citizen?
 
@@ -293,6 +296,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.48 =
+One page title follows the ESV wording. Unedited pages update on their own.
 
 = 2.77.47 =
 A new Journal entry is added and scheduled.
