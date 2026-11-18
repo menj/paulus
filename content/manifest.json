@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.45",
+	"content_version": "2.77.46",
 	"prior_hashes": {
 		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",
 		"journal-made-of-a-woman.json#r77.43": "f439f6da9c5a80744b053527dfa62481",
@@ -1938,6 +1938,16 @@
 			"file": "journal-paul-and-the-return-that-failed.json",
 			"image": "sunrise-over-hills-18319865",
 			"date": "2027-02-14 09:00:00"
+		},
+		{
+			"slug": "paul-onesimus-and-slavery",
+			"title": "Paul sent Onesimus back: Philemon and slavery",
+			"seo_title": "Paul, Onesimus and slavery",
+			"meta": "Paul returned a slave to his owner and never wrote the word freedom. What Philemon and the letters under his name say about slavery.",
+			"excerpt": "Paul sent Onesimus back to his master and asked for kindness, not freedom. His other letters tell slaves to stay as they are and obey.",
+			"file": "journal-paul-onesimus-and-slavery.json",
+			"image": "rusty-iron-chains-36688932",
+			"date": "2027-02-21 09:00:00"
 		}
 	],
 	"pages": [
