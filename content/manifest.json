@@ -1,8 +1,9 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.47",
+	"content_version": "2.77.48",
 	"prior_hashes": {
+		"c13-lies-curses-and-guile.json#r77.47": "f812749477222258c433dc14858aac7e",
 		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",
 		"journal-made-of-a-woman.json#r77.43": "f439f6da9c5a80744b053527dfa62481",
 		"journal-pauls-thorn-in-the-flesh.json#r77.43": "1d18d26d4bd3eeda214a7094d85d9c15",
@@ -709,6 +710,8 @@
 		"Curses for dissenters, and the break with Barnabas",
 		"The purse: the collection for Islamicjerusalem",
 		"Perjury, curses and the whited wall",
+		"Perjury, curses, whited wall",
+		"What Paul's own letters add to the record of his conduct beyond the counts: a lawyer's verdict on the Temple vow, the wish of mutilation, the whited wall, the Jews as enemies of all men, and money.",
 		"Women, slaves, Caesar and the witnesses of conscience",
 		"The flesh: licence, lust and the war within",
 		"The fruit at Corinth",
@@ -1082,8 +1085,8 @@
 		{
 			"slug": "the-character-of-paul",
 			"meta": "Lies for the gospel, a vow he had renounced, curses on his rivals and a new hatred: Paul's conduct, told in his own words.",
-			"title": "Perjury, curses and the whited wall",
-			"seo_title": "Perjury, curses, whited wall",
+			"title": "Perjury, curses and the whitewashed wall",
+			"seo_title": "Paul's whitewashed wall curse",
 			"label": "The character",
 			"part": "the-man",
 			"series": "the-character",
@@ -1091,7 +1094,7 @@
 			"part_no": 1,
 			"parts": 4,
 			"questions": true,
-			"excerpt": "What Paul's own letters add to the record of his conduct beyond the counts: a lawyer's verdict on the Temple vow, the wish of mutilation, the whited wall, the Jews as enemies of all men, and money.",
+			"excerpt": "What Paul's own letters add to the record of his conduct beyond the counts: a lawyer's verdict on the Temple vow, the wish of mutilation, the whitewashed wall, the Jews as enemies of all men, and money.",
 			"image": "paul-dunce-ink",
 			"file": "c13-lies-curses-and-guile.json"
 		},
