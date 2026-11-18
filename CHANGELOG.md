@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.46] - 2026-11-18
+
+A new Journal entry, scheduled for 21 February 2027: *Paul sent Onesimus back: Philemon and slavery*. `content_version` rises to 2.77.46 because the shipped content gains an entry.
+
+### Added
+- *Paul sent Onesimus back* reads Philemon, Galatians 3:28 and 1 Corinthians 7:20–21 against the instructions to slaves in Colossians, Ephesians, Titus and 1 Timothy. Paul returned a slave to his owner, used the debt Philemon owed him and still never asked for freedom, and his own advice to slaves is to stay as they are. About 1,070 words, ending on a verdict. It carries the Crossway notice, links to two pages, and has a `seo_title` of 26 characters.
+- Upload the whole theme folder. The entry is created once, as a scheduled post.
+
 ## [2.77.45] - 2026-11-17
 
 A new Journal entry, scheduled for 14 February 2027: *We who are alive: Paul and the return that never came*. `content_version` rises to 2.77.45 because the shipped content gains an entry.
