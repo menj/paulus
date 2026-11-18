@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.49] - 2026-11-18
+
+The references in two scheduled Journal entries were checked against their sources. `content_version` rises to 2.77.49 because one shipped text changes.
+
+### Changed
+- *Was Paul a Roman citizen?*: the Cicero line is now quoted from Yonge's translation of *Against Verres* 2.5.170 ("It is a crime to bind a Roman citizen; to scourge him is a wickedness; to put him to death is almost parricide"), and "outrage" becomes "wickedness". The unsourced sentence that rods were "the punishment of non-citizens in the provinces" is replaced by "Roman law protected citizens from this treatment", which the Cicero line supports.
+- *Paul sent Onesimus back* is unchanged. Its three Qurʾān references hold: 90:13 is "the freeing of a slave", 4:92 prescribes freeing a believing slave as expiation for killing by mistake, and 24:33 provides a contract toward emancipation.
+- Upload the whole theme folder. Nothing else changes.
+
 ## [2.77.48] - 2026-11-18
 
 The last King James word in a page title is gone: "the whited wall" is now "the whitewashed wall", as the ESV has it in Acts 23:3. `content_version` rises to 2.77.48 because the shipped title and text change.
