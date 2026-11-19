@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.63] - 2026-11-19
+
+The Privacy Policy covers the Wikipedia previews. `content_version` is 2.77.63, since a shipped text changes.
+
+### Changed
+- The Privacy Policy gains "Previews from Wikipedia": a card is loaded from Wikipedia when a reader clicks or hovers over a link to Wikipedia, so Wikimedia receives the reader's IP address and browser details at that moment, and nothing is sent before. It links to Wikimedia's privacy policy. The "last revised" date is 19 November 2026. The old text is recorded in `prior_hashes` (`legal-privacy-policy.json#r77.63`).
+
 ## [2.77.62] - 2026-11-19
 
 A new Journal entry, by the owner's request. `content_version` is 2.77.62, since a shipped text is added.
