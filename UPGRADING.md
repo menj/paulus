@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.55 to 2.77.56
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49.
+- On the first page view, every site switches its Endmark to the cameo of Paul, replacing any symbol or image set before. Set your own afterwards on the Endmark screen; the switch happens once.
+
 ### 2.77.54 to 2.77.55
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.

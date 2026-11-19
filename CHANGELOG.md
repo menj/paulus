@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.56] - 2026-11-19
+
+The cameo of Paul is the Endmark image on every site, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Changed
+- `paulus_endmark_adopt_image()` now sets the cameo once on every site, whatever symbol or image it had before (flag `paulus_endmark_cameo`). Placement, exclusions and colours are kept; posts and Journal entries are added to the types. Later changes on the Endmark screen stick.
+- An image type with no image (the picture removed) shows the cameo instead of a bare symbol.
+
 ## [2.77.55] - 2026-11-19
 
 An end mark image closes every article and Journal entry. `content_version` stays at 2.77.49, since no shipped text changes.

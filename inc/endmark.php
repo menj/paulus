@@ -69,29 +69,27 @@ function paulus_endmark_import() {
 }
 
 /**
- * Give the theme's own end mark (assets/images/endmark.webp) to a site that
- * still has the plain default symbol, once. A symbol, an image or a post
- * type list the owner chose is left alone, and so is every later change.
+ * Make the theme's own end mark (assets/images/endmark.webp, the portrait
+ * cameo) the Endmark image, once, whatever symbol or image the site had
+ * before: the owner asked for it as the default. Every other setting
+ * (placement, exclusions, colour) is kept, posts and Journal entries are
+ * added to the types, and a later change on the Endmark screen sticks.
  */
 function paulus_endmark_adopt_image() {
-	if ( get_option( 'paulus_endmark_image_adopted' ) ) {
+	if ( get_option( 'paulus_endmark_cameo' ) ) {
 		return;
 	}
-	$saved = get_option( 'paulus_endmark', null );
-	if ( is_array( $saved ) && ( ( $saved['type'] ?? 'symbol' ) !== 'symbol' || ( $saved['symbol'] ?? '∎' ) !== '∎' ) ) {
-		update_option( 'paulus_endmark_image_adopted', 1, false );
-		return;
-	}
-	$saved               = is_array( $saved ) ? $saved : array();
-	$saved['type']       = 'image';
-	$saved['image_url']  = PAULUS_URI . '/assets/images/endmark.webp';
-	$saved['image_id']   = 0;
-	$saved['allow_svg']  = false;
+	$saved                  = get_option( 'paulus_endmark', null );
+	$saved                  = is_array( $saved ) ? $saved : array();
+	$saved['type']          = 'image';
+	$saved['image_url']     = PAULUS_URI . '/assets/images/endmark.webp';
+	$saved['image_id']      = 0;
 	$saved['image_size_px'] = 28;
-	$types               = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
-	$saved['post_types'] = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );
+	$saved['allow_svg']     = false;
+	$types                  = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
+	$saved['post_types']    = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );
 	update_option( 'paulus_endmark', $saved );
-	update_option( 'paulus_endmark_image_adopted', 1, false );
+	update_option( 'paulus_endmark_cameo', 1, false );
 }
 
 if ( class_exists( 'Endmark_Plugin' ) ) {
