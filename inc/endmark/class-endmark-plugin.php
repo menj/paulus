@@ -127,7 +127,7 @@ class Endmark_Plugin {
         'post_types'          => array( 'post', 'paulus_journal' ),
         'type'                => 'image',
         'symbol'              => '∎',
-        'image_url'           => PAULUS_URI . '/assets/images/endmark.svg',
+        'image_url'           => PAULUS_URI . '/assets/images/endmark.webp',
         'image_id'            => 0,
         'image_size_px'       => 28,
         'placement_mode'      => 'last_paragraph',
@@ -141,7 +141,7 @@ class Endmark_Plugin {
         'use_css_variables'   => true,
         'margin_top'          => '0',
         'margin_left'         => '0.25em',
-        'allow_svg'           => true,
+        'allow_svg'           => false,
         'schema_enabled'      => false,
         'schema_mode'         => 'WebPageElement',
     );

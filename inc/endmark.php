@@ -69,7 +69,7 @@ function paulus_endmark_import() {
 }
 
 /**
- * Give the theme's own end mark (assets/images/endmark.svg) to a site that
+ * Give the theme's own end mark (assets/images/endmark.webp) to a site that
  * still has the plain default symbol, once. A symbol, an image or a post
  * type list the owner chose is left alone, and so is every later change.
  */
@@ -84,9 +84,9 @@ function paulus_endmark_adopt_image() {
 	}
 	$saved               = is_array( $saved ) ? $saved : array();
 	$saved['type']       = 'image';
-	$saved['image_url']  = PAULUS_URI . '/assets/images/endmark.svg';
+	$saved['image_url']  = PAULUS_URI . '/assets/images/endmark.webp';
 	$saved['image_id']   = 0;
-	$saved['allow_svg']  = true;
+	$saved['allow_svg']  = false;
 	$saved['image_size_px'] = 28;
 	$types               = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
 	$saved['post_types'] = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );

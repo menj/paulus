@@ -111,8 +111,8 @@ if ( is_array( $r ) ) {
 }
 
 $d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
-paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.svg' === $d['url'] && true === $d['svg'], 'a default-symbol site gets the theme end mark image' );
+paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a default-symbol site gets the theme end mark image' );
 paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
-paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.svg' ), 'the end mark file ships in assets/images' );
+paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.webp' ), 'the end mark file ships in assets/images' );
 
 exit( $paulus_fail ? 1 : 0 );
