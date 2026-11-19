@@ -18,8 +18,8 @@
  * Safety: nothing changes until a login address is saved (Settings,
  * Permalinks). define( 'PAULUS_HIDE_LOGIN', false ); in wp-config.php turns
  * the whole module off, restoring wp-login.php; left out, or set to true,
- * the module runs. The module stands
- * down while the plugin itself is active.
+ * the module runs. The module stands down while the plugin itself is active,
+ * and inc/plugin-retire.php switches the plugin off.
  *
  * @package Paulus
  */
