@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.54 to 2.77.55
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49.
+- On the first page view, a site whose Endmark symbol is still the plain `∎` switches to the theme's end mark image, on posts and Journal entries. To keep the symbol, set it (or any other symbol) on the Endmark screen before the first view, or change the type back afterwards; the switch happens once.
+
 ### 2.77.53 to 2.77.54
 
 - Upload the whole theme folder, after a database backup. `content_version` stays at 2.77.49.

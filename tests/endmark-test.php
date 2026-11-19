@@ -61,6 +61,15 @@ function paulus_test_check( $ok, $what ) {
 	$paulus_fail += $ok ? 0 : 1;
 }
 
+if ( isset( $argv[1] ) && 'default' === $argv[1] ) {
+	// A site with the plugin's plain default symbol: the theme's image is adopted once.
+	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '∎', 'post_types' => array( 'post' ) );
+	require dirname( __DIR__ ) . '/inc/endmark.php';
+	$settings = Endmark_Plugin::get_instance()->get_settings();
+	echo json_encode( array( 'type' => $settings['type'], 'url' => $settings['image_url'], 'svg' => $settings['allow_svg'], 'types' => $settings['post_types'], 'flag' => $GLOBALS['t']['options']['paulus_endmark_image_adopted'] ?? null ) );
+	exit( 0 );
+}
+
 if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	// The plugin's settings and a per-post switch exist under the old names.
 	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'post_types' => array( 'post', 'paulus_journal' ) );
@@ -100,5 +109,10 @@ if ( is_array( $r ) ) {
 	paulus_test_check( '_paulus_endmark_disable' === $r['meta'], 'the plugin class uses the new meta key' );
 	paulus_test_check( true === $r['init'] && true === $r['content'], 'the shortcode and block (on init) and the content filter are hooked' );
 }
+
+$d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
+paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.svg' === $d['url'] && true === $d['svg'], 'a default-symbol site gets the theme end mark image' );
+paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
+paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.svg' ), 'the end mark file ships in assets/images' );
 
 exit( $paulus_fail ? 1 : 0 );

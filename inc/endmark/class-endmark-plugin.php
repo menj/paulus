@@ -124,12 +124,12 @@ class Endmark_Plugin {
      */
     private $site_defaults = array(
         'enabled'             => true,
-        'post_types'          => array( 'post' ),
-        'type'                => 'symbol',
+        'post_types'          => array( 'post', 'paulus_journal' ),
+        'type'                => 'image',
         'symbol'              => '∎',
-        'image_url'           => '',
+        'image_url'           => PAULUS_URI . '/assets/images/endmark.svg',
         'image_id'            => 0,
-        'image_size_px'       => 16,
+        'image_size_px'       => 20,
         'placement_mode'      => 'last_paragraph',
         'placement_selector'  => '',
         'min_word_count'      => 0,
@@ -141,7 +141,7 @@ class Endmark_Plugin {
         'use_css_variables'   => true,
         'margin_top'          => '0',
         'margin_left'         => '0.25em',
-        'allow_svg'           => false,
+        'allow_svg'           => true,
         'schema_enabled'      => false,
         'schema_mode'         => 'WebPageElement',
     );
