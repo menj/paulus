@@ -66,6 +66,11 @@ function paulus_retired_plugins() {
 			'where' => __( 'Theme Options', 'paulus' ),
 			'ready' => 'paulus_search_permalinks_ready',
 		),
+		'wikipedia-preview/wikipediapreview.php' => array(
+			'name'  => 'Wikipedia Preview',
+			'where' => __( 'the post editor (the link button) and the reader\'s cards', 'paulus' ),
+			'ready' => 'paulus_wikipreview_ready',
+		),
 		'wp-consent-api/wp-consent-api.php' => array(
 			'name'  => 'WP Consent API',
 			'where' => __( 'the Plugins screen', 'paulus' ),

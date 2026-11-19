@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.60
+Stable tag: 2.77.61
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,7 +33,7 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * Maintenance mode, and an email when new fatal errors appear.
 * Tags on every article and Journal entry: at most six, all lowercase, shown under the byline and linked to a tag page. A tag that names a glossary term shows its definition and links to the glossary, and the glossary links back.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
-* Plugins built in: Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
+* Plugins built in: Wikipedia Preview (cards for links to Wikipedia), Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
 
 == Usage ==
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.61 =
+* Wikipedia Preview is built into the theme: a card with the start of the Wikipedia article opens when a reader clicks or hovers over a link to Wikipedia. The theme switches the plugin off.
 
 = 2.77.60 =
 * The tags are revised: 78 tags, each used by at least two items, each explained by an entry in the glossary (48 new entries).
@@ -334,6 +337,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.61 =
+Wikipedia Preview is now part of the theme and is switched off as a plugin on your first admin visit. The cards fetch text from Wikipedia in the reader's browser; consider a line in the privacy policy.
 
 = 2.77.60 =
 Run Install or update under Theme Options, Content, to bring in the 48 new glossary entries. Tags are revised on your first admin visit; tags you set yourself are kept.
