@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.51] - 2026-11-19
+
+CitePress is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- Citations (`inc/citepress.php`, `inc/citepress/`): CitePress 3.0.1 by MENJ as a native module. The citation box (20 formats, six export types), the `[cite]` and `[cite_bibliography]` shortcodes, the Citation Box block, the Google Scholar tags, the optional analytics with its privacy exporter, eraser and daily purge, and the tabbed CitePress settings and Analytics screens are the plugin's own code. The stylesheets and scripts are `assets/css/citepress-*.css` and `assets/js/citepress-*.js`; the text domain is the theme's.
+- The module takes over the plugin's data once, under the theme's own names: the option `citepress_setting` becomes `paulus_citepress`, the schema version `citepress_db_version` becomes `paulus_citepress_db`, and the analytics table is renamed `{prefix}paulus_citepress_analytics`, so the history stays and deleting the plugin later removes nothing the theme uses.
+- Paulus prints its own Open Graph tags and JSON-LD graph, so CitePress prints only the Google Scholar tags; its two switches for the others say so and change nothing.
+- `inc/plugin-retire.php` lists CitePress beside Auto Justify Content: an active plugin is switched off silently on the next admin page and again if it is activated by hand.
+- `tests/citepress-test.php`: the module loads every file, stands aside while the plugin is active, registers the shortcodes, keeps the Scholar tags past the SEO guard, and copies the settings.
+- Upload the whole theme folder, after a database backup (the analytics table is renamed).
+
 ## [2.77.50] - 2026-11-19
 
 Auto Justify Content is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.

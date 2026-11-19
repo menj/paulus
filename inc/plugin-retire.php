@@ -31,6 +31,11 @@ function paulus_retired_plugins() {
 			'where' => __( 'Theme Options, Justify', 'paulus' ),
 			'ready' => 'paulus_justify_import',
 		),
+		'citepress/citepress.php' => array(
+			'name'  => 'CitePress',
+			'where' => __( 'the CitePress menu', 'paulus' ),
+			'ready' => 'paulus_citepress_ready',
+		),
 	);
 	return (array) apply_filters( 'paulus_retired_plugins', $list );
 }

@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.50 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.51 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.50) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.51) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -99,7 +99,7 @@ paulus/
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), citepress (citation boxes and exports, the built-in CitePress, with its files in `inc/citepress/`), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -341,6 +341,7 @@ php tests/search-rewrite-test.php
 php tests/security-detector-test.php
 php tests/unlist-test.php
 php tests/justify-test.php
+php tests/citepress-test.php
 php tests/watch-report-test.php
 php tests/article-test.php
 php bin/build-error-pages.php --check
@@ -560,6 +561,10 @@ Three plugins are built into the theme as native modules, each a rewrite that ke
 `inc/justify.php` is the native form of **Auto Justify Content** (MENJ, GPL v2 or later). It keeps the plugin's six settings (on or off, where, desktop only, hyphenation, theme fallback, excluded selectors) in Theme Options, Justify, and copies the plugin's own options (`ajc_enabled`, `ajc_scope`, `ajc_hyphen`, `ajc_mobile`, `ajc_fallback`, `ajc_exclude`) into them once, so a site that used the plugin keeps its choices; the plugin's options are left where they are. The rules are a stylesheet, `assets/css/justify.css`, switched on by body classes (`paulus-justify` and the modifiers `--hyphen`, `--desktop`, `--fallback`); only the excluded selectors are written inline. "Where" is Articles and Journal entries, or the whole site, and the stylesheet keeps low specificity, so a rule the theme sets for one element still wins. Elementor selectors are not carried over. The defaults are the plugin's, except that the excluded selectors start empty.
 
 Unlike the three modules above, this one does not wait for its plugin. `inc/plugin-retire.php` keeps a list of plugins the theme has taken over (the filter `paulus_retired_plugins`). On any admin page, for a user who can activate plugins, a plugin in the list that is active is deactivated, silently (its own deactivation code does not run), once the native module is loaded; a plugin activated by hand is switched off again at once, and an admin notice says where the settings now are. Nothing is deleted. A plugin that is network-active or must-use cannot be switched off by the theme, and the notice says so. The theme adds no justification while the plugin's class exists, so the two never apply twice. `tests/justify-test.php` covers it.
+
+`inc/citepress.php` is the native form of **CitePress 3.0.1** (MENJ, GPL v2 or later), whose own code lives in `inc/citepress/` (analytics, settings, shortcodes, metadata, assets). Readers get a citation box with 20 formats (APA, MLA, Chicago, Harvard, IEEE, Vancouver, Wikipedia `{{cite web}}` and the rest) and six export types (BibTeX, RIS, EndNote, CSL-JSON, CFF, Dublin Core). The `[cite]` and `[cite_bibliography]` shortcodes (and their namespaced forms `[citepress_cite]` and `[citepress_cite_bibliography]`) and the Citation Box block keep working, and the CitePress menu keeps its tabbed settings and the Analytics screen. The stylesheets and scripts are `assets/css/citepress-*.css` and `assets/js/citepress-*.js`.
+
+What differs from the plugin: the theme prints its own Open Graph tags and JSON-LD graph, so CitePress prints only the Google Scholar tags (its JSON-LD and Open Graph switches change nothing under the theme); there is no activation hook, since the analytics table and the daily purge are set up by the plugin's own upgrade routine on the next admin page; and the text domain is the theme's. The data is the theme's own: on the first load without the plugin, `paulus_citepress_import()` copies the plugin's `citepress_setting` option to `paulus_citepress` and renames the plugin's analytics table `{prefix}citepress_analytics` to `{prefix}paulus_citepress_analytics`, so the history stays and deleting the plugin later (its uninstall removes the old names) takes nothing the theme uses. The plugin is switched off by `inc/plugin-retire.php`, as above. `tests/citepress-test.php` loads every file of the module and checks the stand-aside, the shortcodes, the Scholar guard and the import.
 
 A theme loads later than a plugin: WPS Hide Login's first step runs on `plugins_loaded`, before any theme exists. That step only recognises the request and adjusts `$pagenow` and the request address, which WordPress does not read again until later, so the theme runs it on `after_setup_theme`; the rest runs on `wp_loaded`, as in the plugin.
 
