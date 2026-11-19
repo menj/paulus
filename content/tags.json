@@ -1,57 +1,50 @@
 {
- "_note": "Each article and Journal entry gets at most six tags, all lowercase. \"glossary\" ties a tag to the term of content/articles/glossary.json it explains.",
+ "_note": "Each article and Journal entry gets at most six tags, all lowercase, each used by at least two items. \"glossary\" ties a tag to the term of content/articles/glossary.json it explains.",
  "tags": {
   "who-was-paul-of-tarsus": [
    "paul of tarsus",
    "saul of tarsus",
-   "pharisee",
-   "apostle paul",
+   "pharisees",
    "early christianity"
   ],
   "tarsus-and-a-persona-for-every-audience": [
    "tarsus",
    "paul of tarsus",
-   "hellenistic judaism",
-   "paul and the gentiles",
-   "apostle paul"
+   "hellenism",
+   "paul and the gentiles"
   ],
   "the-roman": [
    "roman citizenship",
    "paul of tarsus",
    "paul in acts",
-   "apostle paul"
+   "tarsus"
   ],
   "the-citizenship-and-the-appeal-to-caesar": [
    "roman citizenship",
    "paul in acts",
-   "paul in prison",
-   "apostle paul"
+   "paul in prison"
   ],
   "saul-the-persecutor": [
    "saul of tarsus",
-   "persecution of christians",
    "stephen",
-   "pharisee",
-   "acts of the apostles"
+   "pharisees",
+   "acts of the apostles",
+   "sadducees"
   ],
   "the-damascus-road": [
    "damascus road",
    "paul conversion",
    "acts of the apostles",
-   "saul of tarsus",
-   "apostle paul"
+   "saul of tarsus"
   ],
   "the-three-accounts-compared": [
    "damascus road",
    "paul conversion",
    "acts of the apostles",
-   "galatians",
-   "apostle paul"
+   "galatians"
   ],
   "a-self-appointed-apostle": [
    "false apostle",
-   "apostle paul",
-   "paul and the twelve",
    "galatians",
    "paul conversion"
   ],
@@ -63,64 +56,55 @@
    "paul character"
   ],
   "the-purse": [
-   "collection for jerusalem",
    "paul and james",
    "corinthians",
-   "romans",
-   "apostle paul"
+   "romans"
   ],
   "a-psychological-portrait-of-paul": [
    "paul psychology",
    "saul of tarsus",
    "paul conversion",
    "paul character",
-   "apostle paul"
+   "stephen"
   ],
   "ego-epilepsy-and-narcissism": [
    "paul psychology",
    "thorn in the flesh",
-   "paul character",
-   "apostle paul"
+   "paul character"
   ],
   "the-character-of-paul": [
    "paul character",
-   "paul perjury",
    "corinthians",
-   "false apostle",
-   "apostle paul"
+   "false apostle"
   ],
   "women-slaves-and-caesar": [
    "paul and women",
    "paul and slavery",
-   "romans 13",
-   "paul character",
-   "apostle paul"
+   "romans",
+   "paul character"
   ],
   "the-flesh": [
-   "paul and sexuality",
-   "romans 7",
+   "paul and the body",
+   "romans",
    "corinthians",
    "paul character",
-   "apostle paul"
+   "original sin"
   ],
   "the-fruit-at-corinth": [
    "corinthians",
-   "corinth church",
+   "corinth",
    "paul character",
-   "paul and apollos",
-   "apostle paul"
+   "paul and apollos"
   ],
   "the-measure": [
    "paul of tarsus",
-   "deuteronomy 13",
    "false prophet",
-   "case against paul",
-   "apostle paul"
+   "case against paul"
   ],
   "at-the-crossroads-of-the-message": [
    "isa ibn maryam",
    "jesus of nazareth",
-   "gospel of jesus",
+   "gospels",
    "pauline christology",
    "case against paul"
   ],
@@ -128,7 +112,6 @@
    "jerusalem council",
    "paul and james",
    "paul and peter",
-   "acts 15",
    "galatians"
   ],
   "the-parting-with-barnabas": [
@@ -136,28 +119,23 @@
    "paul and peter",
    "antioch",
    "galatians",
-   "jewish christians"
+   "jewish christians",
+   "jerusalem council"
   ],
   "by-their-fruits": [
    "false prophet",
    "paul character",
-   "case against paul",
-   "matthew 7",
-   "apostle paul"
+   "case against paul"
   ],
   "them-which-say-they-are-apostles": [
    "false apostle",
-   "revelation 2",
    "ebionites",
-   "jewish christians",
-   "apostle paul"
+   "jewish christians"
   ],
   "the-foundations-of-pauline-doctrine": [
    "pauline doctrine",
    "paul and the gentiles",
-   "mystery religions",
-   "hellenistic judaism",
-   "apostle paul"
+   "hellenism"
   ],
   "seven-doctrines": [
    "pauline doctrine",
@@ -175,140 +153,113 @@
   ],
   "the-letters-of-a-man": [
    "letters of paul",
-   "epistles of paul",
    "pastoral epistles",
-   "apostle paul",
    "new testament"
   ],
   "the-greek-body-and-the-jewish-bed": [
    "paul and the body",
-   "greek philosophy",
+   "hellenism",
    "pauline doctrine",
    "resurrection",
-   "apostle paul"
+   "rabbinic judaism"
   ],
   "revelation-or-borrowing": [
-   "paul and revelation",
+   "paul conversion",
    "resurrection",
-   "1 corinthians 15",
-   "angel of light",
-   "apostle paul"
+   "false apostle",
+   "rabbinic judaism"
   ],
   "lord-before-the-spirit": [
    "pauline christology",
-   "holy spirit",
-   "angel christology",
    "trinity",
-   "apostle paul"
+   "logos",
+   "philo"
   ],
   "borrowings-from-the-rabbis": [
    "rabbinic judaism",
-   "paul and the rabbis",
-   "pharisee",
-   "gamaliel",
-   "apostle paul"
+   "pharisees",
+   "gamaliel"
   ],
   "suffering-that-atones": [
    "atonement",
-   "suffering servant",
-   "third heaven",
    "pauline doctrine",
-   "apostle paul"
+   "corinthians"
   ],
   "paul-and-the-new-testament": [
    "new testament canon",
    "letters of paul",
    "marcion",
-   "2 peter",
    "early christianity"
   ],
   "letters-that-contradict-themselves": [
    "letters of paul",
-   "pauline contradictions",
    "galatians",
-   "romans",
-   "apostle paul"
+   "romans"
   ],
   "the-gospels-and-the-new-covenant": [
    "gospels",
    "new covenant",
-   "sermon on the mount",
-   "jesus and the law",
-   "apostle paul"
+   "law of moses"
   ],
   "justification-by-faith": [
    "justification by faith",
    "philo",
    "logos",
-   "romans",
-   "apostle paul"
+   "romans"
   ],
   "twisting-the-scriptures": [
    "old testament",
    "paul and the tanakh",
-   "2 peter 3",
-   "pauline interpretation",
-   "apostle paul"
+   "pauline interpretation"
   ],
   "typology": [
    "typology",
    "old testament",
    "tanakh",
-   "paul and the tanakh",
-   "apostle paul"
+   "paul and the tanakh"
   ],
   "the-tanakh-rewritten": [
    "tanakh",
    "old testament",
    "paul and the tanakh",
    "pauline interpretation",
-   "apostle paul"
+   "typology"
   ],
   "paul-the-father-of-a-new-religion": [
    "founder of christianity",
    "pauline christianity",
    "early christianity",
-   "apostle paul",
    "case against paul"
   ],
   "what-the-romans-saw": [
    "roman empire",
    "early christianity",
    "pauline christianity",
-   "constantine",
-   "apostle paul"
+   "founder of christianity"
   ],
   "the-failed-prophet": [
    "false prophet",
    "second coming",
-   "paul and the return",
-   "deuteronomy 18",
-   "apostle paul"
+   "case against paul",
+   "paul of tarsus"
   ],
   "a-death-the-scriptures-never-record": [
    "death of paul",
    "paul in rome",
-   "paul in prison",
-   "tradition of paul",
-   "apostle paul"
+   "paul in prison"
   ],
   "the-religion-of-paul-today": [
    "pauline christianity",
-   "christianity today",
    "islam and christianity",
-   "apostle paul"
+   "founder of christianity"
   ],
   "malaysia-and-southeast-asia": [
-   "christianity in malaysia",
-   "southeast asia",
    "islam and christianity",
    "pauline christianity",
-   "apostle paul"
+   "case against paul"
   ],
   "james-the-brother": [
-   "james the just",
    "paul and james",
-   "jerusalem church",
    "jewish christians",
    "isa ibn maryam"
   ],
@@ -344,95 +295,76 @@
    "islam and paul",
    "tafsir",
    "ya sin",
-   "islamic tradition",
-   "apostle paul"
+   "islamic tradition"
   ],
   "the-early-islamic-record": [
    "islamic tradition",
    "islam and paul",
    "early islam",
-   "hadith",
    "tafsir"
   ],
   "from-khushaysh-to-al-shahrastani": [
    "islamic tradition",
    "islam and paul",
-   "al-shahrastani",
-   "khushaysh ibn asram",
+   "muslim scholars",
    "early islam"
   ],
   "ibn-hazm-and-al-thalabi": [
-   "ibn hazm",
-   "al-thalabi",
+   "muslim scholars",
    "islamic tradition",
    "islam and paul",
    "tafsir"
   ],
   "modern-voices-from-al-kairanawi-to-akhtar": [
-   "rahmatullah al-kairanawi",
-   "shabbir akhtar",
+   "muslim scholars",
    "islam and paul",
-   "islamic tradition",
-   "modern muslim scholars"
+   "islamic tradition"
   ],
   "the-hostile-witnesses": [
-   "critics of paul",
+   "case against paul",
    "jewish christians",
    "ebionites",
-   "early christianity",
-   "case against paul"
+   "early christianity"
   ],
   "an-epistle-to-the-churches-of-paul": [
-   "letter to christians",
    "pauline christianity",
    "case against paul",
-   "islam and christianity",
-   "apostle paul"
+   "islam and christianity"
   ],
   "dale-b-martin-notes-published": [
-   "dale b martin",
    "paul in acts",
    "acts of the apostles",
-   "luke and paul",
-   "apostle paul"
+   "letters of paul"
   ],
   "how-apostle-of-doom-began": [
-   "apostle of doom",
    "case against paul",
    "islam and paul",
-   "apostle paul"
+   "paul of tarsus"
   ],
   "did-paul-ever-meet-jesus": [
    "paul and jesus",
    "damascus road",
    "paul conversion",
-   "apostle paul",
    "gospels"
   ],
   "paul-and-apollos": [
    "paul and apollos",
    "corinthians",
-   "corinth church",
-   "apostle paul"
+   "corinth"
   ],
   "paul-and-barnabas-at-lystra": [
-   "lystra",
    "paul and barnabas",
-   "hermes",
    "acts of the apostles",
-   "apostle paul"
+   "hellenism"
   ],
   "was-paul-a-pharisee-or-a-sadducee": [
-   "pharisee",
+   "pharisees",
    "sadducees",
    "saul of tarsus",
-   "acts of the apostles",
-   "apostle paul"
+   "acts of the apostles"
   ],
   "paul-in-prison": [
    "paul in prison",
-   "philippi",
-   "caesarea",
    "paul in rome",
    "acts of the apostles"
   ],
@@ -440,103 +372,84 @@
    "paul and jesus",
    "jesus of nazareth",
    "letters of paul",
-   "gospels",
-   "apostle paul"
+   "gospels"
   ],
   "paul-on-holy-days": [
-   "holy days",
-   "sabbath",
+   "law of moses",
    "galatians",
-   "colossians",
-   "apostle paul"
+   "letters of paul"
   ],
   "did-paul-study-under-gamaliel": [
    "gamaliel",
-   "pharisee",
+   "pharisees",
    "saul of tarsus",
-   "acts of the apostles",
-   "apostle paul"
+   "acts of the apostles"
   ],
   "did-paul-reach-spain": [
-   "paul in spain",
-   "paul in rome",
-   "romans",
    "death of paul",
-   "apostle paul"
+   "paul in rome",
+   "romans"
   ],
   "women-paul-greeted": [
    "paul and women",
-   "junia",
-   "phoebe",
-   "romans 16",
-   "apostle paul"
+   "romans",
+   "letters of paul"
   ],
   "did-rome-ban-other-gospels": [
-   "council of rome",
+   "roman empire",
    "new testament canon",
    "gospels",
-   "early christianity",
-   "pope damasus"
+   "early christianity"
   ],
   "did-marcion-make-the-first-new-testament": [
    "marcion",
    "new testament canon",
    "letters of paul",
    "early christianity",
-   "gospel of luke"
+   "gospels"
   ],
   "thirteen-letters-or-fourteen": [
    "letters of paul",
-   "epistle to the hebrews",
    "pastoral epistles",
-   "new testament",
-   "apostle paul"
+   "new testament"
   ],
   "born-of-a-woman": [
    "isa ibn maryam",
-   "virgin birth",
-   "galatians 4",
-   "letters of paul",
-   "apostle paul"
+   "galatians",
+   "letters of paul"
   ],
   "pauls-thorn-in-the-flesh": [
    "thorn in the flesh",
-   "2 corinthians 12",
-   "paul psychology",
-   "apostle paul"
+   "corinthians",
+   "paul psychology"
   ],
   "damascus-road-three-versions": [
    "damascus road",
    "paul conversion",
    "acts of the apostles",
-   "galatians",
-   "apostle paul"
+   "galatians"
   ],
   "peter-against-paul-at-antioch": [
    "paul and peter",
    "antioch",
    "galatians",
    "jewish christians",
-   "apostle paul"
+   "jerusalem council"
   ],
   "paul-and-the-return-that-failed": [
    "second coming",
-   "1 thessalonians",
    "false prophet",
-   "paul and the return",
-   "apostle paul"
+   "letters of paul"
   ],
   "paul-onesimus-and-slavery": [
    "paul and slavery",
-   "onesimus",
-   "philemon",
-   "apostle paul"
+   "letters of paul",
+   "paul in prison"
   ],
   "was-paul-a-roman-citizen": [
    "roman citizenship",
    "paul in acts",
    "paul of tarsus",
-   "apostle paul",
    "acts of the apostles"
   ]
  },
@@ -553,27 +466,30 @@
   "tarsus": "Tarsus",
   "trinity": "Trinity",
   "typology": "Typology",
-  "pharisee": "Pharisees",
+  "pharisees": "Pharisees",
   "paul of tarsus": "Paul (Saul of Tarsus)",
-  "apostle paul": "Paul the Apostle",
   "paul and barnabas": "Barnabas",
   "paul and peter": "Peter (Cephas)",
   "pauline doctrine": "Paulinism",
   "pauline christology": "Christology",
   "philo": "Philo of Alexandria",
-  "corinthians": "Corinth",
-  "corinth church": "Corinth",
+  "corinth": "Corinth",
   "damascus road": "Damascus",
   "isa ibn maryam": "ʿĪsā al-Masīḥ",
   "injil": "Injīl",
   "paul and the gentiles": "Gentile",
-  "hellenistic judaism": "Hellenism",
-  "paul and the rabbis": "Talmud",
+  "hellenism": "Hellenism",
   "rabbinic judaism": "Talmud",
   "law of moses": "Torah",
   "ebionites": "Urgemeinde",
   "jewish christians": "Urgemeinde",
-  "jerusalem church": "Urgemeinde",
-  "pauline christianity": "Paulinism"
+  "pauline christianity": "Paulinism",
+  "paul character": "Paul's character",
+  "paul conversion": "Paul's conversion",
+  "paul in rome": "Paul in Rome",
+  "paul psychology": "Paul's psychology",
+  "quran": "Qurʾān",
+  "tafsir": "Tafsīr",
+  "ya sin": "Yā Sīn"
  }
 }

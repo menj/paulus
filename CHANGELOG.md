@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.60] - 2026-11-19
+
+The tags are revised, and each is explained in the glossary, by the owner's request. `content_version` is 2.77.60, since the glossary text changes.
+
+### Changed
+- 78 tags instead of 149, each used by at least two items, so every tag page is a real list. The catch-all `apostle paul` (on 57 items) is gone, as are single-use Bible references and one-off names; they are folded into `romans`, `galatians`, `corinthians`, `paul and women`, `muslim scholars`, `false prophet` and similar tags.
+- The glossary gains 48 entries, one for every tag that had no term (from `acts of the apostles` and `atonement` to `thorn in the flesh` and `yā sīn`), each with a link to the article that treats it. It now has 84 terms. The Glossary page's old text is recorded in `prior_hashes` as `glossary.json#r77.60`.
+- `tests/tags-test.php` now fails when a tag has no glossary entry, or is used by fewer than two items.
+
 ## [2.77.59] - 2026-11-19
 
 Tags for every article and Journal entry, by the owner's request: at most six, all lowercase, tied to the glossary and linked both ways. `content_version` stays at 2.77.49, since no shipped text changes; the tags have their own file and sync.

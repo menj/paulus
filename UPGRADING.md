@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.59 to 2.77.60
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.60 and the Glossary page takes its 48 new entries (an edited Glossary page is offered, not overwritten).
+- The tags are revised on your first admin visit. An item whose tags you changed keeps your tags.
+
 ### 2.77.58 to 2.77.59
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49. On your first admin page the theme gives every article and Journal entry its tags. Tags you chose yourself are kept, and the theme changes an item only while it holds the tags the theme last gave it.

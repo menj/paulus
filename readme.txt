@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.59
+Stable tag: 2.77.60
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.60 =
+* The tags are revised: 78 tags, each used by at least two items, each explained by an entry in the glossary (48 new entries).
 
 = 2.77.59 =
 * Every article and Journal entry now has up to six lowercase tags, tied to the glossary and linked both ways, with a tag page for each.
@@ -331,6 +334,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.60 =
+Run Install or update under Theme Options, Content, to bring in the 48 new glossary entries. Tags are revised on your first admin visit; tags you set yourself are kept.
 
 = 2.77.59 =
 Tags are added to every article and Journal entry on your first admin visit. Tags you set yourself are kept.
