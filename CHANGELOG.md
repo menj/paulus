@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.55] - 2026-11-19
+
+An end mark image closes every article and Journal entry. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- `assets/images/endmark.webp`: Paul's portrait as a cameo, cut from the theme's own artwork, cleared of its cross background and reduced to a hard two-tone print (dark ink and parchment, fine detail dropped so that he is suggested rather than shown) on a gold disc with an oxblood ring, so that it differs from the coloured favicon. It is the Endmark default: image type, 28 px, for posts (the articles) and Journal entries.
+- `paulus_endmark_adopt_image()` (`inc/endmark.php`) gives a site that still has the plugin's plain default symbol (`∎`) the new image, once. A symbol, image or post type list the owner chose is left alone, and later changes on the Endmark screen stick.
+- Endmark 4.4.0 was uploaded again and is the version already built in; nothing else changed.
+
 ## [2.77.54] - 2026-11-19
 
 WP Consent API is built into the theme, and the theme switches off three more plugins it already contains. `content_version` stays at 2.77.49, since no shipped text changes.

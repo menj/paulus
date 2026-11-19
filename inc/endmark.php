@@ -68,6 +68,32 @@ function paulus_endmark_import() {
 	update_option( 'paulus_endmark_imported', 1, false );
 }
 
+/**
+ * Give the theme's own end mark (assets/images/endmark.webp) to a site that
+ * still has the plain default symbol, once. A symbol, an image or a post
+ * type list the owner chose is left alone, and so is every later change.
+ */
+function paulus_endmark_adopt_image() {
+	if ( get_option( 'paulus_endmark_image_adopted' ) ) {
+		return;
+	}
+	$saved = get_option( 'paulus_endmark', null );
+	if ( is_array( $saved ) && ( ( $saved['type'] ?? 'symbol' ) !== 'symbol' || ( $saved['symbol'] ?? '∎' ) !== '∎' ) ) {
+		update_option( 'paulus_endmark_image_adopted', 1, false );
+		return;
+	}
+	$saved               = is_array( $saved ) ? $saved : array();
+	$saved['type']       = 'image';
+	$saved['image_url']  = PAULUS_URI . '/assets/images/endmark.webp';
+	$saved['image_id']   = 0;
+	$saved['allow_svg']  = false;
+	$saved['image_size_px'] = 28;
+	$types               = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
+	$saved['post_types'] = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );
+	update_option( 'paulus_endmark', $saved );
+	update_option( 'paulus_endmark_image_adopted', 1, false );
+}
+
 if ( class_exists( 'Endmark_Plugin' ) ) {
 	return;
 }
@@ -82,6 +108,7 @@ foreach ( array( 'class-endmark-plugin', 'class-endmark-admin', 'class-endmark-f
 define( 'ENDMARK_PLUGIN_DIR', PAULUS_DIR . '/inc/endmark/' );
 
 paulus_endmark_import();
+paulus_endmark_adopt_image();
 
 require_once ENDMARK_PLUGIN_DIR . 'class-endmark-plugin.php';
 require_once ENDMARK_PLUGIN_DIR . 'class-endmark-admin.php';
