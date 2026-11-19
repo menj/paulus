@@ -49,6 +49,13 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.51 to 2.77.52
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run. Take a database backup first: Endmark's per-post switch is renamed in one query.
+- Endmark and HrefMaster are built into the theme. On the first page view without the plugin loaded, each one's settings are copied under the theme's own names (`paulus_endmark*`, `paulus_hreflang_*`); on the first admin page the theme switches both plugins off. Nothing is deleted. Endmark's per-post "no endmark" switch moves to `_paulus_endmark_disable`. HrefMaster's tags are post and term meta that keep their names. The settings screens are Settings, Endmark and the HrefMaster menu. Once you have looked at them, it is safe to delete the plugins: their uninstall removes only the old option names.
+- HrefMaster adds `<link rel="alternate" hreflang>` tags only to the content types selected on its Dashboard tab, so a single-language site with none selected prints none.
+- To keep either plugin as a plugin, remove `endmark/endmark.php` or `hrefmaster/hrefmaster.php` from the `paulus_retired_plugins` list with the filter.
+
 ### 2.77.50 to 2.77.51
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run.

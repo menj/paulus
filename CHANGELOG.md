@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.52] - 2026-11-19
+
+Endmark and HrefMaster are built into the theme, and the theme switches both plugins off. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- End-of-article symbol (`inc/endmark.php`, `inc/endmark/`): Endmark 4.4.0 by MENJ as a native module, with its placement rules, exclusions, per-post switch, shortcode, block and optional schema. Its stylesheets and script are `assets/css/endmark-*.css` and `assets/js/endmark-admin.js`. The admin screen no longer loads DM Sans from Google. The plugin's options become `paulus_endmark*` and the per-post meta becomes `_paulus_endmark_disable`, once, so deleting the plugin later removes nothing the theme uses.
+- Hreflang tags (`inc/hrefmaster.php`, `inc/hrefmaster/`): HrefMaster 3.0.1 as a native module, with the meta boxes, head tags, per-page HTML lang, bulk editor, code generator, validation tools and the tabbed screen with four colour schemes. The taxonomy fields are added on `init`. The plugin's five options become `paulus_hreflang_*`; the tags keep their meta names.
+- `inc/plugin-retire.php` lists both beside Auto Justify Content and CitePress.
+- `tests/endmark-test.php` and `tests/hrefmaster-test.php`.
+- Not built in: Contact Form 7. It is a third-party plugin of about 38,000 lines with its own REST routes, file uploads and integrations, and a theme that embeds it stops receiving its security fixes. A smaller native contact form would replace it.
+- Upload the whole theme folder, after a database backup.
+
 ## [2.77.51] - 2026-11-19
 
 CitePress is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.

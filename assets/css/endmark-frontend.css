@@ -1,0 +1,79 @@
+/**
+ * Endmark Frontend Styles
+ *
+ * Static base styles for the endmark wrapper, symbol, and image.
+ * User-configurable values (margins, image size, mobile hide) are
+ * injected as inline CSS via wp_add_inline_style().
+ *
+ * @package Endmark
+ * @since   4.3.0
+ */
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (defaults — overridden by inline CSS)
+   -------------------------------------------------------------------------- */
+
+:root {
+    --endmark-margin-top: 0;
+    --endmark-margin-left: 0.25em;
+    --endmark-image-size: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Wrapper
+   -------------------------------------------------------------------------- */
+
+.endmark-wrap {
+    display: inline;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: 1;
+    margin-top: var(--endmark-margin-top);
+    margin-left: var(--endmark-margin-left);
+}
+
+/* --------------------------------------------------------------------------
+   Symbol
+   -------------------------------------------------------------------------- */
+
+.endmark-symbol {
+    display: inline;
+    vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------------
+   Image
+   --------------------------------------------------------------------------
+
+   vertical-align: middle centres the image on the text x-height rather
+   than sitting on the baseline (which pushes tall images into the line
+   above).
+
+   margin / padding / border-radius / box-shadow resets guard against
+   theme stylesheet rules that target img elements inside content areas
+   (e.g. margin: 1.5rem 0, border-radius).                                 */
+
+.endmark-image {
+    display: inline-block;
+    vertical-align: middle;
+    width: var(--endmark-image-size);
+    height: var(--endmark-image-size);
+    max-height: 1.2em;
+    width: auto;
+    height: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    float: none !important;
+}
+
+/* Guard against themes that animate images */
+.endmark-image[class*="td-animation"] {
+    transform: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+}

@@ -36,6 +36,16 @@ function paulus_retired_plugins() {
 			'where' => __( 'the CitePress menu', 'paulus' ),
 			'ready' => 'paulus_citepress_ready',
 		),
+		'endmark/endmark.php' => array(
+			'name'  => 'Endmark',
+			'where' => __( 'Settings, Endmark', 'paulus' ),
+			'ready' => 'paulus_endmark_ready',
+		),
+		'hrefmaster/hrefmaster.php' => array(
+			'name'  => 'HrefMaster',
+			'where' => __( 'the HrefMaster menu', 'paulus' ),
+			'ready' => 'paulus_hrefmaster_ready',
+		),
 	);
 	return (array) apply_filters( 'paulus_retired_plugins', $list );
 }

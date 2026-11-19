@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.51 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.52 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.51) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.52) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -99,7 +99,7 @@ paulus/
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), citepress (citation boxes and exports, the built-in CitePress, with its files in `inc/citepress/`), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), citepress (citation boxes and exports, the built-in CitePress, with its files in `inc/citepress/`), endmark (the end-of-article symbol, files in `inc/endmark/`), hrefmaster (hreflang tags, files in `inc/hrefmaster/`), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -342,6 +342,8 @@ php tests/security-detector-test.php
 php tests/unlist-test.php
 php tests/justify-test.php
 php tests/citepress-test.php
+php tests/endmark-test.php
+php tests/hrefmaster-test.php
 php tests/watch-report-test.php
 php tests/article-test.php
 php bin/build-error-pages.php --check
@@ -565,6 +567,10 @@ Unlike the three modules above, this one does not wait for its plugin. `inc/plug
 `inc/citepress.php` is the native form of **CitePress 3.0.1** (MENJ, GPL v2 or later), whose own code lives in `inc/citepress/` (analytics, settings, shortcodes, metadata, assets). Readers get a citation box with 20 formats (APA, MLA, Chicago, Harvard, IEEE, Vancouver, Wikipedia `{{cite web}}` and the rest) and six export types (BibTeX, RIS, EndNote, CSL-JSON, CFF, Dublin Core). The `[cite]` and `[cite_bibliography]` shortcodes (and their namespaced forms `[citepress_cite]` and `[citepress_cite_bibliography]`) and the Citation Box block keep working, and the CitePress menu keeps its tabbed settings and the Analytics screen. The stylesheets and scripts are `assets/css/citepress-*.css` and `assets/js/citepress-*.js`.
 
 What differs from the plugin: the theme prints its own Open Graph tags and JSON-LD graph, so CitePress prints only the Google Scholar tags (its JSON-LD and Open Graph switches change nothing under the theme); there is no activation hook, since the analytics table and the daily purge are set up by the plugin's own upgrade routine on the next admin page; and the text domain is the theme's. The data is the theme's own: on the first load without the plugin, `paulus_citepress_import()` copies the plugin's `citepress_setting` option to `paulus_citepress` and renames the plugin's analytics table `{prefix}citepress_analytics` to `{prefix}paulus_citepress_analytics`, so the history stays and deleting the plugin later (its uninstall removes the old names) takes nothing the theme uses. The plugin is switched off by `inc/plugin-retire.php`, as above. `tests/citepress-test.php` loads every file of the module and checks the stand-aside, the shortcodes, the Scholar guard and the import.
+
+`inc/endmark.php` is the native form of **Endmark 4.4.0** (MENJ, GPL v3 or later, a fork of Endmark by Colin Temple), with its code in `inc/endmark/`: a symbol or image at the end of an article, placed in the last paragraph, before or after the footnotes (it finds the theme's `<ol class="footnotes">`), appended or at a CSS selector, with exclusions by category, tag or post, a word-count threshold, a per-post switch, the `[endmark]` shortcode and block and an optional schema. The settings screen is under Settings, Endmark. The admin screen no longer loads a font from Google. The data is the theme's: on the first load without the plugin, the options are copied to `paulus_endmark`, `paulus_endmark_presets` and `paulus_endmark_version` (and `paulus_endmark_network` on a network), and the per-post meta `_endmark_disable` is renamed `_paulus_endmark_disable` in one query.
+
+`inc/hrefmaster.php` is the native form of **HrefMaster 3.0.1** (GPL v2 or later), with its code in `inc/hrefmaster/`: hreflang meta boxes for posts, pages, custom types and terms, the `<link rel="alternate" hreflang>` tags in the head, a per-page `<html lang>` override, a bulk editor, a code generator, single and bulk validation, WooCommerce shop support and the tabbed HrefMaster menu with four admin colour schemes. The taxonomy fields are added on `init`, since a theme loads after `plugins_loaded`. The plugin's five options are copied once to `paulus_hreflang_post_types`, `_admin_bar`, `_html_lang`, `_woo_shop` and `_scheme`. The tags are post and term meta (`hreflang-<code>`, `_hrefmaster_html_lang`) that the plugin's uninstall leaves alone, so they keep their names. `tests/endmark-test.php` and `tests/hrefmaster-test.php` load each module, check the stand-aside and the import.
 
 A theme loads later than a plugin: WPS Hide Login's first step runs on `plugins_loaded`, before any theme exists. That step only recognises the request and adjusts `$pagenow` and the request address, which WordPress does not read again until later, so the theme runs it on `after_setup_theme`; the rest runs on `wp_loaded`, as in the plugin.
 
