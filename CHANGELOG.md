@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.57] - 2026-11-19
+
+Endmark controls where and when the mark shows, not what it shows, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Changed
+- The Appearance tab is gone, with the symbol, image, size and SVG fields. `Endmark_Plugin::get_settings()` always returns the cameo (`assets/images/endmark.webp`, 28 px), so a symbol or image saved earlier is ignored.
+- The Placement, Exclusions and Advanced tabs stay: content types, insertion point, manual placement, word count, categories, tags, posts, mobile and AMP, spacing and schema. The live preview sits at the top of Placement.
+
 ## [2.77.56] - 2026-11-19
 
 The cameo of Paul is the Endmark image on every site, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.

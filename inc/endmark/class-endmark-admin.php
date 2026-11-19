@@ -148,7 +148,6 @@ class Endmark_Admin {
         $sanitized['hide_on_mobile']   = ! empty( $input['hide_on_mobile'] );
         $sanitized['disable_on_amp']   = ! empty( $input['disable_on_amp'] );
         $sanitized['use_css_variables'] = ! empty( $input['use_css_variables'] );
-        $sanitized['allow_svg']        = ! empty( $input['allow_svg'] );
         $sanitized['schema_enabled']   = ! empty( $input['schema_enabled'] );
 
         // Allowlist-validated fields.

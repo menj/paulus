@@ -79,6 +79,8 @@ if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	echo json_encode(
 		array(
 			'symbol'   => $settings['symbol'],
+			'type'     => $settings['type'],
+			'url'      => $settings['image_url'],
 			'types'    => $settings['post_types'],
 			'option'   => $GLOBALS['t']['options']['paulus_endmark']['symbol'] ?? null,
 			'version'  => $GLOBALS['t']['options']['paulus_endmark_version'] ?? null,
@@ -103,7 +105,7 @@ $out = shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' native 2>&1' );
 $r   = json_decode( (string) $out, true );
 paulus_test_check( is_array( $r ), 'the module loads every file without an error' . ( is_array( $r ) ? '' : ': ' . trim( (string) $out ) ) );
 if ( is_array( $r ) ) {
-	paulus_test_check( '❧' === $r['symbol'] && array( 'post', 'paulus_journal' ) === $r['types'], 'the plugin settings are read from the theme option' );
+	paulus_test_check( 'image' === $r['type'] && false !== strpos( $r['url'], 'endmark.webp' ) && array( 'post', 'paulus_journal' ) === $r['types'], 'the mark is fixed to the cameo whatever symbol the plugin had; the post types are read from the theme option' );
 	paulus_test_check( '❧' === $r['option'] && '4.4.0' === $r['version'] && 1 === $r['imported'], 'the plugin options are copied once under the theme names' );
 	paulus_test_check( 1 === count( $r['queries'] ) && false !== strpos( $r['queries'][0], '_paulus_endmark_disable' ) && false !== strpos( $r['queries'][0], '_endmark_disable' ), 'the per-post switch is renamed in the database' );
 	paulus_test_check( '_paulus_endmark_disable' === $r['meta'], 'the plugin class uses the new meta key' );
@@ -113,6 +115,8 @@ if ( is_array( $r ) ) {
 $d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
 paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a site with its own symbol gets the theme cameo as the image' );
 paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
+$tpl = file_get_contents( PAULUS_DIR . '/inc/endmark/templates/admin-settings.php' );
+paulus_test_check( false === strpos( $tpl, 'data-tab="appearance"' ) && false === strpos( $tpl, '[symbol]' ) && false === strpos( $tpl, '[image_url]' ) && false === strpos( $tpl, '[allow_svg]' ), 'the screen has no appearance tab and no symbol, image or SVG field' );
 paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.webp' ), 'the end mark file ships in assets/images' );
 
 exit( $paulus_fail ? 1 : 0 );

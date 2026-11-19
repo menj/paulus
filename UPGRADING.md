@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.56 to 2.77.57
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49.
+- The Endmark screen no longer offers a symbol, image or size. The mark is always the cameo of Paul. Placement, exclusions and the other controls are unchanged.
+
 ### 2.77.55 to 2.77.56
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.
