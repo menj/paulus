@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.58 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.59 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.4 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.58) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.59) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -99,7 +99,7 @@ paulus/
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), citepress (citation boxes and exports, the built-in CitePress, with its files in `inc/citepress/`), endmark (the end-of-article mark, files in `inc/endmark/`), hrefmaster (hreflang tags, files in `inc/hrefmaster/`), cf7 (Contact Form 7, files in `inc/cf7/`), consent-api (WP Consent API, files in `inc/consent-api/`), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), citepress (citation boxes and exports, the built-in CitePress, with its files in `inc/citepress/`), endmark (the end-of-article mark, files in `inc/endmark/`), hrefmaster (hreflang tags, files in `inc/hrefmaster/`), cf7 (Contact Form 7, files in `inc/cf7/`), consent-api (WP Consent API, files in `inc/consent-api/`), tags (the six lowercase tags of each item, tied to the glossary, `content/tags.json`), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -346,6 +346,7 @@ php tests/endmark-test.php
 php tests/hrefmaster-test.php
 php tests/cf7-test.php
 php tests/consent-api-test.php
+php tests/tags-test.php
 php tests/watch-report-test.php
 php tests/article-test.php
 php bin/build-error-pages.php --check
@@ -577,6 +578,8 @@ What differs from the plugin: the theme prints its own Open Graph tags and JSON-
 `inc/hrefmaster.php` is the native form of **HrefMaster 3.0.1** (GPL v2 or later), with its code in `inc/hrefmaster/`: hreflang meta boxes for posts, pages, custom types and terms, the `<link rel="alternate" hreflang>` tags in the head, a per-page `<html lang>` override, a bulk editor, a code generator, single and bulk validation, WooCommerce shop support and the tabbed HrefMaster menu with four admin colour schemes. The taxonomy fields are added on `init`, since a theme loads after `plugins_loaded`. The plugin's five options are copied once to `paulus_hreflang_post_types`, `_admin_bar`, `_html_lang`, `_woo_shop` and `_scheme`. The tags are post and term meta (`hreflang-<code>`, `_hrefmaster_html_lang`) that the plugin's uninstall leaves alone, so they keep their names. `tests/endmark-test.php` and `tests/hrefmaster-test.php` load each module, check the stand-aside and the import.
 
 `inc/cf7.php` is the native form of **Contact Form 7 6.2.5** (Rock Lobster Inc., GPL v2 or later), with the plugin's code in `inc/cf7/` and its licence beside it. The forms keep the plugin's names (`wpcf7_contact_form`, option `wpcf7`). The theme defines `WPCF7_VERSION`, so deleting the plugin later keeps the data, and `inc/plugin-retire.php` switches the plugin off. The built-in copy gets no security updates from the plugin; replace `inc/cf7/` when it issues one.
+
+`inc/tags.php` and `content/tags.json` give each article and Journal entry one to six tags, all lowercase. `tags` maps a slug to its tags; `glossary` maps a tag to the glossary term it explains (34 ties). `paulus_tags_sync()` assigns them on `admin_init` when the file's hash changes, and only to an item that still holds the tags the theme last gave it (meta `_paulus_tags`), so an editor's own tags stay. Code keeps the rules for tags made later: `pre_insert_term` and `wp_update_term_data` lowercase the name, and `set_object_terms` keeps the first six (`PAULUS_MAX_TAGS`). The `post_tag` taxonomy is added to Journal entries on `init`. A tag archive (`templates/tag.html`) lists articles and Journal entries; its description is the tag's own, else the tied glossary definition with a link to the term, else a plain sentence. An archive with fewer than two items is `noindex, follow`. The glossary page gains an anchor on every term (`#term-<slug>`) and links to the archives of its tags. Each article's byline shows its tags (a small `g` links a tied tag to its term), the head prints `article:tag`, the Article schema carries `keywords`, and a tag archive is a `CollectionPage` whose `about` is the `DefinedTerm`, `inDefinedTermSet` the glossary. `tests/tags-test.php` checks the data.
 
 `inc/consent-api.php` is the native form of **WP Consent API 2.1.0** (WordPress Contributors, GPL v2 or later), with its code in `inc/consent-api/`: `wp_has_consent()`, `wp_set_consent()`, the `wp_consent_api` script and the Site Health test. It has no settings. `inc/plugin-retire.php` switches the plugin off, and now also WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
 

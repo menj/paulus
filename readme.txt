@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.58
+Stable tag: 2.77.59
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,7 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * A private login address, clean search addresses, and application passwords off until you switch them on.
 * Security switches for XML-RPC, REST API writes, the user list and gambling spam, with a cleanup tool and reports.
 * Maintenance mode, and an email when new fatal errors appear.
+* Tags on every article and Journal entry: at most six, all lowercase, shown under the byline and linked to a tag page. A tag that names a glossary term shows its definition and links to the glossary, and the glossary links back.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
 * Plugins built in: Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
@@ -150,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.59 =
+* Every article and Journal entry now has up to six lowercase tags, tied to the glossary and linked both ways, with a tag page for each.
 
 = 2.77.58 =
 * The theme now requires PHP 8.4 or later.
@@ -327,6 +331,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.59 =
+Tags are added to every article and Journal entry on your first admin visit. Tags you set yourself are kept.
 
 = 2.77.58 =
 The theme now requires PHP 8.4. Check your host runs 8.4 or later before you update, or WordPress will refuse to activate it.

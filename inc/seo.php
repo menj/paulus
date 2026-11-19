@@ -161,6 +161,11 @@ function paulus_title_part() {
 		$short = get_term_meta( $term->term_id, 'paulus_seo_title', true );
 		return $short ? $short : $term->name;
 	}
+	if ( is_tag() ) {
+		// Tags are stored in lower case; the title starts with a capital.
+		$name = (string) single_tag_title( '', false );
+		return function_exists( 'mb_strtoupper' ) ? mb_strtoupper( mb_substr( $name, 0, 1 ) ) . mb_substr( $name, 1 ) : ucfirst( $name );
+	}
 	if ( is_post_type_archive( 'paulus_journal' ) ) {
 		$period = paulus_journal_period();
 		/* translators: 1: Journal title, 2: month and year, or year. */
@@ -236,7 +241,7 @@ function paulus_meta_description() {
 		}
 		/* translators: %s: month and year, or "the year" and a year. */
 		$meta = $period ? sprintf( __( 'Journal entries from %s: replies to missionary claims, notes on new sources and news of the case. Read them in order.', 'paulus' ), $period ) : paulus_option( 'journal_meta' );
-	} elseif ( is_category() ) {
+	} elseif ( is_category() || is_tag() ) {
 		$term = get_queried_object();
 		$meta = get_term_meta( $term->term_id, 'paulus_meta', true );
 		if ( ! $meta ) {
@@ -876,6 +881,9 @@ function paulus_article_schema( $author, $publisher, $website = null ) {
 	if ( $part ) {
 		$art['articleSection'] = $part->name;
 	}
+	if ( function_exists( 'paulus_tags_keywords' ) && '' !== paulus_tags_keywords( $post->ID ) ) {
+		$art['keywords'] = paulus_tags_keywords( $post->ID );
+	}
 	$series = function_exists( 'paulus_series_parts' ) ? paulus_series_parts( $post->ID ) : null;
 	if ( $series ) {
 		$art['position'] = (int) get_post_meta( $post->ID, '_paulus_part_no', true );
@@ -1156,6 +1164,9 @@ function paulus_webpage_schema( $website ) {
 		// With the page number, as the canonical carries it.
 		$url  = paulus_archive_url();
 		$name = single_cat_title( '', false );
+	} elseif ( is_tag() ) {
+		$url  = paulus_archive_url();
+		$name = paulus_title_part();
 	} elseif ( is_archive() ) {
 		$url  = paulus_archive_url();
 		$name = paulus_title_part();
@@ -1178,7 +1189,19 @@ function paulus_webpage_schema( $website ) {
 	if ( $desc && ! is_search() ) {
 		$node['description'] = $desc;
 	}
-	if ( is_category() ) {
+	if ( is_tag() ) {
+		$node['@type'] = 'CollectionPage';
+		$gloss         = function_exists( 'paulus_tag_term' ) ? paulus_tag_term( (string) single_tag_title( '', false ) ) : null;
+		if ( $gloss ) {
+			$node['about'] = array(
+				'@type'            => 'DefinedTerm',
+				'name'             => $gloss['name'],
+				'description'      => $gloss['def'],
+				'url'              => paulus_glossary_url( $gloss ),
+				'inDefinedTermSet' => get_permalink( get_page_by_path( 'glossary' ) ) . '#glossary',
+			);
+		}
+	} elseif ( is_category() ) {
 		$node['@type']      = 'CollectionPage';
 		$node['mainEntity'] = array( '@id' => $url . '#articles' );
 	} elseif ( is_search() ) {

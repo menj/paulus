@@ -49,6 +49,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.58 to 2.77.59
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49. On your first admin page the theme gives every article and Journal entry its tags. Tags you chose yourself are kept, and the theme changes an item only while it holds the tags the theme last gave it.
+- Tags used by one item only are set to `noindex`, so thin tag pages stay out of search results. They enter the index once a second item shares the tag.
+- Check Settings, Permalinks once, so the tag address (`/tag/damascus-road/`) is registered.
+
 ### 2.77.57 to 2.77.58
 
 - The theme now requires PHP 8.4 or later. Check the PHP version under Tools, Site Health, Info, Server before you upload the theme, and switch the host to 8.4 first. `content_version` stays at 2.77.49.
