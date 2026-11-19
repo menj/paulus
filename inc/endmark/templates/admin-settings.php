@@ -42,11 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="endmark-body">
             <!-- Tab Navigation -->
             <div class="endmark-tabs">
-                <button type="button" class="endmark-tab active" data-tab="appearance">
-                    <span class="dashicons dashicons-art"></span>
-                    <?php esc_html_e( 'Appearance', 'paulus' ); ?>
-                </button>
-                <button type="button" class="endmark-tab" data-tab="placement">
+                <button type="button" class="endmark-tab active" data-tab="placement">
                     <span class="dashicons dashicons-location"></span>
                     <?php esc_html_e( 'Placement', 'paulus' ); ?>
                 </button>
@@ -61,83 +57,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <!-- ============================================================
-                 TAB: Appearance
+                 TAB: Placement
                  ============================================================ -->
-            <div id="endmark-tab-appearance" class="endmark-tab-content active">
-
-                <div class="endmark-section">
-                    <h3 class="endmark-section-title"><?php esc_html_e( 'Endmark Type', 'paulus' ); ?></h3>
-                    <p class="endmark-section-desc"><?php esc_html_e( 'Choose between a typographic symbol or a custom image for your endmark.', 'paulus' ); ?></p>
-
-                    <div class="endmark-type-grid">
-                        <label class="endmark-type-option">
-                            <input type="radio" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[type]" value="symbol" <?php checked( $settings['type'], 'symbol' ); ?>>
-                            <div class="type-icon"><span class="dashicons dashicons-editor-textcolor"></span></div>
-                            <div class="type-label"><?php esc_html_e( 'Symbol', 'paulus' ); ?></div>
-                            <div class="type-desc"><?php esc_html_e( 'Unicode character', 'paulus' ); ?></div>
-                        </label>
-
-                        <label class="endmark-type-option">
-                            <input type="radio" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[type]" value="image" <?php checked( $settings['type'], 'image' ); ?>>
-                            <div class="type-icon"><span class="dashicons dashicons-format-image"></span></div>
-                            <div class="type-label"><?php esc_html_e( 'Image', 'paulus' ); ?></div>
-                            <div class="type-desc"><?php esc_html_e( 'Custom graphic', 'paulus' ); ?></div>
-                        </label>
-                    </div>
-
-                    <!-- Symbol Options Panel -->
-                    <div id="endmark-symbol-options" class="endmark-options-panel">
-                        <div class="endmark-field">
-                            <label for="endmark_symbol"><?php esc_html_e( 'Symbol Character', 'paulus' ); ?></label>
-                            <input type="text" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[symbol]" id="endmark_symbol" value="<?php echo esc_attr( $settings['symbol'] ); ?>" maxlength="12">
-                            <div class="endmark-symbols">
-                                <?php
-                                $symbols = array( '∎', '◆', '❧', '■', '●', '※', '❖', '◾', '▪', '#' );
-                                foreach ( $symbols as $sym ) {
-                                    printf( '<button type="button" class="endmark-sym-btn" data-symbol="%s">%s</button>', esc_attr( $sym ), esc_html( $sym ) );
-                                }
-                                ?>
-                            </div>
-                            <p class="hint"><?php esc_html_e( 'Click a symbol above or type your own (max 12 characters).', 'paulus' ); ?></p>
-                        </div>
-                    </div>
-
-                    <!-- Image Options Panel -->
-                    <div id="endmark-image-options" class="endmark-options-panel">
-                        <div class="endmark-field">
-                            <label><?php esc_html_e( 'Endmark Image', 'paulus' ); ?></label>
-                            <div class="endmark-image-upload">
-                                <div class="endmark-image-box <?php echo ! empty( $settings['image_url'] ) ? 'has-image' : ''; ?>">
-                                    <?php if ( ! empty( $settings['image_url'] ) ) : ?>
-                                        <img src="<?php echo esc_url( $settings['image_url'] ); ?>" alt="">
-                                    <?php else : ?>
-                                        <span class="dashicons dashicons-format-image"></span>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="endmark-image-actions">
-                                    <button type="button" id="endmark-upload-btn" class="button button-primary">
-                                        <span class="dashicons dashicons-upload"></span>
-                                        <?php esc_html_e( 'Upload Image', 'paulus' ); ?>
-                                    </button>
-                                    <button type="button" id="endmark-remove-btn" class="button button-secondary" style="<?php echo empty( $settings['image_url'] ) ? 'display:none;' : ''; ?>">
-                                        <?php esc_html_e( 'Remove', 'paulus' ); ?>
-                                    </button>
-                                </div>
-                            </div>
-                            <input type="hidden" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[image_url]" id="endmark_image_url" value="<?php echo esc_url( $settings['image_url'] ); ?>">
-                            <input type="hidden" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[image_id]" id="endmark_image_id" value="<?php echo esc_attr( $settings['image_id'] ); ?>">
-                        </div>
-
-                        <div class="endmark-field" style="margin-top: 24px;">
-                            <label for="endmark_image_size_px"><?php esc_html_e( 'Image Size', 'paulus' ); ?></label>
-                            <div class="endmark-size-control">
-                                <input type="range" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[image_size_px]" id="endmark_image_size_px" min="12" max="32" value="<?php echo esc_attr( $settings['image_size_px'] ); ?>">
-                                <span id="endmark-size-value"><?php echo esc_html( $settings['image_size_px'] ); ?>px</span>
-                            </div>
-                            <p class="hint"><?php esc_html_e( 'Adjust the display size of the endmark image (12–32 px).', 'paulus' ); ?></p>
-                        </div>
-                    </div>
-                </div>
+            <div id="endmark-tab-placement" class="endmark-tab-content active">
 
                 <!-- Live Preview -->
                 <div class="endmark-preview-container">
@@ -146,15 +68,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php esc_html_e( 'Live Preview', 'paulus' ); ?>
                     </div>
                     <div class="endmark-preview-box">
-                        <?php esc_html_e( 'This is how your endmark will appear at the end of your content, giving your articles a professional, polished finish.', 'paulus' ); ?><span id="endmark-live-mark"><?php echo $plugin->frontend->render_endmark_html( $settings ); ?></span>
+                        <?php esc_html_e( 'The mark is fixed: the cameo of Paul. This screen controls where and when it appears, not what it shows.', 'paulus' ); ?><span id="endmark-live-mark"><?php echo $plugin->frontend->render_endmark_html( $settings ); ?></span>
                     </div>
                 </div>
-            </div>
 
-            <!-- ============================================================
-                 TAB: Placement
-                 ============================================================ -->
-            <div id="endmark-tab-placement" class="endmark-tab-content">
 
                 <div class="endmark-section">
                     <h3 class="endmark-section-title"><?php esc_html_e( 'Content Types', 'paulus' ); ?></h3>
@@ -318,23 +235,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <div class="toggle-label"><?php esc_html_e( 'Disable on AMP pages', 'paulus' ); ?></div>
                                 <div class="toggle-desc"><?php esc_html_e( 'Skip endmark insertion on Accelerated Mobile Pages.', 'paulus' ); ?></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="endmark-divider"></div>
-
-                <div class="endmark-section">
-                    <h3 class="endmark-section-title"><?php esc_html_e( 'SVG Support', 'paulus' ); ?></h3>
-                    <p class="endmark-section-desc"><?php esc_html_e( 'Allow SVG images to be used as endmarks.', 'paulus' ); ?></p>
-
-                    <div class="endmark-toggle-item">
-                        <div class="endmark-toggle">
-                            <input type="checkbox" name="<?php echo esc_attr( Endmark_Plugin::OPTION_SITE ); ?>[allow_svg]" id="endmark_allow_svg" value="1" <?php checked( $settings['allow_svg'] ); ?>>
-                        </div>
-                        <div class="toggle-content">
-                            <div class="toggle-label"><?php esc_html_e( 'Allow SVG endmarks', 'paulus' ); ?></div>
-                            <div class="toggle-desc"><?php esc_html_e( 'When disabled, SVG images fall back to the default ∎ symbol for security.', 'paulus' ); ?></div>
                         </div>
                     </div>
                 </div>

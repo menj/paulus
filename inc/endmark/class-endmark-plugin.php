@@ -224,10 +224,11 @@ class Endmark_Plugin {
             $merged['post_types'] = array( 'post' );
         }
 
-        // An image type with no image (the picture was removed) shows the theme's cameo, not a bare symbol.
-        if ( 'image' === $merged['type'] && empty( $merged['image_url'] ) ) {
-            $merged['image_url']     = $this->site_defaults['image_url'];
-            $merged['image_size_px'] = $this->site_defaults['image_size_px'];
+        // The mark is fixed to the theme's cameo of Paul. The screen controls
+        // where and when it appears, not what it shows, so whatever symbol or
+        // image an old setting holds is ignored.
+        foreach ( array( 'type', 'symbol', 'image_url', 'image_id', 'image_size_px', 'allow_svg' ) as $key ) {
+            $merged[ $key ] = $this->site_defaults[ $key ];
         }
 
         return $merged;
