@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.61
+Stable tag: 2.77.62
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.62 =
+* A new Journal entry, "The three wishes", a joke supplied by the owner, with a short note on the argument behind it.
 
 = 2.77.61 =
 * Wikipedia Preview is built into the theme: a card with the start of the Wikipedia article opens when a reader clicks or hovers over a link to Wikipedia. The theme switches the plugin off.
@@ -337,6 +340,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.62 =
+Run Install or update under Theme Options, Content, to bring in the new Journal entry.
 
 = 2.77.61 =
 Wikipedia Preview is now part of the theme and is switched off as a plugin on your first admin visit. The cards fetch text from Wikipedia in the reader's browser; consider a line in the privacy policy.

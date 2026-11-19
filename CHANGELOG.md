@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.62] - 2026-11-19
+
+A new Journal entry, by the owner's request. `content_version` is 2.77.62, since a shipped text is added.
+
+### Added
+- Journal: "The three wishes" (`journal-the-three-wishes.json`), a joke the owner supplied, dated 19 November 2026. Its wording is the owner's, except that the opening dash is rewritten as a colon for the house style. A short note, "Why the joke works", links it to the entry on the return that never came and to the measure of the case. Tags: `second coming`, `islam and paul`, `case against paul`, `paul and jesus`.
+
 ## [2.77.61] - 2026-11-19
 
 Wikipedia Preview is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.60, since no shipped text changes.

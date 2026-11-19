@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.60",
+	"content_version": "2.77.62",
 	"prior_hashes": {
 		"glossary.json#r77.60": "5ef859a0d08929c8e89610a69372836a",
 		"journal-was-paul-a-roman-citizen.json#r77.47": "334c98143e1231e245421f10acafc348",
@@ -1963,6 +1963,16 @@
 			"file": "journal-was-paul-a-roman-citizen.json",
 			"image": "roman-silver-coins",
 			"date": "2027-02-28 09:00:00"
+		},
+		{
+			"slug": "the-three-wishes",
+			"title": "The three wishes",
+			"seo_title": "The three wishes",
+			"meta": "A judge grants three men one wish each. The Muslim asks for two of them to come back, and gives his reason.",
+			"excerpt": "A joke about a judge, three men and one wish each, and why the Muslim asked for the other two to come back.",
+			"file": "journal-the-three-wishes.json",
+			"image": "paul-portrait-mirror",
+			"date": "2026-11-19 09:00:00"
 		}
 	],
 	"pages": [
