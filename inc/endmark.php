@@ -87,7 +87,7 @@ function paulus_endmark_adopt_image() {
 	$saved['image_url']  = PAULUS_URI . '/assets/images/endmark.svg';
 	$saved['image_id']   = 0;
 	$saved['allow_svg']  = true;
-	$saved['image_size_px'] = 20;
+	$saved['image_size_px'] = 28;
 	$types               = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
 	$saved['post_types'] = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );
 	update_option( 'paulus_endmark', $saved );

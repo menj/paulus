@@ -7,7 +7,7 @@ All notable changes to this theme are documented here. The format follows [Keep 
 An end mark image closes every article and Journal entry. `content_version` stays at 2.77.49, since no shipped text changes.
 
 ### Added
-- `assets/images/endmark.svg`: a 24 px oxblood square (the theme's accent) with a parchment square outline and a centre dot, drawn in two colours so that it reads on the parchment ground. It is the Endmark default: image type, 20 px, SVG allowed, for posts (the articles) and Journal entries.
+- `assets/images/endmark.svg`: a small linocut-style cameo of Paul, bald and bearded with a furrowed brow, in the theme's oxblood and parchment on a round seal. It is drawn as vector shapes of its own, so it stays apart from the photographic favicon. It is the Endmark default: image type, 28 px, SVG allowed, for posts (the articles) and Journal entries.
 - `paulus_endmark_adopt_image()` (`inc/endmark.php`) gives a site that still has the plugin's plain default symbol (`∎`) the new image, once. A symbol, image or post type list the owner chose is left alone, and later changes on the Endmark screen stick.
 - Endmark 4.4.0 was uploaded again and is the version already built in; nothing else changed.
 

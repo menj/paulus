@@ -129,7 +129,7 @@ class Endmark_Plugin {
         'symbol'              => '∎',
         'image_url'           => PAULUS_URI . '/assets/images/endmark.svg',
         'image_id'            => 0,
-        'image_size_px'       => 20,
+        'image_size_px'       => 28,
         'placement_mode'      => 'last_paragraph',
         'placement_selector'  => '',
         'min_word_count'      => 0,

@@ -151,7 +151,7 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 == Changelog ==
 
 = 2.77.55 =
-* The end of every article and Journal entry now carries a small oxblood square seal (assets/images/endmark.svg), set once for sites still on the plain default symbol.
+* The end of every article and Journal entry now carries a small cameo of Paul on an oxblood seal (assets/images/endmark.svg), set once for sites still on the plain default symbol.
 
 = 2.77.54 =
 * WP Consent API is built into the theme, and the theme now also switches off WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
