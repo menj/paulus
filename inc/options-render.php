@@ -85,6 +85,7 @@ function paulus_options_tab_meta() {
 		'publisher'  => array( 'dashicons-building', __( 'The publisher named in the colophon and the structured data. The address and telephone go into the structured data only.', 'paulus' ) ),
 		'appearance' => array( 'dashicons-art', __( 'Pick a colour scheme. This screen takes it at once, so you can judge it before you save. The ornament layer adds the first-century textures and borders.', 'paulus' ) ),
 		'reading'    => array( 'dashicons-visibility', __( 'Reading aids on articles and pages: the progress bar, arrow-key paging, resume reading, the copy-link button and back to top.', 'paulus' ) ),
+		'justify'    => array( 'dashicons-editor-justify', __( 'Text set flush on both sides: where, whether it hyphenates, and which parts stay unjustified. This is the built-in form of the Auto Justify Content plugin, which the theme switches off.', 'paulus' ) ),
 		'media'      => array( 'dashicons-format-image', __( 'What WordPress does with new uploads. Files already in the media library stay as they are.', 'paulus' ) ),
 		'login'      => array( 'dashicons-lock', __( 'The login screen, application passwords and the security headers sent with every page.', 'paulus' ) ),
 		'security'   => array( 'dashicons-shield', __( 'XML-RPC, REST API writes and the spam gate. The cleanup tools and reports sit under the switches.', 'paulus' ) ),

@@ -49,6 +49,13 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.49 to 2.77.50
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run.
+- Auto Justify Content is built into the theme. On the first page view the plugin's options (`ajc_*`) are copied into Theme Options, Justify, and on the first admin page the theme switches the plugin off and says so in a notice. Nothing is deleted: the plugin stays in the Plugins list, deactivated, and you can delete it once you have looked at the Justify tab. A site that never used the plugin gets its defaults: justified text on articles and Journal entries, with hyphenation.
+- To keep the plugin as a plugin, filter it out of the list: `add_filter( 'paulus_retired_plugins', function ( $list ) { unset( $list['auto-justify-content/auto-justify-content.php'] ); return $list; } );`. The theme then does nothing while the plugin's class exists.
+- A plugin that is network-active or must-use cannot be switched off by the theme, and the notice says so.
+
 ### 2.77.33 to 2.77.34
 
 Upload the whole theme folder. Nothing else to do.

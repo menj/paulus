@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.50] - 2026-11-19
+
+Auto Justify Content is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- Justified text (`inc/justify.php`, `assets/css/justify.css`): a native form of the Auto Justify Content plugin by MENJ. Its six settings are in Theme Options, Justify (a new tab), and the plugin's own options (`ajc_*`) are copied into them once, so the site keeps its choices. The scope "blog posts only" covers articles and Journal entries. The rules are a stylesheet switched on by body classes; only excluded selectors are written inline. The stylesheet keeps low specificity and drops the plugin's `!important`, so the theme's own left-aligned lists stay left-aligned. Elementor selectors are not carried over.
+- Plugin retirement (`inc/plugin-retire.php`): a list of plugins the theme has taken over, today only Auto Justify Content. An active plugin in the list is deactivated on the next admin page for a user who can activate plugins, silently so its own deactivation code does not run, and only once the native module is loaded. A plugin activated by hand is switched off again at once. An admin notice says where the settings now are. Nothing is deleted. A network-active plugin is left, with a notice. The filter `paulus_retired_plugins` extends the list.
+- `tests/justify-test.php`.
+- The plugin and its settings: `LICENSES.md` credits MENJ and the GPL v2 or later licence.
+- Upload the whole theme folder. On the first visit the plugin's options are copied; on the first admin page the plugin is switched off. If it is the plugin you want to keep, remove its name from the list with the filter.
+
 ## [2.77.49] - 2026-11-18
 
 The references in two scheduled Journal entries were checked against their sources. `content_version` rises to 2.77.49 because one shipped text changes.

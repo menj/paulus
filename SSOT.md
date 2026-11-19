@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.49. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.50. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -76,7 +76,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.49 on 2.77.49) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.49 on 2.77.50) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -117,11 +117,16 @@ On a live site the first request after a version change removes the dot entries,
 
 An article shows, in order: the title panel (breadcrumb, title, standfirst, byline with the reading time, then the dates and "Last reviewed"), the share row, the text with Key takeaways above its contents tablet and one line before its third section, the references, the author note, the reading-order band, "More from" the section and `[paulus_book_teaser]`. The byline names `book_author` as it always has. No piece but the book teaser mentions the book's price or its order link, and no new piece may (`tests/article-test.php`). The FAQPage of the study questions is built only from the `paulus-questions` lists a page shows, word for word. It stays although the page shows no answers, under the owner decision of 2026-11-03 above.
 
+## Plugins the theme has taken over
+
+- A plugin built into the theme as a module keeps its own option names and its settings, so a site that used it carries on. Three of them (Unlist Posts & Pages, Pretty Search Permalinks, WPS Hide Login) wait while the plugin is active. Auto Justify Content (`inc/justify.php`) is different, by the owner's request of 2026-11-19: the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently and only once the native module is loaded, and deletes nothing. Further plugins the owner hands over follow the same module and the same list.
+- A plugin taken over needs its licence checked first: GPL v2 or later, or the owner's own. A plugin without such a licence is not copied into the theme.
+
 ## Names that must not change
 
 | Kind | Names |
 |---|---|
-| Option | `paulus_options` (every Theme Options field), `paulus_journal_shipped` |
+| Option | `paulus_options` (every Theme Options field, among them the six `justify_*` keys), `paulus_journal_shipped`, `paulus_justify_imported` (set once the Auto Justify Content options have been copied), and the plugin's own `ajc_*` options, read once and left in place |
 | Post meta | `_paulus_order`, `_paulus_label`, `_paulus_series`, `_paulus_series_title`, `_paulus_part_no`, `_paulus_parts`, `_paulus_takeaways`, `_paulus_reviewed` |
 | Term meta | `paulus_order` |
 | Constants | `PAULUS_HIDE_LOGIN`, `PAULUS_SECURITY_LOCK`, `PAULUS_SPAM_THRESHOLD`, `PAULUS_KEEP_DOTFILES`, `PAULUS_ALLOW_CORE_FILES`, `PAULUS_SCHEMA_AUTHOR_NAME`, `PAULUS_SCHEMA_AUTHOR_URL` |

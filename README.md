@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.49 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.50 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.49) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.50) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -99,7 +99,7 @@ paulus/
   dropins/        the maintenance, database-error and PHP-error pages, copied into wp-content (see Error pages)
   UPGRADING.md    what each update changes on a live site, and what it leaves to you
   content/        manifest.json, images.json (image titles, alt text and figure credits), articles/ (the texts the installer writes); all JSON, read and never executed
-  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
+  inc/            defaults, options-fields and options-render, shortcodes, structure, importer, seo, schema-deep (structured data), figures (church photographs and their credits), media, journal, lead-list (the featured block at the head of the Journal), justify (justified text, the built-in Auto Justify Content), plugin-retire (switches off a plugin the theme has taken over), dashboard, links (contextual links in the text), unlist, search-permalinks, hide-login, login, dropins (error pages), honorific (calligraphy after ʿĪsā's name), search (header search, results), article (dates, Key takeaways, the mid-article next step, the study questions' FAQPage), hardening (the user list hidden from visitors)
   parts/          header, footer
   templates/      front-page, single, page, category, page-book, search, 404
 ```
@@ -340,6 +340,7 @@ php tests/schema-graph-test.php
 php tests/search-rewrite-test.php
 php tests/security-detector-test.php
 php tests/unlist-test.php
+php tests/justify-test.php
 php tests/watch-report-test.php
 php tests/article-test.php
 php bin/build-error-pages.php --check
@@ -553,6 +554,12 @@ Three plugins are built into the theme as native modules, each a rewrite that ke
 | `inc/unlist.php` | Unlist Posts & Pages (Nikschavan) | An unlisted post or page opens by its address and is left out of everything else: archives, the front page, search, feeds, the theme's own lists (section cards, reading order, rail, Sitemap page, footer columns, Journal), previous and next links, page lists, and WordPress's and Rank Math's XML sitemaps; its page is marked noindex. A request that names posts (`post__in`, a REST request with `include=`), where WordPress ignores `post__not_in`, has the unlisted ones taken out of the list itself. On the public site an unlisted item is hidden from everyone, signed-in editors included, as the plugin does; admin screens, the block editor's REST requests and AJAX sent from the admin by an editor see it. An unlisted article keeps its own reading navigation. | An "Unlist" box in the editor's sidebar; an "Unlisted" label, column and view in the lists of posts and pages, with Quick Edit and Bulk Edit; the dashboard widget lists what is unlisted. Each item's flag is post meta `_paulus_unlisted`; the plugin's option `unlist_posts` is rebuilt from the flags after each change. |
 | `inc/search-permalinks.php` | Pretty Search Permalinks (Angel Costa) | Searches use clean addresses, `/search/paul/`; a search from the form is sent there with a permanent redirect that keeps its other query variables, so `?s=paul&paged=2` lands on the second page. A base whose rewrite rules were never built (the option imported from the plugin) has them rebuilt on the next admin page load. | Settings, Permalinks, "Search base", saved only for a user who may manage options. Option `wpseosearch_base`. |
 | `inc/hide-login.php` | WPS Hide Login (WPServeur, Nicolas Kulka, wpformation) | The login screen moves to a private address; wp-login.php shows the site's page not found and the admin sends visitors who are not logged in away. Every login, logout, lost-password and registration link WordPress builds uses the private address. Password-protected posts, cron, AJAX and the command line are untouched: a posted password goes through only when both the address and the posted action say `postpass`, since wp-login.php reads the action from the merged request. wp-login.php is recognised whatever its capitals, for case-insensitive file systems, and the redirect to the private address with its closing slash keeps the percent-encoding of `redirect_to` and `login`. | Settings, Permalinks, "Login address" and "Blocked requests go to", saved only for a user who may manage options; the dashboard widget shows the login address. Options `whl_page` and `whl_redirect_admin`. Nothing changes until a login address is saved. |
+
+### Switched off by the theme
+
+`inc/justify.php` is the native form of **Auto Justify Content** (MENJ, GPL v2 or later). It keeps the plugin's six settings (on or off, where, desktop only, hyphenation, theme fallback, excluded selectors) in Theme Options, Justify, and copies the plugin's own options (`ajc_enabled`, `ajc_scope`, `ajc_hyphen`, `ajc_mobile`, `ajc_fallback`, `ajc_exclude`) into them once, so a site that used the plugin keeps its choices; the plugin's options are left where they are. The rules are a stylesheet, `assets/css/justify.css`, switched on by body classes (`paulus-justify` and the modifiers `--hyphen`, `--desktop`, `--fallback`); only the excluded selectors are written inline. "Where" is Articles and Journal entries, or the whole site, and the stylesheet keeps low specificity, so a rule the theme sets for one element still wins. Elementor selectors are not carried over. The defaults are the plugin's, except that the excluded selectors start empty.
+
+Unlike the three modules above, this one does not wait for its plugin. `inc/plugin-retire.php` keeps a list of plugins the theme has taken over (the filter `paulus_retired_plugins`). On any admin page, for a user who can activate plugins, a plugin in the list that is active is deactivated, silently (its own deactivation code does not run), once the native module is loaded; a plugin activated by hand is switched off again at once, and an admin notice says where the settings now are. Nothing is deleted. A plugin that is network-active or must-use cannot be switched off by the theme, and the notice says so. The theme adds no justification while the plugin's class exists, so the two never apply twice. `tests/justify-test.php` covers it.
 
 A theme loads later than a plugin: WPS Hide Login's first step runs on `plugins_loaded`, before any theme exists. That step only recognises the request and adjusts `$pagenow` and the request address, which WordPress does not read again until later, so the theme runs it on `after_setup_theme`; the rest runs on `wp_loaded`, as in the plugin.
 
