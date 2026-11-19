@@ -49,6 +49,13 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.53 to 2.77.54
+
+- Upload the whole theme folder, after a database backup. `content_version` stays at 2.77.49.
+- WP Consent API is built into the theme and stores nothing. The theme switches the plugin off on the first admin page.
+- The theme also switches off WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. Their settings keep their names. Nothing is deleted.
+- To keep any of them as plugins, remove its file from the `paulus_retired_plugins` list with the filter.
+
 ### 2.77.52 to 2.77.53
 
 - Upload the whole theme folder, after a database backup. `content_version` stays at 2.77.49.
