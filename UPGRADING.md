@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.63 to 2.77.64
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.64 and the Journal entry "Who was lying at Antioch?" is created, once.
+
 ### 2.77.62 to 2.77.63
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.63 and the Privacy Policy takes its new section. A policy you have edited is offered beside the theme's text, not overwritten, so copy the "Previews from Wikipedia" section into it.

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.63
+Stable tag: 2.77.64
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.64 =
+* A new Journal entry, "Who was lying at Antioch?", on Jerome, Augustine and the quarrel between Paul and Peter, with the quoted passages set as annotated cards.
 
 = 2.77.63 =
 * The Privacy Policy now says that Wikipedia previews load from Wikipedia when a reader clicks or hovers over a link.
@@ -343,6 +346,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.64 =
+Run Install or update under Theme Options, Content, to bring in the new Journal entry.
 
 = 2.77.63 =
 Run Install or update under Theme Options, Content, to bring in the new Privacy Policy section (an edited policy is offered, not overwritten).
