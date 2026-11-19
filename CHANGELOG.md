@@ -2,6 +2,15 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.54] - 2026-11-19
+
+WP Consent API is built into the theme, and the theme switches off three more plugins it already contains. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- Consent API (`inc/consent-api.php`, `inc/consent-api/`): WP Consent API 2.1.0 by the WordPress Contributors (GPL v2 or later) as a native module: `wp_has_consent()`, `wp_set_consent()`, the `wp_consent_api` script, plugin registration and the Site Health test. Its script and stylesheet are `assets/js/wp-consent-api*.js` and `assets/css/wp-consent-api*.css`. It has no settings, so nothing is copied.
+- `inc/plugin-retire.php` lists WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The three older modules define a ready marker before they stand aside. They keep their option names, so nothing is lost. The plugin file names for Unlist and Pretty Search Permalinks are best guesses (two each); a plugin under another folder name needs a line added with the `paulus_retired_plugins` filter.
+- `tests/consent-api-test.php`.
+
 ## [2.77.53] - 2026-11-19
 
 Contact Form 7 is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.

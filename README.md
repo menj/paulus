@@ -6,7 +6,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.53 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.54 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.53) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.54) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -345,6 +345,7 @@ php tests/citepress-test.php
 php tests/endmark-test.php
 php tests/hrefmaster-test.php
 php tests/cf7-test.php
+php tests/consent-api-test.php
 php tests/watch-report-test.php
 php tests/article-test.php
 php bin/build-error-pages.php --check
@@ -574,6 +575,8 @@ What differs from the plugin: the theme prints its own Open Graph tags and JSON-
 `inc/hrefmaster.php` is the native form of **HrefMaster 3.0.1** (GPL v2 or later), with its code in `inc/hrefmaster/`: hreflang meta boxes for posts, pages, custom types and terms, the `<link rel="alternate" hreflang>` tags in the head, a per-page `<html lang>` override, a bulk editor, a code generator, single and bulk validation, WooCommerce shop support and the tabbed HrefMaster menu with four admin colour schemes. The taxonomy fields are added on `init`, since a theme loads after `plugins_loaded`. The plugin's five options are copied once to `paulus_hreflang_post_types`, `_admin_bar`, `_html_lang`, `_woo_shop` and `_scheme`. The tags are post and term meta (`hreflang-<code>`, `_hrefmaster_html_lang`) that the plugin's uninstall leaves alone, so they keep their names. `tests/endmark-test.php` and `tests/hrefmaster-test.php` load each module, check the stand-aside and the import.
 
 `inc/cf7.php` is the native form of **Contact Form 7 6.2.5** (Rock Lobster Inc., GPL v2 or later), with the plugin's code in `inc/cf7/` and its licence beside it. The forms keep the plugin's names (`wpcf7_contact_form`, option `wpcf7`). The theme defines `WPCF7_VERSION`, so deleting the plugin later keeps the data, and `inc/plugin-retire.php` switches the plugin off. The built-in copy gets no security updates from the plugin; replace `inc/cf7/` when it issues one.
+
+`inc/consent-api.php` is the native form of **WP Consent API 2.1.0** (WordPress Contributors, GPL v2 or later), with its code in `inc/consent-api/`: `wp_has_consent()`, `wp_set_consent()`, the `wp_consent_api` script and the Site Health test. It has no settings. `inc/plugin-retire.php` switches the plugin off, and now also WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
 
 A theme loads later than a plugin: WPS Hide Login's first step runs on `plugins_loaded`, before any theme exists. That step only recognises the request and adjusts `$pagenow` and the request address, which WordPress does not read again until later, so the theme runs it on `after_setup_theme`; the rest runs on `wp_loaded`, as in the plugin.
 

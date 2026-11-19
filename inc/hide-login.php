@@ -26,6 +26,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Defined before anything can stand aside: inc/plugin-retire.php switches
+ * the plugin off only while this module is loaded.
+ *
+ * @return bool
+ */
+function paulus_hide_login_ready() {
+	return true;
+}
+
 if ( defined( 'WPS_HIDE_LOGIN_BASENAME' ) || class_exists( 'WPS\\WPS_Hide_Login\\Plugin' ) ) {
 	return;
 }

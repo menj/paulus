@@ -12,6 +12,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Defined before anything can stand aside: inc/plugin-retire.php switches
+ * the plugin off only while this module is loaded.
+ *
+ * @return bool
+ */
+function paulus_search_permalinks_ready() {
+	return true;
+}
+
 if ( function_exists( 'wpseosearch_base' ) ) {
 	return;
 }

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.53
+Stable tag: 2.77.54
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -149,6 +149,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.54 =
+* WP Consent API is built into the theme, and the theme now also switches off WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
 
 = 2.77.53 =
 * Contact Form 7 is built into the theme (the Contact menu keeps its forms), and the theme switches the plugin off.
@@ -311,6 +314,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.54 =
+WP Consent API is now part of the theme, and the three older built-in plugins are switched off on your first admin visit. Back up the database first.
 
 = 2.77.53 =
 Contact Form 7 is now part of the theme and no longer receives the plugin's own security updates. Back up the database first. The plugin is switched off on your first admin visit.

@@ -20,6 +20,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Defined before anything can stand aside: inc/plugin-retire.php switches
+ * the plugin off only while this module is loaded.
+ *
+ * @return bool
+ */
+function paulus_unlist_ready() {
+	return true;
+}
+
 if ( class_exists( 'Unlist_Posts' ) ) {
 	return;
 }

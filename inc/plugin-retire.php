@@ -41,6 +41,36 @@ function paulus_retired_plugins() {
 			'where' => __( 'Settings, Endmark', 'paulus' ),
 			'ready' => 'paulus_endmark_ready',
 		),
+		'wps-hide-login/wps-hide-login.php' => array(
+			'name'  => 'WPS Hide Login',
+			'where' => __( 'the Login Address field in Theme Options', 'paulus' ),
+			'ready' => 'paulus_hide_login_ready',
+		),
+		'unlist-posts-pages/unlist-posts-pages.php' => array(
+			'name'  => 'Unlist Posts & Pages',
+			'where' => __( 'the Unlist box on posts and pages', 'paulus' ),
+			'ready' => 'paulus_unlist_ready',
+		),
+		'unlist-posts-pages/unlist.php' => array(
+			'name'  => 'Unlist Posts & Pages',
+			'where' => __( 'the Unlist box on posts and pages', 'paulus' ),
+			'ready' => 'paulus_unlist_ready',
+		),
+		'wp-seo-search-permalinks/wp-seo-search-permalinks.php' => array(
+			'name'  => 'Pretty Search Permalinks',
+			'where' => __( 'Theme Options', 'paulus' ),
+			'ready' => 'paulus_search_permalinks_ready',
+		),
+		'pretty-search-permalinks/pretty-search-permalinks.php' => array(
+			'name'  => 'Pretty Search Permalinks',
+			'where' => __( 'Theme Options', 'paulus' ),
+			'ready' => 'paulus_search_permalinks_ready',
+		),
+		'wp-consent-api/wp-consent-api.php' => array(
+			'name'  => 'WP Consent API',
+			'where' => __( 'the Plugins screen', 'paulus' ),
+			'ready' => 'paulus_consent_api_ready',
+		),
 		'contact-form-7/wp-contact-form-7.php' => array(
 			'name'  => 'Contact Form 7',
 			'where' => __( 'the Contact menu', 'paulus' ),
@@ -122,7 +152,7 @@ function paulus_retire_notice() {
 		$where = array();
 		foreach ( $list as $info ) {
 			if ( in_array( $info['name'], $done, true ) ) {
-				$where[] = $info['where'];
+				$where[ $info['name'] ] = $info['where'];
 			}
 		}
 		printf(
