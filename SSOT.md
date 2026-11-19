@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.57. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.59. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -16,7 +16,7 @@ The theme `.htaccess` refuses this file to the web server, as it refuses every M
 | Theme folder | `paulus`, all lower case, on the live server and in the zip |
 | Text domain | `paulus` |
 | Parent theme | Twenty Twenty-Five (`Template: twentytwentyfive`), version 1.5 or later |
-| Requirements | WordPress 6.7 or later (tested up to 7.0), PHP 8.0 or later |
+| Requirements | WordPress 6.7 or later (tested up to 7.0), PHP 8.4 or later (set by the owner on 2026-11-19) |
 | Theme author | MENJ (`Author` and `Author URI` in `style.css`; `Theme URI` is the GitHub page) |
 | Author for schema | Mohd Elfie Nieshaem Juferi (`PAULUS_SCHEMA_AUTHOR_NAME`, `inc/seo.php`) |
 | Source book | *Paulus Perosak Risalah Al-Masih*, Mohd Elfie Nieshaem Juferi (Langgam Fikir, 2025; ISBN 978-629-96135-0-3). Its name is never shortened or altered |
@@ -76,7 +76,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.49 on 2.77.57) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.49 on 2.77.59) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -117,9 +117,14 @@ On a live site the first request after a version change removes the dot entries,
 
 An article shows, in order: the title panel (breadcrumb, title, standfirst, byline with the reading time, then the dates and "Last reviewed"), the share row, the text with Key takeaways above its contents tablet and one line before its third section, the references, the author note, the reading-order band, "More from" the section and `[paulus_book_teaser]`. The byline names `book_author` as it always has. No piece but the book teaser mentions the book's price or its order link, and no new piece may (`tests/article-test.php`). The FAQPage of the study questions is built only from the `paulus-questions` lists a page shows, word for word. It stays although the page shows no answers, under the owner decision of 2026-11-03 above.
 
+## Tags
+
+- Every article and Journal entry has one to six tags, all lowercase, by the owner's decision of 2026-11-19. The data is `content/tags.json`; code lowercases new tags and keeps at most six (`PAULUS_MAX_TAGS`). Tags are tied to the glossary (`glossary` in the same file) and link both ways: tag page to term, term to tag page. A tag is a search phrase a reader would use, so it is a name or a short topic, never a sentence.
+
 ## Plugins the theme has taken over
 
-- A plugin built into the theme as a module keeps its own option names and its settings, so a site that used it carries on. Three of them (Unlist Posts & Pages, Pretty Search Permalinks, WPS Hide Login) wait while the plugin is active. Auto Justify Content (`inc/justify.php`) is different, by the owner's request of 2026-11-19: the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently and only once the native module is loaded, and deletes nothing. The end mark image is `assets/images/endmark.webp`, the Endmark default (Paul's portrait as a cameo, image type, 28 px) for posts and Journal entries, fixed (the Endmark screen cannot change the symbol, image, size or SVG setting; `get_settings()` forces them). It was set once on every site by `paulus_endmark_adopt_image()` (flag `paulus_endmark_cameo`) and used as the fallback when an image is removed. WP Consent API (`inc/consent-api.php`) is switched off the same way, and so now are Unlist Posts & Pages, Pretty Search Permalinks and WPS Hide Login. Contact Form 7 (`inc/cf7.php`, `inc/cf7/`) is switched off the same way and keeps the plugin's own names (`wpcf7_contact_form`, option `wpcf7`); the theme defines `WPCF7_VERSION`, which makes the plugin's uninstall keep the data. CitePress (`inc/citepress.php`, `inc/citepress/`), Endmark (`inc/endmark.php`) and HrefMaster (`inc/hrefmaster.php`) follow it, and takes over the plugin's settings option and analytics table under the theme's own names so that deleting the plugin removes nothing the theme uses. Further plugins the owner hands over follow the same module and the same list.
+- A plugin built into the theme as a module keeps its own settings, and the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently and only once the native module is loaded, and deletes nothing. The owner set this on 2026-11-19, for Auto Justify Content and then for every plugin handed over: CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. Where a plugin's uninstall would delete data, the module copies it to theme-owned names first (CitePress, Endmark, HrefMaster, Auto Justify Content); Contact Form 7 keeps `wpcf7_contact_form` and the `wpcf7` option because the theme defines `WPCF7_VERSION`, which makes the plugin's uninstall keep them. The built-in Contact Form 7 gets no updates from the plugin. Further plugins the owner hands over follow the same module and the same list.
+- The Endmark mark is fixed by the owner's decision of 2026-11-19: the cameo of Paul, `assets/images/endmark.webp`, 28 px. The Endmark screen controls where and when it appears, not what it shows; `get_settings()` forces the symbol, image, size and SVG settings.
 - A plugin taken over needs its licence checked first: GPL v2 or later, or the owner's own. A plugin without such a licence is not copied into the theme.
 
 ## Names that must not change

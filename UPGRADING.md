@@ -49,6 +49,16 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.58 to 2.77.59
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49. On your first admin page the theme gives every article and Journal entry its tags. Tags you chose yourself are kept, and the theme changes an item only while it holds the tags the theme last gave it.
+- Tags used by one item only are set to `noindex`, so thin tag pages stay out of search results. They enter the index once a second item shares the tag.
+- Check Settings, Permalinks once, so the tag address (`/tag/damascus-road/`) is registered.
+
+### 2.77.57 to 2.77.58
+
+- The theme now requires PHP 8.4 or later. Check the PHP version under Tools, Site Health, Info, Server before you upload the theme, and switch the host to 8.4 first. `content_version` stays at 2.77.49.
+
 ### 2.77.56 to 2.77.57
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.
@@ -57,12 +67,12 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.77.55 to 2.77.56
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.
-- On the first page view, every site switches its Endmark to the cameo of Paul, replacing any symbol or image set before. Set your own afterwards on the Endmark screen; the switch happens once.
+- On the first page view, every site switches its Endmark to the cameo of Paul, replacing any symbol or image set before. From 2.77.57 the mark cannot be changed on the Endmark screen.
 
 ### 2.77.54 to 2.77.55
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.
-- On the first page view, a site whose Endmark symbol is still the plain `∎` switches to the theme's end mark image, on posts and Journal entries. To keep the symbol, set it (or any other symbol) on the Endmark screen before the first view, or change the type back afterwards; the switch happens once.
+- On the first page view, a site whose Endmark symbol is still the plain `∎` switches to the theme's end mark image, on posts and Journal entries. The mark could be changed afterwards; from 2.77.57 it cannot.
 
 ### 2.77.53 to 2.77.54
 
@@ -481,7 +491,9 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Finish the move to the ESV. Articles written before 1 November 2026 still quote the King James Version beneath the Greek, and the Sources page says so. Each moves across whole, picture captions included, so no article mixes two translations. The largest are left for last: *ʿĪsā in his own words*, *The prayer ʿĪsā taught*, *Original sin*, *The Greek body and the Jewish bed* and *Justification by faith*.
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
-- Run the tests on every push. The repository has nine test files and no CI workflow.
+- Run the tests on every push, on PHP 8.4. The repository has eighteen test files and no CI workflow, and the 8.4 requirement has been checked by search and by PHP 8.3 only.
+- Update the built-in Contact Form 7 by hand. `inc/cf7/` no longer receives the plugin's security fixes; compare it with each plugin release.
+- Confirm the plugin file names for Unlist Posts & Pages and Pretty Search Permalinks against a live site, so `inc/plugin-retire.php` switches them off.
 
 ### Later
 

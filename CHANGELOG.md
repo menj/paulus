@@ -2,6 +2,28 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.59] - 2026-11-19
+
+Tags for every article and Journal entry, by the owner's request: at most six, all lowercase, tied to the glossary and linked both ways. `content_version` stays at 2.77.49, since no shipped text changes; the tags have their own file and sync.
+
+### Added
+- `content/tags.json` and `inc/tags.php`: 149 tags over the 56 articles and 22 Journal entries, each item with one to six. Each is a phrase a reader searches for (`damascus road`, `roman citizenship`, `justification by faith`, `islam and paul`). Tags a person set are kept; the theme assigns only to an item that still holds what it gave last.
+- New tags are lowercased and capped at six in code, whoever adds them. Journal entries can take tags.
+- The glossary: 34 tags are tied to a term. A tag archive shows the term's definition with a link to the glossary, every glossary term has an anchor and links to the archives of its tags, and a tied tag in the byline carries a small `g` linking to its term.
+- A tag page (`templates/tag.html`) listing articles and Journal entries, with a title `<Tag> | Apostle of Doom` and a description from the tag, the glossary or a plain sentence. An archive with fewer than two items is `noindex, follow`.
+- `article:tag` in the head, `keywords` in the Article schema, and a `DefinedTerm` on a tied tag's page.
+- `tests/tags-test.php`.
+
+### Fixed
+- `assets/files.json` now lists `assets/images/endmark.webp`. The image clean-up removes any image in `assets/images` that the list does not name, so without this line it would have deleted the end mark on a live site.
+
+## [2.77.58] - 2026-11-19
+
+The minimum PHP version is 8.4, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Changed
+- `Requires PHP: 8.4` in `style.css` and `readme.txt`; README and SSOT agree. WordPress refuses to activate the theme on an older PHP.
+
 ## [2.77.57] - 2026-11-19
 
 Endmark controls where and when the mark shows, not what it shows, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.

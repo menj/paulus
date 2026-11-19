@@ -2,8 +2,8 @@
 Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
-Requires PHP: 8.0
-Stable tag: 2.77.57
+Requires PHP: 8.4
+Stable tag: 2.77.59
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,7 +31,9 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * A private login address, clean search addresses, and application passwords off until you switch them on.
 * Security switches for XML-RPC, REST API writes, the user list and gambling spam, with a cleanup tool and reports.
 * Maintenance mode, and an email when new fatal errors appear.
+* Tags on every article and Journal entry: at most six, all lowercase, shown under the byline and linked to a tag page. A tag that names a glossary term shows its definition and links to the glossary, and the glossary links back.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
+* Plugins built in: Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
 
 == Usage ==
@@ -150,6 +152,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 
 == Changelog ==
 
+= 2.77.59 =
+* Every article and Journal entry now has up to six lowercase tags, tied to the glossary and linked both ways, with a tag page for each.
+
+= 2.77.58 =
+* The theme now requires PHP 8.4 or later.
+
 = 2.77.57 =
 * The Endmark screen controls where and when the mark appears, not what it shows: the Appearance tab, symbol, image, size and SVG fields are gone and the mark is always the cameo of Paul.
 
@@ -157,7 +165,7 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * The cameo of Paul is now the Endmark image on every site, whatever symbol or image it had, and the fallback when the image is removed.
 
 = 2.77.55 =
-* The end of every article and Journal entry now carries a small cameo of Paul on an oxblood seal (assets/images/endmark.webp), set once for sites still on the plain default symbol.
+* The end of every article and Journal entry now carries a small cameo of Paul on an oxblood seal (assets/images/endmark.webp), set once for sites still on the plain default symbol (the mark can no longer be changed; see 2.77.57).
 
 = 2.77.54 =
 * WP Consent API is built into the theme, and the theme now also switches off WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
@@ -324,14 +332,20 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
 
+= 2.77.59 =
+Tags are added to every article and Journal entry on your first admin visit. Tags you set yourself are kept.
+
+= 2.77.58 =
+The theme now requires PHP 8.4. Check your host runs 8.4 or later before you update, or WordPress will refuse to activate it.
+
 = 2.77.57 =
 The Endmark screen no longer lets you change the mark itself, only where and when it appears.
 
 = 2.77.56 =
-The cameo of Paul replaces any earlier Endmark symbol or image, once. Change it again under the Endmark menu if you wish.
+The cameo of Paul replaces any earlier Endmark symbol or image, once. 
 
 = 2.77.55 =
-A new end mark image appears at the end of articles and Journal entries. Change it under the Endmark menu.
+A new end mark image appears at the end of articles and Journal entries.
 
 = 2.77.54 =
 WP Consent API is now part of the theme, and the three older built-in plugins are switched off on your first admin visit. Back up the database first.

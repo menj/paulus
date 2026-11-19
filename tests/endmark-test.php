@@ -115,6 +115,7 @@ if ( is_array( $r ) ) {
 $d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
 paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a site with its own symbol gets the theme cameo as the image' );
 paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
+paulus_test_check( in_array( 'assets/images/endmark.webp', json_decode( file_get_contents( PAULUS_DIR . '/assets/files.json' ), true )['files'], true ), 'assets/files.json lists the end mark, so the image clean-up keeps it' );
 $tpl = file_get_contents( PAULUS_DIR . '/inc/endmark/templates/admin-settings.php' );
 paulus_test_check( false === strpos( $tpl, 'data-tab="appearance"' ) && false === strpos( $tpl, '[symbol]' ) && false === strpos( $tpl, '[image_url]' ) && false === strpos( $tpl, '[allow_svg]' ), 'the screen has no appearance tab and no symbol, image or SVG field' );
 paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.webp' ), 'the end mark file ships in assets/images' );
