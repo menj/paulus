@@ -49,6 +49,20 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.50 to 2.77.51
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run.
+- CitePress is built into the theme (`inc/citepress.php`, `inc/citepress/`). On the first page view without the plugin loaded, its settings option is copied to `paulus_citepress` and its analytics table is renamed `{prefix}paulus_citepress_analytics`; on the first admin page the theme switches the plugin off. Take a database backup first, because the table is renamed. Nothing is deleted: the plugin stays in the Plugins list, deactivated. Once you have looked at the CitePress menu (settings and Analytics), it is safe to delete the plugin: its uninstall removes only the old names.
+- The citation box, the `[cite]` and `[cite_bibliography]` shortcodes and the Citation Box block keep working. The theme prints its own Open Graph tags and JSON-LD, so CitePress now prints only the Google Scholar tags; its JSON-LD and Open Graph switches change nothing.
+- To keep the plugin as a plugin, remove `citepress/citepress.php` from the list with the `paulus_retired_plugins` filter, as for Auto Justify Content in the note below. The theme then does nothing while the plugin is loaded, and the data it copied is not read again by the plugin.
+
+### 2.77.49 to 2.77.50
+
+- Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run.
+- Auto Justify Content is built into the theme. On the first page view the plugin's options (`ajc_*`) are copied into Theme Options, Justify, and on the first admin page the theme switches the plugin off and says so in a notice. Nothing is deleted: the plugin stays in the Plugins list, deactivated, and you can delete it once you have looked at the Justify tab. A site that never used the plugin gets its defaults: justified text on articles and Journal entries, with hyphenation.
+- To keep the plugin as a plugin, filter it out of the list: `add_filter( 'paulus_retired_plugins', function ( $list ) { unset( $list['auto-justify-content/auto-justify-content.php'] ); return $list; } );`. The theme then does nothing while the plugin's class exists.
+- A plugin that is network-active or must-use cannot be switched off by the theme, and the notice says so.
+
 ### 2.77.33 to 2.77.34
 
 Upload the whole theme folder. Nothing else to do.

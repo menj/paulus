@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.49
+Stable tag: 2.77.51
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -149,6 +149,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.51 =
+* CitePress is built into the theme (the CitePress menu keeps its settings and analytics), and the theme switches the plugin off.
+
+= 2.77.50 =
+* Auto Justify Content is built into the theme (Theme Options, Justify), and the theme switches the plugin off.
 
 = 2.77.49 =
 * A Journal entry's Cicero reference is quoted from a named translation and one unsourced sentence is replaced.
@@ -299,6 +305,12 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.51 =
+CitePress is now part of the theme. Back up the database first: the analytics table is renamed. The plugin is switched off on your first admin visit.
+
+= 2.77.50 =
+Justified text is now a theme setting; the Auto Justify Content plugin is switched off on your first admin visit and its settings are carried over.
 
 = 2.77.49 =
 One Journal entry's reference is corrected. Unedited entries update on their own.

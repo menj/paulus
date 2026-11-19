@@ -1,0 +1,881 @@
+/**
+ * Cite Plugin – Frontend Styles
+ * Version: 2.9.4
+ *
+ * Design: Refined academic / editorial.
+ *   – Left accent bar anchors the box with scholarly character.
+ *   – Header has a soft tinted background distinct from the content area.
+ *   – Copy button uses primary accent; export/toggle stay ghost.
+ *   – Export dropdown gains file-ext badges and slide-in animation.
+ *   – Copy notification slides up from the bottom edge (not centred overlay).
+ *   – Dark mode: auto (prefers-color-scheme), forced via [data-theme="dark"],
+ *     or forced light via [data-theme="light"] — matches the Color Scheme setting.
+ *   – Wikipedia output retains monospace block treatment.
+ */
+
+/* =============================================================================
+   CUSTOM PROPERTIES — light mode defaults
+   ============================================================================= */
+
+.citepress-citation-box {
+    --citepress-accent:        #3b6ef5;
+    --citepress-accent-hover:  #2558e0;
+    --citepress-text:          #1a202c;
+    --citepress-text-muted:    #5a6575;
+    --citepress-border:        #dde3ec;
+    --citepress-surface:       #f7f9fc;
+    --citepress-bg:            #ffffff;
+    --citepress-bar:           #3b6ef5;
+    --citepress-bar-width:     4px;
+    --citepress-radius:        10px;
+    --citepress-shadow:        0 2px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
+    --citepress-shadow-hover:  0 6px 24px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06);
+    --citepress-transition:    0.18s ease;
+}
+
+/* Dark tokens — applied by OS preference (auto mode) */
+@media (prefers-color-scheme: dark) {
+    .citepress-citation-box:not([data-theme="light"]) {
+        --citepress-accent:        #6b8ff8;
+        --citepress-accent-hover:  #8aaaf9;
+        --citepress-text:          #e8ecf2;
+        --citepress-text-muted:    #8d99ad;
+        --citepress-border:        #2e3649;
+        --citepress-surface:       #1e2536;
+        --citepress-bg:            #151c2c;
+        --citepress-bar:           #6b8ff8;
+        --citepress-shadow:        0 2px 12px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+        --citepress-shadow-hover:  0 6px 24px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.35);
+    }
+}
+
+/* Forced dark — [data-theme="dark"] set by Color Scheme = Always Dark */
+.citepress-citation-box[data-theme="dark"] {
+    --citepress-accent:        #6b8ff8;
+    --citepress-accent-hover:  #8aaaf9;
+    --citepress-text:          #e8ecf2;
+    --citepress-text-muted:    #8d99ad;
+    --citepress-border:        #2e3649;
+    --citepress-surface:       #1e2536;
+    --citepress-bg:            #151c2c;
+    --citepress-bar:           #6b8ff8;
+    --citepress-shadow:        0 2px 12px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+    --citepress-shadow-hover:  0 6px 24px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.35);
+}
+
+/* Forced light — [data-theme="light"] overrides OS dark preference */
+/* (tokens are already the light defaults, so no re-declaration needed —
+    the :not([data-theme="light"]) guard on the media query handles this) */
+
+/* =============================================================================
+   FOUNDATION
+   ============================================================================= */
+
+.citepress-citation-box,
+.citepress-citation-box * {
+    box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* Buttons, selects and code back to sans-serif so UI chrome stays readable */
+.citepress-citation-box select,
+.citepress-citation-box button,
+.citepress-citation-box code {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.citepress-citation-box {
+    margin: 2em 0;
+    position: relative;
+    background: var(--citepress-bg);
+    border: 1px solid var(--citepress-border);
+    border-left: var(--citepress-bar-width) solid var(--citepress-bar);
+    border-radius: var(--citepress-radius);
+    box-shadow: var(--citepress-shadow);
+    color: var(--citepress-text);
+    overflow: visible;
+    transition: box-shadow var(--citepress-transition), border-color var(--citepress-transition);
+}
+
+.citepress-citation-box:hover {
+    box-shadow: var(--citepress-shadow-hover);
+}
+
+/* =============================================================================
+   HEADER
+   ============================================================================= */
+
+.citepress-citation-box .citation-header {
+    background: var(--citepress-surface);
+    border-bottom: 1px solid var(--citepress-border);
+    padding: 12px 18px;
+    border-radius: calc(var(--citepress-radius) - 1px) calc(var(--citepress-radius) - 1px) 0 0;
+}
+
+.citepress-citation-box .citation-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: var(--citepress-text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.citepress-citation-box .citepress-cite-icon {
+    color: var(--citepress-bar);
+    flex-shrink: 0;
+    opacity: .85;
+}
+
+/* =============================================================================
+   FORMAT SELECTORS
+   ============================================================================= */
+
+/* Dropdown */
+.citepress-citation-box .citation-style-select {
+    padding: 5px 28px 5px 10px;
+    border: 1px solid var(--citepress-border);
+    border-radius: 6px;
+    background-color: var(--citepress-bg);
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3E%3Cpath fill="%235a6575" d="M2 0L0 2h4zm0 5L0 3h4z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 0.5em top 50%;
+    background-size: 0.6em auto;
+    color: var(--citepress-text);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color var(--citepress-transition), box-shadow var(--citepress-transition);
+}
+
+.citepress-citation-box .citation-style-select:hover {
+    border-color: var(--citepress-accent);
+}
+
+.citepress-citation-box .citation-style-select:focus {
+    outline: none;
+    border-color: var(--citepress-accent);
+    box-shadow: 0 0 0 3px rgba(59,110,245,.18);
+}
+
+/* Tabs */
+.citepress-citation-box .citepress-style-tabs {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: rgba(0,0,0,.06);
+    padding: 3px;
+    border-radius: 7px;
+}
+
+.citepress-citation-box[data-theme="dark"] .citepress-style-tabs {
+    background: rgba(255,255,255,.08);
+}
+
+@media (prefers-color-scheme: dark) {
+    .citepress-citation-box:not([data-theme="light"]) .citepress-style-tabs {
+        background: rgba(255,255,255,.08);
+    }
+}
+
+.citepress-citation-box .citepress-style-tab {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--citepress-text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    transition: background var(--citepress-transition), color var(--citepress-transition);
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.citepress-citation-box .citepress-style-tab:hover {
+    background: rgba(255,255,255,.5);
+    color: var(--citepress-text);
+}
+
+.citepress-citation-box .citepress-style-tab:focus-visible {
+    outline: 2px solid var(--citepress-accent);
+    outline-offset: 1px;
+}
+
+.citepress-citation-box .citepress-style-tab--active {
+    background: var(--citepress-bg);
+    color: var(--citepress-accent);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+
+.citepress-citation-box .citepress-style-tab--active:hover {
+    background: var(--citepress-bg);
+}
+
+/* Pill buttons */
+.citepress-citation-box .citepress-style-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.citepress-citation-box .citepress-style-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--citepress-border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--citepress-text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    transition: all var(--citepress-transition);
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.citepress-citation-box .citepress-style-btn:hover {
+    border-color: var(--citepress-accent);
+    color: var(--citepress-accent);
+    background: rgba(59,110,245,.07);
+}
+
+.citepress-citation-box .citepress-style-btn:focus-visible {
+    outline: 2px solid var(--citepress-accent);
+    outline-offset: 2px;
+}
+
+.citepress-citation-box .citepress-style-btn--active {
+    background: var(--citepress-accent);
+    color: #fff;
+    border-color: var(--citepress-accent);
+}
+
+.citepress-citation-box .citepress-style-btn--active:hover {
+    background: var(--citepress-accent-hover);
+    border-color: var(--citepress-accent-hover);
+}
+
+.citepress-citation-box .citepress-single-format-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--citepress-accent);
+    letter-spacing: .04em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* =============================================================================
+   ACTION BUTTONS
+   Copy = primary accent; export + toggle = ghost.
+   margin-left: auto on copy pushes the trio to the right.
+   ============================================================================= */
+
+.citepress-citation-box .copy-button {
+    margin-left: auto;
+    padding: 5px 11px;
+    border: 1px solid var(--citepress-accent);
+    border-radius: 6px;
+    background: var(--citepress-accent);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    min-height: 30px;
+    transition: background var(--citepress-transition), border-color var(--citepress-transition),
+                transform var(--citepress-transition), box-shadow var(--citepress-transition);
+}
+
+.citepress-citation-box .copy-button:hover {
+    background: var(--citepress-accent-hover);
+    border-color: var(--citepress-accent-hover);
+    box-shadow: 0 2px 10px rgba(59,110,245,.4);
+}
+
+.citepress-citation-box .copy-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,110,245,.28);
+}
+
+.citepress-citation-box .copy-button:active {
+    transform: scale(0.95);
+}
+
+.citepress-citation-box .copy-button svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.citepress-citation-box .export-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.citepress-citation-box .export-button,
+.citepress-citation-box .toggle-button {
+    padding: 5px 10px;
+    border: 1px solid var(--citepress-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--citepress-text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    transition: all var(--citepress-transition);
+}
+
+.citepress-citation-box .export-button:hover,
+.citepress-citation-box .toggle-button:hover {
+    border-color: var(--citepress-text-muted);
+    color: var(--citepress-text);
+    background: var(--citepress-surface);
+}
+
+.citepress-citation-box .export-button:focus,
+.citepress-citation-box .toggle-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,110,245,.18);
+}
+
+.citepress-citation-box .export-button svg,
+.citepress-citation-box .toggle-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.citepress-citation-box .toggle-button.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.citepress-citation-box .toggle-icon {
+    transition: transform 0.25s ease;
+}
+
+/* Export dropdown */
+.citepress-citation-box .export-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--citepress-bg);
+    border: 1px solid var(--citepress-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.07);
+    min-width: 185px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.citepress-citation-box .export-dropdown.show {
+    display: flex;
+    animation: citepress-dropdown-in .12s ease forwards;
+}
+
+@keyframes citepress-dropdown-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.citepress-citation-box .export-option {
+    padding: 9px 14px;
+    border: none;
+    border-top: 1px solid var(--citepress-border);
+    background: transparent;
+    color: var(--citepress-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: background var(--citepress-transition), color var(--citepress-transition);
+}
+
+.citepress-citation-box .export-option:first-child {
+    border-top: none;
+}
+
+.citepress-citation-box .export-option:hover {
+    background: var(--citepress-surface);
+    color: var(--citepress-accent);
+}
+
+.citepress-citation-box .export-option:focus {
+    outline: none;
+    background: var(--citepress-surface);
+    color: var(--citepress-accent);
+}
+
+/* File extension badge rendered via data-ext attribute */
+.citepress-citation-box .export-option::after {
+    content: attr(data-ext);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--citepress-text-muted);
+    background: var(--citepress-surface);
+    border: 1px solid var(--citepress-border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.citepress-citation-box .export-option:hover::after {
+    background: rgba(59,110,245,.10);
+    border-color: rgba(59,110,245,.25);
+    color: var(--citepress-accent);
+}
+
+/* =============================================================================
+   CONTENT AREA
+   ============================================================================= */
+
+.citepress-citation-box .citation-content {
+    max-height: 600px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.citepress-citation-box .citation-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.citepress-citation-box .citation-output {
+    padding: 18px 20px;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--citepress-text);
+    font-style: italic;
+}
+
+/* Journal name <em> inside an italic context — render upright */
+.citepress-citation-box .citation-output em {
+    font-style: normal;
+    font-weight: 500;
+}
+
+.citepress-citation-box .citation-output a {
+    color: var(--citepress-accent);
+    text-decoration: underline;
+    text-decoration-color: rgba(59,110,245,.30);
+    text-underline-offset: 3px;
+    font-style: normal;
+    word-break: break-all;
+    transition: color var(--citepress-transition), text-decoration-color var(--citepress-transition);
+}
+
+.citepress-citation-box .citation-output a:hover {
+    color: var(--citepress-accent-hover);
+    text-decoration-color: var(--citepress-accent-hover);
+}
+
+/* Wikipedia / monospace format */
+.citepress-citation-box .citation-output.wikipedia-format {
+    font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-size: 12.5px;
+    font-style: normal;
+    background: var(--citepress-surface);
+    border-top: 1px solid var(--citepress-border);
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.65;
+    color: var(--citepress-text);
+    padding: 16px 20px;
+}
+
+/* =============================================================================
+   COPY NOTIFICATION — slides up from the bottom of the box
+   ============================================================================= */
+
+.citepress-citation-box .copy-notification {
+    position: absolute;
+    bottom: 0;
+    left: var(--citepress-bar-width);
+    right: 0;
+    background: var(--citepress-accent);
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 0 0 calc(var(--citepress-radius) - 1px) calc(var(--citepress-radius) - 1px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.citepress-citation-box .copy-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* =============================================================================
+   INLINE CITATION MODE
+   ============================================================================= */
+
+.citepress-inline-citation {
+    font-style: normal;
+    white-space: nowrap;
+}
+
+.citepress-inline-citation a {
+    color: #3b6ef5;
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+}
+
+.citepress-inline-citation a:hover {
+    border-bottom-style: solid;
+}
+
+.citepress-bibliography-citation {
+    display: inline;
+}
+
+/* =============================================================================
+   FOOTNOTE REFERENCE MARKERS
+   ============================================================================= */
+
+.citepress-ref-marker {
+    font-size: 0.78em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.citepress-ref-marker a {
+    color: #3b6ef5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.citepress-ref-marker a:hover {
+    text-decoration: underline;
+}
+
+/* =============================================================================
+   BIBLIOGRAPHY
+   ============================================================================= */
+
+.citepress-bibliography {
+    margin-top: 2.5em;
+    padding-top: 1.2em;
+    border-top: 2px solid #dde3ec;
+}
+
+@media (prefers-color-scheme: dark) {
+    .citepress-bibliography { border-top-color: #2e3649; }
+}
+
+.citepress-bibliography-heading {
+    font-size: 1.1em;
+    font-weight: 700;
+    letter-spacing: .01em;
+    margin-bottom: 0.75em;
+    color: #1a202c;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    .citepress-bibliography-heading { color: #e8ecf2; }
+}
+
+.citepress-bibliography-list {
+    padding-left: 1.6em;
+    font-size: 0.93em;
+    line-height: 1.7;
+    color: #5a6575;
+}
+
+@media (prefers-color-scheme: dark) {
+    .citepress-bibliography-list { color: #8d99ad; }
+}
+
+.citepress-bibliography-entry {
+    margin-bottom: 0.6em;
+}
+
+.citepress-bibliography-text {
+    display: inline;
+}
+
+.citepress-bibliography-text a {
+    color: #3b6ef5;
+    text-decoration: underline;
+    text-decoration-color: rgba(59,110,245,.30);
+    text-underline-offset: 2px;
+}
+
+.citepress-bibliography-text a:hover {
+    text-decoration-color: #3b6ef5;
+}
+
+.citepress-bibliography-backlink {
+    margin-left: 0.4em;
+    text-decoration: none;
+    font-size: 0.85em;
+    color: #5a6575;
+    transition: color .18s ease;
+}
+
+.citepress-bibliography-backlink:hover {
+    color: #3b6ef5;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 640px) {
+    .citepress-citation-box .citation-header {
+        padding: 10px 14px;
+    }
+
+    .citepress-citation-box .citation-title {
+        font-size: 11px;
+        gap: 6px;
+    }
+
+    .citepress-citation-box .citation-output {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+
+    .citepress-citation-box .citation-style-select {
+        font-size: 11px;
+        padding: 4px 24px 4px 8px;
+    }
+
+    .citepress-citation-box .citepress-style-tab,
+    .citepress-citation-box .citepress-style-btn {
+        font-size: 11px;
+        padding: 3px 9px;
+    }
+
+    .citepress-citation-box .copy-button,
+    .citepress-citation-box .export-button,
+    .citepress-citation-box .toggle-button {
+        min-height: 26px;
+        padding: 4px 8px;
+    }
+
+    .citepress-citation-box .export-dropdown {
+        right: auto;
+        left: 0;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 380px) {
+    .citepress-citation-box {
+        --citepress-bar-width: 3px;
+        border-radius: 8px;
+    }
+
+    .citepress-citation-box .citation-output {
+        font-size: 13px;
+    }
+}
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+
+@media print {
+    .citepress-citation-box {
+        border: 1px solid #000 !important;
+        border-left: 3px solid #000 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+
+    .citepress-citation-box .citation-header {
+        background: #f5f5f5 !important;
+    }
+
+    .citepress-citation-box .copy-button,
+    .citepress-citation-box .export-menu,
+    .citepress-citation-box .toggle-button,
+    .citepress-citation-box .copy-notification {
+        display: none !important;
+    }
+
+    .citepress-citation-box .citation-content {
+        max-height: none !important;
+        opacity: 1 !important;
+    }
+
+    .citepress-citation-box .citation-output {
+        color: #000;
+        padding: 12px 0;
+    }
+
+    .citepress-citation-box .citation-output a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    .citepress-bibliography {
+        page-break-inside: avoid;
+    }
+
+    .citepress-bibliography-backlink {
+        display: none;
+    }
+}
+
+/* =============================================================================
+   BOX STYLES
+   ============================================================================= */
+
+/* --- Sharp corners override (global, applies to all styles) --- */
+
+.citepress-citation-box[data-corners="sharp"],
+.citepress-citation-box[data-corners="sharp"] .citation-header {
+    border-radius: 0 !important;
+}
+
+/* --- Academic style --- */
+
+.citepress-citation-box[data-box-style="academic"] {
+    --citepress-bg:      #faf8f4;
+    --citepress-surface: #f0ece4;
+    --citepress-border:  #d6cfc4;
+    --citepress-text:    #2d2416;
+    --citepress-text-muted: #7a6a52;
+    --citepress-bar-width: 0px;           /* no left bar */
+    --citepress-shadow:  0 1px 4px rgba(0,0,0,.06);
+    --citepress-shadow-hover: 0 3px 12px rgba(0,0,0,.09);
+    border-left-width: 1px;              /* override the bar: full 1px border all round */
+    border-top: 3px solid var(--citepress-accent);  /* top rule */
+    line-height: 1.75;                   /* more generous line spacing */
+}
+
+.citepress-citation-box[data-box-style="academic"] .citation-header {
+    background: var(--citepress-surface);
+    border-bottom: 1px solid var(--citepress-border);
+}
+
+.citepress-citation-box[data-box-style="academic"] .citation-output {
+    line-height: 1.8;
+}
+
+/* Academic dark — auto (OS preference) */
+@media (prefers-color-scheme: dark) {
+    .citepress-citation-box[data-box-style="academic"]:not([data-theme="light"]) {
+        --citepress-bg:      #0d1b2e;
+        --citepress-surface: #0a1525;
+        --citepress-border:  #1e3050;
+        --citepress-text:    #dce6f0;
+        --citepress-text-muted: #8aa0b8;
+        --citepress-shadow:  0 1px 6px rgba(0,0,0,.4);
+        --citepress-shadow-hover: 0 3px 16px rgba(0,0,0,.5);
+    }
+}
+
+/* Academic dark — forced */
+.citepress-citation-box[data-box-style="academic"][data-theme="dark"] {
+    --citepress-bg:      #0d1b2e;
+    --citepress-surface: #0a1525;
+    --citepress-border:  #1e3050;
+    --citepress-text:    #dce6f0;
+    --citepress-text-muted: #8aa0b8;
+    --citepress-shadow:  0 1px 6px rgba(0,0,0,.4);
+    --citepress-shadow-hover: 0 3px 16px rgba(0,0,0,.5);
+}
+
+/* --- Minimal style --- */
+
+.citepress-citation-box[data-box-style="minimal"] {
+    --citepress-bg:      transparent;
+    --citepress-surface: transparent;
+    --citepress-border:  #c8cdd6;
+    --citepress-bar-width: 0px;          /* no left bar */
+    --citepress-shadow:  none;
+    --citepress-shadow-hover: none;
+    border-left-width: 1px;             /* hairline full border all round */
+    border: 1px solid var(--citepress-border);
+}
+
+.citepress-citation-box[data-box-style="minimal"] .citation-header {
+    background: transparent;
+    border-bottom: 1px solid var(--citepress-border);
+}
+
+.citepress-citation-box[data-box-style="minimal"] .citation-title {
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+/* Minimal ghost buttons — copy, export, toggle all outline-only */
+.citepress-citation-box[data-box-style="minimal"] .copy-button {
+    background: transparent;
+    color: var(--citepress-accent);
+    border: 1px solid var(--citepress-accent);
+    box-shadow: none;
+}
+
+.citepress-citation-box[data-box-style="minimal"] .copy-button:hover {
+    background: var(--citepress-accent);
+    color: #fff;
+}
+
+.citepress-citation-box[data-box-style="minimal"] .export-button,
+.citepress-citation-box[data-box-style="minimal"] .toggle-button {
+    background: transparent;
+    border: 1px solid var(--citepress-border);
+    box-shadow: none;
+}
+
+.citepress-citation-box[data-box-style="minimal"] .export-button:hover,
+.citepress-citation-box[data-box-style="minimal"] .toggle-button:hover {
+    border-color: var(--citepress-accent);
+    color: var(--citepress-accent);
+    background: transparent;
+}
+
+/* Minimal dark — auto */
+@media (prefers-color-scheme: dark) {
+    .citepress-citation-box[data-box-style="minimal"]:not([data-theme="light"]) {
+        --citepress-border: #3a4252;
+        --citepress-text: #e0e6f0;
+        --citepress-text-muted: #8892a4;
+    }
+}
+
+/* Minimal dark — forced */
+.citepress-citation-box[data-box-style="minimal"][data-theme="dark"] {
+    --citepress-border: #3a4252;
+    --citepress-text: #e0e6f0;
+    --citepress-text-muted: #8892a4;
+}
+
+/* Classic dark tokens already defined above — no additions needed */
+

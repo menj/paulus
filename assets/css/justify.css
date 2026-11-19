@@ -1,0 +1,47 @@
+/*
+ * Justified text (inc/justify.php). The theme adds the body classes below
+ * from Theme Options, Justify; the rules lie low in specificity, so a rule
+ * the theme sets for one element (the takeaways list, say) still wins.
+ */
+
+/* Paragraphs and list items in the prose. */
+.paulus-justify :is(.entry-content, .wp-block-post-content, .paulus-prose) :where(p, li) {
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+/* The last line of a paragraph stays on the left. */
+.paulus-justify :is(.entry-content, .wp-block-post-content, .paulus-prose) :where(p) {
+	text-align-last: left;
+}
+
+/* Hyphenation needs a lang attribute on the page; the theme prints one. */
+.paulus-justify--hyphen :is(.entry-content, .wp-block-post-content, .paulus-prose) :where(p, li) {
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	overflow-wrap: break-word;
+}
+
+/* Theme fallback: any article element, for content outside the usual wrappers. */
+.paulus-justify--fallback article :where(p, li) {
+	text-align: justify;
+	text-justify: inter-word;
+}
+.paulus-justify--fallback article :where(p) {
+	text-align-last: left;
+}
+.paulus-justify--fallback.paulus-justify--hyphen article :where(p, li) {
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	overflow-wrap: break-word;
+}
+
+/* Desktop only: under 768 pixels the text goes back to the left. */
+@media (max-width: 767px) {
+	.paulus-justify--desktop :is(.entry-content, .wp-block-post-content, .paulus-prose, article) :where(p, li) {
+		text-align: left;
+		text-align-last: auto;
+		-webkit-hyphens: manual;
+		hyphens: manual;
+	}
+}

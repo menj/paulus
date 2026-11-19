@@ -97,6 +97,17 @@ function paulus_fields() {
 				'article_mid_next'  => array( __( 'One line before an article\'s third section, pointing to its study questions, or else to the next article', 'paulus' ), 'checkbox' ),
 			),
 		),
+		'justify'    => array(
+			'label'  => __( 'Justify', 'paulus' ),
+			'fields' => array(
+				'justify_enabled'  => array( __( 'Justify the text: paragraphs and list items are set flush on both sides, with the last line of a paragraph on the left', 'paulus' ), 'checkbox' ),
+				'justify_scope'    => array( __( 'Where to justify', 'paulus' ), 'select', array( 'blog_only' => __( 'Articles and Journal entries only', 'paulus' ), 'entire_site' => __( 'The whole site', 'paulus' ) ) ),
+				'justify_mobile'   => array( __( 'Desktop only: under 768 pixels wide the text stays on the left', 'paulus' ), 'checkbox' ),
+				'justify_hyphen'   => array( __( 'Hyphenate: the browser breaks long words at the end of a line, which keeps narrow columns even. It needs the page\'s language, which the theme prints', 'paulus' ), 'checkbox' ),
+				'justify_fallback' => array( __( 'Fallback: also justify the text of any article element, for content outside the usual wrappers (switch it on only if the text above is not justified)', 'paulus' ), 'checkbox' ),
+				'justify_exclude'  => array( __( 'Leave these unjustified (CSS selectors, separated by commas, such as .no-justify, .sidebar)', 'paulus' ), 'text' ),
+			),
+		),
 		'media'      => array(
 			'label'  => __( 'Media', 'paulus' ),
 			'fields' => array(
@@ -267,7 +278,7 @@ function paulus_sanitize_options( $input ) {
 					$clean[ $key ] = array_key_exists( $value, paulus_images() ) ? $value : 'paul-portrait';
 					break;
 				default:
-					$clean[ $key ] = sanitize_text_field( $value );
+					$clean[ $key ] = ( 'justify_exclude' === $key && function_exists( 'paulus_justify_sanitize_exclude' ) ) ? paulus_justify_sanitize_exclude( $value ) : sanitize_text_field( $value );
 			}
 		}
 	}
