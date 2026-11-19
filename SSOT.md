@@ -153,6 +153,10 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 
 The Greek of the New Testament is the SBL Greek New Testament. The English beneath it is the English Standard Version, except in articles not yet moved across, which still carry the King James Version. ESV wording comes from the text the ESV API supplies and is never typed from memory, and every quoted phrase is checked word for word against it. A page that quotes the ESV ends with `[paulus_esv_notice]`, Crossway's notice, and its footnotes read "(SBLGNT; ESV)". An article moves across whole, picture captions included, so no article mixes two translations. Quotations from scholars, ancient writers and translated commentary keep their authors' wording. The ESV is never quoted in material released under a Creative Commons licence.
 
+### Quoting commentary
+
+A passage from a modern commentary or study Bible is quoted briefly, in text, with its full citation (the *Faithlife Study Bible* allows 125 characters). A page, note or app screen is never published as a screenshot, since it carries the publisher's text and menus. A church father is set in full only from a translation in the public domain (the Nicene and Post-Nicene Fathers series), with the translator named. The card for such a quotation is `.paulus-annot` (`assets/css/theme.css`): the passage in a bordered card, with the lines a reader would underline in `<mark>`. Set by the owner's request of 2026-11-19, when screenshots of a Bible app and a study Bible were offered for a Journal entry.
+
 ### Public wording
 
 `README.md`, `UPGRADING.md`, `LICENSES.md` and `readme.txt` are served, and the pages are public. None of them says that the site is related to other sites or belongs to a group of them. Links to other sites are ordinary links.
