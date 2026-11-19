@@ -2,6 +2,26 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.62] - 2026-11-19
+
+A new Journal entry, by the owner's request. `content_version` is 2.77.62, since a shipped text is added.
+
+### Added
+- Journal: "The three wishes" (`journal-the-three-wishes.json`), a joke the owner supplied, dated 19 November 2026. Its wording is the owner's, except that the opening dash is rewritten as a colon for the house style. A short note, "Why the joke works", links it to the entry on the return that never came and to the measure of the case. Tags: `second coming`, `islam and paul`, `case against paul`, `paul and jesus`.
+- Links in: the Journal entry on the return that never came and the article "The failed prophet" each carry a link to it on the words "some explaining to do", inside a sentence of the running text (no "see also" line, and the joke is not named). Their earlier texts are recorded in `prior_hashes` (`#r77.62`), so an untouched page takes the link.
+
+## [2.77.61] - 2026-11-19
+
+Wikipedia Preview is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.60, since no shipped text changes.
+
+### Added
+- Wikipedia previews (`inc/wikipedia-preview.php`, `inc/wikipedia-preview/`): Wikipedia Preview 1.17.1 by the Wikimedia Foundation (MIT) as a native module. A card with the start of the article opens when a reader clicks or hovers over a link to Wikipedia. The script and styles are `assets/js/wikipedia-preview*.js` and `assets/css/wikipedia-preview*.css`; the plugin's own source-map link is removed.
+- Left out: the plugin's review banner, welcome page and activation redirect. Kept: the per-post switch (`wikipediapreview_detectlinks`), the post-type filter and the editor's REST routes.
+- `inc/plugin-retire.php` lists the plugin; `tests/wikipedia-preview-test.php`.
+
+### Notes
+- The cards fetch text and images from Wikipedia in the reader's browser, so the reader's address reaches Wikimedia. The Privacy Policy page does not mention this yet.
+
 ## [2.77.60] - 2026-11-19
 
 The tags are revised, and each is explained in the glossary, by the owner's request. `content_version` is 2.77.60, since the glossary text changes.

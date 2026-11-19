@@ -49,6 +49,16 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.61 to 2.77.62
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.62 and the Journal entry "The three wishes" is created, once.
+
+### 2.77.60 to 2.77.61
+
+- Upload the whole theme folder. `content_version` stays at 2.77.60.
+- Wikipedia Preview is built into the theme and switched off as a plugin on the first admin page. Nothing is copied or deleted. To keep the plugin, remove `wikipedia-preview/wikipediapreview.php` from the `paulus_retired_plugins` list with the filter.
+- The cards load from Wikipedia in the reader's browser. Add a line about it to the Privacy Policy page.
+
 ### 2.77.59 to 2.77.60
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.60 and the Glossary page takes its 48 new entries (an edited Glossary page is offered, not overwritten).
