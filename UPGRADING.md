@@ -49,6 +49,13 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.52 to 2.77.53
+
+- Upload the whole theme folder, after a database backup. `content_version` stays at 2.77.49.
+- Contact Form 7 is built into the theme. Forms and settings keep their names, so nothing is copied. On the first admin page the theme switches the plugin off; nothing is deleted. Deleting the plugin afterwards is safe, because the theme defines `WPCF7_VERSION` and the plugin's uninstall then keeps the data.
+- The built-in copy does not receive the plugin's updates. Replace `inc/cf7/` to update it.
+- To keep the plugin as a plugin, remove `contact-form-7/wp-contact-form-7.php` from the `paulus_retired_plugins` list with the filter.
+
 ### 2.77.51 to 2.77.52
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49, so the structure sync does not run. Take a database backup first: Endmark's per-post switch is renamed in one query.
