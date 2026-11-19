@@ -1,8 +1,9 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.49",
+	"content_version": "2.77.60",
 	"prior_hashes": {
+		"glossary.json#r77.60": "5ef859a0d08929c8e89610a69372836a",
 		"journal-was-paul-a-roman-citizen.json#r77.47": "334c98143e1231e245421f10acafc348",
 		"c13-lies-curses-and-guile.json#r77.47": "f812749477222258c433dc14858aac7e",
 		"journal-damascus-road-three-versions.json#r77.43": "0390b4a3a8233ce309921fdf1bfae64a",

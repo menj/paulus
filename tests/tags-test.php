@@ -57,7 +57,21 @@ foreach ( $data['glossary'] as $tag => $term ) {
 		$tie_bad[] = $tag;
 	}
 }
-paulus_test_check( array() === $tie_bad && count( $data['glossary'] ) > 20, 'every glossary tie names a used tag and a real glossary term (' . count( $data['glossary'] ) . ')' . ( $tie_bad ? ': ' . implode( ', ', $tie_bad ) : '' ) );
+paulus_test_check( array() === $tie_bad, 'every explicit glossary tie names a used tag and a real glossary term (' . count( $data['glossary'] ) . ')' . ( $tie_bad ? ': ' . implode( ', ', $tie_bad ) : '' ) );
+
+// Every tag has a glossary entry: by a tie, or by a term of the same name.
+$no_entry = array();
+foreach ( $all as $tag ) {
+	$want = $data['glossary'][ $tag ] ?? $tag;
+	if ( ! in_array( mb_strtolower( $want ), $terms, true ) ) {
+		$no_entry[] = $tag;
+	}
+}
+paulus_test_check( array() === $no_entry, 'every tag has an entry in the glossary (' . count( $all ) . ' tags)' . ( $no_entry ? ': ' . implode( ', ', $no_entry ) : '' ) );
+
+// Every tag is used by at least two items, so its page is a real list.
+$once = array_keys( array_filter( array_count_values( array_merge( ...array_values( $tags ) ) ), fn( $n ) => $n < 2 ) );
+paulus_test_check( array() === $once, 'every tag is used by at least two items' . ( $once ? ': ' . implode( ', ', $once ) : '' ) );
 
 $src = file_get_contents( $root . '/inc/tags.php' );
 paulus_test_check( false !== strpos( $src, "'pre_insert_term'" ) && false !== strpos( $src, "'set_object_terms'" ), 'new tags are lowercased and capped at six in code' );
