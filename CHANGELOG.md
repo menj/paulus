@@ -8,7 +8,7 @@ A new Journal entry, by the owner's request. `content_version` is 2.77.62, since
 
 ### Added
 - Journal: "The three wishes" (`journal-the-three-wishes.json`), a joke the owner supplied, dated 19 November 2026. Its wording is the owner's, except that the opening dash is rewritten as a colon for the house style. A short note, "Why the joke works", links it to the entry on the return that never came and to the measure of the case. Tags: `second coming`, `islam and paul`, `case against paul`, `paul and jesus`.
-- Links in: the Journal entry on the return that never came and the article "The failed prophet" each point to it in one line. Their earlier texts are recorded in `prior_hashes` (`#r77.62`), so an untouched page takes the link.
+- Links in: the Journal entry on the return that never came and the article "The failed prophet" each carry a link to it inside a sentence of the running text (no separate "see also" line). Their earlier texts are recorded in `prior_hashes` (`#r77.62`), so an untouched page takes the link.
 
 ## [2.77.61] - 2026-11-19
 
