@@ -2,6 +2,19 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.53] - 2026-11-19
+
+Contact Form 7 is built into the theme, and the theme switches the plugin off. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Added
+- Contact forms (`inc/cf7.php`, `inc/cf7/`): Contact Form 7 6.2.5 by Rock Lobster Inc. (GPL v2 or later) as a native module, with the form editor, shortcode, form tags, mail, validation, REST route, block and spam modules. The plugin keeps its own folder layout (`includes/js`, `includes/css`, `admin/includes`, `modules`) so that its asset manifests keep working.
+- `wpcf7_plugin_url()` points into the theme. The plugin's `plugins_loaded` and activation hooks are replaced by a direct `wpcf7()` call and a one-time `wpcf7_install()` on `admin_init`.
+- The forms keep their names (`wpcf7_contact_form`, option `wpcf7`). The theme defines `WPCF7_VERSION`, so the plugin's uninstall keeps them.
+- `inc/plugin-retire.php` lists Contact Form 7. `tests/cf7-test.php`.
+
+### Notes
+- The built-in copy no longer receives the plugin's own security updates. Replace `inc/cf7/` when the plugin issues a fix.
+
 ## [2.77.52] - 2026-11-19
 
 Endmark and HrefMaster are built into the theme, and the theme switches both plugins off. `content_version` stays at 2.77.49, since no shipped text changes.

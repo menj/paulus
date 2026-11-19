@@ -41,6 +41,11 @@ function paulus_retired_plugins() {
 			'where' => __( 'Settings, Endmark', 'paulus' ),
 			'ready' => 'paulus_endmark_ready',
 		),
+		'contact-form-7/wp-contact-form-7.php' => array(
+			'name'  => 'Contact Form 7',
+			'where' => __( 'the Contact menu', 'paulus' ),
+			'ready' => 'paulus_cf7_ready',
+		),
 		'hrefmaster/hrefmaster.php' => array(
 			'name'  => 'HrefMaster',
 			'where' => __( 'the HrefMaster menu', 'paulus' ),
