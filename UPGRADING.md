@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.57 to 2.77.58
+
+- The theme now requires PHP 8.4 or later. Check the PHP version under Tools, Site Health, Info, Server before you upload the theme, and switch the host to 8.4 first. `content_version` stays at 2.77.49.
+
 ### 2.77.56 to 2.77.57
 
 - Upload the whole theme folder. `content_version` stays at 2.77.49.

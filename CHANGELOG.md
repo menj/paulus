@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.58] - 2026-11-19
+
+The minimum PHP version is 8.4, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.
+
+### Changed
+- `Requires PHP: 8.4` in `style.css` and `readme.txt`; README and SSOT agree. WordPress refuses to activate the theme on an older PHP.
+
 ## [2.77.57] - 2026-11-19
 
 Endmark controls where and when the mark shows, not what it shows, by the owner's request. `content_version` stays at 2.77.49, since no shipped text changes.

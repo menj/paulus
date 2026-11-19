@@ -6,11 +6,11 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.57 (`style.css`; `PAULUS_VERSION` reads it) |
+| Version | 2.77.58 (`style.css`; `PAULUS_VERSION` reads it) |
 | Content version | 2.77.3 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
-| PHP | 8.0 or later |
+| PHP | 8.4 or later |
 | Web server | Apache and LiteSpeed get their `.htaccess` blocks written by the theme: WordPress sets `$is_apache` when `SERVER_SOFTWARE` names Apache or LiteSpeed (`wp-includes/vars.php`), and the maintenance block checks for LiteSpeed itself as well. Nginx needs the rules under Security below |
 | Multisite | The main site writes the error pages and the maintenance block; while it runs another theme, the subsite with the lowest ID that runs Paulus writes the error pages |
 | Licence | GNU General Public License v3 or later; the full text is in `LICENSE` |
@@ -18,11 +18,11 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 ## Requirements
 
-WordPress 6.7 or later, PHP 8.0 or later, and the Twenty Twenty-Five parent theme, version 1.5 or later. Paulus is a child theme (`Template: twentytwentyfive`) and cannot run without the parent: it inherits every template, pattern and style it does not override itself.
+WordPress 6.7 or later, PHP 8.4 or later, and the Twenty Twenty-Five parent theme, version 1.5 or later. Paulus is a child theme (`Template: twentytwentyfive`) and cannot run without the parent: it inherits every template, pattern and style it does not override itself.
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.57) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.58) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o paulus.zip HEAD`, or GitHub's Download ZIP: either leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.

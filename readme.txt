@@ -2,8 +2,8 @@
 Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
-Requires PHP: 8.0
-Stable tag: 2.77.57
+Requires PHP: 8.4
+Stable tag: 2.77.58
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -149,6 +149,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.58 =
+* The theme now requires PHP 8.4 or later.
 
 = 2.77.57 =
 * The Endmark screen controls where and when the mark appears, not what it shows: the Appearance tab, symbol, image, size and SVG fields are gone and the mark is always the cameo of Paul.
@@ -323,6 +326,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.58 =
+The theme now requires PHP 8.4. Check your host runs 8.4 or later before you update, or WordPress will refuse to activate it.
 
 = 2.77.57 =
 The Endmark screen no longer lets you change the mark itself, only where and when it appears.
