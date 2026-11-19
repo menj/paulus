@@ -224,6 +224,12 @@ class Endmark_Plugin {
             $merged['post_types'] = array( 'post' );
         }
 
+        // An image type with no image (the picture was removed) shows the theme's cameo, not a bare symbol.
+        if ( 'image' === $merged['type'] && empty( $merged['image_url'] ) ) {
+            $merged['image_url']     = $this->site_defaults['image_url'];
+            $merged['image_size_px'] = $this->site_defaults['image_size_px'];
+        }
+
         return $merged;
     }
 

@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.77.55
+Stable tag: 2.77.56
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -149,6 +149,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.56 =
+* The cameo of Paul is now the Endmark image on every site, whatever symbol or image it had, and the fallback when the image is removed.
 
 = 2.77.55 =
 * The end of every article and Journal entry now carries a small cameo of Paul on an oxblood seal (assets/images/endmark.webp), set once for sites still on the plain default symbol.
@@ -317,6 +320,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.56 =
+The cameo of Paul replaces any earlier Endmark symbol or image, once. Change it again under the Endmark menu if you wish.
 
 = 2.77.55 =
 A new end mark image appears at the end of articles and Journal entries. Change it under the Endmark menu.

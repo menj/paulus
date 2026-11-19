@@ -62,11 +62,11 @@ function paulus_test_check( $ok, $what ) {
 }
 
 if ( isset( $argv[1] ) && 'default' === $argv[1] ) {
-	// A site with the plugin's plain default symbol: the theme's image is adopted once.
-	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '∎', 'post_types' => array( 'post' ) );
+	// A site with its own symbol: the theme's cameo still becomes the image, once.
+	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'type' => 'symbol', 'post_types' => array( 'post' ) );
 	require dirname( __DIR__ ) . '/inc/endmark.php';
 	$settings = Endmark_Plugin::get_instance()->get_settings();
-	echo json_encode( array( 'type' => $settings['type'], 'url' => $settings['image_url'], 'svg' => $settings['allow_svg'], 'types' => $settings['post_types'], 'flag' => $GLOBALS['t']['options']['paulus_endmark_image_adopted'] ?? null ) );
+	echo json_encode( array( 'type' => $settings['type'], 'url' => $settings['image_url'], 'svg' => $settings['allow_svg'], 'types' => $settings['post_types'], 'flag' => $GLOBALS['t']['options']['paulus_endmark_cameo'] ?? null ) );
 	exit( 0 );
 }
 
@@ -111,7 +111,7 @@ if ( is_array( $r ) ) {
 }
 
 $d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
-paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a default-symbol site gets the theme end mark image' );
+paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a site with its own symbol gets the theme cameo as the image' );
 paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
 paulus_test_check( is_readable( PAULUS_DIR . '/assets/images/endmark.webp' ), 'the end mark file ships in assets/images' );
 
