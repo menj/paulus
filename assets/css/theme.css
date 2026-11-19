@@ -1303,3 +1303,11 @@ body.paulus-scheme-ochre .paulus-hero-panel .paulus-greek { color: #5c1f10; }
 .paulus-tags a.paulus-tags__gloss { border-left: 1px solid var(--t-rule); color: var(--t-accent); font-family: var(--t-display); font-style: italic; padding: 0.15rem 0.45rem; }
 .paulus-glossary__tags { display: block; margin-top: 0.3rem; font-family: var(--t-label); font-size: 0.82rem; color: var(--t-muted); }
 .paulus-glossary__tags a { color: var(--t-accent); }
+
+/* ---------- Annotated quotation (Journal): a source passage with the lines a reader would underline ---------- */
+.paulus-annot { margin: 1.5rem 0; padding: 1rem 1.25rem; background: var(--t-surface); border: 1px solid var(--t-rule); border-left: 4px solid var(--t-accent); }
+.paulus-annot blockquote { margin: 0; padding: 0; border: 0; font-family: var(--t-garamond); font-size: 1.12rem; line-height: 1.6; }
+.paulus-annot blockquote p { margin: 0; }
+.paulus-annot mark { background: none; color: inherit; text-decoration: underline wavy var(--t-accent); text-decoration-thickness: 2px; text-underline-offset: 0.22em; -webkit-text-decoration: underline wavy var(--t-accent); }
+.paulus-annot figcaption { margin-top: 0.75rem; font-family: var(--t-label); font-size: 0.8rem; color: var(--t-muted); }
+@media print { .paulus-annot { break-inside: avoid; } }

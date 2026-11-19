@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.63 to 2.77.64
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.64 and the Journal entry "Who was lying at Antioch?" is created, once.
+
 ### 2.77.62 to 2.77.63
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.63 and the Privacy Policy takes its new section. A policy you have edited is offered beside the theme's text, not overwritten, so copy the "Previews from Wikipedia" section into it.
@@ -510,7 +514,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Finish the move to the ESV. Articles written before 1 November 2026 still quote the King James Version beneath the Greek, and the Sources page says so. Each moves across whole, picture captions included, so no article mixes two translations. The largest are left for last: *ʿĪsā in his own words*, *The prayer ʿĪsā taught*, *Original sin*, *The Greek body and the Jewish bed* and *Justification by faith*.
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
-- Run the tests on every push, on PHP 8.4. The repository has eighteen test files and no CI workflow, and the 8.4 requirement has been checked by search and by PHP 8.3 only.
+- Run the tests on every push, on PHP 8.4. The repository has twenty test files and no CI workflow, and the 8.4 requirement has been checked by search and by PHP 8.3 only.
 - Update the built-in Contact Form 7 by hand. `inc/cf7/` no longer receives the plugin's security fixes; compare it with each plugin release.
 - Confirm the plugin file names for Unlist Posts & Pages and Pretty Search Permalinks against a live site, so `inc/plugin-retire.php` switches them off.
 

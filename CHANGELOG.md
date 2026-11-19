@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.64] - 2026-11-19
+
+A new Journal entry and a style for annotated quotations. `content_version` is 2.77.64, since a shipped text is added.
+
+### Added
+- Journal: "Who was lying at Antioch?" (`journal-who-was-lying-at-antioch.json`), dated 19 November 2026. Jerome read the quarrel between Paul and Peter in Galatians 2 as staged; Augustine, in *On Lying* 43 (trans. H. Browne) and Letter 82 (trans. J. G. Cunningham), said that made Paul a liar and a perjurer, and so gave up Peter's conduct to save Paul's word. A note from the *Faithlife Study Bible* (a short quotation, cited) records that Paul's accusers likely said he altered the gospel for the Gentiles. Tags: `paul and peter`, `antioch`, `galatians`, `paul character`.
+- `.paulus-annot` (`assets/css/theme.css`): a quotation set as a card with the lines a reader would underline marked in a wavy accent underline, in the colours of the six schemes. It stands in for screenshots of the Bible app and study Bible the owner supplied; those carry the publishers' text and menus, so only Augustine's public-domain translation is set in full, and the study note is quoted briefly.
+
 ## [2.77.63] - 2026-11-19
 
 The Privacy Policy covers the Wikipedia previews. `content_version` is 2.77.63, since a shipped text changes.

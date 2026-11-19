@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.63. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.64. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -33,6 +33,7 @@ The editorial foundation is the thought of Ismāʿīl Rājī al-Fārūqī, and i
 Copied word for word from `.claude/CLAUDE.md`.
 
 - The horned illustrations of Paul (`paul-horned-*`, with the decayed saint, the dunce and the BASTARD cap) stay. The owner decided on 2026-10-29 to keep them after weighing them against `FARUQI.md`. Do not remove, replace or soften them, and do not raise the question again unless the owner does.
+- The Journal entry "The three wishes" (`the-three-wishes`, a joke the owner supplied about a judge, Jesus, Paul and a Muslim) stays, with the two links to it on the words "some explaining to do" in "Paul and the return that never came" and "The failed prophet". The owner decided on 2026-11-19 to publish it, knowing that `FARUQI.md` rules out mockery. Do not remove, replace or soften it, and do not raise the question again unless the owner does.
 - Every page title reads `<page title, keyword or description> | <site name>` and stays under 60 characters. The theme builds it in `paulus_seo_title()` (`inc/seo.php`) and holds it to `PAULUS_TITLE_MAX`, 50, the stricter limit in force; with " | Apostle of Doom" that leaves 32 characters for a page's `seo_title` in `content/manifest.json`. Any new page, article or section gets a `seo_title` within that, and a changed one is checked before it is committed. The owner set this rule on 2026-10-31.
 
 Made in the owner's brief of 5 November 2026 and not yet in `.claude/CLAUDE.md`; when the owner adds them there, these lines are their copy:
@@ -76,7 +77,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.63) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.64) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -151,6 +152,10 @@ All English prose follows the `anti-ai-writing-style` skill: no contractions, no
 ### Scripture
 
 The Greek of the New Testament is the SBL Greek New Testament. The English beneath it is the English Standard Version, except in articles not yet moved across, which still carry the King James Version. ESV wording comes from the text the ESV API supplies and is never typed from memory, and every quoted phrase is checked word for word against it. A page that quotes the ESV ends with `[paulus_esv_notice]`, Crossway's notice, and its footnotes read "(SBLGNT; ESV)". An article moves across whole, picture captions included, so no article mixes two translations. Quotations from scholars, ancient writers and translated commentary keep their authors' wording. The ESV is never quoted in material released under a Creative Commons licence.
+
+### Quoting commentary
+
+A passage from a modern commentary or study Bible is quoted briefly, in text, with its full citation (the *Faithlife Study Bible* allows 125 characters). A page, note or app screen is never published as a screenshot, since it carries the publisher's text and menus. A church father is set in full only from a translation in the public domain (the Nicene and Post-Nicene Fathers series), with the translator named. The card for such a quotation is `.paulus-annot` (`assets/css/theme.css`): the passage in a bordered card, with the lines a reader would underline in `<mark>`. Set by the owner's request of 2026-11-19, when screenshots of a Bible app and a study Bible were offered for a Journal entry.
 
 ### Public wording
 
