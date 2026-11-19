@@ -43,7 +43,7 @@ function paulus_retired_plugins() {
 		),
 		'wps-hide-login/wps-hide-login.php' => array(
 			'name'  => 'WPS Hide Login',
-			'where' => __( 'the Login Address field in Theme Options', 'paulus' ),
+			'where' => __( 'the login address under Settings, Permalinks', 'paulus' ),
 			'ready' => 'paulus_hide_login_ready',
 		),
 		'unlist-posts-pages/unlist-posts-pages.php' => array(
