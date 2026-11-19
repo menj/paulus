@@ -34,6 +34,11 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_citepress_ready() {
+	foreach ( array( 'analytics', 'settings', 'shortcodes', 'metadata', 'assets' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/citepress/' . $file . '.php' ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -71,11 +76,10 @@ if ( defined( 'CITEPRESS_VERSION' ) ) {
 	return;
 }
 
-// A half-uploaded theme: without every file the module stays out.
-foreach ( array( 'analytics', 'settings', 'shortcodes', 'metadata', 'assets' ) as $paulus_cp_file ) {
-	if ( ! is_readable( PAULUS_DIR . '/inc/citepress/' . $paulus_cp_file . '.php' ) ) {
-		return;
-	}
+// A half-uploaded theme: without every file the module stays out, and
+// the plugin is not switched off (the ready function says so).
+if ( ! paulus_citepress_ready() ) {
+	return;
 }
 
 define( 'CITEPRESS_VERSION', '3.0.1' );

@@ -33,6 +33,11 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_endmark_ready() {
+	foreach ( array( 'class-endmark-plugin', 'class-endmark-admin', 'class-endmark-frontend', 'class-endmark-schema', 'class-endmark-block', 'class-endmark-meta', 'templates/admin-settings' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/endmark/' . $file . '.php' ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -68,45 +73,19 @@ function paulus_endmark_import() {
 	update_option( 'paulus_endmark_imported', 1, false );
 }
 
-/**
- * Make the theme's own end mark (assets/images/endmark.webp, the portrait
- * cameo) the Endmark image, once, whatever symbol or image the site had
- * before: the owner asked for it as the default. Every other setting
- * (placement, exclusions, colour) is kept, posts and Journal entries are
- * added to the types, and a later change on the Endmark screen sticks.
- */
-function paulus_endmark_adopt_image() {
-	if ( get_option( 'paulus_endmark_cameo' ) ) {
-		return;
-	}
-	$saved                  = get_option( 'paulus_endmark', null );
-	$saved                  = is_array( $saved ) ? $saved : array();
-	$saved['type']          = 'image';
-	$saved['image_url']     = PAULUS_URI . '/assets/images/endmark.webp';
-	$saved['image_id']      = 0;
-	$saved['image_size_px'] = 28;
-	$saved['allow_svg']     = false;
-	$types                  = isset( $saved['post_types'] ) ? (array) $saved['post_types'] : array( 'post' );
-	$saved['post_types']    = array_values( array_unique( array_merge( $types, array( 'post', 'paulus_journal' ) ) ) );
-	update_option( 'paulus_endmark', $saved );
-	update_option( 'paulus_endmark_cameo', 1, false );
-}
-
 if ( class_exists( 'Endmark_Plugin' ) ) {
 	return;
 }
 
-// A half-uploaded theme: without every file the module stays out.
-foreach ( array( 'class-endmark-plugin', 'class-endmark-admin', 'class-endmark-frontend', 'class-endmark-schema', 'class-endmark-block', 'class-endmark-meta', 'templates/admin-settings' ) as $paulus_em_file ) {
-	if ( ! is_readable( PAULUS_DIR . '/inc/endmark/' . $paulus_em_file . '.php' ) ) {
-		return;
-	}
+// A half-uploaded theme: without every file the module stays out, and
+// the plugin is not switched off (the ready function says so).
+if ( ! paulus_endmark_ready() ) {
+	return;
 }
 
 define( 'ENDMARK_PLUGIN_DIR', PAULUS_DIR . '/inc/endmark/' );
 
 paulus_endmark_import();
-paulus_endmark_adopt_image();
 
 require_once ENDMARK_PLUGIN_DIR . 'class-endmark-plugin.php';
 require_once ENDMARK_PLUGIN_DIR . 'class-endmark-admin.php';

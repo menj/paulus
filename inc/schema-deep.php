@@ -1299,6 +1299,9 @@ function paulus_schema_deepen_node( $node ) {
 		$node = paulus_node_default( $node, 'copyrightHolder', array( '@id' => paulus_sid( 'author' ) ) );
 		$node = paulus_node_default( $node, 'copyrightYear', (int) get_the_date( 'Y', $post ) );
 		$node = paulus_node_default( $node, 'speakable', array( '@type' => 'SpeakableSpecification', 'cssSelector' => array( '.paulus-hero-panel__title', '.paulus-hero-panel__standfirst' ) ) );
+		if ( is_singular( array( 'post', 'paulus_journal' ) ) && function_exists( 'paulus_tags_keywords' ) && '' !== paulus_tags_keywords( $post->ID ) ) {
+			$node = paulus_node_default( $node, 'keywords', paulus_tags_keywords( $post->ID ) );
+		}
 		if ( is_singular( 'post' ) ) {
 			$part = paulus_part_of( $post->ID );
 			if ( $part ) {

@@ -2,6 +2,22 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.65] - 2026-11-19
+
+Fixes from the CodeAnt review of the last twelve pull requests. `content_version` is 2.77.65, since the Privacy Policy's search description changes.
+
+### Fixed
+- Tags (`inc/tags.php`): the tag file's hash is recorded only when every item in it exists, so a first admin page that comes before the installer no longer leaves the articles untagged; the run repeats at most every ten minutes and straight after the installer. The sync needs `manage_options`, looks again just before it writes so a tag an editor adds in between is kept, and a seventh tag is dropped by the order the tags were given, with older ones first. The tag row shows under the title even when the book author is blank, and Rank Math's article node carries the tags as `keywords`. The glossary link in the row keeps a readable hover colour.
+- Plugins switched off: `paulus_retired_plugins()` now calls each module's `ready` function and needs a true answer, and the modules answer false when a file of theirs is missing (Auto Justify Content, CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, Wikipedia Preview), so a half-uploaded theme leaves the working plugin on. The notice reads "Where to find it now: ...".
+- Endmark: the one-time `paulus_endmark_adopt_image()` is removed. The mark has been forced to the cameo since 2.77.57, so the step was redundant, and it changed post types an owner had chosen. A saved post-type list is respected. The admin preview keeps the mark the server drew instead of being emptied by the script.
+- WP Consent API: a service's category ignores administrator cookies; the script reads the consented-services cookie PHP stores URL-encoded (`assets/js/wp-consent-api.js` and `.min.js`); Site Health counts network-activated plugins on a multisite.
+- `.paulus-annot` shows no curly quote over the passage and no theme blockquote background.
+- Documents: the zip command in the README writes `paulus-<version>.zip` and the README says not to upload GitHub's Download ZIP (its folder is not `paulus/`); `readme.txt` no longer says the theme sends no data to other servers; the UPGRADING notes on edited policies and on the consent cookies are exact; `LICENSES.md` counts seven plugins; `tests/tags-test.php` runs without mbstring.
+- Privacy Policy search description: "visitor statistics, server records and Wikipedia previews", no longer "and nothing else". The old text is in `prior_meta`.
+
+### Notes
+- Not fixed, by the nature of a theme: the consent functions exist from `after_setup_theme`, so a plugin that calls `wp_has_consent()` on `plugins_loaded` finds them missing. Two writes can still cross in the instant between a read and a write of the same option or term list; the code now reads again just before writing.
+
 ## [2.77.64] - 2026-11-19
 
 A new Journal entry and a style for annotated quotations. `content_version` is 2.77.64, since a shipped text is added.

@@ -16,6 +16,7 @@ if ( 'cli' !== PHP_SAPI ) {
 }
 
 define( 'ABSPATH', __DIR__ . '/' );
+define( 'PAULUS_DIR', dirname( __DIR__ ) );
 define( 'PAULUS_URI', 'https://example.org/theme' );
 define( 'PAULUS_VERSION', '9.9.9' );
 define( 'MINUTE_IN_SECONDS', 60 );

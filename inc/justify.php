@@ -53,6 +53,16 @@ function paulus_justify_sanitize_exclude( $value ) {
 }
 
 /**
+ * Whether the module is whole: inc/plugin-retire.php switches the plugin off
+ * only while this answers true.
+ *
+ * @return bool
+ */
+function paulus_justify_ready() {
+	return is_readable( PAULUS_DIR . '/assets/css/justify.css' );
+}
+
+/**
  * Copy the plugin's stored settings into Theme Options, once. A setting the
  * plugin never stored keeps the theme's default. The plugin's own options
  * stay where they are (the plugin's uninstall removes them if the plugin is

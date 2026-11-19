@@ -34,6 +34,11 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_cf7_ready() {
+	foreach ( array( 'load', 'includes/functions', 'includes/controller', 'admin/admin', 'vendor/autoload', 'modules/text' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/cf7/' . $file . '.php' ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -41,11 +46,10 @@ if ( defined( 'WPCF7_VERSION' ) ) {
 	return;
 }
 
-// A half-uploaded theme: without every file the module stays out.
-foreach ( array( 'load', 'includes/functions', 'includes/controller', 'admin/admin', 'vendor/autoload', 'modules/text' ) as $paulus_cf7_file ) {
-	if ( ! is_readable( PAULUS_DIR . '/inc/cf7/' . $paulus_cf7_file . '.php' ) ) {
-		return;
-	}
+// A half-uploaded theme: without every file the module stays out, and
+// the plugin is not switched off (the ready function says so).
+if ( ! paulus_cf7_ready() ) {
+	return;
 }
 
 define( 'WPCF7_VERSION', '6.2.5' );

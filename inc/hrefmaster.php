@@ -34,6 +34,11 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_hrefmaster_ready() {
+	foreach ( array( 'hrefmaster-init', 'hrefmaster-admin', 'includes/notices', 'includes/variables', 'includes/functions', 'tabs/dashboard', 'tabs/bulk-editor', 'tabs/generator', 'tabs/validation-tool', 'tabs/settings' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/hrefmaster/' . $file . '.php' ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -64,11 +69,10 @@ if ( defined( 'HREFMASTER_VERSION' ) ) {
 	return;
 }
 
-// A half-uploaded theme: without every file the module stays out.
-foreach ( array( 'hrefmaster-init', 'hrefmaster-admin', 'includes/notices', 'includes/variables', 'includes/functions', 'tabs/dashboard', 'tabs/bulk-editor', 'tabs/generator', 'tabs/validation-tool', 'tabs/settings' ) as $paulus_hm_file ) {
-	if ( ! is_readable( PAULUS_DIR . '/inc/hrefmaster/' . $paulus_hm_file . '.php' ) ) {
-		return;
-	}
+// A half-uploaded theme: without every file the module stays out, and
+// the plugin is not switched off (the ready function says so).
+if ( ! paulus_hrefmaster_ready() ) {
+	return;
 }
 
 define( 'HREFMASTER_VERSION', '3.0.1' );

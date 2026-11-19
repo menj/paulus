@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.64",
+	"content_version": "2.77.65",
 	"prior_hashes": {
 		"legal-privacy-policy.json#r77.63": "6e86d56dcaa08d83273f3384025242f3",
 		"journal-paul-and-the-return-that-failed.json#r77.62": "b803944a0260c3e96099d84cf8d6a05f",
@@ -677,6 +677,7 @@
 		"sources.json#r77.26": "1329563ba7ea9f0ca3169909c3a89448"
 	},
 	"prior_meta": [
+		"What Apostle of Doom collects when you read it: visitor statistics, server records and nothing else. Read the privacy policy.",
 		"Who was the founder of Christianity? Not ʿĪsā ibn Maryam but Paul: the first books, the Gentile mission, the doctrines. Read on.",
 		"The Islamic dilemma takes the Gospel to be the New Testament, mostly Paul's letters. The Qurʾān's Injīl is not his. Read on.",
 		"Paul of Tarsus: a face for every audience",
@@ -2266,7 +2267,7 @@
 		{
 			"slug": "privacy-policy",
 			"status": "draft",
-			"meta": "What Apostle of Doom collects when you read it: visitor statistics, server records and nothing else. Read the privacy policy.",
+			"meta": "What Apostle of Doom collects when you read it: visitor statistics, server records and Wikipedia previews. Read the policy.",
 			"title": "Privacy Policy",
 			"seo_title": "Privacy Policy",
 			"excerpt": "What Apostle of Doom collects from its readers, and how it is used: visitor statistics and the server's own records, while readers are asked for nothing themselves. It also sets out the rights readers hold under Malaysia's Personal Data Protection Act 2010.",

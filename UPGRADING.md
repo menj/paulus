@@ -49,13 +49,19 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.64 to 2.77.65
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.65 and the Privacy Policy's search description changes (a description you typed by hand is kept).
+- The Endmark mark is the cameo on every site from 2.77.57, as before; the one-time step that also added posts and Journal entries to a saved type list is gone, so a list you saved is used as it is. Add Journal entries on the Endmark screen if you want the mark on them.
+- A plugin on the list is switched off only if the theme's copy of it is whole. After an interrupted upload the plugin stays on until the upload is complete.
+
 ### 2.77.63 to 2.77.64
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.64 and the Journal entry "Who was lying at Antioch?" is created, once.
 
 ### 2.77.62 to 2.77.63
 
-- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.63 and the Privacy Policy takes its new section. A policy you have edited is offered beside the theme's text, not overwritten, so copy the "Previews from Wikipedia" section into it.
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.63 and the Privacy Policy takes its new section. A policy you have edited is kept, so copy the "Previews from Wikipedia" section into it. The one exception is a draft that still holds WordPress's own placeholder text (it contains `privacy-policy-tutorial`), which the theme replaces.
 
 ### 2.77.61 to 2.77.62
 
@@ -100,7 +106,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.77.53 to 2.77.54
 
 - Upload the whole theme folder, after a database backup. `content_version` stays at 2.77.49.
-- WP Consent API is built into the theme and stores nothing. The theme switches the plugin off on the first admin page.
+- WP Consent API is built into the theme. It has no settings and stores nothing in the database; its cookies (one per consent category, and the consented services) are set in the browser only when a consent plugin records a reader's choice. The API exists from the time the theme loads, which is after `plugins_loaded`, so a plugin that calls `wp_has_consent()` on `plugins_loaded` itself finds it missing; call it on `init` or later. The theme switches the plugin off on the first admin page.
 - The theme also switches off WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. Their settings keep their names. Nothing is deleted.
 - To keep any of them as plugins, remove its file from the `paulus_retired_plugins` list with the filter.
 

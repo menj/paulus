@@ -141,6 +141,10 @@ if ( ! class_exists( 'WP_Consent_API_Cookie_Info' ) ) {
 		public function get_service_category( string $service ): string {
 			$categories = array();
 			foreach ( $this->registered_cookies as $cookie ) {
+				// An administrator cookie is functional and must not raise the category of a public service.
+				if ( ! empty( $cookie['administratorCookie'] ) ) {
+					continue;
+				}
 				if ( $cookie['plugin_or_service'] === $service ) {
 					$categories[] = $cookie['category'] ?? 'marketing';
 				}

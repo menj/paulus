@@ -16,6 +16,18 @@ window.wp_fallback_consent_type = consent_api.consent_type;
 window.waitfor_consent_hook = consent_api.waitfor_consent_hook;
 
 /**
+ * Read the JSON the consented-services cookie holds. PHP's setcookie() stores
+ * it URL-encoded, so a value that does not parse as it is decoded first.
+ */
+function consent_api_json_parse(value) {
+	try {
+		return JSON.parse(value);
+	} catch (e) {
+		return JSON.parse(decodeURIComponent(value));
+	}
+}
+
+/**
  * Check if a specific service has consent
  * @param {string} service
  */
@@ -24,7 +36,7 @@ function wp_has_service_consent(service) {
 	let consented_services_json = consent_api_get_cookie(consent_api.cookie_prefix + '_' + 'consented_services');
 	let consented_services;
 	try {
-		consented_services = JSON.parse(consented_services_json);
+		consented_services = consent_api_json_parse(consented_services_json);
 	} catch (e) {
 		consented_services = {};
 	}
@@ -46,7 +58,7 @@ function wp_is_service_denied( service ) {
 	let consented_services_json = consent_api_get_cookie(consent_api.cookie_prefix + '_' + 'consented_services');
 	let consented_services;
 	try {
-		consented_services = JSON.parse(consented_services_json);
+		consented_services = consent_api_json_parse(consented_services_json);
 	} catch (e) {
 		consented_services = {};
 	}
@@ -67,7 +79,7 @@ function wp_set_service_consent( service, consented ){
 	let consented_services_json = consent_api_get_cookie(consent_api.cookie_prefix + '_' + 'consented_services');
 	let consented_services;
 	try {
-		consented_services = JSON.parse(consented_services_json);
+		consented_services = consent_api_json_parse(consented_services_json);
 	} catch (e) {
 		consented_services = {};
 	}

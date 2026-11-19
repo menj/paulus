@@ -216,6 +216,11 @@
      * Update the live preview display
      */
     function updatePreview() {
+        // The screen has no symbol or image fields (the mark is fixed), so the
+        // preview the server drew stays as it is.
+        if ( ! $('#endmark_symbol').length && ! $('#endmark_image_url').length ) {
+            return;
+        }
         var type = $('input[name="' + endmarkAdmin.optionName + '[type]"]:checked').val();
         var html = '';
         

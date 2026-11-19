@@ -61,15 +61,6 @@ function paulus_test_check( $ok, $what ) {
 	$paulus_fail += $ok ? 0 : 1;
 }
 
-if ( isset( $argv[1] ) && 'default' === $argv[1] ) {
-	// A site with its own symbol: the theme's cameo still becomes the image, once.
-	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'type' => 'symbol', 'post_types' => array( 'post' ) );
-	require dirname( __DIR__ ) . '/inc/endmark.php';
-	$settings = Endmark_Plugin::get_instance()->get_settings();
-	echo json_encode( array( 'type' => $settings['type'], 'url' => $settings['image_url'], 'svg' => $settings['allow_svg'], 'types' => $settings['post_types'], 'flag' => $GLOBALS['t']['options']['paulus_endmark_cameo'] ?? null ) );
-	exit( 0 );
-}
-
 if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	// The plugin's settings and a per-post switch exist under the old names.
 	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'post_types' => array( 'post', 'paulus_journal' ) );
@@ -112,9 +103,6 @@ if ( is_array( $r ) ) {
 	paulus_test_check( true === $r['init'] && true === $r['content'], 'the shortcode and block (on init) and the content filter are hooked' );
 }
 
-$d = json_decode( (string) shell_exec( 'php ' . escapeshellarg( __FILE__ ) . ' default 2>&1' ), true );
-paulus_test_check( is_array( $d ) && 'image' === $d['type'] && 'https://example.org/theme/assets/images/endmark.webp' === $d['url'] && false === $d['svg'], 'a site with its own symbol gets the theme cameo as the image' );
-paulus_test_check( is_array( $d ) && array( 'post', 'paulus_journal' ) === $d['types'] && 1 === $d['flag'], 'posts and Journal entries both get it, once' );
 paulus_test_check( in_array( 'assets/images/endmark.webp', json_decode( file_get_contents( PAULUS_DIR . '/assets/files.json' ), true )['files'], true ), 'assets/files.json lists the end mark, so the image clean-up keeps it' );
 $tpl = file_get_contents( PAULUS_DIR . '/inc/endmark/templates/admin-settings.php' );
 paulus_test_check( false === strpos( $tpl, 'data-tab="appearance"' ) && false === strpos( $tpl, '[symbol]' ) && false === strpos( $tpl, '[image_url]' ) && false === strpos( $tpl, '[allow_svg]' ), 'the screen has no appearance tab and no symbol, image or SVG field' );

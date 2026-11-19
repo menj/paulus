@@ -977,6 +977,11 @@ function paulus_run_install_steps() {
 
 	paulus_sync_note( 'journal and navigation' );
 	paulus_install_journal();
+	if ( function_exists( 'paulus_tags_sync' ) ) {
+		// The articles and entries exist now: give them their tags (inc/tags.php).
+		delete_transient( 'paulus_tags_wait' );
+		paulus_tags_sync( true );
+	}
 	if ( function_exists( 'paulus_supersede_retire' ) ) {
 		paulus_supersede_retire();
 	}

@@ -10,7 +10,9 @@
  * What changes in the theme: the script and stylesheet are
  * assets/js/wp-consent-api*.js and assets/css/wp-consent-api*.css, and the
  * plugin's `plugins_loaded` start-up is a direct call here. The module has no
- * settings and stores nothing, so there is nothing to copy.
+ * settings and stores nothing in the database, so there is nothing to copy. Because
+ * the theme loads after `plugins_loaded`, the functions exist from `after_setup_theme`
+ * on: a plugin that calls wp_has_consent() earlier than that finds them missing.
  *
  * While the plugin itself is active the theme adds nothing, and
  * inc/plugin-retire.php switches the plugin off.
@@ -27,6 +29,11 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_consent_api_ready() {
+	foreach ( array( 'class-wp-consent-api-config', 'class-wp-consent-api-cookie-info', 'class-wp-consent-api-site-health', 'api-functions', 'wordpress-comments-functions' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/consent-api/' . $file . '.php' ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -34,11 +41,10 @@ if ( class_exists( 'WP_Consent_API', false ) ) {
 	return;
 }
 
-// A half-uploaded theme: without every file the module stays out.
-foreach ( array( 'class-wp-consent-api-config', 'class-wp-consent-api-cookie-info', 'class-wp-consent-api-site-health', 'api-functions', 'wordpress-comments-functions' ) as $paulus_consent_file ) {
-	if ( ! is_readable( PAULUS_DIR . '/inc/consent-api/' . $paulus_consent_file . '.php' ) ) {
-		return;
-	}
+// A half-uploaded theme: without every file the module stays out, and
+// the plugin is not switched off (the ready function says so).
+if ( ! paulus_consent_api_ready() ) {
+	return;
 }
 
 // Declared inside a condition: a plain top-level class is hoisted and would

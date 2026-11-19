@@ -33,10 +33,15 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_wikipreview_ready() {
+	foreach ( array( 'js/wikipedia-preview.js', 'js/wikipedia-preview-init.js', 'js/wikipedia-preview-editor.js', 'css/wikipedia-preview-link.css' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/assets/' . $file ) ) {
+			return false;
+		}
+	}
 	return true;
 }
 
-if ( defined( 'WIKIPEDIA_PREVIEW_PLUGIN_VERSION' ) ) {
+if ( defined( 'WIKIPEDIA_PREVIEW_PLUGIN_VERSION' ) || ! paulus_wikipreview_ready() ) {
 	return;
 }
 

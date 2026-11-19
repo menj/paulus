@@ -81,7 +81,11 @@ if ( ! class_exists( 'WP_Consent_API_Site_Health' ) ) {
 		 * @return array $result The WP Consent API Site Health tests results.
 		 */
 		public function wp_consent_api_test() {
-			$plugins                      = get_option( 'active_plugins' );
+			$plugins                      = (array) get_option( 'active_plugins', array() );
+			if ( is_multisite() ) {
+				// Network-activated plugins are kept in their own option.
+				$plugins = array_merge( $plugins, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+			}
 			$not_registered               = array();
 			$plugins_without_registration = false;
 
