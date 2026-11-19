@@ -161,10 +161,14 @@
         document.body.appendChild(textarea);
         textarea.select();
         try {
-            document.execCommand('copy');
-            showNotification(config.notification);
-            var selectedStyle = getSelectedStyle(config);
-            trackAction(config.postId, 'copy', selectedStyle, config.ajaxUrl, config.enableAnalytics, config.requireConsent);
+            // execCommand can answer false without throwing: then nothing was copied.
+            if (document.execCommand('copy')) {
+                showNotification(config.notification);
+                var selectedStyle = getSelectedStyle(config);
+                trackAction(config.postId, 'copy', selectedStyle, config.ajaxUrl, config.enableAnalytics, config.requireConsent);
+            } else {
+                console.error('Failed to copy citation: the browser refused the copy command.');
+            }
         } catch (err) {
             console.error('Failed to copy citation:', err);
         }

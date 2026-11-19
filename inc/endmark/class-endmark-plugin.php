@@ -212,6 +212,11 @@ class Endmark_Plugin {
      */
     public function get_settings() {
         $settings = get_option( self::OPTION_SITE, array() );
+        if ( empty( $settings ) && is_multisite() ) {
+            // A site with no settings of its own uses the network's.
+            $settings = get_site_option( self::OPTION_NETWORK, array() );
+        }
+        $settings = is_array( $settings ) ? $settings : array();
         $merged   = wp_parse_args( $settings, $this->site_defaults );
 
         // Runtime migration: legacy 'where' string → 'post_types' array.

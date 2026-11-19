@@ -21,8 +21,12 @@ function hrefmaster_build_language_list() {
 
     // Start with WP core translations if available.
     $languages = array();
+    // The function lives in a core file that is not loaded on every request.
+    $translation_file = ABSPATH . 'wp-admin/includes/translation-install.php';
+    if ( is_readable( $translation_file ) ) {
+        require_once $translation_file;
+    }
     if ( function_exists( 'wp_get_available_translations' ) ) {
-        require_once ABSPATH . 'wp-admin/includes/translation-install.php';
         $languages = wp_get_available_translations();
     }
 

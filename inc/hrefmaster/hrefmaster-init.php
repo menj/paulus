@@ -35,7 +35,7 @@ function hrefmaster_enqueue_admin_assets( $hook ) {
     }
 
     // Load on our settings page and post editor screens only.
-    $dominated = ( strpos( $hook, 'paulus' ) !== false )
+    $dominated = ( strpos( $hook, 'paulus' ) !== false ) || ( strpos( $hook, 'hrefmaster' ) !== false )
               || in_array( $hook, array( 'post.php', 'post-new.php', 'edit-tags.php', 'term.php' ), true );
 
     if ( ! $dominated ) {
@@ -117,7 +117,8 @@ function hrefmaster_sanitize_post_types( $input ) {
     if ( ! is_array( $input ) ) {
         return array();
     }
-    return array_map( 'sanitize_text_field', $input );
+    // The empty value the form sends so that "none" can be saved is dropped.
+    return array_values( array_filter( array_map( 'sanitize_text_field', $input ), 'strlen' ) );
 }
 
 /* ── Admin Menu ───────────────────────────────────────────────────── */
@@ -319,8 +320,8 @@ function hrefmaster_meta_box_callback( $post ) {
     } else {
         $n = 0;
         foreach ( $keys as $key ) {
-            $parts     = explode( '-', $key );
-            $href_lang = ( count( $parts ) === 3 ) ? 'x-default' : $parts[1];
+            // The code is whatever follows 'hreflang-': en, en-US, x-default.
+            $href_lang = substr( $key, strlen( 'hreflang-' ) );
             $href_val  = isset( $values[ $n ][0] ) ? $values[ $n ][0] : '';
             hrefmaster_render_tag_row( $n + 1, $href_val, $href_lang, $hrefmaster_languages, ( $n + 1 === count( $keys ) ) );
             $n++;
@@ -417,13 +418,16 @@ function hrefmaster_save_post_meta( $post_id, $post ) {
 /* ── Save Term Meta ───────────────────────────────────────────────── */
 
 add_action( 'create_term', 'hrefmaster_save_term_meta' );
-add_action( 'edit_term',   'hrefmaster_save_term_meta' );
+add_action( 'edit_term',   'hrefmaster_save_term_meta', 10, 3 );
 
-function hrefmaster_save_term_meta( $term_id ) {
+function hrefmaster_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
     if ( ! isset( $_POST['hreflang-href'] ) || ! is_array( $_POST['hreflang-href'] ) ) {
         return;
     }
-    if ( ! current_user_can( 'manage_categories' ) ) {
+    // The taxonomy's own capability, so editors of a custom taxonomy can save.
+    $taxonomy_object = $taxonomy ? get_taxonomy( $taxonomy ) : null;
+    $capability      = ( $taxonomy_object && ! empty( $taxonomy_object->cap->edit_terms ) ) ? $taxonomy_object->cap->edit_terms : 'manage_categories';
+    if ( ! current_user_can( $capability ) ) {
         return;
     }
 
@@ -580,6 +584,7 @@ function hrefmaster_ajax_delete_all() {
     if ( ! empty( $post_types ) ) {
         $query = new WP_Query( array(
             'post_type'      => $post_types,
+            'post_status'    => 'any',
             'posts_per_page' => -1,
             'fields'         => 'ids',
         ) );

@@ -922,12 +922,13 @@ function citepress_admin_form() {
                 $tbl_check = preg_replace( '/[^A-Za-z0-9_]/', '', $tbl_check );
                 $tbl_exists = ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tbl_check ) ) === $tbl_check ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- admin-only existence check; no WP API equivalent
                 if ( $tbl_exists ) {
-                    $tab_cache = wp_cache_get( 'citepress_analytics_stats', 'paulus' );
+                    $tab_cache = wp_cache_get( 'citepress_analytics_totals', 'paulus' );
                     if ( false === $tab_cache ) {
                         $tbl_q = $tbl_check;
                         $tab_views   = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM `' . $tbl_q . '` WHERE action_type = %s', 'view'   ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tbl_q constrained to [A-Za-z0-9_]
                         $tab_copies  = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM `' . $tbl_q . '` WHERE action_type = %s', 'copy'   ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tbl_q constrained to [A-Za-z0-9_]
                         $tab_exports = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM `' . $tbl_q . '` WHERE action_type = %s', 'export' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tbl_q constrained to [A-Za-z0-9_]
+                        wp_cache_set( 'citepress_analytics_totals', array( 'total_views' => $tab_views, 'total_copies' => $tab_copies, 'total_exports' => $tab_exports ), 'paulus', 5 * MINUTE_IN_SECONDS );
                     } else {
                         $tab_views   = (int) ( $tab_cache['total_views']   ?? 0 );
                         $tab_copies  = (int) ( $tab_cache['total_copies']  ?? 0 );
@@ -1293,7 +1294,7 @@ function citepress_analytics_page() {
 
     // Use object cache so repeated admin page loads don't hammer the DB.
     $cache_key   = 'citepress_analytics_stats';
-    $cache_group = 'citepress';
+    $cache_group = 'paulus';
     $cached      = wp_cache_get( $cache_key, $cache_group );
 
     if ( false === $cached ) {

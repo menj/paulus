@@ -333,6 +333,12 @@
     opacity: 0;
 }
 
+.citepress-radio-card:focus-within,
+.citepress-checkbox-card:focus-within {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
 .citepress-radio-card:hover {
     border-color: var(--citepress-gray-300);
 }

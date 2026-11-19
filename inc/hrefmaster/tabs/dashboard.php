@@ -23,6 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             $saved      = get_option( 'paulus_hreflang_post_types', array() );
             if ( ! is_array( $saved ) ) { $saved = array(); }
 
+            // An empty value, so that unchecking every type is saved as none.
+            echo '<input type="hidden" name="paulus_hreflang_post_types[]" value="" />';
             if ( is_array( $post_types ) ) {
                 foreach ( $post_types as $pt ) {
                     $checked = in_array( $pt->name, $saved, true ) ? ' checked' : '';

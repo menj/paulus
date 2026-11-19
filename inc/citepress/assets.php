@@ -133,7 +133,13 @@ function citepress_enqueue_block_editor_assets() {
     // Pass format options to block JS
     $format_metadata = citepress_get_format_metadata();
     $block_formats = array();
+    // Only the enabled formats: the server renders against that list, so a
+    // disabled one chosen in the block would silently become another style.
+    $enabled_formats = citepress_get_enabled_formats();
     foreach ($format_metadata as $key => $meta) {
+        if ( ! in_array( $key, $enabled_formats, true ) ) {
+            continue;
+        }
         $block_formats[] = array(
             'label' => $meta['name'],
             'value' => $key,

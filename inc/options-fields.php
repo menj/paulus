@@ -100,7 +100,7 @@ function paulus_fields() {
 		'justify'    => array(
 			'label'  => __( 'Justify', 'paulus' ),
 			'fields' => array(
-				'justify_enabled'  => array( __( 'Justify the text: paragraphs and list items are set flush on both sides, with the last line of a paragraph on the left', 'paulus' ), 'checkbox' ),
+				'justify_enabled'  => array( __( 'Justify the text: paragraphs and list items are set flush on both sides, with the last line of a paragraph on the left. This switch governs the module only: the theme\'s own rules for FAQ answers, quotations, teasers, biographies and print stay as they are', 'paulus' ), 'checkbox' ),
 				'justify_scope'    => array( __( 'Where to justify', 'paulus' ), 'select', array( 'blog_only' => __( 'Articles and Journal entries only', 'paulus' ), 'entire_site' => __( 'The whole site', 'paulus' ) ) ),
 				'justify_mobile'   => array( __( 'Desktop only: under 768 pixels wide the text stays on the left', 'paulus' ), 'checkbox' ),
 				'justify_hyphen'   => array( __( 'Hyphenate: the browser breaks long words at the end of a line, which keeps narrow columns even. It needs the page\'s language, which the theme prints', 'paulus' ), 'checkbox' ),

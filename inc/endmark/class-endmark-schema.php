@@ -47,11 +47,16 @@ class Endmark_Schema {
                 return;
             }
 
-            if ( ! $this->plugin->frontend->was_rendered() ) {
+            if ( ! is_singular() ) {
                 return;
             }
 
-            if ( ! is_singular() ) {
+            // wp_head runs before the content, so the mark cannot have been
+            // rendered yet: decide from the item itself.
+            $post_id = get_queried_object_id();
+            if ( ! in_array( get_post_type( $post_id ), (array) $settings['post_types'], true )
+                || get_post_meta( $post_id, Endmark_Plugin::META_DISABLE, true )
+                || in_array( $post_id, (array) $settings['exclude_post_ids'], true ) ) {
                 return;
             }
 

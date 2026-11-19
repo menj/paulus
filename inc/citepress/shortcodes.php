@@ -393,7 +393,7 @@ function citepress_get_inline_templates() {
 function citepress_has_bibliography_shortcode() {
     global $post;
     if ( ! isset( $post ) || ! is_object( $post ) ) { return false; }
-    if ( has_shortcode( $post->post_content, 'cite_bibliography' ) ) { return true; }
+    if ( has_shortcode( $post->post_content, 'cite_bibliography' ) || has_shortcode( $post->post_content, 'citepress_cite_bibliography' ) ) { return true; }
     // Block editor stores a block comment like: <!-- wp:citepress/block {"mode":"bibliography"} -->
     if ( strpos( $post->post_content, '"mode":"bibliography"' ) !== false ) { return true; }
     return false;

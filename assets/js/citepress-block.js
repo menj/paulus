@@ -226,7 +226,7 @@ function CitationBlockEdit(props) {
     // ── Sidebar inspector panels ─────────────────────────────────────────────
     var sidebar = el(InspectorControls, null,
 
-        el(PanelBody, { title: __('Citation Settings', 'cite'), initialOpen: true },
+        el(PanelBody, { title: __('Citation Settings', 'cite'), initialOpen: true, className: 'citepress-inspector' },
             el(SelectControl, {
                 label:    __('Display Mode', 'cite'),
                 value:    mode,
@@ -249,7 +249,7 @@ function CitationBlockEdit(props) {
             })
         ),
 
-        el(PanelBody, { title: __('Features', 'cite'), initialOpen: true },
+        el(PanelBody, { title: __('Features', 'cite'), initialOpen: true, className: 'citepress-inspector' },
             el(ToggleControl, {
                 label:    __('Show Copy Button', 'cite'),
                 checked:  showCopy,
@@ -276,7 +276,7 @@ function CitationBlockEdit(props) {
             })
         ),
 
-        el(PanelBody, { title: __('Format Filtering', 'cite'), initialOpen: false },
+        el(PanelBody, { title: __('Format Filtering', 'cite'), initialOpen: false, className: 'citepress-inspector' },
             el(TextControl, {
                 label:    __('Include Formats', 'cite'),
                 value:    formats,

@@ -53,6 +53,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.65 and the Privacy Policy's search description changes (a description you typed by hand is kept).
 - The Endmark mark is the cameo on every site from 2.77.57, as before; the one-time step that also added posts and Journal entries to a saved type list is gone, so a list you saved is used as it is. Add Journal entries on the Endmark screen if you want the mark on them.
+- CitePress analytics now honour Do Not Track. With "require consent" on, nothing is recorded unless the theme's consent API or a recognised consent cookie says yes: a site that required consent but had no consent plugin used to record by default and now records nothing.
 - A plugin on the list is switched off only if the theme's copy of it is whole. After an interrupted upload the plugin stays on until the upload is complete.
 
 ### 2.77.63 to 2.77.64

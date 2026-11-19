@@ -14,7 +14,7 @@ $current_scheme   = get_option( 'paulus_hreflang_scheme', 'ocean' );
 $admin_bar        = get_option( 'paulus_hreflang_admin_bar', 'false' );
 $html_lang        = get_option( 'paulus_hreflang_html_lang', 'false' );
 $woo_shop         = get_option( 'paulus_hreflang_woo_shop', 'false' );
-$woo_active       = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) ), true );
+$woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) ), true );
 ?>
 
 <form action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>" method="post">

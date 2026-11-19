@@ -34,9 +34,18 @@
 
             // Update the URL query string so the WordPress redirect target
             // includes ?citepress_tab=<tab> and lands back on the right tab.
+            // options.php redirects to the referer it is sent, so the tab goes
+            // into the _wp_http_referer field, not into the form's action.
             var $form = $('#citepress_active_tab').closest('form');
-            var baseAction = $form.attr('action').split('?')[0];
-            $form.attr('action', baseAction + '?citepress_tab=' + encodeURIComponent(tab));
+            var $referer = $form.find('input[name="_wp_http_referer"]');
+            if ($referer.length) {
+                var ref = $referer.val() || '';
+                var param = 'citepress_tab=' + encodeURIComponent(tab);
+                ref = /([?&])citepress_tab=[^&#]*/.test(ref)
+                    ? ref.replace(/([?&])citepress_tab=[^&#]*/, '$1' + param)
+                    : ref + (ref.indexOf('?') === -1 ? '?' : '&') + param;
+                $referer.val(ref);
+            }
         });
         
         /**
@@ -99,7 +108,7 @@
                 var a = citepressPreviewData.author;
                 var d = citepressPreviewData.date;
                 var dDMY = citepressPreviewData.dateDMY;
-                var year = d.split(' ')[2]; // Extract year from date
+                var year = (String(d).match(/\b\d{4}\b/) || [''])[0]; // The four-digit year, whatever the date format
                 var t = citepressPreviewData.title;
                 var s = '<em>' + citepressPreviewData.site + '</em>';
                 var u = citepressPreviewData.url;
@@ -189,7 +198,7 @@
              */
             function updatePreviewCitation(style) {
                 var citation = formatPreviewCitation(style);
-                $('.citepress-preview-citation').html(citation);
+                $('.citepress-preview-citation').html(citation).data('style', style);
             }
         }
         
@@ -201,7 +210,20 @@
         $(document).on('change', '.citepress-display-mode-radio', function() {
             var mode = $(this).val();
             $('.citepress-preview-selector').hide();
-            $('.citepress-preview-selector[data-mode="' + mode + '"]').show();
+            var $shown = $('.citepress-preview-selector[data-mode="' + mode + '"]').show();
+            // The control now shown marks the format the preview is showing.
+            var current = $('.citepress-preview-citation').first().data('style');
+            if (current) {
+                $shown.find('select').val(current);
+                $shown.find('.citepress-style-tab').each(function() {
+                    var on = $(this).data('style') === current;
+                    $(this).toggleClass('citepress-style-tab--active', on).attr('aria-selected', on ? 'true' : 'false');
+                });
+                $shown.find('.citepress-style-btn').each(function() {
+                    var on = $(this).data('style') === current;
+                    $(this).toggleClass('citepress-style-btn--active', on).attr('aria-checked', on ? 'true' : 'false');
+                });
+            }
         });
         
         /**
@@ -302,16 +324,14 @@
                 if (checkbox.checked) checkedCount++;
             });
             
-            if (checkedCount === formatCheckboxes.length) {
-                // If all are checked, uncheck all except the first one
-                formatCheckboxes.forEach(function(checkbox, index) {
-                    checkbox.checked = (index === 0);
-                });
+            // At least one format must stay enabled: an empty list is not
+            // submitted, and the setting would then fall back to every format.
+            // So Clear All always leaves the first one checked.
+            formatCheckboxes.forEach(function(checkbox, index) {
+                checkbox.checked = (index === 0);
+            });
+            if (checkedCount > 1) {
                 alert('At least one citation format must remain enabled.');
-            } else {
-                formatCheckboxes.forEach(function(checkbox) {
-                    checkbox.checked = false;
-                });
             }
             updateFormatCounts();
         });

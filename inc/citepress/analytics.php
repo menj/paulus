@@ -37,7 +37,7 @@ function citepress_add_privacy_policy_content() {
         esc_html__( 'Analytics tracking requires explicit consent. No data is collected until consent is granted through our cookie consent mechanism. You may decline analytics tracking and still use all citation features.', 'paulus' ),
         $ip_hash_note,
         esc_html__( 'Data Retention', 'paulus' ),
-        esc_html__( 'Analytics data is automatically deleted after the configured retention period (default: 90 days). No personally identifiable information such as IP addresses or names is stored when session-based tracking is enabled.', 'paulus' ),
+        esc_html__( 'Analytics data is automatically deleted after the configured retention period (default: 90 days). No names or addresses are stored with the analytics. To limit repeat counts, a one-way hash of the visitor’s session, or of the address and browser when there is no session, is kept for at most a minute and is never stored with the analytics.', 'paulus' ),
         esc_html__( 'Opt-Out', 'paulus' ),
         esc_html__( "You can opt out of citation analytics at any time by declining cookies or using your browser's Do Not Track setting. Site administrators can also disable analytics entirely from the plugin settings.", 'paulus' )
     );
@@ -209,6 +209,7 @@ function citepress_handle_analytics_purge() {
     if ( $table_exists ) {
         $wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'paulus_citepress_analytics`' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
         wp_cache_delete( 'citepress_analytics_stats', 'paulus' );
+        wp_cache_delete( 'citepress_analytics_totals', 'paulus' );
     }
     wp_safe_redirect( add_query_arg( array( 'page' => 'citepress', 'citepress_purged' => '1' ), admin_url( 'admin.php' ) ) );
     exit;
@@ -243,8 +244,16 @@ function citepress_track_analytics() {
     if ( apply_filters( 'citepress_analytics_optout_active', false ) ) {
         wp_send_json_success( array( 'message' => 'Tracking blocked: Opt-out active' ) );
     }
+    // The privacy text promises that a Do Not Track signal is honoured.
+    if ( isset( $_SERVER['HTTP_DNT'] ) && '1' === $_SERVER['HTTP_DNT'] ) {
+        wp_send_json_success( array( 'message' => 'Tracking blocked: Do Not Track' ) );
+    }
     if ( isset( $citepress_setting['require_consent_for_analytics'] ) && $citepress_setting['require_consent_for_analytics'] === 'yes' ) {
         $consent_granted = apply_filters( 'citepress_analytics_consent_granted', null );
+        if ( $consent_granted === null && function_exists( 'wp_has_consent' ) ) {
+            // The theme's own consent API, when a consent plugin feeds it.
+            $consent_granted = wp_has_consent( 'statistics' ) ? true : null;
+        }
         if ( $consent_granted === null ) { $consent_granted = citepress_detect_consent_from_cookies(); }
         if ( ! $consent_granted ) {
             wp_send_json_success( array( 'message' => 'Tracking blocked: Consent not granted' ) );
@@ -313,6 +322,7 @@ function citepress_track_analytics() {
     // Invalidate the cached dashboard stats so the admin view reflects the new
     // row immediately rather than waiting for the five-minute TTL to expire.
     wp_cache_delete( 'citepress_analytics_stats', 'paulus' );
+        wp_cache_delete( 'citepress_analytics_totals', 'paulus' );
 
     wp_send_json_success( array( 'message' => 'Analytics tracked successfully' ) );
 }
@@ -384,7 +394,7 @@ function citepress_detect_consent_from_cookies() {
         }
     }
 
-    // No recognised consent plugin detected — default to permitted.
-    // Only block when a known plugin is present and has explicitly denied analytics.
-    return true;
+    // Consent is required (this function runs only then) and no recognised
+    // consent cookie says yes: no consent, so nothing is recorded.
+    return false;
 }

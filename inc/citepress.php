@@ -65,8 +65,16 @@ function paulus_citepress_import() {
 		$has    = static function ( $table ) use ( $wpdb ) {
 			return $table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		};
+		$moved = true;
 		if ( $has( $from ) && ! $has( $to ) ) {
-			$wpdb->query( "RENAME TABLE `{$from}` TO `{$to}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$moved = false !== $wpdb->query( "RENAME TABLE `{$from}` TO `{$to}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		} elseif ( $has( $from ) && $has( $to ) ) {
+			// Both exist (the theme's table was made first): copy the history across.
+			$moved = false !== $wpdb->query( "INSERT INTO `{$to}` SELECT * FROM `{$from}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		}
+		if ( ! $moved ) {
+			// The history was not moved: leave the flag unset so the step is tried again.
+			return;
 		}
 	}
 	update_option( 'paulus_citepress_imported', 1, false );
