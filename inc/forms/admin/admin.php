@@ -220,7 +220,7 @@ function paulus_form_admin_enqueue_scripts( $hook_suffix ) {
 
 	wp_add_inline_script( 'paulus-form-admin',
 		sprintf(
-			'var paulus-form = %s;',
+			'var paulusForm = %s;',
 			wp_json_encode( $paulus_form_obj, JSON_PRETTY_PRINT )
 		),
 		'before'

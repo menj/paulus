@@ -71,7 +71,7 @@ function paulus_form_stripe_enqueue_scripts() {
 			$assets['dependencies'],
 			array(
 				'wp-polyfill',
-				'paulus',
+				'paulus-form',
 				'stripe',
 			)
 		),

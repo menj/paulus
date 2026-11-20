@@ -42,7 +42,7 @@ add_action(
 		) );
 
 		wp_register_script(
-			'paulus',
+			'paulus-form',
 			paulus_form_plugin_url( 'includes/js/index.js' ),
 			array_merge(
 				$assets['dependencies'],
@@ -52,7 +52,7 @@ add_action(
 			array( 'in_footer' => true )
 		);
 
-		wp_set_script_translations( 'paulus', 'paulus' );
+		wp_set_script_translations( 'paulus-form', 'paulus' );
 
 		wp_register_script(
 			'paulus-form-html5-fallback',
@@ -67,7 +67,7 @@ add_action(
 		}
 
 		wp_register_style(
-			'paulus',
+			'paulus-form',
 			paulus_form_plugin_url( 'includes/css/styles.css' ),
 			array(),
 			PAULUS_FORM_VERSION,
@@ -77,7 +77,7 @@ add_action(
 		wp_register_style(
 			'paulus-form-rtl',
 			paulus_form_plugin_url( 'includes/css/styles-rtl.css' ),
-			array( 'paulus' ),
+			array( 'paulus-form' ),
 			PAULUS_FORM_VERSION,
 			'all'
 		);
@@ -104,7 +104,7 @@ add_action(
  * Enqueues scripts.
  */
 function paulus_form_enqueue_scripts() {
-	wp_enqueue_script( 'paulus' );
+	wp_enqueue_script( 'paulus-form' );
 
 	$paulus_form_obj = array(
 		'api' => array(
@@ -119,9 +119,9 @@ function paulus_form_enqueue_scripts() {
 		) );
 	}
 
-	wp_add_inline_script( 'paulus',
+	wp_add_inline_script( 'paulus-form',
 		sprintf(
-			'var paulus-form = %s;',
+			'var paulusForm = %s;',
 			wp_json_encode( $paulus_form_obj, JSON_PRETTY_PRINT )
 		),
 		'before'
@@ -135,7 +135,7 @@ function paulus_form_enqueue_scripts() {
  * Returns true if the main script is enqueued.
  */
 function paulus_form_script_is() {
-	return wp_script_is( 'paulus' );
+	return wp_script_is( 'paulus-form' );
 }
 
 
@@ -143,7 +143,7 @@ function paulus_form_script_is() {
  * Enqueues styles.
  */
 function paulus_form_enqueue_styles() {
-	wp_enqueue_style( 'paulus' );
+	wp_enqueue_style( 'paulus-form' );
 
 	if ( paulus_form_is_rtl() ) {
 		wp_enqueue_style( 'paulus-form-rtl' );
@@ -157,7 +157,7 @@ function paulus_form_enqueue_styles() {
  * Returns true if the main stylesheet is enqueued.
  */
 function paulus_form_style_is() {
-	return wp_style_is( 'paulus' );
+	return wp_style_is( 'paulus-form' );
 }
 
 
