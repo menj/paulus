@@ -534,6 +534,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
 - Run the tests on every push, on PHP 8.4. The repository has twenty test files and no CI workflow, and the 8.4 requirement has been checked by search and by PHP 8.3 only.
+- Test the renamed modules on the live site. The forms module (`inc/forms/`) was renamed throughout in 2.77.67 and checked only by tests outside WordPress: submit each form, open the Contact menu, and check the Citations, End mark and Hreflang screens.
 - Update the forms module by hand. `inc/forms/` receives no security fixes from anywhere; compare it with each release of the plugin it came from.
 - Confirm the plugin file names for Unlist Posts & Pages and Pretty Search Permalinks against a live site, so `inc/plugin-retire.php` switches them off.
 
