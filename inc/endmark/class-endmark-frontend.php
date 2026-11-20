@@ -37,6 +37,13 @@ class Endmark_Frontend {
     private $unsafe_containers = array( 'table', 'ul', 'ol', 'blockquote', 'figure', 'pre', 'code' );
 
     /**
+     * Items already marked in this request, by ID.
+     *
+     * @var array
+     */
+    private $marked = array();
+
+    /**
      * Footnote detection patterns.
      *
      * @var array
@@ -429,7 +436,9 @@ class Endmark_Frontend {
      * @return bool
      */
     private function is_inside_unsafe_container( $content, $position ) {
-        foreach ( $this->unsafe_containers as $tag ) {
+        // A quotation is not unsafe here: when an article ends in one, the last
+        // paragraph of the article is inside it and takes the mark.
+        foreach ( array_diff( $this->unsafe_containers, array( 'blockquote' ) ) as $tag ) {
             preg_match_all( '/<' . $tag . '\b[^>]*>/i', substr( $content, 0, $position ), $opens );
             preg_match_all( '/<\/' . $tag . '>/i', substr( $content, 0, $position ), $closes );
 
@@ -438,6 +447,25 @@ class Endmark_Frontend {
             }
         }
         return false;
+    }
+
+    /**
+     * Where the article's own text ends: at its notes, or at the questions
+     * section that follows it, whichever comes first. The "Back to top" line the
+     * theme puts before that section is skipped by the paragraph search.
+     *
+     * @param  string    $content       HTML content.
+     * @param  int|false $footnotes_pos Position of the notes, or false.
+     * @return int|false
+     */
+    private function body_end_position( $content, $footnotes_pos ) {
+        $end = $footnotes_pos;
+        if ( preg_match( '/<h2\b[^>]*\bid\s*=\s*["\'][^"\']*questions[^"\']*["\']/i', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+            if ( false === $end || $m[0][1] < $end ) {
+                $end = $m[0][1];
+            }
+        }
+        return $end;
     }
 
     /**
@@ -479,6 +507,9 @@ class Endmark_Frontend {
             return false;
         }
 
+        // The article's text ends where its questions section or its notes begin.
+        $footnotes_pos = $this->body_end_position( $content, $footnotes_pos );
+
         $last_valid_index = -1;
 
         foreach ( $matches[0] as $i => $match ) {
@@ -493,6 +524,11 @@ class Endmark_Frontend {
                 continue;
             }
             if ( $this->is_inside_unsafe_container( $content, $p_start ) ) {
+                continue;
+            }
+            // The theme's own furniture is not text: the "Back to top" line, the
+            // contents label, share and credit lines.
+            if ( preg_match( '/^<p\b[^>]*\bclass\s*=\s*["\'][^"\']*\b(?:paulus-faq-back|paulus-faq-index__label|paulus-share|paulus-figure|paulus-hero)/i', $p_html ) ) {
                 continue;
             }
 
@@ -533,6 +569,11 @@ class Endmark_Frontend {
         if ( ! $this->check_eligibility( $content, $settings ) ) {
             return $content;
         }
+        // One mark for one item in one request, however often its text is filtered.
+        $item_id = (int) get_the_ID();
+        if ( isset( $this->marked[ $item_id ] ) ) {
+            return $content;
+        }
         if ( $this->has_manual_placement( $content ) ) {
             return $content;
         }
@@ -542,6 +583,7 @@ class Endmark_Frontend {
             return $content;
         }
 
+        $this->marked[ $item_id ] = true;
         $content          = $this->hygiene_prepass( $content );
         $protected_ranges = $this->find_all_protected_ranges( $content );
         $footnotes_pos    = $this->find_footnotes_position( $content );

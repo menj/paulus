@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.65
+Stable tag: 2.77.66
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.66 =
+* The end mark now closes the last paragraph of the article text, and nowhere else: not after the "Back to top" lines, not in the questions section, not before a closing quotation.
 
 = 2.77.65 =
 * Fixes from the code review: tags are given to every article even when the installer runs after the first admin page, the Wikipedia cards and the consent API are described in the privacy text, a plugin is switched off only while the theme's own copy of it is whole, and several smaller fixes.
@@ -349,6 +352,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.66 =
+Nothing to do. Upload the whole theme folder.
 
 = 2.77.65 =
 Run Install or update under Theme Options, Content, to bring in the Privacy Policy's new search description.

@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.66] - 2026-11-20
+
+The end mark sat in the wrong places. `content_version` stays at 2.77.65, since no shipped text changes.
+
+### Fixed
+- The theme puts a "Back to top" line before every section, before the questions and before the notes, after Endmark had chosen nothing yet; Endmark then took that line for the last paragraph and printed the cameo beside it. It now skips the theme's own furniture (`paulus-faq-back`, the contents label, share and credit lines).
+- The article's text ends where its questions section (`<h2 id="questions">`) or its notes begin, whichever comes first, so the mark is never inside the questions.
+- An article that ends in a quotation takes the mark in the quotation's last paragraph, not before it.
+- One mark for one item in one request, however often its text is filtered.
+- `tests/endmark-test.php` checks the placement on a themed article and on one that ends in a quotation.
+
 ## [2.77.65] - 2026-11-19
 
 Fixes from the CodeAnt review of the last twelve pull requests. `content_version` is 2.77.65, since the Privacy Policy's search description changes.

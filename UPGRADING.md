@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.65 to 2.77.66
+
+- Upload the whole theme folder. Nothing else to do: the end mark moves to the end of the last paragraph of the text, ahead of the questions section.
+
 ### 2.77.64 to 2.77.65
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.65 and the Privacy Policy's search description changes (a description you typed by hand is kept).

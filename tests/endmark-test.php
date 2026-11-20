@@ -67,8 +67,28 @@ if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	$GLOBALS['t']['options']['endmark_version']  = '4.4.0';
 	require dirname( __DIR__ ) . '/inc/endmark.php';
 	$settings = Endmark_Plugin::get_instance()->get_settings();
+	// Where the mark goes in a themed article: the end of the last paragraph of the
+	// text, before the "Back to top" line, the questions section and the notes.
+	if ( ! function_exists( 'wp_strip_all_tags' ) ) {
+		function wp_strip_all_tags( $s ) {
+			return strip_tags( $s );
+		}
+	}
+	$article = '<p>First.</p><p class="paulus-faq-back"><a href="#contents">Back to top</a></p><h2 id="verdict">Verdict</h2><p>The last line of the text.</p>'
+		. '<p class="paulus-faq-back"><a href="#contents">Back to top</a></p><h2 id="questions">Questions readers ask</h2><h3>Q?</h3><p>An answer.</p>'
+		. '<p class="paulus-faq-back"><a href="#contents">Back to top</a></p><ol class="footnotes"><li>Note.</li></ol>';
+	$fe  = ( new ReflectionClass( 'Endmark_Frontend' ) )->newInstanceWithoutConstructor();
+	$fn  = new ReflectionMethod( 'Endmark_Frontend', 'find_last_paragraph_insertion_point' );
+	$fn->setAccessible( true );
+	$foot = stripos( $article, '<ol class="footnotes"' );
+	$at   = $fn->invoke( $fe, $article, $foot, array() );
+	$placed = ( false === $at ) ? '' : substr( $article, 0, $at );
+	$quote  = '<p>Intro.</p><blockquote><p>The quoted end.</p></blockquote>';
+	$at2    = $fn->invoke( $fe, $quote, false, array() );
 	echo json_encode(
 		array(
+			'placed_after' => substr( $placed, -30 ),
+			'in_quote'     => false === $at2 ? '' : substr( substr( $quote, 0, $at2 ), -20 ),
 			'symbol'   => $settings['symbol'],
 			'type'     => $settings['type'],
 			'url'      => $settings['image_url'],
@@ -99,6 +119,8 @@ if ( is_array( $r ) ) {
 	paulus_test_check( 'image' === $r['type'] && false !== strpos( $r['url'], 'endmark.webp' ) && array( 'post', 'paulus_journal' ) === $r['types'], 'the mark is fixed to the cameo whatever symbol the plugin had; the post types are read from the theme option' );
 	paulus_test_check( '❧' === $r['option'] && '4.4.0' === $r['version'] && 1 === $r['imported'], 'the plugin options are copied once under the theme names' );
 	paulus_test_check( 1 === count( $r['queries'] ) && false !== strpos( $r['queries'][0], '_paulus_endmark_disable' ) && false !== strpos( $r['queries'][0], '_endmark_disable' ), 'the per-post switch is renamed in the database' );
+	paulus_test_check( 'The last line of the text.' === $r['placed_after'] || false !== strpos( $r['placed_after'], 'last line of the text.' ), 'the mark closes the last paragraph of the text, not the Back to top line, the questions or the notes' );
+	paulus_test_check( 'The quoted end.' === $r['in_quote'] || false !== strpos( $r['in_quote'], 'quoted end.' ), 'an article that ends in a quotation takes the mark in its last paragraph' );
 	paulus_test_check( '_paulus_endmark_disable' === $r['meta'], 'the plugin class uses the new meta key' );
 	paulus_test_check( true === $r['init'] && true === $r['content'], 'the shortcode and block (on init) and the content filter are hooked' );
 }
