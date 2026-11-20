@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.68
+Stable tag: 2.77.69
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.69 =
+* Pages (Sitemap, Contact, Privacy Policy, Terms of Use and the rest) never carry the end mark, whatever the Endmark screen has saved.
 
 = 2.77.68 =
 * Fixes to 2.77.67, which must not be used: the renamed modules were not all loaded, so the site could show its maintenance page. Checked now on a running WordPress, page by page.
@@ -358,6 +361,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.69 =
+Nothing to do. Upload the whole theme folder.
 
 = 2.77.68 =
 Upload this version, not 2.77.67. Nothing else to do.

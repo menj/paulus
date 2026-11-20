@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.68. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.69. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -126,7 +126,7 @@ An article shows, in order: the title panel (breadcrumb, title, standfirst, byli
 
 - A plugin whose work the theme does itself is built in as a module, and the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently, only once the module is loaded and whole (`paulus_<name>_ready()` answers true), and deletes nothing. The owner set this on 2026-11-19. The plugins are Auto Justify Content, CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, Wikipedia Preview, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
 - A built-in module carries no trace of the plugin it replaces, by the owner's decision of 2026-11-20: its functions, classes, constants, hooks, CSS classes, handles, text domain, file names, menu labels, comments and documents use the theme's own names and the name of the feature. Four things keep an old name, and no others: the detection (the list in `inc/plugin-retire.php` and the check at the head of a module for what only the plugin defines); stored data and the public contracts that existing content holds (a form's post type and option, shortcodes and blocks, hreflang post meta, the options a module reads once from an earlier copy); the consent API's function names and script handle, which other plugins call; and the licence notices (`LICENSES.md` and a `license.txt` beside the code), which the GPL and MIT licences require for other people's code and which the owner's request to remove them did not override.
-- The end mark is fixed by the owner's decision of 2026-11-19: the cameo of Paul, `assets/images/paulus-mark.webp`, 28 px. The End mark screen controls where and when it appears, not what it shows; `get_settings()` forces the symbol, image, size and SVG settings.
+- The end mark is fixed by the owner's decision of 2026-11-19: the cameo of Paul, `assets/images/paulus-mark.webp`, 28 px. The End mark screen controls where and when it appears, not what it shows; pages never carry it (`get_settings()` removes `page` from the types, and the screen does not offer it); `get_settings()` forces the symbol, image, size and SVG settings.
 - A plugin taken over needs its licence checked first: GPL v2 or later, MIT, or the owner's own. A plugin without such a licence is not copied into the theme.
 
 ## Names that must not change

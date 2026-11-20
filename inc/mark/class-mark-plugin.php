@@ -227,6 +227,13 @@ class Paulus_Mark {
             $merged['post_types'] = array( 'post' );
         }
 
+        // Pages (the Sitemap, Contact, Privacy Policy, Terms and the rest) never carry
+        // the mark, whatever a saved list says.
+        $merged['post_types'] = array_values( array_diff( $merged['post_types'], array( 'page' ) ) );
+        if ( empty( $merged['post_types'] ) ) {
+            $merged['post_types'] = array( 'post' );
+        }
+
         // The mark is fixed to the theme's cameo of Paul. The screen controls
         // where and when it appears, not what it shows, so whatever symbol or
         // image an old setting holds is ignored.

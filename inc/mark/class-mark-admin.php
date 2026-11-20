@@ -240,7 +240,7 @@ class Paulus_Mark_Admin {
 
         foreach ( $input['post_types'] as $slug ) {
             $slug = sanitize_key( $slug );
-            if ( isset( $registered[ $slug ] ) ) {
+            if ( 'page' !== $slug && isset( $registered[ $slug ] ) ) {
                 $sanitized[] = $slug;
             }
         }

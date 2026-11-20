@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.69] - 2026-11-20
+
+Pages never carry the end mark. `content_version` stays at 2.77.65.
+
+### Fixed
+- `Paulus_Mark::get_settings()` removes `page` from the content types, so the Sitemap, Contact, Privacy Policy, Terms of Use, DMCA, About the Author, the book page and every other page stay clean even when an earlier saved list (taken over from an older copy) includes pages. The End mark screen no longer offers Pages, and saving drops it. Checked on a running WordPress with a saved list that named pages: all 33 pages had no mark and the articles kept theirs.
+
 ## [2.77.68] - 2026-11-20
 
 Fixes to 2.77.67, whose renames broke the site. Do not use 2.77.67. `content_version` stays at 2.77.65.
