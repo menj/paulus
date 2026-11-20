@@ -57,4 +57,8 @@ foreach ( $it as $file ) {
 paulus_test_check( 0 === $bad, 'every bundled PHP file parses' );
 paulus_test_check( is_readable( PAULUS_DIR . '/inc/forms/license.txt' ), 'plugin licence is kept' );
 
+// The bundled form libraries load under their new namespace.
+require_once PAULUS_DIR . '/inc/forms/vendor/autoload.php';
+paulus_test_check( class_exists( 'PaulusFormLibs\\Swv\\CompositeRule' ) && class_exists( 'PaulusFormLibs\\FormDataTree\\FormDataTree' ), 'the bundled libraries autoload under PaulusFormLibs' );
+
 exit( $paulus_fail ? 1 : 0 );

@@ -448,8 +448,8 @@ class Paulus_Mark_Frontend {
     }
 
     /**
-     * Where the article's own text ends: at its notes, or at the questions
-     * section that follows it, whichever comes first. The "Back to top" line the
+     * Where the article's own text ends: at its notes, or at the questions or
+     * reading list that follows it, whichever comes first. The "Back to top" line the
      * theme puts before that section is skipped by the paragraph search.
      *
      * @param  string    $content       HTML content.
@@ -458,7 +458,8 @@ class Paulus_Mark_Frontend {
      */
     private function body_end_position( $content, $footnotes_pos ) {
         $end = $footnotes_pos;
-        if ( preg_match( '/<h2\b[^>]*\bid\s*=\s*["\'][^"\']*questions[^"\']*["\']/i', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+        // Back matter ends the text too: the questions, and a reading or sources list.
+        if ( preg_match( '/<h2\b[^>]*\bid\s*=\s*["\'][^"\']*(?:questions|further-reading|sources|bibliography)[^"\']*["\']/i', $content, $m, PREG_OFFSET_CAPTURE ) ) {
             if ( false === $end || $m[0][1] < $end ) {
                 $end = $m[0][1];
             }
@@ -680,8 +681,9 @@ class Paulus_Mark_Frontend {
                 $inner = '<span class="paulus-mark paulus-mark-symbol">∎</span>';
             } else {
                 $inner = sprintf(
-                    '<img class="paulus-mark paulus-mark-image" src="%s" alt="" width="%d" height="%d" loading="lazy" decoding="async" />',
+                    '<img class="paulus-mark paulus-mark-image" src="%s" alt="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
                     $url,
+                    esc_attr( apply_filters( 'paulus_mark_alt', __( 'End of the article: a portrait of Paul of Tarsus', 'paulus' ) ) ),
                     $size,
                     $size
                 );
@@ -694,7 +696,7 @@ class Paulus_Mark_Frontend {
             return '';
         }
 
-        return '<span class="' . Paulus_Mark::WRAPPER_CLASS . '" aria-hidden="true" role="presentation">'
+        return '<span class="' . Paulus_Mark::WRAPPER_CLASS . '">'
             . $inner
             . '</span>'
             . Paulus_Mark::ANTI_DUP_COMMENT;
