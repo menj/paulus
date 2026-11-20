@@ -61,7 +61,7 @@ function paulus_wiki_card_front() {
 	}
 	$v = PAULUS_WIKI_CARD_VERSION;
 	wp_enqueue_script( 'paulus-wiki-card', PAULUS_URI . '/assets/js/paulus-wiki-card.js', array(), $v, true );
-	wp_enqueue_script( 'paulus-wiki-card-init', PAULUS_URI . '/assets/js/paulus-wiki-card-init.js', array( 'paulus' ), $v, true );
+	wp_enqueue_script( 'paulus-wiki-card-init', PAULUS_URI . '/assets/js/paulus-wiki-card-init.js', array( 'paulus-wiki-card' ), $v, true );
 	$id = get_the_ID();
 	wp_localize_script(
 		'paulus-wiki-card-init',

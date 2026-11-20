@@ -2,6 +2,20 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.68] - 2026-11-20
+
+Fixes to 2.77.67, whose renames broke the site. Do not use 2.77.67. `content_version` stays at 2.77.65.
+
+### Fixed
+- `paulus_theme_files()` still named `consent-api` and `paulus-wiki-card`, files that had been renamed. The theme's completeness guard treated them as missing and showed the maintenance page on every request. They are `consent` and `wiki-card`. `tests/theme-files-test.php` now fails if any file in the list is missing.
+- The bundled form libraries did not load: renaming their namespace left them in the autoloader's wrong letter bucket (`P` for `PaulusFormLibs`), so the first form request ended in a fatal error. `tests/forms-test.php` now loads them.
+- The end mark's block name had become `end mark/end mark`, which WordPress refuses; it is `endmark/endmark` again, as stored in existing content. Its schema `@id` fragment no longer contains a space.
+- Script handles damaged by the rename: the Wikipedia card start-up script depended on a handle that did not exist (so it never printed), the consent API's data was attached to the wrong handle, and the hreflang screen's handle was the bare word `admin`.
+- The end mark also ends at a reading or sources list (`<h2>` ids containing `further-reading`, `sources` or `bibliography`), so an article whose last section is a bibliography takes the mark in the last paragraph of its text.
+
+### Checked
+- On a running WordPress (SQLite, this theme and Twenty Twenty-Five, the installer run, the pages served): the installer completed; all 80 articles and Journal entries returned 200 with exactly one end mark, in the last paragraph of the text, as the paragraph's last child, before the "Back to top" line, the questions, the notes and any reading list, and none on the home page, lists, tag pages, glossary, answers, contact page or feeds; the Citations, End mark, Hreflang and Forms screens, the post editor, the Journal list, Plugins and Site Health loaded with no PHP notice; a form rendered with its `paulus-form-*` markup, validated in the browser, and reached the mail step; the consent API and the Wikipedia card library loaded with no console error.
+
 ## [2.77.67] - 2026-11-20
 
 The built-in modules lose every trace of the plugins they replace, by the owner's request. `content_version` stays at 2.77.65, since no shipped text changes.

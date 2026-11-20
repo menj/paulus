@@ -448,8 +448,8 @@ class Paulus_Mark_Frontend {
     }
 
     /**
-     * Where the article's own text ends: at its notes, or at the questions
-     * section that follows it, whichever comes first. The "Back to top" line the
+     * Where the article's own text ends: at its notes, or at the questions or
+     * reading list that follows it, whichever comes first. The "Back to top" line the
      * theme puts before that section is skipped by the paragraph search.
      *
      * @param  string    $content       HTML content.
@@ -458,7 +458,8 @@ class Paulus_Mark_Frontend {
      */
     private function body_end_position( $content, $footnotes_pos ) {
         $end = $footnotes_pos;
-        if ( preg_match( '/<h2\b[^>]*\bid\s*=\s*["\'][^"\']*questions[^"\']*["\']/i', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+        // Back matter ends the text too: the questions, and a reading or sources list.
+        if ( preg_match( '/<h2\b[^>]*\bid\s*=\s*["\'][^"\']*(?:questions|further-reading|sources|bibliography)[^"\']*["\']/i', $content, $m, PREG_OFFSET_CAPTURE ) ) {
             if ( false === $end || $m[0][1] < $end ) {
                 $end = $m[0][1];
             }

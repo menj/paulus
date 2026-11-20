@@ -37,7 +37,7 @@ class Paulus_Mark {
     const WRAPPER_CLASS       = 'paulus-mark-wrap';
     const WRAPPER_CLASS_TOKEN = 'class="paulus-mark-wrap"';
     const SHORTCODE_TAG       = 'endmark';
-    const BLOCK_NAME          = 'end mark/end mark';
+    const BLOCK_NAME          = 'endmark/endmark';
 
     /**
      * Schema.org types that end mark must never interfere with.

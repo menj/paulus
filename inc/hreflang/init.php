@@ -41,21 +41,21 @@ function paulus_hreflang_enqueue_admin_assets( $hook ) {
     }
 
     wp_enqueue_style(
-        'admin',
+        'paulus-hreflang-admin',
         PAULUS_URI . '/assets/css/paulus-hreflang-admin.css',
         array(),
         PAULUS_HREFLANG_VERSION
     );
 
     wp_enqueue_script(
-        'admin',
+        'paulus-hreflang-admin',
         PAULUS_URI . '/assets/js/paulus-hreflang-admin.js',
         array( 'jquery' ),
         PAULUS_HREFLANG_VERSION,
         true
     );
 
-    wp_localize_script( 'admin', 'paulusHreflang', array(
+    wp_localize_script( 'paulus-hreflang-admin', 'paulusHreflang', array(
         'ajax_url' => admin_url( 'admin-ajax.php' ),
         'nonce'    => wp_create_nonce( 'paulus_hreflang_nonce' ),
         'i18n'     => array(

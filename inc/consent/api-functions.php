@@ -55,7 +55,7 @@ function paulus_consent_enqueue_assets(): void {
 	$prefix     = Paulus_Consent::$config->consent_cookie_prefix();
 
 	wp_localize_script(
-		'paulus',
+		'wp-consent-api',
 		'consent_api',
 		array(
 			'consent_type'         => $consent_type,

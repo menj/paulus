@@ -75,7 +75,7 @@ class Paulus_Mark_Schema {
             $schema = array(
                 '@context'    => 'https://schema.org',
                 '@type'       => $schema_mode,
-                '@id'         => $permalink . '#end mark',
+                '@id'         => $permalink . '#paulus-mark',
                 'name'        => __( 'End mark', 'paulus' ),
                 'description' => __( 'End-of-content marker', 'paulus' ),
                 'isPartOf'    => array(
