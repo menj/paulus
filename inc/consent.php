@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function paulus_consent_api_ready() {
+function paulus_consent_ready() {
 	foreach ( array( 'class-config', 'class-cookie-info', 'class-site-health', 'api-functions', 'wordpress-comments-functions' ) as $file ) {
 		if ( ! is_readable( PAULUS_DIR . '/inc/consent/' . $file . '.php' ) ) {
 			return false;
@@ -43,7 +43,7 @@ if ( class_exists( 'WP_Consent_API', false ) ) {
 
 // A half-uploaded theme: without every file the module stays out, and
 // the plugin is not switched off (the ready function says so).
-if ( ! paulus_consent_api_ready() ) {
+if ( ! paulus_consent_ready() ) {
 	return;
 }
 

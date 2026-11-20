@@ -67,14 +67,14 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_search_permalinks_ready',
 		),
 		'wikipedia-preview/wikipediapreview.php' => array(
-			'name'  => 'Wikipedia Preview',
+			'name'  => 'Wikipedia card',
 			'where' => __( 'the post editor (the link button)', 'paulus' ),
-			'ready' => 'paulus_wikipreview_ready',
+			'ready' => 'paulus_wiki_card_ready',
 		),
 		'wp-consent-api/wp-consent-api.php' => array(
 			'name'  => 'Consent API',
 			'where' => __( 'nowhere to set: the API has no settings', 'paulus' ),
-			'ready' => 'paulus_consent_api_ready',
+			'ready' => 'paulus_consent_ready',
 		),
 		'contact-form-7/wp-contact-form-7.php' => array(
 			'name'  => 'Contact Form 7',
