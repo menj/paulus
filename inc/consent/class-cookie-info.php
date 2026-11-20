@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.Filename.InvalidClassFileName
 /**
- * This file is part of WP Consent API.
+ * This file is part of Consent API.
  *
  * Copyright 2020 Rogier Lankhorst and the WordPress Core Privacy team.
  *
@@ -26,13 +26,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
-if ( ! class_exists( 'WP_Consent_API_Cookie_Info' ) ) {
+if ( ! class_exists( 'Paulus_Consent_Cookie_Info' ) ) {
 	/**
-	 * A class implementing the WP Consent API cookie handling.
+	 * A class implementing the Consent API cookie handling.
 	 *
 	 * @since 1.0.0
 	 */
-	class WP_Consent_API_Cookie_Info {
+	class Paulus_Consent_Cookie_Info {
 		/**
 		 * An array of information about registered cookies.
 		 *
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WP_Consent_API_Cookie_Info' ) ) {
 		public function __construct() {
 			if ( isset( self::$instance ) ) {
 				// translators: %s the name of the PHP Class used.
-				wp_die( esc_html( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'wp-consent-api' ), get_class( $this ) ) ) );
+				wp_die( esc_html( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'paulus' ), get_class( $this ) ) ) );
 			}
 
 			self::$instance = $this;
@@ -150,7 +150,7 @@ if ( ! class_exists( 'WP_Consent_API_Cookie_Info' ) ) {
 				}
 			}
 			$categories           = array_unique( $categories );
-			$available_categories = WP_Consent_API::$config->consent_categories();
+			$available_categories = Paulus_Consent::$config->consent_categories();
 			// reverse order of $available_categories
 			$available_categories = array_reverse( $available_categories );
 

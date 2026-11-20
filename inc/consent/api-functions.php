@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of WP Consent API.
+ * This file is part of Consent API.
  *
  * Copyright 2020 Rogier Lankhorst and the WordPress Core Privacy team.
  *
@@ -40,9 +40,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return void
  */
-function wp_consent_api_enqueue_assets(): void {
+function paulus_consent_enqueue_assets(): void {
 	$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-	wp_enqueue_script( 'wp-consent-api', WP_CONSENT_API_URL . "assets/js/wp-consent-api$minified.js", array(), WP_CONSENT_API_VERSION, true );
+	wp_enqueue_script( 'wp-consent-api', PAULUS_CONSENT_URL . "assets/js/paulus-consent$minified.js", array(), PAULUS_CONSENT_VERSION, true );
 
 	// We can pass a default or static consent type to the javascript.
 	$consent_type = wp_get_consent_type();
@@ -52,36 +52,36 @@ function wp_consent_api_enqueue_assets(): void {
 	$waitfor_consent_hook = apply_filters( 'wp_consent_api_waitfor_consent_hook', false );
 
 	// The cookie expiration for the front-end consent cookies.
-	$expiration = wp_consent_api_cookie_expiration();
-	$prefix     = WP_Consent_API::$config->consent_cookie_prefix();
+	$expiration = paulus_consent_cookie_expiration();
+	$prefix     = Paulus_Consent::$config->consent_cookie_prefix();
 
 	wp_localize_script(
-		'wp-consent-api',
+		'paulus',
 		'consent_api',
 		array(
 			'consent_type'         => $consent_type,
 			'waitfor_consent_hook' => $waitfor_consent_hook,
 			'cookie_expiration'    => $expiration,
 			'cookie_prefix'        => $prefix,
-			'services'             => WP_Consent_API::$cookie_info->get_service_info(),
+			'services'             => Paulus_Consent::$cookie_info->get_service_info(),
 		)
 	);
 }
-add_action( 'wp_enqueue_scripts', 'wp_consent_api_enqueue_assets', PHP_INT_MAX - 100 );
+add_action( 'wp_enqueue_scripts', 'paulus_consent_enqueue_assets', PHP_INT_MAX - 100 );
 
 /**
- * Enqueue style for back-end  to show wp-consent-api unregister plugins list in a better style in site health check page.
+ * Enqueue style for the back end: the list of plugins that have not declared the API, in Site Health.
  *
  * @param string $hook Hook name.
  */
-function wp_consent_api_enqueue_admin_assets( $hook ): void {
+function paulus_consent_enqueue_admin_assets( $hook ): void {
 	if ( 'site-health.php' !== $hook ) {
 		return;
 	}
 
-	wp_enqueue_style( 'wp-consent-api-css', WP_CONSENT_API_URL . 'assets/css/wp-consent-api.css', array(), WP_CONSENT_API_VERSION );
+	wp_enqueue_style( 'paulus-consent-css', PAULUS_CONSENT_URL . 'assets/css/paulus-consent.css', array(), PAULUS_CONSENT_VERSION );
 }
-add_action( 'admin_enqueue_scripts', 'wp_consent_api_enqueue_admin_assets' );
+add_action( 'admin_enqueue_scripts', 'paulus_consent_enqueue_admin_assets' );
 
 /**
  * Validates consent type.
@@ -93,7 +93,7 @@ add_action( 'admin_enqueue_scripts', 'wp_consent_api_enqueue_admin_assets' );
  * @return string The validated consent type, or `false`.
  */
 function wp_validate_consent_type( string $consent_type ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	if ( in_array( $consent_type, WP_Consent_API::$config->consent_types(), true ) ) {
+	if ( in_array( $consent_type, Paulus_Consent::$config->consent_types(), true ) ) {
 		return $consent_type;
 	}
 
@@ -110,7 +110,7 @@ function wp_validate_consent_type( string $consent_type ): string { // phpcs:ign
  * @return string The validated consent type, or false.
  */
 function wp_validate_consent_value( string $value ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	if ( in_array( $value, WP_Consent_API::$config->consent_values(), true ) ) {
+	if ( in_array( $value, Paulus_Consent::$config->consent_values(), true ) ) {
 		return $value;
 	}
 	return '';
@@ -125,7 +125,7 @@ function wp_validate_consent_value( string $value ): string { // phpcs:ignore Wo
  * @since 1.0.0
  */
 function wp_validate_consent_category( string $category ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	if ( in_array( $category, WP_Consent_API::$config->consent_categories(), true ) ) {
+	if ( in_array( $category, Paulus_Consent::$config->consent_categories(), true ) ) {
 		return $category;
 	}
 
@@ -142,7 +142,7 @@ function wp_validate_consent_category( string $category ): string { // phpcs:ign
  */
 function wp_validate_consent_service( string $service ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
 	// check if this service is listed in the registered services list.
-	$services = WP_Consent_API::$cookie_info->get_services();
+	$services = Paulus_Consent::$cookie_info->get_services();
 	if ( in_array( $service, $services, true ) ) {
 		return $service;
 	}
@@ -176,7 +176,7 @@ function wp_get_consent_type(): string { // phpcs:ignore WordPress.NamingConvent
 function wp_has_consent( string $category, ?string $requested_by = null ): bool { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
 	$consent_type = wp_get_consent_type();
 	$category     = wp_validate_consent_category( $category );
-	$prefix       = WP_Consent_API::$config->consent_cookie_prefix();
+	$prefix       = Paulus_Consent::$config->consent_cookie_prefix();
 	$cookie_name  = "{$prefix}_{$category}";
 
 	if ( ! $consent_type ) {
@@ -214,7 +214,7 @@ function wp_has_service_consent( string $service, ?string $requested_by = null )
 		return false;
 	}
 
-	$prefix      = WP_Consent_API::$config->consent_cookie_prefix();
+	$prefix      = Paulus_Consent::$config->consent_cookie_prefix();
 	$cookie_name = "{$prefix}_consented_services";
 
 	// Check if it's in the consented services cookie.
@@ -230,7 +230,7 @@ function wp_has_service_consent( string $service, ?string $requested_by = null )
 
 	if ( ! isset( $consented_services[ $service ] ) ) {
 		// Default to the category.
-		$category = WP_Consent_API::$cookie_info->get_service_category( $service );
+		$category = Paulus_Consent::$cookie_info->get_service_category( $service );
 		return wp_has_consent( $category, $requested_by );
 	}
 
@@ -257,7 +257,7 @@ function wp_is_service_denied( string $service, ?string $requested_by = null ): 
 		return false;
 	}
 
-	$prefix      = WP_Consent_API::$config->consent_cookie_prefix();
+	$prefix      = Paulus_Consent::$config->consent_cookie_prefix();
 	$cookie_name = "{$prefix}_consented_services";
 
 	// Check if it's in the consented services cookie.
@@ -298,9 +298,9 @@ function wp_set_service_consent( string $service, bool $consented ): void { // p
 		return;
 	}
 
-	$prefix      = WP_Consent_API::$config->consent_cookie_prefix();
+	$prefix      = Paulus_Consent::$config->consent_cookie_prefix();
 	$cookie_name = "{$prefix}_consented_services";
-	$expiration  = wp_consent_api_cookie_expiration() * DAY_IN_SECONDS;
+	$expiration  = paulus_consent_cookie_expiration() * DAY_IN_SECONDS;
 
 	// Get existing services.
 	$consented_services = array();
@@ -332,8 +332,8 @@ function wp_set_service_consent( string $service, bool $consented ): void { // p
  *
  * @return int Expiration in days.
  */
-function wp_consent_api_cookie_expiration(): int { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	return apply_filters( 'wp_consent_api_cookie_expiration', WP_Consent_API::$config->cookie_expiration_days() );
+function paulus_consent_cookie_expiration(): int { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
+	return apply_filters( 'paulus_consent_cookie_expiration', Paulus_Consent::$config->cookie_expiration_days() );
 }
 
 /**
@@ -349,16 +349,16 @@ function wp_consent_api_cookie_expiration(): int { // phpcs:ignore WordPress.Nam
 function wp_set_consent( string $category, string $value ): void { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
 	$value = apply_filters( 'wp_set_consent_value', $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- This is intended for Core.
 
-	$expiration = wp_consent_api_cookie_expiration() * DAY_IN_SECONDS;
+	$expiration = paulus_consent_cookie_expiration() * DAY_IN_SECONDS;
 	$category   = wp_validate_consent_category( $category );
 	$value      = wp_validate_consent_value( $value );
-	$prefix     = WP_Consent_API::$config->consent_cookie_prefix();
+	$prefix     = Paulus_Consent::$config->consent_cookie_prefix();
 
 	setcookie( "{$prefix}_{$category}", $value, time() + $expiration, '/' );
 }
 
 /**
- * Check if a plugin is registered for the WP Consent API.
+ * Check if a plugin is registered for the Consent API.
  *
  * @since 1.0.0
  *
@@ -367,11 +367,6 @@ function wp_set_consent( string $category, string $value ): void { // phpcs:igno
  * @return bool $registered
  */
 function consent_api_registered( $plugin ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	// We consider this plugin to comply ;).
-	if ( strpos( $plugin, 'wp-consent-api.php' ) !== false ) {
-		return true;
-	}
-
 	return apply_filters( "wp_consent_api_registered_{$plugin}", false );
 }
 
@@ -390,7 +385,7 @@ function consent_api_registered( $plugin ) { // phpcs:ignore WordPress.NamingCon
  * @param string $domain             Optional. Domain on which the cookie is set. Defaults to the current site URL.
  */
 function wp_add_cookie_info( string $name, string $plugin_or_service, string $category, string $expires, string $cookie_function, string $collected_personal_data = '', bool $member_cookie = false, bool $administrator_cookie = false, string $type = 'HTTP', string $domain = '' ): void { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	WP_Consent_API::$cookie_info->add_cookie_info( $name, $plugin_or_service, $category, $expires, $cookie_function, $collected_personal_data, $member_cookie, $administrator_cookie, $type, $domain );
+	Paulus_Consent::$cookie_info->add_cookie_info( $name, $plugin_or_service, $category, $expires, $cookie_function, $collected_personal_data, $member_cookie, $administrator_cookie, $type, $domain );
 }
 
 /**
@@ -401,5 +396,5 @@ function wp_add_cookie_info( string $name, string $plugin_or_service, string $ca
  * @return array
  */
 function wp_get_cookie_info( $name = false ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
-	return WP_Consent_API::$cookie_info->get_cookie_info( $name );
+	return Paulus_Consent::$cookie_info->get_cookie_info( $name );
 }

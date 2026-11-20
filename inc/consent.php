@@ -1,11 +1,11 @@
 <?php
 /**
- * Consent API: a native form of the plugin WP Consent API 2.1.0 (WordPress
+ * Consent API: a native form of the plugin Consent API 2.1.0 (WordPress
  * Contributors, GPL v2 or later). It gives cookie plugins and the plugins
  * that set cookies one shared way to ask whether a visitor has consented:
  * wp_has_consent(), wp_set_consent(), the `wp_consent_api` JavaScript object,
  * the registration of plugins that follow the API, and the Site Health test.
- * The plugin's code is in inc/consent-api/, with its licence beside it.
+ * The plugin's code is in inc/consent/, with its licence beside it.
  *
  * What changes in the theme: the script and stylesheet are
  * assets/js/wp-consent-api*.js and assets/css/wp-consent-api*.css, and the
@@ -29,8 +29,8 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function paulus_consent_api_ready() {
-	foreach ( array( 'class-wp-consent-api-config', 'class-wp-consent-api-cookie-info', 'class-wp-consent-api-site-health', 'api-functions', 'wordpress-comments-functions' ) as $file ) {
-		if ( ! is_readable( PAULUS_DIR . '/inc/consent-api/' . $file . '.php' ) ) {
+	foreach ( array( 'class-config', 'class-cookie-info', 'class-site-health', 'api-functions', 'wordpress-comments-functions' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/consent/' . $file . '.php' ) ) {
 			return false;
 		}
 	}
@@ -49,25 +49,25 @@ if ( ! paulus_consent_api_ready() ) {
 
 // Declared inside a condition: a plain top-level class is hoisted and would
 // exist before the stand-aside check above has run.
-if ( ! class_exists( 'WP_Consent_API', false ) ) {
+if ( ! class_exists( 'Paulus_Consent', false ) ) {
 	/**
 	 * The plugin's main class, with its constants pointed into the theme.
 	 */
-	class WP_Consent_API {
-		/** @var WP_Consent_API|null */
+	class Paulus_Consent {
+		/** @var Paulus_Consent|null */
 		private static $instance;
 
-		/** @var WP_Consent_API_Config */
+		/** @var Paulus_Consent_Config */
 		public static $config;
 
-		/** @var WP_Consent_API_Site_Health */
+		/** @var Paulus_Consent_Site_Health */
 		public static $site_health;
 
-		/** @var WP_Consent_API_Cookie_Info */
+		/** @var Paulus_Consent_Cookie_Info */
 		public static $cookie_info;
 
 		/**
-		 * @return WP_Consent_API
+		 * @return Paulus_Consent
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) ) {
@@ -86,24 +86,24 @@ if ( ! class_exists( 'WP_Consent_API', false ) ) {
 		private function __construct() {
 			// The plugin's asset paths read `assets/js/...` and `assets/css/...`,
 			// which are the theme's own, so the URL is the theme root.
-			define( 'WP_CONSENT_API_URL', trailingslashit( PAULUS_URI ) );
-			define( 'WP_CONSENT_API_PATH', PAULUS_DIR . '/inc/consent-api/' );
-			define( 'WP_CONSENT_API_PLUGIN', 'wp-consent-api/wp-consent-api.php' );
-			define( 'WP_CONSENT_API_VERSION', '2.1.0' );
-			define( 'WP_CONSENT_API_PLUGIN_FILE', WP_CONSENT_API_PATH . 'class-wp-consent-api-config.php' );
+			define( 'PAULUS_CONSENT_URL', trailingslashit( PAULUS_URI ) );
+			define( 'PAULUS_CONSENT_PATH', PAULUS_DIR . '/inc/consent/' );
+			define( 'PAULUS_CONSENT_PLUGIN', 'wp-consent-api/wp-consent-api.php' );
+			define( 'PAULUS_CONSENT_VERSION', '2.1.0' );
+			define( 'PAULUS_CONSENT_PLUGIN_FILE', PAULUS_CONSENT_PATH . 'class-config.php' );
 
-			require_once WP_CONSENT_API_PATH . 'class-wp-consent-api-config.php';
-			require_once WP_CONSENT_API_PATH . 'class-wp-consent-api-cookie-info.php';
-			require_once WP_CONSENT_API_PATH . 'class-wp-consent-api-site-health.php';
-			require_once WP_CONSENT_API_PATH . 'api-functions.php';
-			require_once WP_CONSENT_API_PATH . 'wordpress-comments-functions.php';
+			require_once PAULUS_CONSENT_PATH . 'class-config.php';
+			require_once PAULUS_CONSENT_PATH . 'class-cookie-info.php';
+			require_once PAULUS_CONSENT_PATH . 'class-site-health.php';
+			require_once PAULUS_CONSENT_PATH . 'api-functions.php';
+			require_once PAULUS_CONSENT_PATH . 'wordpress-comments-functions.php';
 
-			self::$config      = new WP_Consent_API_Config();
-			self::$site_health = new WP_Consent_API_Site_Health();
-			self::$cookie_info = new WP_Consent_API_Cookie_Info();
+			self::$config      = new Paulus_Consent_Config();
+			self::$site_health = new Paulus_Consent_Site_Health();
+			self::$cookie_info = new Paulus_Consent_Cookie_Info();
 		}
 	}
 }
 
 // What the plugin did on `plugins_loaded` (priority 9), before the theme loaded.
-WP_Consent_API::init();
+Paulus_Consent::init();

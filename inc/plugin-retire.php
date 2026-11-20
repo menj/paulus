@@ -72,7 +72,7 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_wikipreview_ready',
 		),
 		'wp-consent-api/wp-consent-api.php' => array(
-			'name'  => 'WP Consent API',
+			'name'  => 'Consent API',
 			'where' => __( 'nowhere to set: the API has no settings', 'paulus' ),
 			'ready' => 'paulus_consent_api_ready',
 		),

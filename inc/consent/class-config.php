@@ -5,19 +5,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
-if ( ! class_exists( 'WP_Consent_API_Config' ) ) {
+if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 	/**
-	 * WP_Consent_API_Config definition.
+	 * Paulus_Consent_Config definition.
 	 *
 	 * @since 1.0.0
 	 */
-	class WP_Consent_API_Config {
+	class Paulus_Consent_Config {
 		/**
 		 * Instance.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @var WP_Consent_API_Config|null
+		 * @var Paulus_Consent_Config|null
 		 */
 		private static $instance;
 
@@ -31,7 +31,7 @@ if ( ! class_exists( 'WP_Consent_API_Config' ) ) {
 		public function __construct() {
 			if ( isset( self::$instance ) ) {
 				// translators: %s the name of the PHP Class used.
-				wp_die( esc_html( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'wp-consent-api' ), get_class( $this ) ) ) );
+				wp_die( esc_html( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'paulus' ), get_class( $this ) ) ) );
 			}
 
 			self::$instance = $this;

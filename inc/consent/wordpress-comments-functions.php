@@ -1,6 +1,6 @@
 <?php // phpcs:ignore -- Ignore the  "\r\n" notice for some machines.
 /**
- * This file is part of WP Consent API.
+ * This file is part of Consent API.
  *
  * Copyright 2020 Rogier Lankhorst and the WordPress Core Privacy team.
  *

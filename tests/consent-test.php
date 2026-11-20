@@ -1,6 +1,6 @@
 <?php
 /**
- * Consent API built in (inc/consent-api.php): the module loads, stands aside
+ * Consent API built in (inc/consent.php): the module loads, stands aside
  * while the plugin is active, and points the plugin's assets into the theme.
  * WordPress is replaced by small stubs.
  *
@@ -36,12 +36,12 @@ function paulus_test_check( $ok, $what ) {
 }
 
 if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
-	require dirname( __DIR__ ) . '/inc/consent-api.php';
+	require dirname( __DIR__ ) . '/inc/consent.php';
 	echo json_encode(
 		array(
-			'version' => defined( 'WP_CONSENT_API_VERSION' ) ? WP_CONSENT_API_VERSION : null,
-			'url'     => defined( 'WP_CONSENT_API_URL' ) ? WP_CONSENT_API_URL : null,
-			'config'  => WP_Consent_API::$config instanceof WP_Consent_API_Config,
+			'version' => defined( 'PAULUS_CONSENT_VERSION' ) ? PAULUS_CONSENT_VERSION : null,
+			'url'     => defined( 'PAULUS_CONSENT_URL' ) ? PAULUS_CONSENT_URL : null,
+			'config'  => Paulus_Consent::$config instanceof Paulus_Consent_Config,
 			'fn'      => function_exists( 'wp_has_consent' ) && function_exists( 'wp_set_consent' ),
 			'self'    => function_exists( 'consent_api_registered' ) && consent_api_registered( 'wp-consent-api/wp-consent-api.php' ),
 		)
@@ -58,15 +58,15 @@ if ( is_array( $out ) ) {
 	paulus_test_check( true === $out['fn'], 'wp_has_consent() and wp_set_consent() exist' );
 	paulus_test_check( true === $out['self'], 'the API counts itself as registered' );
 }
-paulus_test_check( is_readable( PAULUS_DIR . '/assets/js/wp-consent-api.min.js' ) && is_readable( PAULUS_DIR . '/assets/css/wp-consent-api.css' ), 'script and stylesheet sit in assets/js and assets/css' );
+paulus_test_check( is_readable( PAULUS_DIR . '/assets/js/paulus-consent.min.js' ) && is_readable( PAULUS_DIR . '/assets/css/paulus-consent.css' ), 'script and stylesheet sit in assets/js and assets/css' );
 
 // With the plugin's class present the module defines only its ready marker.
 eval( 'class WP_Consent_API {}' );
-require PAULUS_DIR . '/inc/consent-api.php';
+require PAULUS_DIR . '/inc/consent.php';
 paulus_test_check( function_exists( 'paulus_consent_api_ready' ) && paulus_consent_api_ready(), 'ready marker defined before standing aside' );
-paulus_test_check( ! defined( 'WP_CONSENT_API_PATH' ), 'stands aside while the plugin is loaded' );
+paulus_test_check( ! defined( 'PAULUS_CONSENT_PATH' ), 'stands aside while the plugin is loaded' );
 
 $entry = file_get_contents( PAULUS_DIR . '/inc/plugin-retire.php' );
-paulus_test_check( false !== strpos( $entry, "'wp-consent-api/wp-consent-api.php'" ) && false !== strpos( $entry, 'paulus_consent_api_ready' ), 'plugin-retire lists WP Consent API' );
+paulus_test_check( false !== strpos( $entry, "'wp-consent-api/wp-consent-api.php'" ) && false !== strpos( $entry, 'paulus_consent_api_ready' ), 'plugin-retire lists Consent API' );
 
 exit( $paulus_fail ? 1 : 0 );
