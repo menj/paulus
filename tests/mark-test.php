@@ -63,7 +63,7 @@ function paulus_test_check( $ok, $what ) {
 
 if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	// The plugin's settings and a per-post switch exist under the old names.
-	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'post_types' => array( 'post', 'paulus_journal' ) );
+	$GLOBALS['t']['options']['endmark_settings'] = array( 'symbol' => '❧', 'post_types' => array( 'post', 'page', 'paulus_journal' ) );
 	$GLOBALS['t']['options']['endmark_version']  = '4.4.0';
 	require dirname( __DIR__ ) . '/inc/mark.php';
 	$settings = Paulus_Mark::get_instance()->get_settings();

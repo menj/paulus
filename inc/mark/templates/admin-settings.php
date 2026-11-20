@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <?php
                             $public_types   = get_post_types( array( 'public' => true ), 'objects' );
                             $enabled_types  = isset( $settings['post_types'] ) ? (array) $settings['post_types'] : array( 'post' );
-                            $excluded_types = array( 'attachment' );
+                            $excluded_types = array( 'attachment', 'page' );
 
                             foreach ( $public_types as $pt_slug => $pt_obj ) :
                                 if ( in_array( $pt_slug, $excluded_types, true ) ) {

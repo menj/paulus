@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.68 to 2.77.69
+
+- Upload the whole theme folder. Nothing else to do: pages lose the end mark at once.
+
 ### 2.77.67 to 2.77.68
 
 - Upload 2.77.68 in place of 2.77.67, which put the site behind its maintenance page. Back up the database first. `content_version` stays at 2.77.65.
