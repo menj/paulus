@@ -7,7 +7,6 @@ add_action( 'paulus_form_upgrade', 'paulus_form_upgrade_58', 10, 2 );
 /**
  * Runs functions necessary when upgrading from old plugin versions before 5.8.
  *
- * @since 5.8.0 New `_config_validation` post meta is introduced.
  */
 function paulus_form_upgrade_58( $new_ver, $old_ver ) {
 	if ( ! version_compare( $old_ver, '5.8-dev', '<' ) ) {
@@ -39,7 +38,6 @@ add_action( 'paulus_form_upgrade', 'paulus_form_convert_to_cpt', 10, 2 );
 /**
  * Converts old data in the dedicated database table to custom posts.
  *
- * @since 3.0.0 `paulus_form_contact_form` CPT is introduced.
  */
 function paulus_form_convert_to_cpt( $new_ver, $old_ver ) {
 	global $wpdb;

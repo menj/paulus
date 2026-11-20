@@ -5,8 +5,6 @@
  * Handles admin menu, settings registration, sanitisation,
  * and asset enqueueing for the settings page.
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

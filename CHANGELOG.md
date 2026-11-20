@@ -2,6 +2,18 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.67] - 2026-11-20
+
+The built-in modules lose every trace of the plugins they replace, by the owner's request. `content_version` stays at 2.77.65, since no shipped text changes.
+
+### Changed
+- Renamed throughout, in code, markup, scripts, styles, handles, file names, text domain and comments: citations (`inc/cite*`, `paulus_cite_*`, `paulus-cite-*`), the end mark (`inc/mark*`, `paulus_mark_*`, `Paulus_Mark*`, `assets/images/paulus-mark.webp`), hreflang (`inc/hreflang*`, `paulus_hreflang_*`), forms (`inc/forms*`, `paulus_form_*`, `Paulus_Form_*`, `PAULUS_FORM_*`, REST namespace `paulus-form/v1`, CSS `paulus-form-*`, the script object `paulusForm` and its events), the consent API's internals (`inc/consent*`, `Paulus_Consent*`, `PAULUS_CONSENT_*`) and Wikipedia cards (`inc/wiki-card*`, `paulus_wiki_card_*`, the library's global `paulusWikiCard` and its CSS classes, REST namespace `paulus-wiki-card/v1`). The bundled form libraries' namespace is `PaulusFormLibs`. The admin menus read Citations, End mark, Hreflang, Forms and Wikipedia cards, and the screens no longer name the plugins.
+- Removed: the forms module's news feed, support box, update notice, plugin action links and links to the plugin's site; the hreflang version comment in the page head; the consent API's special case for its own plugin file; the plugins' own author, version and `@package` lines in comments.
+- Kept: the list of plugins that are switched off, and the check at the head of each module for what only the plugin defines (`CITEPRESS_VERSION`, `Endmark_Plugin`, `HREFMASTER_VERSION`, `WPCF7_VERSION`, `WP_Consent_API`, `WIKIPEDIA_PREVIEW_PLUGIN_VERSION`, `AutoJustifyContent`); stored data and what existing content holds (`wpcf7_contact_form` and the `wpcf7` option, the shortcodes `[cite]`, `[endmark]`, `[contact-form-7]`, the blocks, hreflang post meta, `paulus_endmark*`, `paulus_citepress*`, the Wikipedia detection meta and options); the options a module reads once from an earlier copy; the consent API's function names, filters and script handle `wp-consent-api`, which other plugins call; and `WPCF7_VERSION`, defined so that a leftover copy of the old plugin's uninstall keeps the forms. The licence files (`inc/forms/license.txt`, `inc/consent/license.txt`, `inc/wiki-card/license.txt`) and `LICENSES.md` stay, because the licences require them.
+- Tests renamed: `tests/cite-test.php`, `mark-test.php`, `hreflang-test.php`, `forms-test.php`, `consent-test.php`, `wiki-card-test.php`.
+- Documents: the README describes the modules by what they do; `SSOT.md` records the rule.
+- Not done: the Wikipedia card library's `data-wikipedia-preview` attribute (stored in the links of existing posts) keeps its name, and the form module's legacy `_old_cf7_unit_id` meta key and `cf7_unit_id` column keep theirs.
+
 ## [2.77.66] - 2026-11-20
 
 The end mark sat in the wrong places. `content_version` stays at 2.77.65, since no shipped text changes.

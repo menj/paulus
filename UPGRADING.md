@@ -49,6 +49,14 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.66 to 2.77.67
+
+- Back up the database, then upload the whole theme folder. `content_version` stays at 2.77.65.
+- Forms, shortcodes, blocks, hreflang tags and every saved setting keep working: stored names are unchanged.
+- Two things change for anyone who customised the old forms: the forms' CSS classes are now `paulus-form-*` (and the wrapper `.paulus-form`), and a script that listened for the form events (`wpcf7submit`, `wpcf7mailsent` and the rest) must listen for `paulusFormsubmit`, `paulusFormmailsent` and so on. Hooks written for the old plugin (`wpcf7_*`) are now `paulus_form_*`.
+- A scheduled citation purge is re-registered under its new name; the old one is harmless and expires with the next cron clean-up.
+- The Citation, End mark, Hreflang and Forms admin addresses are now `?page=paulus-cite`, `paulus-mark`, `paulus-hreflang` and `paulus-form`; a bookmark of the old address needs updating.
+
 ### 2.77.65 to 2.77.66
 
 - Upload the whole theme folder. Nothing else to do: the end mark moves to the end of the last paragraph of the text, ahead of the questions section.
@@ -526,7 +534,7 @@ Everything below is a plan, open to change. Each item says why it is here. An it
 - Key takeaways for the shipped articles. The box shows only an article's own points, and none of the 56 articles in `content/manifest.json` has any yet; a `takeaways` field in the manifest, synced like the excerpt, would fill them (with `prior_hashes` and a new `content_version`).
 - Keep the `.htaccess` blocks on a network. `paulus_sec_remove_htaccess()` takes them out on any theme switch, while the error pages already stay for a site that still runs Paulus.
 - Run the tests on every push, on PHP 8.4. The repository has twenty test files and no CI workflow, and the 8.4 requirement has been checked by search and by PHP 8.3 only.
-- Update the built-in Contact Form 7 by hand. `inc/cf7/` no longer receives the plugin's security fixes; compare it with each plugin release.
+- Update the forms module by hand. `inc/forms/` receives no security fixes from anywhere; compare it with each release of the plugin it came from.
 - Confirm the plugin file names for Unlist Posts & Pages and Pretty Search Permalinks against a live site, so `inc/plugin-retire.php` switches them off.
 
 ### Later

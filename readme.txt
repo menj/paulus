@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.66
+Stable tag: 2.77.67
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,7 +33,7 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * Maintenance mode, and an email when new fatal errors appear.
 * Tags on every article and Journal entry: at most six, all lowercase, shown under the byline and linked to a tag page. A tag that names a glossary term shows its definition and links to the glossary, and the glossary links back.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
-* Plugins built in: Wikipedia Preview (cards for links to Wikipedia), Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
+* Built in, so no separate plugin is needed: justified text, citation boxes and exports, the end mark, hreflang tags, forms (the Contact menu), the consent API, Wikipedia cards, a private login address, unlisted items and clean search addresses. If an older plugin that did the same work is still active, the theme switches it off on your first admin visit and keeps its settings.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
 
 == Usage ==
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.67 =
+* The built-in modules carry the theme's own names throughout, with no trace of the plugins they replace. Detection of an older plugin, and every stored form, shortcode and setting, are unchanged.
 
 = 2.77.66 =
 * The end mark now closes the last paragraph of the article text, and nowhere else: not after the "Back to top" lines, not in the questions section, not before a closing quotation.
@@ -352,6 +355,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.67 =
+Back up the database first, then upload the whole theme folder. Nothing else to do.
 
 = 2.77.66 =
 Nothing to do. Upload the whole theme folder.

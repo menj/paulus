@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
- * @package wordpress/consent-api
  * @license http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -47,7 +46,6 @@ add_action( 'init', 'wp_consent_api_wordpress_comments_cookies' );
 /**
  * Custom consent function, checking consent level to decide if cookies can be set.
  *
- * @since 1.0.0
  *
  * @param WP_Comment $comment         Comment object.
  * @param WP_User    $user            Comment author's user object. The user may not exist.
@@ -61,7 +59,6 @@ function wp_consent_api_set_comment_cookies( $comment, $user, $cookies_consent )
 /**
  * Remove consent checkbox.
  *
- * @since 1.0.0
  *
  * @param string[] $fields The comment fields.
  *

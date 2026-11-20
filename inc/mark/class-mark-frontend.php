@@ -5,8 +5,6 @@
  * Handles the_content filtering, end mark HTML rendering,
  * eligibility checks, and frontend style enqueueing.
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

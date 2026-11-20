@@ -1,8 +1,6 @@
 <?php
 /**
- * Metadata: auto-display, Google Scholar tags, JSON-LD, Open Graph. Built into
- * the Paulus theme from the plugin Citation by MENJ (GPL v2 or later). In the
- * theme only the Google Scholar tags are printed; the theme prints its own
+ * Metadata: auto-display, Google Scholar tags, JSON-LD, Open Graph. In this theme only the Google Scholar tags are printed; the theme prints its own
  * Open Graph tags and JSON-LD.
  *
  *

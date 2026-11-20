@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
- * @package wordpress/consent-api
  * @license http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -86,7 +85,6 @@ add_action( 'admin_enqueue_scripts', 'paulus_consent_enqueue_admin_assets' );
 /**
  * Validates consent type.
  *
- * @since 1.0.0
  *
  * @param string $consent_type A consent type.
  *
@@ -103,7 +101,6 @@ function wp_validate_consent_type( string $consent_type ): string { // phpcs:ign
 /**
  * Validates consent value.
  *
- * @since 1.0.0
  *
  * @param string $value A consent value.
  *
@@ -122,7 +119,6 @@ function wp_validate_consent_value( string $value ): string { // phpcs:ignore Wo
  * @param string $category A consent category.
  *
  * @return string The validated category, default functional
- * @since 1.0.0
  */
 function wp_validate_consent_category( string $category ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
 	if ( in_array( $category, Paulus_Consent::$config->consent_categories(), true ) ) {
@@ -138,7 +134,6 @@ function wp_validate_consent_category( string $category ): string { // phpcs:ign
  * @param string $service A consent service.
  *
  * @return string The validated service
- * @since 1.0.8
  */
 function wp_validate_consent_service( string $service ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- This is intended for Core.
 	// check if this service is listed in the registered services list.
@@ -154,7 +149,6 @@ function wp_validate_consent_service( string $service ): string { // phpcs:ignor
 /**
  * Retrieves active consent type.
  *
- * @since 1.0.0
  *
  * @return string
  */
@@ -166,7 +160,6 @@ function wp_get_consent_type(): string { // phpcs:ignore WordPress.NamingConvent
  * Filterable, to allow for use in combination with consent_type
  * return value of wp_consent$level cookie (false, deny or allow)
  *
- * @since 1.0.0
  *
  * @param string  $category     The consent category.
  * @param ?string $requested_by Plugin name e.g. complianz-gdpr/complianz-gdpr.php. This can be used to disable consent for a plugin specifically.
@@ -199,7 +192,6 @@ function wp_has_consent( string $category, ?string $requested_by = null ): bool 
 /**
  * Check if a specific service has consent
  *
- * @since 1.0.8
  *
  * @param string  $service      The service name.
  * @param ?string $requested_by Plugin name e.g. complianz-gdpr/complianz-gdpr.php. This can be used to disable consent for a plugin specifically.
@@ -242,7 +234,6 @@ function wp_has_service_consent( string $service, ?string $requested_by = null )
 /**
  * Check if a specific service is denied
  *
- * @since 1.0.8
  *
  * @param string  $service      The service name.
  * @param ?string $requested_by Plugin name e.g. complianz-gdpr/complianz-gdpr.php. This can be used to disable consent for a plugin specifically.
@@ -283,7 +274,6 @@ function wp_is_service_denied( string $service, ?string $requested_by = null ): 
 /**
  * Set consent for a specific service
  *
- * @since 1.0.8
  *
  * @param string $service   The service name.
  * @param bool   $consented Whether consent is given (true) or denied (false).
@@ -339,7 +329,6 @@ function paulus_consent_cookie_expiration(): int { // phpcs:ignore WordPress.Nam
 /**
  * Set accepted consent category.
  *
- * @since 1.0.0
  *
  * @param string $category The consent category.
  * @param string $value    The value (either 'allow' or 'deny').
@@ -360,7 +349,6 @@ function wp_set_consent( string $category, string $value ): void { // phpcs:igno
 /**
  * Check if a plugin is registered for the Consent API.
  *
- * @since 1.0.0
  *
  * @param string $plugin The plugin basename.
  *

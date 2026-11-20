@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
- * @package wordpress/consent-api
  * @license http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -34,7 +33,6 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 		/**
 		 * Instance.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @var Paulus_Consent_Site_Health|null
 		 */
@@ -43,7 +41,6 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @since 1.0.0
 		 */
 		public function __construct() {
 			if ( isset( self::$instance ) ) {
@@ -59,7 +56,6 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 		/**
 		 * Attach the Consent API Site Health tests.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @param array $tests The Site Health tests.
 		 * @return array
@@ -76,7 +72,6 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 		/**
 		 * Run the Consent API Site Health tests.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return array $result The Consent API Site Health tests results.
 		 */

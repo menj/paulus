@@ -9,13 +9,11 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 	/**
 	 * Paulus_Consent_Config definition.
 	 *
-	 * @since 1.0.0
 	 */
 	class Paulus_Consent_Config {
 		/**
 		 * Instance.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @var Paulus_Consent_Config|null
 		 */
@@ -24,7 +22,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return void
 		 */
@@ -40,7 +37,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Get default filterable list of active consent types.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return array
 		 */
@@ -57,7 +53,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Get default filterable cookie prefix.
 		 *
-		 * @since 1.0.2
 		 *
 		 * @return string
 		 */
@@ -71,7 +66,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Get default filterable list of active consent categories.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return array
 		 */
@@ -91,7 +85,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Get default filterable list of possible consent values.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return array $consent_values
 		 */
@@ -108,7 +101,6 @@ if ( ! class_exists( 'Paulus_Consent_Config' ) ) {
 		/**
 		 * Get default filterable cookie expiration.
 		 *
-		 * @since 1.0.0
 		 *
 		 * @return int Cookie expiration in days.
 		 */

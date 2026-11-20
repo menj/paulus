@@ -4,8 +4,6 @@
  *
  * Handles optional JSON-LD structured data output.
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

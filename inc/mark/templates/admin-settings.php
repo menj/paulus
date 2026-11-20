@@ -8,8 +8,6 @@
  *   $tags       — all tags (term objects)
  *   $plugin     — Paulus_Mark instance
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

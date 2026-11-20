@@ -1,12 +1,10 @@
 <?php
 /**
- * Main End mark Plugin Class
+ * The end mark's main class
  *
  * Bootstraps the plugin, declares constants and defaults,
  * and wires up all sub-components via WordPress hooks.
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

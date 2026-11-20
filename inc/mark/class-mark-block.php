@@ -5,8 +5,6 @@
  * Registers the [endmark] shortcode and the end mark/end mark
  * Gutenberg block for manual placement.
  *
- * @package End mark
- * @since   4.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

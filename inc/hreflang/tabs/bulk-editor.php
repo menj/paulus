@@ -2,8 +2,6 @@
 /**
  * Hreflang – Bulk Editor Tab
  *
- * @package Hreflang
- * @since   3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

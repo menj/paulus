@@ -32,12 +32,12 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_justify_ready',
 		),
 		'citepress/citepress.php' => array(
-			'name'  => 'Citation',
-			'where' => __( 'the Citation menu', 'paulus' ),
+			'name'  => 'CitePress',
+			'where' => __( 'the Citations menu', 'paulus' ),
 			'ready' => 'paulus_cite_ready',
 		),
 		'endmark/endmark.php' => array(
-			'name'  => 'End mark',
+			'name'  => 'Endmark',
 			'where' => __( 'Settings, End mark', 'paulus' ),
 			'ready' => 'paulus_mark_ready',
 		),
@@ -67,22 +67,22 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_search_permalinks_ready',
 		),
 		'wikipedia-preview/wikipediapreview.php' => array(
-			'name'  => 'Wikipedia card',
+			'name'  => 'Wikipedia Preview',
 			'where' => __( 'the post editor (the link button)', 'paulus' ),
 			'ready' => 'paulus_wiki_card_ready',
 		),
 		'wp-consent-api/wp-consent-api.php' => array(
-			'name'  => 'Consent API',
+			'name'  => 'WP Consent API',
 			'where' => __( 'nowhere to set: the API has no settings', 'paulus' ),
 			'ready' => 'paulus_consent_ready',
 		),
 		'contact-form-7/wp-contact-form-7.php' => array(
-			'name'  => 'Forms',
+			'name'  => 'Contact Form 7',
 			'where' => __( 'the Contact menu', 'paulus' ),
 			'ready' => 'paulus_forms_ready',
 		),
 		'hrefmaster/hrefmaster.php' => array(
-			'name'  => 'Hreflang',
+			'name'  => 'HrefMaster',
 			'where' => __( 'the Hreflang menu', 'paulus' ),
 			'ready' => 'paulus_hreflang_ready',
 		),

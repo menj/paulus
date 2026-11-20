@@ -6,8 +6,6 @@
  * Works in both the Classic Editor and the Block Editor (rendered
  * below the content area as a standard meta box panel).
  *
- * @package End mark
- * @since   4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
