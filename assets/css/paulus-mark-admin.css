@@ -1,9 +1,9 @@
 /**
- * Endmark Admin Styles
+ * End mark Admin Styles
  *
  * The DM Sans face is used only if the browser has it; the stack falls back to the system font.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -13,65 +13,65 @@
 
 :root {
     /* Accent ramp (indigo → violet) */
-    --endmark-accent:           #6366f1;
-    --endmark-accent-hover:     #4f46e5;
-    --endmark-accent-light:     #eef2ff;
-    --endmark-accent-lighter:   #e0e7ff;
-    --endmark-accent-shadow:    rgba(99, 102, 241, 0.3);
-    --endmark-accent-ring:      rgba(99, 102, 241, 0.1);
-    --endmark-gradient-start:   #6366f1;
-    --endmark-gradient-end:     #8b5cf6;
+    --paulus-mark-accent:           #6366f1;
+    --paulus-mark-accent-hover:     #4f46e5;
+    --paulus-mark-accent-light:     #eef2ff;
+    --paulus-mark-accent-lighter:   #e0e7ff;
+    --paulus-mark-accent-shadow:    rgba(99, 102, 241, 0.3);
+    --paulus-mark-accent-ring:      rgba(99, 102, 241, 0.1);
+    --paulus-mark-gradient-start:   #6366f1;
+    --paulus-mark-gradient-end:     #8b5cf6;
 
     /* Header (dark background) */
-    --endmark-header-bg-start:  #0f172a;
-    --endmark-header-bg-end:    #1e293b;
-    --endmark-header-text:      #fff;
-    --endmark-header-muted:     #94a3b8;
-    --endmark-header-orb-1:     rgba(99, 102, 241, 0.15);
-    --endmark-header-orb-2:     rgba(236, 72, 153, 0.1);
+    --paulus-mark-header-bg-start:  #0f172a;
+    --paulus-mark-header-bg-end:    #1e293b;
+    --paulus-mark-header-text:      #fff;
+    --paulus-mark-header-muted:     #94a3b8;
+    --paulus-mark-header-orb-1:     rgba(99, 102, 241, 0.15);
+    --paulus-mark-header-orb-2:     rgba(236, 72, 153, 0.1);
 
     /* Surface / panel */
-    --endmark-surface:          #fff;
-    --endmark-surface-alt:      #f8fafc;
-    --endmark-surface-muted:    #f1f5f9;
+    --paulus-mark-surface:          #fff;
+    --paulus-mark-surface-alt:      #f8fafc;
+    --paulus-mark-surface-muted:    #f1f5f9;
 
     /* Borders */
-    --endmark-border:           #e2e8f0;
-    --endmark-border-hover:     #cbd5e1;
-    --endmark-border-accent:    #c7d2fe;
+    --paulus-mark-border:           #e2e8f0;
+    --paulus-mark-border-hover:     #cbd5e1;
+    --paulus-mark-border-accent:    #c7d2fe;
 
     /* Text */
-    --endmark-text:             #0f172a;
-    --endmark-text-secondary:   #334155;
-    --endmark-text-tertiary:    #475569;
-    --endmark-text-muted:       #64748b;
-    --endmark-text-faint:       #94a3b8;
+    --paulus-mark-text:             #0f172a;
+    --paulus-mark-text-secondary:   #334155;
+    --paulus-mark-text-tertiary:    #475569;
+    --paulus-mark-text-muted:       #64748b;
+    --paulus-mark-text-faint:       #94a3b8;
 
     /* Shadows */
-    --endmark-shadow-sm:        0 2px 8px rgba(0, 0, 0, 0.06);
-    --endmark-shadow-md:        0 4px 24px rgba(0, 0, 0, 0.06);
-    --endmark-shadow-lg:        0 6px 16px rgba(15, 23, 42, 0.3);
+    --paulus-mark-shadow-sm:        0 2px 8px rgba(0, 0, 0, 0.06);
+    --paulus-mark-shadow-md:        0 4px 24px rgba(0, 0, 0, 0.06);
+    --paulus-mark-shadow-lg:        0 6px 16px rgba(15, 23, 42, 0.3);
 
     /* Info box */
-    --endmark-info-bg-start:    #eff6ff;
-    --endmark-info-bg-end:      #dbeafe;
-    --endmark-info-border:      #bfdbfe;
-    --endmark-info-text:        #1e40af;
-    --endmark-info-icon:        #3b82f6;
+    --paulus-mark-info-bg-start:    #eff6ff;
+    --paulus-mark-info-bg-end:      #dbeafe;
+    --paulus-mark-info-border:      #bfdbfe;
+    --paulus-mark-info-text:        #1e40af;
+    --paulus-mark-info-icon:        #3b82f6;
 
     /* Radii */
-    --endmark-radius-sm:        8px;
-    --endmark-radius-md:        12px;
-    --endmark-radius-lg:        16px;
-    --endmark-radius-xl:        20px;
-    --endmark-radius-pill:      30px;
+    --paulus-mark-radius-sm:        8px;
+    --paulus-mark-radius-md:        12px;
+    --paulus-mark-radius-lg:        16px;
+    --paulus-mark-radius-xl:        20px;
+    --paulus-mark-radius-pill:      30px;
 }
 
 /* ==========================================================================
    Main Container
    ========================================================================== */
 
-.endmark-wrap-page {
+.paulus-mark-wrap-page {
     max-width: 920px;
     margin: 24px auto 24px 0;
     font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -81,38 +81,38 @@
    Header
    ========================================================================== */
 
-.endmark-header {
-    background: linear-gradient(135deg, var(--endmark-header-bg-start) 0%, var(--endmark-header-bg-end) 100%);
-    color: var(--endmark-header-text);
+.paulus-mark-header {
+    background: linear-gradient(135deg, var(--paulus-mark-header-bg-start) 0%, var(--paulus-mark-header-bg-end) 100%);
+    color: var(--paulus-mark-header-text);
     padding: 40px 48px;
-    border-radius: var(--endmark-radius-xl) var(--endmark-radius-xl) 0 0;
+    border-radius: var(--paulus-mark-radius-xl) var(--paulus-mark-radius-xl) 0 0;
     position: relative;
     overflow: hidden;
 }
 
-.endmark-header::before {
+.paulus-mark-header::before {
     content: "";
     position: absolute;
     top: -50%;
     right: -20%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, var(--endmark-header-orb-1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--paulus-mark-header-orb-1) 0%, transparent 70%);
     pointer-events: none;
 }
 
-.endmark-header::after {
+.paulus-mark-header::after {
     content: "";
     position: absolute;
     bottom: -30%;
     left: -10%;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, var(--endmark-header-orb-2) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--paulus-mark-header-orb-2) 0%, transparent 70%);
     pointer-events: none;
 }
 
-.endmark-header-content {
+.paulus-mark-header-content {
     position: relative;
     z-index: 1;
     display: flex;
@@ -122,47 +122,47 @@
     justify-content: space-between;
 }
 
-.endmark-header-left h1 {
+.paulus-mark-header-left h1 {
     margin: 0 0 8px;
     font-size: 28px;
     font-weight: 700;
-    color: var(--endmark-header-text);
+    color: var(--paulus-mark-header-text);
     letter-spacing: -0.5px;
 }
 
-.endmark-header-left p {
+.paulus-mark-header-left p {
     margin: 0;
-    color: var(--endmark-header-muted);
+    color: var(--paulus-mark-header-muted);
     font-size: 15px;
 }
 
-.endmark-header-right {
+.paulus-mark-header-right {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.endmark-version {
+.paulus-mark-version {
     background: rgba(255, 255, 255, 0.1);
     padding: 6px 14px;
-    border-radius: var(--endmark-radius-pill);
+    border-radius: var(--paulus-mark-radius-pill);
     font-size: 12px;
     font-weight: 600;
-    color: var(--endmark-header-muted);
+    color: var(--paulus-mark-header-muted);
     letter-spacing: 0.5px;
 }
 
-.endmark-master-toggle {
+.paulus-mark-master-toggle {
     display: flex;
     align-items: center;
     gap: 12px;
     background: rgba(255, 255, 255, 0.05);
     padding: 8px 16px 8px 20px;
-    border-radius: var(--endmark-radius-pill);
+    border-radius: var(--paulus-mark-radius-pill);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.endmark-master-toggle span {
+.paulus-mark-master-toggle span {
     font-size: 13px;
     font-weight: 500;
     color: #e2e8f0;
@@ -172,30 +172,30 @@
    Main Body
    ========================================================================== */
 
-.endmark-body {
-    background: var(--endmark-surface);
-    border: 1px solid var(--endmark-border);
+.paulus-mark-body {
+    background: var(--paulus-mark-surface);
+    border: 1px solid var(--paulus-mark-border);
     border-top: none;
-    box-shadow: var(--endmark-shadow-md);
+    box-shadow: var(--paulus-mark-shadow-md);
 }
 
 /* ==========================================================================
    Tab Navigation
    ========================================================================== */
 
-.endmark-tabs {
+.paulus-mark-tabs {
     display: flex;
-    background: var(--endmark-surface-alt);
-    border-bottom: 1px solid var(--endmark-border);
+    background: var(--paulus-mark-surface-alt);
+    border-bottom: 1px solid var(--paulus-mark-border);
     padding: 0 16px;
     gap: 4px;
 }
 
-.endmark-tab {
+.paulus-mark-tab {
     padding: 16px 24px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--endmark-text-muted);
+    color: var(--paulus-mark-text-muted);
     cursor: pointer;
     border: none;
     background: transparent;
@@ -207,16 +207,16 @@
     font-family: inherit;
 }
 
-.endmark-tab:hover {
-    color: var(--endmark-text-secondary);
+.paulus-mark-tab:hover {
+    color: var(--paulus-mark-text-secondary);
 }
 
-.endmark-tab.active {
-    color: var(--endmark-text);
+.paulus-mark-tab.active {
+    color: var(--paulus-mark-text);
     font-weight: 600;
 }
 
-.endmark-tab::after {
+.paulus-mark-tab::after {
     content: "";
     position: absolute;
     bottom: -1px;
@@ -224,16 +224,16 @@
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--endmark-gradient-start), var(--endmark-gradient-end));
+    background: linear-gradient(90deg, var(--paulus-mark-gradient-start), var(--paulus-mark-gradient-end));
     border-radius: 2px 2px 0 0;
     transition: width 0.2s ease;
 }
 
-.endmark-tab.active::after {
+.paulus-mark-tab.active::after {
     width: calc(100% - 32px);
 }
 
-.endmark-tab .dashicons {
+.paulus-mark-tab .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
@@ -243,17 +243,17 @@
    Tab Content
    ========================================================================== */
 
-.endmark-tab-content {
+.paulus-mark-tab-content {
     display: none;
     padding: 32px 40px;
-    animation: endmark-fade-in 0.3s ease;
+    animation: paulus-mark-fade-in 0.3s ease;
 }
 
-.endmark-tab-content.active {
+.paulus-mark-tab-content.active {
     display: block;
 }
 
-@keyframes endmark-fade-in {
+@keyframes paulus-mark-fade-in {
     from {
         opacity: 0;
         transform: translateY(8px);
@@ -268,25 +268,25 @@
    Sections
    ========================================================================== */
 
-.endmark-section {
+.paulus-mark-section {
     margin-bottom: 32px;
 }
 
-.endmark-section:last-child {
+.paulus-mark-section:last-child {
     margin-bottom: 0;
 }
 
-.endmark-section-title {
+.paulus-mark-section-title {
     font-size: 11px;
     font-weight: 700;
-    color: var(--endmark-text-faint);
+    color: var(--paulus-mark-text-faint);
     margin: 0 0 16px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.endmark-section-desc {
-    color: var(--endmark-text-muted);
+.paulus-mark-section-desc {
+    color: var(--paulus-mark-text-muted);
     font-size: 14px;
     margin: -8px 0 20px;
     line-height: 1.5;
@@ -296,149 +296,149 @@
    Type Selection Cards
    ========================================================================== */
 
-.endmark-type-grid {
+.paulus-mark-type-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     max-width: 440px;
 }
 
-.endmark-type-option {
+.paulus-mark-type-option {
     position: relative;
     padding: 28px 24px;
-    border: 2px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-lg);
+    border: 2px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-lg);
     cursor: pointer;
     transition: all 0.25s ease;
     text-align: center;
-    background: var(--endmark-surface);
+    background: var(--paulus-mark-surface);
 }
 
-.endmark-type-option:hover {
-    border-color: var(--endmark-border-accent);
+.paulus-mark-type-option:hover {
+    border-color: var(--paulus-mark-border-accent);
     background: #fafaff;
 }
 
-.endmark-type-option.selected {
-    border-color: var(--endmark-accent);
-    background: linear-gradient(135deg, var(--endmark-accent-light) 0%, var(--endmark-accent-lighter) 100%);
+.paulus-mark-type-option.selected {
+    border-color: var(--paulus-mark-accent);
+    background: linear-gradient(135deg, var(--paulus-mark-accent-light) 0%, var(--paulus-mark-accent-lighter) 100%);
 }
 
-.endmark-type-option input {
+.paulus-mark-type-option input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
 }
 
-.endmark-type-option .type-icon {
+.paulus-mark-type-option .type-icon {
     width: 56px;
     height: 56px;
     margin: 0 auto 16px;
     border-radius: 14px;
-    background: var(--endmark-surface-muted);
+    background: var(--paulus-mark-surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.25s ease;
 }
 
-.endmark-type-option.selected .type-icon {
-    background: var(--endmark-accent);
-    box-shadow: 0 4px 12px var(--endmark-accent-shadow);
+.paulus-mark-type-option.selected .type-icon {
+    background: var(--paulus-mark-accent);
+    box-shadow: 0 4px 12px var(--paulus-mark-accent-shadow);
 }
 
-.endmark-type-option .type-icon .dashicons {
+.paulus-mark-type-option .type-icon .dashicons {
     font-size: 26px;
     width: 26px;
     height: 26px;
-    color: var(--endmark-text-muted);
+    color: var(--paulus-mark-text-muted);
     transition: all 0.25s ease;
 }
 
-.endmark-type-option.selected .type-icon .dashicons {
-    color: var(--endmark-header-text);
+.paulus-mark-type-option.selected .type-icon .dashicons {
+    color: var(--paulus-mark-header-text);
 }
 
-.endmark-type-option .type-label {
+.paulus-mark-type-option .type-label {
     font-weight: 600;
-    color: var(--endmark-text-secondary);
+    color: var(--paulus-mark-text-secondary);
     font-size: 15px;
     margin-bottom: 4px;
 }
 
-.endmark-type-option .type-desc {
+.paulus-mark-type-option .type-desc {
     font-size: 12px;
-    color: var(--endmark-text-faint);
+    color: var(--paulus-mark-text-faint);
 }
 
 /* ==========================================================================
    Options Panel
    ========================================================================== */
 
-.endmark-options-panel {
+.paulus-mark-options-panel {
     display: none;
     margin-top: 24px;
     padding: 28px;
-    background: linear-gradient(135deg, var(--endmark-surface-alt) 0%, var(--endmark-surface-muted) 100%);
-    border-radius: var(--endmark-radius-lg);
-    border: 1px solid var(--endmark-border);
+    background: linear-gradient(135deg, var(--paulus-mark-surface-alt) 0%, var(--paulus-mark-surface-muted) 100%);
+    border-radius: var(--paulus-mark-radius-lg);
+    border: 1px solid var(--paulus-mark-border);
 }
 
-.endmark-options-panel.active {
+.paulus-mark-options-panel.active {
     display: block;
-    animation: endmark-fade-in 0.3s ease;
+    animation: paulus-mark-fade-in 0.3s ease;
 }
 
 /* ==========================================================================
    Form Fields
    ========================================================================== */
 
-.endmark-field {
+.paulus-mark-field {
     margin-bottom: 20px;
 }
 
-.endmark-field:last-child {
+.paulus-mark-field:last-child {
     margin-bottom: 0;
 }
 
-.endmark-field > label {
+.paulus-mark-field > label {
     display: block;
     font-weight: 600;
-    color: var(--endmark-text-secondary);
+    color: var(--paulus-mark-text-secondary);
     margin-bottom: 8px;
     font-size: 13px;
 }
 
-.endmark-field .hint {
-    color: var(--endmark-text-muted);
+.paulus-mark-field .hint {
+    color: var(--paulus-mark-text-muted);
     font-size: 12px;
     margin-top: 8px;
     line-height: 1.5;
 }
 
-.endmark-field input[type="text"],
-.endmark-field input[type="number"],
-.endmark-field select,
-.endmark-field textarea {
+.paulus-mark-field input[type="text"],
+.paulus-mark-field input[type="number"],
+.paulus-mark-field select,
+.paulus-mark-field textarea {
     padding: 12px 16px;
-    border: 1px solid var(--endmark-border);
+    border: 1px solid var(--paulus-mark-border);
     border-radius: 10px;
     font-size: 14px;
     font-family: inherit;
     transition: all 0.2s ease;
-    background: var(--endmark-surface);
+    background: var(--paulus-mark-surface);
 }
 
-.endmark-field input[type="text"]:focus,
-.endmark-field input[type="number"]:focus,
-.endmark-field select:focus,
-.endmark-field textarea:focus {
-    border-color: var(--endmark-accent);
-    box-shadow: 0 0 0 4px var(--endmark-accent-ring);
+.paulus-mark-field input[type="text"]:focus,
+.paulus-mark-field input[type="number"]:focus,
+.paulus-mark-field select:focus,
+.paulus-mark-field textarea:focus {
+    border-color: var(--paulus-mark-accent);
+    box-shadow: 0 0 0 4px var(--paulus-mark-accent-ring);
     outline: none;
 }
 
-.endmark-field select {
+.paulus-mark-field select {
     min-width: 220px;
     cursor: pointer;
 }
@@ -447,32 +447,32 @@
    Symbol Input & Buttons
    ========================================================================== */
 
-#endmark_symbol {
+#paulus_mark_symbol {
     width: 80px;
     font-size: 28px;
     text-align: center;
     padding: 12px;
-    border-radius: var(--endmark-radius-md);
-    border: 2px solid var(--endmark-border);
+    border-radius: var(--paulus-mark-radius-md);
+    border: 2px solid var(--paulus-mark-border);
 }
 
-#endmark_symbol:focus {
-    border-color: var(--endmark-accent);
+#paulus_mark_symbol:focus {
+    border-color: var(--paulus-mark-accent);
 }
 
-.endmark-symbols {
+.paulus-mark-symbols {
     display: flex;
     gap: 8px;
     margin-top: 16px;
     flex-wrap: wrap;
 }
 
-.endmark-sym-btn {
+.paulus-mark-sym-btn {
     width: 48px;
     height: 48px;
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-md);
-    background: var(--endmark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-md);
+    background: var(--paulus-mark-surface);
     font-size: 22px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -481,9 +481,9 @@
     justify-content: center;
 }
 
-.endmark-sym-btn:hover {
-    border-color: var(--endmark-accent);
-    background: var(--endmark-accent-light);
+.paulus-mark-sym-btn:hover {
+    border-color: var(--paulus-mark-accent);
+    background: var(--paulus-mark-accent-light);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
@@ -492,55 +492,55 @@
    Image Upload
    ========================================================================== */
 
-.endmark-image-upload {
+.paulus-mark-image-upload {
     display: flex;
     align-items: center;
     gap: 24px;
 }
 
-.endmark-image-box {
+.paulus-mark-image-box {
     width: 120px;
     height: 120px;
-    border: 2px dashed var(--endmark-border-hover);
-    border-radius: var(--endmark-radius-lg);
+    border: 2px dashed var(--paulus-mark-border-hover);
+    border-radius: var(--paulus-mark-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--endmark-surface);
+    background: var(--paulus-mark-surface);
     overflow: hidden;
     flex-shrink: 0;
     transition: all 0.2s ease;
 }
 
-.endmark-image-box:hover {
+.paulus-mark-image-box:hover {
     border-color: #a5b4fc;
 }
 
-.endmark-image-box.has-image {
-    border: 2px solid var(--endmark-accent);
+.paulus-mark-image-box.has-image {
+    border: 2px solid var(--paulus-mark-accent);
     background: #fafaff;
 }
 
-.endmark-image-box img {
+.paulus-mark-image-box img {
     max-width: 80px;
     max-height: 80px;
     object-fit: contain;
 }
 
-.endmark-image-box .dashicons {
+.paulus-mark-image-box .dashicons {
     font-size: 40px;
     width: 40px;
     height: 40px;
-    color: var(--endmark-border-hover);
+    color: var(--paulus-mark-border-hover);
 }
 
-.endmark-image-actions {
+.paulus-mark-image-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.endmark-image-actions .button {
+.paulus-mark-image-actions .button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -552,84 +552,84 @@
     transition: all 0.2s ease;
 }
 
-.endmark-image-actions .button-primary {
-    background: linear-gradient(135deg, var(--endmark-gradient-start) 0%, #7c3aed 100%);
+.paulus-mark-image-actions .button-primary {
+    background: linear-gradient(135deg, var(--paulus-mark-gradient-start) 0%, #7c3aed 100%);
     border: none;
-    color: var(--endmark-header-text);
-    box-shadow: 0 2px 8px var(--endmark-accent-shadow);
+    color: var(--paulus-mark-header-text);
+    box-shadow: 0 2px 8px var(--paulus-mark-accent-shadow);
 }
 
-.endmark-image-actions .button-primary:hover {
-    background: linear-gradient(135deg, var(--endmark-accent-hover) 0%, #6d28d9 100%);
+.paulus-mark-image-actions .button-primary:hover {
+    background: linear-gradient(135deg, var(--paulus-mark-accent-hover) 0%, #6d28d9 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
-.endmark-image-actions .button-secondary {
-    background: var(--endmark-surface);
-    border: 1px solid var(--endmark-border);
-    color: var(--endmark-text-muted);
+.paulus-mark-image-actions .button-secondary {
+    background: var(--paulus-mark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    color: var(--paulus-mark-text-muted);
 }
 
-.endmark-image-actions .button-secondary:hover {
-    background: var(--endmark-surface-alt);
-    border-color: var(--endmark-border-hover);
+.paulus-mark-image-actions .button-secondary:hover {
+    background: var(--paulus-mark-surface-alt);
+    border-color: var(--paulus-mark-border-hover);
 }
 
 /* ==========================================================================
    Size Control (Range Slider)
    ========================================================================== */
 
-.endmark-size-control {
+.paulus-mark-size-control {
     display: flex;
     align-items: center;
     gap: 16px;
     max-width: 320px;
 }
 
-.endmark-size-control input[type="range"] {
+.paulus-mark-size-control input[type="range"] {
     flex: 1;
     height: 8px;
     -webkit-appearance: none;
-    background: linear-gradient(90deg, var(--endmark-border), var(--endmark-border));
+    background: linear-gradient(90deg, var(--paulus-mark-border), var(--paulus-mark-border));
     border-radius: 4px;
     outline: none;
 }
 
-.endmark-size-control input[type="range"]::-webkit-slider-thumb {
+.paulus-mark-size-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 22px;
     height: 22px;
-    background: linear-gradient(135deg, var(--endmark-gradient-start) 0%, var(--endmark-gradient-end) 100%);
+    background: linear-gradient(135deg, var(--paulus-mark-gradient-start) 0%, var(--paulus-mark-gradient-end) 100%);
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid var(--endmark-surface);
+    border: 3px solid var(--paulus-mark-surface);
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
     transition: all 0.2s ease;
 }
 
-.endmark-size-control input[type="range"]::-webkit-slider-thumb:hover {
+.paulus-mark-size-control input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.1);
 }
 
-.endmark-size-control input[type="range"]::-moz-range-thumb {
+.paulus-mark-size-control input[type="range"]::-moz-range-thumb {
     width: 22px;
     height: 22px;
-    background: linear-gradient(135deg, var(--endmark-gradient-start) 0%, var(--endmark-gradient-end) 100%);
+    background: linear-gradient(135deg, var(--paulus-mark-gradient-start) 0%, var(--paulus-mark-gradient-end) 100%);
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid var(--endmark-surface);
+    border: 3px solid var(--paulus-mark-surface);
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 
-#endmark-size-value {
+#paulus-mark-size-value {
     min-width: 50px;
     font-weight: 700;
-    color: var(--endmark-text);
+    color: var(--paulus-mark-text);
     font-size: 14px;
-    background: var(--endmark-surface-muted);
+    background: var(--paulus-mark-surface-muted);
     padding: 6px 12px;
-    border-radius: var(--endmark-radius-sm);
+    border-radius: var(--paulus-mark-radius-sm);
     text-align: center;
 }
 
@@ -637,18 +637,18 @@
    Toggle Switch
    ========================================================================== */
 
-.endmark-toggle {
+.paulus-mark-toggle {
     display: flex;
     align-items: center;
     gap: 14px;
 }
 
-.endmark-toggle input[type="checkbox"] {
+.paulus-mark-toggle input[type="checkbox"] {
     width: 52px;
     height: 28px;
     appearance: none;
     -webkit-appearance: none;
-    background: var(--endmark-border-hover);
+    background: var(--paulus-mark-border-hover);
     border-radius: 14px;
     position: relative;
     cursor: pointer;
@@ -656,16 +656,16 @@
     flex-shrink: 0;
 }
 
-.endmark-toggle input[type="checkbox"]:checked {
-    background: linear-gradient(135deg, var(--endmark-gradient-start) 0%, var(--endmark-gradient-end) 100%);
+.paulus-mark-toggle input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, var(--paulus-mark-gradient-start) 0%, var(--paulus-mark-gradient-end) 100%);
 }
 
-.endmark-toggle input[type="checkbox"]::before {
+.paulus-mark-toggle input[type="checkbox"]::before {
     content: "";
     position: absolute;
     width: 22px;
     height: 22px;
-    background: var(--endmark-surface);
+    background: var(--paulus-mark-surface);
     border-radius: 50%;
     top: 3px;
     left: 3px;
@@ -673,13 +673,13 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.endmark-toggle input[type="checkbox"]:checked::before {
+.paulus-mark-toggle input[type="checkbox"]:checked::before {
     left: 27px;
 }
 
-.endmark-toggle-label {
+.paulus-mark-toggle-label {
     font-weight: 500;
-    color: var(--endmark-text-secondary);
+    color: var(--paulus-mark-text-secondary);
     font-size: 14px;
 }
 
@@ -687,14 +687,14 @@
    Grid Layout
    ========================================================================== */
 
-.endmark-grid {
+.paulus-mark-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
 @media (max-width: 768px) {
-    .endmark-grid {
+    .paulus-mark-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -703,41 +703,41 @@
    Toggle Group / Toggle Items
    ========================================================================== */
 
-.endmark-toggle-group {
+.paulus-mark-toggle-group {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.endmark-toggle-item {
+.paulus-mark-toggle-item {
     display: flex;
     align-items: flex-start;
     gap: 14px;
     padding: 16px 20px;
-    background: var(--endmark-surface);
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-md);
+    background: var(--paulus-mark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-md);
     transition: all 0.2s ease;
 }
 
-.endmark-toggle-item:hover {
-    border-color: var(--endmark-border-hover);
+.paulus-mark-toggle-item:hover {
+    border-color: var(--paulus-mark-border-hover);
 }
 
-.endmark-toggle-item .toggle-content {
+.paulus-mark-toggle-item .toggle-content {
     flex: 1;
 }
 
-.endmark-toggle-item .toggle-label {
+.paulus-mark-toggle-item .toggle-label {
     font-weight: 600;
-    color: var(--endmark-text);
+    color: var(--paulus-mark-text);
     font-size: 14px;
     margin-bottom: 2px;
 }
 
-.endmark-toggle-item .toggle-desc {
+.paulus-mark-toggle-item .toggle-desc {
     font-size: 12px;
-    color: var(--endmark-text-muted);
+    color: var(--paulus-mark-text-muted);
     line-height: 1.5;
 }
 
@@ -745,37 +745,37 @@
    Inline Fields
    ========================================================================== */
 
-.endmark-inline-fields {
+.paulus-mark-inline-fields {
     display: flex;
     gap: 24px;
     flex-wrap: wrap;
 }
 
-.endmark-inline-field {
+.paulus-mark-inline-field {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.endmark-inline-field label {
+.paulus-mark-inline-field label {
     font-weight: 500;
-    color: var(--endmark-text-tertiary);
+    color: var(--paulus-mark-text-tertiary);
     font-size: 13px;
     white-space: nowrap;
 }
 
-.endmark-inline-field input[type="text"] {
+.paulus-mark-inline-field input[type="text"] {
     width: 100px;
     padding: 10px 14px;
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-sm);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-sm);
     font-size: 14px;
     font-family: inherit;
 }
 
-.endmark-inline-field input[type="text"]:focus {
-    border-color: var(--endmark-accent);
-    box-shadow: 0 0 0 4px var(--endmark-accent-ring);
+.paulus-mark-inline-field input[type="text"]:focus {
+    border-color: var(--paulus-mark-accent);
+    box-shadow: 0 0 0 4px var(--paulus-mark-accent-ring);
     outline: none;
 }
 
@@ -783,28 +783,28 @@
    Multi-select
    ========================================================================== */
 
-.endmark-multiselect {
+.paulus-mark-multiselect {
     min-height: 140px;
     padding: 4px;
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-md);
-    background: var(--endmark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-md);
+    background: var(--paulus-mark-surface);
 }
 
-.endmark-multiselect:focus {
-    border-color: var(--endmark-accent);
-    box-shadow: 0 0 0 4px var(--endmark-accent-ring);
+.paulus-mark-multiselect:focus {
+    border-color: var(--paulus-mark-accent);
+    box-shadow: 0 0 0 4px var(--paulus-mark-accent-ring);
     outline: none;
 }
 
-.endmark-multiselect option {
+.paulus-mark-multiselect option {
     padding: 8px 12px;
     border-radius: 6px;
     margin: 2px;
 }
 
-.endmark-multiselect option:checked {
-    background: linear-gradient(135deg, var(--endmark-accent-light) 0%, var(--endmark-accent-lighter) 100%);
+.paulus-mark-multiselect option:checked {
+    background: linear-gradient(135deg, var(--paulus-mark-accent-light) 0%, var(--paulus-mark-accent-lighter) 100%);
     color: #4338ca;
 }
 
@@ -812,17 +812,17 @@
    Preview
    ========================================================================== */
 
-.endmark-preview-container {
-    background: linear-gradient(135deg, var(--endmark-surface-alt) 0%, var(--endmark-surface-muted) 100%);
-    border-radius: var(--endmark-radius-lg);
+.paulus-mark-preview-container {
+    background: linear-gradient(135deg, var(--paulus-mark-surface-alt) 0%, var(--paulus-mark-surface-muted) 100%);
+    border-radius: var(--paulus-mark-radius-lg);
     padding: 32px;
     margin-top: 24px;
 }
 
-.endmark-preview-label {
+.paulus-mark-preview-label {
     font-size: 11px;
     font-weight: 700;
-    color: var(--endmark-text-faint);
+    color: var(--paulus-mark-text-faint);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 16px;
@@ -831,20 +831,20 @@
     gap: 8px;
 }
 
-.endmark-preview-label .dashicons {
+.paulus-mark-preview-label .dashicons {
     font-size: 14px;
     width: 14px;
     height: 14px;
 }
 
-.endmark-preview-box {
-    background: var(--endmark-surface);
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-md);
+.paulus-mark-preview-box {
+    background: var(--paulus-mark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-md);
     padding: 28px 32px;
     font-size: 16px;
     line-height: 1.8;
-    color: var(--endmark-text-secondary);
+    color: var(--paulus-mark-text-secondary);
     font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -852,9 +852,9 @@
    Divider
    ========================================================================== */
 
-.endmark-divider {
+.paulus-mark-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--endmark-border), transparent);
+    background: linear-gradient(90deg, transparent, var(--paulus-mark-border), transparent);
     margin: 32px 0;
 }
 
@@ -862,30 +862,30 @@
    Info Box
    ========================================================================== */
 
-.endmark-info {
+.paulus-mark-info {
     display: flex;
     gap: 12px;
     padding: 16px 20px;
-    background: linear-gradient(135deg, var(--endmark-info-bg-start) 0%, var(--endmark-info-bg-end) 100%);
-    border: 1px solid var(--endmark-info-border);
-    border-radius: var(--endmark-radius-md);
+    background: linear-gradient(135deg, var(--paulus-mark-info-bg-start) 0%, var(--paulus-mark-info-bg-end) 100%);
+    border: 1px solid var(--paulus-mark-info-border);
+    border-radius: var(--paulus-mark-radius-md);
     margin-top: 16px;
 }
 
-.endmark-info .dashicons {
-    color: var(--endmark-info-icon);
+.paulus-mark-info .dashicons {
+    color: var(--paulus-mark-info-icon);
     flex-shrink: 0;
     margin-top: 2px;
 }
 
-.endmark-info p {
+.paulus-mark-info p {
     margin: 0;
-    color: var(--endmark-info-text);
+    color: var(--paulus-mark-info-text);
     font-size: 13px;
     line-height: 1.5;
 }
 
-.endmark-info code {
+.paulus-mark-info code {
     background: rgba(255, 255, 255, 0.5);
     padding: 2px 6px;
     border-radius: 4px;
@@ -896,53 +896,53 @@
    Footer / Submit
    ========================================================================== */
 
-.endmark-footer {
+.paulus-mark-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 24px 40px;
-    background: var(--endmark-surface-alt);
-    border-top: 1px solid var(--endmark-border);
-    border-radius: 0 0 var(--endmark-radius-xl) var(--endmark-radius-xl);
+    background: var(--paulus-mark-surface-alt);
+    border-top: 1px solid var(--paulus-mark-border);
+    border-radius: 0 0 var(--paulus-mark-radius-xl) var(--paulus-mark-radius-xl);
 }
 
-.endmark-footer-hint {
-    color: var(--endmark-text-muted);
+.paulus-mark-footer-hint {
+    color: var(--paulus-mark-text-muted);
     font-size: 13px;
 }
 
-.endmark-footer .button-primary {
-    background: linear-gradient(135deg, var(--endmark-header-bg-start) 0%, var(--endmark-header-bg-end) 100%);
+.paulus-mark-footer .button-primary {
+    background: linear-gradient(135deg, var(--paulus-mark-header-bg-start) 0%, var(--paulus-mark-header-bg-end) 100%);
     border: none;
     padding: 14px 36px;
     height: auto;
     font-size: 14px;
     font-weight: 600;
     font-family: inherit;
-    border-radius: var(--endmark-radius-md);
-    color: var(--endmark-header-text);
+    border-radius: var(--paulus-mark-radius-md);
+    color: var(--paulus-mark-header-text);
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
 }
 
-.endmark-footer .button-primary:hover {
-    background: linear-gradient(135deg, var(--endmark-header-bg-end) 0%, #334155 100%);
+.paulus-mark-footer .button-primary:hover {
+    background: linear-gradient(135deg, var(--paulus-mark-header-bg-end) 0%, #334155 100%);
     transform: translateY(-1px);
-    box-shadow: var(--endmark-shadow-lg);
+    box-shadow: var(--paulus-mark-shadow-lg);
 }
 
 /* ==========================================================================
    Schema Mode Field
    ========================================================================== */
 
-.endmark-schema-mode-field {
+.paulus-mark-schema-mode-field {
     margin-top: 16px;
     padding-left: 66px;
     transition: opacity 0.2s ease;
 }
 
-.endmark-schema-mode-field.disabled {
+.paulus-mark-schema-mode-field.disabled {
     opacity: 0.5;
     pointer-events: none;
 }
@@ -951,50 +951,50 @@
    Post Types Checkbox List
    ========================================================================== */
 
-.endmark-post-types {
+.paulus-mark-post-types {
     display: flex;
     flex-direction: column;
     gap: 8px;
     max-width: 440px;
 }
 
-.endmark-post-type-item {
+.paulus-mark-post-type-item {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 12px 16px;
-    background: var(--endmark-surface);
-    border: 1px solid var(--endmark-border);
-    border-radius: var(--endmark-radius-sm);
+    background: var(--paulus-mark-surface);
+    border: 1px solid var(--paulus-mark-border);
+    border-radius: var(--paulus-mark-radius-sm);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.endmark-post-type-item:hover {
-    border-color: var(--endmark-border-accent);
+.paulus-mark-post-type-item:hover {
+    border-color: var(--paulus-mark-border-accent);
     background: #fafaff;
 }
 
-.endmark-post-type-item input[type="checkbox"] {
+.paulus-mark-post-type-item input[type="checkbox"] {
     margin: 0;
     flex-shrink: 0;
 }
 
-.endmark-post-type-item input[type="checkbox"]:checked ~ .endmark-pt-label {
-    color: var(--endmark-text);
+.paulus-mark-post-type-item input[type="checkbox"]:checked ~ .paulus-mark-pt-label {
+    color: var(--paulus-mark-text);
     font-weight: 600;
 }
 
-.endmark-pt-label {
+.paulus-mark-pt-label {
     font-size: 14px;
-    color: var(--endmark-text-secondary);
+    color: var(--paulus-mark-text-secondary);
     font-weight: 500;
 }
 
-.endmark-pt-slug {
+.paulus-mark-pt-slug {
     font-size: 11px;
-    color: var(--endmark-text-faint);
-    background: var(--endmark-surface-muted);
+    color: var(--paulus-mark-text-faint);
+    background: var(--paulus-mark-surface-muted);
     padding: 2px 8px;
     border-radius: 4px;
     margin-left: auto;

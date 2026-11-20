@@ -1,7 +1,7 @@
 /**
- * Endmark Admin Scripts
+ * End mark Admin Scripts
  * 
- * @package Endmark
+ * @package End mark
  * @version 4.3
  */
 
@@ -26,16 +26,16 @@
      * Tab Navigation
      */
     function initTabs() {
-        $('.endmark-tab').on('click', function() {
+        $('.paulus-mark-tab').on('click', function() {
             var tabId = $(this).data('tab');
             
             // Update tab states
-            $('.endmark-tab').removeClass('active');
+            $('.paulus-mark-tab').removeClass('active');
             $(this).addClass('active');
             
             // Update content states
-            $('.endmark-tab-content').removeClass('active');
-            $('#endmark-tab-' + tabId).addClass('active');
+            $('.paulus-mark-tab-content').removeClass('active');
+            $('#paulus-mark-tab-' + tabId).addClass('active');
         });
     }
 
@@ -44,35 +44,35 @@
      */
     function initTypeSelection() {
         // Handle click on type option cards
-        $('.endmark-type-option').on('click', function() {
+        $('.paulus-mark-type-option').on('click', function() {
             var input = $(this).find('input');
             input.prop('checked', true);
             
             // Update selected states
-            $('.endmark-type-option').removeClass('selected');
+            $('.paulus-mark-type-option').removeClass('selected');
             $(this).addClass('selected');
             
             // Show corresponding options panel
-            $('.endmark-options-panel').removeClass('active');
-            $('#endmark-' + input.val() + '-options').addClass('active');
+            $('.paulus-mark-options-panel').removeClass('active');
+            $('#paulus-mark-' + input.val() + '-options').addClass('active');
             
             updatePreview();
         });
 
         // Initialize selected state on page load
-        $('.endmark-type-option input:checked').closest('.endmark-type-option').addClass('selected');
+        $('.paulus-mark-type-option input:checked').closest('.paulus-mark-type-option').addClass('selected');
         
         // Show the correct options panel
-        var initType = $('input[name="' + endmarkAdmin.optionName + '[type]"]:checked').val();
-        $('#endmark-' + initType + '-options').addClass('active');
+        var initType = $('input[name="' + paulusMarkAdmin.optionName + '[type]"]:checked').val();
+        $('#paulus-mark-' + initType + '-options').addClass('active');
     }
 
     /**
      * Symbol Quick-Select Buttons
      */
     function initSymbolButtons() {
-        $('.endmark-sym-btn').on('click', function() {
-            $('#endmark_symbol').val($(this).data('symbol'));
+        $('.paulus-mark-sym-btn').on('click', function() {
+            $('#paulus_mark_symbol').val($(this).data('symbol'));
             updatePreview();
         });
     }
@@ -84,7 +84,7 @@
         var frame;
 
         // Upload button
-        $('#endmark-upload-btn').on('click', function(e) {
+        $('#paulus-mark-upload-btn').on('click', function(e) {
             e.preventDefault();
             
             // If frame already exists, reopen it
@@ -95,9 +95,9 @@
             
             // Create new media frame
             frame = wp.media({
-                title: endmarkAdmin.i18n.selectImage,
+                title: paulusMarkAdmin.i18n.selectImage,
                 button: {
-                    text: endmarkAdmin.i18n.useImage
+                    text: paulusMarkAdmin.i18n.useImage
                 },
                 multiple: false,
                 library: {
@@ -109,24 +109,24 @@
             frame.on('select', function() {
                 var attachment = frame.state().get('selection').first().toJSON();
                 var sizes = attachment.sizes;
-                var endmarkUrl = attachment.url;
+                var paulusMarkUrl = attachment.url;
                 
                 // Prefer thumbnail size if available
                 if (sizes && sizes.thumbnail) {
-                    endmarkUrl = sizes.thumbnail.url;
+                    paulusMarkUrl = sizes.thumbnail.url;
                 }
                 
                 // Update form fields
-                $('#endmark_image_url').val(endmarkUrl);
-                $('#endmark_image_id').val(attachment.id);
+                $('#paulus_mark_image_url').val(paulusMarkUrl);
+                $('#paulus_mark_image_id').val(attachment.id);
                 
                 // Update preview box
-                $('.endmark-image-box')
+                $('.paulus-mark-image-box')
                     .addClass('has-image')
-                    .html('<img src="' + endmarkUrl + '">');
+                    .html('<img src="' + paulusMarkUrl + '">');
                 
                 // Show remove button
-                $('#endmark-remove-btn').show();
+                $('#paulus-mark-remove-btn').show();
                 
                 updatePreview();
             });
@@ -135,14 +135,14 @@
         });
 
         // Remove image button
-        $('#endmark-remove-btn').on('click', function(e) {
+        $('#paulus-mark-remove-btn').on('click', function(e) {
             e.preventDefault();
             
             // Clear form fields
-            $('#endmark_image_url, #endmark_image_id').val('');
+            $('#paulus_mark_image_url, #paulus_mark_image_id').val('');
             
             // Reset preview box
-            $('.endmark-image-box')
+            $('.paulus-mark-image-box')
                 .removeClass('has-image')
                 .html('<span class="dashicons dashicons-format-image"></span>');
             
@@ -157,8 +157,8 @@
      * Image Size Slider
      */
     function initSizeSlider() {
-        $('#endmark_image_size_px').on('input', function() {
-            $('#endmark-size-value').text($(this).val() + 'px');
+        $('#paulus_mark_image_size_px').on('input', function() {
+            $('#paulus-mark-size-value').text($(this).val() + 'px');
             updatePreview();
         });
     }
@@ -167,19 +167,19 @@
      * Placement Mode Selector Toggle
      */
     function initPlacementMode() {
-        $('#endmark_placement_mode').on('change', function() {
+        $('#paulus_mark_placement_mode').on('change', function() {
             var mode = $(this).val();
             
             if (mode === 'selector') {
-                $('.endmark-selector-field').slideDown(200);
+                $('.paulus-mark-selector-field').slideDown(200);
             } else {
-                $('.endmark-selector-field').slideUp(200);
+                $('.paulus-mark-selector-field').slideUp(200);
             }
         });
         
         // Initialize visibility on page load
-        if ($('#endmark_placement_mode').val() !== 'selector') {
-            $('.endmark-selector-field').hide();
+        if ($('#paulus_mark_placement_mode').val() !== 'selector') {
+            $('.paulus-mark-selector-field').hide();
         }
     }
 
@@ -187,17 +187,17 @@
      * Schema Enabled Toggle
      */
     function initSchemaToggle() {
-        $('#endmark_schema_enabled').on('change', function() {
+        $('#paulus_mark_schema_enabled').on('change', function() {
             if ($(this).is(':checked')) {
-                $('.endmark-schema-mode-field').removeClass('disabled');
+                $('.paulus-mark-schema-mode-field').removeClass('disabled');
             } else {
-                $('.endmark-schema-mode-field').addClass('disabled');
+                $('.paulus-mark-schema-mode-field').addClass('disabled');
             }
         });
         
         // Initialize state on page load
-        if (!$('#endmark_schema_enabled').is(':checked')) {
-            $('.endmark-schema-mode-field').addClass('disabled');
+        if (!$('#paulus_mark_schema_enabled').is(':checked')) {
+            $('.paulus-mark-schema-mode-field').addClass('disabled');
         }
     }
 
@@ -206,7 +206,7 @@
      */
     function initLivePreview() {
         // Update on symbol input
-        $('#endmark_symbol').on('input', updatePreview);
+        $('#paulus_mark_symbol').on('input', updatePreview);
         
         // Initial preview render
         updatePreview();
@@ -218,20 +218,20 @@
     function updatePreview() {
         // The screen has no symbol or image fields (the mark is fixed), so the
         // preview the server drew stays as it is.
-        if ( ! $('#endmark_symbol').length && ! $('#endmark_image_url').length ) {
+        if ( ! $('#paulus_mark_symbol').length && ! $('#paulus_mark_image_url').length ) {
             return;
         }
-        var type = $('input[name="' + endmarkAdmin.optionName + '[type]"]:checked').val();
+        var type = $('input[name="' + paulusMarkAdmin.optionName + '[type]"]:checked').val();
         var html = '';
         
         if (type === 'symbol') {
-            var symbol = $('#endmark_symbol').val() || '∎';
+            var symbol = $('#paulus_mark_symbol').val() || '∎';
             // Escape HTML entities for security
             var escaped = $('<div>').text(symbol).html();
             html = '<span style="margin-left:0.25em;">' + escaped + '</span>';
         } else {
-            var url = $('#endmark_image_url').val();
-            var size = $('#endmark_image_size_px').val() || 16;
+            var url = $('#paulus_mark_image_url').val();
+            var size = $('#paulus_mark_image_size_px').val() || 16;
             
             if (url) {
                 html = '<span style="margin-left:0.25em;">' +
@@ -240,7 +240,7 @@
             }
         }
         
-        $('#endmark-live-mark').html(html);
+        $('#paulus-mark-live-mark').html(html);
     }
 
 })(jQuery);

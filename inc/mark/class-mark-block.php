@@ -1,11 +1,11 @@
 <?php
 /**
- * Endmark Block & Shortcode
+ * End mark Block & Shortcode
  *
- * Registers the [endmark] shortcode and the endmark/endmark
+ * Registers the [endmark] shortcode and the end mark/end mark
  * Gutenberg block for manual placement.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -13,21 +13,21 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Block {
+class Paulus_Mark_Block {
 
     /**
      * Reference to the main plugin instance.
      *
-     * @var Endmark_Plugin
+     * @var Paulus_Mark
      */
     private $plugin;
 
     /**
      * Constructor.
      *
-     * @param Endmark_Plugin $plugin Main plugin instance.
+     * @param Paulus_Mark $plugin Main plugin instance.
      */
-    public function __construct( Endmark_Plugin $plugin ) {
+    public function __construct( Paulus_Mark $plugin ) {
         $this->plugin = $plugin;
 
         add_action( 'init', array( $this, 'register_shortcode' ) );
@@ -38,7 +38,7 @@ class Endmark_Block {
      * Register [endmark] shortcode.
      */
     public function register_shortcode() {
-        add_shortcode( Endmark_Plugin::SHORTCODE_TAG, array( $this, 'render_shortcode' ) );
+        add_shortcode( Paulus_Mark::SHORTCODE_TAG, array( $this, 'render_shortcode' ) );
     }
 
     /**
@@ -49,7 +49,7 @@ class Endmark_Block {
      */
     public function render_shortcode( $atts ) {
         $settings = $this->plugin->get_settings();
-        return $this->plugin->frontend->render_endmark_html( $settings );
+        return $this->plugin->frontend->render_mark_html( $settings );
     }
 
     /**
@@ -60,7 +60,7 @@ class Endmark_Block {
             return;
         }
 
-        register_block_type( Endmark_Plugin::BLOCK_NAME, array(
+        register_block_type( Paulus_Mark::BLOCK_NAME, array(
             'render_callback' => array( $this, 'render_block' ),
             'attributes'      => array(
                 'useGlobalSettings' => array(
@@ -79,6 +79,6 @@ class Endmark_Block {
      */
     public function render_block( $attributes ) {
         $settings = $this->plugin->get_settings();
-        return $this->plugin->frontend->render_endmark_html( $settings );
+        return $this->plugin->frontend->render_mark_html( $settings );
     }
 }

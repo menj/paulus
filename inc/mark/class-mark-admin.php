@@ -1,11 +1,11 @@
 <?php
 /**
- * Endmark Admin
+ * End mark Admin
  *
  * Handles admin menu, settings registration, sanitisation,
  * and asset enqueueing for the settings page.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -13,21 +13,21 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Admin {
+class Paulus_Mark_Admin {
 
     /**
      * Reference to the main plugin instance.
      *
-     * @var Endmark_Plugin
+     * @var Paulus_Mark
      */
     private $plugin;
 
     /**
      * Constructor.
      *
-     * @param Endmark_Plugin $plugin Main plugin instance.
+     * @param Paulus_Mark $plugin Main plugin instance.
      */
-    public function __construct( Endmark_Plugin $plugin ) {
+    public function __construct( Paulus_Mark $plugin ) {
         $this->plugin = $plugin;
 
         add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
@@ -40,14 +40,14 @@ class Endmark_Admin {
        ====================================================================== */
 
     /**
-     * Add Settings → Endmark page.
+     * Add Settings → End mark page.
      */
     public function add_admin_menu() {
         add_options_page(
-            __( 'Endmark Settings', 'paulus' ),
-            __( 'Endmark', 'paulus' ),
+            __( 'End mark Settings', 'paulus' ),
+            __( 'End mark', 'paulus' ),
             'manage_options',
-            'endmark',
+            'paulus-mark',
             array( $this, 'render_settings_page' )
         );
     }
@@ -61,7 +61,7 @@ class Endmark_Admin {
     public function add_settings_link( $links ) {
         $settings_link = sprintf(
             '<a href="%s">%s</a>',
-            admin_url( 'options-general.php?page=endmark' ),
+            admin_url( 'options-general.php?page=paulus-mark' ),
             esc_html__( 'Settings', 'paulus' )
         );
         array_unshift( $links, $settings_link );
@@ -78,7 +78,7 @@ class Endmark_Admin {
      * @param string $hook The current admin page hook.
      */
     public function enqueue_admin_assets( $hook ) {
-        if ( 'settings_page_endmark' !== $hook ) {
+        if ( 'settings_page_paulus-mark' !== $hook ) {
             return;
         }
 
@@ -86,25 +86,25 @@ class Endmark_Admin {
 
         // Admin CSS.
         wp_enqueue_style(
-            'endmark-admin',
-            PAULUS_URI . '/assets/css/endmark-admin.css',
+            'paulus-mark-admin',
+            PAULUS_URI . '/assets/css/paulus-mark-admin.css',
             array(),
-            Endmark_Plugin::VERSION
+            Paulus_Mark::VERSION
         );
 
         // Admin JavaScript.
         wp_enqueue_script(
-            'endmark-admin',
-            PAULUS_URI . '/assets/js/endmark-admin.js',
+            'paulus-mark-admin',
+            PAULUS_URI . '/assets/js/paulus-mark-admin.js',
             array( 'jquery' ),
-            Endmark_Plugin::VERSION,
+            Paulus_Mark::VERSION,
             true
         );
 
-        wp_localize_script( 'endmark-admin', 'endmarkAdmin', array(
-            'optionName' => Endmark_Plugin::OPTION_SITE,
+        wp_localize_script( 'paulus-mark-admin', 'paulusMarkAdmin', array(
+            'optionName' => Paulus_Mark::OPTION_SITE,
             'i18n'       => array(
-                'selectImage' => __( 'Select Endmark Image', 'paulus' ),
+                'selectImage' => __( 'Select End mark Image', 'paulus' ),
                 'useImage'    => __( 'Use this image', 'paulus' ),
             ),
         ) );
@@ -119,8 +119,8 @@ class Endmark_Admin {
      */
     public function register_settings() {
         register_setting(
-            'endmark_settings_group',
-            Endmark_Plugin::OPTION_SITE,
+            'paulus_mark_settings_group',
+            Paulus_Mark::OPTION_SITE,
             array(
                 'type'              => 'array',
                 'sanitize_callback' => array( $this, 'sanitize_settings' ),
@@ -267,6 +267,6 @@ class Endmark_Admin {
         $tags       = get_tags( array( 'hide_empty' => false ) );
         $plugin     = $this->plugin;
 
-        include PAULUS_DIR . '/inc/endmark/templates/admin-settings.php';
+        include PAULUS_DIR . '/inc/mark/templates/admin-settings.php';
     }
 }

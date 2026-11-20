@@ -1,11 +1,11 @@
 /**
- * Endmark Frontend Styles
+ * End mark Frontend Styles
  *
- * Static base styles for the endmark wrapper, symbol, and image.
+ * Static base styles for the end mark wrapper, symbol, and image.
  * User-configurable values (margins, image size, mobile hide) are
  * injected as inline CSS via wp_add_inline_style().
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -14,29 +14,29 @@
    -------------------------------------------------------------------------- */
 
 :root {
-    --endmark-margin-top: 0;
-    --endmark-margin-left: 0.25em;
-    --endmark-image-size: 16px;
+    --paulus-mark-margin-top: 0;
+    --paulus-mark-margin-left: 0.25em;
+    --paulus-mark-image-size: 16px;
 }
 
 /* --------------------------------------------------------------------------
    Wrapper
    -------------------------------------------------------------------------- */
 
-.endmark-wrap {
+.paulus-mark-wrap {
     display: inline;
     white-space: nowrap;
     vertical-align: middle;
     line-height: 1;
-    margin-top: var(--endmark-margin-top);
-    margin-left: var(--endmark-margin-left);
+    margin-top: var(--paulus-mark-margin-top);
+    margin-left: var(--paulus-mark-margin-left);
 }
 
 /* --------------------------------------------------------------------------
    Symbol
    -------------------------------------------------------------------------- */
 
-.endmark-symbol {
+.paulus-mark-symbol {
     display: inline;
     vertical-align: middle;
 }
@@ -53,11 +53,11 @@
    theme stylesheet rules that target img elements inside content areas
    (e.g. margin: 1.5rem 0, border-radius).                                 */
 
-.endmark-image {
+.paulus-mark-image {
     display: inline-block;
     vertical-align: middle;
-    width: var(--endmark-image-size);
-    height: var(--endmark-image-size);
+    width: var(--paulus-mark-image-size);
+    height: var(--paulus-mark-image-size);
     max-height: 1.2em;
     width: auto;
     height: auto;
@@ -72,7 +72,7 @@
 }
 
 /* Guard against themes that animate images */
-.endmark-image[class*="td-animation"] {
+.paulus-mark-image[class*="td-animation"] {
     transform: none !important;
     animation: none !important;
     opacity: 1 !important;

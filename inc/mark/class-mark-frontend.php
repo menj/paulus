@@ -1,11 +1,11 @@
 <?php
 /**
- * Endmark Frontend
+ * End mark Frontend
  *
- * Handles the_content filtering, endmark HTML rendering,
+ * Handles the_content filtering, end mark HTML rendering,
  * eligibility checks, and frontend style enqueueing.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -13,24 +13,24 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Frontend {
+class Paulus_Mark_Frontend {
 
     /**
      * Reference to the main plugin instance.
      *
-     * @var Endmark_Plugin
+     * @var Paulus_Mark
      */
     private $plugin;
 
     /**
-     * Flag: endmark was rendered (consumed by schema output).
+     * Flag: end mark was rendered (consumed by schema output).
      *
      * @var bool
      */
-    private $endmark_rendered = false;
+    private $paulus_mark_rendered = false;
 
     /**
-     * Unsafe HTML containers that must not receive an endmark.
+     * Unsafe HTML containers that must not receive an end mark.
      *
      * @var array
      */
@@ -81,12 +81,12 @@ class Endmark_Frontend {
     /**
      * Constructor.
      *
-     * @param Endmark_Plugin $plugin Main plugin instance.
+     * @param Paulus_Mark $plugin Main plugin instance.
      */
-    public function __construct( Endmark_Plugin $plugin ) {
+    public function __construct( Paulus_Mark $plugin ) {
         $this->plugin = $plugin;
 
-        add_filter( 'the_content', array( $this, 'insert_endmark' ), 9999 );
+        add_filter( 'the_content', array( $this, 'insert_mark' ), 9999 );
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_styles' ) );
     }
 
@@ -95,12 +95,12 @@ class Endmark_Frontend {
        ====================================================================== */
 
     /**
-     * Whether the endmark was rendered on this page load.
+     * Whether the end mark was rendered on this page load.
      *
      * @return bool
      */
     public function was_rendered() {
-        return $this->endmark_rendered;
+        return $this->paulus_mark_rendered;
     }
 
     /* ======================================================================
@@ -157,7 +157,7 @@ class Endmark_Frontend {
     }
 
     /**
-     * Check full eligibility for endmark insertion.
+     * Check full eligibility for end mark insertion.
      *
      * @param  string $content  Post content.
      * @param  array  $settings Plugin settings.
@@ -183,7 +183,7 @@ class Endmark_Frontend {
         $post_id = get_the_ID();
 
         // Per-post override: check if explicitly disabled via post meta.
-        if ( get_post_meta( $post_id, Endmark_Plugin::META_DISABLE, true ) ) {
+        if ( get_post_meta( $post_id, Paulus_Mark::META_DISABLE, true ) ) {
             return false;
         }
 
@@ -216,16 +216,16 @@ class Endmark_Frontend {
      * @return bool
      */
     private function has_manual_placement( $content ) {
-        if ( has_shortcode( $content, Endmark_Plugin::SHORTCODE_TAG ) ) {
+        if ( has_shortcode( $content, Paulus_Mark::SHORTCODE_TAG ) ) {
             return true;
         }
-        if ( has_block( Endmark_Plugin::BLOCK_NAME ) ) {
+        if ( has_block( Paulus_Mark::BLOCK_NAME ) ) {
             return true;
         }
-        if ( false !== strpos( $content, Endmark_Plugin::WRAPPER_CLASS_TOKEN ) ) {
+        if ( false !== strpos( $content, Paulus_Mark::WRAPPER_CLASS_TOKEN ) ) {
             return true;
         }
-        if ( false !== strpos( $content, Endmark_Plugin::ANTI_DUP_COMMENT ) ) {
+        if ( false !== strpos( $content, Paulus_Mark::ANTI_DUP_COMMENT ) ) {
             return true;
         }
         return false;
@@ -259,7 +259,7 @@ class Endmark_Frontend {
      */
     private function get_protected_microdata_patterns() {
         $patterns = array();
-        foreach ( Endmark_Plugin::PROTECTED_SCHEMA_TYPES as $type ) {
+        foreach ( Paulus_Mark::PROTECTED_SCHEMA_TYPES as $type ) {
             $patterns[] = '/itemtype=["\']https?:\/\/schema\.org\/' . preg_quote( $type, '/' ) . '["\']/i';
         }
         return $patterns;
@@ -349,7 +349,7 @@ class Endmark_Frontend {
             return $a['start'] - $b['start'];
         } );
 
-        return apply_filters( 'endmark_protected_patterns', $all_ranges, $content );
+        return apply_filters( 'paulus_mark_protected_patterns', $all_ranges, $content );
     }
 
     /**
@@ -552,18 +552,18 @@ class Endmark_Frontend {
     }
 
     /* ======================================================================
-       Endmark Insertion (the_content filter)
+       End mark Insertion (the_content filter)
        ====================================================================== */
 
     /**
-     * Insert endmark into post content.
+     * Insert end mark into post content.
      *
      * Hooked at priority 9999 on the_content.
      *
      * @param  string $content Post content.
      * @return string
      */
-    public function insert_endmark( $content ) {
+    public function insert_mark( $content ) {
         $settings = $this->plugin->get_settings();
 
         if ( ! $this->check_eligibility( $content, $settings ) ) {
@@ -578,8 +578,8 @@ class Endmark_Frontend {
             return $content;
         }
 
-        $endmark = $this->render_endmark_html( $settings );
-        if ( empty( $endmark ) ) {
+        $mark = $this->render_mark_html( $settings );
+        if ( empty( $mark ) ) {
             return $content;
         }
 
@@ -598,43 +598,43 @@ class Endmark_Frontend {
                         : false;
 
                     if ( false === $insertion_point || $this->is_position_in_protected_range( $insertion_point, $protected_ranges ) ) {
-                        $this->endmark_rendered = true;
-                        return $content . $endmark;
+                        $this->paulus_mark_rendered = true;
+                        return $content . $mark;
                     }
-                    $this->endmark_rendered = true;
-                    return substr_replace( $content, $endmark, $insertion_point, 0 );
+                    $this->paulus_mark_rendered = true;
+                    return substr_replace( $content, $mark, $insertion_point, 0 );
 
                 case 'before_footnotes':
                     if ( false !== $footnotes_pos && ! $this->is_position_in_protected_range( $footnotes_pos, $protected_ranges ) ) {
-                        $this->endmark_rendered = true;
-                        return substr_replace( $content, $endmark, $footnotes_pos, 0 );
+                        $this->paulus_mark_rendered = true;
+                        return substr_replace( $content, $mark, $footnotes_pos, 0 );
                     }
                     $insertion_point = $this->find_last_paragraph_insertion_point( $content, $footnotes_pos, $protected_ranges );
                     if ( false !== $insertion_point ) {
-                        $this->endmark_rendered = true;
-                        return substr_replace( $content, $endmark, $insertion_point, 0 );
+                        $this->paulus_mark_rendered = true;
+                        return substr_replace( $content, $mark, $insertion_point, 0 );
                     }
-                    $this->endmark_rendered = true;
-                    return $content . $endmark;
+                    $this->paulus_mark_rendered = true;
+                    return $content . $mark;
 
                 case 'after_footnotes':
                 case 'append':
-                    $this->endmark_rendered = true;
-                    return $content . $endmark;
+                    $this->paulus_mark_rendered = true;
+                    return $content . $mark;
 
                 case 'last_paragraph':
                 default:
                     $insertion_point = $this->find_last_paragraph_insertion_point( $content, $footnotes_pos, $protected_ranges );
                     if ( false !== $insertion_point ) {
-                        $this->endmark_rendered = true;
-                        return substr_replace( $content, $endmark, $insertion_point, 0 );
+                        $this->paulus_mark_rendered = true;
+                        return substr_replace( $content, $mark, $insertion_point, 0 );
                     }
                     if ( false !== $footnotes_pos && ! $this->is_position_in_protected_range( $footnotes_pos, $protected_ranges ) ) {
-                        $this->endmark_rendered = true;
-                        return substr_replace( $content, $endmark, $footnotes_pos, 0 );
+                        $this->paulus_mark_rendered = true;
+                        return substr_replace( $content, $mark, $footnotes_pos, 0 );
                     }
-                    $this->endmark_rendered = true;
-                    return $content . $endmark;
+                    $this->paulus_mark_rendered = true;
+                    return $content . $mark;
             }
         } catch ( Exception $e ) {
             return $content;
@@ -660,12 +660,12 @@ class Endmark_Frontend {
     }
 
     /**
-     * Render the endmark HTML fragment.
+     * Render the end mark HTML fragment.
      *
      * @param  array $settings Plugin settings.
      * @return string
      */
-    public function render_endmark_html( $settings ) {
+    public function render_mark_html( $settings ) {
         $inner = '';
 
         if ( 'symbol' === $settings['type'] ) {
@@ -673,33 +673,33 @@ class Endmark_Frontend {
             if ( empty( $symbol ) ) {
                 $symbol = '∎';
             }
-            $inner = '<span class="endmark endmark-symbol">' . $symbol . '</span>';
+            $inner = '<span class="paulus-mark paulus-mark-symbol">' . $symbol . '</span>';
         } elseif ( 'image' === $settings['type'] && ! empty( $settings['image_url'] ) ) {
             $url = esc_url( $settings['image_url'] );
             $size = absint( $settings['image_size_px'] );
 
             if ( $this->is_svg_url( $url ) && empty( $settings['allow_svg'] ) ) {
-                $inner = '<span class="endmark endmark-symbol">∎</span>';
+                $inner = '<span class="paulus-mark paulus-mark-symbol">∎</span>';
             } else {
                 $inner = sprintf(
-                    '<img class="endmark endmark-image" src="%s" alt="" width="%d" height="%d" loading="lazy" decoding="async" />',
+                    '<img class="paulus-mark paulus-mark-image" src="%s" alt="" width="%d" height="%d" loading="lazy" decoding="async" />',
                     $url,
                     $size,
                     $size
                 );
             }
         } elseif ( 'image' === $settings['type'] && empty( $settings['image_url'] ) ) {
-            $inner = '<span class="endmark endmark-symbol">∎</span>';
+            $inner = '<span class="paulus-mark paulus-mark-symbol">∎</span>';
         }
 
         if ( empty( $inner ) ) {
             return '';
         }
 
-        return '<span class="' . Endmark_Plugin::WRAPPER_CLASS . '" aria-hidden="true" role="presentation">'
+        return '<span class="' . Paulus_Mark::WRAPPER_CLASS . '" aria-hidden="true" role="presentation">'
             . $inner
             . '</span>'
-            . Endmark_Plugin::ANTI_DUP_COMMENT;
+            . Paulus_Mark::ANTI_DUP_COMMENT;
     }
 
     /* ======================================================================
@@ -718,10 +718,10 @@ class Endmark_Frontend {
 
         // Static base styles.
         wp_enqueue_style(
-            'endmark-frontend',
-            PAULUS_URI . '/assets/css/endmark-frontend.css',
+            'paulus-mark-frontend',
+            PAULUS_URI . '/assets/css/paulus-mark-frontend.css',
             array(),
-            Endmark_Plugin::VERSION
+            Paulus_Mark::VERSION
         );
 
         // Dynamic overrides via inline CSS.
@@ -730,21 +730,21 @@ class Endmark_Frontend {
         $size        = absint( $settings['image_size_px'] );
 
         $css = ':root{';
-        $css .= '--endmark-margin-top:' . $margin_top . ';';
-        $css .= '--endmark-margin-left:' . $margin_left . ';';
-        $css .= '--endmark-image-size:' . $size . 'px;';
+        $css .= '--paulus-mark-margin-top:' . $margin_top . ';';
+        $css .= '--paulus-mark-margin-left:' . $margin_left . ';';
+        $css .= '--paulus-mark-image-size:' . $size . 'px;';
         $css .= '}';
 
         // Non-variable fallback when CSS variables are disabled.
         if ( empty( $settings['use_css_variables'] ) ) {
-            $css .= '.endmark-wrap{margin-top:' . $margin_top . ';margin-left:' . $margin_left . ';}';
+            $css .= '.paulus-mark-wrap{margin-top:' . $margin_top . ';margin-left:' . $margin_left . ';}';
         }
 
         // Mobile hide.
         if ( $settings['hide_on_mobile'] ) {
-            $css .= '@media(max-width:767px){.endmark-wrap{display:none!important;}}';
+            $css .= '@media(max-width:767px){.paulus-mark-wrap{display:none!important;}}';
         }
 
-        wp_add_inline_style( 'endmark-frontend', $css );
+        wp_add_inline_style( 'paulus-mark-frontend', $css );
     }
 }

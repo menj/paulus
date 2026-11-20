@@ -1,12 +1,12 @@
 <?php
 /**
- * Endmark Post Meta
+ * End mark Post Meta
  *
- * Adds a per-post "Disable Endmark" checkbox via a classic meta box.
+ * Adds a per-post "Disable End mark" checkbox via a classic meta box.
  * Works in both the Classic Editor and the Block Editor (rendered
  * below the content area as a standard meta box panel).
  *
- * @package Endmark
+ * @package End mark
  * @since   4.4.0
  */
 
@@ -14,21 +14,21 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Meta {
+class Paulus_Mark_Meta {
 
     /**
      * Reference to the main plugin instance.
      *
-     * @var Endmark_Plugin
+     * @var Paulus_Mark
      */
     private $plugin;
 
     /**
      * Constructor.
      *
-     * @param Endmark_Plugin $plugin Main plugin instance.
+     * @param Paulus_Mark $plugin Main plugin instance.
      */
-    public function __construct( Endmark_Plugin $plugin ) {
+    public function __construct( Paulus_Mark $plugin ) {
         $this->plugin = $plugin;
 
         add_action( 'init', array( $this, 'register_meta' ) );
@@ -44,7 +44,7 @@ class Endmark_Meta {
         $post_types = $this->get_enabled_post_types();
 
         foreach ( $post_types as $post_type ) {
-            register_post_meta( $post_type, Endmark_Plugin::META_DISABLE, array(
+            register_post_meta( $post_type, Paulus_Mark::META_DISABLE, array(
                 'type'              => 'boolean',
                 'single'            => true,
                 'default'           => false,
@@ -65,8 +65,8 @@ class Endmark_Meta {
 
         foreach ( $post_types as $post_type ) {
             add_meta_box(
-                'endmark-post-options',
-                __( 'Endmark', 'paulus' ),
+                'paulus-mark-post-options',
+                __( 'End mark', 'paulus' ),
                 array( $this, 'render_meta_box' ),
                 $post_type,
                 'side',
@@ -81,19 +81,19 @@ class Endmark_Meta {
      * @param WP_Post $post Current post object.
      */
     public function render_meta_box( $post ) {
-        $disabled = (bool) get_post_meta( $post->ID, Endmark_Plugin::META_DISABLE, true );
+        $disabled = (bool) get_post_meta( $post->ID, Paulus_Mark::META_DISABLE, true );
 
-        wp_nonce_field( 'endmark_meta_nonce', 'endmark_meta_nonce_field' );
+        wp_nonce_field( 'paulus_mark_meta_nonce', 'paulus_mark_meta_nonce_field' );
         ?>
-        <label class="endmark-meta-label">
+        <label class="paulus-mark-meta-label">
             <input type="checkbox"
-                   name="endmark_disable"
+                   name="paulus_mark_disable"
                    value="1"
                    <?php checked( $disabled ); ?>>
-            <?php esc_html_e( 'Disable endmark on this post', 'paulus' ); ?>
+            <?php esc_html_e( 'Disable end mark on this post', 'paulus' ); ?>
         </label>
-        <p class="endmark-meta-hint">
-            <?php esc_html_e( 'When checked, no endmark will be displayed regardless of global settings.', 'paulus' ); ?>
+        <p class="paulus-mark-meta-hint">
+            <?php esc_html_e( 'When checked, no end mark will be displayed regardless of global settings.', 'paulus' ); ?>
         </p>
         <?php
     }
@@ -106,8 +106,8 @@ class Endmark_Meta {
      */
     public function save_meta( $post_id, $post ) {
         // Verify nonce.
-        if ( ! isset( $_POST['endmark_meta_nonce_field'] )
-            || ! wp_verify_nonce( $_POST['endmark_meta_nonce_field'], 'endmark_meta_nonce' ) ) {
+        if ( ! isset( $_POST['paulus_mark_meta_nonce_field'] )
+            || ! wp_verify_nonce( $_POST['paulus_mark_meta_nonce_field'], 'paulus_mark_meta_nonce' ) ) {
             return;
         }
 
@@ -128,12 +128,12 @@ class Endmark_Meta {
         }
 
         // Save or delete the meta.
-        $disabled = ! empty( $_POST['endmark_disable'] );
+        $disabled = ! empty( $_POST['paulus_mark_disable'] );
 
         if ( $disabled ) {
-            update_post_meta( $post_id, Endmark_Plugin::META_DISABLE, true );
+            update_post_meta( $post_id, Paulus_Mark::META_DISABLE, true );
         } else {
-            delete_post_meta( $post_id, Endmark_Plugin::META_DISABLE );
+            delete_post_meta( $post_id, Paulus_Mark::META_DISABLE );
         }
     }
 
@@ -148,7 +148,7 @@ class Endmark_Meta {
         }
 
         $css = '
-            .endmark-meta-label {
+            .paulus-mark-meta-label {
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -158,10 +158,10 @@ class Endmark_Meta {
                 cursor: pointer;
                 padding: 4px 0;
             }
-            .endmark-meta-label input[type="checkbox"] {
+            .paulus-mark-meta-label input[type="checkbox"] {
                 margin: 0;
             }
-            .endmark-meta-hint {
+            .paulus-mark-meta-hint {
                 color: #64748b;
                 font-size: 12px;
                 margin: 6px 0 0;
@@ -169,9 +169,9 @@ class Endmark_Meta {
             }
         ';
 
-        wp_register_style( 'endmark-meta', false, array(), Endmark_Plugin::VERSION );
-        wp_enqueue_style( 'endmark-meta' );
-        wp_add_inline_style( 'endmark-meta', $css );
+        wp_register_style( 'paulus-mark-meta', false, array(), Paulus_Mark::VERSION );
+        wp_enqueue_style( 'paulus-mark-meta' );
+        wp_add_inline_style( 'paulus-mark-meta', $css );
     }
 
     /**

@@ -1,20 +1,20 @@
 <?php
 /**
- * End-of-article symbol: a native form of the plugin Endmark 4.4.0 by MENJ
- * (GPL v3 or later; a fork of Endmark by Colin Temple). The symbol or image
+ * End-of-article symbol: a native form of the plugin End mark 4.4.0 by MENJ
+ * (GPL v3 or later; a fork of End mark by Colin Temple). The symbol or image
  * at the end of an article, the placement rules (last paragraph, before or
  * after footnotes, append, CSS selector), the exclusions, the per-post
  * switch, the [endmark] shortcode and block, and the optional schema are
- * the plugin's own code, in inc/endmark/. The settings screen is under
- * Settings, Endmark.
+ * the plugin's own code, in inc/mark/. The settings screen is under
+ * Settings, End mark.
  *
  * What changes in the theme: the stylesheets and script are
- * assets/css/endmark-*.css and assets/js/endmark-admin.js; the text domain
+ * assets/css/paulus-mark-*.css and assets/js/paulus-mark-admin.js; the text domain
  * is the theme's; the admin screen no longer loads a font from Google; and
  * the data is the theme's own. On the first load without the plugin,
- * paulus_endmark_import() copies the plugin's options to `paulus_endmark`,
- * `paulus_endmark_presets` and `paulus_endmark_version` and renames the
- * per-post meta `_endmark_disable` to `_paulus_endmark_disable`, so deleting
+ * paulus_mark_import() copies the plugin's options to `paulus_endmark`,
+ * `paulus_mark_presets` and `paulus_mark_version` and renames the
+ * per-post meta `_paulus_mark_disable` to `_paulus_mark_disable`, so deleting
  * the plugin later (its uninstall removes the old names) takes nothing the
  * theme uses.
  *
@@ -32,9 +32,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function paulus_endmark_ready() {
-	foreach ( array( 'class-endmark-plugin', 'class-endmark-admin', 'class-endmark-frontend', 'class-endmark-schema', 'class-endmark-block', 'class-endmark-meta', 'templates/admin-settings' ) as $file ) {
-		if ( ! is_readable( PAULUS_DIR . '/inc/endmark/' . $file . '.php' ) ) {
+function paulus_mark_ready() {
+	foreach ( array( 'class-mark-plugin', 'class-mark-admin', 'class-mark-frontend', 'class-mark-schema', 'class-mark-block', 'class-mark-meta', 'templates/admin-settings' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/mark/' . $file . '.php' ) ) {
 			return false;
 		}
 	}
@@ -44,7 +44,7 @@ function paulus_endmark_ready() {
 /**
  * Take over the plugin's data, once. Runs only while the plugin is not loaded.
  */
-function paulus_endmark_import() {
+function paulus_mark_import() {
 	if ( get_option( 'paulus_endmark_imported' ) ) {
 		return;
 	}
@@ -60,7 +60,7 @@ function paulus_endmark_import() {
 		}
 	}
 	if ( is_multisite() ) {
-		$network = get_site_option( 'endmark_network_settings', null );
+		$network = get_site_option( 'paulus_mark_network_settings', null );
 		if ( null !== $network && false === get_site_option( 'paulus_endmark_network', false ) ) {
 			update_site_option( 'paulus_endmark_network', $network );
 		}
@@ -79,19 +79,19 @@ if ( class_exists( 'Endmark_Plugin' ) ) {
 
 // A half-uploaded theme: without every file the module stays out, and
 // the plugin is not switched off (the ready function says so).
-if ( ! paulus_endmark_ready() ) {
+if ( ! paulus_mark_ready() ) {
 	return;
 }
 
-define( 'ENDMARK_PLUGIN_DIR', PAULUS_DIR . '/inc/endmark/' );
+define( 'PAULUS_MARK_PLUGIN_DIR', PAULUS_DIR . '/inc/mark/' );
 
-paulus_endmark_import();
+paulus_mark_import();
 
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-plugin.php';
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-admin.php';
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-frontend.php';
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-schema.php';
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-block.php';
-require_once ENDMARK_PLUGIN_DIR . 'class-endmark-meta.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-plugin.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-admin.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-frontend.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-schema.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-block.php';
+require_once PAULUS_MARK_PLUGIN_DIR . 'class-mark-meta.php';
 
-Endmark_Plugin::get_instance();
+Paulus_Mark::get_instance();

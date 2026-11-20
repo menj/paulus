@@ -37,9 +37,9 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_cite_ready',
 		),
 		'endmark/endmark.php' => array(
-			'name'  => 'Endmark',
-			'where' => __( 'Settings, Endmark', 'paulus' ),
-			'ready' => 'paulus_endmark_ready',
+			'name'  => 'End mark',
+			'where' => __( 'Settings, End mark', 'paulus' ),
+			'ready' => 'paulus_mark_ready',
 		),
 		'wps-hide-login/wps-hide-login.php' => array(
 			'name'  => 'WPS Hide Login',

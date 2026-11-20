@@ -1,11 +1,11 @@
 <?php
 /**
- * Main Endmark Plugin Class
+ * Main End mark Plugin Class
  *
  * Bootstraps the plugin, declares constants and defaults,
  * and wires up all sub-components via WordPress hooks.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Plugin {
+class Paulus_Mark {
 
     /* ======================================================================
        Constants
@@ -35,14 +35,14 @@ class Endmark_Plugin {
     /**
      * Detection tokens.
      */
-    const ANTI_DUP_COMMENT    = '<!-- endmark:inserted -->';
-    const WRAPPER_CLASS       = 'endmark-wrap';
-    const WRAPPER_CLASS_TOKEN = 'class="endmark-wrap"';
+    const ANTI_DUP_COMMENT    = '<!-- paulus-mark -->';
+    const WRAPPER_CLASS       = 'paulus-mark-wrap';
+    const WRAPPER_CLASS_TOKEN = 'class="paulus-mark-wrap"';
     const SHORTCODE_TAG       = 'endmark';
-    const BLOCK_NAME          = 'endmark/endmark';
+    const BLOCK_NAME          = 'end mark/end mark';
 
     /**
-     * Schema.org types that endmark must never interfere with.
+     * Schema.org types that end mark must never interfere with.
      */
     const PROTECTED_SCHEMA_TYPES = array(
         'FAQPage',
@@ -57,12 +57,12 @@ class Endmark_Plugin {
     );
 
     /**
-     * Schema.org types allowed for endmark output.
+     * Schema.org types allowed for end mark output.
      */
     const ALLOWED_SCHEMA_TYPES = array( 'WebPageElement', 'CreativeWork' );
 
     /**
-     * Schema.org types that endmark must never output.
+     * Schema.org types that end mark must never output.
      */
     const FORBIDDEN_SCHEMA_TYPES = array(
         'Article',
@@ -93,27 +93,27 @@ class Endmark_Plugin {
     /**
      * Sub-component references.
      *
-     * @var Endmark_Admin|null
+     * @var Paulus_Mark_Admin|null
      */
     public $admin = null;
 
     /**
-     * @var Endmark_Frontend|null
+     * @var Paulus_Mark_Frontend|null
      */
     public $frontend = null;
 
     /**
-     * @var Endmark_Schema|null
+     * @var Paulus_Mark_Schema|null
      */
     public $schema = null;
 
     /**
-     * @var Endmark_Block|null
+     * @var Paulus_Mark_Block|null
      */
     public $block = null;
 
     /**
-     * @var Endmark_Meta|null
+     * @var Paulus_Mark_Meta|null
      */
     public $meta = null;
 
@@ -127,7 +127,7 @@ class Endmark_Plugin {
         'post_types'          => array( 'post', 'paulus_journal' ),
         'type'                => 'image',
         'symbol'              => '∎',
-        'image_url'           => PAULUS_URI . '/assets/images/endmark.webp',
+        'image_url'           => PAULUS_URI . '/assets/images/paulus-mark.webp',
         'image_id'            => 0,
         'image_size_px'       => 28,
         'placement_mode'      => 'last_paragraph',
@@ -181,11 +181,11 @@ class Endmark_Plugin {
         add_action( 'admin_init', array( $this, 'maybe_migrate_options' ) );
 
         // Sub-components.
-        $this->admin    = new Endmark_Admin( $this );
-        $this->frontend = new Endmark_Frontend( $this );
-        $this->schema   = new Endmark_Schema( $this );
-        $this->block    = new Endmark_Block( $this );
-        $this->meta     = new Endmark_Meta( $this );
+        $this->admin    = new Paulus_Mark_Admin( $this );
+        $this->frontend = new Paulus_Mark_Frontend( $this );
+        $this->schema   = new Paulus_Mark_Schema( $this );
+        $this->block    = new Paulus_Mark_Block( $this );
+        $this->meta     = new Paulus_Mark_Meta( $this );
     }
 
     /* ======================================================================

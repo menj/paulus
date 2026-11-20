@@ -1,10 +1,10 @@
 <?php
 /**
- * Endmark Schema
+ * End mark Schema
  *
  * Handles optional JSON-LD structured data output.
  *
- * @package Endmark
+ * @package End mark
  * @since   4.3.0
  */
 
@@ -12,30 +12,30 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Endmark_Schema {
+class Paulus_Mark_Schema {
 
     /**
      * Reference to the main plugin instance.
      *
-     * @var Endmark_Plugin
+     * @var Paulus_Mark
      */
     private $plugin;
 
     /**
      * Constructor.
      *
-     * @param Endmark_Plugin $plugin Main plugin instance.
+     * @param Paulus_Mark $plugin Main plugin instance.
      */
-    public function __construct( Endmark_Plugin $plugin ) {
+    public function __construct( Paulus_Mark $plugin ) {
         $this->plugin = $plugin;
 
         add_action( 'wp_head', array( $this, 'output_schema_json_ld' ), 99 );
     }
 
     /**
-     * Output schema.org JSON-LD for the endmark.
+     * Output schema.org JSON-LD for the end mark.
      *
-     * Only fires when schema_enabled is true, the endmark was actually
+     * Only fires when schema_enabled is true, the end mark was actually
      * rendered, and the schema_mode is an allowed (non-forbidden) type.
      */
     public function output_schema_json_ld() {
@@ -55,17 +55,17 @@ class Endmark_Schema {
             // rendered yet: decide from the item itself.
             $post_id = get_queried_object_id();
             if ( ! in_array( get_post_type( $post_id ), (array) $settings['post_types'], true )
-                || get_post_meta( $post_id, Endmark_Plugin::META_DISABLE, true )
+                || get_post_meta( $post_id, Paulus_Mark::META_DISABLE, true )
                 || in_array( $post_id, (array) $settings['exclude_post_ids'], true ) ) {
                 return;
             }
 
             $schema_mode = $settings['schema_mode'];
 
-            if ( ! in_array( $schema_mode, Endmark_Plugin::ALLOWED_SCHEMA_TYPES, true ) ) {
+            if ( ! in_array( $schema_mode, Paulus_Mark::ALLOWED_SCHEMA_TYPES, true ) ) {
                 return;
             }
-            if ( in_array( $schema_mode, Endmark_Plugin::FORBIDDEN_SCHEMA_TYPES, true ) ) {
+            if ( in_array( $schema_mode, Paulus_Mark::FORBIDDEN_SCHEMA_TYPES, true ) ) {
                 return;
             }
 
@@ -77,8 +77,8 @@ class Endmark_Schema {
             $schema = array(
                 '@context'    => 'https://schema.org',
                 '@type'       => $schema_mode,
-                '@id'         => $permalink . '#endmark',
-                'name'        => __( 'Endmark', 'paulus' ),
+                '@id'         => $permalink . '#end mark',
+                'name'        => __( 'End mark', 'paulus' ),
                 'description' => __( 'End-of-content marker', 'paulus' ),
                 'isPartOf'    => array(
                     '@id' => $permalink,
@@ -96,10 +96,10 @@ class Endmark_Schema {
                 }
             }
 
-            $schema = apply_filters( 'endmark_schema_payload', $schema, $settings, $permalink );
+            $schema = apply_filters( 'paulus_mark_schema_payload', $schema, $settings, $permalink );
 
             // Post-filter safety: reject forbidden types.
-            if ( isset( $schema['@type'] ) && in_array( $schema['@type'], Endmark_Plugin::FORBIDDEN_SCHEMA_TYPES, true ) ) {
+            if ( isset( $schema['@type'] ) && in_array( $schema['@type'], Paulus_Mark::FORBIDDEN_SCHEMA_TYPES, true ) ) {
                 return;
             }
 
