@@ -1,8 +1,8 @@
 <?php
 /**
- * HrefMaster – Helper Functions
+ * Hreflang – Helper Functions
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array
  */
-function hrefmaster_get_all_tagged_items() {
+function paulus_hreflang_get_all_tagged_items() {
     $all_types  = get_option( 'paulus_hreflang_post_types', array() );
     $items      = array();
     $post_types = array();
@@ -104,7 +104,7 @@ function hrefmaster_get_all_tagged_items() {
  * @param string $code e.g. "en", "en-US", "x-default".
  * @return bool
  */
-function hrefmaster_is_valid_lang_code( $code ) {
+function paulus_hreflang_is_valid_lang_code( $code ) {
     if ( $code === 'x-default' ) {
         return true;
     }
@@ -118,7 +118,7 @@ function hrefmaster_is_valid_lang_code( $code ) {
  * @param string $scheme Scheme identifier.
  * @return array Associative array of CSS variable names => values.
  */
-function hrefmaster_get_color_scheme( $scheme = 'ocean' ) {
+function paulus_hreflang_get_color_scheme( $scheme = 'ocean' ) {
     $schemes = array(
         'ocean' => array(
             '--hm-primary'    => '#0f5e8a',

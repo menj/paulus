@@ -1,8 +1,8 @@
 <?php
 /**
- * HrefMaster – Initialisation
+ * Hreflang – Initialisation
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
@@ -19,7 +19,7 @@ $includes = array(
 );
 
 foreach ( $includes as $inc ) {
-    $path = HREFMASTER_PATH . $inc;
+    $path = PAULUS_HREFLANG_PATH . $inc;
     if ( file_exists( $path ) ) {
         require_once $path;
     }
@@ -27,15 +27,15 @@ foreach ( $includes as $inc ) {
 
 /* ── Admin Assets ─────────────────────────────────────────────────── */
 
-add_action( 'admin_enqueue_scripts', 'hrefmaster_enqueue_admin_assets' );
+add_action( 'admin_enqueue_scripts', 'paulus_hreflang_enqueue_admin_assets' );
 
-function hrefmaster_enqueue_admin_assets( $hook ) {
+function paulus_hreflang_enqueue_admin_assets( $hook ) {
     if ( ! is_admin() || ! is_user_logged_in() ) {
         return;
     }
 
     // Load on our settings page and post editor screens only.
-    $dominated = ( strpos( $hook, 'paulus' ) !== false ) || ( strpos( $hook, 'hrefmaster' ) !== false )
+    $dominated = ( strpos( $hook, 'paulus' ) !== false ) || ( strpos( $hook, 'paulus-hreflang' ) !== false )
               || in_array( $hook, array( 'post.php', 'post-new.php', 'edit-tags.php', 'term.php' ), true );
 
     if ( ! $dominated ) {
@@ -43,23 +43,23 @@ function hrefmaster_enqueue_admin_assets( $hook ) {
     }
 
     wp_enqueue_style(
-        'hrefmaster-admin',
-        PAULUS_URI . '/assets/css/hrefmaster-admin.css',
+        'admin',
+        PAULUS_URI . '/assets/css/paulus-hreflang-admin.css',
         array(),
-        HREFMASTER_VERSION
+        PAULUS_HREFLANG_VERSION
     );
 
     wp_enqueue_script(
-        'hrefmaster-admin',
-        PAULUS_URI . '/assets/js/hrefmaster-admin.js',
+        'admin',
+        PAULUS_URI . '/assets/js/paulus-hreflang-admin.js',
         array( 'jquery' ),
-        HREFMASTER_VERSION,
+        PAULUS_HREFLANG_VERSION,
         true
     );
 
-    wp_localize_script( 'hrefmaster-admin', 'hrefmaster', array(
+    wp_localize_script( 'admin', 'paulusHreflang', array(
         'ajax_url' => admin_url( 'admin-ajax.php' ),
-        'nonce'    => wp_create_nonce( 'hrefmaster_nonce' ),
+        'nonce'    => wp_create_nonce( 'paulus_hreflang_nonce' ),
         'i18n'     => array(
             'confirm_erase'      => __( 'Warning! This will permanently delete ALL hreflang tags from every post, page, and taxonomy term. This cannot be undone. Continue?', 'paulus' ),
             'confirm_bulk_save'  => __( 'Save all changes to hreflang tags?', 'paulus' ),
@@ -73,47 +73,47 @@ function hrefmaster_enqueue_admin_assets( $hook ) {
     ) );
 
     wp_enqueue_script(
-        'hrefmaster-notify',
-        PAULUS_URI . '/assets/js/hrefmaster-notify.js',
+        'paulus-hreflang-notify',
+        PAULUS_URI . '/assets/js/paulus-hreflang-notify.js',
         array( 'jquery' ),
-        HREFMASTER_VERSION,
+        PAULUS_HREFLANG_VERSION,
         true
     );
 }
 
 /* ── Register Settings ────────────────────────────────────────────── */
 
-add_action( 'admin_init', 'hrefmaster_register_settings' );
+add_action( 'admin_init', 'paulus_hreflang_register_settings' );
 
-function hrefmaster_register_settings() {
-    register_setting( 'hrefmaster-settings', 'paulus_hreflang_post_types', array(
+function paulus_hreflang_register_settings() {
+    register_setting( 'paulus-hreflang-settings', 'paulus_hreflang_post_types', array(
         'type'              => 'array',
-        'sanitize_callback' => 'hrefmaster_sanitize_post_types',
+        'sanitize_callback' => 'paulus_hreflang_sanitize_post_types',
         'default'           => array(),
     ) );
-    register_setting( 'hrefmaster-settings', 'paulus_hreflang_admin_bar', array(
+    register_setting( 'paulus-hreflang-settings', 'paulus_hreflang_admin_bar', array(
         'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field',
         'default'           => 'false',
     ) );
-    register_setting( 'hrefmaster-settings', 'paulus_hreflang_html_lang', array(
+    register_setting( 'paulus-hreflang-settings', 'paulus_hreflang_html_lang', array(
         'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field',
         'default'           => 'false',
     ) );
-    register_setting( 'hrefmaster-settings', 'paulus_hreflang_woo_shop', array(
+    register_setting( 'paulus-hreflang-settings', 'paulus_hreflang_woo_shop', array(
         'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field',
         'default'           => 'false',
     ) );
-    register_setting( 'hrefmaster-settings', 'paulus_hreflang_scheme', array(
+    register_setting( 'paulus-hreflang-settings', 'paulus_hreflang_scheme', array(
         'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field',
         'default'           => 'ocean',
     ) );
 }
 
-function hrefmaster_sanitize_post_types( $input ) {
+function paulus_hreflang_sanitize_post_types( $input ) {
     if ( ! is_array( $input ) ) {
         return array();
     }
@@ -123,64 +123,64 @@ function hrefmaster_sanitize_post_types( $input ) {
 
 /* ── Admin Menu ───────────────────────────────────────────────────── */
 
-add_action( 'admin_menu', 'hrefmaster_admin_menu' );
+add_action( 'admin_menu', 'paulus_hreflang_admin_menu' );
 
-function hrefmaster_admin_menu() {
+function paulus_hreflang_admin_menu() {
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
     add_menu_page(
-        __( 'HrefMaster', 'paulus' ),
-        __( 'HrefMaster', 'paulus' ),
+        __( 'Hreflang', 'paulus' ),
+        __( 'Hreflang', 'paulus' ),
         'manage_options',
-        'hrefmaster',
-        'hrefmaster_render_admin_page',
+        'paulus-hreflang',
+        'paulus_hreflang_render_admin_page',
         'dashicons-translation',
         80
     );
 }
 
-function hrefmaster_render_admin_page() {
+function paulus_hreflang_render_admin_page() {
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_die( esc_html__( 'Unauthorised.', 'paulus' ) );
     }
-    include_once HREFMASTER_PATH . 'hrefmaster-admin.php';
+    include_once PAULUS_HREFLANG_PATH . 'admin.php';
 }
 
 /* ── Admin Bar Link ───────────────────────────────────────────────── */
 
 if ( get_option( 'paulus_hreflang_admin_bar', 'false' ) === 'true' ) {
-    add_action( 'wp_before_admin_bar_render', 'hrefmaster_admin_bar' );
+    add_action( 'wp_before_admin_bar_render', 'paulus_hreflang_admin_bar' );
 }
 
-function hrefmaster_admin_bar() {
+function paulus_hreflang_admin_bar() {
     if ( ! is_admin() ) {
         return;
     }
     global $wp_admin_bar;
     $wp_admin_bar->add_node( array(
-        'id'    => 'hrefmaster',
-        'title' => '<span class="ab-icon dashicons dashicons-translation" style="margin-top:2px"></span> HrefMaster',
-        'href'  => admin_url( 'admin.php?page=hrefmaster' ),
+        'id'    => 'paulus-hreflang',
+        'title' => '<span class="ab-icon dashicons dashicons-translation" style="margin-top:2px"></span> Hreflang',
+        'href'  => admin_url( 'admin.php?page=paulus-hreflang' ),
     ) );
 }
 
 /* ── Front-end: Inject <link rel="alternate"> ─────────────────────── */
 
-add_action( 'wp_head', 'hrefmaster_output_tags', 1 );
+add_action( 'wp_head', 'paulus_hreflang_output_tags', 1 );
 
-function hrefmaster_output_tags() {
+function paulus_hreflang_output_tags() {
     global $post;
 
-    $version_comment = '<!-- HrefMaster v' . esc_html( HREFMASTER_VERSION ) . ' -->' . "\n";
+    $version_comment = '';
 
     // Taxonomy archives.
     if ( is_category() || is_tax() || is_tag() ) {
         $term = get_queried_object();
         if ( $term ) {
             echo $version_comment;
-            hrefmaster_print_term_tags( $term->term_id );
-            echo '<!-- /HrefMaster -->' . "\n";
+            paulus_hreflang_print_term_tags( $term->term_id );
+            echo '<!-- /Hreflang -->' . "\n";
         }
         return;
     }
@@ -191,8 +191,8 @@ function hrefmaster_output_tags() {
             $shop_id = wc_get_page_id( 'shop' );
             if ( $shop_id > 0 ) {
                 echo $version_comment;
-                hrefmaster_print_post_tags( $shop_id );
-                echo '<!-- /HrefMaster -->' . "\n";
+                paulus_hreflang_print_post_tags( $shop_id );
+                echo '<!-- /Hreflang -->' . "\n";
             }
         }
         return;
@@ -205,22 +205,22 @@ function hrefmaster_output_tags() {
 
     if ( $post ) {
         echo $version_comment;
-        hrefmaster_print_post_tags( $post->ID );
-        echo '<!-- /HrefMaster -->' . "\n";
+        paulus_hreflang_print_post_tags( $post->ID );
+        echo '<!-- /Hreflang -->' . "\n";
     }
 }
 
-function hrefmaster_print_post_tags( $post_id ) {
+function paulus_hreflang_print_post_tags( $post_id ) {
     $meta = get_post_meta( $post_id );
-    hrefmaster_render_link_tags( $meta );
+    paulus_hreflang_render_link_tags( $meta );
 }
 
-function hrefmaster_print_term_tags( $term_id ) {
+function paulus_hreflang_print_term_tags( $term_id ) {
     $meta = get_term_meta( $term_id );
-    hrefmaster_render_link_tags( $meta );
+    paulus_hreflang_render_link_tags( $meta );
 }
 
-function hrefmaster_render_link_tags( $meta ) {
+function paulus_hreflang_render_link_tags( $meta ) {
     if ( ! is_array( $meta ) || empty( $meta ) ) {
         return;
     }
@@ -245,10 +245,10 @@ function hrefmaster_render_link_tags( $meta ) {
 /* ── Front-end: HTML Lang Attribute ───────────────────────────────── */
 
 if ( get_option( 'paulus_hreflang_html_lang', 'false' ) === 'true' ) {
-    add_filter( 'language_attributes', 'hrefmaster_html_lang_attribute' );
+    add_filter( 'language_attributes', 'paulus_hreflang_html_lang_attribute' );
 }
 
-function hrefmaster_html_lang_attribute( $output ) {
+function paulus_hreflang_html_lang_attribute( $output ) {
     global $post;
     if ( ! $post ) {
         return $output;
@@ -263,9 +263,9 @@ function hrefmaster_html_lang_attribute( $output ) {
 
 /* ── Meta Boxes ───────────────────────────────────────────────────── */
 
-add_action( 'add_meta_boxes', 'hrefmaster_register_meta_boxes' );
+add_action( 'add_meta_boxes', 'paulus_hreflang_register_meta_boxes' );
 
-function hrefmaster_register_meta_boxes() {
+function paulus_hreflang_register_meta_boxes() {
     $types = get_option( 'paulus_hreflang_post_types', array() );
     if ( ! is_array( $types ) || empty( $types ) ) {
         return;
@@ -273,9 +273,9 @@ function hrefmaster_register_meta_boxes() {
     foreach ( $types as $type ) {
         if ( post_type_exists( $type ) ) {
             add_meta_box(
-                'hrefmaster-meta-box',
-                __( 'HrefMaster — Hreflang Tags', 'paulus' ),
-                'hrefmaster_meta_box_callback',
+                'paulus-hreflang-meta-box',
+                __( 'Hreflang — Hreflang Tags', 'paulus' ),
+                'paulus_hreflang_meta_box_callback',
                 $type,
                 'advanced',
                 'high'
@@ -284,9 +284,9 @@ function hrefmaster_register_meta_boxes() {
             // HTML lang attribute box.
             if ( get_option( 'paulus_hreflang_html_lang', 'false' ) === 'true' ) {
                 add_meta_box(
-                    'hrefmaster-html-lang-box',
-                    __( 'HrefMaster — HTML Language', 'paulus' ),
-                    'hrefmaster_html_lang_meta_box',
+                    'paulus-hreflang-html-lang-box',
+                    __( 'Hreflang — HTML Language', 'paulus' ),
+                    'paulus_hreflang_html_lang_meta_box',
                     $type,
                     'side',
                     'default'
@@ -296,9 +296,9 @@ function hrefmaster_register_meta_boxes() {
     }
 }
 
-function hrefmaster_meta_box_callback( $post ) {
-    global $hrefmaster_languages;
-    wp_nonce_field( 'hrefmaster_save_meta', 'hrefmaster_nonce' );
+function paulus_hreflang_meta_box_callback( $post ) {
+    global $paulus_hreflang_languages;
+    wp_nonce_field( 'paulus_hreflang_save_meta', 'paulus_hreflang_nonce' );
 
     $keys   = array();
     $values = array();
@@ -313,17 +313,17 @@ function hrefmaster_meta_box_callback( $post ) {
         }
     }
 
-    echo '<div class="hrefmaster-metabox-wrap"><div class="href-container">';
+    echo '<div class="paulus-hreflang-metabox-wrap"><div class="href-container">';
 
     if ( empty( $keys ) ) {
-        hrefmaster_render_tag_row( 1, '', '', $hrefmaster_languages );
+        paulus_hreflang_render_tag_row( 1, '', '', $paulus_hreflang_languages );
     } else {
         $n = 0;
         foreach ( $keys as $key ) {
             // The code is whatever follows 'hreflang-': en, en-US, x-default.
             $href_lang = substr( $key, strlen( 'hreflang-' ) );
             $href_val  = isset( $values[ $n ][0] ) ? $values[ $n ][0] : '';
-            hrefmaster_render_tag_row( $n + 1, $href_val, $href_lang, $hrefmaster_languages, ( $n + 1 === count( $keys ) ) );
+            paulus_hreflang_render_tag_row( $n + 1, $href_val, $href_lang, $paulus_hreflang_languages, ( $n + 1 === count( $keys ) ) );
             $n++;
         }
     }
@@ -331,12 +331,12 @@ function hrefmaster_meta_box_callback( $post ) {
     echo '</div></div>';
 }
 
-function hrefmaster_render_tag_row( $index, $href, $selected_lang, $languages, $is_last = true ) {
-    echo '<div id="hreflang-' . intval( $index ) . '" class="href-lang hrefmaster-row">';
+function paulus_hreflang_render_tag_row( $index, $href, $selected_lang, $languages, $is_last = true ) {
+    echo '<div id="hreflang-' . intval( $index ) . '" class="href-lang paulus-hreflang-row">';
     echo '<label>' . esc_html__( 'URL', 'paulus' ) . '</label>';
-    echo '<input name="hreflang-href[]" type="url" value="' . esc_attr( $href ) . '" placeholder="https://" class="hrefmaster-url-input" />';
+    echo '<input name="hreflang-href[]" type="url" value="' . esc_attr( $href ) . '" placeholder="https://" class="paulus-hreflang-url-input" />';
     echo '<label>' . esc_html__( 'Language', 'paulus' ) . '</label>';
-    echo '<select name="hreflang-lang[]" class="hrefmaster-lang-select">';
+    echo '<select name="hreflang-lang[]" class="paulus-hreflang-lang-select">';
     echo '<option value="">' . esc_html__( 'Select one', 'paulus' ) . '</option>';
     if ( is_array( $languages ) && ! empty( $languages ) ) {
         foreach ( $languages as $lang => $data ) {
@@ -359,20 +359,20 @@ function hrefmaster_render_tag_row( $index, $href, $selected_lang, $languages, $
     echo '</div>';
 }
 
-function hrefmaster_html_lang_meta_box( $post ) {
+function paulus_hreflang_html_lang_meta_box( $post ) {
     $lang = get_post_meta( $post->ID, '_hrefmaster_html_lang', true );
-    echo '<label for="hrefmaster_html_lang">' . esc_html__( 'Override the HTML lang attribute for this page:', 'paulus' ) . '</label>';
-    echo '<input type="text" id="hrefmaster_html_lang" name="hrefmaster_html_lang" value="' . esc_attr( $lang ) . '" placeholder="en-US" class="widefat" style="margin-top:6px" />';
+    echo '<label for="paulus_hreflang_html_lang">' . esc_html__( 'Override the HTML lang attribute for this page:', 'paulus' ) . '</label>';
+    echo '<input type="text" id="paulus_hreflang_html_lang" name="paulus_hreflang_html_lang" value="' . esc_attr( $lang ) . '" placeholder="en-US" class="widefat" style="margin-top:6px" />';
     echo '<p class="description">' . esc_html__( 'e.g. en-US, fr-FR, de-DE. Leave blank to use the site default.', 'paulus' ) . '</p>';
 }
 
 /* ── Save Post Meta ───────────────────────────────────────────────── */
 
-add_action( 'save_post', 'hrefmaster_save_post_meta', 10, 2 );
+add_action( 'save_post', 'paulus_hreflang_save_post_meta', 10, 2 );
 
-function hrefmaster_save_post_meta( $post_id, $post ) {
-    if ( ! isset( $_POST['hrefmaster_nonce'] )
-         || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hrefmaster_nonce'] ) ), 'hrefmaster_save_meta' ) ) {
+function paulus_hreflang_save_post_meta( $post_id, $post ) {
+    if ( ! isset( $_POST['paulus_hreflang_nonce'] )
+         || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['paulus_hreflang_nonce'] ) ), 'paulus_hreflang_save_meta' ) ) {
         return;
     }
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -401,7 +401,7 @@ function hrefmaster_save_post_meta( $post_id, $post ) {
         foreach ( $hrefs as $i => $href ) {
             $href = esc_url_raw( trim( $href ) );
             $lang = isset( $langs[ $i ] ) ? $langs[ $i ] : '';
-            if ( empty( $href ) || empty( $lang ) || ! hrefmaster_is_valid_lang_code( $lang ) ) {
+            if ( empty( $href ) || empty( $lang ) || ! paulus_hreflang_is_valid_lang_code( $lang ) ) {
                 continue;
             }
             update_post_meta( $post_id, 'hreflang-' . $lang, $href );
@@ -409,18 +409,18 @@ function hrefmaster_save_post_meta( $post_id, $post ) {
     }
 
     // HTML lang.
-    if ( isset( $_POST['hrefmaster_html_lang'] ) ) {
-        $html_lang = sanitize_text_field( wp_unslash( $_POST['hrefmaster_html_lang'] ) );
+    if ( isset( $_POST['paulus_hreflang_html_lang'] ) ) {
+        $html_lang = sanitize_text_field( wp_unslash( $_POST['paulus_hreflang_html_lang'] ) );
         update_post_meta( $post_id, '_hrefmaster_html_lang', $html_lang );
     }
 }
 
 /* ── Save Term Meta ───────────────────────────────────────────────── */
 
-add_action( 'create_term', 'hrefmaster_save_term_meta' );
-add_action( 'edit_term',   'hrefmaster_save_term_meta', 10, 3 );
+add_action( 'create_term', 'paulus_hreflang_save_term_meta' );
+add_action( 'edit_term',   'paulus_hreflang_save_term_meta', 10, 3 );
 
-function hrefmaster_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
+function paulus_hreflang_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
     if ( ! isset( $_POST['hreflang-href'] ) || ! is_array( $_POST['hreflang-href'] ) ) {
         return;
     }
@@ -433,11 +433,11 @@ function hrefmaster_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
 
     // Verify nonce (shared with post meta box or taxonomy form).
     $nonce_valid = false;
-    if ( isset( $_POST['hrefmaster_nonce'] ) ) {
-        $nonce_valid = wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hrefmaster_nonce'] ) ), 'hrefmaster_save_meta' );
+    if ( isset( $_POST['paulus_hreflang_nonce'] ) ) {
+        $nonce_valid = wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['paulus_hreflang_nonce'] ) ), 'paulus_hreflang_save_meta' );
     }
-    if ( isset( $_POST['hrefmaster_term_nonce'] ) ) {
-        $nonce_valid = wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['hrefmaster_term_nonce'] ) ), 'hrefmaster_save_term_meta' );
+    if ( isset( $_POST['paulus_hreflang_term_nonce'] ) ) {
+        $nonce_valid = wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['paulus_hreflang_term_nonce'] ) ), 'paulus_hreflang_save_term_meta' );
     }
     if ( ! $nonce_valid ) {
         return;
@@ -461,7 +461,7 @@ function hrefmaster_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
     foreach ( $hrefs as $i => $href ) {
         $href = esc_url_raw( trim( $href ) );
         $lang = isset( $langs[ $i ] ) ? $langs[ $i ] : '';
-        if ( empty( $href ) || empty( $lang ) || ! hrefmaster_is_valid_lang_code( $lang ) ) {
+        if ( empty( $href ) || empty( $lang ) || ! paulus_hreflang_is_valid_lang_code( $lang ) ) {
             continue;
         }
         update_term_meta( $term_id, 'hreflang-' . $lang, $href );
@@ -470,32 +470,32 @@ function hrefmaster_save_term_meta( $term_id, $tt_id = 0, $taxonomy = '' ) {
 
 /* ── Taxonomy Form Fields ─────────────────────────────────────────── */
 
-add_action( 'init', 'hrefmaster_register_taxonomy_fields', 99 );
+add_action( 'init', 'paulus_hreflang_register_taxonomy_fields', 99 );
 
-function hrefmaster_register_taxonomy_fields() {
+function paulus_hreflang_register_taxonomy_fields() {
     $types = get_option( 'paulus_hreflang_post_types', array() );
     if ( ! is_array( $types ) || empty( $types ) ) {
         return;
     }
     foreach ( $types as $type ) {
         if ( ! post_type_exists( $type ) ) {
-            add_action( $type . '_add_form_fields',  'hrefmaster_taxonomy_add_form', 99 );
-            add_action( $type . '_edit_form_fields', 'hrefmaster_taxonomy_edit_form', 10, 1 );
+            add_action( $type . '_add_form_fields',  'paulus_hreflang_taxonomy_add_form', 99 );
+            add_action( $type . '_edit_form_fields', 'paulus_hreflang_taxonomy_edit_form', 10, 1 );
         }
     }
 }
 
-function hrefmaster_taxonomy_add_form() {
-    global $hrefmaster_languages;
-    wp_nonce_field( 'hrefmaster_save_term_meta', 'hrefmaster_term_nonce' );
+function paulus_hreflang_taxonomy_add_form() {
+    global $paulus_hreflang_languages;
+    wp_nonce_field( 'paulus_hreflang_save_term_meta', 'paulus_hreflang_term_nonce' );
     echo '<div class="href-container-cat">';
-    echo '<h3>' . esc_html__( 'HrefMaster — Hreflang Tags', 'paulus' ) . '</h3>';
-    hrefmaster_render_cat_row( 1, '', '', $hrefmaster_languages, true, 'cat' );
+    echo '<h3>' . esc_html__( 'Hreflang — Hreflang Tags', 'paulus' ) . '</h3>';
+    paulus_hreflang_render_cat_row( 1, '', '', $paulus_hreflang_languages, true, 'cat' );
     echo '</div><br><br>';
 }
 
-function hrefmaster_taxonomy_edit_form( $term ) {
-    global $hrefmaster_languages;
+function paulus_hreflang_taxonomy_edit_form( $term ) {
+    global $paulus_hreflang_languages;
     $keys   = array();
     $values = array();
     $meta   = get_term_meta( $term->term_id );
@@ -509,27 +509,27 @@ function hrefmaster_taxonomy_edit_form( $term ) {
         }
     }
 
-    echo '<tr class="term-hreflang-wrap"><th scope="row"><label>' . esc_html__( 'HrefMaster — Hreflang Tags', 'paulus' ) . '</label></th>';
+    echo '<tr class="term-hreflang-wrap"><th scope="row"><label>' . esc_html__( 'Hreflang — Hreflang Tags', 'paulus' ) . '</label></th>';
     echo '<td class="term-hreflang-data">';
-    wp_nonce_field( 'hrefmaster_save_term_meta', 'hrefmaster_term_nonce' );
+    wp_nonce_field( 'paulus_hreflang_save_term_meta', 'paulus_hreflang_term_nonce' );
 
     if ( empty( $keys ) ) {
-        hrefmaster_render_cat_row( 1, '', '', $hrefmaster_languages, true, 'cat-edit' );
+        paulus_hreflang_render_cat_row( 1, '', '', $paulus_hreflang_languages, true, 'cat-edit' );
     } else {
         $n = 0;
         foreach ( $keys as $key ) {
             $parts     = explode( '-', $key );
             $href_lang = ( count( $parts ) === 3 ) ? 'x-default' : $parts[1];
             $href_val  = isset( $values[ $n ][0] ) ? $values[ $n ][0] : '';
-            hrefmaster_render_cat_row( $n + 1, $href_val, $href_lang, $hrefmaster_languages, ( $n + 1 === count( $keys ) ), 'cat-edit' );
+            paulus_hreflang_render_cat_row( $n + 1, $href_val, $href_lang, $paulus_hreflang_languages, ( $n + 1 === count( $keys ) ), 'cat-edit' );
             $n++;
         }
     }
     echo '</td></tr>';
 }
 
-function hrefmaster_render_cat_row( $index, $href, $selected_lang, $languages, $is_last, $prefix ) {
-    echo '<div id="hreflang-' . esc_attr( $prefix ) . '-' . intval( $index ) . '" class="href-lang hrefmaster-row">';
+function paulus_hreflang_render_cat_row( $index, $href, $selected_lang, $languages, $is_last, $prefix ) {
+    echo '<div id="hreflang-' . esc_attr( $prefix ) . '-' . intval( $index ) . '" class="href-lang paulus-hreflang-row">';
     echo '<label>' . esc_html__( 'URL', 'paulus' ) . '</label>';
     echo '<input name="hreflang-href[]" type="url" value="' . esc_attr( $href ) . '" placeholder="https://" />';
     echo '<label>' . esc_html__( 'Language', 'paulus' ) . '</label>';
@@ -558,10 +558,10 @@ function hrefmaster_render_cat_row( $index, $href, $selected_lang, $languages, $
 
 /* ── AJAX: Delete All Data ────────────────────────────────────────── */
 
-add_action( 'wp_ajax_hrefmaster_delete_all_data', 'hrefmaster_ajax_delete_all' );
+add_action( 'wp_ajax_paulus_hreflang_delete_all_data', 'paulus_hreflang_ajax_delete_all' );
 
-function hrefmaster_ajax_delete_all() {
-    check_ajax_referer( 'hrefmaster_nonce', 'nonce' );
+function paulus_hreflang_ajax_delete_all() {
+    check_ajax_referer( 'paulus_hreflang_nonce', 'nonce' );
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( __( 'Unauthorised.', 'paulus' ) );
     }
@@ -632,10 +632,10 @@ function hrefmaster_ajax_delete_all() {
 
 /* ── AJAX: Bulk Save ──────────────────────────────────────────────── */
 
-add_action( 'wp_ajax_hrefmaster_bulk_save', 'hrefmaster_ajax_bulk_save' );
+add_action( 'wp_ajax_paulus_hreflang_bulk_save', 'paulus_hreflang_ajax_bulk_save' );
 
-function hrefmaster_ajax_bulk_save() {
-    check_ajax_referer( 'hrefmaster_nonce', 'nonce' );
+function paulus_hreflang_ajax_bulk_save() {
+    check_ajax_referer( 'paulus_hreflang_nonce', 'nonce' );
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( __( 'Unauthorised.', 'paulus' ) );
     }
@@ -687,7 +687,7 @@ function hrefmaster_ajax_bulk_save() {
             }
             $href = esc_url_raw( trim( sanitize_text_field( $tag['href'] ) ) );
             $lang = sanitize_text_field( $tag['lang'] );
-            if ( empty( $href ) || empty( $lang ) || ! hrefmaster_is_valid_lang_code( $lang ) ) {
+            if ( empty( $href ) || empty( $lang ) || ! paulus_hreflang_is_valid_lang_code( $lang ) ) {
                 continue;
             }
             if ( $object_type === 'post' ) {
@@ -707,10 +707,10 @@ function hrefmaster_ajax_bulk_save() {
 
 /* ── AJAX: Validate URL ───────────────────────────────────────────── */
 
-add_action( 'wp_ajax_hrefmaster_validate_url', 'hrefmaster_ajax_validate_url' );
+add_action( 'wp_ajax_paulus_hreflang_validate_url', 'paulus_hreflang_ajax_validate_url' );
 
-function hrefmaster_ajax_validate_url() {
-    check_ajax_referer( 'hrefmaster_nonce', 'nonce' );
+function paulus_hreflang_ajax_validate_url() {
+    check_ajax_referer( 'paulus_hreflang_nonce', 'nonce' );
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( __( 'Unauthorised.', 'paulus' ) );
     }
@@ -788,10 +788,10 @@ function hrefmaster_ajax_validate_url() {
 
 /* ── AJAX: Bulk Validate ──────────────────────────────────────────── */
 
-add_action( 'wp_ajax_hrefmaster_bulk_validate', 'hrefmaster_ajax_bulk_validate' );
+add_action( 'wp_ajax_paulus_hreflang_bulk_validate', 'paulus_hreflang_ajax_bulk_validate' );
 
-function hrefmaster_ajax_bulk_validate() {
-    check_ajax_referer( 'hrefmaster_nonce', 'nonce' );
+function paulus_hreflang_ajax_bulk_validate() {
+    check_ajax_referer( 'paulus_hreflang_nonce', 'nonce' );
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( __( 'Unauthorised.', 'paulus' ) );
     }
@@ -841,9 +841,9 @@ function hrefmaster_ajax_bulk_validate() {
 
 /* ── Version fix (legacy compat) ──────────────────────────────────── */
 
-add_action( 'admin_init', 'hrefmaster_version_fix' );
+add_action( 'admin_init', 'paulus_hreflang_version_fix' );
 
-function hrefmaster_version_fix() {
+function paulus_hreflang_version_fix() {
     // Migrate old option names if upgrading from legacy plugin.
     $old_types = get_option( 'hreflang_post_types' );
     if ( $old_types !== false && get_option( 'paulus_hreflang_post_types' ) === false ) {

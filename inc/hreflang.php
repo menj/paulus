@@ -1,17 +1,17 @@
 <?php
 /**
- * Hreflang tags: a native form of the plugin HrefMaster 3.0.1 (GPL v2 or
+ * Hreflang tags: a native form of the plugin Hreflang 3.0.1 (GPL v2 or
  * later). The hreflang meta boxes for posts, pages, custom types and
  * taxonomy terms, the `<link rel="alternate" hreflang>` tags in the head, the
  * per-page HTML lang attribute, the bulk editor, the code generator, the
- * validation tools and the tabbed HrefMaster screen with its four colour
- * schemes are the plugin's own code, in inc/hrefmaster/.
+ * validation tools and the tabbed Hreflang screen with its four colour
+ * schemes are the plugin's own code, in inc/hreflang/.
  *
  * What changes in the theme: the stylesheet and scripts are
- * assets/css/hrefmaster-admin.css and assets/js/hrefmaster-*.js; the text
+ * assets/css/paulus-hreflang-admin.css and assets/js/paulus-hreflang-*.js; the text
  * domain is the theme's; the taxonomy fields are added on `init` (a theme
  * loads after `plugins_loaded`); and the settings are the theme's own. On the
- * first load without the plugin, paulus_hrefmaster_import() copies the
+ * first load without the plugin, paulus_hreflang_import() copies the
  * plugin's five options to `paulus_hreflang_post_types`, `_admin_bar`,
  * `_html_lang`, `_woo_shop` and `_scheme`, so deleting the plugin later (its
  * uninstall removes the old names) takes nothing the theme uses. The tags
@@ -33,9 +33,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function paulus_hrefmaster_ready() {
-	foreach ( array( 'hrefmaster-init', 'hrefmaster-admin', 'includes/notices', 'includes/variables', 'includes/functions', 'tabs/dashboard', 'tabs/bulk-editor', 'tabs/generator', 'tabs/validation-tool', 'tabs/settings' ) as $file ) {
-		if ( ! is_readable( PAULUS_DIR . '/inc/hrefmaster/' . $file . '.php' ) ) {
+function paulus_hreflang_ready() {
+	foreach ( array( 'init', 'admin', 'includes/notices', 'includes/variables', 'includes/functions', 'tabs/dashboard', 'tabs/bulk-editor', 'tabs/generator', 'tabs/validation-tool', 'tabs/settings' ) as $file ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/hreflang/' . $file . '.php' ) ) {
 			return false;
 		}
 	}
@@ -45,7 +45,7 @@ function paulus_hrefmaster_ready() {
 /**
  * Take over the plugin's settings, once. Runs only while the plugin is not loaded.
  */
-function paulus_hrefmaster_import() {
+function paulus_hreflang_import() {
 	if ( get_option( 'paulus_hreflang_imported' ) ) {
 		return;
 	}
@@ -71,13 +71,13 @@ if ( defined( 'HREFMASTER_VERSION' ) ) {
 
 // A half-uploaded theme: without every file the module stays out, and
 // the plugin is not switched off (the ready function says so).
-if ( ! paulus_hrefmaster_ready() ) {
+if ( ! paulus_hreflang_ready() ) {
 	return;
 }
 
-define( 'HREFMASTER_VERSION', '3.0.1' );
-define( 'HREFMASTER_PATH', PAULUS_DIR . '/inc/hrefmaster/' );
+define( 'PAULUS_HREFLANG_VERSION', '3.0.1' );
+define( 'PAULUS_HREFLANG_PATH', PAULUS_DIR . '/inc/hreflang/' );
 
-paulus_hrefmaster_import();
+paulus_hreflang_import();
 
-require_once HREFMASTER_PATH . 'hrefmaster-init.php';
+require_once PAULUS_HREFLANG_PATH . 'init.php';

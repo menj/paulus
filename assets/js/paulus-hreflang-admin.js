@@ -1,15 +1,15 @@
 /**
- * HrefMaster – Admin JavaScript
+ * Hreflang – Admin JavaScript
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 (function ($) {
     'use strict';
 
-    var i18n = (window.hrefmaster && window.hrefmaster.i18n) || {};
-    var ajaxUrl = (window.hrefmaster && window.hrefmaster.ajax_url) || '';
-    var nonce = (window.hrefmaster && window.hrefmaster.nonce) || '';
+    var i18n = (window.paulusHreflang && window.paulusHreflang.i18n) || {};
+    var ajaxUrl = (window.paulusHreflang && window.paulusHreflang.ajax_url) || '';
+    var nonce = (window.paulusHreflang && window.paulusHreflang.nonce) || '';
 
     /* ── Meta Box: Add / Remove Tag Rows ─────────────────────────── */
 
@@ -60,11 +60,11 @@
     /* ── Dashboard: Erase All ────────────────────────────────────── */
 
     function bindEraseAll() {
-        $(document).on('click', '.hrefmaster-erase-all', function () {
+        $(document).on('click', '.paulus-hreflang-erase-all', function () {
             if (!confirm(i18n.confirm_erase || 'Are you sure?')) return;
             var $btn = $(this).prop('disabled', true);
             $.post(ajaxUrl, {
-                action: 'hrefmaster_delete_all_data',
+                action: 'paulus_hreflang_delete_all_data',
                 nonce: nonce
             }, function (res) {
                 $btn.prop('disabled', false);
@@ -82,46 +82,46 @@
     function bindBulkEditor() {
 
         // Filter.
-        $('#hrefmaster-bulk-filter').on('input', function () {
+        $('#paulus-hreflang-bulk-filter').on('input', function () {
             var q = $(this).val().toLowerCase();
-            $('#hrefmaster-bulk-table tbody tr').each(function () {
-                var title = $(this).find('.hrefmaster-table__col--title strong').text().toLowerCase();
+            $('#paulus-hreflang-bulk-table tbody tr').each(function () {
+                var title = $(this).find('.paulus-hreflang-table__col--title strong').text().toLowerCase();
                 $(this).toggle(title.indexOf(q) !== -1);
             });
         });
 
         // Add tag row.
-        $(document).on('click', '.hrefmaster-inline-add', function () {
-            var $editor = $(this).closest('.hrefmaster-inline-editor');
+        $(document).on('click', '.paulus-hreflang-inline-add', function () {
+            var $editor = $(this).closest('.paulus-hreflang-inline-editor');
             var langs = $editor.data('languages') || [];
             var options = '<option value="">Select</option>';
             for (var i = 0; i < langs.length; i++) {
                 options += '<option value="' + langs[i].code + '">' + langs[i].name + '</option>';
             }
-            var $row = $('<div class="hrefmaster-inline-tag">' +
-                '<select class="hrefmaster-inline-lang">' + options + '</select>' +
-                '<input type="url" class="hrefmaster-inline-href" placeholder="https://" />' +
-                '<button type="button" class="button hrefmaster-inline-remove" title="Remove"><span class="dashicons dashicons-no-alt"></span></button>' +
+            var $row = $('<div class="paulus-hreflang-inline-tag">' +
+                '<select class="paulus-hreflang-inline-lang">' + options + '</select>' +
+                '<input type="url" class="paulus-hreflang-inline-href" placeholder="https://" />' +
+                '<button type="button" class="button paulus-hreflang-inline-remove" title="Remove"><span class="dashicons dashicons-no-alt"></span></button>' +
                 '</div>');
             $(this).before($row);
         });
 
         // Remove tag row.
-        $(document).on('click', '.hrefmaster-inline-remove', function () {
-            $(this).closest('.hrefmaster-inline-tag').remove();
+        $(document).on('click', '.paulus-hreflang-inline-remove', function () {
+            $(this).closest('.paulus-hreflang-inline-tag').remove();
         });
 
         // Save all.
-        $('#hrefmaster-bulk-save').on('click', function () {
+        $('#paulus-hreflang-bulk-save').on('click', function () {
             if (!confirm(i18n.confirm_bulk_save || 'Save all?')) return;
 
             var entries = [];
-            $('#hrefmaster-bulk-table .hrefmaster-bulk-row').each(function () {
+            $('#paulus-hreflang-bulk-table .paulus-hreflang-bulk-row').each(function () {
                 var $row = $(this);
                 var tags = [];
-                $row.find('.hrefmaster-inline-tag').each(function () {
-                    var lang = $(this).find('.hrefmaster-inline-lang').val();
-                    var href = $(this).find('.hrefmaster-inline-href').val();
+                $row.find('.paulus-hreflang-inline-tag').each(function () {
+                    var lang = $(this).find('.paulus-hreflang-inline-lang').val();
+                    var href = $(this).find('.paulus-hreflang-inline-href').val();
                     if (lang && href) {
                         tags.push({ lang: lang, href: href });
                     }
@@ -135,7 +135,7 @@
 
             var $btn = $(this).prop('disabled', true).text('Saving…');
             $.post(ajaxUrl, {
-                action: 'hrefmaster_bulk_save',
+                action: 'paulus_hreflang_bulk_save',
                 nonce: nonce,
                 entries: entries
             }, function (res) {
@@ -153,27 +153,27 @@
     function bindGenerator() {
 
         // Add row.
-        $('#hrefmaster-gen-add-row').on('click', function () {
-            var $first = $('.hrefmaster-generator-row').first();
+        $('#paulus-hreflang-gen-add-row').on('click', function () {
+            var $first = $('.paulus-hreflang-generator-row').first();
             var $clone = $first.clone();
             $clone.find('select').prop('selectedIndex', 0);
             $clone.find('input').val('');
-            $('.hrefmaster-generator-rows').append($clone);
+            $('.paulus-hreflang-generator-rows').append($clone);
         });
 
         // Remove row.
-        $(document).on('click', '.hrefmaster-gen-remove', function () {
-            if ($('.hrefmaster-generator-row').length > 1) {
-                $(this).closest('.hrefmaster-generator-row').remove();
+        $(document).on('click', '.paulus-hreflang-gen-remove', function () {
+            if ($('.paulus-hreflang-generator-row').length > 1) {
+                $(this).closest('.paulus-hreflang-generator-row').remove();
             }
         });
 
         // Generate.
-        $('#hrefmaster-gen-generate').on('click', function () {
+        $('#paulus-hreflang-gen-generate').on('click', function () {
             var lines = [];
-            $('.hrefmaster-generator-row').each(function () {
-                var lang = $(this).find('.hrefmaster-gen-lang').val();
-                var url = $(this).find('.hrefmaster-gen-url').val();
+            $('.paulus-hreflang-generator-row').each(function () {
+                var lang = $(this).find('.paulus-hreflang-gen-lang').val();
+                var url = $(this).find('.paulus-hreflang-gen-url').val();
                 if (lang && url) {
                     lines.push('<link rel="alternate" href="' + escHtml(url) + '" hreflang="' + escHtml(lang) + '" />');
                 }
@@ -184,13 +184,13 @@
                 return;
             }
 
-            $('#hrefmaster-gen-code').text(lines.join('\n'));
-            $('#hrefmaster-gen-output').slideDown(200);
+            $('#paulus-hreflang-gen-code').text(lines.join('\n'));
+            $('#paulus-hreflang-gen-output').slideDown(200);
         });
 
         // Copy.
-        $('#hrefmaster-gen-copy').on('click', function () {
-            var code = $('#hrefmaster-gen-code').text();
+        $('#paulus-hreflang-gen-copy').on('click', function () {
+            var code = $('#paulus-hreflang-gen-code').text();
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(code).then(function () {
                     alert(i18n.copied || 'Copied!');
@@ -210,23 +210,23 @@
     function bindValidation() {
 
         // Single URL validate.
-        $('#hrefmaster-validate-btn').on('click', function () {
-            var url = $('#hrefmaster-validate-url').val();
+        $('#paulus-hreflang-validate-btn').on('click', function () {
+            var url = $('#paulus-hreflang-validate-url').val();
             if (!url) return;
 
             var $btn = $(this).prop('disabled', true).text(i18n.validating || 'Validating…');
-            var $results = $('#hrefmaster-validate-results').show();
+            var $results = $('#paulus-hreflang-validate-results').show();
 
             $.post(ajaxUrl, {
-                action: 'hrefmaster_validate_url',
+                action: 'paulus_hreflang_validate_url',
                 nonce: nonce,
                 url: url
             }, function (res) {
                 $btn.prop('disabled', false).html('<span class="dashicons dashicons-yes-alt"></span> Validate');
 
                 if (!res.success) {
-                    $('#hrefmaster-validate-status')
-                        .attr('class', 'hrefmaster-status-bar hrefmaster-status-bar--error')
+                    $('#paulus-hreflang-validate-status')
+                        .attr('class', 'paulus-hreflang-status-bar paulus-hreflang-status-bar--error')
                         .text('Error: ' + (res.data || 'Unknown error'));
                     return;
                 }
@@ -236,8 +236,8 @@
                 var warnings = [];
 
                 if (tags.length === 0) {
-                    $('#hrefmaster-validate-status')
-                        .attr('class', 'hrefmaster-status-bar hrefmaster-status-bar--warning')
+                    $('#paulus-hreflang-validate-status')
+                        .attr('class', 'paulus-hreflang-status-bar paulus-hreflang-status-bar--warning')
                         .text('No hreflang tags found on this page (HTTP ' + d.status_code + ').');
                 } else {
                     // Check for x-default.
@@ -255,24 +255,24 @@
                     var msg = tags.length + ' hreflang tag(s) found (HTTP ' + d.status_code + ').';
                     if (warnings.length) msg += ' ' + warnings.length + ' warning(s).';
 
-                    $('#hrefmaster-validate-status')
-                        .attr('class', 'hrefmaster-status-bar hrefmaster-status-bar--' + cls)
+                    $('#paulus-hreflang-validate-status')
+                        .attr('class', 'paulus-hreflang-status-bar paulus-hreflang-status-bar--' + cls)
                         .text(msg);
                 }
 
                 // Populate table.
-                var $tbody = $('#hrefmaster-validate-table tbody').empty();
+                var $tbody = $('#paulus-hreflang-validate-table tbody').empty();
                 tags.forEach(function (t) {
                     var valid = isValidLangCode(t.lang);
                     $tbody.append(
                         '<tr><td>' + escHtml(t.lang) + '</td>' +
                         '<td><a href="' + safeHref(t.href) + '" target="_blank" rel="noopener noreferrer">' + escHtml(t.href) + '</a></td>' +
-                        '<td class="' + (valid ? 'hrefmaster-tag-valid' : 'hrefmaster-tag-invalid') + '">' + (valid ? (i18n.valid || 'Valid') : (i18n.invalid || 'Invalid')) + '</td></tr>'
+                        '<td class="' + (valid ? 'paulus-hreflang-tag-valid' : 'paulus-hreflang-tag-invalid') + '">' + (valid ? (i18n.valid || 'Valid') : (i18n.invalid || 'Invalid')) + '</td></tr>'
                     );
                 });
 
                 // Warnings.
-                var $warn = $('#hrefmaster-validate-warnings').empty();
+                var $warn = $('#paulus-hreflang-validate-warnings').empty();
                 warnings.forEach(function (w) {
                     $warn.append('<p>⚠ ' + escHtml(w) + '</p>');
                 });
@@ -284,17 +284,17 @@
         });
 
         // Bulk validate.
-        $('#hrefmaster-bulk-validate-btn').on('click', function () {
+        $('#paulus-hreflang-bulk-validate-btn').on('click', function () {
             var $btn = $(this).prop('disabled', true);
-            var $progress = $('#hrefmaster-bulk-validate-progress').show();
-            var $results = $('#hrefmaster-bulk-validate-results').hide();
-            var $body = $('#hrefmaster-bv-results-body').empty();
+            var $progress = $('#paulus-hreflang-bulk-validate-progress').show();
+            var $results = $('#paulus-hreflang-bulk-validate-results').hide();
+            var $body = $('#paulus-hreflang-bv-results-body').empty();
 
-            $('#hrefmaster-bv-progress-bar').css('width', '10%');
-            $('#hrefmaster-bv-progress-text').text('Fetching content…');
+            $('#paulus-hreflang-bv-progress-bar').css('width', '10%');
+            $('#paulus-hreflang-bv-progress-text').text('Fetching content…');
 
             $.post(ajaxUrl, {
-                action: 'hrefmaster_bulk_validate',
+                action: 'paulus_hreflang_bulk_validate',
                 nonce: nonce
             }, function (res) {
                 $btn.prop('disabled', false);
@@ -306,12 +306,12 @@
 
                 var items = res.data.items || [];
                 if (items.length === 0) {
-                    $('#hrefmaster-bv-progress-text').text('No items with hreflang tags found.');
+                    $('#paulus-hreflang-bv-progress-text').text('No items with hreflang tags found.');
                     return;
                 }
 
-                $('#hrefmaster-bv-progress-bar').css('width', '100%');
-                $('#hrefmaster-bv-progress-text').text(items.length + ' item(s) scanned.');
+                $('#paulus-hreflang-bv-progress-bar').css('width', '100%');
+                $('#paulus-hreflang-bv-progress-text').text(items.length + ' item(s) scanned.');
                 $results.show();
 
                 items.forEach(function (item) {
@@ -327,13 +327,13 @@
                     });
 
                     var issueHtml = issues.length === 0
-                        ? '<span class="hrefmaster-bv-ok">✓ OK</span>'
-                        : issues.map(function (i) { return '<div class="hrefmaster-bv-issue">⚠ ' + escHtml(i) + '</div>'; }).join('');
+                        ? '<span class="paulus-hreflang-bv-ok">✓ OK</span>'
+                        : issues.map(function (i) { return '<div class="paulus-hreflang-bv-issue">⚠ ' + escHtml(i) + '</div>'; }).join('');
 
                     $body.append(
                         '<tr><td><strong>' + escHtml(item.title) + '</strong></td>' +
                         '<td>' + item.tags.length + '</td>' +
-                        '<td class="hrefmaster-bv-issues">' + issueHtml + '</td></tr>'
+                        '<td class="paulus-hreflang-bv-issues">' + issueHtml + '</td></tr>'
                     );
                 });
 
@@ -350,9 +350,9 @@
     function bindSchemePicker() {
         $(document).on('change', 'input[name="paulus_hreflang_scheme"]', function () {
             var scheme = $(this).val();
-            $('.hrefmaster-wrap').attr('data-scheme', scheme);
-            $('.hrefmaster-scheme-option').removeClass('hrefmaster-scheme-option--active');
-            $(this).closest('.hrefmaster-scheme-option').addClass('hrefmaster-scheme-option--active');
+            $('.paulus-hreflang-wrap').attr('data-scheme', scheme);
+            $('.paulus-hreflang-scheme-option').removeClass('paulus-hreflang-scheme-option--active');
+            $(this).closest('.paulus-hreflang-scheme-option').addClass('paulus-hreflang-scheme-option--active');
         });
     }
 

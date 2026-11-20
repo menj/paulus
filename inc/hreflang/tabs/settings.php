@@ -1,8 +1,8 @@
 <?php
 /**
- * HrefMaster – Settings Tab
+ * Hreflang – Settings Tab
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
@@ -18,7 +18,7 @@ $woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/wooc
 ?>
 
 <form action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>" method="post">
-    <?php settings_fields( 'hrefmaster-settings' ); ?>
+    <?php settings_fields( 'paulus-hreflang-settings' ); ?>
 
     <!-- Hidden: preserve content types from dashboard. -->
     <?php
@@ -30,11 +30,11 @@ $woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/wooc
     }
     ?>
 
-    <div class="hrefmaster-card">
+    <div class="paulus-hreflang-card">
         <h2><?php esc_html_e( 'Appearance', 'paulus' ); ?></h2>
-        <p class="hrefmaster-description"><?php esc_html_e( 'Choose a colour scheme for the HrefMaster admin interface.', 'paulus' ); ?></p>
+        <p class="paulus-hreflang-description"><?php esc_html_e( 'Choose a colour scheme for the Hreflang admin interface.', 'paulus' ); ?></p>
 
-        <div class="hrefmaster-scheme-grid">
+        <div class="paulus-hreflang-scheme-grid">
             <?php
             $schemes = array(
                 'ocean'    => array( 'label' => __( 'Ocean', 'paulus' ),    'colors' => array( '#0f5e8a', '#f97316' ) ),
@@ -44,40 +44,40 @@ $woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/wooc
             );
             foreach ( $schemes as $key => $scheme ) :
             ?>
-                <label class="hrefmaster-scheme-option <?php echo esc_attr( $current_scheme === $key ? 'hrefmaster-scheme-option--active' : '' ); ?>">
+                <label class="paulus-hreflang-scheme-option <?php echo esc_attr( $current_scheme === $key ? 'paulus-hreflang-scheme-option--active' : '' ); ?>">
                     <input type="radio" name="paulus_hreflang_scheme" value="<?php echo esc_attr( $key ); ?>"<?php checked( $current_scheme, $key ); ?> />
-                    <span class="hrefmaster-scheme-preview">
-                        <span class="hrefmaster-scheme-swatch" style="background:<?php echo esc_attr( $scheme['colors'][0] ); ?>"></span>
-                        <span class="hrefmaster-scheme-swatch" style="background:<?php echo esc_attr( $scheme['colors'][1] ); ?>"></span>
+                    <span class="paulus-hreflang-scheme-preview">
+                        <span class="paulus-hreflang-scheme-swatch" style="background:<?php echo esc_attr( $scheme['colors'][0] ); ?>"></span>
+                        <span class="paulus-hreflang-scheme-swatch" style="background:<?php echo esc_attr( $scheme['colors'][1] ); ?>"></span>
                     </span>
-                    <span class="hrefmaster-scheme-label"><?php echo esc_html( $scheme['label'] ); ?></span>
+                    <span class="paulus-hreflang-scheme-label"><?php echo esc_html( $scheme['label'] ); ?></span>
                 </label>
             <?php endforeach; ?>
         </div>
     </div>
 
-    <div class="hrefmaster-card">
+    <div class="paulus-hreflang-card">
         <h2><?php esc_html_e( 'General', 'paulus' ); ?></h2>
 
         <table class="form-table">
             <tr>
                 <th scope="row"><?php esc_html_e( 'Admin Bar Link', 'paulus' ); ?></th>
                 <td>
-                    <label class="hrefmaster-toggle">
+                    <label class="paulus-hreflang-toggle">
                         <input type="hidden" name="paulus_hreflang_admin_bar" value="false" />
                         <input type="checkbox" name="paulus_hreflang_admin_bar" value="true"<?php checked( $admin_bar, 'true' ); ?> />
-                        <span class="hrefmaster-toggle__slider"></span>
+                        <span class="paulus-hreflang-toggle__slider"></span>
                     </label>
-                    <p class="description"><?php esc_html_e( 'Show a quick-access HrefMaster link in the WordPress admin bar.', 'paulus' ); ?></p>
+                    <p class="description"><?php esc_html_e( 'Show a quick-access Hreflang link in the WordPress admin bar.', 'paulus' ); ?></p>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><?php esc_html_e( 'HTML Lang Attribute', 'paulus' ); ?></th>
                 <td>
-                    <label class="hrefmaster-toggle">
+                    <label class="paulus-hreflang-toggle">
                         <input type="hidden" name="paulus_hreflang_html_lang" value="false" />
                         <input type="checkbox" name="paulus_hreflang_html_lang" value="true"<?php checked( $html_lang, 'true' ); ?> />
-                        <span class="hrefmaster-toggle__slider"></span>
+                        <span class="paulus-hreflang-toggle__slider"></span>
                     </label>
                     <p class="description"><?php esc_html_e( 'Enable per-post/page override of the <html lang=""> attribute for improved SEO.', 'paulus' ); ?></p>
                 </td>
@@ -86,10 +86,10 @@ $woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/wooc
             <tr>
                 <th scope="row"><?php esc_html_e( 'WooCommerce Shop Page', 'paulus' ); ?></th>
                 <td>
-                    <label class="hrefmaster-toggle">
+                    <label class="paulus-hreflang-toggle">
                         <input type="hidden" name="paulus_hreflang_woo_shop" value="false" />
                         <input type="checkbox" name="paulus_hreflang_woo_shop" value="true"<?php checked( $woo_shop, 'true' ); ?> />
-                        <span class="hrefmaster-toggle__slider"></span>
+                        <span class="paulus-hreflang-toggle__slider"></span>
                     </label>
                     <p class="description"><?php esc_html_e( 'Output hreflang tags on the WooCommerce main shop page.', 'paulus' ); ?></p>
                 </td>
@@ -98,5 +98,5 @@ $woo_active       = class_exists( 'WooCommerce' ) || in_array( 'woocommerce/wooc
         </table>
     </div>
 
-    <?php submit_button( __( 'Save Settings', 'paulus' ), 'primary hrefmaster-btn' ); ?>
+    <?php submit_button( __( 'Save Settings', 'paulus' ), 'primary paulus-hreflang-btn' ); ?>
 </form>

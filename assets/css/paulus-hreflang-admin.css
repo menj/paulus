@@ -1,17 +1,17 @@
 /**
- * HrefMaster – Admin Styles
+ * Hreflang – Admin Styles
  *
  * Modern, minimalist design with configurable colour schemes.
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
 /* ── Colour Scheme Variables ──────────────────────────────────────── */
 
 /* Ocean (default) */
-.hrefmaster-wrap,
-.hrefmaster-wrap[data-scheme="ocean"] {
+.paulus-hreflang-wrap,
+.paulus-hreflang-wrap[data-scheme="ocean"] {
     --hm-primary: #0f5e8a;
     --hm-primary-lt: #e8f2f8;
     --hm-accent: #f97316;
@@ -29,14 +29,14 @@
     --hm-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.hrefmaster-wrap[data-scheme="slate"] {
+.paulus-hreflang-wrap[data-scheme="slate"] {
     --hm-primary: #475569;
     --hm-primary-lt: #f1f5f9;
     --hm-accent: #6366f1;
     --hm-accent-lt: #eef2ff;
 }
 
-.hrefmaster-wrap[data-scheme="emerald"] {
+.paulus-hreflang-wrap[data-scheme="emerald"] {
     --hm-primary: #065f46;
     --hm-primary-lt: #ecfdf5;
     --hm-accent: #d97706;
@@ -44,7 +44,7 @@
     --hm-border: #d1e7dd;
 }
 
-.hrefmaster-wrap[data-scheme="midnight"] {
+.paulus-hreflang-wrap[data-scheme="midnight"] {
     --hm-primary: #7c3aed;
     --hm-primary-lt: #f5f3ff;
     --hm-accent: #ec4899;
@@ -54,38 +54,38 @@
 
 /* ── Layout ───────────────────────────────────────────────────────── */
 
-.hrefmaster-wrap {
+.paulus-hreflang-wrap {
     max-width: 1100px;
     margin: 20px auto 40px 0;
     font-family: var(--hm-font);
     color: var(--hm-text);
 }
 
-.hrefmaster-wrap * { box-sizing: border-box; }
+.paulus-hreflang-wrap * { box-sizing: border-box; }
 
 /* ── Header ───────────────────────────────────────────────────────── */
 
-.hrefmaster-header {
+.paulus-hreflang-header {
     background: var(--hm-primary);
     color: #fff;
     padding: 20px 28px;
     border-radius: var(--hm-radius) var(--hm-radius) 0 0;
 }
 
-.hrefmaster-header-inner {
+.paulus-hreflang-header-inner {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.hrefmaster-logo-icon {
+.paulus-hreflang-logo-icon {
     font-size: 28px;
     width: 28px;
     height: 28px;
     opacity: .9;
 }
 
-.hrefmaster-header h1 {
+.paulus-hreflang-header h1 {
     margin: 0;
     padding: 0;
     font-size: 22px;
@@ -94,7 +94,7 @@
     color: #fff;
 }
 
-.hrefmaster-version {
+.paulus-hreflang-version {
     font-size: 12px;
     font-weight: 400;
     opacity: .65;
@@ -104,7 +104,7 @@
 
 /* ── Tabs ─────────────────────────────────────────────────────────── */
 
-.hrefmaster-tabs {
+.paulus-hreflang-tabs {
     display: flex;
     background: var(--hm-card);
     border-bottom: 2px solid var(--hm-border);
@@ -113,7 +113,7 @@
     overflow-x: auto;
 }
 
-.hrefmaster-tab {
+.paulus-hreflang-tab {
     display: inline-flex;
     align-items: center;
     padding: 12px 18px;
@@ -127,11 +127,11 @@
     white-space: nowrap;
 }
 
-.hrefmaster-tab:hover {
+.paulus-hreflang-tab:hover {
     color: var(--hm-primary);
 }
 
-.hrefmaster-tab--active {
+.paulus-hreflang-tab--active {
     color: var(--hm-primary);
     border-bottom-color: var(--hm-primary);
     font-weight: 600;
@@ -139,13 +139,13 @@
 
 /* ── Body ─────────────────────────────────────────────────────────── */
 
-.hrefmaster-body {
+.paulus-hreflang-body {
     padding: 24px 0;
 }
 
 /* ── Cards ────────────────────────────────────────────────────────── */
 
-.hrefmaster-card {
+.paulus-hreflang-card {
     background: var(--hm-card);
     border: 1px solid var(--hm-border);
     border-radius: var(--hm-radius);
@@ -154,14 +154,14 @@
     box-shadow: var(--hm-shadow);
 }
 
-.hrefmaster-card h2 {
+.paulus-hreflang-card h2 {
     margin: 0 0 4px;
     font-size: 16px;
     font-weight: 600;
     color: var(--hm-text);
 }
 
-.hrefmaster-card__header {
+.paulus-hreflang-card__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -170,18 +170,18 @@
     margin-bottom: 4px;
 }
 
-.hrefmaster-card__header h2 { margin-bottom: 0; }
+.paulus-hreflang-card__header h2 { margin-bottom: 0; }
 
-.hrefmaster-card--muted {
+.paulus-hreflang-card--muted {
     background: var(--hm-primary-lt);
     border-color: transparent;
 }
 
-.hrefmaster-card--danger {
+.paulus-hreflang-card--danger {
     border-left: 3px solid var(--hm-danger);
 }
 
-.hrefmaster-description {
+.paulus-hreflang-description {
     color: var(--hm-muted);
     font-size: 13px;
     margin: 4px 0 16px;
@@ -190,7 +190,7 @@
 
 /* ── Buttons ──────────────────────────────────────────────────────── */
 
-.hrefmaster-btn {
+.paulus-hreflang-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -204,39 +204,39 @@
     height: auto !important;
 }
 
-.hrefmaster-btn .dashicons {
+.paulus-hreflang-btn .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
     line-height: 16px;
 }
 
-.hrefmaster-btn--primary {
+.paulus-hreflang-btn--primary {
     background: var(--hm-primary) !important;
     border-color: var(--hm-primary) !important;
     color: #fff !important;
 }
 
-.hrefmaster-btn--primary:hover,
-.hrefmaster-btn--primary:focus {
+.paulus-hreflang-btn--primary:hover,
+.paulus-hreflang-btn--primary:focus {
     background: color-mix(in srgb, var(--hm-primary), #000 12%) !important;
     box-shadow: var(--hm-shadow) !important;
     color: #fff !important;
 }
 
-.hrefmaster-btn--danger {
+.paulus-hreflang-btn--danger {
     background: var(--hm-danger) !important;
     border-color: var(--hm-danger) !important;
     color: #fff !important;
 }
 
-.hrefmaster-btn--danger:hover {
+.paulus-hreflang-btn--danger:hover {
     background: #b91c1c !important;
 }
 
 /* ── Inputs ───────────────────────────────────────────────────────── */
 
-.hrefmaster-input {
+.paulus-hreflang-input {
     border: 1px solid var(--hm-border);
     border-radius: 6px;
     padding: 8px 12px;
@@ -244,27 +244,27 @@
     transition: border-color .15s, box-shadow .15s;
 }
 
-.hrefmaster-input:focus {
+.paulus-hreflang-input:focus {
     border-color: var(--hm-primary);
     box-shadow: 0 0 0 2px var(--hm-primary-lt);
     outline: none;
 }
 
-.hrefmaster-input--wide {
+.paulus-hreflang-input--wide {
     width: 100%;
     max-width: 480px;
 }
 
 /* ── Checkbox Grid ────────────────────────────────────────────────── */
 
-.hrefmaster-checkbox-grid {
+.paulus-hreflang-checkbox-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 10px;
     margin-bottom: 16px;
 }
 
-.hrefmaster-checkbox {
+.paulus-hreflang-checkbox {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -276,37 +276,37 @@
     transition: background .1s, border-color .1s;
 }
 
-.hrefmaster-checkbox:hover {
+.paulus-hreflang-checkbox:hover {
     background: var(--hm-primary-lt);
     border-color: var(--hm-primary);
 }
 
-.hrefmaster-checkbox input:checked + span {
+.paulus-hreflang-checkbox input:checked + span {
     color: var(--hm-primary);
     font-weight: 600;
 }
 
 /* ── Stats ────────────────────────────────────────────────────────── */
 
-.hrefmaster-stats {
+.paulus-hreflang-stats {
     display: flex;
     gap: 32px;
     margin-top: 12px;
 }
 
-.hrefmaster-stat {
+.paulus-hreflang-stat {
     display: flex;
     flex-direction: column;
 }
 
-.hrefmaster-stat__number {
+.paulus-hreflang-stat__number {
     font-size: 28px;
     font-weight: 700;
     color: var(--hm-primary);
     line-height: 1;
 }
 
-.hrefmaster-stat__label {
+.paulus-hreflang-stat__label {
     font-size: 12px;
     color: var(--hm-muted);
     margin-top: 4px;
@@ -316,14 +316,14 @@
 
 /* ── Tables ───────────────────────────────────────────────────────── */
 
-.hrefmaster-table {
+.paulus-hreflang-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
     margin-top: 16px;
 }
 
-.hrefmaster-table thead th {
+.paulus-hreflang-table thead th {
     text-align: left;
     font-weight: 600;
     font-size: 11px;
@@ -334,21 +334,21 @@
     border-bottom: 2px solid var(--hm-border);
 }
 
-.hrefmaster-table tbody td {
+.paulus-hreflang-table tbody td {
     padding: 12px;
     border-bottom: 1px solid var(--hm-border);
     vertical-align: top;
 }
 
-.hrefmaster-table tbody tr:hover {
+.paulus-hreflang-table tbody tr:hover {
     background: var(--hm-primary-lt);
 }
 
-.hrefmaster-table__col--title { width: 28%; }
-.hrefmaster-table__col--type { width: 10%; }
-.hrefmaster-table__col--tags { width: 62%; }
+.paulus-hreflang-table__col--title { width: 28%; }
+.paulus-hreflang-table__col--type { width: 10%; }
+.paulus-hreflang-table__col--tags { width: 62%; }
 
-.hrefmaster-badge {
+.paulus-hreflang-badge {
     display: inline-block;
     padding: 2px 10px;
     font-size: 11px;
@@ -359,20 +359,20 @@
     text-transform: capitalize;
 }
 
-.hrefmaster-row-meta {
+.paulus-hreflang-row-meta {
     font-size: 12px;
     color: var(--hm-muted);
     margin-top: 4px;
 }
 
-.hrefmaster-row-meta a {
+.paulus-hreflang-row-meta a {
     color: var(--hm-primary);
     text-decoration: none;
 }
 
 /* ── Inline Tag Editor (Bulk) ─────────────────────────────────────── */
 
-.hrefmaster-inline-tag {
+.paulus-hreflang-inline-tag {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -380,7 +380,7 @@
     flex-wrap: wrap;
 }
 
-.hrefmaster-inline-lang {
+.paulus-hreflang-inline-lang {
     min-width: 160px;
     font-size: 12px;
     border: 1px solid var(--hm-border);
@@ -388,7 +388,7 @@
     padding: 4px 6px;
 }
 
-.hrefmaster-inline-href {
+.paulus-hreflang-inline-href {
     flex: 1;
     min-width: 200px;
     font-size: 12px;
@@ -397,14 +397,14 @@
     padding: 4px 8px;
 }
 
-.hrefmaster-inline-href:focus,
-.hrefmaster-inline-lang:focus {
+.paulus-hreflang-inline-href:focus,
+.paulus-hreflang-inline-lang:focus {
     border-color: var(--hm-primary);
     outline: none;
     box-shadow: 0 0 0 1px var(--hm-primary-lt);
 }
 
-.hrefmaster-inline-remove {
+.paulus-hreflang-inline-remove {
     padding: 2px 4px !important;
     min-height: 0 !important;
     line-height: 1 !important;
@@ -413,7 +413,7 @@
     background: transparent !important;
 }
 
-.hrefmaster-inline-add {
+.paulus-hreflang-inline-add {
     font-size: 12px !important;
     color: var(--hm-primary) !important;
     border-color: transparent !important;
@@ -421,24 +421,24 @@
     padding: 4px 0 !important;
 }
 
-.hrefmaster-inline-add:hover {
+.paulus-hreflang-inline-add:hover {
     text-decoration: underline;
 }
 
 /* ── Filter ───────────────────────────────────────────────────────── */
 
-.hrefmaster-filter {
+.paulus-hreflang-filter {
     margin-bottom: 12px;
 }
 
-.hrefmaster-filter input {
+.paulus-hreflang-filter input {
     width: 100%;
     max-width: 340px;
 }
 
 /* ── Generator ────────────────────────────────────────────────────── */
 
-.hrefmaster-generator-row {
+.paulus-hreflang-generator-row {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -446,14 +446,14 @@
     flex-wrap: wrap;
 }
 
-.hrefmaster-generator-row label {
+.paulus-hreflang-generator-row label {
     font-size: 12px;
     font-weight: 500;
     color: var(--hm-muted);
     min-width: fit-content;
 }
 
-.hrefmaster-generator-row select {
+.paulus-hreflang-generator-row select {
     min-width: 200px;
     border: 1px solid var(--hm-border);
     border-radius: 6px;
@@ -461,19 +461,19 @@
     font-size: 13px;
 }
 
-.hrefmaster-generator-row input[type="url"] {
+.paulus-hreflang-generator-row input[type="url"] {
     flex: 1;
     min-width: 240px;
 }
 
-.hrefmaster-gen-remove {
+.paulus-hreflang-gen-remove {
     color: var(--hm-danger) !important;
     border-color: transparent !important;
     background: transparent !important;
     min-height: 0 !important;
 }
 
-.hrefmaster-generator-actions {
+.paulus-hreflang-generator-actions {
     display: flex;
     gap: 10px;
     margin-top: 16px;
@@ -482,14 +482,14 @@
 
 /* ── Code Output ──────────────────────────────────────────────────── */
 
-.hrefmaster-code-output {
+.paulus-hreflang-code-output {
     margin-top: 24px;
     border: 1px solid var(--hm-border);
     border-radius: var(--hm-radius);
     overflow: hidden;
 }
 
-.hrefmaster-code-header {
+.paulus-hreflang-code-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -498,14 +498,14 @@
     border-bottom: 1px solid var(--hm-border);
 }
 
-.hrefmaster-code-header h3 {
+.paulus-hreflang-code-header h3 {
     margin: 0;
     font-size: 13px;
     font-weight: 600;
     color: var(--hm-primary);
 }
 
-.hrefmaster-code-output pre {
+.paulus-hreflang-code-output pre {
     margin: 0;
     padding: 16px;
     background: #f8fafc;
@@ -514,21 +514,21 @@
     line-height: 1.6;
 }
 
-.hrefmaster-code-output code {
+.paulus-hreflang-code-output code {
     color: var(--hm-text);
     white-space: pre;
 }
 
 /* ── Validation ───────────────────────────────────────────────────── */
 
-.hrefmaster-validator-form {
+.paulus-hreflang-validator-form {
     display: flex;
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
 }
 
-.hrefmaster-status-bar {
+.paulus-hreflang-status-bar {
     padding: 10px 16px;
     border-radius: 6px;
     font-size: 13px;
@@ -536,35 +536,35 @@
     margin-bottom: 12px;
 }
 
-.hrefmaster-status-bar--success {
+.paulus-hreflang-status-bar--success {
     background: #f0fdf4;
     color: var(--hm-success);
     border: 1px solid #bbf7d0;
 }
 
-.hrefmaster-status-bar--warning {
+.paulus-hreflang-status-bar--warning {
     background: #fffbeb;
     color: #b45309;
     border: 1px solid #fde68a;
 }
 
-.hrefmaster-status-bar--error {
+.paulus-hreflang-status-bar--error {
     background: #fef2f2;
     color: var(--hm-danger);
     border: 1px solid #fecaca;
 }
 
-.hrefmaster-tag-valid {
+.paulus-hreflang-tag-valid {
     color: var(--hm-success);
     font-weight: 600;
 }
 
-.hrefmaster-tag-invalid {
+.paulus-hreflang-tag-invalid {
     color: var(--hm-danger);
     font-weight: 600;
 }
 
-.hrefmaster-warnings {
+.paulus-hreflang-warnings {
     margin-top: 12px;
     font-size: 13px;
     color: #b45309;
@@ -572,7 +572,7 @@
 
 /* ── Progress Bar ─────────────────────────────────────────────────── */
 
-.hrefmaster-progress {
+.paulus-hreflang-progress {
     height: 6px;
     background: var(--hm-border);
     border-radius: 3px;
@@ -580,7 +580,7 @@
     margin: 16px 0 8px;
 }
 
-.hrefmaster-progress__bar {
+.paulus-hreflang-progress__bar {
     height: 100%;
     background: var(--hm-primary);
     border-radius: 3px;
@@ -590,7 +590,7 @@
 
 /* ── Toggle Switches ──────────────────────────────────────────────── */
 
-.hrefmaster-toggle {
+.paulus-hreflang-toggle {
     position: relative;
     display: inline-block;
     width: 44px;
@@ -598,14 +598,14 @@
     vertical-align: middle;
 }
 
-.hrefmaster-toggle input {
+.paulus-hreflang-toggle input {
     opacity: 0;
     width: 0;
     height: 0;
     position: absolute;
 }
 
-.hrefmaster-toggle__slider {
+.paulus-hreflang-toggle__slider {
     position: absolute;
     inset: 0;
     background: #cbd5e1;
@@ -614,7 +614,7 @@
     transition: background .2s;
 }
 
-.hrefmaster-toggle__slider::before {
+.paulus-hreflang-toggle__slider::before {
     content: '';
     position: absolute;
     left: 3px;
@@ -627,24 +627,24 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
-.hrefmaster-toggle input:checked + .hrefmaster-toggle__slider {
+.paulus-hreflang-toggle input:checked + .paulus-hreflang-toggle__slider {
     background: var(--hm-primary);
 }
 
-.hrefmaster-toggle input:checked + .hrefmaster-toggle__slider::before {
+.paulus-hreflang-toggle input:checked + .paulus-hreflang-toggle__slider::before {
     transform: translateX(20px);
 }
 
 /* ── Colour Scheme Picker ─────────────────────────────────────────── */
 
-.hrefmaster-scheme-grid {
+.paulus-hreflang-scheme-grid {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     margin-top: 12px;
 }
 
-.hrefmaster-scheme-option {
+.paulus-hreflang-scheme-option {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -657,27 +657,27 @@
     min-width: 100px;
 }
 
-.hrefmaster-scheme-option input { display: none; }
+.paulus-hreflang-scheme-option input { display: none; }
 
-.hrefmaster-scheme-option--active,
-.hrefmaster-scheme-option:hover {
+.paulus-hreflang-scheme-option--active,
+.paulus-hreflang-scheme-option:hover {
     border-color: var(--hm-primary);
     box-shadow: var(--hm-shadow-lg);
 }
 
-.hrefmaster-scheme-preview {
+.paulus-hreflang-scheme-preview {
     display: flex;
     gap: 6px;
 }
 
-.hrefmaster-scheme-swatch {
+.paulus-hreflang-scheme-swatch {
     width: 24px;
     height: 24px;
     border-radius: 50%;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
 }
 
-.hrefmaster-scheme-label {
+.paulus-hreflang-scheme-label {
     font-size: 12px;
     font-weight: 600;
     color: var(--hm-text);
@@ -685,7 +685,7 @@
 
 /* ── Empty State ──────────────────────────────────────────────────── */
 
-.hrefmaster-empty {
+.paulus-hreflang-empty {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -695,18 +695,18 @@
     color: var(--hm-muted);
 }
 
-.hrefmaster-empty .dashicons {
+.paulus-hreflang-empty .dashicons {
     font-size: 24px;
     width: 24px;
     height: 24px;
     flex-shrink: 0;
 }
 
-.hrefmaster-empty p { margin: 0; }
+.paulus-hreflang-empty p { margin: 0; }
 
 /* ── Footer ───────────────────────────────────────────────────────── */
 
-.hrefmaster-footer {
+.paulus-hreflang-footer {
     text-align: center;
     padding: 16px;
     font-size: 12px;
@@ -715,9 +715,9 @@
 
 /* ── Meta Box Styles ──────────────────────────────────────────────── */
 
-.hrefmaster-metabox-wrap { padding: 8px 0; }
+.paulus-hreflang-metabox-wrap { padding: 8px 0; }
 
-.hrefmaster-row {
+.paulus-hreflang-row {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -725,23 +725,23 @@
     flex-wrap: wrap;
 }
 
-.hrefmaster-row label {
+.paulus-hreflang-row label {
     font-size: 12px;
     font-weight: 500;
     color: #555;
     min-width: fit-content;
 }
 
-.hrefmaster-url-input {
+.paulus-hreflang-url-input {
     flex: 1;
     min-width: 240px;
 }
 
-.hrefmaster-lang-select {
+.paulus-hreflang-lang-select {
     min-width: 180px;
 }
 
-.hrefmaster-row .button .dashicons {
+.paulus-hreflang-row .button .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
@@ -750,16 +750,16 @@
 
 /* ── Bulk Validation Results ──────────────────────────────────────── */
 
-.hrefmaster-bv-issues {
+.paulus-hreflang-bv-issues {
     font-size: 12px;
 }
 
-.hrefmaster-bv-issue {
+.paulus-hreflang-bv-issue {
     color: #b45309;
     margin-bottom: 2px;
 }
 
-.hrefmaster-bv-ok {
+.paulus-hreflang-bv-ok {
     color: var(--hm-success);
     font-weight: 600;
 }
@@ -767,12 +767,12 @@
 /* ── Responsive ───────────────────────────────────────────────────── */
 
 @media (max-width: 782px) {
-    .hrefmaster-wrap { margin: 10px 0; }
-    .hrefmaster-card { padding: 16px; }
-    .hrefmaster-stats { flex-wrap: wrap; gap: 20px; }
-    .hrefmaster-table__col--title,
-    .hrefmaster-table__col--type { width: auto; }
-    .hrefmaster-generator-row { flex-direction: column; align-items: stretch; }
-    .hrefmaster-generator-row select,
-    .hrefmaster-generator-row input { min-width: unset; width: 100%; }
+    .paulus-hreflang-wrap { margin: 10px 0; }
+    .paulus-hreflang-card { padding: 16px; }
+    .paulus-hreflang-stats { flex-wrap: wrap; gap: 20px; }
+    .paulus-hreflang-table__col--title,
+    .paulus-hreflang-table__col--type { width: auto; }
+    .paulus-hreflang-generator-row { flex-direction: column; align-items: stretch; }
+    .paulus-hreflang-generator-row select,
+    .paulus-hreflang-generator-row input { min-width: unset; width: 100%; }
 }

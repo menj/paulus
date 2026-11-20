@@ -1,8 +1,8 @@
 <?php
 /**
- * HrefMaster – Language Variables
+ * Hreflang – Language Variables
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * commonly needed for hreflang tagging (regional English,
  * non-regional base languages, etc.).
  */
-function hrefmaster_build_language_list() {
+function paulus_hreflang_build_language_list() {
 
     // Start with WP core translations if available.
     $languages = array();
@@ -208,5 +208,5 @@ function hrefmaster_build_language_list() {
     return $languages;
 }
 
-global $hrefmaster_languages;
-$hrefmaster_languages = hrefmaster_build_language_list();
+global $paulus_hreflang_languages;
+$paulus_hreflang_languages = paulus_hreflang_build_language_list();

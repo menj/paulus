@@ -1,8 +1,8 @@
 <?php
 /**
- * HrefMaster – Admin Notices
+ * Hreflang – Admin Notices
  *
- * @package HrefMaster
+ * @package Hreflang
  * @since   3.0.0
  */
 
@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'HrefMaster_Admin_Notices' ) ) {
+if ( ! class_exists( 'Hreflang_Admin_Notices' ) ) {
 
-    class HrefMaster_Admin_Notices {
+    class Hreflang_Admin_Notices {
 
         private static $instance;
         private $notices;
@@ -36,17 +36,17 @@ if ( ! class_exists( 'HrefMaster_Admin_Notices' ) ) {
         }
 
         public function handle_dismiss() {
-            if ( ! isset( $_GET['hrefmaster_dismiss'] ) ) {
+            if ( ! isset( $_GET['paulus_hreflang_dismiss'] ) ) {
                 return;
             }
             if ( ! isset( $_GET['_hm_dismiss_nonce'] )
-                 || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_hm_dismiss_nonce'] ) ), 'hrefmaster_dismiss_notice' ) ) {
+                 || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_hm_dismiss_nonce'] ) ), 'paulus_hreflang_dismiss_notice' ) ) {
                 return;
             }
-            $key = sanitize_key( wp_unslash( $_GET['hrefmaster_dismiss'] ) );
+            $key = sanitize_key( wp_unslash( $_GET['paulus_hreflang_dismiss'] ) );
             if ( $key ) {
                 update_option( 'paulus_hreflang_dismissed_' . $key, true );
-                wp_safe_redirect( remove_query_arg( array( 'hrefmaster_dismiss', '_hm_dismiss_nonce' ) ) );
+                wp_safe_redirect( remove_query_arg( array( 'paulus_hreflang_dismiss', '_hm_dismiss_nonce' ) ) );
                 exit;
             }
         }
@@ -60,15 +60,15 @@ if ( ! class_exists( 'HrefMaster_Admin_Notices' ) ) {
                     $dismiss_url = '';
                     if ( $notice->dismiss_key ) {
                         $dismiss_url = wp_nonce_url(
-                            add_query_arg( 'hrefmaster_dismiss', $notice->dismiss_key ),
-                            'hrefmaster_dismiss_notice',
+                            add_query_arg( 'paulus_hreflang_dismiss', $notice->dismiss_key ),
+                            'paulus_hreflang_dismiss_notice',
                             '_hm_dismiss_nonce'
                         );
                     }
                     ?>
                     <div class="notice notice-<?php echo esc_attr( $type ); ?><?php echo $dismiss_url ? ' is-dismissible' : ''; ?>"
                          <?php echo $dismiss_url ? 'data-dismiss-url="' . esc_attr( $dismiss_url ) . '"' : ''; ?>>
-                        <p><strong>HrefMaster:</strong> <?php echo wp_kses_post( $notice->message ); ?></p>
+                        <p><strong>Hreflang:</strong> <?php echo wp_kses_post( $notice->message ); ?></p>
                     </div>
                     <?php
                 }

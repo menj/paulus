@@ -82,9 +82,9 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_cf7_ready',
 		),
 		'hrefmaster/hrefmaster.php' => array(
-			'name'  => 'HrefMaster',
-			'where' => __( 'the HrefMaster menu', 'paulus' ),
-			'ready' => 'paulus_hrefmaster_ready',
+			'name'  => 'Hreflang',
+			'where' => __( 'the Hreflang menu', 'paulus' ),
+			'ready' => 'paulus_hreflang_ready',
 		),
 	);
 	return (array) apply_filters( 'paulus_retired_plugins', $list );
