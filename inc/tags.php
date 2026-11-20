@@ -120,10 +120,13 @@ function paulus_tags_current( $id ) {
  * installer has made the articles, so the run is repeated (at most every ten
  * minutes, and straight after the installer) until all are found.
  *
- * @param bool $force Run now, whatever the throttle or the user (the installer, which has checked both).
+ * It runs on the first request of any kind after the data changes (a visitor's
+ * included), so the tags never wait for someone to open the dashboard.
+ *
+ * @param bool $force Run now, whatever the throttle (the installer).
  */
 function paulus_tags_sync( $force = false ) {
-	if ( ! $force && ( ! current_user_can( 'manage_options' ) || get_transient( 'paulus_tags_wait' ) ) ) {
+	if ( ! $force && get_transient( 'paulus_tags_wait' ) ) {
 		return;
 	}
 	$file = PAULUS_DIR . '/content/tags.json';
@@ -170,7 +173,7 @@ function paulus_tags_sync( $force = false ) {
 		set_transient( 'paulus_tags_wait', 1, 10 * MINUTE_IN_SECONDS );
 	}
 }
-add_action( 'admin_init', 'paulus_tags_sync', 20 );
+add_action( 'init', 'paulus_tags_sync', 30 );
 
 /* ---------------------------------------------------------------------
  * The glossary

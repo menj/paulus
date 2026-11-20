@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.70] - 2026-11-20
+
+Tags no longer wait for an administrator. `content_version` stays at 2.77.65.
+
+### Fixed
+- `paulus_tags_sync()` ran only on `admin_init` and only for a user who can manage options, so a site whose owner had not opened the dashboard after the upload showed no tags. It now runs on `init` for any request, once per version of `content/tags.json`, throttled to every ten minutes while an item is still missing. Tags an editor changed are still kept.
+
 ## [2.77.69] - 2026-11-20
 
 Pages never carry the end mark. `content_version` stays at 2.77.65.

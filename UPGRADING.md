@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.69 to 2.77.70
+
+- Upload the whole theme folder and open any page, as a visitor or an administrator: every article and Journal entry is given its tags on that request. Tags you chose yourself are kept. Clear the page cache afterwards.
+
 ### 2.77.68 to 2.77.69
 
 - Upload the whole theme folder. Nothing else to do: pages lose the end mark at once.
@@ -97,11 +101,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 ### 2.77.59 to 2.77.60
 
 - Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.60 and the Glossary page takes its 48 new entries (an edited Glossary page is offered, not overwritten).
-- The tags are revised on your first admin visit. An item whose tags you changed keeps your tags.
+- The tags are revised on the first page request. An item whose tags you changed keeps your tags.
 
 ### 2.77.58 to 2.77.59
 
-- Upload the whole theme folder. `content_version` stays at 2.77.49. On your first admin page the theme gives every article and Journal entry its tags. Tags you chose yourself are kept, and the theme changes an item only while it holds the tags the theme last gave it.
+- Upload the whole theme folder. `content_version` stays at 2.77.49. On the first page request the theme gives every article and Journal entry its tags. Tags you chose yourself are kept, and the theme changes an item only while it holds the tags the theme last gave it.
 - Tags used by one item only are set to `noindex`, so thin tag pages stay out of search results. They enter the index once a second item shares the tag.
 - Check Settings, Permalinks once, so the tag address (`/tag/damascus-road/`) is registered.
 
