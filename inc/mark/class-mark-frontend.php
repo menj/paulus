@@ -681,8 +681,9 @@ class Paulus_Mark_Frontend {
                 $inner = '<span class="paulus-mark paulus-mark-symbol">∎</span>';
             } else {
                 $inner = sprintf(
-                    '<img class="paulus-mark paulus-mark-image" src="%s" alt="" width="%d" height="%d" loading="lazy" decoding="async" />',
+                    '<img class="paulus-mark paulus-mark-image" src="%s" alt="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
                     $url,
+                    esc_attr( apply_filters( 'paulus_mark_alt', __( 'End of the article: a portrait of Paul of Tarsus', 'paulus' ) ) ),
                     $size,
                     $size
                 );
@@ -695,7 +696,7 @@ class Paulus_Mark_Frontend {
             return '';
         }
 
-        return '<span class="' . Paulus_Mark::WRAPPER_CLASS . '" aria-hidden="true" role="presentation">'
+        return '<span class="' . Paulus_Mark::WRAPPER_CLASS . '">'
             . $inner
             . '</span>'
             . Paulus_Mark::ANTI_DUP_COMMENT;

@@ -11,6 +11,7 @@ Fixes to 2.77.67, whose renames broke the site. Do not use 2.77.67. `content_ver
 - The bundled form libraries did not load: renaming their namespace left them in the autoloader's wrong letter bucket (`P` for `PaulusFormLibs`), so the first form request ended in a fatal error. `tests/forms-test.php` now loads them.
 - The end mark's block name had become `end mark/end mark`, which WordPress refuses; it is `endmark/endmark` again, as stored in existing content. Its schema `@id` fragment no longer contains a space.
 - Script handles damaged by the rename: the Wikipedia card start-up script depended on a handle that did not exist (so it never printed), the consent API's data was attached to the wrong handle, and the hreflang screen's handle was the bare word `admin`.
+- The end mark image carries alt text, "End of the article: a portrait of Paul of Tarsus" (translatable; the filter `paulus_mark_alt` changes it), and its wrapper is no longer hidden from assistive technology.
 - The end mark also ends at a reading or sources list (`<h2>` ids containing `further-reading`, `sources` or `bibliography`), so an article whose last section is a bibliography takes the mark in the last paragraph of its text.
 
 ### Checked
