@@ -77,9 +77,9 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_consent_ready',
 		),
 		'contact-form-7/wp-contact-form-7.php' => array(
-			'name'  => 'Contact Form 7',
+			'name'  => 'Forms',
 			'where' => __( 'the Contact menu', 'paulus' ),
-			'ready' => 'paulus_cf7_ready',
+			'ready' => 'paulus_forms_ready',
 		),
 		'hrefmaster/hrefmaster.php' => array(
 			'name'  => 'Hreflang',

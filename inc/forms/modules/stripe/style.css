@@ -1,0 +1,18 @@
+.paulus-form .paulus-form-stripe .paulus-form-form-control-wrap {
+  margin: 0.6em 0;
+}
+
+.paulus-form .paulus-form-stripe .paulus-form-form-control {
+  display: block;
+  background: #f6f7f7;
+  padding: 12px 12px;
+  border: 1px solid #787c82;
+}
+
+.paulus-form .paulus-form-stripe button:disabled {
+  cursor: not-allowed;
+}
+
+.paulus-form .paulus-form-stripe .hidden {
+  display: none;
+}
