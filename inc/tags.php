@@ -70,20 +70,27 @@ function paulus_tags_journal() {
 }
 add_action( 'init', 'paulus_tags_journal', 20 );
 
-/** No more than six tags on one item: the first six stay. */
-function paulus_tags_limit( $object_id, $terms, $tt_ids, $taxonomy ) {
+/**
+ * No more than six tags on one item: the first six in the order they were
+ * given stay, and when tags are appended the older ones come first.
+ */
+function paulus_tags_limit( $object_id, $terms, $tt_ids, $taxonomy, $append = false, $old_tt_ids = array() ) {
 	if ( 'post_tag' !== $taxonomy ) {
 		return;
 	}
-	$current = wp_get_object_terms( $object_id, 'post_tag', array( 'fields' => 'ids' ) );
-	if ( is_wp_error( $current ) || count( $current ) <= PAULUS_MAX_TAGS ) {
+	$given = array_map( 'intval', (array) $tt_ids );
+	$final = $append ? array_values( array_unique( array_merge( array_map( 'intval', (array) $old_tt_ids ), $given ) ) ) : $given;
+	if ( count( $final ) <= PAULUS_MAX_TAGS ) {
 		return;
 	}
-	remove_action( 'set_object_terms', 'paulus_tags_limit', 10 );
-	wp_set_object_terms( $object_id, array_map( 'intval', array_slice( $current, 0, PAULUS_MAX_TAGS ) ), 'post_tag', false );
-	add_action( 'set_object_terms', 'paulus_tags_limit', 10, 4 );
+	foreach ( array_slice( $final, PAULUS_MAX_TAGS ) as $tt_id ) {
+		$term = get_term_by( 'term_taxonomy_id', $tt_id, 'post_tag' );
+		if ( $term instanceof WP_Term ) {
+			wp_remove_object_terms( $object_id, (int) $term->term_id, 'post_tag' );
+		}
+	}
 }
-add_action( 'set_object_terms', 'paulus_tags_limit', 10, 4 );
+add_action( 'set_object_terms', 'paulus_tags_limit', 10, 6 );
 
 /** Journal entries appear on a tag's archive beside the articles. */
 function paulus_tags_archive_query( $q ) {
@@ -94,10 +101,31 @@ function paulus_tags_archive_query( $q ) {
 add_action( 'pre_get_posts', 'paulus_tags_archive_query' );
 
 /**
- * Give each shipped item its tags, once per version of the data, keeping any
- * tags an editor chose.
+ * The tags an item holds now, as sorted lower-case names.
+ *
+ * @param int $id Post ID.
+ * @return string[]
  */
-function paulus_tags_sync() {
+function paulus_tags_current( $id ) {
+	$names = wp_get_object_terms( $id, 'post_tag', array( 'fields' => 'names' ) );
+	$names = is_wp_error( $names ) ? array() : array_map( 'paulus_tag_lower', $names );
+	sort( $names );
+	return $names;
+}
+
+/**
+ * Give each shipped item its tags, once per version of the data, keeping any
+ * tags an editor chose. The version is recorded only when every item in the
+ * file exists: on a fresh site the first admin page can come before the
+ * installer has made the articles, so the run is repeated (at most every ten
+ * minutes, and straight after the installer) until all are found.
+ *
+ * @param bool $force Run now, whatever the throttle or the user (the installer, which has checked both).
+ */
+function paulus_tags_sync( $force = false ) {
+	if ( ! $force && ( ! current_user_can( 'manage_options' ) || get_transient( 'paulus_tags_wait' ) ) ) {
+		return;
+	}
 	$file = PAULUS_DIR . '/content/tags.json';
 	if ( ! is_readable( $file ) ) {
 		return;
@@ -106,29 +134,41 @@ function paulus_tags_sync() {
 	if ( get_option( 'paulus_tags_hash' ) === $hash ) {
 		return;
 	}
-	$data = paulus_tags_data();
+	$data     = paulus_tags_data();
+	$complete = true;
 	foreach ( $data['tags'] as $slug => $list ) {
-		$list = array_slice( array_values( array_unique( array_map( 'paulus_tag_lower', (array) $list ) ) ), 0, PAULUS_MAX_TAGS );
+		$list  = array_slice( array_values( array_unique( array_map( 'paulus_tag_lower', (array) $list ) ) ), 0, PAULUS_MAX_TAGS );
+		$found = false;
 		foreach ( array( 'post', 'paulus_journal' ) as $type ) {
-			$found = get_posts( array( 'post_type' => $type, 'name' => $slug, 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids' ) );
-			if ( ! $found ) {
+			$ids = get_posts( array( 'post_type' => $type, 'name' => $slug, 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids' ) );
+			if ( ! $ids ) {
 				continue;
 			}
-			$id       = (int) $found[0];
-			$current  = wp_get_object_terms( $id, 'post_tag', array( 'fields' => 'names' ) );
-			$current  = is_wp_error( $current ) ? array() : array_map( 'paulus_tag_lower', $current );
+			$found    = true;
+			$id       = (int) $ids[0];
 			$assigned = get_post_meta( $id, '_paulus_tags', true );
-			$assigned = is_array( $assigned ) ? $assigned : array();
-			sort( $current );
-			$base = $assigned;
+			$base     = is_array( $assigned ) ? array_map( 'paulus_tag_lower', $assigned ) : array();
 			sort( $base );
-			if ( $current === $base ) {
+			if ( paulus_tags_current( $id ) !== $base ) {
+				continue; // An editor changed the tags: leave them.
+			}
+			// Look again just before writing, so a tag an editor adds in the
+			// meantime is not replaced.
+			if ( paulus_tags_current( $id ) === $base ) {
 				wp_set_object_terms( $id, $list, 'post_tag', false );
 				update_post_meta( $id, '_paulus_tags', $list );
 			}
 		}
+		if ( ! $found ) {
+			$complete = false;
+		}
 	}
-	update_option( 'paulus_tags_hash', $hash, false );
+	if ( $complete ) {
+		update_option( 'paulus_tags_hash', $hash, false );
+		delete_transient( 'paulus_tags_wait' );
+	} else {
+		set_transient( 'paulus_tags_wait', 1, 10 * MINUTE_IN_SECONDS );
+	}
 }
 add_action( 'admin_init', 'paulus_tags_sync', 20 );
 

@@ -1146,9 +1146,9 @@ function paulus_sc_page_hero() {
 			$out .= paulus_article_dates_html( get_the_ID() );
 		}
 		$out .= '</p>';
-		if ( is_singular( array( 'post', 'paulus_journal' ) ) && function_exists( 'paulus_tags_html' ) ) {
-			$out .= paulus_tags_html( get_the_ID() );
-		}
+	}
+	if ( is_singular( array( 'post', 'paulus_journal' ) ) && function_exists( 'paulus_tags_html' ) ) {
+		$out .= paulus_tags_html( get_the_ID() );
 	}
 	if ( is_single() ) {
 		$out .= paulus_share_links( get_the_ID() );

@@ -1,0 +1,11 @@
+.paulus-form-not-valid-tip {
+  direction: rtl;
+}
+
+.use-floating-validation-tip .paulus-form-not-valid-tip {
+  right: 1em;
+}
+
+.paulus-form-list-item {
+  margin: 0 1em 0 0;
+}

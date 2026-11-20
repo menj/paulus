@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * name   What the plugin is called.
  * where  Where its settings are now.
- * ready  A function the native module defines: the plugin is only switched
- *        off while the module that replaces it is loaded.
+ * ready  A function the native module defines and that answers true when the
+ *        module is whole: the plugin is only switched off while it does.
  *
  * @return array<string,array<string,string>>
  */
@@ -29,21 +29,21 @@ function paulus_retired_plugins() {
 		'auto-justify-content/auto-justify-content.php' => array(
 			'name'  => 'Auto Justify Content',
 			'where' => __( 'Theme Options, Justify', 'paulus' ),
-			'ready' => 'paulus_justify_import',
+			'ready' => 'paulus_justify_ready',
 		),
 		'citepress/citepress.php' => array(
 			'name'  => 'CitePress',
-			'where' => __( 'the CitePress menu', 'paulus' ),
-			'ready' => 'paulus_citepress_ready',
+			'where' => __( 'the Citations menu', 'paulus' ),
+			'ready' => 'paulus_cite_ready',
 		),
 		'endmark/endmark.php' => array(
 			'name'  => 'Endmark',
-			'where' => __( 'Settings, Endmark', 'paulus' ),
-			'ready' => 'paulus_endmark_ready',
+			'where' => __( 'Settings, End mark', 'paulus' ),
+			'ready' => 'paulus_mark_ready',
 		),
 		'wps-hide-login/wps-hide-login.php' => array(
 			'name'  => 'WPS Hide Login',
-			'where' => __( 'the login address under Settings, Permalinks', 'paulus' ),
+			'where' => __( 'Settings, Permalinks (the login address)', 'paulus' ),
 			'ready' => 'paulus_hide_login_ready',
 		),
 		'unlist-posts-pages/unlist-posts-pages.php' => array(
@@ -68,23 +68,23 @@ function paulus_retired_plugins() {
 		),
 		'wikipedia-preview/wikipediapreview.php' => array(
 			'name'  => 'Wikipedia Preview',
-			'where' => __( 'the post editor (the link button) and the reader\'s cards', 'paulus' ),
-			'ready' => 'paulus_wikipreview_ready',
+			'where' => __( 'the post editor (the link button)', 'paulus' ),
+			'ready' => 'paulus_wiki_card_ready',
 		),
 		'wp-consent-api/wp-consent-api.php' => array(
 			'name'  => 'WP Consent API',
-			'where' => __( 'the Plugins screen', 'paulus' ),
-			'ready' => 'paulus_consent_api_ready',
+			'where' => __( 'nowhere to set: the API has no settings', 'paulus' ),
+			'ready' => 'paulus_consent_ready',
 		),
 		'contact-form-7/wp-contact-form-7.php' => array(
 			'name'  => 'Contact Form 7',
 			'where' => __( 'the Contact menu', 'paulus' ),
-			'ready' => 'paulus_cf7_ready',
+			'ready' => 'paulus_forms_ready',
 		),
 		'hrefmaster/hrefmaster.php' => array(
 			'name'  => 'HrefMaster',
-			'where' => __( 'the HrefMaster menu', 'paulus' ),
-			'ready' => 'paulus_hrefmaster_ready',
+			'where' => __( 'the Hreflang menu', 'paulus' ),
+			'ready' => 'paulus_hreflang_ready',
 		),
 	);
 	return (array) apply_filters( 'paulus_retired_plugins', $list );
@@ -102,7 +102,9 @@ function paulus_retire_plugins() {
 	$done    = array();
 	$blocked = array();
 	foreach ( paulus_retired_plugins() as $file => $info ) {
-		if ( ! empty( $info['ready'] ) && ! function_exists( $info['ready'] ) ) {
+		// The module must be loaded and whole: a ready function that is missing,
+		// or answers false (a file of the module is gone), leaves the plugin on.
+		if ( ! empty( $info['ready'] ) && ( ! function_exists( $info['ready'] ) || ! call_user_func( $info['ready'] ) ) ) {
 			continue;
 		}
 		if ( ! is_plugin_active( $file ) ) {
@@ -164,8 +166,8 @@ function paulus_retire_notice() {
 			'<div class="notice notice-info is-dismissible"><p>%s</p></div>',
 			esc_html(
 				sprintf(
-					/* translators: 1: plugin names, 2: where the settings are now. */
-					__( 'The theme does the work of %1$s itself, so the plugin was switched off. Its settings are now under %2$s.', 'paulus' ),
+					/* translators: 1: plugin names, 2: where its features and settings are now. */
+					__( 'The theme does the work of %1$s itself, so the plugin was switched off. Where to find it now: %2$s.', 'paulus' ),
 					implode( ', ', $done ),
 					implode( '; ', array_unique( $where ) )
 				)

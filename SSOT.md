@@ -1,6 +1,6 @@
 # Paulus: single source of truth
 
-Version 2.77.64. This file holds the fixed facts of the theme and the rules every change follows.
+Version 2.77.67. This file holds the fixed facts of the theme and the rules every change follows.
 
 It settles any disagreement between documents on a matter of fact. Where a document and the code or a data file of record disagree, the code or data file is right and the document is fixed, as `README.md`, "Where each fact lives", says. `.claude/FARUQI.md` holds the principle these facts serve; if the two ever pull apart, stop and ask the owner.
 
@@ -77,7 +77,7 @@ The suffix " | Apostle of Doom" is 18 characters (3 for " | ", 15 for the name),
 
 | Key | Holds | Rule |
 |---|---|---|
-| `content_version` | The version of the shipped content (2.77.64) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
+| `content_version` | The version of the shipped content (2.77.65) | The automatic sync runs only when this differs from the site's record; Install or update under Theme Options, Content runs it at any time. Raise it with any change the sync carries: shipped text, titles, search titles, descriptions, images, the structure or the menu. Leave it alone when none of these changes |
 | `nav_version` | The version of the header menu | Raise it, with `content_version`, when the menu's shipped links change |
 | `parts` | The three sections, in order | Each has `slug`, `name`, `description`, `seo_title`, `meta` and an image |
 | `posts` | The 56 articles of the reading path (16 in The Man, 28 in The Charges, 12 in The Witnesses) | Array order is the reading order. `part` names the section, and `label`, `series`, `series_title`, `part_no` and `parts` set the counts. `was` names a text's earlier file, so its recorded hashes carry over; `was_slug` renames a post in place |
@@ -124,9 +124,10 @@ An article shows, in order: the title panel (breadcrumb, title, standfirst, byli
 
 ## Plugins the theme has taken over
 
-- A plugin built into the theme as a module keeps its own settings, and the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently and only once the native module is loaded, and deletes nothing. The owner set this on 2026-11-19, for Auto Justify Content and then for every plugin handed over: CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, Wikipedia Preview (MIT; its cards load from Wikipedia in the reader's browser), WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. Where a plugin's uninstall would delete data, the module copies it to theme-owned names first (CitePress, Endmark, HrefMaster, Auto Justify Content); Contact Form 7 keeps `wpcf7_contact_form` and the `wpcf7` option because the theme defines `WPCF7_VERSION`, which makes the plugin's uninstall keep them. The built-in Contact Form 7 gets no updates from the plugin. Further plugins the owner hands over follow the same module and the same list.
-- The Endmark mark is fixed by the owner's decision of 2026-11-19: the cameo of Paul, `assets/images/endmark.webp`, 28 px. The Endmark screen controls where and when it appears, not what it shows; `get_settings()` forces the symbol, image, size and SVG settings.
-- A plugin taken over needs its licence checked first: GPL v2 or later, or the owner's own. A plugin without such a licence is not copied into the theme.
+- A plugin whose work the theme does itself is built in as a module, and the theme switches the plugin off (`inc/plugin-retire.php`, the filter `paulus_retired_plugins`), silently, only once the module is loaded and whole (`paulus_<name>_ready()` answers true), and deletes nothing. The owner set this on 2026-11-19. The plugins are Auto Justify Content, CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, Wikipedia Preview, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks.
+- A built-in module carries no trace of the plugin it replaces, by the owner's decision of 2026-11-20: its functions, classes, constants, hooks, CSS classes, handles, text domain, file names, menu labels, comments and documents use the theme's own names and the name of the feature. Four things keep an old name, and no others: the detection (the list in `inc/plugin-retire.php` and the check at the head of a module for what only the plugin defines); stored data and the public contracts that existing content holds (a form's post type and option, shortcodes and blocks, hreflang post meta, the options a module reads once from an earlier copy); the consent API's function names and script handle, which other plugins call; and the licence notices (`LICENSES.md` and a `license.txt` beside the code), which the GPL and MIT licences require for other people's code and which the owner's request to remove them did not override.
+- The end mark is fixed by the owner's decision of 2026-11-19: the cameo of Paul, `assets/images/paulus-mark.webp`, 28 px. The End mark screen controls where and when it appears, not what it shows; `get_settings()` forces the symbol, image, size and SVG settings.
+- A plugin taken over needs its licence checked first: GPL v2 or later, MIT, or the owner's own. A plugin without such a licence is not copied into the theme.
 
 ## Names that must not change
 

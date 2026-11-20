@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.64
+Stable tag: 2.77.67
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,7 +33,7 @@ README.md is the full technical reference. Read UPGRADING.md before you update a
 * Maintenance mode, and an email when new fatal errors appear.
 * Tags on every article and Journal entry: at most six, all lowercase, shown under the byline and linked to a tag page. A tag that names a glossary term shows its definition and links to the glossary, and the glossary links back.
 * Contextual links from the first mention of a subject to the page that treats it, on this site or another.
-* Plugins built in: Wikipedia Preview (cards for links to Wikipedia), Auto Justify Content, CitePress (citation boxes), Endmark (the cameo of Paul at the end of articles), HrefMaster (hreflang tags), Contact Form 7 (the Contact menu), WP Consent API, WPS Hide Login, Unlist Posts & Pages and Pretty Search Permalinks. The theme switches the matching plugin off on your first admin visit and keeps its settings.
+* Built in, so no separate plugin is needed: justified text, citation boxes and exports, the end mark, hreflang tags, forms (the Contact menu), the consent API, Wikipedia cards, a private login address, unlisted items and clean search addresses. If an older plugin that did the same work is still active, the theme switches it off on your first admin visit and keeps its settings.
 * Bundled fonts, illustrations and licensed photographs, each with its credit line.
 
 == Usage ==
@@ -122,7 +122,7 @@ Browsers ask for /favicon.ico at the top of the domain, such as example.com/favi
 
 == Privacy ==
 
-The theme sends no data to other servers and adds no analytics or tracking. It sets no cookies of its own.
+The theme adds no analytics or tracking. When a reader clicks or hovers over a link to Wikipedia, a card is loaded from Wikipedia, so Wikimedia then receives the reader's address; the theme sends nothing else to other servers. It sets no cookies of its own: the consent API sets a cookie only when a consent plugin records a reader's choice.
 
 It stores a few things on the site itself:
 
@@ -151,6 +151,15 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.67 =
+* The built-in modules carry the theme's own names throughout, with no trace of the plugins they replace. Detection of an older plugin, and every stored form, shortcode and setting, are unchanged.
+
+= 2.77.66 =
+* The end mark now closes the last paragraph of the article text, and nowhere else: not after the "Back to top" lines, not in the questions section, not before a closing quotation.
+
+= 2.77.65 =
+* Fixes from the code review: tags are given to every article even when the installer runs after the first admin page, the Wikipedia cards and the consent API are described in the privacy text, a plugin is switched off only while the theme's own copy of it is whole, and several smaller fixes.
 
 = 2.77.64 =
 * A new Journal entry, "Who was lying at Antioch?", on Jerome, Augustine and the quarrel between Paul and Peter, with the quoted passages set as annotated cards.
@@ -347,11 +356,20 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
 
+= 2.77.67 =
+Back up the database first, then upload the whole theme folder. Nothing else to do.
+
+= 2.77.66 =
+Nothing to do. Upload the whole theme folder.
+
+= 2.77.65 =
+Run Install or update under Theme Options, Content, to bring in the Privacy Policy's new search description.
+
 = 2.77.64 =
 Run Install or update under Theme Options, Content, to bring in the new Journal entry.
 
 = 2.77.63 =
-Run Install or update under Theme Options, Content, to bring in the new Privacy Policy section (an edited policy is offered, not overwritten).
+Run Install or update under Theme Options, Content, to bring in the new Privacy Policy section (a policy you have edited is kept).
 
 = 2.77.62 =
 Run Install or update under Theme Options, Content, to bring in the new Journal entry.

@@ -2,6 +2,50 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.67] - 2026-11-20
+
+The built-in modules lose every trace of the plugins they replace, by the owner's request. `content_version` stays at 2.77.65, since no shipped text changes.
+
+### Changed
+- Renamed throughout, in code, markup, scripts, styles, handles, file names, text domain and comments: citations (`inc/cite*`, `paulus_cite_*`, `paulus-cite-*`), the end mark (`inc/mark*`, `paulus_mark_*`, `Paulus_Mark*`, `assets/images/paulus-mark.webp`), hreflang (`inc/hreflang*`, `paulus_hreflang_*`), forms (`inc/forms*`, `paulus_form_*`, `Paulus_Form_*`, `PAULUS_FORM_*`, REST namespace `paulus-form/v1`, CSS `paulus-form-*`, the script object `paulusForm` and its events), the consent API's internals (`inc/consent*`, `Paulus_Consent*`, `PAULUS_CONSENT_*`) and Wikipedia cards (`inc/wiki-card*`, `paulus_wiki_card_*`, the library's global `paulusWikiCard` and its CSS classes, REST namespace `paulus-wiki-card/v1`). The bundled form libraries' namespace is `PaulusFormLibs`. The admin menus read Citations, End mark, Hreflang, Forms and Wikipedia cards, and the screens no longer name the plugins.
+- Removed: the forms module's news feed, support box, update notice, plugin action links and links to the plugin's site; the hreflang version comment in the page head; the consent API's special case for its own plugin file; the plugins' own author, version and `@package` lines in comments.
+- Kept: the list of plugins that are switched off, and the check at the head of each module for what only the plugin defines (`CITEPRESS_VERSION`, `Endmark_Plugin`, `HREFMASTER_VERSION`, `WPCF7_VERSION`, `WP_Consent_API`, `WIKIPEDIA_PREVIEW_PLUGIN_VERSION`, `AutoJustifyContent`); stored data and what existing content holds (`wpcf7_contact_form` and the `wpcf7` option, the shortcodes `[cite]`, `[endmark]`, `[contact-form-7]`, the blocks, hreflang post meta, `paulus_endmark*`, `paulus_citepress*`, the Wikipedia detection meta and options); the options a module reads once from an earlier copy; the consent API's function names, filters and script handle `wp-consent-api`, which other plugins call; and `WPCF7_VERSION`, defined so that a leftover copy of the old plugin's uninstall keeps the forms. The licence files (`inc/forms/license.txt`, `inc/consent/license.txt`, `inc/wiki-card/license.txt`) and `LICENSES.md` stay, because the licences require them.
+- Tests renamed: `tests/cite-test.php`, `mark-test.php`, `hreflang-test.php`, `forms-test.php`, `consent-test.php`, `wiki-card-test.php`.
+- Documents: the README describes the modules by what they do; `SSOT.md` records the rule.
+- Not done: the Wikipedia card library's `data-wikipedia-preview` attribute (stored in the links of existing posts) keeps its name, and the form module's legacy `_old_cf7_unit_id` meta key and `cf7_unit_id` column keep theirs.
+
+## [2.77.66] - 2026-11-20
+
+The end mark sat in the wrong places. `content_version` stays at 2.77.65, since no shipped text changes.
+
+### Fixed
+- The theme puts a "Back to top" line before every section, before the questions and before the notes, after Endmark had chosen nothing yet; Endmark then took that line for the last paragraph and printed the cameo beside it. It now skips the theme's own furniture (`paulus-faq-back`, the contents label, share and credit lines).
+- The article's text ends where its questions section (`<h2 id="questions">`) or its notes begin, whichever comes first, so the mark is never inside the questions.
+- An article that ends in a quotation takes the mark in the quotation's last paragraph, not before it.
+- One mark for one item in one request, however often its text is filtered.
+- `tests/endmark-test.php` checks the placement on a themed article and on one that ends in a quotation.
+
+## [2.77.65] - 2026-11-19
+
+Fixes from the CodeAnt review of the last twelve pull requests. `content_version` is 2.77.65, since the Privacy Policy's search description changes.
+
+### Fixed
+- Tags (`inc/tags.php`): the tag file's hash is recorded only when every item in it exists, so a first admin page that comes before the installer no longer leaves the articles untagged; the run repeats at most every ten minutes and straight after the installer. The sync needs `manage_options`, looks again just before it writes so a tag an editor adds in between is kept, and a seventh tag is dropped by the order the tags were given, with older ones first. The tag row shows under the title even when the book author is blank, and Rank Math's article node carries the tags as `keywords`. The glossary link in the row keeps a readable hover colour.
+- Plugins switched off: `paulus_retired_plugins()` now calls each module's `ready` function and needs a true answer, and the modules answer false when a file of theirs is missing (Auto Justify Content, CitePress, Endmark, HrefMaster, Contact Form 7, WP Consent API, Wikipedia Preview), so a half-uploaded theme leaves the working plugin on. The notice reads "Where to find it now: ...".
+- Endmark: the one-time `paulus_endmark_adopt_image()` is removed. The mark has been forced to the cameo since 2.77.57, so the step was redundant, and it changed post types an owner had chosen. A saved post-type list is respected. The admin preview keeps the mark the server drew instead of being emptied by the script.
+- WP Consent API: a service's category ignores administrator cookies; the script reads the consented-services cookie PHP stores URL-encoded (`assets/js/wp-consent-api.js` and `.min.js`); Site Health counts network-activated plugins on a multisite.
+- `.paulus-annot` shows no curly quote over the passage and no theme blockquote background.
+- Documents: the zip command in the README writes `paulus-<version>.zip` and the README says not to upload GitHub's Download ZIP (its folder is not `paulus/`); `readme.txt` no longer says the theme sends no data to other servers; the UPGRADING notes on edited policies and on the consent cookies are exact; `LICENSES.md` counts seven plugins; `tests/tags-test.php` runs without mbstring.
+- Privacy Policy search description: "visitor statistics, server records and Wikipedia previews", no longer "and nothing else". The old text is in `prior_meta`.
+
+- CitePress: Clear All on the format list leaves the first format checked (an empty list reset the setting to every format); the block's format list shows only enabled formats; the bibliography alias `[citepress_cite_bibliography]` sets bibliography mode; analytics honour Do Not Track, use the theme's consent API (`wp_has_consent( 'statistics' )`) when a consent plugin feeds it, and record nothing when consent is required and no consent cookie says yes; the settings tab returns to the tab you were on after saving; the AIP preview shows the year for any date format; the control shown after switching the format display mode marks the format the preview shows; a failed clipboard copy is not reported as a success; the analytics totals use one cache group and the settings tab reads them from the cache; the table rename (or copy, when both tables exist) must succeed before the import is recorded; radio and checkbox cards show keyboard focus; the block inspector spacing applies to CitePress panels only. The privacy text says plainly what is kept for a minute and that no address is stored with the analytics.
+- HrefMaster: unchecking every post type is saved as none; a code such as `en-US` is read in full; the language list loads WordPress's translation file before asking for it; the scripts load on the HrefMaster screen; WooCommerce is found when network-activated; term fields save under the taxonomy's own capability; deleting all tags covers drafts and pending posts.
+- Endmark: a site with no settings of its own uses the network's; the schema is decided from the item itself, because the head is printed before the content; the admin header wraps on a phone.
+- Auto Justify Content: the option's label says it governs the module only, not the theme's own rules for FAQ answers, quotations, teasers, biographies and print.
+
+### Notes
+- Not fixed, by the nature of a theme: the consent functions exist from `after_setup_theme`, so a plugin that calls `wp_has_consent()` on `plugins_loaded` finds them missing. Two writes can still cross in the instant between a read and a write of the same option or term list; the code now reads again just before writing.
+
 ## [2.77.64] - 2026-11-19
 
 A new Journal entry and a style for annotated quotations. `content_version` is 2.77.64, since a shipped text is added.

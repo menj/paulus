@@ -13,6 +13,18 @@ if ( 'cli' !== PHP_SAPI ) {
 	exit;
 }
 
+// Without mbstring the checks fall back to the single-byte functions (the tags are ASCII; the glossary terms are compared as stored).
+if ( ! function_exists( 'mb_strtolower' ) ) {
+	function mb_strtolower( $s ) {
+		return strtolower( $s );
+	}
+}
+if ( ! function_exists( 'mb_strlen' ) ) {
+	function mb_strlen( $s ) {
+		return strlen( $s );
+	}
+}
+
 $paulus_fail = 0;
 function paulus_test_check( $ok, $what ) {
 	global $paulus_fail;
