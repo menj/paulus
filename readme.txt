@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.69
+Stable tag: 2.77.70
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.70 =
+* Tags are given to every article and Journal entry on the first request of any kind after the upload, not only on an administrator's first dashboard visit.
 
 = 2.77.69 =
 * Pages (Sitemap, Contact, Privacy Policy, Terms of Use and the rest) never carry the end mark, whatever the Endmark screen has saved.
@@ -362,6 +365,9 @@ Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
 
+= 2.77.70 =
+Nothing to do. Upload the whole theme folder; open any page once and the tags appear.
+
 = 2.77.69 =
 Nothing to do. Upload the whole theme folder.
 
@@ -390,10 +396,10 @@ Run Install or update under Theme Options, Content, to bring in the new Journal 
 Wikipedia Preview is now part of the theme and is switched off as a plugin on your first admin visit. The cards fetch text from Wikipedia in the reader's browser; consider a line in the privacy policy.
 
 = 2.77.60 =
-Run Install or update under Theme Options, Content, to bring in the 48 new glossary entries. Tags are revised on your first admin visit; tags you set yourself are kept.
+Run Install or update under Theme Options, Content, to bring in the 48 new glossary entries. Tags are revised on the first page request; tags you set yourself are kept.
 
 = 2.77.59 =
-Tags are added to every article and Journal entry on your first admin visit. Tags you set yourself are kept.
+Tags are added to every article and Journal entry on the first page request. Tags you set yourself are kept.
 
 = 2.77.58 =
 The theme now requires PHP 8.4. Check your host runs 8.4 or later before you update, or WordPress will refuse to activate it.
