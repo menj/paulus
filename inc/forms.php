@@ -1,26 +1,19 @@
 <?php
 /**
- * Contact forms: a native form of the plugin Forms 6.2.5 (Rock
- * Lobster Inc., GPL v2 or later). The form editor, the `[contact-form-7]`
- * shortcode, the form tags, mail, validation, the REST route, the block, the
- * spam modules and the Contact menu are the plugin's own code, in inc/forms/,
- * with its licence beside it.
+ * Forms: the form editor, the `[contact-form-7]` shortcode, form tags, mail,
+ * validation, the REST route, the block, the spam modules and the Contact menu.
+ * The code is in inc/forms/, with its licence beside it. The forms are stored as
+ * the `wpcf7_contact_form` post type and the `wpcf7` option, and the shortcode
+ * keeps its name, so a site's existing forms and pages carry on.
  *
- * What changes in the theme: the plugin's files stay in their own folders
- * (includes/js, includes/css, admin/includes and modules), so that its asset
- * manifests keep working; paulus_form_plugin_url() points at inc/forms/; the plugin's
- * `plugins_loaded` and activation hooks are replaced by a direct call to
- * paulus_forms_boot() here (a theme loads after `plugins_loaded`) and a one-time
- * paulus_form_install() on `admin_init`. The forms are the `paulus_form_contact_form`
- * post type and the `paulus-form` option, and keep those names: the plugin's
- * uninstall deletes them only when WPCF7_VERSION is not defined, and the
- * theme defines it, so deleting the plugin takes nothing the theme uses.
+ * A theme loads after `plugins_loaded`, so paulus_forms_boot() is called here
+ * and paulus_form_install() runs once on `admin_init`. WPCF7_VERSION is defined
+ * as well: while it is defined, a leftover copy of the earlier plugin's
+ * uninstall routine keeps the forms.
  *
- * The theme no longer receives the plugin's own security updates. Replace
- * inc/forms/ when the plugin issues a fix.
- *
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * The theme does not receive security updates for this code from anywhere: replace
+ * inc/forms/ when a fix is needed. inc/plugin-retire.php switches a leftover copy
+ * of the earlier plugin off, and this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */

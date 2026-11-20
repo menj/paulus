@@ -1,25 +1,18 @@
 <?php
 /**
- * End-of-article symbol: a native form of the plugin End mark 4.4.0 by MENJ
- * (GPL v3 or later; a fork of End mark by Colin Temple). The symbol or image
- * at the end of an article, the placement rules (last paragraph, before or
- * after footnotes, append, CSS selector), the exclusions, the per-post
- * switch, the [endmark] shortcode and block, and the optional schema are
- * the plugin's own code, in inc/mark/. The settings screen is under
- * Settings, End mark.
+ * The end mark: a small image at the end of an article's text, placed in the
+ * last paragraph (never in the questions or the notes), with exclusions, a
+ * per-post switch, the [endmark] shortcode and block and the optional schema.
+ * The settings screen is under Settings, End mark; it controls where and when
+ * the mark appears, not what it shows. The code is in inc/mark/; the
+ * stylesheets and script are assets/css/paulus-mark-*.css and
+ * assets/js/paulus-mark-admin.js.
  *
- * What changes in the theme: the stylesheets and script are
- * assets/css/paulus-mark-*.css and assets/js/paulus-mark-admin.js; the text domain
- * is the theme's; the admin screen no longer loads a font from Google; and
- * the data is the theme's own. On the first load without the plugin,
- * paulus_mark_import() copies the plugin's options to `paulus_endmark`,
- * `paulus_mark_presets` and `paulus_mark_version` and renames the
- * per-post meta `_paulus_mark_disable` to `_paulus_mark_disable`, so deleting
- * the plugin later (its uninstall removes the old names) takes nothing the
- * theme uses.
+ * On the first load, paulus_mark_import() takes over the settings and the
+ * per-post switch of an earlier standalone copy, under the theme's own names.
  *
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * inc/plugin-retire.php switches a leftover copy of that earlier plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */

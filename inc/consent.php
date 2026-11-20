@@ -1,21 +1,20 @@
 <?php
 /**
- * Consent API: a native form of the plugin Consent API 2.1.0 (WordPress
- * Contributors, GPL v2 or later). It gives cookie plugins and the plugins
- * that set cookies one shared way to ask whether a visitor has consented:
- * wp_has_consent(), wp_set_consent(), the `wp_consent_api` JavaScript object,
- * the registration of plugins that follow the API, and the Site Health test.
- * The plugin's code is in inc/consent/, with its licence beside it.
+ * Consent API: one shared way for cookie and consent plugins, and for the plugins
+ * that set cookies, to ask whether a visitor has consented: wp_has_consent(),
+ * wp_set_consent(), the `wp_consent_api` JavaScript object, the registration of
+ * plugins that follow the API, and a Site Health test. The code is in
+ * inc/consent/, with its licence beside it; the script and stylesheet are
+ * assets/js/paulus-consent*.js and assets/css/paulus-consent*.css. The module
+ * has no settings and stores nothing in the database.
  *
- * What changes in the theme: the script and stylesheet are
- * assets/js/wp-consent-api*.js and assets/css/wp-consent-api*.css, and the
- * plugin's `plugins_loaded` start-up is a direct call here. The module has no
- * settings and stores nothing in the database, so there is nothing to copy. Because
- * the theme loads after `plugins_loaded`, the functions exist from `after_setup_theme`
- * on: a plugin that calls wp_has_consent() earlier than that finds them missing.
+ * The function names and the script handle `wp-consent-api` are the API itself,
+ * which other plugins call, so they are the one thing kept. Because the theme
+ * loads after `plugins_loaded`, the functions exist from `after_setup_theme`
+ * on: a plugin that calls wp_has_consent() earlier finds them missing.
  *
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * inc/plugin-retire.php switches a leftover copy of the earlier plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */
@@ -88,9 +87,7 @@ if ( ! class_exists( 'Paulus_Consent', false ) ) {
 			// which are the theme's own, so the URL is the theme root.
 			define( 'PAULUS_CONSENT_URL', trailingslashit( PAULUS_URI ) );
 			define( 'PAULUS_CONSENT_PATH', PAULUS_DIR . '/inc/consent/' );
-			define( 'PAULUS_CONSENT_PLUGIN', 'wp-consent-api/wp-consent-api.php' );
 			define( 'PAULUS_CONSENT_VERSION', '2.1.0' );
-			define( 'PAULUS_CONSENT_PLUGIN_FILE', PAULUS_CONSENT_PATH . 'class-config.php' );
 
 			require_once PAULUS_CONSENT_PATH . 'class-config.php';
 			require_once PAULUS_CONSENT_PATH . 'class-cookie-info.php';

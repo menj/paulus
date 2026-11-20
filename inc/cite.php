@@ -1,26 +1,21 @@
 <?php
 /**
- * Citations: a native form of the plugin Citation 3.0.1 by MENJ (GPL v2 or
- * later). The citation box with its 20 formats and six export types, the
- * [cite] and [cite_bibliography] shortcodes, the Citation Box block, the
- * Google Scholar tags and the optional analytics are the plugin's own code,
- * in inc/cite/, with its settings screen (the Citation menu). The
- * plugin's settings option and analytics table are taken over once under the
- * theme's own names (paulus_cite_import()), so a site that used the
- * plugin carries on with its settings and its history.
+ * Citations: the citation box with 20 formats and six export types (BibTeX,
+ * RIS, EndNote, CSL-JSON, CFF, Dublin Core), the [cite] and [cite_bibliography]
+ * shortcodes, the Citation Box block, the Google Scholar tags and the optional
+ * analytics, with a settings screen (the Citations menu). The code is in
+ * inc/cite/; the stylesheets and scripts are assets/css/paulus-cite-*.css and
+ * assets/js/paulus-cite-*.js.
  *
- * What changes in the theme:
- * - Paulus prints its own Open Graph tags and JSON-LD graph, so Citation
- *   prints only the Google Scholar tags.
- * - The stylesheets and scripts are in assets/css/paulus-cite-*.css and
- *   assets/js/paulus-cite-*.js; the text domain is the theme's.
- * - No activation hook: the analytics table and the daily purge are set up
- *   by the plugin's own upgrade routine on the next admin page, and the
- *   purge is cleared when the theme is switched.
+ * The theme prints its own Open Graph tags and JSON-LD graph, so this module
+ * prints only the Google Scholar tags. The analytics table and the daily purge
+ * are set up on the next admin page, and the purge is cleared when the theme is
+ * switched. On the first load, paulus_cite_import() takes over the settings and
+ * the analytics history of an earlier standalone copy, under the theme's own
+ * names.
  *
- * While the plugin itself is active the theme adds nothing (the plugin
- * defines PAULUS_CITE_VERSION first), and inc/plugin-retire.php switches the
- * plugin off.
+ * inc/plugin-retire.php switches a leftover copy of that earlier plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */

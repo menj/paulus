@@ -1,25 +1,21 @@
 <?php
 /**
- * Wikipedia previews: a native form of the plugin Wikipedia card 1.17.1
- * (Wikimedia Foundation, MIT licence; the licence is kept in
- * inc/wiki-card/license.txt). A reader who clicks or hovers over a
- * link to Wikipedia sees a card with the start of the article. The preview
- * library, its stylesheet and the editor's link button are the plugin's own
- * files, now assets/js/paulus-wiki-card*.js and assets/css/paulus-wiki-card*.css.
+ * Wikipedia cards: a reader who clicks or hovers over a link to Wikipedia sees a
+ * card with the start of the article. The library, its stylesheet and the
+ * editor's link button are assets/js/paulus-wiki-card*.js and
+ * assets/css/paulus-wiki-card*.css; the licence is inc/wiki-card/license.txt.
  *
- * What the theme leaves out: the plugin's review banner, its welcome page and
- * its activation redirect, which asked for a review on wordpress.org and
- * served a plugin's first run. What stays: the per-post "detect links"
- * setting (post meta `wikipediapreview_detectlinks`, on by default), the
- * filter `paulus_wiki_card_post_types`, and the editor's REST routes
- * under `paulus-wiki-card/v1`, which the editor script calls. The plugin
- * stores nothing the theme needs, so there is nothing to copy.
+ * The cards work on the public post types (the filter `paulus_wiki_card_post_types`
+ * changes that). The post meta `wikipediapreview_detectlinks` (on by default)
+ * switches the detection of Wikipedia links off for one post, and the editor's
+ * REST routes are under `paulus-wiki-card/v1`. The module stores nothing the
+ * theme needs.
  *
- * The cards load text and images from Wikipedia in the reader's browser, so
- * the reader's address reaches Wikimedia when a card opens.
+ * The cards load text and images from Wikipedia in the reader's browser, so the
+ * reader's address reaches Wikimedia when a card opens.
  *
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * inc/plugin-retire.php switches a leftover copy of the earlier plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */

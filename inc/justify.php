@@ -1,15 +1,13 @@
 <?php
 /**
- * Justified text: a native form of the plugin Auto Justify Content by MENJ
- * (GPL v2 or later). It keeps the plugin's six settings and reads the
- * plugin's own options once (ajc_enabled, ajc_scope, ajc_hyphen, ajc_mobile,
- * ajc_fallback, ajc_exclude), so a site that used the plugin keeps its
- * choices. The settings live in Theme Options, Justify.
+ * Justified text: paragraphs and list items set flush on both sides. The
+ * settings live in Theme Options, Justify. The rules are a stylesheet,
+ * assets/css/justify.css, that switches on the body classes added here; only
+ * the excluded selectors are written inline.
  *
- * The rules are a stylesheet, assets/css/justify.css, that switches on the
- * body classes added here; only the excluded selectors are written inline.
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * On the first load, the settings of an earlier standalone copy are taken over
+ * once. inc/plugin-retire.php switches a leftover copy of that plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */

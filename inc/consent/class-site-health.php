@@ -65,7 +65,7 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 		 * @return array
 		 */
 		public function consent_api_integration_check( $tests ) {
-			$tests['direct']['paulus'] = array(
+			$tests['direct']['paulus-consent'] = array(
 				'label' => __( 'Consent API test', 'paulus' ),
 				'test'  => array( $this, 'paulus_consent_test' ),
 			);
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Paulus_Consent_Site_Health' ) ) {
 					__( 'All plugins have declared in their code that they are following the guidelines from the Consent API. When used in combination with a Cookie Management plugin, this will improve compliancy for your site.', 'paulus' )
 				),
 				'actions'     => '',
-				'test'        => 'paulus',
+				'test'        => 'paulus-consent',
 			);
 
 			if ( $plugins_without_registration ) {

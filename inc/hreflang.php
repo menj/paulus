@@ -1,26 +1,19 @@
 <?php
 /**
- * Hreflang tags: a native form of the plugin Hreflang 3.0.1 (GPL v2 or
- * later). The hreflang meta boxes for posts, pages, custom types and
- * taxonomy terms, the `<link rel="alternate" hreflang>` tags in the head, the
- * per-page HTML lang attribute, the bulk editor, the code generator, the
- * validation tools and the tabbed Hreflang screen with its four colour
- * schemes are the plugin's own code, in inc/hreflang/.
+ * Hreflang tags: meta boxes for posts, pages, custom types and taxonomy terms,
+ * the `<link rel="alternate" hreflang>` tags in the head, the per-page HTML lang
+ * attribute, a bulk editor, a code generator, validation tools and a tabbed
+ * Hreflang screen with four colour schemes. The code is in inc/hreflang/; the
+ * stylesheet and scripts are assets/css/paulus-hreflang-admin.css and
+ * assets/js/paulus-hreflang-*.js. The taxonomy fields are added on `init`.
  *
- * What changes in the theme: the stylesheet and scripts are
- * assets/css/paulus-hreflang-admin.css and assets/js/paulus-hreflang-*.js; the text
- * domain is the theme's; the taxonomy fields are added on `init` (a theme
- * loads after `plugins_loaded`); and the settings are the theme's own. On the
- * first load without the plugin, paulus_hreflang_import() copies the
- * plugin's five options to `paulus_hreflang_post_types`, `_admin_bar`,
- * `_html_lang`, `_woo_shop` and `_scheme`, so deleting the plugin later (its
- * uninstall removes the old names) takes nothing the theme uses. The tags
- * themselves are post and term meta (`hreflang-<code>` and
- * `_hrefmaster_html_lang`), which the plugin's uninstall leaves alone, so
- * they keep their names.
+ * On the first load, paulus_hreflang_import() takes over the settings of an
+ * earlier standalone copy as `paulus_hreflang_post_types`, `_admin_bar`,
+ * `_html_lang`, `_woo_shop` and `_scheme`. The tags themselves are post and term
+ * meta (`hreflang-<code>`), which keep their names.
  *
- * While the plugin itself is active the theme adds nothing, and
- * inc/plugin-retire.php switches the plugin off.
+ * inc/plugin-retire.php switches a leftover copy of that earlier plugin off, and
+ * this module adds nothing while it is still loaded.
  *
  * @package Paulus
  */
