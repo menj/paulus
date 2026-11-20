@@ -1,25 +1,25 @@
 <?php
 /**
- * Citations: a native form of the plugin CitePress 3.0.1 by MENJ (GPL v2 or
+ * Citations: a native form of the plugin Citation 3.0.1 by MENJ (GPL v2 or
  * later). The citation box with its 20 formats and six export types, the
  * [cite] and [cite_bibliography] shortcodes, the Citation Box block, the
  * Google Scholar tags and the optional analytics are the plugin's own code,
- * in inc/citepress/, with its settings screen (the CitePress menu). The
+ * in inc/cite/, with its settings screen (the Citation menu). The
  * plugin's settings option and analytics table are taken over once under the
- * theme's own names (paulus_citepress_import()), so a site that used the
+ * theme's own names (paulus_cite_import()), so a site that used the
  * plugin carries on with its settings and its history.
  *
  * What changes in the theme:
- * - Paulus prints its own Open Graph tags and JSON-LD graph, so CitePress
+ * - Paulus prints its own Open Graph tags and JSON-LD graph, so Citation
  *   prints only the Google Scholar tags.
- * - The stylesheets and scripts are in assets/css/citepress-*.css and
- *   assets/js/citepress-*.js; the text domain is the theme's.
+ * - The stylesheets and scripts are in assets/css/paulus-cite-*.css and
+ *   assets/js/paulus-cite-*.js; the text domain is the theme's.
  * - No activation hook: the analytics table and the daily purge are set up
  *   by the plugin's own upgrade routine on the next admin page, and the
  *   purge is cleared when the theme is switched.
  *
  * While the plugin itself is active the theme adds nothing (the plugin
- * defines CITEPRESS_VERSION first), and inc/plugin-retire.php switches the
+ * defines PAULUS_CITE_VERSION first), and inc/plugin-retire.php switches the
  * plugin off.
  *
  * @package Paulus
@@ -33,9 +33,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function paulus_citepress_ready() {
+function paulus_cite_ready() {
 	foreach ( array( 'analytics', 'settings', 'shortcodes', 'metadata', 'assets' ) as $file ) {
-		if ( ! is_readable( PAULUS_DIR . '/inc/citepress/' . $file . '.php' ) ) {
+		if ( ! is_readable( PAULUS_DIR . '/inc/cite/' . $file . '.php' ) ) {
 			return false;
 		}
 	}
@@ -49,7 +49,7 @@ function paulus_citepress_ready() {
  * nothing the theme uses. The table is renamed, not copied, so the history
  * stays. Runs only while the plugin is not loaded.
  */
-function paulus_citepress_import() {
+function paulus_cite_import() {
 	if ( get_option( 'paulus_citepress_imported' ) ) {
 		return;
 	}
@@ -60,7 +60,7 @@ function paulus_citepress_import() {
 	global $wpdb;
 	if ( isset( $wpdb ) && is_object( $wpdb ) && ! empty( $wpdb->prefix ) ) {
 		$prefix = preg_replace( '/[^A-Za-z0-9_]/', '', (string) $wpdb->prefix );
-		$from   = $prefix . 'citepress_analytics';
+		$from   = $prefix . 'paulus_cite_analytics';
 		$to     = $prefix . 'paulus_citepress_analytics';
 		$has    = static function ( $table ) use ( $wpdb ) {
 			return $table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -80,31 +80,31 @@ function paulus_citepress_import() {
 	update_option( 'paulus_citepress_imported', 1, false );
 }
 
-if ( defined( 'CITEPRESS_VERSION' ) ) {
+if ( defined( 'CITEPRESS_VERSION' ) ) { // The plugin itself is loaded: stand aside.
 	return;
 }
 
 // A half-uploaded theme: without every file the module stays out, and
 // the plugin is not switched off (the ready function says so).
-if ( ! paulus_citepress_ready() ) {
+if ( ! paulus_cite_ready() ) {
 	return;
 }
 
-define( 'CITEPRESS_VERSION', '3.0.1' );
-define( 'CITEPRESS_PLUGIN_DIR', PAULUS_DIR . '/inc/citepress/' );
-define( 'CITEPRESS_PLUGIN_URL', PAULUS_URI . '/inc/citepress/' );
-define( 'CITEPRESS_ASSETS_URL', PAULUS_URI . '/assets/' );
+define( 'PAULUS_CITE_VERSION', '3.0.1' );
+define( 'PAULUS_CITE_PLUGIN_DIR', PAULUS_DIR . '/inc/cite/' );
+define( 'PAULUS_CITE_PLUGIN_URL', PAULUS_URI . '/inc/cite/' );
+define( 'PAULUS_CITE_ASSETS_URL', PAULUS_URI . '/assets/' );
 
 /** DB schema version of the analytics table; the upgrade routine in analytics.php compares it. */
-define( 'CITEPRESS_DB_VERSION', '1.1' );
+define( 'PAULUS_CITE_DB_VERSION', '1.1' );
 
 // The plugin kept its state in globals; the theme loads this file inside a
 // function, so each one is declared global first.
-global $citepress_default, $citepress_setting, $citepress_citation_data, $citepress_cited_posts,
-	$citepress_ref_counter, $citepress_bibliography_mode, $citepress_instance_counter;
+global $paulus_cite_default, $paulus_cite_setting, $paulus_cite_citation_data, $paulus_cite_cited_posts,
+	$paulus_cite_ref_counter, $paulus_cite_bibliography_mode, $paulus_cite_instance_counter;
 
-$citepress_default = apply_filters(
-	'citepress_default_setting',
+$paulus_cite_default = apply_filters(
+	'paulus_cite_default_setting',
 	array(
 		'auto_display'                  => 'no',
 		'display_position'              => 'bottom',
@@ -132,28 +132,28 @@ $citepress_default = apply_filters(
 		),
 	)
 );
-paulus_citepress_import();
-$citepress_setting           = wp_parse_args( get_option( 'paulus_citepress' ), $citepress_default );
-$citepress_citation_data     = array();
-$citepress_cited_posts       = array();
-$citepress_ref_counter       = 0;
-$citepress_bibliography_mode = false;
-$citepress_instance_counter  = 0;
+paulus_cite_import();
+$paulus_cite_setting           = wp_parse_args( get_option( 'paulus_citepress' ), $paulus_cite_default );
+$paulus_cite_citation_data     = array();
+$paulus_cite_cited_posts       = array();
+$paulus_cite_ref_counter       = 0;
+$paulus_cite_bibliography_mode = false;
+$paulus_cite_instance_counter  = 0;
 
-require_once CITEPRESS_PLUGIN_DIR . 'analytics.php';
-require_once CITEPRESS_PLUGIN_DIR . 'settings.php';
-require_once CITEPRESS_PLUGIN_DIR . 'shortcodes.php';
-require_once CITEPRESS_PLUGIN_DIR . 'metadata.php';
-require_once CITEPRESS_PLUGIN_DIR . 'assets.php';
+require_once PAULUS_CITE_PLUGIN_DIR . 'analytics.php';
+require_once PAULUS_CITE_PLUGIN_DIR . 'settings.php';
+require_once PAULUS_CITE_PLUGIN_DIR . 'shortcodes.php';
+require_once PAULUS_CITE_PLUGIN_DIR . 'metadata.php';
+require_once PAULUS_CITE_PLUGIN_DIR . 'assets.php';
 
 // With Paulus printing the Open Graph tags and the JSON-LD, the Scholar
-// tags are the one head output of CitePress that stays.
-add_filter( 'citepress_output_scholar_meta', '__return_true' );
+// tags are the one head output of Citation that stays.
+add_filter( 'paulus_cite_output_scholar_meta', '__return_true' );
 
 // What the plugin's deactivation hook did.
 add_action(
 	'switch_theme',
 	static function () {
-		wp_clear_scheduled_hook( 'citepress_daily_purge_event' );
+		wp_clear_scheduled_hook( 'paulus_cite_daily_purge_event' );
 	}
 );

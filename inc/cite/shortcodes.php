@@ -4,17 +4,17 @@
  *
  * FIX #8:  itemscope/itemtype ScholarlyArticle microdata removed from citation
  *           box div (duplicate of JSON-LD block; Google flags this as ambiguous).
- * FIX #10: [citepress_cite] and [citepress_cite_bibliography] alias shortcodes registered.
- * FIX #11: citepress_get_citation_styles() memoized with a static variable.
+ * FIX #10: [paulus_cite_cite] and [paulus_cite_cite_bibliography] alias shortcodes registered.
+ * FIX #11: paulus_cite_get_citation_styles() memoized with a static variable.
  * FIX #15: 'styles' and 'ajaxUrl' removed from per-instance citation_data array;
- *           moved to a shared citepressSharedData object in assets.php.
- * FIX Bug: citepress_has_bibliography_shortcode() also detects the Gutenberg block
+ *           moved to a shared paulusCiteSharedData object in assets.php.
+ * FIX Bug: paulus_cite_has_bibliography_shortcode() also detects the Gutenberg block
  *           comment so bibliography mode works when inserted as a block.
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-function citepress_get_author_name() {
-    global $post, $citepress_setting;
+function paulus_cite_get_author_name() {
+    global $post, $paulus_cite_setting;
     
     if (!isset($post) || !is_object($post)) {
         return '';
@@ -35,7 +35,7 @@ function citepress_get_author_name() {
         $authors[] = sanitize_text_field(get_the_author_meta('display_name', $author_id));
     }
     
-    $et_al_threshold = isset($citepress_setting['et_al_threshold']) ? absint($citepress_setting['et_al_threshold']) : 3;
+    $et_al_threshold = isset($paulus_cite_setting['et_al_threshold']) ? absint($paulus_cite_setting['et_al_threshold']) : 3;
     
     if (count($authors) > $et_al_threshold) {
         return $authors[0] . ' et al.';
@@ -50,7 +50,7 @@ function citepress_get_author_name() {
 }
 
 // Get ORCID if available
-function citepress_get_orcid() {
+function paulus_cite_get_orcid() {
     global $post;
     if (!isset($post) || !is_object($post)) {
         return '';
@@ -62,8 +62,8 @@ function citepress_get_orcid() {
  * Get authors as an array for Wikipedia citation format
  * Returns array of author names (not combined with "et al." or "&")
  */
-function citepress_get_authors_array() {
-    global $post, $citepress_setting;
+function paulus_cite_get_authors_array() {
+    global $post, $paulus_cite_setting;
     
     if (!isset($post) || !is_object($post)) {
         return array();
@@ -90,7 +90,7 @@ function citepress_get_authors_array() {
 /**
  * Get site language code (e.g., "en" from "en_US")
  */
-function citepress_get_language_code() {
+function paulus_cite_get_language_code() {
     $locale = get_locale();
     return substr($locale, 0, 2);
 }
@@ -98,7 +98,7 @@ function citepress_get_language_code() {
 /**
  * Format date as "D Month YYYY" for Wikipedia (e.g., "31 January 2026")
  */
-function citepress_format_date_dmy($date_string = null) {
+function paulus_cite_format_date_dmy($date_string = null) {
     if ($date_string) {
         return date_i18n('j F Y', strtotime($date_string));
     }
@@ -125,11 +125,11 @@ function citepress_format_date_dmy($date_string = null) {
  *   {publication_year}     — four-digit publication year
  *   {language}             — two-letter ISO language code from WordPress locale
  *
- * @filter citepress_citation_styles  array $styles  Full style id => template map.
+ * @filter paulus_cite_citation_styles  array $styles  Full style id => template map.
  *
  * @return array Format id => template string.
  */
-function citepress_get_citation_styles() {
+function paulus_cite_get_citation_styles() {
     static $cached = null;
     if ( $cached !== null ) { return $cached; }
     $styles = array(
@@ -158,7 +158,7 @@ function citepress_get_citation_styles() {
         'iso690'   => '{author}. {title}. <em>{sitename}</em> [online]. {publication_date} [viewed {date}]. Available from: {permalink}'
     );
 
-    $cached = apply_filters( 'citepress_citation_styles', $styles );
+    $cached = apply_filters( 'paulus_cite_citation_styles', $styles );
     return $cached;
 }
 
@@ -167,12 +167,12 @@ function citepress_get_citation_styles() {
  * Get list of enabled citation formats based on admin settings
  * @return array List of enabled format IDs
  */
-function citepress_get_enabled_formats() {
-    global $citepress_setting;
+function paulus_cite_get_enabled_formats() {
+    global $paulus_cite_setting;
     
-    $enabled = isset($citepress_setting['enabled_formats']) && is_array($citepress_setting['enabled_formats']) 
-        ? $citepress_setting['enabled_formats'] 
-        : array_keys(citepress_get_citation_styles());
+    $enabled = isset($paulus_cite_setting['enabled_formats']) && is_array($paulus_cite_setting['enabled_formats']) 
+        ? $paulus_cite_setting['enabled_formats'] 
+        : array_keys(paulus_cite_get_citation_styles());
     
     // Ensure at least one format is enabled
     if (empty($enabled)) {
@@ -186,7 +186,7 @@ function citepress_get_enabled_formats() {
  * Get format metadata (display name, description, icon, category)
  * @return array Format metadata indexed by format ID
  */
-function citepress_get_format_metadata() {
+function paulus_cite_get_format_metadata() {
     return array(
         // Original formats
         'apa' => array(
@@ -324,14 +324,14 @@ function citepress_get_format_metadata() {
  * @param array $atts Shortcode attributes (may contain 'formats' and 'exclude_formats')
  * @return array Array of validated format IDs
  */
-function citepress_resolve_formats($atts) {
-    $all_styles = array_keys(citepress_get_citation_styles());
+function paulus_cite_resolve_formats($atts) {
+    $all_styles = array_keys(paulus_cite_get_citation_styles());
     
     if (!empty($atts['formats'])) {
         $formats = array_map('trim', explode(',', sanitize_text_field($atts['formats'])));
         $formats = array_intersect($formats, $all_styles);
     } else {
-        $formats = citepress_get_enabled_formats();
+        $formats = paulus_cite_get_enabled_formats();
     }
     
     if (!empty($atts['exclude_formats'])) {
@@ -353,7 +353,7 @@ function citepress_resolve_formats($atts) {
  *
  * @return array Format ID => inline template string
  */
-function citepress_get_inline_templates() {
+function paulus_cite_get_inline_templates() {
     $templates = array(
         'apa'       => '({author}, {publication_year})',
         'mla'       => '({author}{page})',
@@ -377,7 +377,7 @@ function citepress_get_inline_templates() {
         'iso690'    => '({author}, {publication_year})',
     );
     
-    return apply_filters('citepress_inline_templates', $templates);
+    return apply_filters('paulus_cite_inline_templates', $templates);
 }
 
 /**
@@ -386,11 +386,11 @@ function citepress_get_inline_templates() {
  *
  * FIX Bug: has_shortcode() only inspects raw shortcode text. When the
  * bibliography is placed via the block editor, post_content contains block
- * comment markup — [cite_bibliography] never appears, so $citepress_bibliography_mode
+ * comment markup — [cite_bibliography] never appears, so $paulus_cite_bibliography_mode
  * stays false and all [cite] shortcodes render as full boxes instead of footnote
  * markers. We now also scan for the block comment.
  */
-function citepress_has_bibliography_shortcode() {
+function paulus_cite_has_bibliography_shortcode() {
     global $post;
     if ( ! isset( $post ) || ! is_object( $post ) ) { return false; }
     if ( has_shortcode( $post->post_content, 'cite_bibliography' ) || has_shortcode( $post->post_content, 'citepress_cite_bibliography' ) ) { return true; }
@@ -406,8 +406,8 @@ function citepress_has_bibliography_shortcode() {
  * @param string $custom_author Optional custom author override
  * @return string Formatted author surname(s)
  */
-function citepress_get_inline_author($custom_author = '') {
-    global $citepress_setting;
+function paulus_cite_get_inline_author($custom_author = '') {
+    global $paulus_cite_setting;
     
     if (!empty($custom_author)) {
         // Extract surname from custom author
@@ -415,8 +415,8 @@ function citepress_get_inline_author($custom_author = '') {
         return end($parts);
     }
     
-    $authors = citepress_get_authors_array();
-    $et_al_threshold = isset($citepress_setting['et_al_threshold']) ? absint($citepress_setting['et_al_threshold']) : 3;
+    $authors = paulus_cite_get_authors_array();
+    $et_al_threshold = isset($paulus_cite_setting['et_al_threshold']) ? absint($paulus_cite_setting['et_al_threshold']) : 3;
     
     // Extract surnames (last word of each name)
     $surnames = array();
@@ -446,16 +446,16 @@ function citepress_get_inline_author($custom_author = '') {
 }
 
 // Shortcode function
-function citepress_display_citation($atts = array()) {
-    global $post, $citepress_setting, $citepress_citation_data, $citepress_cited_posts, $citepress_ref_counter, $citepress_bibliography_mode, $citepress_instance_counter;
+function paulus_cite_display_citation($atts = array()) {
+    global $post, $paulus_cite_setting, $paulus_cite_citation_data, $paulus_cite_cited_posts, $paulus_cite_ref_counter, $paulus_cite_bibliography_mode, $paulus_cite_instance_counter;
     
     if (!isset($post) || !is_object($post)) {
         return '';
     }
     
     // Unique instance ID for this citation box
-    $citepress_instance_counter++;
-    $instance_id = $citepress_instance_counter;
+    $paulus_cite_instance_counter++;
+    $instance_id = $paulus_cite_instance_counter;
     
     $atts = shortcode_atts(array(
         'style' => 'apa',
@@ -477,9 +477,9 @@ function citepress_display_citation($atts = array()) {
     }
     
     // Resolve which formats to display (Feature #05)
-    $active_formats = citepress_resolve_formats($atts);
+    $active_formats = paulus_cite_resolve_formats($atts);
     
-    $allowed_styles = array_keys(citepress_get_citation_styles());
+    $allowed_styles = array_keys(paulus_cite_get_citation_styles());
     if (!in_array($atts['style'], $allowed_styles, true)) {
         $atts['style'] = 'apa';
     }
@@ -490,26 +490,26 @@ function citepress_display_citation($atts = array()) {
     }
     
     $atts['custom_author'] = sanitize_text_field($atts['custom_author']);
-    $styles = citepress_get_citation_styles();
+    $styles = paulus_cite_get_citation_styles();
     
-    if (!empty($citepress_setting['excluded_posts'])) {
-        $excluded = array_map('absint', array_map('trim', explode(',', $citepress_setting['excluded_posts'])));
+    if (!empty($paulus_cite_setting['excluded_posts'])) {
+        $excluded = array_map('absint', array_map('trim', explode(',', $paulus_cite_setting['excluded_posts'])));
         if (in_array(absint($post->ID), $excluded, true)) {
             return '';
         }
     }
     
     // Detect bibliography mode (two-pass: Feature #02)
-    if (!$citepress_bibliography_mode) {
-        $citepress_bibliography_mode = citepress_has_bibliography_shortcode();
+    if (!$paulus_cite_bibliography_mode) {
+        $paulus_cite_bibliography_mode = paulus_cite_has_bibliography_shortcode();
     }
     
     // =========================================================================
     // MODE: INLINE — parenthetical in-text citation (Feature #03)
     // =========================================================================
     if ($atts['mode'] === 'inline') {
-        $inline_templates = citepress_get_inline_templates();
-        $inline_author = citepress_get_inline_author($atts['custom_author']);
+        $inline_templates = paulus_cite_get_inline_templates();
+        $inline_author = paulus_cite_get_inline_author($atts['custom_author']);
         $publication_year = get_the_date('Y');
         $permalink = get_permalink();
         $page_str = '';
@@ -520,14 +520,14 @@ function citepress_display_citation($atts = array()) {
         
         // Determine reference number for numeric styles
         $ref_number = '';
-        if ($citepress_bibliography_mode) {
+        if ($paulus_cite_bibliography_mode) {
             // Register in bibliography tracking
-            $citepress_ref_counter++;
-            $current_ref = $citepress_ref_counter;
+            $paulus_cite_ref_counter++;
+            $current_ref = $paulus_cite_ref_counter;
             
             // Check for deduplication (same post cited multiple times)
             $existing_ref = null;
-            foreach ($citepress_cited_posts as $entry) {
+            foreach ($paulus_cite_cited_posts as $entry) {
                 if ($entry['post_id'] === $post->ID) {
                     $existing_ref = $entry['ref_number'];
                     break;
@@ -537,14 +537,14 @@ function citepress_display_citation($atts = array()) {
             if ($existing_ref !== null) {
                 $ref_number = $existing_ref;
             } else {
-                $ref_number = count(array_unique(array_column($citepress_cited_posts, 'post_id'))) + 1;
+                $ref_number = count(array_unique(array_column($paulus_cite_cited_posts, 'post_id'))) + 1;
             }
             
-            $citepress_cited_posts[] = array(
+            $paulus_cite_cited_posts[] = array(
                 'post_id' => $post->ID,
                 'ref_number' => $ref_number,
-                'marker_id' => 'citepress-marker-' . $citepress_ref_counter,
-                'anchor_id' => 'citepress-ref-' . $ref_number,
+                'marker_id' => 'paulus-cite-marker-' . $paulus_cite_ref_counter,
+                'anchor_id' => 'paulus-cite-ref-' . $ref_number,
                 'style' => $atts['style'],
             );
         }
@@ -557,11 +557,11 @@ function citepress_display_citation($atts = array()) {
          * @param string $template The template string.
          * @param string $style    The citation style ID.
          */
-        $template = apply_filters('citepress_inline_template', $template, $atts['style']);
+        $template = apply_filters('paulus_cite_inline_template', $template, $atts['style']);
         
         // For numeric styles without bibliography, fall back to author-year
         $is_numeric_style = (strpos($template, '{ref_number}') !== false);
-        if ($is_numeric_style && !$citepress_bibliography_mode) {
+        if ($is_numeric_style && !$paulus_cite_bibliography_mode) {
             $template = '({author}, {publication_year})';
         }
         
@@ -573,16 +573,16 @@ function citepress_display_citation($atts = array()) {
         
         $show_link = ($atts['link'] === 'true' || $atts['link'] === '1');
         
-        $html = '<span class="citepress-inline-citation"';
-        if ($citepress_bibliography_mode) {
-            $html .= ' id="' . esc_attr('citepress-marker-' . $citepress_ref_counter) . '"';
+        $html = '<span class="paulus-cite-inline-citation"';
+        if ($paulus_cite_bibliography_mode) {
+            $html .= ' id="' . esc_attr('paulus-cite-marker-' . $paulus_cite_ref_counter) . '"';
         }
         $html .= '>';
         
         if ($show_link) {
-            $href = $citepress_bibliography_mode ? '#citepress-ref-' . intval($ref_number) : esc_url($permalink);
+            $href = $paulus_cite_bibliography_mode ? '#paulus-cite-ref-' . intval($ref_number) : esc_url($permalink);
             $html .= '<a href="' . $href . '"';
-            if ($citepress_bibliography_mode) {
+            if ($paulus_cite_bibliography_mode) {
                 /* translators: %d: reference number */
                 $html .= ' role="doc-noteref" aria-label="' . esc_attr(sprintf(__('See reference %d', 'paulus'), $ref_number)) . '"';
             }
@@ -600,14 +600,14 @@ function citepress_display_citation($atts = array()) {
          * @param array   $atts The shortcode attributes.
          * @param WP_Post $post The current post.
          */
-        return apply_filters('citepress_inline_citation', $html, $atts, $post);
+        return apply_filters('paulus_cite_inline_citation', $html, $atts, $post);
     }
     
     // =========================================================================
     // MODE: BIBLIOGRAPHY — plain text citation without box wrapper (Feature #03)
     // =========================================================================
     if ($atts['mode'] === 'bibliography') {
-        $author = !empty($atts['custom_author']) ? $atts['custom_author'] : citepress_get_author_name();
+        $author = !empty($atts['custom_author']) ? $atts['custom_author'] : paulus_cite_get_author_name();
         $template = isset($styles[$atts['style']]) ? $styles[$atts['style']] : $styles['apa'];
 
         $citation = str_replace(
@@ -617,13 +617,13 @@ function citepress_display_citation($atts = array()) {
                 esc_html( html_entity_decode( get_bloginfo( 'name' ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ),
                 esc_html( html_entity_decode( get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ),
                 esc_html( date_i18n( get_option( 'date_format' ) ) ),
-                esc_html( citepress_format_date_dmy() ),
+                esc_html( paulus_cite_format_date_dmy() ),
                 esc_html( get_the_date() ),
-                esc_html( citepress_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
+                esc_html( paulus_cite_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
                 esc_html( get_the_date( 'Y' ) ),
                 '<a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_permalink() ) . '</a>',
                 esc_html( get_permalink() ),
-                esc_html( citepress_get_language_code() ),
+                esc_html( paulus_cite_get_language_code() ),
             ),
             $template
         );
@@ -631,7 +631,7 @@ function citepress_display_citation($atts = array()) {
         $citation = preg_replace('/\s\./', '.', $citation);
         $citation = preg_replace('/\s,/', ',', $citation);
 
-        return '<span class="citepress-bibliography-citation">' . $citation . '</span>';
+        return '<span class="paulus-cite-bibliography-citation">' . $citation . '</span>';
     }
     
     // =========================================================================
@@ -639,12 +639,12 @@ function citepress_display_citation($atts = array()) {
     // =========================================================================
     
     // If bibliography mode is active and mode is box, render as footnote marker instead
-    if ($citepress_bibliography_mode && $atts['mode'] === 'box') {
-        $citepress_ref_counter++;
+    if ($paulus_cite_bibliography_mode && $atts['mode'] === 'box') {
+        $paulus_cite_ref_counter++;
         
         // Check for deduplication
         $existing_ref = null;
-        foreach ($citepress_cited_posts as $entry) {
+        foreach ($paulus_cite_cited_posts as $entry) {
             if ($entry['post_id'] === $post->ID) {
                 $existing_ref = $entry['ref_number'];
                 break;
@@ -654,92 +654,92 @@ function citepress_display_citation($atts = array()) {
         if ($existing_ref !== null) {
             $ref_number = $existing_ref;
         } else {
-            $ref_number = count(array_unique(array_column($citepress_cited_posts, 'post_id'))) + 1;
+            $ref_number = count(array_unique(array_column($paulus_cite_cited_posts, 'post_id'))) + 1;
         }
         
-        $citepress_cited_posts[] = array(
+        $paulus_cite_cited_posts[] = array(
             'post_id' => $post->ID,
             'ref_number' => $ref_number,
-            'marker_id' => 'citepress-marker-' . $citepress_ref_counter,
-            'anchor_id' => 'citepress-ref-' . $ref_number,
+            'marker_id' => 'paulus-cite-marker-' . $paulus_cite_ref_counter,
+            'anchor_id' => 'paulus-cite-ref-' . $ref_number,
             'style' => $atts['style'],
         );
         
-        return '<sup class="citepress-ref-marker" id="' . esc_attr('citepress-marker-' . $citepress_ref_counter) . '">'
+        return '<sup class="paulus-cite-ref-marker" id="' . esc_attr('paulus-cite-marker-' . $paulus_cite_ref_counter) . '">'
             /* translators: %d: reference number */
-            . '<a href="#citepress-ref-' . intval($ref_number) . '" role="doc-noteref" aria-label="' . esc_attr(sprintf(__('See reference %d', 'paulus'), $ref_number)) . '">'
+            . '<a href="#paulus-cite-ref-' . intval($ref_number) . '" role="doc-noteref" aria-label="' . esc_attr(sprintf(__('See reference %d', 'paulus'), $ref_number)) . '">'
             . '[' . intval($ref_number) . ']</a></sup>';
     }
     
     $show_toggle = ($atts['show_toggle'] === 'true' || $atts['show_toggle'] === '1') && 
-                   isset($citepress_setting['show_toggle']) && $citepress_setting['show_toggle'] === 'yes';
+                   isset($paulus_cite_setting['show_toggle']) && $paulus_cite_setting['show_toggle'] === 'yes';
     $show_copy = ($atts['show_copy'] === 'true' || $atts['show_copy'] === '1');
     $show_export = ($atts['show_export'] === 'true' || $atts['show_export'] === '1');
     
     // Get display mode
-    $display_mode = isset($citepress_setting['format_display_mode']) ? $citepress_setting['format_display_mode'] : 'dropdown';
+    $display_mode = isset($paulus_cite_setting['format_display_mode']) ? $paulus_cite_setting['format_display_mode'] : 'dropdown';
     
-    // FIX #15: 'styles' and 'ajaxUrl' removed — hoisted to citepressSharedData in assets.php.
+    // FIX #15: 'styles' and 'ajaxUrl' removed — hoisted to paulusCiteSharedData in assets.php.
     // FIX #3:  'nonce' removed — nonces break under full-page caching; see analytics.php.
     $citation_data = array(
         'postId'             => absint($post->ID),
-        'author'             => !empty($atts['custom_author']) ? $atts['custom_author'] : citepress_get_author_name(),
-        'authors'            => !empty($atts['custom_author']) ? array($atts['custom_author']) : citepress_get_authors_array(),
+        'author'             => !empty($atts['custom_author']) ? $atts['custom_author'] : paulus_cite_get_author_name(),
+        'authors'            => !empty($atts['custom_author']) ? array($atts['custom_author']) : paulus_cite_get_authors_array(),
         'siteName'           => html_entity_decode(get_bloginfo('name'), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
         'title'              => html_entity_decode(get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
         'dateAccessed'       => date_i18n(get_option('date_format')),
-        'dateAccessedDMY'    => citepress_format_date_dmy(),
+        'dateAccessedDMY'    => paulus_cite_format_date_dmy(),
         'publicationDate'    => get_the_date(),
-        'publicationDateDMY' => citepress_format_date_dmy(get_the_date('Y-m-d')),
+        'publicationDateDMY' => paulus_cite_format_date_dmy(get_the_date('Y-m-d')),
         'publicationYear'    => get_the_date('Y'),
         'publicationDateISO' => get_the_date('Y-m-d'),
         'permalink'          => get_permalink(),
         'permalinkUrl'       => esc_url(get_permalink()),
-        'language'           => citepress_get_language_code(),
+        'language'           => paulus_cite_get_language_code(),
         'displayMode'        => $display_mode,
         'activeFormats'      => $active_formats,
         'instance'           => $instance_id,
     );
     
-    $citepress_citation_data[] = $citation_data;
+    $paulus_cite_citation_data[] = $citation_data;
     
-    $format_metadata = citepress_get_format_metadata();
+    $format_metadata = paulus_cite_get_format_metadata();
     $show_selector = (count($active_formats) > 1);
     
     // FIX #8: itemscope/itemtype="ScholarlyArticle" removed.
     // The JSON-LD block (metadata.php) already emits ScholarlyArticle schema.
     // Having both Microdata and JSON-LD for the same entity on the same page
     // creates ambiguity that Google can flag as a structured-data error.
-    $color_scheme  = isset( $citepress_setting['color_scheme'] ) ? $citepress_setting['color_scheme'] : 'auto';
-    $box_style     = isset( $citepress_setting['box_style'] ) ? $citepress_setting['box_style'] : 'classic';
-    $sharp_corners = isset( $citepress_setting['sharp_corners'] ) && $citepress_setting['sharp_corners'] === 'yes';
+    $color_scheme  = isset( $paulus_cite_setting['color_scheme'] ) ? $paulus_cite_setting['color_scheme'] : 'auto';
+    $box_style     = isset( $paulus_cite_setting['box_style'] ) ? $paulus_cite_setting['box_style'] : 'classic';
+    $sharp_corners = isset( $paulus_cite_setting['sharp_corners'] ) && $paulus_cite_setting['sharp_corners'] === 'yes';
     $theme_attr    = ( $color_scheme !== 'auto' ) ? ' data-theme="' . esc_attr( $color_scheme ) . '"' : '';
     $style_attr    = ' data-box-style="' . esc_attr( $box_style ) . '"';
     $corner_attr   = $sharp_corners ? ' data-corners="sharp"' : '';
 
     ob_start();
     ?>
-    <div id="citation-box-<?php echo absint($post->ID); ?>-<?php echo absint($instance_id); ?>" class="citepress-citation-box" role="region" aria-label="<?php esc_attr_e('Citation Information', 'paulus'); ?>" data-display-mode="<?php echo esc_attr($display_mode); ?>"<?php echo $theme_attr . $style_attr . $corner_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all escaped above ?>>
+    <div id="citation-box-<?php echo absint($post->ID); ?>-<?php echo absint($instance_id); ?>" class="paulus-cite-citation-box" role="region" aria-label="<?php esc_attr_e('Citation Information', 'paulus'); ?>" data-display-mode="<?php echo esc_attr($display_mode); ?>"<?php echo $theme_attr . $style_attr . $corner_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all escaped above ?>>
         <div class="citation-header">
             <div class="citation-title">
-                <svg class="citepress-cite-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M8.5 5.5C8.5 4.12 7.38 3 6 3S3.5 4.12 3.5 5.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5zm8 0C16.5 4.12 15.38 3 14 3s-2.5 1.12-2.5 2.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5z"/></svg>
+                <svg class="paulus-cite-cite-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M8.5 5.5C8.5 4.12 7.38 3 6 3S3.5 4.12 3.5 5.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5zm8 0C16.5 4.12 15.38 3 14 3s-2.5 1.12-2.5 2.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5z"/></svg>
                 <span><?php esc_html_e('Cite This As:', 'paulus'); ?></span>
                 <?php if ($show_selector): ?>
                     <?php if ($display_mode === 'tabs'): ?>
-                    <div class="citepress-style-tabs" role="tablist" aria-label="<?php esc_attr_e('Citation format', 'paulus'); ?>">
+                    <div class="paulus-cite-style-tabs" role="tablist" aria-label="<?php esc_attr_e('Citation format', 'paulus'); ?>">
                         <?php foreach ($active_formats as $format_id): ?>
                             <?php if (isset($format_metadata[$format_id])): ?>
-                                <button type="button" class="citepress-style-tab<?php echo ($atts['style'] === $format_id) ? ' citepress-style-tab--active' : ''; ?>" role="tab" aria-selected="<?php echo ($atts['style'] === $format_id) ? 'true' : 'false'; ?>" data-style="<?php echo esc_attr($format_id); ?>" data-post-id="<?php echo absint($post->ID); ?>" tabindex="<?php echo ($atts['style'] === $format_id) ? '0' : '-1'; ?>">
+                                <button type="button" class="paulus-cite-style-tab<?php echo ($atts['style'] === $format_id) ? ' paulus-cite-style-tab--active' : ''; ?>" role="tab" aria-selected="<?php echo ($atts['style'] === $format_id) ? 'true' : 'false'; ?>" data-style="<?php echo esc_attr($format_id); ?>" data-post-id="<?php echo absint($post->ID); ?>" tabindex="<?php echo ($atts['style'] === $format_id) ? '0' : '-1'; ?>">
                                     <?php echo esc_html($format_metadata[$format_id]['name']); ?>
                                 </button>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
                     <?php elseif ($display_mode === 'buttons'): ?>
-                    <div class="citepress-style-buttons" role="radiogroup" aria-label="<?php esc_attr_e('Citation format', 'paulus'); ?>">
+                    <div class="paulus-cite-style-buttons" role="radiogroup" aria-label="<?php esc_attr_e('Citation format', 'paulus'); ?>">
                         <?php foreach ($active_formats as $format_id): ?>
                             <?php if (isset($format_metadata[$format_id])): ?>
-                                <button type="button" class="citepress-style-btn<?php echo ($atts['style'] === $format_id) ? ' citepress-style-btn--active' : ''; ?>" role="radio" aria-checked="<?php echo ($atts['style'] === $format_id) ? 'true' : 'false'; ?>" data-style="<?php echo esc_attr($format_id); ?>" data-post-id="<?php echo absint($post->ID); ?>">
+                                <button type="button" class="paulus-cite-style-btn<?php echo ($atts['style'] === $format_id) ? ' paulus-cite-style-btn--active' : ''; ?>" role="radio" aria-checked="<?php echo ($atts['style'] === $format_id) ? 'true' : 'false'; ?>" data-style="<?php echo esc_attr($format_id); ?>" data-post-id="<?php echo absint($post->ID); ?>">
                                     <?php echo esc_html($format_metadata[$format_id]['name']); ?>
                                 </button>
                             <?php endif; ?>
@@ -757,7 +757,7 @@ function citepress_display_citation($atts = array()) {
                     </select>
                     <?php endif; ?>
                 <?php else: ?>
-                    <span class="citepress-single-format-label"><?php echo isset($format_metadata[$active_formats[0]]) ? esc_html($format_metadata[$active_formats[0]]['name']) : ''; ?></span>
+                    <span class="paulus-cite-single-format-label"><?php echo isset($format_metadata[$active_formats[0]]) ? esc_html($format_metadata[$active_formats[0]]['name']) : ''; ?></span>
                 <?php endif; ?>
                 <?php if ($show_copy): ?>
                 <button class="copy-button" data-post-id="<?php echo absint($post->ID); ?>" title="<?php esc_attr_e('Copy citation', 'paulus'); ?>" aria-label="<?php esc_attr_e('Copy citation to clipboard', 'paulus'); ?>">
@@ -791,7 +791,7 @@ function citepress_display_citation($atts = array()) {
                             'cff'         => '.cff',
                             'dublin-core' => '.xml',
                         );
-                        $active_exports = isset($citepress_setting['enabled_export_formats']) ? $citepress_setting['enabled_export_formats'] : array_keys($export_labels);
+                        $active_exports = isset($paulus_cite_setting['enabled_export_formats']) ? $paulus_cite_setting['enabled_export_formats'] : array_keys($export_labels);
                         foreach ($active_exports as $ef_id):
                             if (isset($export_labels[$ef_id])):
                         ?>
@@ -820,10 +820,10 @@ function citepress_display_citation($atts = array()) {
     <?php
     return ob_get_clean();
 }
-add_shortcode('cite', 'citepress_display_citation');
+add_shortcode('cite', 'paulus_cite_display_citation');
 // FIX #10: Namespaced aliases to prevent collision with other plugins using [cite].
-// New content should use [citepress_cite] and [citepress_cite_bibliography].
-add_shortcode('citepress_cite', 'citepress_display_citation');
+// New content should use [paulus_cite_cite] and [paulus_cite_cite_bibliography].
+add_shortcode('citepress_cite', 'paulus_cite_display_citation');
 
 // =============================================================================
 // BIBLIOGRAPHY SHORTCODE (Feature #02)
@@ -832,14 +832,14 @@ add_shortcode('citepress_cite', 'citepress_display_citation');
 /**
  * [cite_bibliography] shortcode — Renders a collected reference list.
  *
- * Collects all [cite] instances registered in $citepress_cited_posts and generates
+ * Collects all [cite] instances registered in $paulus_cite_cited_posts and generates
  * a formatted, numbered reference list (bibliography) at the shortcode location.
  *
  * @param array $atts Shortcode attributes.
  * @return string Bibliography HTML
  */
-function citepress_display_bibliography($atts = array()) {
-    global $post, $citepress_setting, $citepress_cited_posts;
+function paulus_cite_display_bibliography($atts = array()) {
+    global $post, $paulus_cite_setting, $paulus_cite_cited_posts;
     
     if (!isset($post) || !is_object($post)) {
         return '';
@@ -854,7 +854,7 @@ function citepress_display_bibliography($atts = array()) {
     ), $atts);
     
     // If no citations were collected, output nothing
-    if (empty($citepress_cited_posts)) {
+    if (empty($paulus_cite_cited_posts)) {
         return '';
     }
     
@@ -870,23 +870,23 @@ function citepress_display_bibliography($atts = array()) {
     // Determine bibliography style
     if (!empty($atts['style'])) {
         $bib_style = sanitize_text_field($atts['style']);
-        $all_styles = array_keys(citepress_get_citation_styles());
+        $all_styles = array_keys(paulus_cite_get_citation_styles());
         if (!in_array($bib_style, $all_styles, true)) {
             $bib_style = 'apa';
         }
     } else {
-        $enabled = citepress_get_enabled_formats();
+        $enabled = paulus_cite_get_enabled_formats();
         $bib_style = !empty($enabled[0]) ? $enabled[0] : 'apa';
     }
     
-    $styles = citepress_get_citation_styles();
+    $styles = paulus_cite_get_citation_styles();
     $template = isset($styles[$bib_style]) ? $styles[$bib_style] : $styles['apa'];
     
     // Deduplicate: build unique entries by post_id preserving first-appearance order
     $unique_entries = array();
     $marker_map = array(); // ref_number => array of marker_ids
     
-    foreach ($citepress_cited_posts as $entry) {
+    foreach ($paulus_cite_cited_posts as $entry) {
         $pid = $entry['post_id'];
         $rn = $entry['ref_number'];
         
@@ -910,16 +910,16 @@ function citepress_display_bibliography($atts = array()) {
      *
      * @param string $heading The heading text.
      */
-    $heading_text = apply_filters('citepress_bibliography_heading', $atts['heading']);
+    $heading_text = apply_filters('paulus_cite_bibliography_heading', $atts['heading']);
     
-    $output = '<div class="citepress-bibliography" role="doc-endnotes">';
+    $output = '<div class="paulus-cite-bibliography" role="doc-endnotes">';
     
     if (!empty($heading_text)) {
-        $output .= '<' . $atts['heading_tag'] . ' class="citepress-bibliography-heading">' . esc_html($heading_text) . '</' . $atts['heading_tag'] . '>';
+        $output .= '<' . $atts['heading_tag'] . ' class="paulus-cite-bibliography-heading">' . esc_html($heading_text) . '</' . $atts['heading_tag'] . '>';
     }
     
     $list_tag = $numbered ? 'ol' : 'ul';
-    $output .= '<' . $list_tag . ' class="citepress-bibliography-list">';
+    $output .= '<' . $list_tag . ' class="paulus-cite-bibliography-list">';
     
     foreach ($unique_entries as $entry) {
         $ref_post = get_post($entry['post_id']);
@@ -932,7 +932,7 @@ function citepress_display_bibliography($atts = array()) {
         $GLOBALS['post'] = $ref_post;
         setup_postdata($ref_post);
         
-        $author = citepress_get_author_name();
+        $author = paulus_cite_get_author_name();
         $title = html_entity_decode(get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $site_name = html_entity_decode(get_bloginfo('name'), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $permalink = get_permalink();
@@ -948,13 +948,13 @@ function citepress_display_bibliography($atts = array()) {
                     esc_html( $site_name ),
                     esc_html( $title ),
                     esc_html( $date_accessed ),
-                    esc_html( citepress_format_date_dmy() ),
+                    esc_html( paulus_cite_format_date_dmy() ),
                     esc_html( $pub_date ),
-                    esc_html( citepress_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
+                    esc_html( paulus_cite_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
                     esc_html( $pub_year ),
                     '<a href="' . esc_url( $permalink ) . '">' . esc_html( $permalink ) . '</a>',
                     esc_html( $permalink ),
-                    esc_html( citepress_get_language_code() ),
+                    esc_html( paulus_cite_get_language_code() ),
                 ),
                 $template
             );
@@ -966,13 +966,13 @@ function citepress_display_bibliography($atts = array()) {
                     esc_html( $site_name ),
                     esc_html( $title ),
                     esc_html( $date_accessed ),
-                    esc_html( citepress_format_date_dmy() ),
+                    esc_html( paulus_cite_format_date_dmy() ),
                     esc_html( $pub_date ),
-                    esc_html( citepress_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
+                    esc_html( paulus_cite_format_date_dmy( get_the_date( 'Y-m-d' ) ) ),
                     esc_html( $pub_year ),
                     '<a href="' . esc_url( $permalink ) . '">' . esc_html( $permalink ) . '</a>',
                     esc_html( $permalink ),
-                    esc_html( citepress_get_language_code() ),
+                    esc_html( paulus_cite_get_language_code() ),
                 ),
                 $template
             );
@@ -992,7 +992,7 @@ function citepress_display_bibliography($atts = array()) {
             $bl_parts = array();
             foreach ($marker_map[$rn] as $idx => $marker_id) {
                 $label = (count($marker_map[$rn]) > 1) ? chr(97 + $idx) : '↩';
-                $bl_parts[] = '<a href="#' . esc_attr($marker_id) . '" class="citepress-bibliography-backlink" aria-label="' . esc_attr(sprintf(
+                $bl_parts[] = '<a href="#' . esc_attr($marker_id) . '" class="paulus-cite-bibliography-backlink" aria-label="' . esc_attr(sprintf(
                     /* translators: %d: citation number in text */
                     __('Back to citation %d in text', 'paulus'),
                     $rn
@@ -1001,8 +1001,8 @@ function citepress_display_bibliography($atts = array()) {
             $backlinks = ' ' . implode(' ', $bl_parts);
         }
         
-        $entry_html = '<li id="citepress-ref-' . intval($rn) . '" class="citepress-bibliography-entry" role="doc-endnote">'
-            . '<span class="citepress-bibliography-text">' . $citation_html . '</span>'
+        $entry_html = '<li id="paulus-cite-ref-' . intval($rn) . '" class="paulus-cite-bibliography-entry" role="doc-endnote">'
+            . '<span class="paulus-cite-bibliography-text">' . $citation_html . '</span>'
             . $backlinks
             . '</li>';
         
@@ -1013,7 +1013,7 @@ function citepress_display_bibliography($atts = array()) {
          * @param int    $ref_number The reference number.
          * @param array  $entry      The entry data.
          */
-        $output .= apply_filters('citepress_bibliography_entry', $entry_html, $rn, $entry);
+        $output .= apply_filters('paulus_cite_bibliography_entry', $entry_html, $rn, $entry);
     }
     
     $output .= '</' . $list_tag . '>';
@@ -1025,7 +1025,7 @@ function citepress_display_bibliography($atts = array()) {
      * @param string $output The complete bibliography HTML.
      * @param array  $unique_entries The deduplicated citation entries.
      */
-    return apply_filters('citepress_bibliography_output', $output, $unique_entries);
+    return apply_filters('paulus_cite_bibliography_output', $output, $unique_entries);
 }
-add_shortcode('cite_bibliography', 'citepress_display_bibliography');
-add_shortcode('citepress_cite_bibliography', 'citepress_display_bibliography');
+add_shortcode('cite_bibliography', 'paulus_cite_display_bibliography');
+add_shortcode('citepress_cite_bibliography', 'paulus_cite_display_bibliography');

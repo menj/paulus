@@ -1,0 +1,881 @@
+/**
+ * Cite Plugin – Frontend Styles
+ * Version: 2.9.4
+ *
+ * Design: Refined academic / editorial.
+ *   – Left accent bar anchors the box with scholarly character.
+ *   – Header has a soft tinted background distinct from the content area.
+ *   – Copy button uses primary accent; export/toggle stay ghost.
+ *   – Export dropdown gains file-ext badges and slide-in animation.
+ *   – Copy notification slides up from the bottom edge (not centred overlay).
+ *   – Dark mode: auto (prefers-color-scheme), forced via [data-theme="dark"],
+ *     or forced light via [data-theme="light"] — matches the Color Scheme setting.
+ *   – Wikipedia output retains monospace block treatment.
+ */
+
+/* =============================================================================
+   CUSTOM PROPERTIES — light mode defaults
+   ============================================================================= */
+
+.paulus-cite-citation-box {
+    --paulus-cite-accent:        #3b6ef5;
+    --paulus-cite-accent-hover:  #2558e0;
+    --paulus-cite-text:          #1a202c;
+    --paulus-cite-text-muted:    #5a6575;
+    --paulus-cite-border:        #dde3ec;
+    --paulus-cite-surface:       #f7f9fc;
+    --paulus-cite-bg:            #ffffff;
+    --paulus-cite-bar:           #3b6ef5;
+    --paulus-cite-bar-width:     4px;
+    --paulus-cite-radius:        10px;
+    --paulus-cite-shadow:        0 2px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
+    --paulus-cite-shadow-hover:  0 6px 24px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06);
+    --paulus-cite-transition:    0.18s ease;
+}
+
+/* Dark tokens — applied by OS preference (auto mode) */
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-citation-box:not([data-theme="light"]) {
+        --paulus-cite-accent:        #6b8ff8;
+        --paulus-cite-accent-hover:  #8aaaf9;
+        --paulus-cite-text:          #e8ecf2;
+        --paulus-cite-text-muted:    #8d99ad;
+        --paulus-cite-border:        #2e3649;
+        --paulus-cite-surface:       #1e2536;
+        --paulus-cite-bg:            #151c2c;
+        --paulus-cite-bar:           #6b8ff8;
+        --paulus-cite-shadow:        0 2px 12px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+        --paulus-cite-shadow-hover:  0 6px 24px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.35);
+    }
+}
+
+/* Forced dark — [data-theme="dark"] set by Color Scheme = Always Dark */
+.paulus-cite-citation-box[data-theme="dark"] {
+    --paulus-cite-accent:        #6b8ff8;
+    --paulus-cite-accent-hover:  #8aaaf9;
+    --paulus-cite-text:          #e8ecf2;
+    --paulus-cite-text-muted:    #8d99ad;
+    --paulus-cite-border:        #2e3649;
+    --paulus-cite-surface:       #1e2536;
+    --paulus-cite-bg:            #151c2c;
+    --paulus-cite-bar:           #6b8ff8;
+    --paulus-cite-shadow:        0 2px 12px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+    --paulus-cite-shadow-hover:  0 6px 24px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.35);
+}
+
+/* Forced light — [data-theme="light"] overrides OS dark preference */
+/* (tokens are already the light defaults, so no re-declaration needed —
+    the :not([data-theme="light"]) guard on the media query handles this) */
+
+/* =============================================================================
+   FOUNDATION
+   ============================================================================= */
+
+.paulus-cite-citation-box,
+.paulus-cite-citation-box * {
+    box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* Buttons, selects and code back to sans-serif so UI chrome stays readable */
+.paulus-cite-citation-box select,
+.paulus-cite-citation-box button,
+.paulus-cite-citation-box code {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.paulus-cite-citation-box {
+    margin: 2em 0;
+    position: relative;
+    background: var(--paulus-cite-bg);
+    border: 1px solid var(--paulus-cite-border);
+    border-left: var(--paulus-cite-bar-width) solid var(--paulus-cite-bar);
+    border-radius: var(--paulus-cite-radius);
+    box-shadow: var(--paulus-cite-shadow);
+    color: var(--paulus-cite-text);
+    overflow: visible;
+    transition: box-shadow var(--paulus-cite-transition), border-color var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box:hover {
+    box-shadow: var(--paulus-cite-shadow-hover);
+}
+
+/* =============================================================================
+   HEADER
+   ============================================================================= */
+
+.paulus-cite-citation-box .citation-header {
+    background: var(--paulus-cite-surface);
+    border-bottom: 1px solid var(--paulus-cite-border);
+    padding: 12px 18px;
+    border-radius: calc(var(--paulus-cite-radius) - 1px) calc(var(--paulus-cite-radius) - 1px) 0 0;
+}
+
+.paulus-cite-citation-box .citation-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: var(--paulus-cite-text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.paulus-cite-citation-box .paulus-cite-cite-icon {
+    color: var(--paulus-cite-bar);
+    flex-shrink: 0;
+    opacity: .85;
+}
+
+/* =============================================================================
+   FORMAT SELECTORS
+   ============================================================================= */
+
+/* Dropdown */
+.paulus-cite-citation-box .citation-style-select {
+    padding: 5px 28px 5px 10px;
+    border: 1px solid var(--paulus-cite-border);
+    border-radius: 6px;
+    background-color: var(--paulus-cite-bg);
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3E%3Cpath fill="%235a6575" d="M2 0L0 2h4zm0 5L0 3h4z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 0.5em top 50%;
+    background-size: 0.6em auto;
+    color: var(--paulus-cite-text);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color var(--paulus-cite-transition), box-shadow var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box .citation-style-select:hover {
+    border-color: var(--paulus-cite-accent);
+}
+
+.paulus-cite-citation-box .citation-style-select:focus {
+    outline: none;
+    border-color: var(--paulus-cite-accent);
+    box-shadow: 0 0 0 3px rgba(59,110,245,.18);
+}
+
+/* Tabs */
+.paulus-cite-citation-box .paulus-cite-style-tabs {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: rgba(0,0,0,.06);
+    padding: 3px;
+    border-radius: 7px;
+}
+
+.paulus-cite-citation-box[data-theme="dark"] .paulus-cite-style-tabs {
+    background: rgba(255,255,255,.08);
+}
+
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-citation-box:not([data-theme="light"]) .paulus-cite-style-tabs {
+        background: rgba(255,255,255,.08);
+    }
+}
+
+.paulus-cite-citation-box .paulus-cite-style-tab {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--paulus-cite-text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    transition: background var(--paulus-cite-transition), color var(--paulus-cite-transition);
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.paulus-cite-citation-box .paulus-cite-style-tab:hover {
+    background: rgba(255,255,255,.5);
+    color: var(--paulus-cite-text);
+}
+
+.paulus-cite-citation-box .paulus-cite-style-tab:focus-visible {
+    outline: 2px solid var(--paulus-cite-accent);
+    outline-offset: 1px;
+}
+
+.paulus-cite-citation-box .paulus-cite-style-tab--active {
+    background: var(--paulus-cite-bg);
+    color: var(--paulus-cite-accent);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+
+.paulus-cite-citation-box .paulus-cite-style-tab--active:hover {
+    background: var(--paulus-cite-bg);
+}
+
+/* Pill buttons */
+.paulus-cite-citation-box .paulus-cite-style-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.paulus-cite-citation-box .paulus-cite-style-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--paulus-cite-border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--paulus-cite-text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    transition: all var(--paulus-cite-transition);
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.paulus-cite-citation-box .paulus-cite-style-btn:hover {
+    border-color: var(--paulus-cite-accent);
+    color: var(--paulus-cite-accent);
+    background: rgba(59,110,245,.07);
+}
+
+.paulus-cite-citation-box .paulus-cite-style-btn:focus-visible {
+    outline: 2px solid var(--paulus-cite-accent);
+    outline-offset: 2px;
+}
+
+.paulus-cite-citation-box .paulus-cite-style-btn--active {
+    background: var(--paulus-cite-accent);
+    color: #fff;
+    border-color: var(--paulus-cite-accent);
+}
+
+.paulus-cite-citation-box .paulus-cite-style-btn--active:hover {
+    background: var(--paulus-cite-accent-hover);
+    border-color: var(--paulus-cite-accent-hover);
+}
+
+.paulus-cite-citation-box .paulus-cite-single-format-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--paulus-cite-accent);
+    letter-spacing: .04em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* =============================================================================
+   ACTION BUTTONS
+   Copy = primary accent; export + toggle = ghost.
+   margin-left: auto on copy pushes the trio to the right.
+   ============================================================================= */
+
+.paulus-cite-citation-box .copy-button {
+    margin-left: auto;
+    padding: 5px 11px;
+    border: 1px solid var(--paulus-cite-accent);
+    border-radius: 6px;
+    background: var(--paulus-cite-accent);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    min-height: 30px;
+    transition: background var(--paulus-cite-transition), border-color var(--paulus-cite-transition),
+                transform var(--paulus-cite-transition), box-shadow var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box .copy-button:hover {
+    background: var(--paulus-cite-accent-hover);
+    border-color: var(--paulus-cite-accent-hover);
+    box-shadow: 0 2px 10px rgba(59,110,245,.4);
+}
+
+.paulus-cite-citation-box .copy-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,110,245,.28);
+}
+
+.paulus-cite-citation-box .copy-button:active {
+    transform: scale(0.95);
+}
+
+.paulus-cite-citation-box .copy-button svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.paulus-cite-citation-box .export-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.paulus-cite-citation-box .export-button,
+.paulus-cite-citation-box .toggle-button {
+    padding: 5px 10px;
+    border: 1px solid var(--paulus-cite-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--paulus-cite-text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    transition: all var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box .export-button:hover,
+.paulus-cite-citation-box .toggle-button:hover {
+    border-color: var(--paulus-cite-text-muted);
+    color: var(--paulus-cite-text);
+    background: var(--paulus-cite-surface);
+}
+
+.paulus-cite-citation-box .export-button:focus,
+.paulus-cite-citation-box .toggle-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,110,245,.18);
+}
+
+.paulus-cite-citation-box .export-button svg,
+.paulus-cite-citation-box .toggle-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.paulus-cite-citation-box .toggle-button.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.paulus-cite-citation-box .toggle-icon {
+    transition: transform 0.25s ease;
+}
+
+/* Export dropdown */
+.paulus-cite-citation-box .export-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--paulus-cite-bg);
+    border: 1px solid var(--paulus-cite-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.07);
+    min-width: 185px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.paulus-cite-citation-box .export-dropdown.show {
+    display: flex;
+    animation: paulus-cite-dropdown-in .12s ease forwards;
+}
+
+@keyframes paulus-cite-dropdown-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.paulus-cite-citation-box .export-option {
+    padding: 9px 14px;
+    border: none;
+    border-top: 1px solid var(--paulus-cite-border);
+    background: transparent;
+    color: var(--paulus-cite-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: background var(--paulus-cite-transition), color var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box .export-option:first-child {
+    border-top: none;
+}
+
+.paulus-cite-citation-box .export-option:hover {
+    background: var(--paulus-cite-surface);
+    color: var(--paulus-cite-accent);
+}
+
+.paulus-cite-citation-box .export-option:focus {
+    outline: none;
+    background: var(--paulus-cite-surface);
+    color: var(--paulus-cite-accent);
+}
+
+/* File extension badge rendered via data-ext attribute */
+.paulus-cite-citation-box .export-option::after {
+    content: attr(data-ext);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--paulus-cite-text-muted);
+    background: var(--paulus-cite-surface);
+    border: 1px solid var(--paulus-cite-border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.paulus-cite-citation-box .export-option:hover::after {
+    background: rgba(59,110,245,.10);
+    border-color: rgba(59,110,245,.25);
+    color: var(--paulus-cite-accent);
+}
+
+/* =============================================================================
+   CONTENT AREA
+   ============================================================================= */
+
+.paulus-cite-citation-box .citation-content {
+    max-height: 600px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.paulus-cite-citation-box .citation-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.paulus-cite-citation-box .citation-output {
+    padding: 18px 20px;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--paulus-cite-text);
+    font-style: italic;
+}
+
+/* Journal name <em> inside an italic context — render upright */
+.paulus-cite-citation-box .citation-output em {
+    font-style: normal;
+    font-weight: 500;
+}
+
+.paulus-cite-citation-box .citation-output a {
+    color: var(--paulus-cite-accent);
+    text-decoration: underline;
+    text-decoration-color: rgba(59,110,245,.30);
+    text-underline-offset: 3px;
+    font-style: normal;
+    word-break: break-all;
+    transition: color var(--paulus-cite-transition), text-decoration-color var(--paulus-cite-transition);
+}
+
+.paulus-cite-citation-box .citation-output a:hover {
+    color: var(--paulus-cite-accent-hover);
+    text-decoration-color: var(--paulus-cite-accent-hover);
+}
+
+/* Wikipedia / monospace format */
+.paulus-cite-citation-box .citation-output.wikipedia-format {
+    font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    font-size: 12.5px;
+    font-style: normal;
+    background: var(--paulus-cite-surface);
+    border-top: 1px solid var(--paulus-cite-border);
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.65;
+    color: var(--paulus-cite-text);
+    padding: 16px 20px;
+}
+
+/* =============================================================================
+   COPY NOTIFICATION — slides up from the bottom of the box
+   ============================================================================= */
+
+.paulus-cite-citation-box .copy-notification {
+    position: absolute;
+    bottom: 0;
+    left: var(--paulus-cite-bar-width);
+    right: 0;
+    background: var(--paulus-cite-accent);
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 0 0 calc(var(--paulus-cite-radius) - 1px) calc(var(--paulus-cite-radius) - 1px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: .02em;
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.paulus-cite-citation-box .copy-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* =============================================================================
+   INLINE CITATION MODE
+   ============================================================================= */
+
+.paulus-cite-inline-citation {
+    font-style: normal;
+    white-space: nowrap;
+}
+
+.paulus-cite-inline-citation a {
+    color: #3b6ef5;
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+}
+
+.paulus-cite-inline-citation a:hover {
+    border-bottom-style: solid;
+}
+
+.paulus-cite-bibliography-citation {
+    display: inline;
+}
+
+/* =============================================================================
+   FOOTNOTE REFERENCE MARKERS
+   ============================================================================= */
+
+.paulus-cite-ref-marker {
+    font-size: 0.78em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.paulus-cite-ref-marker a {
+    color: #3b6ef5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.paulus-cite-ref-marker a:hover {
+    text-decoration: underline;
+}
+
+/* =============================================================================
+   BIBLIOGRAPHY
+   ============================================================================= */
+
+.paulus-cite-bibliography {
+    margin-top: 2.5em;
+    padding-top: 1.2em;
+    border-top: 2px solid #dde3ec;
+}
+
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-bibliography { border-top-color: #2e3649; }
+}
+
+.paulus-cite-bibliography-heading {
+    font-size: 1.1em;
+    font-weight: 700;
+    letter-spacing: .01em;
+    margin-bottom: 0.75em;
+    color: #1a202c;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-bibliography-heading { color: #e8ecf2; }
+}
+
+.paulus-cite-bibliography-list {
+    padding-left: 1.6em;
+    font-size: 0.93em;
+    line-height: 1.7;
+    color: #5a6575;
+}
+
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-bibliography-list { color: #8d99ad; }
+}
+
+.paulus-cite-bibliography-entry {
+    margin-bottom: 0.6em;
+}
+
+.paulus-cite-bibliography-text {
+    display: inline;
+}
+
+.paulus-cite-bibliography-text a {
+    color: #3b6ef5;
+    text-decoration: underline;
+    text-decoration-color: rgba(59,110,245,.30);
+    text-underline-offset: 2px;
+}
+
+.paulus-cite-bibliography-text a:hover {
+    text-decoration-color: #3b6ef5;
+}
+
+.paulus-cite-bibliography-backlink {
+    margin-left: 0.4em;
+    text-decoration: none;
+    font-size: 0.85em;
+    color: #5a6575;
+    transition: color .18s ease;
+}
+
+.paulus-cite-bibliography-backlink:hover {
+    color: #3b6ef5;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 640px) {
+    .paulus-cite-citation-box .citation-header {
+        padding: 10px 14px;
+    }
+
+    .paulus-cite-citation-box .citation-title {
+        font-size: 11px;
+        gap: 6px;
+    }
+
+    .paulus-cite-citation-box .citation-output {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+
+    .paulus-cite-citation-box .citation-style-select {
+        font-size: 11px;
+        padding: 4px 24px 4px 8px;
+    }
+
+    .paulus-cite-citation-box .paulus-cite-style-tab,
+    .paulus-cite-citation-box .paulus-cite-style-btn {
+        font-size: 11px;
+        padding: 3px 9px;
+    }
+
+    .paulus-cite-citation-box .copy-button,
+    .paulus-cite-citation-box .export-button,
+    .paulus-cite-citation-box .toggle-button {
+        min-height: 26px;
+        padding: 4px 8px;
+    }
+
+    .paulus-cite-citation-box .export-dropdown {
+        right: auto;
+        left: 0;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 380px) {
+    .paulus-cite-citation-box {
+        --paulus-cite-bar-width: 3px;
+        border-radius: 8px;
+    }
+
+    .paulus-cite-citation-box .citation-output {
+        font-size: 13px;
+    }
+}
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+
+@media print {
+    .paulus-cite-citation-box {
+        border: 1px solid #000 !important;
+        border-left: 3px solid #000 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+
+    .paulus-cite-citation-box .citation-header {
+        background: #f5f5f5 !important;
+    }
+
+    .paulus-cite-citation-box .copy-button,
+    .paulus-cite-citation-box .export-menu,
+    .paulus-cite-citation-box .toggle-button,
+    .paulus-cite-citation-box .copy-notification {
+        display: none !important;
+    }
+
+    .paulus-cite-citation-box .citation-content {
+        max-height: none !important;
+        opacity: 1 !important;
+    }
+
+    .paulus-cite-citation-box .citation-output {
+        color: #000;
+        padding: 12px 0;
+    }
+
+    .paulus-cite-citation-box .citation-output a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    .paulus-cite-bibliography {
+        page-break-inside: avoid;
+    }
+
+    .paulus-cite-bibliography-backlink {
+        display: none;
+    }
+}
+
+/* =============================================================================
+   BOX STYLES
+   ============================================================================= */
+
+/* --- Sharp corners override (global, applies to all styles) --- */
+
+.paulus-cite-citation-box[data-corners="sharp"],
+.paulus-cite-citation-box[data-corners="sharp"] .citation-header {
+    border-radius: 0 !important;
+}
+
+/* --- Academic style --- */
+
+.paulus-cite-citation-box[data-box-style="academic"] {
+    --paulus-cite-bg:      #faf8f4;
+    --paulus-cite-surface: #f0ece4;
+    --paulus-cite-border:  #d6cfc4;
+    --paulus-cite-text:    #2d2416;
+    --paulus-cite-text-muted: #7a6a52;
+    --paulus-cite-bar-width: 0px;           /* no left bar */
+    --paulus-cite-shadow:  0 1px 4px rgba(0,0,0,.06);
+    --paulus-cite-shadow-hover: 0 3px 12px rgba(0,0,0,.09);
+    border-left-width: 1px;              /* override the bar: full 1px border all round */
+    border-top: 3px solid var(--paulus-cite-accent);  /* top rule */
+    line-height: 1.75;                   /* more generous line spacing */
+}
+
+.paulus-cite-citation-box[data-box-style="academic"] .citation-header {
+    background: var(--paulus-cite-surface);
+    border-bottom: 1px solid var(--paulus-cite-border);
+}
+
+.paulus-cite-citation-box[data-box-style="academic"] .citation-output {
+    line-height: 1.8;
+}
+
+/* Academic dark — auto (OS preference) */
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-citation-box[data-box-style="academic"]:not([data-theme="light"]) {
+        --paulus-cite-bg:      #0d1b2e;
+        --paulus-cite-surface: #0a1525;
+        --paulus-cite-border:  #1e3050;
+        --paulus-cite-text:    #dce6f0;
+        --paulus-cite-text-muted: #8aa0b8;
+        --paulus-cite-shadow:  0 1px 6px rgba(0,0,0,.4);
+        --paulus-cite-shadow-hover: 0 3px 16px rgba(0,0,0,.5);
+    }
+}
+
+/* Academic dark — forced */
+.paulus-cite-citation-box[data-box-style="academic"][data-theme="dark"] {
+    --paulus-cite-bg:      #0d1b2e;
+    --paulus-cite-surface: #0a1525;
+    --paulus-cite-border:  #1e3050;
+    --paulus-cite-text:    #dce6f0;
+    --paulus-cite-text-muted: #8aa0b8;
+    --paulus-cite-shadow:  0 1px 6px rgba(0,0,0,.4);
+    --paulus-cite-shadow-hover: 0 3px 16px rgba(0,0,0,.5);
+}
+
+/* --- Minimal style --- */
+
+.paulus-cite-citation-box[data-box-style="minimal"] {
+    --paulus-cite-bg:      transparent;
+    --paulus-cite-surface: transparent;
+    --paulus-cite-border:  #c8cdd6;
+    --paulus-cite-bar-width: 0px;          /* no left bar */
+    --paulus-cite-shadow:  none;
+    --paulus-cite-shadow-hover: none;
+    border-left-width: 1px;             /* hairline full border all round */
+    border: 1px solid var(--paulus-cite-border);
+}
+
+.paulus-cite-citation-box[data-box-style="minimal"] .citation-header {
+    background: transparent;
+    border-bottom: 1px solid var(--paulus-cite-border);
+}
+
+.paulus-cite-citation-box[data-box-style="minimal"] .citation-title {
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+/* Minimal ghost buttons — copy, export, toggle all outline-only */
+.paulus-cite-citation-box[data-box-style="minimal"] .copy-button {
+    background: transparent;
+    color: var(--paulus-cite-accent);
+    border: 1px solid var(--paulus-cite-accent);
+    box-shadow: none;
+}
+
+.paulus-cite-citation-box[data-box-style="minimal"] .copy-button:hover {
+    background: var(--paulus-cite-accent);
+    color: #fff;
+}
+
+.paulus-cite-citation-box[data-box-style="minimal"] .export-button,
+.paulus-cite-citation-box[data-box-style="minimal"] .toggle-button {
+    background: transparent;
+    border: 1px solid var(--paulus-cite-border);
+    box-shadow: none;
+}
+
+.paulus-cite-citation-box[data-box-style="minimal"] .export-button:hover,
+.paulus-cite-citation-box[data-box-style="minimal"] .toggle-button:hover {
+    border-color: var(--paulus-cite-accent);
+    color: var(--paulus-cite-accent);
+    background: transparent;
+}
+
+/* Minimal dark — auto */
+@media (prefers-color-scheme: dark) {
+    .paulus-cite-citation-box[data-box-style="minimal"]:not([data-theme="light"]) {
+        --paulus-cite-border: #3a4252;
+        --paulus-cite-text: #e0e6f0;
+        --paulus-cite-text-muted: #8892a4;
+    }
+}
+
+/* Minimal dark — forced */
+.paulus-cite-citation-box[data-box-style="minimal"][data-theme="dark"] {
+    --paulus-cite-border: #3a4252;
+    --paulus-cite-text: #e0e6f0;
+    --paulus-cite-text-muted: #8892a4;
+}
+
+/* Classic dark tokens already defined above — no additions needed */
+

@@ -1,10 +1,10 @@
 <?php
 /**
- * CitePress built in (inc/citepress.php): the module loads with the plugin's
+ * Citation built in (inc/cite.php): the module loads with the plugin's
  * hooks, stands aside while the plugin is active, and the theme-specific
  * guards work. WordPress is replaced by small stubs.
  *
- * Run: php tests/citepress-test.php
+ * Run: php tests/paulus-cite-test.php
  *
  * @package Paulus
  */
@@ -58,17 +58,17 @@ if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 	// exist in the old option, so the import copies them.
 	$GLOBALS['t']['options']['citepress_setting'] = array( 'et_al_threshold' => '5', 'auto_display' => 'yes' );
 	function paulus_structured_data() {}
-	require dirname( __DIR__ ) . '/inc/citepress.php';
+	require dirname( __DIR__ ) . '/inc/cite.php';
 	echo json_encode(
 		array(
-			'version'    => defined( 'CITEPRESS_VERSION' ) ? CITEPRESS_VERSION : null,
+			'version'    => defined( 'PAULUS_CITE_VERSION' ) ? PAULUS_CITE_VERSION : null,
 			'shortcodes' => array_keys( $GLOBALS['t']['shortcodes'] ),
 			'actions'    => array_keys( $GLOBALS['t']['actions'] ),
 			'filters'    => array_keys( $GLOBALS['t']['filters'] ),
-			'scholar'    => isset( $GLOBALS['t']['filters']['citepress_output_scholar_meta'] ),
-			'setting'    => $GLOBALS['citepress_setting']['et_al_threshold'] ?? null,
+			'scholar'    => isset( $GLOBALS['t']['filters']['paulus_cite_output_scholar_meta'] ),
+			'setting'    => $GLOBALS['paulus_cite_setting']['et_al_threshold'] ?? null,
 			'copied'     => $GLOBALS['t']['options']['paulus_citepress'] ?? null,
-			'seo_guard'  => function_exists( 'citepress_seo_plugin_active' ) ? citepress_seo_plugin_active() : null,
+			'seo_guard'  => function_exists( 'paulus_cite_seo_plugin_active' ) ? paulus_cite_seo_plugin_active() : null,
 		)
 	);
 	exit( 0 );
@@ -76,8 +76,8 @@ if ( isset( $argv[1] ) && 'native' === $argv[1] ) {
 
 // The plugin is active: the module only says it is ready.
 define( 'CITEPRESS_VERSION', 'plugin' );
-require dirname( __DIR__ ) . '/inc/citepress.php';
-paulus_test_check( function_exists( 'paulus_citepress_ready' ) && paulus_citepress_ready(), 'the ready function exists while the plugin is active' );
+require dirname( __DIR__ ) . '/inc/cite.php';
+paulus_test_check( function_exists( 'paulus_cite_ready' ) && paulus_cite_ready(), 'the ready function exists while the plugin is active' );
 paulus_test_check( array() === $GLOBALS['t']['shortcodes'] && array() === $GLOBALS['t']['actions'], 'nothing is hooked while the plugin is active' );
 
 // Native load, in a separate process so the constant above is not defined.
@@ -90,7 +90,7 @@ if ( is_array( $r ) ) {
 	paulus_test_check( in_array( 'wp_head', $r['actions'], true ) && in_array( 'admin_menu', $r['actions'], true ) && in_array( 'switch_theme', $r['actions'], true ), 'head tags, the settings menu and the switch-theme clean-up are hooked' );
 	paulus_test_check( true === $r['scholar'], 'the Google Scholar tags are switched on past the SEO guard' );
 	paulus_test_check( '5' === (string) $r['setting'] && 'yes' === ( $r['copied']['auto_display'] ?? '' ), 'the plugin settings are copied to the theme option and read from it, over the defaults' );
-	paulus_test_check( true === $r['seo_guard'], 'with the theme printing its own structured data, CitePress adds neither JSON-LD nor Open Graph' );
+	paulus_test_check( true === $r['seo_guard'], 'with the theme printing its own structured data, Citation adds neither JSON-LD nor Open Graph' );
 }
 
 exit( $paulus_fail ? 1 : 0 );

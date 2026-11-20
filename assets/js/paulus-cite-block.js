@@ -17,10 +17,10 @@ const el                            = wp.element.createElement;
 // useBlockProps was added in WP 5.6 – fall back gracefully on older installs
 const useBlockProps = (wp.blockEditor && wp.blockEditor.useBlockProps)
     ? wp.blockEditor.useBlockProps
-    : () => ({ className: 'citepress-citation-block-editor' });
+    : () => ({ className: 'paulus-cite-citation-block-editor' });
 
 // Data passed from PHP via wp_localize_script
-const blockData      = window.citepressBlockData || {};
+const blockData      = window.paulusCiteBlockData || {};
 const formatOptions  = blockData.formats || [{ label: 'APA', value: 'apa' }];
 const citationStyles = blockData.styles  || {};
 
@@ -147,7 +147,7 @@ function buildInlineText(styleKey, data, page) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function QuoteIcon() {
-    return el('svg', { className:'citepress-cite-icon', width:'20', height:'20',
+    return el('svg', { className:'paulus-cite-cite-icon', width:'20', height:'20',
         viewBox:'0 0 20 20', fill:'currentColor', 'aria-hidden':'true' },
         el('path', { d:'M8.5 5.5C8.5 4.12 7.38 3 6 3S3.5 4.12 3.5 5.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5zm8 0C16.5 4.12 15.38 3 14 3s-2.5 1.12-2.5 2.5c0 1.03.63 1.92 1.52 2.3-.15 1.52-.78 2.87-1.87 3.93a.5.5 0 0 0 .35.85c2.14 0 3.92-1.15 4.67-2.85.23-.53.33-1.1.33-1.73V5.5z' })
     );
@@ -195,7 +195,7 @@ function CitationBlockEdit(props) {
     var excludeFormats = attributes.excludeFormats || '';
     var page           = attributes.page           || '';
 
-    var blockProps = useBlockProps({ className: 'citepress-citation-block-editor' });
+    var blockProps = useBlockProps({ className: 'paulus-cite-citation-block-editor' });
 
     // Build the post data object the citation builders expect
     var pubDate    = parseDate(liveDate);
@@ -226,7 +226,7 @@ function CitationBlockEdit(props) {
     // ── Sidebar inspector panels ─────────────────────────────────────────────
     var sidebar = el(InspectorControls, null,
 
-        el(PanelBody, { title: __('Citation Settings', 'cite'), initialOpen: true, className: 'citepress-inspector' },
+        el(PanelBody, { title: __('Citation Settings', 'cite'), initialOpen: true, className: 'paulus-cite-inspector' },
             el(SelectControl, {
                 label:    __('Display Mode', 'cite'),
                 value:    mode,
@@ -249,7 +249,7 @@ function CitationBlockEdit(props) {
             })
         ),
 
-        el(PanelBody, { title: __('Features', 'cite'), initialOpen: true, className: 'citepress-inspector' },
+        el(PanelBody, { title: __('Features', 'cite'), initialOpen: true, className: 'paulus-cite-inspector' },
             el(ToggleControl, {
                 label:    __('Show Copy Button', 'cite'),
                 checked:  showCopy,
@@ -276,7 +276,7 @@ function CitationBlockEdit(props) {
             })
         ),
 
-        el(PanelBody, { title: __('Format Filtering', 'cite'), initialOpen: false, className: 'citepress-inspector' },
+        el(PanelBody, { title: __('Format Filtering', 'cite'), initialOpen: false, className: 'paulus-cite-inspector' },
             el(TextControl, {
                 label:    __('Include Formats', 'cite'),
                 value:    formats,
@@ -305,22 +305,22 @@ function CitationBlockEdit(props) {
     if (mode === 'inline') {
         return el('div', blockProps,
             sidebar,
-            el('div', { className: 'citepress-editor-preview citepress-editor-preview--inline' },
-                el('div', { className: 'citepress-editor-preview-label' },
+            el('div', { className: 'paulus-cite-editor-preview paulus-cite-editor-preview--inline' },
+                el('div', { className: 'paulus-cite-editor-preview-label' },
                     __('Inline Citation Preview', 'cite'),
-                    el('span', { className: 'citepress-editor-badge' }, fmtLabel)
+                    el('span', { className: 'paulus-cite-editor-badge' }, fmtLabel)
                 ),
-                el('p', { className: 'citepress-editor-preview-sample-text' },
+                el('p', { className: 'paulus-cite-editor-preview-sample-text' },
                     __('\u2026as noted in recent research', 'cite'),
                     ' ',
-                    el('span', { className: 'citepress-inline-preview-citation' }, inlineText),
+                    el('span', { className: 'paulus-cite-inline-preview-citation' }, inlineText),
                     ', ',
                     __('this effect is significant.', 'cite')
                 ),
-                page && el('p', { className: 'citepress-editor-preview-note' },
+                page && el('p', { className: 'paulus-cite-editor-preview-note' },
                     __('Page:', 'cite') + ' ' + page
                 ),
-                el('p', { className: 'citepress-editor-live-note' },
+                el('p', { className: 'paulus-cite-editor-live-note' },
                     '\u26a1 ' + __('Updates live as you edit the post title and author.', 'cite')
                 )
             )
@@ -331,20 +331,20 @@ function CitationBlockEdit(props) {
     if (mode === 'bibliography') {
         return el('div', blockProps,
             sidebar,
-            el('div', { className: 'citepress-editor-preview citepress-editor-preview--bibliography' },
-                el('div', { className: 'citepress-editor-preview-label' },
+            el('div', { className: 'paulus-cite-editor-preview paulus-cite-editor-preview--bibliography' },
+                el('div', { className: 'paulus-cite-editor-preview-label' },
                     __('Bibliography Footnote Marker', 'cite')
                 ),
-                el('p', { className: 'citepress-editor-preview-sample-text' },
+                el('p', { className: 'paulus-cite-editor-preview-sample-text' },
                     __('\u2026content of the article', 'cite'),
                     ' ',
-                    el('sup', { className: 'citepress-ref-marker' },
+                    el('sup', { className: 'paulus-cite-ref-marker' },
                         el('a', { href: '#', onClick: function(e) { e.preventDefault(); } }, '[1]')
                     ),
                     ' ',
                     __('continues here\u2026', 'cite')
                 ),
-                el('p', { className: 'citepress-editor-preview-note' },
+                el('p', { className: 'paulus-cite-editor-preview-note' },
                     __('Add a [cite_bibliography] shortcode or block below to render the full reference list.', 'cite')
                 )
             )
@@ -357,26 +357,26 @@ function CitationBlockEdit(props) {
     return el('div', blockProps,
         sidebar,
 
-        el('div', { className: 'citepress-citation-box citepress-editor-citation-box' },
+        el('div', { className: 'paulus-cite-citation-box paulus-cite-editor-citation-box' },
 
             // Header row
             el('div', { className: 'citation-header' },
                 el('div', { className: 'citation-title' },
                     el(QuoteIcon),
                     el('span', null, __('Cite This As:', 'cite')),
-                    el('span', { className: 'citepress-editor-format-badge' }, fmtLabel),
+                    el('span', { className: 'paulus-cite-editor-format-badge' }, fmtLabel),
                     showCopy && el('button', {
-                        className: 'copy-button citepress-editor-btn-ghost',
+                        className: 'copy-button paulus-cite-editor-btn-ghost',
                         disabled: true,
                         title: __('Copy \u2014 active on the frontend', 'cite'),
                     }, el(CopyIcon)),
                     showExport && el('button', {
-                        className: 'export-button citepress-editor-btn-ghost',
+                        className: 'export-button paulus-cite-editor-btn-ghost',
                         disabled: true,
                         title: __('Export \u2014 active on the frontend', 'cite'),
                     }, el(ExportIcon)),
                     showToggle && el('button', {
-                        className: 'toggle-button citepress-editor-btn-ghost',
+                        className: 'toggle-button paulus-cite-editor-btn-ghost',
                         disabled: true,
                     }, el(ChevronIcon))
                 )
@@ -393,7 +393,7 @@ function CitationBlockEdit(props) {
             ),
 
             // Live badge
-            el('div', { className: 'citepress-editor-live-badge' },
+            el('div', { className: 'paulus-cite-editor-live-badge' },
                 '\u26a1 ' + __("Live preview \u2014 reflects this post\u2019s title, author & date", 'cite')
             )
         )

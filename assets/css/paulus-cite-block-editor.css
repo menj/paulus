@@ -3,23 +3,23 @@
  * Version: 2.8.0
  */
 
-.citepress-citation-block-editor {
+.paulus-cite-citation-block-editor {
     margin: 20px 0;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Live citation box preview (box mode)
-   Re-uses the frontend .citepress-citation-box styles but adds editor-specific
+   Re-uses the frontend .paulus-cite-citation-box styles but adds editor-specific
    overrides so disabled controls look intentionally muted.
 ───────────────────────────────────────────────────────────────────────────── */
 
-.citepress-editor-citation-box {
+.paulus-cite-editor-citation-box {
     /* Let the box fill the block width naturally */
     pointer-events: none; /* entire box non-interactive in the editor */
 }
 
 /* Format badge — replaces the dropdown selector in the editor */
-.citepress-editor-format-badge {
+.paulus-cite-editor-format-badge {
     display: inline-flex;
     align-items: center;
     background: rgba(255, 255, 255, 0.18);
@@ -34,14 +34,14 @@
 }
 
 /* Ghost (disabled) icon buttons */
-.citepress-editor-btn-ghost {
+.paulus-cite-editor-btn-ghost {
     opacity: 0.55;
     cursor: default !important;
     pointer-events: none;
 }
 
 /* Live-preview footer strip inside the citation box */
-.citepress-editor-live-badge {
+.paulus-cite-editor-live-badge {
     background: #f0f9ff;
     border-top: 1px solid #bae6fd;
     color: #0369a1;
@@ -55,14 +55,14 @@
    Inline & bibliography mode previews
 ───────────────────────────────────────────────────────────────────────────── */
 
-.citepress-editor-preview {
+.paulus-cite-editor-preview {
     background: #ffffff;
     border: 2px dashed #cbd5e1;
     border-radius: 8px;
     padding: 18px 20px;
 }
 
-.citepress-editor-preview-label {
+.paulus-cite-editor-preview-label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -74,7 +74,7 @@
     margin-bottom: 14px;
 }
 
-.citepress-editor-badge {
+.paulus-cite-editor-badge {
     background: #e2e8f0;
     color: #334155;
     padding: 2px 8px;
@@ -83,7 +83,7 @@
     font-weight: 700;
 }
 
-.citepress-editor-preview-sample-text {
+.paulus-cite-editor-preview-sample-text {
     font-size: 14px;
     line-height: 1.7;
     color: #374151;
@@ -91,7 +91,7 @@
 }
 
 /* Inline citation displayed in context */
-.citepress-inline-preview-citation {
+.paulus-cite-inline-preview-citation {
     display: inline;
     background: #eff6ff;
     border: 1px solid #bfdbfe;
@@ -103,18 +103,18 @@
 }
 
 /* Bibliography [1] footnote marker */
-.citepress-editor-preview--bibliography .citepress-ref-marker {
+.paulus-cite-editor-preview--bibliography .paulus-cite-ref-marker {
     font-size: 0.75em;
     vertical-align: super;
     line-height: 0;
 }
-.citepress-editor-preview--bibliography .citepress-ref-marker a {
+.paulus-cite-editor-preview--bibliography .paulus-cite-ref-marker a {
     color: #1d4ed8;
     text-decoration: none;
     cursor: default;
 }
 
-.citepress-editor-preview-note {
+.paulus-cite-editor-preview-note {
     font-size: 12px;
     color: #6b7280;
     background: #f9fafb;
@@ -125,7 +125,7 @@
     line-height: 1.5;
 }
 
-.citepress-editor-live-note {
+.paulus-cite-editor-live-note {
     font-size: 11.5px;
     color: #0369a1;
     margin: 10px 0 0;
@@ -149,11 +149,11 @@
    Inspector panel spacing
 ───────────────────────────────────────────────────────────────────────────── */
 
-.components-panel__body.citepress-inspector.is-opened .components-base-control {
+.components-panel__body.paulus-cite-inspector.is-opened .components-base-control {
     margin-bottom: 20px;
 }
 
-.citepress-inspector .components-base-control__help {
+.paulus-cite-inspector .components-base-control__help {
     font-size: 12px;
     color: #757575;
     margin-top: 8px;
@@ -164,7 +164,7 @@
 ───────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 782px) {
-    .citepress-editor-preview {
+    .paulus-cite-editor-preview {
         padding: 14px 15px;
     }
 }

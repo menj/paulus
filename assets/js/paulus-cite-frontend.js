@@ -60,14 +60,14 @@
         // Consent is evaluated server-side. The JS check was unreliable because
         // it only recognised a subset of cookie formats and blocked valid requests.
         // We pass the JS-detected hint as a best-effort signal; PHP makes the
-        // final decision via citepress_detect_consent_from_cookies() and the
-        // citepress_analytics_consent_granted filter.
+        // final decision via paulus_cite_detect_consent_from_cookies() and the
+        // paulus_cite_analytics_consent_granted filter.
         var consentHint = !requireConsent || hasAnalyticsConsent() ? '1' : '0';
 
         // FIX #3: nonce removed — nonces break under full-page caching.
         // This endpoint writes only non-sensitive aggregated counters; no CSRF risk.
         jQuery.post(ajaxUrl, {
-            action: 'citepress_track_analytics',
+            action: 'paulus_cite_track_analytics',
             post_id: postId,
             citation_style: style,
             action_type: action,
@@ -85,10 +85,10 @@
         var container = config.container;
 
         if (mode === 'tabs') {
-            var activeTab = container.querySelector('.citepress-style-tab--active');
+            var activeTab = container.querySelector('.paulus-cite-style-tab--active');
             return activeTab ? activeTab.getAttribute('data-style') : config.defaultStyle;
         } else if (mode === 'buttons') {
-            var activeBtn = container.querySelector('.citepress-style-btn--active');
+            var activeBtn = container.querySelector('.paulus-cite-style-btn--active');
             return activeBtn ? activeBtn.getAttribute('data-style') : config.defaultStyle;
         } else {
             return config.dropdown ? config.dropdown.value : config.defaultStyle;
@@ -257,18 +257,18 @@
      */
     function initTabsMode(config) {
         var container = config.container;
-        var tabs = container.querySelectorAll('.citepress-style-tab');
+        var tabs = container.querySelectorAll('.paulus-cite-style-tab');
         if (!tabs.length) return;
 
         tabs.forEach(function(tab) {
             tab.addEventListener('click', function(e) {
                 e.preventDefault();
                 tabs.forEach(function(t) {
-                    t.classList.remove('citepress-style-tab--active');
+                    t.classList.remove('paulus-cite-style-tab--active');
                     t.setAttribute('aria-selected', 'false');
                     t.setAttribute('tabindex', '-1');
                 });
-                this.classList.add('citepress-style-tab--active');
+                this.classList.add('paulus-cite-style-tab--active');
                 this.setAttribute('aria-selected', 'true');
                 this.setAttribute('tabindex', '0');
                 updateCitation(config);
@@ -306,17 +306,17 @@
      */
     function initButtonsMode(config) {
         var container = config.container;
-        var buttons = container.querySelectorAll('.citepress-style-btn');
+        var buttons = container.querySelectorAll('.paulus-cite-style-btn');
         if (!buttons.length) return;
 
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 buttons.forEach(function(b) {
-                    b.classList.remove('citepress-style-btn--active');
+                    b.classList.remove('paulus-cite-style-btn--active');
                     b.setAttribute('aria-checked', 'false');
                 });
-                this.classList.add('citepress-style-btn--active');
+                this.classList.add('paulus-cite-style-btn--active');
                 this.setAttribute('aria-checked', 'true');
                 updateCitation(config);
             });
@@ -351,8 +351,8 @@
         var defaultStyle = (data.activeFormats && data.activeFormats.length > 0) ? data.activeFormats[0] : 'apa';
 
         // FIX #15: styles, ajaxUrl, enableAnalytics, requireConsent now live in
-        // citepressSharedData (output once per page) rather than duplicated per citation.
-        var shared = window.citepressSharedData || {};
+        // paulusCiteSharedData (output once per page) rather than duplicated per citation.
+        var shared = window.paulusCiteSharedData || {};
 
         var config = {
             postId: data.postId,
@@ -458,10 +458,10 @@
     }
 
     function init() {
-        if (typeof window.citepressCitationData === 'undefined' || !Array.isArray(window.citepressCitationData)) {
+        if (typeof window.paulusCiteCitationData === 'undefined' || !Array.isArray(window.paulusCiteCitationData)) {
             return;
         }
-        window.citepressCitationData.forEach(function(data) {
+        window.paulusCiteCitationData.forEach(function(data) {
             initCitationBox(data);
         });
     }

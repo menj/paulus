@@ -1,7 +1,7 @@
 <?php
 /**
  * Metadata: auto-display, Google Scholar tags, JSON-LD, Open Graph. Built into
- * the Paulus theme from the plugin CitePress by MENJ (GPL v2 or later). In the
+ * the Paulus theme from the plugin Citation by MENJ (GPL v2 or later). In the
  * theme only the Google Scholar tags are printed; the theme prints its own
  * Open Graph tags and JSON-LD.
  *
@@ -10,31 +10,31 @@
  *         against Yoast SEO, RankMath, AIOSEO, and The SEO Framework.
  *         Duplicate og:type or ScholarlyArticle JSON-LD causes ambiguous
  *         structured data that Google Search Console flags as an error.
- *         A citepress_output_og_tags / citepress_output_jsonld / citepress_output_scholar
+ *         A paulus_cite_output_og_tags / paulus_cite_output_jsonld / paulus_cite_output_scholar
  *         filter is also exposed so site owners can override the guard.
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-add_filter('the_content', 'citepress_auto_display_citation');
+add_filter('the_content', 'paulus_cite_auto_display_citation');
 
-function citepress_auto_display_citation($content) {
-    global $post, $citepress_setting;
+function paulus_cite_auto_display_citation($content) {
+    global $post, $paulus_cite_setting;
     
     if (!is_main_query()) {
         return $content;
     }
     
-    if (!isset($citepress_setting['auto_display']) || $citepress_setting['auto_display'] !== 'yes') {
+    if (!isset($paulus_cite_setting['auto_display']) || $paulus_cite_setting['auto_display'] !== 'yes') {
         return $content;
     }
     
-    $allowed_types = isset($citepress_setting['post_types']) ? (array)$citepress_setting['post_types'] : array('post');
+    $allowed_types = isset($paulus_cite_setting['post_types']) ? (array)$paulus_cite_setting['post_types'] : array('post');
     if (!in_array(get_post_type(), $allowed_types, true)) {
         return $content;
     }
     
-    if (!empty($citepress_setting['excluded_posts'])) {
-        $excluded = array_map('absint', array_map('trim', explode(',', $citepress_setting['excluded_posts'])));
+    if (!empty($paulus_cite_setting['excluded_posts'])) {
+        $excluded = array_map('absint', array_map('trim', explode(',', $paulus_cite_setting['excluded_posts'])));
         if (in_array(absint($post->ID), $excluded, true)) {
             return $content;
         }
@@ -45,7 +45,7 @@ function citepress_auto_display_citation($content) {
     }
     
     $citation = do_shortcode('[cite]');
-    $position = isset($citepress_setting['display_position']) ? $citepress_setting['display_position'] : 'bottom';
+    $position = isset($paulus_cite_setting['display_position']) ? $paulus_cite_setting['display_position'] : 'bottom';
     
     if ($position === 'top') {
         return $citation . $content;
@@ -57,12 +57,12 @@ function citepress_auto_display_citation($content) {
 /**
  * FIX #7: Returns false when a major SEO plugin is active that will output
  * its own og:type, article:* properties, and/or ScholarlyArticle JSON-LD.
- * Developers can override with the citepress_output_seo_meta filter.
+ * Developers can override with the paulus_cite_output_seo_meta filter.
  */
-function citepress_seo_plugin_active() {
+function paulus_cite_seo_plugin_active() {
     // Paulus prints its own Open Graph tags and JSON-LD graph (inc/seo.php),
-    // so CitePress adds neither; the Google Scholar tags are still added
-    // (inc/citepress.php turns the guard off for them).
+    // so Citation adds neither; the Google Scholar tags are still added
+    // (inc/cite.php turns the guard off for them).
     if ( function_exists( 'paulus_structured_data' ) ) { return true; }
     if ( class_exists( 'WPSEO_Frontend' ) )          { return true; } // Yoast SEO
     if ( class_exists( 'RankMath' ) )                { return true; } // RankMath
@@ -72,17 +72,17 @@ function citepress_seo_plugin_active() {
 }
 
 // Add Google Scholar meta tags
-add_action('wp_head', 'citepress_add_google_scholar_tags', 5);
+add_action('wp_head', 'paulus_cite_add_google_scholar_tags', 5);
 
-function citepress_add_google_scholar_tags() {
-    global $post, $citepress_setting;
+function paulus_cite_add_google_scholar_tags() {
+    global $post, $paulus_cite_setting;
     
-    if (!is_singular() || !isset($citepress_setting['show_google_scholar']) || $citepress_setting['show_google_scholar'] !== 'yes') {
+    if (!is_singular() || !isset($paulus_cite_setting['show_google_scholar']) || $paulus_cite_setting['show_google_scholar'] !== 'yes') {
         return;
     }
     // FIX #7: Skip if a supported SEO plugin is managing <head> meta tags,
     // unless the site owner explicitly overrides via filter.
-    if ( citepress_seo_plugin_active() && apply_filters( 'citepress_output_scholar_meta', false ) === false ) {
+    if ( paulus_cite_seo_plugin_active() && apply_filters( 'paulus_cite_output_scholar_meta', false ) === false ) {
         return;
     }
     
@@ -91,16 +91,16 @@ function citepress_add_google_scholar_tags() {
     }
     
     // Only output on enabled post types
-    $allowed_types = isset($citepress_setting['post_types']) ? (array)$citepress_setting['post_types'] : array('post');
+    $allowed_types = isset($paulus_cite_setting['post_types']) ? (array)$paulus_cite_setting['post_types'] : array('post');
     if (!in_array(get_post_type(), $allowed_types, true)) {
         return;
     }
     
-    $authors = citepress_get_authors_array();
+    $authors = paulus_cite_get_authors_array();
     $title = html_entity_decode(get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $date = get_the_date('Y/m/d');
     $url = get_permalink();
-    $orcid = citepress_get_orcid();
+    $orcid = paulus_cite_get_orcid();
     $site_name = html_entity_decode(get_bloginfo('name'), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $locale = get_locale();
     $language = substr($locale, 0, 2);
@@ -111,7 +111,7 @@ function citepress_add_google_scholar_tags() {
      * @param array $meta_data Array of meta tag key => value pairs.
      * @param WP_Post $post The current post object.
      */
-    $meta_data = apply_filters('citepress_scholar_meta', array(
+    $meta_data = apply_filters('paulus_cite_scholar_meta', array(
         'citation_title' => $title,
         'citation_authors' => $authors,
         'citation_publication_date' => $date,
@@ -145,16 +145,16 @@ function citepress_add_google_scholar_tags() {
 }
 
 // Add JSON-LD ScholarlyArticle structured data
-add_action('wp_head', 'citepress_add_jsonld_structured_data', 10);
+add_action('wp_head', 'paulus_cite_add_jsonld_structured_data', 10);
 
-function citepress_add_jsonld_structured_data() {
-    global $post, $citepress_setting;
+function paulus_cite_add_jsonld_structured_data() {
+    global $post, $paulus_cite_setting;
     
-    if (!is_singular() || !isset($citepress_setting['show_jsonld']) || $citepress_setting['show_jsonld'] !== 'yes') {
+    if (!is_singular() || !isset($paulus_cite_setting['show_jsonld']) || $paulus_cite_setting['show_jsonld'] !== 'yes') {
         return;
     }
     // FIX #7: Skip if SEO plugin already outputs ScholarlyArticle / Article JSON-LD.
-    if ( citepress_seo_plugin_active() && apply_filters( 'citepress_output_jsonld', false ) === false ) {
+    if ( paulus_cite_seo_plugin_active() && apply_filters( 'paulus_cite_output_jsonld', false ) === false ) {
         return;
     }
     
@@ -163,12 +163,12 @@ function citepress_add_jsonld_structured_data() {
     }
     
     // Only output on enabled post types
-    $allowed_types = isset($citepress_setting['post_types']) ? (array)$citepress_setting['post_types'] : array('post');
+    $allowed_types = isset($paulus_cite_setting['post_types']) ? (array)$paulus_cite_setting['post_types'] : array('post');
     if (!in_array(get_post_type(), $allowed_types, true)) {
         return;
     }
     
-    $authors = citepress_get_authors_array();
+    $authors = paulus_cite_get_authors_array();
     $title = html_entity_decode(get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $permalink = get_permalink();
     $site_name = html_entity_decode(get_bloginfo('name'), ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -247,7 +247,7 @@ function citepress_add_jsonld_structured_data() {
      * @param array   $jsonld The JSON-LD data array.
      * @param WP_Post $post   The current post object.
      */
-    $jsonld = apply_filters('citepress_jsonld_data', $jsonld, $post);
+    $jsonld = apply_filters('paulus_cite_jsonld_data', $jsonld, $post);
     
     $output = wp_json_encode($jsonld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     
@@ -261,16 +261,16 @@ function citepress_add_jsonld_structured_data() {
 }
 
 // Add Open Graph academic tags
-add_action('wp_head', 'citepress_add_og_academic_tags', 5);
+add_action('wp_head', 'paulus_cite_add_og_academic_tags', 5);
 
-function citepress_add_og_academic_tags() {
-    global $post, $citepress_setting;
+function paulus_cite_add_og_academic_tags() {
+    global $post, $paulus_cite_setting;
     
-    if (!is_singular() || !isset($citepress_setting['show_og_academic']) || $citepress_setting['show_og_academic'] !== 'yes') {
+    if (!is_singular() || !isset($paulus_cite_setting['show_og_academic']) || $paulus_cite_setting['show_og_academic'] !== 'yes') {
         return;
     }
     // FIX #7: og:type and article:* tags from SEO plugins would duplicate these.
-    if ( citepress_seo_plugin_active() && apply_filters( 'citepress_output_og_tags', false ) === false ) {
+    if ( paulus_cite_seo_plugin_active() && apply_filters( 'paulus_cite_output_og_tags', false ) === false ) {
         return;
     }
     
@@ -279,7 +279,7 @@ function citepress_add_og_academic_tags() {
     }
     
     // Only output on enabled post types
-    $allowed_types = isset($citepress_setting['post_types']) ? (array)$citepress_setting['post_types'] : array('post');
+    $allowed_types = isset($paulus_cite_setting['post_types']) ? (array)$paulus_cite_setting['post_types'] : array('post');
     if (!in_array(get_post_type(), $allowed_types, true)) {
         return;
     }
@@ -299,7 +299,7 @@ function citepress_add_og_academic_tags() {
      * @param array   $og_data Array of OG property => content pairs.
      * @param WP_Post $post    The current post object.
      */
-    $og_data = apply_filters('citepress_og_academic_data', array(
+    $og_data = apply_filters('paulus_cite_og_academic_data', array(
         'og:type' => 'article',
         'article:published_time' => $date_published,
         'article:modified_time' => $date_modified,

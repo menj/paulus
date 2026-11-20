@@ -32,9 +32,9 @@ function paulus_retired_plugins() {
 			'ready' => 'paulus_justify_ready',
 		),
 		'citepress/citepress.php' => array(
-			'name'  => 'CitePress',
-			'where' => __( 'the CitePress menu', 'paulus' ),
-			'ready' => 'paulus_citepress_ready',
+			'name'  => 'Citation',
+			'where' => __( 'the Citation menu', 'paulus' ),
+			'ready' => 'paulus_cite_ready',
 		),
 		'endmark/endmark.php' => array(
 			'name'  => 'Endmark',

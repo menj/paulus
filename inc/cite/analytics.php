@@ -2,9 +2,9 @@
 /**
  * Analytics: DB management, cron, GDPR exporters/erasers, AJAX tracking.
  *
- * FIX #2  DB upgrade routine via CITEPRESS_DB_VERSION + admin_init hook.
+ * FIX #2  DB upgrade routine via PAULUS_CITE_DB_VERSION + admin_init hook.
  * FIX #3  Nonce removed from analytics AJAX (non-sensitive write, see WHY below).
- * FIX #6  citepress_do_daily_purge reads get_option() not the global.
+ * FIX #6  paulus_cite_do_daily_purge reads get_option() not the global.
  * FIX #9  Privacy policy note about IP-hash mode.
  * FIX Bug Anonymous visitor transient key collision (empty identifier guard).
  */
@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 // ============================================================================
 // PRIVACY POLICY CONTENT
 // ============================================================================
-add_action( 'admin_init', 'citepress_add_privacy_policy_content' );
-function citepress_add_privacy_policy_content() {
+add_action( 'admin_init', 'paulus_cite_add_privacy_policy_content' );
+function paulus_cite_add_privacy_policy_content() {
     if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) { return; }
     $setting      = get_option( 'paulus_citepress', array() );
     $cooldown     = isset( $setting['analytics_cooldown_mode'] ) ? $setting['analytics_cooldown_mode'] : 'session';
@@ -26,8 +26,8 @@ function citepress_add_privacy_policy_content() {
     }
     $content = sprintf(
         '<h2>%s</h2><p>%s</p><h3>%s</h3><p>%s</p><ul><li><strong>%s</strong> - %s</li><li><strong>%s</strong> - %s</li><li><strong>%s</strong> - %s</li></ul><h3>%s</h3><p>%s</p>%s<h3>%s</h3><p>%s</p><h3>%s</h3><p>%s</p>',
-        esc_html__( 'Citation Analytics (CitePress)', 'paulus' ),
-        esc_html__( 'This website uses the CitePress plugin to provide academic citation functionality. When citation analytics are enabled, we collect limited data about how visitors interact with citations.', 'paulus' ),
+        esc_html__( 'Citation Analytics (Citation)', 'paulus' ),
+        esc_html__( 'This website uses the theme to provide academic citation functionality. When citation analytics are enabled, we collect limited data about how visitors interact with citations.', 'paulus' ),
         esc_html__( 'What We Collect', 'paulus' ),
         esc_html__( 'When analytics are enabled, the following events may be recorded:', 'paulus' ),
         esc_html__( 'View', 'paulus' ), esc_html__( 'When a citation box is displayed on a page.', 'paulus' ),
@@ -47,17 +47,17 @@ function citepress_add_privacy_policy_content() {
 // ============================================================================
 // GDPR DATA EXPORTER
 // ============================================================================
-add_filter( 'wp_privacy_personal_data_exporters', 'citepress_register_data_exporter' );
-function citepress_register_data_exporter( $exporters ) {
+add_filter( 'wp_privacy_personal_data_exporters', 'paulus_cite_register_data_exporter' );
+function paulus_cite_register_data_exporter( $exporters ) {
     $exporters['cite-analytics'] = array(
         'exporter_friendly_name' => __( 'Cite Analytics Data', 'paulus' ),
-        'callback'               => 'citepress_personal_data_exporter',
+        'callback'               => 'paulus_cite_personal_data_exporter',
     );
     return $exporters;
 }
-function citepress_personal_data_exporter( $email_address, $page = 1 ) {
+function paulus_cite_personal_data_exporter( $email_address, $page = 1 ) {
     $export_items    = array();
-    $user_identifier = apply_filters( 'citepress_analytics_identity_resolver', null, $email_address );
+    $user_identifier = apply_filters( 'paulus_cite_analytics_identity_resolver', null, $email_address );
     if ( empty( $user_identifier ) ) {
         return array( 'data' => $export_items, 'done' => true );
     }
@@ -98,20 +98,20 @@ function citepress_personal_data_exporter( $email_address, $page = 1 ) {
 // ============================================================================
 // GDPR DATA ERASER
 // ============================================================================
-add_filter( 'wp_privacy_personal_data_erasers', 'citepress_register_data_eraser' );
-function citepress_register_data_eraser( $erasers ) {
+add_filter( 'wp_privacy_personal_data_erasers', 'paulus_cite_register_data_eraser' );
+function paulus_cite_register_data_eraser( $erasers ) {
     $erasers['cite-analytics'] = array(
         'eraser_friendly_name' => __( 'Cite Analytics Data', 'paulus' ),
-        'callback'             => 'citepress_personal_data_eraser',
+        'callback'             => 'paulus_cite_personal_data_eraser',
     );
     return $erasers;
 }
-function citepress_personal_data_eraser( $email_address, $page = 1 ) {
+function paulus_cite_personal_data_eraser( $email_address, $page = 1 ) {
     $items_removed   = 0;
     $messages        = array();
-    $user_identifier = apply_filters( 'citepress_analytics_identity_resolver', null, $email_address );
+    $user_identifier = apply_filters( 'paulus_cite_analytics_identity_resolver', null, $email_address );
     if ( empty( $user_identifier ) ) {
-        $messages[] = __( 'CitePress plugin uses privacy-preserving session-based tracking. No personally identifiable analytics data is stored.', 'paulus' );
+        $messages[] = __( 'the theme uses privacy-preserving session-based tracking. No personally identifiable analytics data is stored.', 'paulus' );
         return array( 'items_removed' => 0, 'items_retained' => 0, 'messages' => $messages, 'done' => true );
     }
     global $wpdb;
@@ -138,10 +138,10 @@ function citepress_personal_data_eraser( $email_address, $page = 1 ) {
 
 /**
  * Create or upgrade the analytics table.
- * Called on activation AND on admin_init whenever CITEPRESS_DB_VERSION differs
+ * Called on activation AND on admin_init whenever PAULUS_CITE_DB_VERSION differs
  * from the stored value. dbDelta() is additive-safe.
  */
-function citepress_create_analytics_table() {
+function paulus_cite_create_analytics_table() {
     global $wpdb;
     $table_name      = $wpdb->prefix . 'paulus_citepress_analytics';
     $charset_collate = $wpdb->get_charset_collate();
@@ -158,32 +158,32 @@ function citepress_create_analytics_table() {
     ) {$charset_collate};";
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta( $sql );
-    update_option( 'paulus_citepress_db', CITEPRESS_DB_VERSION );
+    update_option( 'paulus_citepress_db', PAULUS_CITE_DB_VERSION );
 }
 
-add_action( 'admin_init', 'citepress_maybe_upgrade_db' );
-function citepress_maybe_upgrade_db() {
-    if ( get_option( 'paulus_citepress_db' ) !== CITEPRESS_DB_VERSION ) {
-        citepress_create_analytics_table();
+add_action( 'admin_init', 'paulus_cite_maybe_upgrade_db' );
+function paulus_cite_maybe_upgrade_db() {
+    if ( get_option( 'paulus_citepress_db' ) !== PAULUS_CITE_DB_VERSION ) {
+        paulus_cite_create_analytics_table();
     }
 }
 
 // ============================================================================
 // CRON — DAILY RETENTION PURGE  (FIX #6)
 // ============================================================================
-add_action( 'wp', 'citepress_schedule_purge' );
-function citepress_schedule_purge() {
-    if ( ! wp_next_scheduled( 'citepress_daily_purge_event' ) ) {
-        wp_schedule_event( time(), 'daily', 'citepress_daily_purge_event' );
+add_action( 'wp', 'paulus_cite_schedule_purge' );
+function paulus_cite_schedule_purge() {
+    if ( ! wp_next_scheduled( 'paulus_cite_daily_purge_event' ) ) {
+        wp_schedule_event( time(), 'daily', 'paulus_cite_daily_purge_event' );
     }
 }
 
-add_action( 'citepress_daily_purge_event', 'citepress_do_daily_purge' );
+add_action( 'paulus_cite_daily_purge_event', 'paulus_cite_do_daily_purge' );
 /**
- * FIX #6: Use get_option() directly. $citepress_setting global may be absent in
+ * FIX #6: Use get_option() directly. $paulus_cite_setting global may be absent in
  * WP-Cron pseudo-requests triggered by a server crontab calling wp-cron.php.
  */
-function citepress_do_daily_purge() {
+function paulus_cite_do_daily_purge() {
     global $wpdb;
     $setting = get_option( 'paulus_citepress', array() );
     $days    = isset( $setting['analytics_retention_days'] ) ? intval( $setting['analytics_retention_days'] ) : 90;
@@ -198,28 +198,28 @@ function citepress_do_daily_purge() {
 // ============================================================================
 // ADMIN — MANUAL PURGE HANDLER
 // ============================================================================
-add_action( 'admin_init', 'citepress_handle_analytics_purge' );
-function citepress_handle_analytics_purge() {
-    if ( ! isset( $_POST['citepress_purge_analytics'] ) ) { return; }
+add_action( 'admin_init', 'paulus_cite_handle_analytics_purge' );
+function paulus_cite_handle_analytics_purge() {
+    if ( ! isset( $_POST['paulus_cite_purge_analytics'] ) ) { return; }
     if ( ! current_user_can( 'manage_options' ) ) { return; }
-    if ( ! isset( $_POST['citepress_purge_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['citepress_purge_nonce'] ) ), 'citepress_purge_analytics_action' ) ) { return; }
+    if ( ! isset( $_POST['paulus_cite_purge_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['paulus_cite_purge_nonce'] ) ), 'paulus_cite_purge_analytics_action' ) ) { return; }
     global $wpdb;
     $table_name   = $wpdb->prefix . 'paulus_citepress_analytics';
     $table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
     if ( $table_exists ) {
         $wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'paulus_citepress_analytics`' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-        wp_cache_delete( 'citepress_analytics_stats', 'paulus' );
-        wp_cache_delete( 'citepress_analytics_totals', 'paulus' );
+        wp_cache_delete( 'paulus_cite_analytics_stats', 'paulus' );
+        wp_cache_delete( 'paulus_cite_analytics_totals', 'paulus' );
     }
-    wp_safe_redirect( add_query_arg( array( 'page' => 'citepress', 'citepress_purged' => '1' ), admin_url( 'admin.php' ) ) );
+    wp_safe_redirect( add_query_arg( array( 'page' => 'paulus-cite', 'paulus_cite_purged' => '1' ), admin_url( 'admin.php' ) ) );
     exit;
 }
 
 // ============================================================================
 // AJAX ANALYTICS TRACKING  (FIX #3)
 // ============================================================================
-add_action( 'wp_ajax_citepress_track_analytics',        'citepress_track_analytics' );
-add_action( 'wp_ajax_nopriv_citepress_track_analytics', 'citepress_track_analytics' );
+add_action( 'wp_ajax_paulus_cite_track_analytics',        'paulus_cite_track_analytics' );
+add_action( 'wp_ajax_nopriv_paulus_cite_track_analytics', 'paulus_cite_track_analytics' );
 
 /**
  * FIX #3 — Nonce removed.
@@ -235,26 +235,26 @@ add_action( 'wp_ajax_nopriv_citepress_track_analytics', 'citepress_track_analyti
  * rate-limiting via transients are retained.
  */
 // phpcs:disable WordPress.Security.NonceVerification.Missing
-function citepress_track_analytics() {
-    global $wpdb, $citepress_setting;
+function paulus_cite_track_analytics() {
+    global $wpdb, $paulus_cite_setting;
 
-    if ( ! isset( $citepress_setting['enable_analytics'] ) || $citepress_setting['enable_analytics'] !== 'yes' ) {
+    if ( ! isset( $paulus_cite_setting['enable_analytics'] ) || $paulus_cite_setting['enable_analytics'] !== 'yes' ) {
         wp_send_json_success( array( 'message' => 'Analytics disabled' ) );
     }
-    if ( apply_filters( 'citepress_analytics_optout_active', false ) ) {
+    if ( apply_filters( 'paulus_cite_analytics_optout_active', false ) ) {
         wp_send_json_success( array( 'message' => 'Tracking blocked: Opt-out active' ) );
     }
     // The privacy text promises that a Do Not Track signal is honoured.
     if ( isset( $_SERVER['HTTP_DNT'] ) && '1' === $_SERVER['HTTP_DNT'] ) {
         wp_send_json_success( array( 'message' => 'Tracking blocked: Do Not Track' ) );
     }
-    if ( isset( $citepress_setting['require_consent_for_analytics'] ) && $citepress_setting['require_consent_for_analytics'] === 'yes' ) {
-        $consent_granted = apply_filters( 'citepress_analytics_consent_granted', null );
+    if ( isset( $paulus_cite_setting['require_consent_for_analytics'] ) && $paulus_cite_setting['require_consent_for_analytics'] === 'yes' ) {
+        $consent_granted = apply_filters( 'paulus_cite_analytics_consent_granted', null );
         if ( $consent_granted === null && function_exists( 'wp_has_consent' ) ) {
             // The theme's own consent API, when a consent plugin feeds it.
             $consent_granted = wp_has_consent( 'statistics' ) ? true : null;
         }
-        if ( $consent_granted === null ) { $consent_granted = citepress_detect_consent_from_cookies(); }
+        if ( $consent_granted === null ) { $consent_granted = paulus_cite_detect_consent_from_cookies(); }
         if ( ! $consent_granted ) {
             wp_send_json_success( array( 'message' => 'Tracking blocked: Consent not granted' ) );
         }
@@ -273,7 +273,7 @@ function citepress_track_analytics() {
             wp_send_json_error( array( 'message' => 'Invalid export format' ), 400 );
         }
     } else {
-        $allowed_styles = array_keys( citepress_get_citation_styles() );
+        $allowed_styles = array_keys( paulus_cite_get_citation_styles() );
         if ( ! in_array( $citation_style, $allowed_styles, true ) ) {
             wp_send_json_error( array( 'message' => 'Invalid citation style' ), 400 );
         }
@@ -284,7 +284,7 @@ function citepress_track_analytics() {
     }
 
     // --- Rate-limiting: FIX Bug (empty identifier guard) --------------------
-    $cooldown_mode = isset( $citepress_setting['analytics_cooldown_mode'] ) ? $citepress_setting['analytics_cooldown_mode'] : 'session';
+    $cooldown_mode = isset( $paulus_cite_setting['analytics_cooldown_mode'] ) ? $paulus_cite_setting['analytics_cooldown_mode'] : 'session';
     $identifier    = '';
 
     if ( $cooldown_mode === 'session' ) {
@@ -301,7 +301,7 @@ function citepress_track_analytics() {
     }
 
     if ( $cooldown_mode !== 'none' && $identifier ) {
-        $transient_key = 'citepress_track_' . $action_type . '_' . $post_id . '_' . $identifier;
+        $transient_key = 'paulus_cite_track_' . $action_type . '_' . $post_id . '_' . $identifier;
         if ( get_transient( $transient_key ) ) {
             wp_send_json_success( array( 'message' => 'Already tracked' ) );
         }
@@ -321,8 +321,8 @@ function citepress_track_analytics() {
 
     // Invalidate the cached dashboard stats so the admin view reflects the new
     // row immediately rather than waiting for the five-minute TTL to expire.
-    wp_cache_delete( 'citepress_analytics_stats', 'paulus' );
-        wp_cache_delete( 'citepress_analytics_totals', 'paulus' );
+    wp_cache_delete( 'paulus_cite_analytics_stats', 'paulus' );
+        wp_cache_delete( 'paulus_cite_analytics_totals', 'paulus' );
 
     wp_send_json_success( array( 'message' => 'Analytics tracked successfully' ) );
 }
@@ -342,7 +342,7 @@ function citepress_track_analytics() {
  *
  * @return bool True if analytics consent is detected, false otherwise.
  */
-function citepress_detect_consent_from_cookies() {
+function paulus_cite_detect_consent_from_cookies() {
 
     // CookieYes / Cookie Law Info — value like "analytics:yes,..."
     if ( isset( $_COOKIE['cookieyes-consent'] ) ) {

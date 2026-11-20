@@ -18,31 +18,31 @@
         /**
          * Tab Switching
          * Handles navigation between different settings tabs.
-         * Also keeps the hidden citepress_active_tab field and the form action
+         * Also keeps the hidden paulus_cite_active_tab field and the form action
          * URL in sync so Save Changes returns to the same tab.
          */
-        $('.citepress-tab-button').on('click', function(e) {
+        $('.paulus-cite-tab-button').on('click', function(e) {
             e.preventDefault();
             var tab = $(this).data('tab');
-            $('.citepress-tab-button').removeClass('active');
-            $('.citepress-tab-content').removeClass('active');
+            $('.paulus-cite-tab-button').removeClass('active');
+            $('.paulus-cite-tab-content').removeClass('active');
             $(this).addClass('active');
             $('#' + tab + '-tab').addClass('active');
 
             // Keep hidden field up to date so the POST carries the active tab.
-            $('#citepress_active_tab').val(tab);
+            $('#paulus_cite_active_tab').val(tab);
 
             // Update the URL query string so the WordPress redirect target
-            // includes ?citepress_tab=<tab> and lands back on the right tab.
+            // includes ?paulus_cite_tab=<tab> and lands back on the right tab.
             // options.php redirects to the referer it is sent, so the tab goes
             // into the _wp_http_referer field, not into the form's action.
-            var $form = $('#citepress_active_tab').closest('form');
+            var $form = $('#paulus_cite_active_tab').closest('form');
             var $referer = $form.find('input[name="_wp_http_referer"]');
             if ($referer.length) {
                 var ref = $referer.val() || '';
-                var param = 'citepress_tab=' + encodeURIComponent(tab);
-                ref = /([?&])citepress_tab=[^&#]*/.test(ref)
-                    ? ref.replace(/([?&])citepress_tab=[^&#]*/, '$1' + param)
+                var param = 'paulus_cite_tab=' + encodeURIComponent(tab);
+                ref = /([?&])paulus_cite_tab=[^&#]*/.test(ref)
+                    ? ref.replace(/([?&])paulus_cite_tab=[^&#]*/, '$1' + param)
                     : ref + (ref.indexOf('?') === -1 ? '?' : '&') + param;
                 $referer.val(ref);
             }
@@ -52,9 +52,9 @@
          * Radio Card Selection
          * Adds visual selection state to radio button cards
          */
-        $('.citepress-radio-card input[type="radio"]').on('change', function() {
-            $(this).closest('.citepress-radio-group').find('.citepress-radio-card').removeClass('selected');
-            $(this).closest('.citepress-radio-card').addClass('selected');
+        $('.paulus-cite-radio-card input[type="radio"]').on('change', function() {
+            $(this).closest('.paulus-cite-radio-group').find('.paulus-cite-radio-card').removeClass('selected');
+            $(this).closest('.paulus-cite-radio-card').addClass('selected');
         });
 
         /**
@@ -62,9 +62,9 @@
          * Syncs the preview box data-theme attribute with the Color Scheme radio
          * so the preview reflects the chosen setting immediately without saving.
          */
-        $('input.citepress-color-scheme-radio').on('change', function() {
+        $('input.paulus-cite-color-scheme-radio').on('change', function() {
             var scheme = $(this).val(); // 'auto', 'light', or 'dark'
-            var $box = $('.citepress-preview-box');
+            var $box = $('.paulus-cite-preview-box');
             if (scheme === 'auto') {
                 $box.removeAttr('data-theme');
             } else {
@@ -76,16 +76,16 @@
          * Box Style Live Preview
          * Syncs the preview box data-box-style attribute with the Box Style radio.
          */
-        $('input.citepress-box-style-radio').on('change', function() {
-            $('.citepress-preview-box').attr('data-box-style', $(this).val());
+        $('input.paulus-cite-box-style-radio').on('change', function() {
+            $('.paulus-cite-preview-box').attr('data-box-style', $(this).val());
         });
 
         /**
          * Sharp Corners Live Preview
          * Syncs the preview box data-corners attribute with the Corner Style toggle.
          */
-        $('input.citepress-sharp-corners-toggle').on('change', function() {
-            var $box = $('.citepress-preview-box');
+        $('input.paulus-cite-sharp-corners-toggle').on('change', function() {
+            var $box = $('.paulus-cite-preview-box');
             if ($(this).is(':checked')) {
                 $box.attr('data-corners', 'sharp');
             } else {
@@ -97,7 +97,7 @@
          * Citation Preview Formatting
          * Updates preview based on selected citation style
          */
-        if (typeof citepressPreviewData !== 'undefined') {
+        if (typeof paulusCitePreviewData !== 'undefined') {
             
             /**
              * Format citation based on style
@@ -105,13 +105,13 @@
              * @return {string} Formatted citation HTML
              */
             function formatPreviewCitation(style) {
-                var a = citepressPreviewData.author;
-                var d = citepressPreviewData.date;
-                var dDMY = citepressPreviewData.dateDMY;
+                var a = paulusCitePreviewData.author;
+                var d = paulusCitePreviewData.date;
+                var dDMY = paulusCitePreviewData.dateDMY;
                 var year = (String(d).match(/\b\d{4}\b/) || [''])[0]; // The four-digit year, whatever the date format
-                var t = citepressPreviewData.title;
-                var s = '<em>' + citepressPreviewData.site + '</em>';
-                var u = citepressPreviewData.url;
+                var t = paulusCitePreviewData.title;
+                var s = '<em>' + paulusCitePreviewData.site + '</em>';
+                var u = paulusCitePreviewData.url;
                 
                 switch(style) {
                     // Original 10 formats
@@ -134,7 +134,7 @@
                     case 'turabian':
                         return a + '. "' + t + '." ' + s + '. ' + d + '. ' + u;
                     case 'wikipedia':
-                        return '<code class="citepress-wikipedia-code">{{cite web |url=' + u + ' |title=' + t + ' |website=' + citepressPreviewData.site + ' |author=' + a + ' |date=' + dDMY + ' |access-date=' + dDMY + ' |language=' + citepressPreviewData.language + '}}</code>';
+                        return '<code class="paulus-cite-wikipedia-code">{{cite web |url=' + u + ' |title=' + t + ' |website=' + paulusCitePreviewData.site + ' |author=' + a + ' |date=' + dDMY + ' |access-date=' + dDMY + ' |language=' + paulusCitePreviewData.language + '}}</code>';
                     
                     // New 10 formats (v2.4.0)
                     case 'acs':
@@ -154,7 +154,7 @@
                     case 'acm':
                         return a + '. ' + d + '. ' + t + '. ' + s + '. Retrieved ' + d + ' from ' + u;
                     case 'bluebook':
-                        return a + ', <em>' + t + '</em>, ' + citepressPreviewData.site + ' (' + d + '), ' + u + '.';
+                        return a + ', <em>' + t + '</em>, ' + paulusCitePreviewData.site + ' (' + d + '), ' + u + '.';
                     case 'iso690':
                         return a + '. ' + t + '. ' + s + ' [online]. ' + d + ' [viewed ' + d + ']. Available from: ' + u;
                     
@@ -166,7 +166,7 @@
             /**
              * Handle preview style change — dropdown
              */
-            $('.citepress-preview-select').on('change', function() {
+            $('.paulus-cite-preview-select').on('change', function() {
                 var style = $(this).val();
                 updatePreviewCitation(style);
             });
@@ -174,22 +174,22 @@
             /**
              * Handle preview style change — tabs
              */
-            $(document).on('click', '.citepress-preview-box .citepress-style-tab', function(e) {
+            $(document).on('click', '.paulus-cite-preview-box .paulus-cite-style-tab', function(e) {
                 e.preventDefault();
-                var $tabs = $(this).closest('.citepress-style-tabs');
-                $tabs.find('.citepress-style-tab').removeClass('citepress-style-tab--active').attr('aria-selected', 'false');
-                $(this).addClass('citepress-style-tab--active').attr('aria-selected', 'true');
+                var $tabs = $(this).closest('.paulus-cite-style-tabs');
+                $tabs.find('.paulus-cite-style-tab').removeClass('paulus-cite-style-tab--active').attr('aria-selected', 'false');
+                $(this).addClass('paulus-cite-style-tab--active').attr('aria-selected', 'true');
                 updatePreviewCitation($(this).data('style'));
             });
             
             /**
              * Handle preview style change — buttons
              */
-            $(document).on('click', '.citepress-preview-box .citepress-style-btn', function(e) {
+            $(document).on('click', '.paulus-cite-preview-box .paulus-cite-style-btn', function(e) {
                 e.preventDefault();
-                var $buttons = $(this).closest('.citepress-style-buttons');
-                $buttons.find('.citepress-style-btn').removeClass('citepress-style-btn--active').attr('aria-checked', 'false');
-                $(this).addClass('citepress-style-btn--active').attr('aria-checked', 'true');
+                var $buttons = $(this).closest('.paulus-cite-style-buttons');
+                $buttons.find('.paulus-cite-style-btn').removeClass('paulus-cite-style-btn--active').attr('aria-checked', 'false');
+                $(this).addClass('paulus-cite-style-btn--active').attr('aria-checked', 'true');
                 updatePreviewCitation($(this).data('style'));
             });
             
@@ -198,30 +198,30 @@
              */
             function updatePreviewCitation(style) {
                 var citation = formatPreviewCitation(style);
-                $('.citepress-preview-citation').html(citation).data('style', style);
+                $('.paulus-cite-preview-citation').html(citation).data('style', style);
             }
         }
         
         /**
          * Live-switch preview selector when Format Selector Style radios change.
          * Uses class selector to avoid jQuery bracket-escaping issues with
-         * name="citepress_setting[format_display_mode]".
+         * name="paulus_cite_setting[format_display_mode]".
          */
-        $(document).on('change', '.citepress-display-mode-radio', function() {
+        $(document).on('change', '.paulus-cite-display-mode-radio', function() {
             var mode = $(this).val();
-            $('.citepress-preview-selector').hide();
-            var $shown = $('.citepress-preview-selector[data-mode="' + mode + '"]').show();
+            $('.paulus-cite-preview-selector').hide();
+            var $shown = $('.paulus-cite-preview-selector[data-mode="' + mode + '"]').show();
             // The control now shown marks the format the preview is showing.
-            var current = $('.citepress-preview-citation').first().data('style');
+            var current = $('.paulus-cite-preview-citation').first().data('style');
             if (current) {
                 $shown.find('select').val(current);
-                $shown.find('.citepress-style-tab').each(function() {
+                $shown.find('.paulus-cite-style-tab').each(function() {
                     var on = $(this).data('style') === current;
-                    $(this).toggleClass('citepress-style-tab--active', on).attr('aria-selected', on ? 'true' : 'false');
+                    $(this).toggleClass('paulus-cite-style-tab--active', on).attr('aria-selected', on ? 'true' : 'false');
                 });
-                $shown.find('.citepress-style-btn').each(function() {
+                $shown.find('.paulus-cite-style-btn').each(function() {
                     var on = $(this).data('style') === current;
-                    $(this).toggleClass('citepress-style-btn--active', on).attr('aria-checked', on ? 'true' : 'false');
+                    $(this).toggleClass('paulus-cite-style-btn--active', on).attr('aria-checked', on ? 'true' : 'false');
                 });
             }
         });
@@ -230,10 +230,10 @@
          * Preview box interactive buttons
          */
         // Toggle button — collapse/expand citation content
-        $(document).on('click', '.citepress-preview-box .toggle-button', function(e) {
+        $(document).on('click', '.paulus-cite-preview-box .toggle-button', function(e) {
             e.preventDefault();
             var $btn = $(this);
-            var $content = $btn.closest('.citepress-citation-box').find('.citation-content');
+            var $content = $btn.closest('.paulus-cite-citation-box').find('.citation-content');
             var isCollapsed = $content.hasClass('collapsed');
             
             $content.toggleClass('collapsed');
@@ -242,10 +242,10 @@
         });
         
         // Copy button — copy citation text to clipboard
-        $(document).on('click', '.citepress-preview-box .copy-button', function(e) {
+        $(document).on('click', '.paulus-cite-preview-box .copy-button', function(e) {
             e.preventDefault();
-            var $box = $(this).closest('.citepress-citation-box');
-            var text = $box.find('.citepress-preview-citation').text().trim();
+            var $box = $(this).closest('.paulus-cite-citation-box');
+            var text = $box.find('.paulus-cite-preview-citation').text().trim();
             
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(text).then(function() {
@@ -257,7 +257,7 @@
         });
         
         // Export button — toggle dropdown visibility
-        $(document).on('click', '.citepress-preview-box .export-button', function(e) {
+        $(document).on('click', '.paulus-cite-preview-box .export-button', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var $dropdown = $(this).siblings('.export-dropdown');
@@ -268,17 +268,17 @@
         
         // Close export dropdown on outside click
         $(document).on('click', function() {
-            $('.citepress-preview-box .export-dropdown').removeClass('show');
-            $('.citepress-preview-box .export-button').attr('aria-expanded', 'false');
+            $('.paulus-cite-preview-box .export-dropdown').removeClass('show');
+            $('.paulus-cite-preview-box .export-button').attr('aria-expanded', 'false');
         });
         
         /**
          * Live-sync export format checkboxes with preview export dropdown
          */
-        $(document).on('change', '.citepress-export-format-toggle', function() {
+        $(document).on('change', '.paulus-cite-export-format-toggle', function() {
             var format = $(this).val();
             var checked = $(this).is(':checked');
-            $('.citepress-preview-export-option[data-export-format="' + format + '"]').toggle(checked);
+            $('.paulus-cite-preview-export-option[data-export-format="' + format + '"]').toggle(checked);
         });
         
     });
@@ -299,9 +299,9 @@
     }
     
     function initFormatSelection() {
-        var selectAllBtn = document.querySelector('.citepress-select-all');
-        var selectNoneBtn = document.querySelector('.citepress-select-none');
-        var formatCheckboxes = document.querySelectorAll('.citepress-format-toggle');
+        var selectAllBtn = document.querySelector('.paulus-cite-select-all');
+        var selectNoneBtn = document.querySelector('.paulus-cite-select-none');
+        var formatCheckboxes = document.querySelectorAll('.paulus-cite-format-toggle');
         
         if (!selectAllBtn || !selectNoneBtn || !formatCheckboxes.length) {
             return;
@@ -364,11 +364,11 @@
         
         // Update format counts in category headers
         function updateFormatCounts() {
-            var categories = document.querySelectorAll('.citepress-format-category');
+            var categories = document.querySelectorAll('.paulus-cite-format-category');
             
             categories.forEach(function(category) {
-                var checkboxes = category.querySelectorAll('.citepress-format-toggle');
-                var countSpan = category.querySelector('.citepress-format-count');
+                var checkboxes = category.querySelectorAll('.paulus-cite-format-toggle');
+                var countSpan = category.querySelector('.paulus-cite-format-count');
                 
                 if (!countSpan) return;
                 
