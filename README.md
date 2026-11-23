@@ -7,7 +7,7 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 | Item | Value |
 | --- | --- |
 | Version | 2.77.71 (`style.css`; `PAULUS_VERSION` reads it) |
-| Content version | 2.77.3 (`content/manifest.json`) |
+| Content version | 2.77.71 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
 | PHP | 8.4 or later |
@@ -361,7 +361,7 @@ php bin/build-error-pages.php --check
 
 The repository has no CI workflow, so run them before every commit. Check every `seo_title` against the 32-character limit with the command in `SSOT.md`.
 
-To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the version line at the top of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
+To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the version line at the top of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed, with the Content version row of the At a glance table and the `content_version` row in `SSOT.md`. Then build the zip with `git archive`, as under Installation.
 
 ## Hooks, filters and constants
 

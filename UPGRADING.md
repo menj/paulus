@@ -51,7 +51,7 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ### 2.77.70 to 2.77.71
 
-- Upload the whole theme folder and open any page. The sync gives seven chapters their further reading panel and four glossary entries their link. A chapter or glossary you edited by hand keeps your text; add the links by hand there if you want them. Clear the page cache afterwards.
+- Upload the whole theme folder and open any page: `content_version` moves to 2.77.71. The sync gives seven chapters their further reading panel and four glossary entries their link. A chapter or glossary you edited by hand keeps your text; add the links by hand there if you want them. Clear the page cache afterwards.
 
 ### 2.77.69 to 2.77.70
 
