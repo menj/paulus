@@ -6,8 +6,8 @@ The theme for **Apostle of Doom**, a Twenty Twenty-Five child theme for a site p
 
 | Item | Value |
 | --- | --- |
-| Version | 2.77.70 (`style.css`; `PAULUS_VERSION` reads it) |
-| Content version | 2.77.3 (`content/manifest.json`) |
+| Version | 2.77.71 (`style.css`; `PAULUS_VERSION` reads it) |
+| Content version | 2.77.71 (`content/manifest.json`) |
 | Parent | Twenty Twenty-Five 1.5 or later, which must stay installed |
 | WordPress | 6.7 or later, tested up to 7.0 |
 | PHP | 8.4 or later |
@@ -22,7 +22,7 @@ WordPress 6.7 or later, PHP 8.4 or later, and the Twenty Twenty-Five parent them
 
 ## Installation
 
-1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.69) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o "paulus-$(sed -n 's/^Version: *//p' style.css).zip" HEAD`: it leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them, and its top folder is `paulus/`, the theme's own name. GitHub's Download ZIP names its folder after the repository and branch, so WordPress would install a second theme beside this one; do not upload it.
+1. Upload the theme zip (`paulus-<version>.zip`, currently 2.77.71) under Appearance, Themes, Add New, and activate it. Make the zip with `git archive --format=zip --prefix=paulus/ -o "paulus-$(sed -n 's/^Version: *//p' style.css).zip" HEAD`: it leaves out the keyword research (`docs/`), the changelog and the contributor notes in `.claude/`, as `.gitattributes` marks them, and its top folder is `paulus/`, the theme's own name. GitHub's Download ZIP names its folder after the repository and branch, so WordPress would install a second theme beside this one; do not upload it.
 2. Select **Install site content** from the prompt shown on the dashboard and, to administrators, on the front page (the same button is under Appearance, Theme Options, Content). This creates the sections, articles, pages, menus, featured images and site icon, and sets word-based permalinks if they are still plain.
 3. Review the Book and Publisher tabs. The order link points to the book's page at Langgam Fikir by default; clear it and the button emails the publisher instead.
 4. On later updates, upload the new zip and open any page as an administrator; the structure brings itself up to date. Read UPGRADING.md first: it lists what an update changes on a live site and what it leaves to you.
@@ -361,7 +361,7 @@ php bin/build-error-pages.php --check
 
 The repository has no CI workflow, so run them before every commit. Check every `seo_title` against the 32-character limit with the command in `SSOT.md`.
 
-To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the version line at the top of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed. Then build the zip with `git archive`, as under Installation.
+To release: bump the version in `style.css`, `readme.txt` (Stable tag and changelog), `assets/files.json`, the version line at the top of `SSOT.md`, the At a glance table and the zip name under Installation, add the entry to `CHANGELOG.md`, and raise `content_version` only if shipped content changed, with the Content version row of the At a glance table and the `content_version` row in `SSOT.md`. Then build the zip with `git archive`, as under Installation.
 
 ## Hooks, filters and constants
 

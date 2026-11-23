@@ -2,6 +2,21 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.71] - 2026-11-23
+
+Further reading on bismikaallahuma.org for seven chapters and four glossary terms. `content_version` is 2.77.71.
+
+### Added
+- Seven chapters end with a "Further reading" panel (`aside.paulus-network`, the style of the Islamic dilemma page), placed before the notes, each linking articles on bismikaallahuma.org that argue the same point:
+  - "Who was Paul of Tarsus in the Bible?": "Paul in Islam: The False Apostle From Tarsus" and "The Problem of Paul".
+  - "The Jerusalem Council" and "The parting with Barnabas, and open conflict with Peter": "Paul, Jesus And Meat Sacrificed To Idols: Whose Ruling Stands?".
+  - "Seven doctrines: God, the cross and faith": "Can God Die?" and "State of Flux: Contested Doctrines in Early Christianity".
+  - "Suffering that atones, and the third heaven": "al Faruqi on Christian Ethics", "The Invalidity of the Crucifixion of Jesus as an Atonement of Sin" and "Original Sin Or Original Forgiveness?".
+  - "How Paul came to own the New Testament": "How We Got the New Testament" and "The Influence of the Pauline Epistles Upon The Gospels of The New Testament".
+  - "The Injīl and the letters": "The Authentic Gospel of Jesus".
+- The glossary entries Atonement, Original sin, Trinity and Injīl each end with a link to an article on bismikaallahuma.org.
+- The old texts are recorded in `prior_hashes` (`#r77.71`), so a site whose chapters are untouched takes the new ones and a chapter edited by hand is left alone.
+
 ## [2.77.70] - 2026-11-20
 
 Tags no longer wait for an administrator. `content_version` stays at 2.77.65.
