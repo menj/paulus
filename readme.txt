@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.70
+Stable tag: 2.77.71
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.71 =
+* Seven chapters end with further reading on bismikaallahuma.org, and the glossary entries Atonement, Original sin, Trinity and Injīl each link to an article there.
 
 = 2.77.70 =
 * Tags are given to every article and Journal entry on the first request of any kind after the upload, not only on an administrator's first dashboard visit.
@@ -364,6 +367,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.71 =
+Nothing to do. Upload the whole theme folder and open any page once: the chapters and the glossary take the new links. A chapter you edited by hand is left alone.
 
 = 2.77.70 =
 Nothing to do. Upload the whole theme folder; open any page once and the tags appear.
