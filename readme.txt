@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.71
+Stable tag: 2.77.76
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,21 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.76 =
+* The Apache 410 block for the old gambling addresses now leaves out a rule when this site could own a matching address: dated addresses on a site with date permalinks, and the gambling words when a page already has one in its slug.
+
+= 2.77.75 =
+* A new Journal entry, "Did Paul call ʿĪsā God?", on the passages where Paul names God and Christ Jesus together, with the verses a Christian reader will cite back. It is scheduled for 7 March 2027.
+
+= 2.77.74 =
+* The clean-up of development files (.git, tests, tools) looks again every hour, and logs once a day when it cannot remove a file.
+
+= 2.77.73 =
+* Every permanent redirect goes through Rank Math's Redirections when it is on, so the rules are listed there; the old category addresses of articles now redirect to the article; the old gambling addresses get a 410 from Apache before WordPress starts.
+
+= 2.77.72 =
+* Development files that an FTP upload sends after the theme's clean-up are removed a quarter of an hour later, and the citation analytics purge no longer logs an error on a site without its table.
 
 = 2.77.71 =
 * Seven chapters end with further reading on bismikaallahuma.org, and the glossary entries Atonement, Original sin, Trinity and Injīl each link to an article there.
@@ -367,6 +382,21 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.76 =
+Nothing to do. Upload the whole theme folder and open the admin once.
+
+= 2.77.75 =
+Run Install or update under Theme Options, Content, to bring in the new Journal entry.
+
+= 2.77.74 =
+Upload the whole theme folder. The hourly check needs WP-Cron; see UPGRADING.md if your host turns it off.
+
+= 2.77.73 =
+Nothing to do. Upload the whole theme folder. Rank Math, Redirections will list the redirects as they are first used.
+
+= 2.77.72 =
+Nothing to do. Upload the whole theme folder.
 
 = 2.77.71 =
 Nothing to do. Upload the whole theme folder and open any page once: the chapters and the glossary take the new links. A chapter you edited by hand is left alone.

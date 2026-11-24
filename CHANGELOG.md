@@ -2,6 +2,58 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.76] - 2026-11-24
+
+Fixes from the review of the 2.77.73 redirects and Apache block. `content_version` stays at 2.77.75.
+
+### Fixed
+- The Apache block "Paulus: gone spam addresses" answered 410 before WordPress could check that the page exists. It now leaves out the dated-address rule when the permalink structure carries `%year%`, `%monthnum%` or `%day%`, and the gambling-word rule when a published post or page has one of the words in its slug. The block is rewritten when the permalink structure changes.
+- A request whose query string was `0` counted as having none, so a redirect rule could be stored with the query in its destination. It is now compared as a string.
+- `UPGRADING.md` said every redirect is listed in Rank Math; searches and author addresses are answered by Rank Math through its filter and are not listed as rules.
+- The `paulus_cleanup_tick` row in `README.md` says the action fires before each attempt, whether or not the removal works.
+- `tests/redirects-test.php` now exercises the Rank Math hand-over with stand-ins for its classes, and finds a 301 sent over several lines or with `wp_redirect`.
+
+## [2.77.75] - 2026-11-24
+
+A new Journal entry. `content_version` is 2.77.75, since a shipped text is added.
+
+### Added
+- Journal: "Did Paul call ʿĪsā God?" (`journal-did-paul-call-jesus-god.json`), scheduled for 7 March 2027. It sets 1 Timothy 5:21, 1 Timothy 6:13 to 16, 1 Corinthians 15:28 and 1 Corinthians 8:6 side by side, where Paul names God and Christ Jesus together and gives the title God to the Father. It states that 1 Timothy is a disputed Pastoral letter, that the "Lord" argument does not settle the matter by itself, and answers the verses a Christian will cite (Romans 9:5, Titus 2:13, Philippians 2:6, Hebrews 5:7, which is anonymous and not Paul's). Quotations are the ESV, with the notice. The tags are "pauline christology", "trinity", "pastoral epistles" and "letters of paul".
+
+## [2.77.74] - 2026-11-24
+
+The development files clean-up looks again every hour, and tells you when it cannot finish. `content_version` stays at 2.77.71.
+
+### Changed
+- The clean-up moved from `inc/watch.php` into its own file, `inc/dev-files.php`.
+- It records the version only when nothing is left. A file that cannot be removed leaves the version unrecorded and the lease held, so the retry comes every five minutes and never on every request, and the error log gets one line a day with the number of files left, to be deleted by FTP.
+
+### Added
+- An hourly WP-Cron event, `paulus_dev_files_hourly`, runs the clean-up again when the theme folder holds a development entry (an upload can put `.git` back at any time). It does nothing on a clean folder, is not scheduled on a site that keeps its development files, and is cleared when the theme is switched.
+- `tests/dev-files-test.php` checks the clean-up against a temporary theme folder.
+
+### Removed
+- The 15-minute follow-up of 2.77.72 (`paulus_cleanup_followup`); the hourly event replaces it.
+
+## [2.77.73] - 2026-11-24
+
+Every 301 goes through Rank Math, and the old gambling addresses are answered by Apache. `content_version` stays at 2.77.71.
+
+### Changed
+- All the theme's 301s (renamed articles, superseded texts, old images, author archives and `?author=N`, searches from the form) go through `paulus_redirect()` (`inc/redirects.php`). With Rank Math's Redirections module on, the fixed ones are written into Rank Math as rules on their first request, so they are listed and counted under Rank Math, Redirections, and Rank Math answers later requests before WordPress builds a page. The ones that depend on the query are answered through Rank Math's `rank_math/redirection/pre_search` filter. Without the module the theme sends them itself, as before. `PAULUS_NO_RM_REDIRECTS` in `wp-config.php` turns the hand-over off. The `?j=N` fold stays the theme's own, because it must run before WordPress queries the database.
+
+### Added
+- The old category address of an article, `/the-charges/justification-by-faith/`, now gets a 301 from the theme (and so a Rank Math rule) to the article. The logs of 19 to 23 November show crawlers and AI bots asking for these 43 addresses, which WordPress answered by guessing.
+- The Apache block `Paulus: gone spam addresses` answers 410 Gone for the dated post addresses, `sample-page`, `hello-world` and the gambling slugs of the spam era before PHP starts. It is not a redirect and does not go through Rank Math. It follows the Security tab's 410 switch.
+
+## [2.77.72] - 2026-11-24
+
+Two fixes from the server logs of the 20 November upload. `content_version` stays at 2.77.71.
+
+### Fixed
+- The clean-up of development files runs once, on the first request after a version change, and an FTP upload of the working copy is still sending files then. On 20 November the clean-up ran 30 seconds into the upload and `.git`, `tests` and `tools` arrived afterwards. When the clean-up removes anything it now schedules a follow-up (`paulus_cleanup_followup`) a quarter of an hour later, which repeats every quarter of an hour for as long as it finds something to remove.
+- The daily citation analytics purge (`paulus_cite_do_daily_purge()`) ran its `DELETE` on a table that is made only on `admin_init`, so a site no administrator had opened since the upload logged "Table doesn't exist". It now skips the purge while the table is absent.
+
 ## [2.77.71] - 2026-11-23
 
 Further reading on bismikaallahuma.org for seven chapters and four glossary terms. `content_version` is 2.77.71.

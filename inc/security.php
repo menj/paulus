@@ -109,6 +109,7 @@ function paulus_sec_htaccess_lines() {
 }
 
 /** The .htaccess marker of the block that denies WordPress's own files. */
+defined( 'PAULUS_SEC_SPAM_MARKER' ) || define( 'PAULUS_SEC_SPAM_MARKER', 'Paulus: gone spam addresses' );
 defined( 'PAULUS_SEC_CORE_MARKER' ) || define( 'PAULUS_SEC_CORE_MARKER', 'Paulus: deny direct core files' );
 
 /**
@@ -137,6 +138,38 @@ function paulus_sec_core_lines( $prefix = '' ) {
 		'RewriteRule ^' . $p . 'wp-admin/install\\.php$ - [F,L]',
 		'</IfModule>',
 	);
+}
+
+/**
+ * The Apache block that answers 410 Gone for the addresses of the gambling
+ * spam this domain carried before the site, before WordPress starts (no PHP,
+ * no database). mod_alias, not mod_rewrite, so it holds wherever the block
+ * sits relative to WordPress's own rules. It names only what no page of this
+ * site can have: dated post addresses (/2025/12/19/slug/), WordPress's sample
+ * page and first post, and a last path segment, with no dot, that holds a
+ * gambling word. Rank Math is not involved: these are not redirects.
+ * paulus_gone_spam() (inc/watch.php) still answers any other address.
+ *
+ * @return string[]
+ */
+function paulus_sec_spam_lines() {
+	global $wpdb;
+	$words = 'casino|pokies|jackpot|roulette|blackjack|baccarat|sportsbook|free-spins|no-deposit|gokkast|speelautomat|spielbank|tragamonedas|kasino';
+	$lines = array( '<IfModule mod_alias.c>' );
+	// Apache cannot ask WordPress whether the page exists, so a rule is left
+	// out where this site could own an address it would match: dated post
+	// addresses on a site whose permalinks carry the date, and the gambling
+	// words when a published page or post has one in its slug.
+	if ( ! preg_match( '/%(year|monthnum|day)%/', (string) get_option( 'permalink_structure' ) ) ) {
+		$lines[] = 'RedirectMatch 410 "^(?:/[^/]+)?/[0-9]{4}/[0-9]{2}/[0-9]{2}/[^/]+/?$"';
+	}
+	$lines[] = 'RedirectMatch 410 "^(?:/[^/]+)?/(sample-page|hello-world)/?$"';
+	$owned   = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_name REGEXP %s LIMIT 1", $words ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	if ( ! $owned ) {
+		$lines[] = 'RedirectMatch 410 "(?i)^/(?:[^?]*/)?[^/.]*(' . $words . ')[^/.]*/?$"';
+	}
+	$lines[] = '</IfModule>';
+	return $lines;
 }
 
 /**
@@ -210,11 +243,18 @@ function paulus_sec_sync_htaccess( $force = false ) {
 	if ( extract_from_markers( $file, PAULUS_SEC_CORE_MARKER ) !== $lines ) {
 		$ok = insert_with_markers( $file, PAULUS_SEC_CORE_MARKER, $lines ) && $ok;
 	}
+	// The gone-spam block follows the 410 switch.
+	$spam = paulus_sec_on( 'sec_gone' ) ? paulus_sec_spam_lines() : array();
+	if ( extract_from_markers( $file, PAULUS_SEC_SPAM_MARKER ) !== $spam ) {
+		$ok = insert_with_markers( $file, PAULUS_SEC_SPAM_MARKER, $spam ) && $ok;
+	}
 	update_option( 'paulus_security_htaccess', ! $ok ? 'unavailable' : ( $want ? 'written' : 'off' ), false );
 }
 add_action( 'admin_init', 'paulus_sec_sync_htaccess' );
 add_action( 'after_switch_theme', function () { paulus_sec_sync_htaccess( true ); } );
 add_action( 'update_option_paulus_options', function () { paulus_sec_sync_htaccess( true ); } );
+// The dated-address rule depends on the permalink structure.
+add_action( 'update_option_permalink_structure', function () { paulus_sec_sync_htaccess( true ); } );
 
 /**
  * Take the block out when the theme is switched to one outside the seven
@@ -225,6 +265,7 @@ function paulus_sec_remove_htaccess() {
 	if ( '' !== $file ) {
 		insert_with_markers( $file, 'Block xmlrpc.php', array() );
 		insert_with_markers( $file, PAULUS_SEC_CORE_MARKER, array() );
+		insert_with_markers( $file, PAULUS_SEC_SPAM_MARKER, array() );
 	}
 	delete_transient( 'paulus_sec_htaccess_checked' );
 }

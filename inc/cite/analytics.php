@@ -187,7 +187,10 @@ function paulus_cite_do_daily_purge() {
     global $wpdb;
     $setting = get_option( 'paulus_citepress', array() );
     $days    = isset( $setting['analytics_retention_days'] ) ? intval( $setting['analytics_retention_days'] ) : 90;
-    if ( $days > 0 ) {
+    // The table is made on admin_init; a site no administrator has opened
+    // since the upload has none yet, and there is then nothing to purge.
+    $table   = $wpdb->prefix . 'paulus_citepress_analytics';
+    if ( $days > 0 && $table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
             'DELETE FROM `' . $wpdb->prefix . 'paulus_citepress_analytics` WHERE timestamp < DATE_SUB(NOW(), INTERVAL %d DAY)',
             $days
