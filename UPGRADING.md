@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.73 to 2.77.74
+
+- Upload the whole theme folder. The theme now looks for development files (`.git`, `tests`, `tools`, `docs`) every hour as well as once after each update. The hourly look runs on WP-Cron, so a host that sets `DISABLE_WP_CRON` in `wp-config.php` must call `wp-cron.php` from a server cron at least hourly, for example `0 * * * * curl -s https://example.org/wp-cron.php`. Without it the files are still removed once after each update.
+- If a file cannot be removed, the error log carries one line a day saying how many are left. Delete them by FTP.
+
 ### 2.77.72 to 2.77.73
 
 - Upload the whole theme folder. With Rank Math's Redirections module on, the theme's redirects appear under Rank Math, Redirections as they are first requested. Open the admin once so the theme writes the new Apache block for the gambling addresses into `.htaccess`; on Nginx the theme's PHP answers the same addresses with 410. Add `define( 'PAULUS_NO_RM_REDIRECTS', true );` to `wp-config.php` to keep the redirects out of Rank Math.
