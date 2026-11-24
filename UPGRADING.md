@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.71 to 2.77.72
+
+- Upload the whole theme folder. Nothing else to do. If an earlier upload left `.git`, `tests` or `tools` in the theme folder, the weekly clean-up or this release's follow-up removes them; deleting them by hand is faster.
+
 ### 2.77.70 to 2.77.71
 
 - Upload the whole theme folder and open any page: `content_version` moves to 2.77.71. The sync gives seven chapters their further reading panel and four glossary entries their link. A chapter or glossary you edited by hand keeps your text; add the links by hand there if you want them. Clear the page cache afterwards.

@@ -736,9 +736,36 @@ function paulus_cleanup_on_version_change() {
 	paulus_release_lock( 'paulus_retired_lock', $final );
 	if ( $gone ) {
 		error_log( 'Paulus: removed ' . $gone . ' retired and development files from the theme folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		// Files removed means a working copy was still arriving: an FTP
+		// upload sends the theme in one run and goes on putting files in
+		// after this clean-up, so look again once it has had time to end.
+		paulus_schedule_cleanup_followup();
 	}
 }
 add_action( 'init', 'paulus_cleanup_on_version_change', 1 );
+
+/**
+ * Look again for development files a quarter of an hour from now.
+ */
+function paulus_schedule_cleanup_followup() {
+	if ( ! wp_next_scheduled( 'paulus_cleanup_followup' ) ) {
+		wp_schedule_single_event( time() + 15 * MINUTE_IN_SECONDS, 'paulus_cleanup_followup' );
+	}
+}
+
+/**
+ * The follow-up: run the clean-up again, and keep looking every quarter of
+ * an hour for as long as it finds something to remove. The first run that
+ * finds nothing ends it.
+ */
+function paulus_cleanup_followup() {
+	$gone = paulus_cleanup_retired_files();
+	if ( $gone ) {
+		error_log( 'Paulus: removed ' . $gone . ' more development files that arrived after the clean-up.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		paulus_schedule_cleanup_followup();
+	}
+}
+add_action( 'paulus_cleanup_followup', 'paulus_cleanup_followup' );
 
 /**
  * Renew the running clean-up's lease, at most once a minute, with the same

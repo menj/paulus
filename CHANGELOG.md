@@ -2,6 +2,14 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.72] - 2026-11-24
+
+Two fixes from the server logs of the 20 November upload. `content_version` stays at 2.77.71.
+
+### Fixed
+- The clean-up of development files runs once, on the first request after a version change, and an FTP upload of the working copy is still sending files then. On 20 November the clean-up ran 30 seconds into the upload and `.git`, `tests` and `tools` arrived afterwards. When the clean-up removes anything it now schedules a follow-up (`paulus_cleanup_followup`) a quarter of an hour later, which repeats every quarter of an hour for as long as it finds something to remove.
+- The daily citation analytics purge (`paulus_cite_do_daily_purge()`) ran its `DELETE` on a table that is made only on `admin_init`, so a site no administrator had opened since the upload logged "Table doesn't exist". It now skips the purge while the table is absent.
+
 ## [2.77.71] - 2026-11-23
 
 Further reading on bismikaallahuma.org for seven chapters and four glossary terms. `content_version` is 2.77.71.
