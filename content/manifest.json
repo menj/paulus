@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.71",
+	"content_version": "2.77.75",
 	"prior_hashes": {
 		"legal-privacy-policy.json#r77.63": "6e86d56dcaa08d83273f3384025242f3",
 		"journal-paul-and-the-return-that-failed.json#r77.62": "b803944a0260c3e96099d84cf8d6a05f",
@@ -1975,6 +1975,16 @@
 			"file": "journal-was-paul-a-roman-citizen.json",
 			"image": "roman-silver-coins",
 			"date": "2027-02-28 09:00:00"
+		},
+		{
+			"slug": "did-paul-call-jesus-god",
+			"title": "Did Paul call ʿĪsā God?",
+			"seo_title": "Did Paul call ʿĪsā God?",
+			"meta": "Paul names God and Christ Jesus in one sentence and keeps them apart. Three passages, and the verses a Christian will cite back.",
+			"excerpt": "In 1 Timothy and 1 Corinthians Paul names God and Christ Jesus together and gives the title God to the Father alone. The passages, and the objections.",
+			"file": "journal-did-paul-call-jesus-god.json",
+			"image": "paul-portrait-mirror",
+			"date": "2027-03-07 09:00:00"
 		},
 		{
 			"slug": "the-three-wishes",

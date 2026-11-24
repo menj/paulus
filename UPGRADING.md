@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.74 to 2.77.75
+
+- Upload the whole theme folder, then run Install or update under Theme Options, Content: `content_version` moves to 2.77.75 and the Journal entry "Did Paul call ʿĪsā God?" is created, once, scheduled for 7 March 2027.
+
 ### 2.77.73 to 2.77.74
 
 - Upload the whole theme folder. The theme now looks for development files (`.git`, `tests`, `tools`, `docs`) every hour as well as once after each update. The hourly look runs on WP-Cron, so a host that sets `DISABLE_WP_CRON` in `wp-config.php` must call `wp-cron.php` from a server cron at least hourly, for example `0 * * * * curl -s https://example.org/wp-cron.php`. Without it the files are still removed once after each update.

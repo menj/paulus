@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.75] - 2026-11-24
+
+A new Journal entry. `content_version` is 2.77.75, since a shipped text is added.
+
+### Added
+- Journal: "Did Paul call ʿĪsā God?" (`journal-did-paul-call-jesus-god.json`), scheduled for 7 March 2027. It sets 1 Timothy 5:21, 1 Timothy 6:13 to 16, 1 Corinthians 15:28 and 1 Corinthians 8:6 side by side, where Paul names God and Christ Jesus together and gives the title God to the Father. It states that 1 Timothy is a disputed Pastoral letter, that the "Lord" argument does not settle the matter by itself, and answers the verses a Christian will cite (Romans 9:5, Titus 2:13, Philippians 2:6, Hebrews 5:7, which is anonymous and not Paul's). Quotations are the ESV, with the notice. The tags are "pauline christology", "trinity", "pastoral epistles" and "letters of paul".
+
 ## [2.77.74] - 2026-11-24
 
 The development files clean-up looks again every hour, and tells you when it cannot finish. `content_version` stays at 2.77.71.
