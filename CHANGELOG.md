@@ -2,6 +2,21 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.74] - 2026-11-24
+
+The development files clean-up looks again every hour, and tells you when it cannot finish. `content_version` stays at 2.77.71.
+
+### Changed
+- The clean-up moved from `inc/watch.php` into its own file, `inc/dev-files.php`.
+- It records the version only when nothing is left. A file that cannot be removed leaves the version unrecorded and the lease held, so the retry comes every five minutes and never on every request, and the error log gets one line a day with the number of files left, to be deleted by FTP.
+
+### Added
+- An hourly WP-Cron event, `paulus_dev_files_hourly`, runs the clean-up again when the theme folder holds a development entry (an upload can put `.git` back at any time). It does nothing on a clean folder, is not scheduled on a site that keeps its development files, and is cleared when the theme is switched.
+- `tests/dev-files-test.php` checks the clean-up against a temporary theme folder.
+
+### Removed
+- The 15-minute follow-up of 2.77.72 (`paulus_cleanup_followup`); the hourly event replaces it.
+
 ## [2.77.73] - 2026-11-24
 
 Every 301 goes through Rank Math, and the old gambling addresses are answered by Apache. `content_version` stays at 2.77.71.
