@@ -90,7 +90,7 @@ function paulus_rm_store_redirect( $source, $url, $code = 301 ) {
  * @return void
  */
 function paulus_redirect( $url, $code = 301, $source = '' ) {
-	if ( '' !== $source && empty( $_SERVER['QUERY_STRING'] ) ) {
+	if ( '' !== $source && '' === (string) ( $_SERVER['QUERY_STRING'] ?? '' ) ) {
 		paulus_rm_store_redirect( $source, $url, $code );
 	}
 	wp_safe_redirect( $url, $code );

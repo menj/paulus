@@ -153,13 +153,23 @@ function paulus_sec_core_lines( $prefix = '' ) {
  * @return string[]
  */
 function paulus_sec_spam_lines() {
-	return array(
-		'<IfModule mod_alias.c>',
-		'RedirectMatch 410 "^(?:/[^/]+)?/[0-9]{4}/[0-9]{2}/[0-9]{2}/[^/]+/?$"',
-		'RedirectMatch 410 "^(?:/[^/]+)?/(sample-page|hello-world)/?$"',
-		'RedirectMatch 410 "(?i)^/(?:[^?]*/)?[^/.]*(casino|pokies|jackpot|roulette|blackjack|baccarat|sportsbook|free-spins|no-deposit|gokkast|speelautomat|spielbank|tragamonedas|kasino)[^/.]*/?$"',
-		'</IfModule>',
-	);
+	global $wpdb;
+	$words = 'casino|pokies|jackpot|roulette|blackjack|baccarat|sportsbook|free-spins|no-deposit|gokkast|speelautomat|spielbank|tragamonedas|kasino';
+	$lines = array( '<IfModule mod_alias.c>' );
+	// Apache cannot ask WordPress whether the page exists, so a rule is left
+	// out where this site could own an address it would match: dated post
+	// addresses on a site whose permalinks carry the date, and the gambling
+	// words when a published page or post has one in its slug.
+	if ( ! preg_match( '/%(year|monthnum|day)%/', (string) get_option( 'permalink_structure' ) ) ) {
+		$lines[] = 'RedirectMatch 410 "^(?:/[^/]+)?/[0-9]{4}/[0-9]{2}/[0-9]{2}/[^/]+/?$"';
+	}
+	$lines[] = 'RedirectMatch 410 "^(?:/[^/]+)?/(sample-page|hello-world)/?$"';
+	$owned   = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_name REGEXP %s LIMIT 1", $words ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	if ( ! $owned ) {
+		$lines[] = 'RedirectMatch 410 "(?i)^/(?:[^?]*/)?[^/.]*(' . $words . ')[^/.]*/?$"';
+	}
+	$lines[] = '</IfModule>';
+	return $lines;
 }
 
 /**
@@ -243,6 +253,8 @@ function paulus_sec_sync_htaccess( $force = false ) {
 add_action( 'admin_init', 'paulus_sec_sync_htaccess' );
 add_action( 'after_switch_theme', function () { paulus_sec_sync_htaccess( true ); } );
 add_action( 'update_option_paulus_options', function () { paulus_sec_sync_htaccess( true ); } );
+// The dated-address rule depends on the permalink structure.
+add_action( 'update_option_permalink_structure', function () { paulus_sec_sync_htaccess( true ); } );
 
 /**
  * Take the block out when the theme is switched to one outside the seven

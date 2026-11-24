@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.76] - 2026-11-24
+
+Fixes from the review of the 2.77.73 redirects and Apache block. `content_version` stays at 2.77.75.
+
+### Fixed
+- The Apache block "Paulus: gone spam addresses" answered 410 before WordPress could check that the page exists. It now leaves out the dated-address rule when the permalink structure carries `%year%`, `%monthnum%` or `%day%`, and the gambling-word rule when a published post or page has one of the words in its slug. The block is rewritten when the permalink structure changes.
+- A request whose query string was `0` counted as having none, so a redirect rule could be stored with the query in its destination. It is now compared as a string.
+- `UPGRADING.md` said every redirect is listed in Rank Math; searches and author addresses are answered by Rank Math through its filter and are not listed as rules.
+- The `paulus_cleanup_tick` row in `README.md` says the action fires before each attempt, whether or not the removal works.
+- `tests/redirects-test.php` now exercises the Rank Math hand-over with stand-ins for its classes, and finds a 301 sent over several lines or with `wp_redirect`.
+
 ## [2.77.75] - 2026-11-24
 
 A new Journal entry. `content_version` is 2.77.75, since a shipped text is added.

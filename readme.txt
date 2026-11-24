@@ -3,7 +3,7 @@ Contributors: menj
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 8.4
-Stable tag: 2.77.75
+Stable tag: 2.77.76
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 * Social icons: Minimalist Social & Platform Icons Pack (GPL), with LinkedIn and Scribd from Font Awesome Free (CC BY 4.0).
 
 == Changelog ==
+
+= 2.77.76 =
+* The Apache 410 block for the old gambling addresses now leaves out a rule when this site could own a matching address: dated addresses on a site with date permalinks, and the gambling words when a page already has one in its slug.
 
 = 2.77.75 =
 * A new Journal entry, "Did Paul call ʿĪsā God?", on the passages where Paul names God and Christ Jesus together, with the verses a Christian reader will cite back. It is scheduled for 7 March 2027.
@@ -379,6 +382,9 @@ Bundled resources keep the licences of their owners and are not relicensed. LICE
 Earlier releases, back to 1.0.0, are in CHANGELOG.md in the theme's repository.
 
 == Upgrade Notice ==
+
+= 2.77.76 =
+Nothing to do. Upload the whole theme folder and open the admin once.
 
 = 2.77.75 =
 Run Install or update under Theme Options, Content, to bring in the new Journal entry.
