@@ -49,6 +49,11 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.72 to 2.77.73
+
+- Upload the whole theme folder. With Rank Math's Redirections module on, the theme's redirects appear under Rank Math, Redirections as they are first requested. Open the admin once so the theme writes the new Apache block for the gambling addresses into `.htaccess`; on Nginx the theme's PHP answers the same addresses with 410. Add `define( 'PAULUS_NO_RM_REDIRECTS', true );` to `wp-config.php` to keep the redirects out of Rank Math.
+- A rule the theme wrote cannot be removed from Rank Math for good while the theme still has the redirect. Remove the cause (an entry's `was_slug` in `content/manifest.json`) instead.
+
 ### 2.77.71 to 2.77.72
 
 - Upload the whole theme folder. Nothing else to do. If an earlier upload left `.git`, `tests` or `tools` in the theme folder, the weekly clean-up or this release's follow-up removes them; deleting them by hand is faster.

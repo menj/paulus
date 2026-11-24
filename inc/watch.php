@@ -842,8 +842,7 @@ function paulus_fold_query_trap() {
 	$uri = (string) ( $_SERVER['REQUEST_URI'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 	$home = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 	if ( 'GET' === ( $_SERVER['REQUEST_METHOD'] ?? '' ) && preg_match( '#^' . preg_quote( '' === $home ? '/' : $home, '#' ) . '\?j=\d*$#', $uri ) ) {
-		wp_safe_redirect( home_url( '/' ), 301 );
-		exit;
+		paulus_redirect( home_url( '/' ) );
 	}
 }
 add_action( 'init', 'paulus_fold_query_trap', 0 );
@@ -862,8 +861,7 @@ function paulus_redirect_old_images() {
 	$path  = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 	$theme = (string) wp_parse_url( PAULUS_URI, PHP_URL_PATH );
 	if ( preg_match( '#^' . preg_quote( $theme, '#' ) . '/assets/images/((?:church/)?[a-z0-9-]+)\.(?:webp|jpe?g|png)$#', $path, $m ) && file_exists( PAULUS_DIR . '/assets/images/' . $m[1] . '.avif' ) ) {
-		wp_safe_redirect( PAULUS_URI . '/assets/images/' . $m[1] . '.avif', 301 );
-		exit;
+		paulus_redirect( PAULUS_URI . '/assets/images/' . $m[1] . '.avif', 301, paulus_request_path() );
 	}
 }
 add_action( 'template_redirect', 'paulus_redirect_old_images', 4 );

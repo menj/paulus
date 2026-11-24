@@ -52,23 +52,6 @@ function paulus_hardening_rest_endpoints( $endpoints ) {
 add_filter( 'rest_endpoints', 'paulus_hardening_rest_endpoints' );
 
 /**
- * Send any ?author= address on, for a visitor who is not logged in, before
- * redirect_canonical (priority 10) can name the login in /author/<login>/,
- * and also when no such user exists, so the answer is the same for every N.
- *
- * @return void
- */
-function paulus_hardening_author_query() {
-	if ( ! paulus_hide_authors() || is_admin() || ! isset( $_GET['author'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read only to refuse it.
-		return;
-	}
-	$about = get_page_by_path( 'about-the-author' );
-	wp_safe_redirect( $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' ), 301 );
-	exit;
-}
-add_action( 'template_redirect', 'paulus_hardening_author_query', 0 );
-
-/**
  * oEmbed answers name the book's author and link the site, never the account.
  *
  * @param array $data oEmbed data.

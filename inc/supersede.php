@@ -204,8 +204,7 @@ function paulus_supersede_redirect() {
 	if ( is_singular() ) {
 		$id = (int) get_queried_object_id();
 		if ( isset( $pairs[ $id ] ) ) {
-			wp_safe_redirect( get_permalink( $pairs[ $id ] ), 301 );
-			exit;
+			paulus_redirect( get_permalink( $pairs[ $id ] ), 301, paulus_request_path() );
 		}
 	}
 }
@@ -227,8 +226,7 @@ function paulus_supersede_redirect_trashed() {
 	if ( '' !== $slug && isset( $map[ $slug ] ) ) {
 		$new = paulus_supersede_find( $map[ $slug ] );
 		if ( $new ) {
-			wp_safe_redirect( get_permalink( $new ), 301 );
-			exit;
+			paulus_redirect( get_permalink( $new ), 301, paulus_request_path() );
 		}
 	}
 }

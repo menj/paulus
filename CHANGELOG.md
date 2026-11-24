@@ -2,6 +2,17 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.73] - 2026-11-24
+
+Every 301 goes through Rank Math, and the old gambling addresses are answered by Apache. `content_version` stays at 2.77.71.
+
+### Changed
+- All the theme's 301s (renamed articles, superseded texts, old images, author archives and `?author=N`, searches from the form) go through `paulus_redirect()` (`inc/redirects.php`). With Rank Math's Redirections module on, the fixed ones are written into Rank Math as rules on their first request, so they are listed and counted under Rank Math, Redirections, and Rank Math answers later requests before WordPress builds a page. The ones that depend on the query are answered through Rank Math's `rank_math/redirection/pre_search` filter. Without the module the theme sends them itself, as before. `PAULUS_NO_RM_REDIRECTS` in `wp-config.php` turns the hand-over off. The `?j=N` fold stays the theme's own, because it must run before WordPress queries the database.
+
+### Added
+- The old category address of an article, `/the-charges/justification-by-faith/`, now gets a 301 from the theme (and so a Rank Math rule) to the article. The logs of 19 to 23 November show crawlers and AI bots asking for these 43 addresses, which WordPress answered by guessing.
+- The Apache block `Paulus: gone spam addresses` answers 410 Gone for the dated post addresses, `sample-page`, `hello-world` and the gambling slugs of the spam era before PHP starts. It is not a redirect and does not go through Rank Math. It follows the Security tab's 410 switch.
+
 ## [2.77.72] - 2026-11-24
 
 Two fixes from the server logs of the 20 November upload. `content_version` stays at 2.77.71.
