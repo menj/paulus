@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.76 to 2.77.77
+
+- Upload the whole theme folder and clear the page cache. The book page's structured data fills in from the Book fields under Theme Options; check Edition, First published and the catalogue subjects there, since they now appear in it. Test `/the-book/` in Google's Rich Results Test.
+
 ### 2.77.75 to 2.77.76
 
 - Upload the whole theme folder and open the admin once, so the theme rewrites the Apache block for the gambling addresses. Nothing else to do.
