@@ -369,6 +369,10 @@ To release: bump the version in `style.css`, `readme.txt` (Stable tag and change
 | --- | --- |
 | `paulus_contextual_links_map` | The phrase map from `inc/data/network-links.json` |
 | `paulus_contextual_links_enabled` | Contextual links on a given post |
+| `pau_cl_post_types` | The post types that get contextual links (`post`) |
+| `wps_hide_login_signup_enable` | Return false to let `wp-signup.php` and `wp-activate.php` through the private login address (the name the plugin used) |
+| `paulus_cite_*`, `paulus_form_*`, `paulus_consent_*`, `paulus_mark_*`, `paulus_wiki_card_*`, `paulus_hreflang_*` | The hooks of the built-in modules, each under the module's prefix; `grep -rn "apply_filters( 'paulus_form_" inc/forms` lists a module's own |
+| `wp_has_consent`, `wp_get_consent_type`, `wp_has_service_consent`, `wp_is_service_denied`, `wp_set_consent_value`, `wp_cookie_expiration`, `wp_consent_api_waitfor_consent_hook` | The consent API's published filters, which keep their names so that other plugins can use them |
 | `paulus_page_contents` | Whether a post or page shows its contents list (given the post ID) |
 | `paulus_image_sitemap` | Whether `/sitemap-images.xml` is served (off anyway with Rank Math or Yoast, or a site hidden from search) |
 | `paulus_sec_rest_allow` | REST route prefixes exempt from the logged-in write lock |
