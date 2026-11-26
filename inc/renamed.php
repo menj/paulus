@@ -116,7 +116,6 @@ function paulus_redirect_renamed() {
 	if ( '' !== $query ) {
 		$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . $query;
 	}
-	wp_safe_redirect( $url, 301 );
-	exit;
+	paulus_redirect( $url, 301, trim( $path, '/' ) );
 }
 add_action( 'template_redirect', 'paulus_redirect_renamed', 5 );

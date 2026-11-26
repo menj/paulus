@@ -1,7 +1,7 @@
 {
 	"nav_version": 7,
 	"supersedes": {},
-	"content_version": "2.77.65",
+	"content_version": "2.77.75",
 	"prior_hashes": {
 		"legal-privacy-policy.json#r77.63": "6e86d56dcaa08d83273f3384025242f3",
 		"journal-paul-and-the-return-that-failed.json#r77.62": "b803944a0260c3e96099d84cf8d6a05f",
@@ -674,7 +674,15 @@
 		"journal-how-the-site-began.json#76": "346eb9f1c5837198047a400ed556859c",
 		"c06-the-gospels-and-the-new-covenant.json#r77.26": "67f34cdac802a472a3d3d761cafe66b5",
 		"answers.json#r77.26": "cda074f19fc0419a9ce5684e239ad764",
-		"sources.json#r77.26": "1329563ba7ea9f0ca3169909c3a89448"
+		"sources.json#r77.26": "1329563ba7ea9f0ca3169909c3a89448",
+		"c02-who-was-paul.json#r77.71": "1dd5bb56a84fc6ff283a334c760d878f",
+		"c04-the-jerusalem-council.json#r77.71": "3db1f8adcfc7b1124130b346f79e9fa0",
+		"c04-the-jerusalem-council-2.json#r77.71": "7caf71e4d122886421e880a92e6f6848",
+		"c05-seven-doctrines.json#r77.71": "4e17f09290e6059370144c0f782f1f37",
+		"c07-borrowings-from-the-rabbis-2.json#r77.71": "20825485764baeabe0fa1c12812c796e",
+		"c06-owning-the-new-testament.json#r77.71": "2e591aa5a55ca2a07396d2e894124c69",
+		"c15-the-quran-as-witness-2.json#r77.71": "133178fd37b1bca7f5d2895c621dafaa",
+		"glossary.json#r77.71": "85007ad375e1690a281dbb752a64664e"
 	},
 	"prior_meta": [
 		"What Apostle of Doom collects when you read it: visitor statistics, server records and nothing else. Read the privacy policy.",
@@ -1967,6 +1975,16 @@
 			"file": "journal-was-paul-a-roman-citizen.json",
 			"image": "roman-silver-coins",
 			"date": "2027-02-28 09:00:00"
+		},
+		{
+			"slug": "did-paul-call-jesus-god",
+			"title": "Did Paul call ʿĪsā God?",
+			"seo_title": "Did Paul call ʿĪsā God?",
+			"meta": "Paul names God and Christ Jesus in one sentence and keeps them apart. Three passages, and the verses a Christian will cite back.",
+			"excerpt": "In 1 Timothy and 1 Corinthians Paul names God and Christ Jesus together and gives the title God to the Father alone. The passages, and the objections.",
+			"file": "journal-did-paul-call-jesus-god.json",
+			"image": "paul-portrait-mirror",
+			"date": "2027-03-07 09:00:00"
 		},
 		{
 			"slug": "the-three-wishes",

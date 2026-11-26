@@ -419,18 +419,33 @@ add_action( 'wp_head', 'paulus_canonical_link', 5 );
  * year pages, with descriptions of their own, are not date archives).
  */
 function paulus_author_archive_redirect() {
-	if ( ! is_author() ) {
-		return;
+	$url = paulus_author_redirect_url();
+	if ( '' !== $url ) {
+		paulus_redirect( $url );
+	}
+}
+
+/**
+ * Where an author address goes: the author archive, and for a visitor who
+ * is not logged in any ?author=N, which redirect_canonical would otherwise
+ * send on to /author/<login>/ and so name the login, also when no such user
+ * exists. Rank Math asks for it too (inc/redirects.php).
+ *
+ * @return string The address, or '' when the request is not an author address.
+ */
+function paulus_author_redirect_url() {
+	$by_query = function_exists( 'paulus_hide_authors' ) && paulus_hide_authors() && ! is_admin() && isset( $_GET['author'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read only to refuse it.
+	if ( ! $by_query && ! is_author() ) {
+		return '';
 	}
 	$about = get_page_by_path( 'about-the-author' );
-	wp_safe_redirect( $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' ), 301 );
-	exit;
+	return $about && 'publish' === $about->post_status ? get_permalink( $about ) : home_url( '/' );
 }
 // Before redirect_canonical (priority 10), which would first send ?author=N
 // on to /author/<login>/, telling anyone who asks the login name of each
 // user; it also leaves no author archive for Rank Math's author snippet,
 // which warns there when author archives are switched off in its settings.
-add_action( 'template_redirect', 'paulus_author_archive_redirect', 1 );
+add_action( 'template_redirect', 'paulus_author_archive_redirect', 0 );
 add_filter( 'wp_sitemaps_add_provider', static function ( $provider, $name ) {
 	return 'users' === $name ? false : $provider;
 }, 10, 2 );

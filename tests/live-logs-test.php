@@ -60,7 +60,8 @@ function update_option( $k, $v ) {
 function delete_option( $k ) { unset( $GLOBALS['t']['options'][ $k ] ); return true; }
 function wp_delete_file( $p ) { @unlink( $p ); }
 
-t_load( 'inc/watch.php', array( 'paulus_is_gone_post_number', 'paulus_keeps_dev_files', 'paulus_hidden_entries', 'paulus_remove_tree' ) );
+t_load( 'inc/watch.php', array( 'paulus_is_gone_post_number' ) );
+t_load( 'inc/dev-files.php', array( 'paulus_keeps_dev_files', 'paulus_hidden_entries', 'paulus_remove_tree' ) );
 t_load( 'inc/security.php', array( 'paulus_sec_core_lines', 'paulus_sec_core_prefix' ) );
 t_load( 'inc/importer.php', array( 'paulus_quiet_watcher_classes', 'paulus_without_post_watchers' ) );
 
@@ -176,7 +177,7 @@ check( 'it is put back even when the run throws', 3 === t_count( 'save_post' ) )
 // request that dies is retried once its lease is stale; a running clean-up
 // renews its lease, so it is never displaced.
 define( 'PAULUS_VERSION', '9.9.9' );
-t_load( 'inc/watch.php', array( 'paulus_cleanup_on_version_change', 'paulus_renew_cleanup_lease', 'paulus_swap_lock', 'paulus_release_lock' ) );
+t_load( 'inc/dev-files.php', array( 'paulus_cleanup_on_version_change', 'paulus_renew_cleanup_lease', 'paulus_swap_lock', 'paulus_release_lock' ) );
 // The options table, as far as the lock's compare-and-set UPDATE goes.
 class T_DB {
 	public $options = 'wp_options';
@@ -210,6 +211,7 @@ function wp_cache_delete() { return true; }
 $GLOBALS['t']['runs']  = 0;
 $GLOBALS['t']['throw'] = true;
 $GLOBALS['t']['during'] = null;
+function paulus_dev_files_left() { return 0; }
 function paulus_cleanup_retired_files() {
 	++$GLOBALS['t']['runs'];
 	if ( $GLOBALS['t']['throw'] ) {

@@ -123,16 +123,18 @@ function paulus_search_pretty_url( $home, $base, $term, $paged = 1, $args = arra
 }
 
 /**
- * A search made by the form (/?s=term) goes to its clean address with a 301.
+ * Where a search made by the form (/?s=term) goes: its clean address.
+ *
+ * @return string The address, or '' when the request needs no redirect.
  */
-add_action( 'template_redirect', static function () {
+function paulus_search_redirect_url() {
 	global $wp_rewrite;
 	if ( ! is_search() || is_admin() || ! $wp_rewrite->using_permalinks() || isset( $_GET['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-		return;
+		return '';
 	}
 	$path = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 	if ( false !== strpos( $path, '/' . paulus_search_base() . '/' ) ) {
-		return;
+		return '';
 	}
 	// Every other query variable (an ordering, say) travels with the terms;
 	// the page number goes into the path, so ?s=paul&paged=2 lands on
@@ -143,12 +145,18 @@ add_action( 'template_redirect', static function () {
 			$args[ sanitize_key( $key ) ] = sanitize_text_field( (string) $value );
 		}
 	}
-	$url = paulus_search_pretty_url( home_url( '/' ), paulus_search_base(), get_search_query( false ), (int) get_query_var( 'paged' ), $args );
-	if ( '' === $url ) {
-		return;
+	return paulus_search_pretty_url( home_url( '/' ), paulus_search_base(), get_search_query( false ), (int) get_query_var( 'paged' ), $args );
+}
+
+/**
+ * A search made by the form (/?s=term) goes to its clean address with a 301,
+ * through Rank Math when it is on (inc/redirects.php).
+ */
+add_action( 'template_redirect', static function () {
+	$url = paulus_search_redirect_url();
+	if ( '' !== $url ) {
+		paulus_redirect( $url );
 	}
-	wp_safe_redirect( $url, 301 );
-	exit;
 } );
 
 /**
