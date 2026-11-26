@@ -963,6 +963,29 @@ function paulus_book_schema( $author, $publisher ) {
 		'image'         => paulus_image_url( 'book-cover' ),
 		'description'   => paulus_option( 'book_blurb' ),
 	);
+	// What the book page already says, said to machines too: where the book
+	// lives, its subtitles, its edition, its subject and its catalogue record.
+	$book['url']              = get_permalink();
+	$book['mainEntityOfPage'] = array( '@id' => get_permalink() );
+	$subtitles                = array_values( array_filter( array( paulus_option( 'book_subtitle' ), paulus_option( 'book_subtitle_en' ) ) ) );
+	if ( $subtitles ) {
+		$book['alternativeHeadline'] = $subtitles;
+	}
+	if ( paulus_option( 'cat_edition' ) ) {
+		$book['bookEdition'] = paulus_option( 'cat_edition' );
+	}
+	$book['genre'] = 'Religion';
+	// The catalogue subjects, one heading per line, as the topics the book is about.
+	$about = array();
+	foreach ( preg_split( '/\R/', (string) paulus_option( 'cat_subjects' ) ) as $subject ) {
+		$subject = trim( $subject );
+		if ( '' !== $subject ) {
+			$about[] = array( '@type' => 'Thing', 'name' => $subject );
+		}
+	}
+	if ( $about ) {
+		$book['about'] = $about;
+	}
 	// schema.org has no OCLC property, so the control number goes in the
 	// standard identifier slot with its scheme named.
 	if ( paulus_option( 'book_oclc' ) ) {
@@ -985,7 +1008,31 @@ function paulus_book_schema( $author, $publisher ) {
 	$published = strtotime( (string) paulus_option( 'book_first_pub' ) );
 	if ( false !== $published ) {
 		$book['datePublished'] = gmdate( 'Y-m', $published );
+		$book['copyrightYear'] = (int) gmdate( 'Y', $published );
 	}
+	if ( paulus_option( 'book_oclc' ) ) {
+		$book['sameAs'] = 'https://search.worldcat.org/title/' . rawurlencode( paulus_option( 'book_oclc' ) );
+	}
+	// The edition in hand, which is what Google reads for format, ISBN and
+	// date; the work above stays the book as a whole.
+	$edition = array(
+		'@type'         => 'Book',
+		'@id'           => get_permalink() . '#edition',
+		'name'          => $book['name'],
+		'bookEdition'   => $book['bookEdition'] ?? null,
+		'isbn'          => $book['isbn'],
+		'bookFormat'    => $book['bookFormat'],
+		'inLanguage'    => $book['inLanguage'],
+		'datePublished' => $book['datePublished'] ?? null,
+		'publisher'     => $publisher,
+		'exampleOfWork' => array( '@id' => $book['@id'] ),
+	);
+	if ( isset( $book['numberOfPages'] ) ) {
+		$edition['numberOfPages'] = $book['numberOfPages'];
+	}
+	$book['workExample'] = array_filter( $edition, static function ( $v ) {
+		return null !== $v && '' !== $v;
+	} );
 	// An offer only with a real price: the option is free text, and a price
 	// of "" or "RM" alone would describe an offer the page does not make.
 	$price = preg_match( '/\d+(?:\.\d+)?/', str_replace( ',', '', (string) paulus_option( 'book_price' ) ), $pm ) ? $pm[0] : '';

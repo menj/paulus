@@ -2,6 +2,13 @@
 
 All notable changes to this theme are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.77.71] - 2026-11-26
+
+The book's structured data gains the properties it lacked. `content_version` stays at 2.77.65.
+
+### Added
+- `paulus_book_schema()` (`inc/seo.php`) adds, from fields the site already holds: `url` and `mainEntityOfPage`; `alternativeHeadline` (the Malay and English subtitles); `bookEdition` (Edition, as catalogued); `genre`; `about` (the catalogue subject headings, each a `Thing`); `copyrightYear` (from First published); `sameAs` (the WorldCat record, from the OCLC number); and `workExample`, the edition in hand as a `Book` with its `bookEdition`, `isbn`, `bookFormat`, `inLanguage`, `datePublished`, `publisher`, `numberOfPages` and `exampleOfWork` pointing back at the work. Nothing is invented: a field left empty leaves its property out. Not added, for want of facts the site holds: reviews and ratings, an illustrator, a copyright holder.
+
 ## [2.77.70] - 2026-11-20
 
 Tags no longer wait for an administrator. `content_version` stays at 2.77.65.

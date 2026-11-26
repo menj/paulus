@@ -49,6 +49,10 @@ WordPress stores a template edited in the Site Editor in the database, and from 
 
 ## Notes by version
 
+### 2.77.70 to 2.77.71
+
+- Upload the whole theme folder and clear the page cache. The book page's structured data fills in from the Book fields under Theme Options; check Edition, First published and the catalogue subjects there, since they now appear in it. Test `/the-book/` in Google's Rich Results Test.
+
 ### 2.77.69 to 2.77.70
 
 - Upload the whole theme folder and open any page, as a visitor or an administrator: every article and Journal entry is given its tags on that request. Tags you chose yourself are kept. Clear the page cache afterwards.
