@@ -45,6 +45,7 @@ Open Appearance, Theme Options. Each tab is a card with a short note at the top.
 * Publisher: name, registration, address, telephone, email and website. The address and telephone go into the structured data only.
 * Colors: pick a scheme from the cards. The screen takes the scheme at once, so you can judge it before you save. The ornament switch adds the textures and borders.
 * Reading: the progress bar (where it shows, top or bottom, its height and its two colours), arrow-key paging, resume reading, the copy-link button and back to top. Leave a colour empty to follow the scheme. Two switches for articles: Key takeaways, and the line before the third section.
+* Justify: sets paragraphs and list items flush on both sides, with the last line on the left. Choose articles and Journal entries only or the whole site, keep the text on the left on narrow phones, switch hyphenation on, and list any parts of the page to leave alone.
 * Media: stop WordPress making resized copies of uploads, or scaled copies of large ones.
 * Login: the medallion or logo, the tagline and Greek inscription, application passwords and the security headers.
 * Security: XML-RPC, REST API writes from a browser session only, the user list hidden from visitors, the spam gate and 410 Gone for removed spam. The cleanup tools and reports load under the switches.
